@@ -1,0 +1,174 @@
+Sample: 0 ZoneRules
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: Support for time-zones and their rules.
+Here is the description of the class: The rules defining how the zone offset varies for a single time-zone.
+Here is the full description of the method: 
+
+
+getOffset
+public ZoneOffset getOffset(Instant instant)
+Gets the offset applicable at the specified instant in these rules.
+ 
+ The mapping from an instant to an offset is simple, there is only
+ one valid offset for each instant.
+ This method returns that offset.
+
+Parameters:
+instant - the instant to find the offset for, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the offset, not null
+
+
+
+
+@@ Instruction
+I want to learn how to use ZoneOffset getOffset(Instant instant) from java.time.zone.ZoneRules
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the method `getOffset(Instant instant)` from `java.time.zone.ZoneRules`:
+
+```java
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.zone.ZoneRules;
+
+public class Main {
+    public static void main(String[] args) {
+        ZoneRules zoneRules = ZoneRules.of("America/New_York");
+        Instant instant = Instant.now();
+        ZoneOffset offset = zoneRules.getOffset(instant);
+        System.out.println("The offset for the instant is: " + offset);
+    }
+}
+```
+
+In this code snippet, we first create a `ZoneRules` object for the "America/New_York" time zone. Then we get the current instant using `Instant.now()`. Finally, we get the offset for this instant using `zoneRules.getOffset(instant)` and print it out.
+
+Please replace "America/New_York" with the time zone you want to use. The time zone must be supported by the JVM you are using. You can find a list of supported time zones by calling `ZoneId.getAvailableZoneIds()`.
+================================================================
+
+Sample: 1 ZoneRules
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: Support for time-zones and their rules.
+Here is the description of the class: The rules defining how the zone offset varies for a single time-zone.
+Here is the full description of the method: 
+
+
+getOffset
+public ZoneOffset getOffset(LocalDateTime localDateTime)
+Gets a suitable offset for the specified local date-time in these rules.
+ 
+ The mapping from a local date-time to an offset is not straightforward.
+ There are three cases:
+ 
+Normal, with one valid offset. For the vast majority of the year, the normal
+  case applies, where there is a single valid offset for the local date-time.
+Gap, with zero valid offsets. This is when clocks jump forward typically
+  due to the spring daylight savings change from "winter" to "summer".
+  In a gap there are local date-time values with no valid offset.
+Overlap, with two valid offsets. This is when clocks are set back typically
+  due to the autumn daylight savings change from "summer" to "winter".
+  In an overlap there are local date-time values with two valid offsets.
+
+ Thus, for any given local date-time there can be zero, one or two valid offsets.
+ This method returns the single offset in the Normal case, and in the Gap or Overlap
+ case it returns the offset before the transition.
+ 
+ Since, in the case of Gap and Overlap, the offset returned is a "best" value, rather
+ than the "correct" value, it should be treated with care. Applications that care
+ about the correct offset should use a combination of this method,
+ getValidOffsets(LocalDateTime) and getTransition(LocalDateTime).
+
+Parameters:
+localDateTime - the local date-time to query, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the best available offset for the local date-time, not null
+
+
+
+
+@@ Instruction
+I want to learn how to use ZoneOffset getOffset(LocalDateTime dateTime) from java.time.zone.ZoneRules
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the `getOffset` method from `java.time.zone.ZoneRules`:
+
+```java
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.zone.ZoneRules;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a ZoneRules object
+        ZoneRules zoneRules = ZoneRules.of("America/New_York");
+
+        // Create a LocalDateTime object
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        // Get the offset
+        ZoneOffset offset = zoneRules.getOffset(localDateTime);
+
+        // Print the offset
+        System.out.println("Offset: " + offset);
+    }
+}
+```
+
+In this code snippet, we first create a `ZoneRules` object for the "America/New_York" time zone. Then we create a `LocalDateTime` object for the current date and time. Finally, we call the `getOffset` method on the `ZoneRules` object with the `LocalDateTime` object as the argument, and print the result.
+
+Please replace "America/New_York" with the time zone you want to use.
+================================================================
+

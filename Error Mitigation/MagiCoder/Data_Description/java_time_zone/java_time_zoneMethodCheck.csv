@@ -1,0 +1,72 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,ZoneOffsetTransition,1,ZoneOffsetTransition.getDateTimeAfter(),False,,NULL
+0,ZoneOffsetTransition,2,ZoneOffsetTransition.getDateTimeBefore(),False,,NULL
+0,ZoneOffsetTransition,3,ZoneOffsetTransition.getOffsetAfter(),False,,NULL
+0,ZoneOffsetTransition,4,ZoneOffsetTransition.getOffsetBefore(),False,,NULL
+0,ZoneOffsetTransition,5,ZoneOffsetTransition.getTransitionType(),False,,NULL
+1,ZoneOffsetTransitionRule,1,"ZoneOffsetTransitionRule(ZoneOffset offsetTo, ZoneOffset offsetFrom, LocalTime timeAt, ZoneOffsetsTransitionRule.Type type)",False,,NULL
+1,ZoneOffsetTransitionRule,2,ZoneOffset getOffsetTo(),False,,NULL
+1,ZoneOffsetTransitionRule,3,ZoneOffset getOffsetFrom(),False,,NULL
+1,ZoneOffsetTransitionRule,4,LocalTime getTimeAt(),False,,NULL
+1,ZoneOffsetTransitionRule,5,ZoneOffsetsTransitionRule.Type getType(),False,,NULL
+2,ZoneRules,1,ZoneRules getRulesForOffset(ZoneOffset offset),False,,NULL
+2,ZoneRules,2,ZoneOffset getOffset(Instant instant),True,Gets the offset applicable at the specified instant in these rules.,"
+
+getOffset
+public ZoneOffset getOffset(Instant instant)
+Gets the offset applicable at the specified instant in these rules.
+ 
+ The mapping from an instant to an offset is simple, there is only
+ one valid offset for each instant.
+ This method returns that offset.
+
+Parameters:
+instant - the instant to find the offset for, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the offset, not null
+
+
+"
+2,ZoneRules,3,ZoneOffset getOffset(LocalDateTime dateTime),True,Gets a suitable offset for the specified local date-time in these rules.,"
+
+getOffset
+public ZoneOffset getOffset(LocalDateTime localDateTime)
+Gets a suitable offset for the specified local date-time in these rules.
+ 
+ The mapping from a local date-time to an offset is not straightforward.
+ There are three cases:
+ 
+Normal, with one valid offset. For the vast majority of the year, the normal
+  case applies, where there is a single valid offset for the local date-time.
+Gap, with zero valid offsets. This is when clocks jump forward typically
+  due to the spring daylight savings change from ""winter"" to ""summer"".
+  In a gap there are local date-time values with no valid offset.
+Overlap, with two valid offsets. This is when clocks are set back typically
+  due to the autumn daylight savings change from ""summer"" to ""winter"".
+  In an overlap there are local date-time values with two valid offsets.
+
+ Thus, for any given local date-time there can be zero, one or two valid offsets.
+ This method returns the single offset in the Normal case, and in the Gap or Overlap
+ case it returns the offset before the transition.
+ 
+ Since, in the case of Gap and Overlap, the offset returned is a ""best"" value, rather
+ than the ""correct"" value, it should be treated with care. Applications that care
+ about the correct offset should use a combination of this method,
+ getValidOffsets(LocalDateTime) and getTransition(LocalDateTime).
+
+Parameters:
+localDateTime - the local date-time to query, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the best available offset for the local date-time, not null
+
+
+"
+2,ZoneRules,4,ZoneOffset getOffset(LocalDate date),False,,NULL
+2,ZoneRules,5,ZoneOffset getOffset(LocalTime time),False,,NULL
+3,ZoneRulesProvider,1,ZoneRulesProvider.getAvailableZoneIds(),False,,NULL
+3,ZoneRulesProvider,2,"ZoneRulesProvider.getRules(String zoneId, long instant)",False,,NULL
+3,ZoneRulesProvider,3,ZoneRulesProvider.getZoneRules(String zoneId),False,,NULL
+3,ZoneRulesProvider,4,"ZoneRulesProvider.getZoneRules(String zoneId, long instant)",False,,NULL
+3,ZoneRulesProvider,5,"ZoneRulesProvider.getZoneRules(String zoneId, long instant, boolean isLenient)",False,,NULL

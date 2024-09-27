@@ -1,0 +1,223 @@
+Sample: 0 ImageInputStreamSpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.spi.ImageInputStreamSpi;
+import javax.imageio.stream.ImageInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageInputStreamSpi spi = new ImageInputStreamSpi() {
+            @Override
+            public ImageInputStream createInputStreamInstance(Object input) throws IOException {
+                // Implement the creation of ImageInputStream instance here
+                return null;
+            }
+
+            @Override
+            public Class<?> getInputClass() {
+                return null;
+            }
+        };
+
+        try {
+            ImageInputStream imageInputStream = spi.createInputStreamInstance(new Object());
+            System.out.println("ImageInputStream instance created successfully.");
+        } catch (IOException e) {
+            System.out.println("Error creating ImageInputStream instance: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 ImageInputStreamSpi_3
+----------------------------------------------------------------
+`boolean canUseCacheFile()`: This method returns true if the ImageInputStream implementation associated with this service provider can optionally make use of a cache file for improved performance and/or memory footprint.
+
+Code snippet:
+```java
+import javax.imageio.spi.ImageInputStreamSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageInputStreamSpi spi = new ImageInputStreamSpi() {
+            @Override
+            public boolean canUseCacheFile() {
+                return true; // Implement your logic here
+            }
+        };
+
+        System.out.println("Can use cache file: " + spi.canUseCacheFile());
+    }
+}
+```
+================================================================
+
+Sample: 2 ImageInputStreamSpi_4
+----------------------------------------------------------------
+`boolean needsCacheFile()`: This method returns true if the ImageInputStream implementation associated with this service provider requires the use of a cache File. If true, the value of the useCache argument to createInputStreamInstance will be ignored. The default implementation returns false.
+
+Code snippet:
+```java
+import javax.imageio.spi.ImageInputStreamSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageInputStreamSpi spi = new ImageInputStreamSpi() {
+            @Override
+            public boolean needsCacheFile() {
+                return true; // Implement your logic here
+            }
+        };
+
+        System.out.println("Needs Cache File: " + spi.needsCacheFile());
+    }
+}
+```
+================================================================
+
+Sample: 3 ImageOutputStreamSpi_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.spi.ImageOutputStreamSpi;
+import javax.imageio.stream.ImageOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageOutputStreamSpi spi = new ImageOutputStreamSpi() {
+            @Override
+            public ImageOutputStream createOutputStreamInstance(Object output) throws IOException {
+                // Implement the creation of ImageOutputStream instance here
+                return null;
+            }
+
+            @Override
+            public Class<?> getOutputClass() {
+                return null;
+            }
+        };
+
+        try {
+            ImageOutputStream imageOutputStream = spi.createOutputStreamInstance(new Object());
+            System.out.println("ImageOutputStream instance created: " + imageOutputStream);
+        } catch (IOException e) {
+            System.out.println("IOException occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 ImageReaderWriterSpi_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.spi.ImageReaderWriterSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageReaderWriterSpi spi = new ImageReaderWriterSpi() {
+            @Override
+            public String[] getFileSuffixes() {
+                return new String[]{".jpg", ".jpeg", ".png"};
+            }
+        };
+
+        String[] fileSuffixes = spi.getFileSuffixes();
+        for (String suffix : fileSuffixes) {
+            System.out.println(suffix);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 ImageReaderWriterSpi_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.spi.ImageReaderWriterSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageReaderWriterSpi spi = new ImageReaderWriterSpi() {
+            @Override
+            public String[] getMIMETypes() {
+                return new String[]{"image/jpeg", "image/png"};
+            }
+        };
+
+        String[] mimeTypes = spi.getMIMETypes();
+        for (String mimeType : mimeTypes) {
+            System.out.println(mimeType);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 ImageTranscoderSpi_1
+----------------------------------------------------------------
+`ImageTranscoder createTranscoderInstance()`: This method returns an instance of the ImageTranscoder implementation associated with this service provider.
+
+Code snippet:
+```java
+import javax.imageio.spi.ImageTranscoderSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageTranscoderSpi spi = new ImageTranscoderSpi() {
+            @Override
+            public ImageTranscoder createTranscoderInstance() {
+                // Implement the creation of ImageTranscoder instance here
+                return new ImageTranscoderImpl();
+            }
+        };
+
+        ImageTranscoder transcoder = spi.createTranscoderInstance();
+        // Make use of the transcoder instance
+    }
+
+    static class ImageTranscoderImpl implements ImageTranscoder {
+        // Implement the ImageTranscoder methods here
+    }
+}
+```
+================================================================
+
+Sample: 7 ServiceRegistry_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.spi.ServiceRegistry;
+
+public class Main {
+    public static void main(String[] args) {
+        ServiceRegistry registry = new ServiceRegistry();
+        Object provider = new Object(); // Create a service provider object
+        registry.registerServiceProvider(provider);
+    }
+}
+```
+================================================================
+
+Sample: 8 ServiceRegistry_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.spi.ServiceRegistry;
+
+public class Main {
+    public static void main(String[] args) {
+        ServiceRegistry registry = new ServiceRegistry();
+        Object provider = new Object(); // Create a service provider object
+        registry.deregisterServiceProvider(provider);
+    }
+}
+```
+================================================================
+

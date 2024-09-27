@@ -1,0 +1,660 @@
+Sample: 0 AccessibleObject_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Field;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Field field = SampleClass.class.getDeclaredField("privateField");
+            field.setAccessible(true);
+            // Further operations using the field...
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class SampleClass {
+    private String privateField;
+}
+```
+================================================================
+
+Sample: 1 AccessibleObject_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.AccessibleObject;
+
+public class Main {
+    public static void main(String[] args) {
+        AccessibleObject accessibleObject = null; // Initialize with an instance of AccessibleObject
+        boolean isAccessible = accessibleObject.isAccessible();
+        System.out.println("Is accessible: " + isAccessible);
+    }
+}
+```
+================================================================
+
+Sample: 2 AccessibleObject_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) {
+        Method method = Main.class.getMethod("main", String[].class);
+        Annotation[] annotations = method.getAnnotations();
+        
+        for (Annotation annotation : annotations) {
+            System.out.println(annotation);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 AccessibleObject_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.AccessibleObject;
+
+public class Main {
+    
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface MyAnnotation {
+    }
+
+    public static void main(String[] args) {
+        // Check if the MyAnnotation annotation is present on the Main class
+        boolean annotationPresent = Main.class.isAnnotationPresent(MyAnnotation.class);
+        System.out.println("MyAnnotation is present on Main class: " + annotationPresent);
+    }
+}
+```
+================================================================
+
+Sample: 4 Constructor_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+
+public class Main {
+    public static void main(String[] args) {
+        // Get the constructor of a class
+        try {
+            Constructor<?> constructor = MyClass.class.getConstructor(int.class, String.class);
+            
+            // Get the declared annotations for the constructor
+            Annotation[] annotations = constructor.getDeclaredAnnotations();
+            
+            // Print out the annotations
+            for (Annotation annotation : annotations) {
+                System.out.println(annotation);
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class MyClass {
+    @MyAnnotation
+    public MyClass(int value, String name) {
+        // Constructor implementation
+    }
+}
+
+@interface MyAnnotation {
+    String value() default "";
+}
+```
+================================================================
+
+Sample: 5 Constructor_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
+
+public class Main {
+    public static void main(String[] args) {
+        Constructor<?>[] constructors = Main.class.getConstructors();
+        
+        for(Constructor<?> constructor : constructors) {
+            int modifiers = constructor.getModifiers();
+            System.out.println("Constructor modifiers: " + Modifier.toString(modifiers));
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 Constructor_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Class<?> myClass = Main.class;
+            Constructor<?>[] constructors = myClass.getConstructors();
+            
+            for(Constructor<?> constructor : constructors){
+                Class<?>[] exceptionTypes = constructor.getExceptionTypes();
+                
+                System.out.println("Constructor: " + constructor.getName());
+                for(Class<?> exceptionType : exceptionTypes){
+                    System.out.println("Exception type: " + exceptionType.getName());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 Executable_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Executable;
+
+public class Main {
+    public static void main(String[] args) {
+        Executable executable = Main.class.getDeclaredMethods()[0];
+        Class<?> declaringClass = executable.getDeclaringClass();
+        System.out.println("Declaring class: " + declaringClass.getName());
+    }
+
+    public void exampleMethod() {
+        // Method to showcase getDeclaringClass()
+    }
+}
+```
+================================================================
+
+Sample: 8 Executable_2
+----------------------------------------------------------------
+`int getParameterCount()`: This method returns the number of formal parameters for the executable (method or constructor).
+
+Code snippet:
+```java
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) {
+        Method[] methods = String.class.getMethods();
+        for (Method method : methods) {
+            System.out.println("Method: " + method.getName() + ", Parameter Count: " + method.getParameterCount());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 Executable_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) {
+        Method[] methods = Main.class.getMethods();
+        for (Method method : methods) {
+            System.out.println("Method name: " + method.getName());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 Executable_4
+----------------------------------------------------------------
+```java
+import java.lang.reflect.Executable;
+
+public class Main {
+    public static void main(String[] args) {
+        Executable executable = Main.class.getMethods()[0];
+        boolean isVarArgs = executable.isVarArgs();
+        System.out.println("Method is varargs: " + isVarArgs);
+    }
+}
+```
+================================================================
+
+Sample: 11 Executable_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Method;
+import java.lang.reflect.TypeVariable;
+
+public class Main {
+    public static void main(String[] args) {
+        // Get the getTypeParameters method from a Method object
+        Method method = Main.class.getMethod("main", String[].class);
+        
+        // Get the TypeVariable array using getTypeParameters method
+        TypeVariable<?>[] typeParameters = method.getTypeParameters();
+        
+        // Print the TypeVariables
+        for (TypeVariable<?> typeVariable : typeParameters) {
+            System.out.println(typeVariable.getName());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 Field_1
+----------------------------------------------------------------
+```java
+import java.lang.reflect.Field;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create an object of a sample class
+            SampleClass obj = new SampleClass();
+
+            // Get the field named "field" from the SampleClass
+            Field field = obj.getClass().getDeclaredField("field");
+
+            // Set the field accessible, as it's a private field
+            field.setAccessible(true);
+
+            // Get the value of the field from the object
+            Object value = field.get(obj);
+
+            // Output the value
+            System.out.println("Field value: " + value);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class SampleClass {
+        private String field = "Sample Field";
+    }
+}
+```
+================================================================
+
+Sample: 13 Field_2
+----------------------------------------------------------------
+For the void set(Object obj, Object value) method from java.lang.reflect.Field, here is a code snippet demonstrating how to use it:
+
+Code snippet:
+```java
+import java.lang.reflect.Field;
+
+public class Main {
+    public static void main(String[] args) {
+        MyClass obj = new MyClass();
+        
+        try {
+            Field field = MyClass.class.getDeclaredField("myField");
+            field.set(obj, "New value");
+            System.out.println("Field value after set: " + obj.myField);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class MyClass {
+    public String myField = "Initial value";
+}
+```
+
+In this code snippet, we use reflection to access and modify the field `myField` in the `MyClass` class using the `set` method.
+================================================================
+
+Sample: 14 Field_3
+----------------------------------------------------------------
+```java
+import java.lang.reflect.Field;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Field field = Main.class.getDeclaredField("fieldName");
+            int modifiers = field.getModifiers();
+            System.out.println("Modifiers: " + modifiers);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int fieldName;
+}
+```
+================================================================
+
+Sample: 15 Field_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Field;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Field field = Main.class.getDeclaredField("fieldName");
+            Class<?> fieldType = field.getType();
+            System.out.println("Field type: " + fieldType.getName());
+        } catch (NoSuchFieldException e) {
+            System.out.println("Field not found");
+        }
+    }
+
+    private String fieldName;
+}
+```
+================================================================
+
+Sample: 16 Method_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create an instance of the class containing the method to be invoked
+            MyClass obj = new MyClass();
+
+            // Get the Method object representing the method to be invoked
+            Method method = MyClass.class.getMethod("methodName", String.class);
+
+            // Invoke the method on the object with the specified arguments
+            Object result = method.invoke(obj, "argument1", "argument2");
+
+            // Print the result
+            System.out.println("Result: " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class MyClass {
+        public String methodName(String arg1, String arg2) {
+            return arg1 + " " + arg2;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 Method_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) {
+        Method[] methods = Main.class.getMethods();
+        
+        for (Method method : methods) {
+            System.out.println("Method name: " + method.getName());
+            System.out.println("Return type: " + method.getReturnType());
+            System.out.println();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 Method_4
+----------------------------------------------------------------
+`int getModifiers()`: This method returns the Java language modifiers for the method represented by this `Method` object, as an integer.
+
+Code snippet:
+```java
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) {
+        Method[] methods = Main.class.getDeclaredMethods();
+        
+        for (Method method : methods) {
+            int modifiers = method.getModifiers();
+            System.out.println("Method: " + method.getName() + ", Modifiers: " + modifiers);
+        }
+    }
+    
+    private void exampleMethod() {
+        // Method implementation
+    }
+}
+
+```
+================================================================
+
+Sample: 19 Method_5
+----------------------------------------------------------------
+```java
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) {
+        Method[] methods = String.class.getMethods();
+        
+        for(Method method : methods) {
+            System.out.println("Method name: " + method.getName());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 Parameter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+
+public class Main {
+    public static void main(String[] args) {
+        Method[] methods = Main.class.getMethods();
+        for(Method method : methods) {
+            Parameter[] parameters = method.getParameters();
+            for(Parameter parameter : parameters) {
+                System.out.println("Parameter name: " + parameter.getName());
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 21 Parameter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Parameter;
+
+public class Main {
+    public static void main(String[] args) {
+        boolean result = Parameter.isNamePresent("test");
+        System.out.println(result);
+    }
+}
+```
+================================================================
+
+Sample: 22 Parameter_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+
+public class Main {
+    public static void main(String[] args) {
+        Method[] methods = Main.class.getMethods();
+        
+        for(Method method : methods) {
+            Parameter[] parameters = method.getParameters();
+            
+            for(Parameter parameter : parameters) {
+                boolean isVarArgs = parameter.isVarArgs();
+                System.out.println("Parameter: " + parameter.getName() + ", isVarArgs: " + isVarArgs);
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 23 Parameter_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+
+public class Main {
+    public static void main(String[] args) throws NoSuchMethodException {
+        Method method = Main.class.getMethod("exampleMethod", String.class, int.class);
+        Parameter[] parameters = method.getParameters();
+        
+        for (Parameter parameter : parameters) {
+            Annotation[] annotations = parameter.getAnnotations();
+            for (Annotation annotation : annotations) {
+                System.out.println("Annotation on parameter: " + annotation);
+            }
+        }
+    }
+    
+    public static void exampleMethod(@Deprecated String text, @SuppressWarnings("unchecked") int number) {
+        // Method implementation
+    }
+}
+```
+================================================================
+
+Sample: 24 Proxy_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+public class Main {
+    public static void main(String[] args) {
+        MyInterface proxyInstance = (MyInterface) Proxy.newProxyInstance(
+                Main.class.getClassLoader(),
+                new Class[] { MyInterface.class },
+                new CustomInvocationHandler(new MyInterfaceImpl())
+        );
+        
+        proxyInstance.sayHello();
+    }
+}
+
+interface MyInterface {
+    void sayHello();
+}
+
+class MyInterfaceImpl implements MyInterface {
+    @Override
+    public void sayHello() {
+        System.out.println("Hello from MyInterfaceImpl");
+    }
+}
+
+class CustomInvocationHandler implements InvocationHandler {
+    private final MyInterface target;
+
+    public CustomInvocationHandler(MyInterface target) {
+        this.target = target;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("Before invoking method: " + method.getName());
+        Object result = method.invoke(target, args);
+        System.out.println("After invoking method: " + method.getName());
+        return result;
+    }
+}
+```
+================================================================
+
+Sample: 25 Proxy_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Proxy;
+
+public class Main {
+    public static void main(String[] args) {
+        Class<?> proxyClass = Proxy.getProxyClass(Main.class.getClassLoader(), Runnable.class);
+        System.out.println("Proxy class: " + proxyClass.getName());
+    }
+}
+```
+================================================================
+
+Sample: 26 Proxy_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+
+public class Main {
+    public static void main(String[] args) {
+        InvocationHandler handler = Proxy.getInvocationHandler(proxyObject);
+        // code to use the handler
+    }
+}
+```
+================================================================
+
+Sample: 27 Proxy_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.reflect.Proxy;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a proxy class
+        Class<?> proxyClass = Proxy.getProxyClass(Main.class.getClassLoader(), Main.class);
+        
+        // Check if the class is a proxy class
+        boolean isProxy = Proxy.isProxyClass(proxyClass);
+        
+        System.out.println("Is proxy class: " + isProxy);
+    }
+}
+```
+================================================================
+

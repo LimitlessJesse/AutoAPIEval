@@ -1,0 +1,666 @@
+Sample: 0 BlockView_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.BlockView;
+
+public class Main {
+    public static void main(String[] args) {
+        BlockView blockView = new BlockView(null, 0, 0, 0);
+        float preferredSpan = blockView.getPreferredSpan(BlockView.X_AXIS);
+        System.out.println("Preferred Span on X_AXIS: " + preferredSpan);
+    }
+}
+```
+================================================================
+
+Sample: 1 BlockView_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.BlockView;
+
+public class Main {
+    public static void main(String[] args) {
+        BlockView blockView = new BlockView(null, 0, 0, 0);
+        float minimumSpan = blockView.getMinimumSpan(BlockView.X_AXIS);
+        System.out.println("Minimum Span: " + minimumSpan);
+    }
+}
+```
+================================================================
+
+Sample: 2 BlockView_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.BlockView;
+
+public class Main {
+    public static void main(String[] args) {
+        BlockView blockView = new BlockView(null, BlockView.Y_AXIS);
+        float maxSpan = blockView.getMaximumSpan(BlockView.Y_AXIS);
+        System.out.println("Maximum span on Y_AXIS: " + maxSpan);
+    }
+}
+```
+================================================================
+
+Sample: 3 CSS_Attribute_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.CSS.Attribute;
+
+public class Main {
+    public static void main(String[] args) {
+        Attribute attr = Attribute.HREF;
+        String attrString = attr.toString();
+        System.out.println("Attribute as string: " + attrString);
+    }
+}
+```
+================================================================
+
+Sample: 4 HTML_Tag_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.HTML;
+
+public class Main {
+    public static void main(String[] args) {
+        HTML.Tag tag = HTML.Tag.PRE;
+        System.out.println(tag.isPreformatted());
+    }
+}
+```
+================================================================
+
+Sample: 5 HTMLDocument_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Element;
+import javax.swing.text.html.HTMLDocument;
+
+public class Main {
+    public static void main(String[] args) {
+        HTMLDocument htmlDocument = new HTMLDocument();
+        Element element = htmlDocument.getElement("element_name_here");
+
+        String newHtml = "<p>New HTML content</p>";
+        setOuterHTML(element, newHtml);
+
+        System.out.println(htmlDocument.getText(0, htmlDocument.getLength()));
+    }
+
+    public static void setOuterHTML(Element elem, String html) {
+        elem.getDocument().putProperty("i18n", Boolean.TRUE);
+        
+        int startOffset = elem.getStartOffset();
+	int endOffset = elem.getEndOffset();
+
+	try {
+	    elem.getDocument().remove(startOffset, endOffset - startOffset);
+	    elem.getDocument().insertString(startOffset, html, null);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+}
+```
+================================================================
+
+Sample: 6 HTMLDocument_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Element;
+import javax.swing.text.html.HTMLDocument;
+
+public class Main {
+    public static void main(String[] args) {
+        Element elem = null; // initialize with the desired element
+        String html = "<b>Hello World!</b>"; // HTML content to set
+        
+        HTMLDocument document = new HTMLDocument();
+        document.setInnerHTML(elem, html);
+    }
+}
+```
+================================================================
+
+Sample: 7 HTMLDocument_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.Element;
+
+public class Main {
+    public static void main(String[] args) {
+        HTMLDocument document = new HTMLDocument();
+        Element elem = document.getElement("some_element");
+        String html = "<b>Hello World</b>";
+        insertAfterEnd(elem, html);
+    }
+    
+    public static void insertAfterEnd(Element elem, String html) {
+        try {
+            HTMLDocument document = (HTMLDocument) elem.getDocument();
+            int endOffset = elem.getEndOffset();
+            document.insertAfterEnd(elem, html);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 HTMLDocument_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Element;
+import javax.swing.text.html.HTMLDocument;
+
+public class Main {
+    public static void main(String[] args) {
+        Element elem = null; // Initialize Element object
+        String html = "<p>This is a new paragraph</p>";
+        
+        HTMLDocument doc = new HTMLDocument();
+        doc.insertBeforeStart(elem, html);
+    }
+}
+```
+================================================================
+
+Sample: 9 HTMLDocument_Iterator_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AttributeSet;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTML.Tag;
+
+public class Main {
+    public static void main(String[] args) {
+        HTMLDocument.Iterator iterator = new HTMLDocument.Iterator(Tag.A);
+        AttributeSet attributes = iterator.getAttributes();
+        
+        System.out.println("Attributes for <a> tag:");
+        System.out.println(attributes.toString());
+    }
+}
+```
+================================================================
+
+Sample: 10 HTMLEditorKit_1
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLEditorKit;
+
+public class Main {
+    public static void main(String[] args) {
+        HTMLDocument doc = new HTMLDocument();
+        HTMLEditorKit editorKit = new HTMLEditorKit();
+        int offset = 0;
+        String html = "<b>Hello World</b>";
+        int popDepth = 0;
+        int pushDepth = 0;
+        HTML.Tag insertTag = HTML.Tag.B;
+
+        editorKit.insertHTML(doc, offset, html, popDepth, pushDepth, insertTag);
+
+        try {
+            String text = doc.getText(0, doc.getLength());
+            System.out.println(text);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 HTMLEditorKit_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
+
+public class Main {
+    public static void main(String[] args) {
+        HTMLEditorKit editorKit = new HTMLEditorKit();
+        StyleSheet styleSheet = editorKit.getStyleSheet();
+        // Now you can use the styleSheet object to set or retrieve styles
+    }
+}
+```
+================================================================
+
+Sample: 12 HTMLEditorKit_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.CSS;
+import java.awt.Cursor;
+
+public class Main {
+    public static void main(String[] args) {
+        HTMLEditorKit editorKit = new HTMLEditorKit();
+        Cursor cursor = Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR);
+        editorKit.setDefaultCursor(cursor);
+    }
+}
+```
+================================================================
+
+Sample: 13 HTMLEditorKit_HTMLFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Element;
+import javax.swing.text.html.HTMLEditorKit;
+
+public class Main {
+    public static void main(String[] args) {
+        HTMLEditorKit.HTMLFactory factory = new HTMLEditorKit.HTMLFactory();
+        Element element = factory.create(null);
+    }
+}
+```
+================================================================
+
+Sample: 14 HTMLEditorKit_LinkController_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Element;
+import javax.swing.text.html.HTMLEditorKit;
+import java.awt.event.MouseEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        HTMLEditorKit editorKit = new HTMLEditorKit();
+        HTMLEditorKit.LinkController linkController = editorKit.getLinkController();
+        Element element = linkController.getElement(e);
+        if (element != null) {
+            // do something when mouse is clicked on a link
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 HTMLEditorKit_Parser_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.parser.ParserDelegator;
+import java.io.StringReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        String html = "<html><body><h1>Hello World</h1></body></html>";
+        HTMLEditorKit.ParserCallback callback = new HTMLEditorKit.ParserCallback() {
+            public void handleText(char[] data, int pos) {
+                System.out.println(new String(data));
+            }
+        };
+
+        try {
+            StringReader reader = new StringReader(html);
+            HTMLEditorKit.Parser parser = new ParserDelegator();
+            parser.parse(reader, callback, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 HTMLEditorKit_ParserCallback_2
+----------------------------------------------------------------
+Code snippet: 
+
+```java
+import javax.swing.text.html.HTML;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.html.HTMLEditorKit.ParserCallback;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void handleSimpleTag(HTML.Tag t, MutableAttributeSet a, int pos) {
+        // Your implementation here
+    }
+}
+```
+================================================================
+
+Sample: 17 HTMLEditorKit.ParserCallback_3
+----------------------------------------------------------------
+```java
+import javax.swing.text.html.HTML;
+
+public class Main {
+    public static void main(String[] args) {
+        handleEndTag(HTML.Tag.P, 10);
+    }
+
+    public static void handleEndTag(HTML.Tag t, int pos) {
+        System.out.println("Handling end tag: " + t + " at position: " + pos);
+        // Add your code here to handle the end tag
+    }
+}
+```
+================================================================
+
+Sample: 18 HTMLEditorKit_ParserCallback_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.HTMLEditorKit.ParserCallback;
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating an instance of HTMLEditorKit.ParserCallback
+        HTMLEditorKit.ParserCallback parserCallback = new HTMLEditorKit.ParserCallback() {
+            @Override
+            public void handleText(char[] text, int pos) {
+                // Implementation for handling the text
+            }
+        };
+        
+        // Example usage
+        String sampleText = "Hello, this is some text";
+        char[] textArray = sampleText.toCharArray();
+        parserCallback.handleText(textArray, 0);
+    }
+}
+```
+================================================================
+
+Sample: 19 HTMLEditorKit_ParserCallback_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.HTMLEditorKit.ParserCallback;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void handleError(String errorMsg, int pos) {
+        // Write your implementation here
+    }
+}
+```
+================================================================
+
+Sample: 20 HTMLFrameHyperlinkEvent_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.HTMLFrameHyperlinkEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        HTMLFrameHyperlinkEvent event = new HTMLFrameHyperlinkEvent("source", "target");
+        String target = event.getTarget();
+        System.out.println("Target: " + target);
+    }
+}
+```
+================================================================
+
+Sample: 21 ImageView_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.ImageView;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageView imageView = new ImageView(null);
+        java.awt.Image image = imageView.getImage();
+        System.out.println(image);
+    }
+}
+```
+================================================================
+
+Sample: 22 ImageView_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.ImageView;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageView imageView = new ImageView(null);
+        float alignmentX = imageView.getAlignment(ImageView.X_AXIS);
+        float alignmentY = imageView.getAlignment(ImageView.Y_AXIS);
+        System.out.println("Alignment X: " + alignmentX);
+        System.out.println("Alignment Y: " + alignmentY);
+    }
+}
+```
+================================================================
+
+Sample: 23 ImageView_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.ImageView;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageView imageView = new ImageView(null);
+        boolean newValue = true;
+        imageView.setLoadsSynchronously(newValue);
+    }
+}
+```
+================================================================
+
+Sample: 24 InlineView_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AttributeSet;
+import javax.swing.text.Element;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.InlineView;
+
+public class Main {
+    public static void main(String[] args) {
+        HTMLDocument doc = new HTMLDocument();
+        Element element = doc.getDefaultRootElement();
+        
+        AttributeSet attributes = ((InlineView) element).getAttributes();
+        
+        System.out.println("Attributes: " + attributes);
+    }
+}
+```
+================================================================
+
+Sample: 25 Option_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.Option;
+
+public class Main {
+    public static void main(String[] args) {
+        Option option = new Option("label", "value");
+        String label = option.getLabel();
+        System.out.println("Label: " + label);
+    }
+}
+```
+================================================================
+
+Sample: 26 Option_2
+----------------------------------------------------------------
+`void setLabel(String label)`: This method sets the label for the option.
+
+Code snippet:
+```java
+import javax.swing.text.html.Option;
+
+public class Main {
+    public static void main(String[] args) {
+        Option option = new Option();
+        option.setLabel("Option label");
+    }
+}
+```
+================================================================
+
+Sample: 27 Option_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.Option;
+
+public class Main {
+    public static void main(String[] args) {
+        Option option = new Option("Value");
+        System.out.println(option.getValue());
+    }
+}
+```
+================================================================
+
+Sample: 28 Option_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.Option;
+
+public class Main {
+    public static void main(String[] args) {
+        Option option = new Option();
+        System.out.println(option.toString());
+    }
+}
+```
+================================================================
+
+Sample: 29 ParagraphView_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.ParagraphView;
+
+public class Main {
+    public static void main(String[] args) {
+        ParagraphView paragraphView = new ParagraphView(null);
+        float minSpan = paragraphView.getMinimumSpan(ParagraphView.X_AXIS);
+        System.out.println("Minimum span for X_AXIS: " + minSpan);
+    }
+}
+```
+================================================================
+
+Sample: 30 ParagraphView_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Element;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.ViewFactory;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
+import javax.swing.text.Element;
+import javax.swing.text.AttributeSet;
+import javax.swing View;
+import javax.swing.text.BoxView;
+import javax.swing.text.html.InlineView;
+import javax.swing.text.html.ParagraphView;
+
+public class Main {
+    public static void main(String[] args) {
+        ParagraphView paragraphView = new ParagraphView(null);
+        float preferredSpan = paragraphView.getPreferredSpan(0);
+        System.out.println("Preferred span on axis 0: " + preferredSpan);
+    }
+}
+```
+================================================================
+
+Sample: 31 ParagraphView_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.View;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a new ParagraphView
+        View paragraphView = new javax.swing.text.html.ParagraphView(null);
+
+        // Set the parent view
+        View parent = new javax.swing.text.html.BlockView(null, javax.swing.text.html.HTML.Tag.BODY, null);
+        ((javax.swing.text.html.ParagraphView) paragraphView).setParent(parent);
+    }
+}
+```
+================================================================
+
+Sample: 32 StyleSheet_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.StyleSheet;
+
+public class Main {
+    public static void main(String[] args) {
+        StyleSheet styleSheet = new StyleSheet();
+        styleSheet.addRule("p { color: blue; }");
+    }
+}
+```
+================================================================
+
+Sample: 33 StyleSheet_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.html.StyleSheet;
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        StyleSheet styleSheet = new StyleSheet();
+        URL baseUrl = new URL("https://example.com");
+        styleSheet.setBase(baseUrl);
+    }
+}
+```
+================================================================
+

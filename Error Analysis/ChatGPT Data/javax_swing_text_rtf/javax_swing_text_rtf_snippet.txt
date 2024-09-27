@@ -1,0 +1,145 @@
+Sample: 0 RTFEditorKit_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Document;
+import javax.swing.text.rtf.RTFEditorKit;
+import java.io.InputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RTFEditorKit rtfKit = new RTFEditorKit();
+            Document doc = rtfKit.createDefaultDocument();
+            InputStream inputStream = // Provide InputStream object here
+            rtfKit.read(inputStream, doc, 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 RTFEditorKit_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.rtf.RTFEditorKit;
+import javax.swing.text.Document;
+import java.io.OutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public static void write(OutputStream out, Document doc, int pos, int len) {
+        RTFEditorKit rtfEditorKit = new RTFEditorKit();
+        try {
+            rtfEditorKit.write(out, doc, pos, len);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 RTFEditorKit_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Document;
+import javax.swing.text.rtf.RTFEditorKit;
+import java.io.StringWriter;
+import java.io.Writer;
+
+public class Main {
+    public static void main(String[] args) {
+        RTFEditorKit rtfEditorKit = new RTFEditorKit();
+        Document doc = rtfEditorKit.createDefaultDocument();
+        String text = "This is a sample text";
+        
+        try {
+            Writer out = new StringWriter();
+            out.write(text);
+            
+            int pos = 0;
+            int len = text.length();
+            rtfEditorKit.write(out, doc, pos, len);
+            
+            String rtfContent = out.toString();
+            System.out.println(rtfContent);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 RTFEditorKit_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.rtf.RTFEditorKit;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        RTFEditorKit rtfEditorKit = new RTFEditorKit();
+        Document doc = rtfEditorKit.createDefaultDocument();
+
+        // Sample RTF content
+        String rtfContent = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}}\n" +
+                "{\\*\\generator Riched20 10.0.19041}\\viewkind4\\uc1 \n" +
+                "\\pard\\sa200\\sl276\\slmult1\\f0\\fs22\\lang9 Example RTF content\\par\n" +
+                "}\n";
+
+        try {
+            byte[] rtfBytes = rtfContent.getBytes();
+            ByteArrayInputStream stream = new ByteArrayInputStream(rtfBytes);
+            rtfEditorKit.read(stream, doc, 0);
+            String contentType = rtfEditorKit.getContentType();
+            System.out.println("Content Type: " + contentType);
+        } catch (IOException | BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 RTFEditorKit_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Document;
+import javax.swing.text.rtf.RTFEditorKit;
+import java.io.Reader;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RTFEditorKit rtfEditorKit = new RTFEditorKit();
+            Document doc = rtfEditorKit.createDefaultDocument();
+            Reader in = new StringReader("{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}}\n" +
+                    "{\\*\\generator Riched20 10.0.19041}\\viewkind4\\uc1 \n" +
+                    "\\pard\\f0\\fs22\\lang9 This is some text in RTF format.}\\par");
+            
+            int pos = 0;
+            rtfEditorKit.read(in, doc, pos);
+            System.out.println(doc.getText(0, doc.getLength()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

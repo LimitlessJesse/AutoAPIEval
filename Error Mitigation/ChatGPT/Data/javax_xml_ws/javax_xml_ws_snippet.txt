@@ -1,0 +1,240 @@
+Sample: 0 Endpoint_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.Endpoint;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of the implementor class
+        MyService implementor = new MyService();
+
+        // Publish the endpoint using the implementor
+        Endpoint endpoint = Endpoint.publish("http://localhost:8080/myService", implementor);
+
+        // Check if the endpoint is published successfully
+        if (endpoint.isPublished()) {
+            System.out.println("Endpoint published successfully");
+        }
+    }
+}
+
+class MyService {
+    // Implement your service methods here
+}
+```
+================================================================
+
+Sample: 1 Endpoint_2
+----------------------------------------------------------------
+`void stop()`: This method stops publishing the endpoint.
+
+Code snippet:
+```java
+import javax.xml.ws.Endpoint;
+
+public class Main {
+    public static void main(String[] args) {
+        Endpoint endpoint = Endpoint.create(new MyWebService());
+        endpoint.publish("http://localhost:8080/myWebService");
+        
+        // Stop publishing the endpoint
+        endpoint.stop();
+    }
+}
+
+class MyWebService {
+    // Web service implementation
+}
+```
+================================================================
+
+Sample: 2 Endpoint_3
+----------------------------------------------------------------
+`void setExecutor(Executor executor)`: This method sets the executor for the Endpoint instance.
+
+Code snippet:
+```java
+import javax.xml.ws.Endpoint;
+import java.util.concurrent.Executor;
+
+public class Main {
+    public static void main(String[] args) {
+        Endpoint endpoint = Endpoint.create(null);
+        Executor executor = Runnable::run; // Example executor, you can use your own implementation
+        endpoint.setExecutor(executor);
+    }
+}
+```
+================================================================
+
+Sample: 3 Endpoint_4
+----------------------------------------------------------------
+`Binding getBinding()`: This method returns the binding for the Web service endpoint.
+
+Code snippet:
+```java
+import javax.xml.ws.Endpoint;
+import javax.xml.ws.Binding;
+
+public class Main {
+    public static void main(String[] args) {
+        Endpoint endpoint = Endpoint.create(new MyService());
+        Binding binding = endpoint.getBinding();
+        System.out.println("Binding for the endpoint: " + binding);
+    }
+}
+
+class MyService {
+    // Your service implementation here
+}
+```
+================================================================
+
+Sample: 4 Endpoint_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.Endpoint;
+import javax.xml.ws.EndpointReference;
+import org.w3c.dom.Element;
+
+public class Main {
+    public static void main(String[] args) {
+        Endpoint endpoint = Endpoint.create(new Object());
+        Element element = null; // Initialize with actual Element object
+        EndpointReference endpointReference = endpoint.getEndpointReference(element);
+        System.out.println(endpointReference);
+    }
+}
+```
+================================================================
+
+Sample: 5 RespectBindingFeature_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.RespectBindingFeature;
+
+public class Main {
+    public static void main(String[] args) {
+        RespectBindingFeature feature = new RespectBindingFeature();
+        String id = feature.getID();
+        System.out.println("Unique identifier for this WebServiceFeature: " + id);
+    }
+}
+```
+================================================================
+
+Sample: 6 Service_1
+----------------------------------------------------------------
+`QName getServiceName()`: This method gets the name of the service.
+
+Code snippet:
+```java
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
+public class Main {
+    public static void main(String[] args) {
+        Service service = new Service();
+        QName serviceName = service.getServiceName();
+        System.out.println("Service Name: " + serviceName);
+    }
+}
+```
+================================================================
+
+Sample: 7 Service_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.Service;
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        Service service = new Service();
+        URL wsdlLocation = service.getWSDLDocumentLocation();
+        System.out.println("WSDL Document Location: " + wsdlLocation);
+    }
+}
+```
+================================================================
+
+Sample: 8 Service_4
+----------------------------------------------------------------
+`Executor getExecutor()`: This method returns the executor for the Service instance.
+
+Code snippet:
+```java
+import javax.xml.ws.Service;
+import java.util.concurrent.Executor;
+
+public class Main {
+    public static void main(String[] args) {
+        Service service = new Service();
+        Executor executor = service.getExecutor();
+        System.out.println("Executor: " + executor);
+    }
+}
+```
+================================================================
+
+Sample: 9 Service_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.Service;
+
+public class Main {
+    public static void main(String[] args) {
+        Service service = new Service();
+        HandlerResolver handlerResolver = service.getHandlerResolver();
+        System.out.println("HandlerResolver: " + handlerResolver);
+    }
+}
+```
+================================================================
+
+Sample: 10 WebServiceFeature_2
+----------------------------------------------------------------
+`String getID()`: This method returns the unique identifier for the WebServiceFeature.
+
+Code snippet:
+```java
+import javax.xml.ws.WebServiceFeature;
+
+public class Main {
+    public static void main(String[] args) {
+        WebServiceFeature feature = new WebServiceFeature() {
+            @Override
+            public String getID() {
+                return "unique_identifier";
+            }
+        };
+
+        System.out.println("Feature ID: " + feature.getID());
+    }
+}
+```
+================================================================
+
+Sample: 11 WebServiceFeature_3
+----------------------------------------------------------------
+`boolean isEnabled()`: This method returns true if this feature is enabled.
+
+Code snippet:
+```java
+import javax.xml.ws.WebServiceFeature;
+
+public class Main {
+    public static void main(String[] args) {
+        WebServiceFeature feature = new WebServiceFeature();
+        boolean enabled = feature.isEnabled();
+        System.out.println("Is feature enabled? " + enabled);
+    }
+}
+```
+================================================================
+

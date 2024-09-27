@@ -1,0 +1,283 @@
+Sample: 0 EventReaderDelegate_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
+import javax.xml.stream.util.EventReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        EventReaderDelegate eventReader = new EventReaderDelegate() {
+            @Override
+            public XMLEvent nextEvent() throws XMLStreamException {
+                // Implement custom logic here
+                return super.nextEvent();
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 1 EventReaderDelegate_2
+----------------------------------------------------------------
+`boolean hasNext()`: This method checks if there are more events in the XMLEventReader.
+
+Code snippet:
+```java
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
+import javax.xml.stream.util.EventReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) throws XMLStreamException {
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        XMLEventReader reader = factory.createXMLEventReader("your_xml_file.xml");
+        
+        EventReaderDelegate eventReaderDelegate = new EventReaderDelegate(reader) {
+            @Override
+            public boolean hasNext() {
+                return super.hasNext();
+            }
+        };
+        
+        System.out.println("Has next event: " + eventReaderDelegate.hasNext());
+    }
+}
+```
+================================================================
+
+Sample: 2 EventReaderDelegate_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
+import javax.xml.stream.util.EventReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        EventReaderDelegate eventReader = new EventReaderDelegate() {
+            @Override
+            public XMLEvent peek() throws XMLStreamException {
+                // Implement peek method logic here
+                return null; // Placeholder, replace with actual implementation
+            }
+        };
+        
+        try {
+            XMLEvent nextEvent = eventReader.peek();
+            if (nextEvent != null) {
+                System.out.println("Next event: " + nextEvent.toString());
+            } else {
+                System.out.println("No more events in the stream.");
+            }
+        } catch (XMLStreamException e) {
+            System.out.println("Error while peeking at the next event: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 EventReaderDelegate_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.util.EventReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        EventReaderDelegate delegate = new EventReaderDelegate() {
+            @Override
+            public void setParent(XMLEventReader reader) {
+                super.setParent(reader);
+            }
+        };
+        
+        XMLEventReader parentReader = null; // Initialize parent reader
+        
+        delegate.setParent(parentReader);
+    }
+}
+```
+================================================================
+
+Sample: 4 EventReaderDelegate_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.util.EventReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        EventReaderDelegate delegate = new EventReaderDelegate() {
+            @Override
+            public void setParent(XMLEventReader reader) {
+                super.setParent(reader);
+            }
+        };
+        
+        XMLEventReader parentReader = null; // Initialize your parent XMLEventReader here
+        
+        delegate.setParent(parentReader);
+    }
+}
+```
+================================================================
+
+Sample: 5 StreamReaderDelegate_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.util.StreamReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLStreamReader reader = new MyXMLStreamReader();
+        try {
+            int event = reader.next();
+            System.out.println("Current parse event: " + event);
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class MyXMLStreamReader extends StreamReaderDelegate {
+        public MyXMLStreamReader() {
+            super();
+        }
+
+        @Override
+        public int next() throws XMLStreamException {
+            // Custom implementation for handling next event
+            return super.next();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 StreamReaderDelegate_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.util.StreamReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLStreamReader reader = new StreamReaderDelegate() {
+            @Override
+            public int nextTag() throws XMLStreamException {
+                int eventType = next();
+                while ((eventType == XMLStreamConstants.CHARACTERS && isWhiteSpace()) || (eventType == XMLStreamConstants.CDATA && isWhiteSpace()) || eventType == XMLStreamConstants.SPACE || eventType == XMLStreamConstants.PROCESSING_INSTRUCTION || eventType == XMLStreamConstants.COMMENT) {
+                    eventType = next();
+                }
+                if (eventType != XMLStreamConstants.START_ELEMENT && eventType != XMLStreamConstants.END_ELEMENT) {
+                    throw new XMLStreamException("expected start or end tag", getLocation());
+                }
+                return eventType;
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 7 StreamReaderDelegate_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.util.StreamReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLStreamReader reader = new StreamReaderDelegate() {
+            @Override
+            public String getElementText() throws XMLStreamException {
+                if (getEventType() != XMLStreamConstants.START_ELEMENT) {
+                    throw new XMLStreamException("parser must be on START_ELEMENT to read next text", getLocation());
+                }
+                int eventType = next();
+                StringBuffer content = new StringBuffer();
+                while (eventType != XMLStreamConstants.END_ELEMENT) {
+                    if (eventType == XMLStreamConstants.CHARACTERS
+                            || eventType == XMLStreamConstants.CDATA
+                            || eventType == XMLStreamConstants.SPACE
+                            || eventType == XMLStreamConstants.ENTITY_REFERENCE) {
+                        content.append(getText());
+                    } else if (eventType == XMLStreamConstants.PROCESSING_INSTRUCTION
+                            || eventType == XMLStreamConstants.COMMENT) {
+                        // skipping
+                    } else if (eventType == XMLStreamConstants.END_DOCUMENT) {
+                        throw new XMLStreamException("unexpected end of document when reading element text content", this);
+                    } else if (eventType == XMLStreamConstants.START_ELEMENT) {
+                        throw new XMLStreamException("element text content may not contain START_ELEMENT", getLocation());
+                    } else {
+                        throw new XMLStreamException("Unexpected event type " + eventType, getLocation());
+                    }
+                    eventType = next();
+                }
+                return content.toString();
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 8 StreamReaderDelegate_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.util.StreamReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLStreamReader reader = new StreamReaderDelegate() {
+            @Override
+            public int getAttributeCount() {
+                return super.getAttributeCount();
+            }
+        };
+        
+        int attributeCount = reader.getAttributeCount();
+        System.out.println("Attribute count: " + attributeCount);
+    }
+}
+```
+================================================================
+
+Sample: 9 StreamReaderDelegate_5
+----------------------------------------------------------------
+`String getLocalName()`: This method returns the (local) name of the current event.
+
+Code snippet:
+```java
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.util.StreamReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLStreamReader reader = null; // Initialize your XMLStreamReader object
+        StreamReaderDelegate delegate = new StreamReaderDelegate(reader);
+
+        String localName = delegate.getLocalName();
+        System.out.println("Local Name: " + localName);
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,224 @@
+Sample: 0 ChannelBinding_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ieft.jgss.ChannelBinding;
+
+public class Main {
+    public static void main(String[] args) {
+        ChannelBinding channelBinding = new ChannelBinding();
+        int hashCode = channelBinding.hashCode();
+        System.out.println("Hash code: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 1 ChannelBinding_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.ChannelBinding;
+
+public class Main {
+    public static void main(String[] args) {
+        ChannelBinding cb1 = new ChannelBinding();
+        ChannelBinding cb2 = new ChannelBinding();
+        
+        boolean result = cb1.equals(cb2);
+        System.out.println("Are the two ChannelBindings equal? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 2 GSSManager_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.*;
+import java.security.Provider;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            GSSManager manager = GSSManager.getInstance();
+            GSSName peerName = manager.createName("peerName", GSSName.NT_HOSTBASED_SERVICE);
+            Oid mech = new Oid("1.2.840.113554.1.2.2");
+            GSSCredential myCred = manager.createCredential(null, GSSCredential.DEFAULT_LIFETIME, mech, GSSCredential.ACCEPT_ONLY);
+            GSSContext context = manager.createContext(peerName, mech, myCred, GSSContext.DEFAULT_LIFETIME);
+            
+            // Use context for further operations
+            
+            System.out.println("GSSContext created successfully");
+        } catch (GSSException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 GSSManager_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.*;
+
+public class Main {
+    public static void main(String[] args) {
+        GSSManager manager = GSSManager.getInstance();
+
+        String nameStr = "example";
+        Oid nameType = GSSName.NT_USER_NAME;
+
+        GSSName name = null;
+        try {
+            name = manager.createName(nameStr, nameType);
+        } catch (GSSException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Created GSSName: " + name.toString());
+    }
+}
+```
+================================================================
+
+Sample: 4 GSSManager_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.*;
+
+public class Main {
+    public static void main(String[] args) throws GSSException {
+        GSSManager manager = GSSManager.getInstance();
+        GSSName name = manager.createName("username@EXAMPLE.COM", GSSName.NT_USER_NAME);
+        Oid mech = GSSUtil.GSS_KRB5_MECH;
+        int lifetime = GSSCredential.DEFAULT_LIFETIME;
+        int usage = GSSCredential.ACCEPT_ONLY;
+
+        GSSCredential credential = manager.createCredential(name, lifetime, mech, usage);
+        System.out.println("Created credential: " + credential);
+    }
+}
+```
+================================================================
+
+Sample: 5 MessageProp_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.MessageProp;
+
+public class Main {
+    public static void main(String[] args) {
+        MessageProp messageProp = new MessageProp(0, false);
+        int qop = messageProp.getQOP();
+        System.out.println("QOP: " + qop);
+    }
+}
+```
+================================================================
+
+Sample: 6 MessageProp_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.MessageProp;
+
+public class Main {
+    public static void main(String[] args) {
+        MessageProp prop1 = new MessageProp(0, false);
+        MessageProp prop2 = new MessageProp(0, false);
+        
+        boolean isDuplicate = prop1.isDuplicateToken(prop2);
+        System.out.println("Is duplicate token: " + isDuplicate);
+    }
+}
+```
+================================================================
+
+Sample: 7 MessageProp_3
+----------------------------------------------------------------
+```java
+import org.ietf.jgss.MessageProp;
+
+public class Main {
+    public static void main(String[] args) {
+        MessageProp prop = new MessageProp(0, false);
+        int minorStatus = prop.getMinorStatus();
+        System.out.println("Minor status: " + minorStatus);
+    }
+}
+```
+================================================================
+
+Sample: 8 Oid_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.Oid;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Oid oid = new Oid("1.2.840.113554.1.2.2");
+        byte[] der = oid.getDER();
+        System.out.println(Arrays.toString(der));
+    }
+}
+```
+================================================================
+
+Sample: 9 Oid_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.Oid;
+
+public class Main {
+    public static void main(String[] args) {
+        Oid oid = new Oid(new int[]{1, 3, 6, 1, 5, 5, 2});
+        int hashCode = oid.hashCode();
+        System.out.println("Hash code for Oid: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 10 Oid_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.Oid;
+
+public class Main {
+    public static void main(String[] args) {
+        Oid oid1 = new Oid(new int[]{1, 3, 6, 1, 5, 5, 2});
+        Oid oid2 = new Oid(new int[]{1, 3, 6, 1, 5, 5, 2});
+
+        boolean isEqual = oid1.equals(oid2);
+        System.out.println("Are the Oids equal? " + isEqual);
+    }
+}
+```
+================================================================
+
+Sample: 11 Oid_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.Oid;
+
+public class Main {
+    public static void main(String[] args) {
+        Oid oid = new Oid(new int[]{1, 3, 6, 1, 5, 5, 2});
+        String oidString = oid.toString();
+        System.out.println("OID: " + oidString);
+    }
+}
+```
+================================================================
+

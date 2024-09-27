@@ -1,0 +1,416 @@
+Sample: 0 AttributeSetUtilities_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.AttributeSet;
+import javax.print.attribute.AttributeSetUtilities;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributeSet attributeSet = null; // Initialize with your attribute set
+        AttributeSet unmodifiableView = AttributeSetUtilities.unmodifiableView(attributeSet);
+        // Use unmodifiableView as an unmodifiable view of the attributeSet
+    }
+}
+```
+================================================================
+
+Sample: 1 EnumSyntax_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.EnumSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        MyEnum myEnum = MyEnum.VALUE1;
+        int hashCode = myEnum.hashCode();
+        System.out.println("Hash code for enum value: " + hashCode);
+    }
+
+    public enum MyEnum extends EnumSyntax {
+        VALUE1,
+        VALUE2,
+        VALUE3
+    }
+}
+```
+================================================================
+
+Sample: 2 EnumSyntax_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.EnumSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        EnumSyntax enumSyntax = new EnumSyntax() {
+            @Override
+            public String toString() {
+                return "EnumSyntax toString method implementation";
+            }
+        };
+        
+        System.out.println(enumSyntax.toString());
+    }
+}
+```
+================================================================
+
+Sample: 3 EnumSyntax_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.EnumSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        MyEnum myEnum = new MyEnum();
+        System.out.println(myEnum.getValue());
+    }
+
+    static class MyEnum extends EnumSyntax {
+        @Override
+        public int getValue() {
+            return 10;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 IntegerSyntax_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.IntegerSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        IntegerSyntax integerAttribute = new IntegerSyntax() {
+            @Override
+            public int getValue() {
+                return 10;
+            }
+        };
+        
+        System.out.println("Integer value: " + integerAttribute.getValue());
+    }
+}
+```
+================================================================
+
+Sample: 5 IntegerSyntax_2
+----------------------------------------------------------------
+`boolean equals(Object object)`: This method checks if the passed object is equivalent to the IntegerSyntax attribute based on certain conditions.
+
+Code snippet:
+```java
+import javax.print.attribute.IntegerSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        IntegerSyntax int1 = new IntegerSyntax(10);
+        IntegerSyntax int2 = new IntegerSyntax(10);
+        
+        System.out.println(int1.equals(int2)); // Output: true
+    }
+}
+```
+================================================================
+
+Sample: 6 IntegerSyntax_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.IntegerSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        IntegerSyntax integerAttribute = new IntegerSyntax(10);
+        int hashCode = integerAttribute.hashCode();
+        System.out.println("Hash code value: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 7 IntegerSyntax_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.IntegerSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        IntegerSyntax integerAttribute = new IntegerSyntax(10);
+        System.out.println(integerAttribute.toString());
+    }
+}
+```
+================================================================
+
+Sample: 8 ResolutionSyntax_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.ResolutionSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        ResolutionSyntax resolution = new ResolutionSyntax() {
+            @Override
+            public int[] getResolution(int units) {
+                // Implementation of getting resolution values
+                int[] resolutionValues = new int[2];
+                // Example values
+                resolutionValues[0] = 300; // Cross feed direction resolution
+                resolutionValues[1] = 300; // Feed direction resolution
+                return resolutionValues;
+            }
+        };
+
+        int[] resolutionValues = resolution.getResolution(300);
+        System.out.println("Cross feed direction resolution: " + resolutionValues[0]);
+        System.out.println("Feed direction resolution: " + resolutionValues[1]);
+    }
+}
+```
+================================================================
+
+Sample: 9 ResolutionSyntax_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.ResolutionSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        ResolutionSyntax resolution1 = new ResolutionSyntax() {
+            @Override
+            public boolean lessThanOrEquals(ResolutionSyntax other) {
+                // Compare cross feed direction resolution
+                if (this.getCrossFeedResolution() <= other.getCrossFeedResolution()) {
+                    // Compare feed direction resolution
+                    if (this.getFeedResolution() <= other.getFeedResolution()) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
+
+        ResolutionSyntax resolution2 = new ResolutionSyntax() {
+            @Override
+            public int getCrossFeedResolution() {
+                return 300; // Example value
+            }
+
+            @Override
+            public int getFeedResolution() {
+                return 300; // Example value
+            }
+        };
+
+        System.out.println(resolution1.lessThanOrEquals(resolution2));
+    }
+}
+```
+================================================================
+
+Sample: 10 SetOfIntegerSyntax_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.SetOfIntegerSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        SetOfIntegerSyntax set = new SetOfIntegerSyntax() {
+            @Override
+            public boolean contains(int x) {
+                // Implement the contains method logic here
+                return false;
+            }
+        };
+        
+        int valueToCheck = 5;
+        boolean result = set.contains(valueToCheck);
+        System.out.println("Contains value " + valueToCheck + ": " + result);
+    }
+}
+```
+================================================================
+
+Sample: 11 Size2DSyntax_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.Size2DSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        Size2DSyntax size1 = new Size2DSyntax(100, 200);
+        Size2DSyntax size2 = new Size2DSyntax(100, 200);
+        
+        System.out.println(size1.equals(size2)); // Output: true
+    }
+}
+```
+================================================================
+
+Sample: 12 Size2DSyntax_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.Size2DSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        Size2DSyntax size = new Size2DSyntax(10, 20, Size2DSyntax.MM);
+        int hashCode = size.hashCode();
+        System.out.println("Hash code value: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 13 Size2DSyntax_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.Size2DSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        Size2DSyntax size = new Size2DSyntax(100, 200);
+        System.out.println(size.toString());
+    }
+}
+```
+================================================================
+
+Sample: 14 TextSyntax_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.TextSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        TextSyntax textAttribute = new TextSyntax("Sample Text");
+        String value = textAttribute.getValue();
+        System.out.println("Text Attribute Value: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 15 TextSyntax_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.TextSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        TextSyntax textAttribute = new TextSyntax("example");
+        int hashCode = textAttribute.hashCode();
+        System.out.println("Hashcode value: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 16 TextSyntax_3
+----------------------------------------------------------------
+`boolean equals(Object object)`: This method checks if the passed object is equivalent to the TextSyntax attribute based on the conditions mentioned in the description.
+
+Code snippet:
+```java
+import javax.print.attribute.TextSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        TextSyntax text1 = new TextSyntax("example", "en_US");
+        TextSyntax text2 = new TextSyntax("example", "en_US");
+
+        boolean result = text1.equals(text2);
+        System.out.println("Are text1 and text2 equivalent? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 17 TextSyntax_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.TextSyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        TextSyntax textAttribute = new TextSyntax("Sample Text");
+        System.out.println(textAttribute.toString());
+    }
+}
+```
+================================================================
+
+Sample: 18 URISyntax_2
+----------------------------------------------------------------
+`boolean equals(Object object)`: This method checks if the passed object is equivalent to the URI attribute based on certain conditions.
+
+Code snippet:
+```java
+import javax.print.attribute.URISyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        URISyntax uri1 = new URISyntax("http://example.com");
+        URISyntax uri2 = new URISyntax("http://example.com");
+
+        boolean result1 = uri1.equals(uri2);
+        System.out.println("Are uri1 and uri2 equivalent? " + result1);
+
+        URISyntax uri3 = new URISyntax("http://different.com");
+
+        boolean result2 = uri1.equals(uri3);
+        System.out.println("Are uri1 and uri3 equivalent? " + result2);
+    }
+}
+```
+================================================================
+
+Sample: 19 URISyntax_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.URISyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        URISyntax uri = new URISyntax("http://www.example.com");
+        int hashCode = uri.hashCode();
+        System.out.println("Hashcode for URI attribute: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 20 URISyntax_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.attribute.URISyntax;
+
+public class Main {
+    public static void main(String[] args) {
+        URISyntax uriSyntax = new URISyntax("http://www.example.com");
+        System.out.println(uriSyntax.toString());
+    }
+}
+```
+================================================================
+

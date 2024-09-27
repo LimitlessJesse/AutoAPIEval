@@ -1,0 +1,1479 @@
+ClassName,Method,Return Type,Description,Full Description
+ActivationDataFlavor,equals(DataFlavor dataFlavor),boolean,Compares the DataFlavor passed in with this DataFlavor; calls the isMimeTypeEqual method.,"
+
+equals
+public boolean equals(DataFlavor dataFlavor)
+Compares the DataFlavor passed in with this DataFlavor; calls
+ the isMimeTypeEqual method.
+
+Overrides:
+equals in class DataFlavor
+Parameters:
+dataFlavor - the DataFlavor to compare with
+Returns:
+true if the MIME type and representation class
+                          are the same
+See Also:
+DataFlavor.selectBestTextFlavor(java.awt.datatransfer.DataFlavor[])
+
+
+"
+ActivationDataFlavor,getHumanPresentableName(),String,Return the Human Presentable name.,"
+
+getHumanPresentableName
+public String getHumanPresentableName()
+Return the Human Presentable name.
+
+Overrides:
+getHumanPresentableName in class DataFlavor
+Returns:
+the human presentable name
+
+
+"
+ActivationDataFlavor,getMimeType(),String,Return the MIME type for this DataFlavor.,"
+
+getMimeType
+public String getMimeType()
+Return the MIME type for this DataFlavor.
+
+Overrides:
+getMimeType in class DataFlavor
+Returns:
+the MIME type
+
+
+"
+ActivationDataFlavor,getRepresentationClass(),Class,Return the representation class.,"
+
+getRepresentationClass
+public Class getRepresentationClass()
+Return the representation class.
+
+Overrides:
+getRepresentationClass in class DataFlavor
+Returns:
+the representation class
+
+
+"
+ActivationDataFlavor,isMimeTypeEqual(String mimeType),boolean,Is the string representation of the MIME type passed in equivalent to the MIME type of this DataFlavor.,"
+
+isMimeTypeEqual
+public boolean isMimeTypeEqual(String mimeType)
+Is the string representation of the MIME type passed in equivalent
+ to the MIME type of this DataFlavor. 
+
+ ActivationDataFlavor delegates the comparison of MIME types to
+ the MimeType class included as part of the JavaBeans Activation
+ Framework. This provides a more robust comparison than is normally
+ available in the DataFlavor class.
+
+Overrides:
+isMimeTypeEqual in class DataFlavor
+Parameters:
+mimeType - the MIME type
+Returns:
+true if the same MIME type
+
+
+"
+ActivationDataFlavor,normalizeMimeType(String mimeType),protected String,Deprecated.,"
+
+normalizeMimeType
+protected String normalizeMimeType(String mimeType)
+Deprecated. 
+Called for each MIME type string to give DataFlavor subtypes the
+ opportunity to change how the normalization of MIME types is
+ accomplished.
+ One possible use would be to add default parameter/value pairs in cases
+ where none are present in the MIME type string passed in.
+ This method is never invoked by this implementation.
+
+Overrides:
+normalizeMimeType in class DataFlavor
+Parameters:
+mimeType - the MIME type
+Returns:
+the normalized MIME type
+
+
+"
+ActivationDataFlavor,"normalizeMimeTypeParameter(String parameterName, String parameterValue)",protected String,Deprecated.,"
+
+normalizeMimeTypeParameter
+protected String normalizeMimeTypeParameter(String parameterName,
+                                            String parameterValue)
+Deprecated. 
+Called on DataFlavor for every MIME Type parameter to allow DataFlavor
+ subclasses to handle special parameters like the text/plain charset
+ parameters, whose values are case insensitive.  (MIME type parameter
+ values are supposed to be case sensitive).
+ 
+ This method is called for each parameter name/value pair and should
+ return the normalized representation of the parameterValue.
+ This method is never invoked by this implementation.
+
+Overrides:
+normalizeMimeTypeParameter in class DataFlavor
+Parameters:
+parameterName - the parameter name
+parameterValue - the parameter value
+Returns:
+the normalized parameter value
+
+
+"
+ActivationDataFlavor,setHumanPresentableName(String humanPresentableName),void,Set the human presentable name.,"
+
+setHumanPresentableName
+public void setHumanPresentableName(String humanPresentableName)
+Set the human presentable name.
+
+Overrides:
+setHumanPresentableName in class DataFlavor
+Parameters:
+humanPresentableName - the name to set
+
+
+"
+CommandInfo,getCommandClass(),String,Return the command's class name.,"
+
+getCommandClass
+public String getCommandClass()
+Return the command's class name. This method MAY return null in
+ cases where a CommandMap subclassed CommandInfo for its
+ own purposes. In other words, it might not be possible to
+ create the correct state in the command by merely knowing
+ its class name. DO NOT DEPEND ON THIS METHOD RETURNING
+ A VALID VALUE!
+
+Returns:
+The class name of the command, or null
+
+
+"
+CommandInfo,getCommandName(),String,Return the command verb.,"
+
+getCommandName
+public String getCommandName()
+Return the command verb.
+
+Returns:
+the command verb.
+
+
+"
+CommandInfo,"getCommandObject(DataHandler dh, ClassLoader loader)",Object,Return the instantiated JavaBean component.,"
+
+getCommandObject
+public Object getCommandObject(DataHandler dh,
+                               ClassLoader loader)
+                        throws IOException,
+                               ClassNotFoundException
+Return the instantiated JavaBean component.
+ 
+ Begin by instantiating the component with
+ Beans.instantiate().
+ 
+ If the bean implements the javax.activation.CommandObject
+ interface, call its setCommandContext method.
+ 
+ If the DataHandler parameter is null, then the bean is
+ instantiated with no data. NOTE: this may be useful
+ if for some reason the DataHandler that is passed in
+ throws IOExceptions when this method attempts to
+ access its InputStream. It will allow the caller to
+ retrieve a reference to the bean if it can be
+ instantiated.
+ 
+ If the bean does NOT implement the CommandObject interface,
+ this method will check if it implements the
+ java.io.Externalizable interface. If it does, the bean's
+ readExternal method will be called if an InputStream
+ can be acquired from the DataHandler.
+
+Parameters:
+dh - The DataHandler that describes the data to be
+                  passed to the command.
+loader - The ClassLoader to be used to instantiate the bean.
+Returns:
+The bean
+Throws:
+IOException
+ClassNotFoundException
+See Also:
+Beans.instantiate(java.lang.ClassLoader, java.lang.String), 
+CommandObject
+
+
+"
+CommandMap,createDataContentHandler(String mimeType),abstract DataContentHandler,Locate a DataContentHandler that corresponds to the MIME type.,"
+
+createDataContentHandler
+public abstract DataContentHandler createDataContentHandler(String mimeType)
+Locate a DataContentHandler that corresponds to the MIME type.
+ The mechanism and semantics for determining this are determined
+ by the implementation of the particular CommandMap.
+
+Parameters:
+mimeType - the MIME type
+Returns:
+the DataContentHandler for the MIME type
+
+
+"
+CommandMap,"createDataContentHandler(String mimeType, DataSource ds)",DataContentHandler,Locate a DataContentHandler that corresponds to the MIME type.,"
+
+createDataContentHandler
+public DataContentHandler createDataContentHandler(String mimeType,
+                                                   DataSource ds)
+Locate a DataContentHandler that corresponds to the MIME type.
+ The mechanism and semantics for determining this are determined
+ by the implementation of the particular CommandMap. 
+
+ The DataSource provides extra information, such as
+ the file name, that a CommandMap implementation may use to further
+ refine the choice of DataContentHandler.  The implementation
+ in this class simply calls the createDataContentHandler
+ method that ignores this argument.
+
+Parameters:
+mimeType - the MIME type
+ds - a DataSource for the data
+Returns:
+the DataContentHandler for the MIME type
+Since:
+JAF 1.1
+
+
+"
+CommandMap,getAllCommands(String mimeType),abstract CommandInfo[],Get all the available commands for this type.,"
+
+getAllCommands
+public abstract CommandInfo[] getAllCommands(String mimeType)
+Get all the available commands for this type. This method
+ should return all the possible commands for this MIME type.
+
+Parameters:
+mimeType - the MIME type
+Returns:
+the CommandInfo objects representing all the commands.
+
+
+"
+CommandMap,"getAllCommands(String mimeType, DataSource ds)",CommandInfo[],Get all the available commands for this type.,"
+
+getAllCommands
+public CommandInfo[] getAllCommands(String mimeType,
+                                    DataSource ds)
+Get all the available commands for this type. This method
+ should return all the possible commands for this MIME type. 
+
+ The DataSource provides extra information, such as
+ the file name, that a CommandMap implementation may use to further
+ refine the list of commands that are returned.  The implementation
+ in this class simply calls the getAllCommands
+ method that ignores this argument.
+
+Parameters:
+mimeType - the MIME type
+ds - a DataSource for the data
+Returns:
+the CommandInfo objects representing all the commands.
+Since:
+JAF 1.1
+
+
+"
+CommandMap,"getCommand(String mimeType, String cmdName)",abstract CommandInfo,Get the default command corresponding to the MIME type.,"
+
+getCommand
+public abstract CommandInfo getCommand(String mimeType,
+                                       String cmdName)
+Get the default command corresponding to the MIME type.
+
+Parameters:
+mimeType - the MIME type
+cmdName - the command name
+Returns:
+the CommandInfo corresponding to the command.
+
+
+"
+CommandMap,"getCommand(String mimeType, String cmdName, DataSource ds)",CommandInfo,Get the default command corresponding to the MIME type.,"
+
+getCommand
+public CommandInfo getCommand(String mimeType,
+                              String cmdName,
+                              DataSource ds)
+Get the default command corresponding to the MIME type. 
+
+ The DataSource provides extra information, such as
+ the file name, that a CommandMap implementation may use to further
+ refine the command that is chosen.  The implementation
+ in this class simply calls the getCommand
+ method that ignores this argument.
+
+Parameters:
+mimeType - the MIME type
+cmdName - the command name
+ds - a DataSource for the data
+Returns:
+the CommandInfo corresponding to the command.
+Since:
+JAF 1.1
+
+
+"
+CommandMap,getDefaultCommandMap(),static CommandMap,Get the default CommandMap.,"
+
+getDefaultCommandMap
+public static CommandMap getDefaultCommandMap()
+Get the default CommandMap.
+ 
+
+ In cases where a CommandMap instance has been previously set
+      to some value (via setDefaultCommandMap)
+  return the CommandMap.
+ 
+  In cases where no CommandMap has been set, the CommandMap
+       creates an instance of MailcapCommandMap and
+       set that to the default, returning its value.
+
+ 
+
+Returns:
+the CommandMap
+
+
+"
+CommandMap,getMimeTypes(),String[],Get all the MIME types known to this command map.,"
+
+getMimeTypes
+public String[] getMimeTypes()
+Get all the MIME types known to this command map.
+ If the command map doesn't support this operation,
+ null is returned.
+
+Returns:
+array of MIME types as strings, or null if not supported
+Since:
+JAF 1.1
+
+
+"
+CommandMap,getPreferredCommands(String mimeType),abstract CommandInfo[],Get the preferred command list from a MIME Type.,"
+
+getPreferredCommands
+public abstract CommandInfo[] getPreferredCommands(String mimeType)
+Get the preferred command list from a MIME Type. The actual semantics
+ are determined by the implementation of the CommandMap.
+
+Parameters:
+mimeType - the MIME type
+Returns:
+the CommandInfo classes that represent the command Beans.
+
+
+"
+CommandMap,"getPreferredCommands(String mimeType, DataSource ds)",CommandInfo[],Get the preferred command list from a MIME Type.,"
+
+getPreferredCommands
+public CommandInfo[] getPreferredCommands(String mimeType,
+                                          DataSource ds)
+Get the preferred command list from a MIME Type. The actual semantics
+ are determined by the implementation of the CommandMap. 
+
+ The DataSource provides extra information, such as
+ the file name, that a CommandMap implementation may use to further
+ refine the list of commands that are returned.  The implementation
+ in this class simply calls the getPreferredCommands
+ method that ignores this argument.
+
+Parameters:
+mimeType - the MIME type
+ds - a DataSource for the data
+Returns:
+the CommandInfo classes that represent the command Beans.
+Since:
+JAF 1.1
+
+
+"
+CommandMap,setDefaultCommandMap(CommandMap commandMap),static void,Set the default CommandMap.,"
+
+setDefaultCommandMap
+public static void setDefaultCommandMap(CommandMap commandMap)
+Set the default CommandMap. Reset the CommandMap to the default by
+ calling this method with null.
+
+Parameters:
+commandMap - The new default CommandMap.
+Throws:
+SecurityException - if the caller doesn't have permission
+                                  to change the default
+
+
+"
+DataHandler,getAllCommands(),CommandInfo[],Return all the commands for this type of data.,"
+
+getAllCommands
+public CommandInfo[] getAllCommands()
+Return all the commands for this type of data.
+ This method returns an array containing all commands
+ for the type of data represented by this DataHandler. The
+ MIME type for the underlying data represented by this DataHandler
+ is used to call through to the getAllCommands method
+ of the CommandMap associated with this DataHandler.
+
+Returns:
+the CommandInfo objects representing all the commands
+See Also:
+CommandMap.getAllCommands(java.lang.String)
+
+
+"
+DataHandler,getBean(CommandInfo cmdinfo),Object,"A convenience method that takes a CommandInfo object and instantiates the corresponding command, usually a JavaBean component.","
+
+getBean
+public Object getBean(CommandInfo cmdinfo)
+A convenience method that takes a CommandInfo object
+ and instantiates the corresponding command, usually
+ a JavaBean component.
+ 
+ This method calls the CommandInfo's getCommandObject
+ method with the ClassLoader used to load
+ the javax.activation.DataHandler class itself.
+
+Parameters:
+cmdinfo - the CommandInfo corresponding to a command
+Returns:
+the instantiated command object
+
+
+"
+DataHandler,getCommand(String cmdName),CommandInfo,Get the command cmdName.,"
+
+getCommand
+public CommandInfo getCommand(String cmdName)
+Get the command cmdName. Use the search semantics as
+ defined by the CommandMap installed in this DataHandler. The
+ MIME type for the underlying data represented by this DataHandler
+ is used to call through to the getCommand method
+ of the CommandMap associated with this DataHandler.
+
+Parameters:
+cmdName - the command name
+Returns:
+the CommandInfo corresponding to the command
+See Also:
+CommandMap.getCommand(java.lang.String, java.lang.String)
+
+
+"
+DataHandler,getContent(),Object,Return the data in its preferred Object form.,"
+
+getContent
+public Object getContent()
+                  throws IOException
+Return the data in its preferred Object form. 
+
+ If the DataHandler was instantiated with an object, return
+ the object. 
+
+ If the DataHandler was instantiated with a DataSource,
+ this method uses a DataContentHandler to return the content
+ object for the data represented by this DataHandler. If no
+ DataContentHandler can be found for the
+ the type of this data, the DataHandler returns an
+ InputStream for the data.
+
+Returns:
+the content.
+Throws:
+IOException - if an IOException occurs during
+                              this operation.
+
+
+"
+DataHandler,getContentType(),String,Return the MIME type of this object as retrieved from the source object.,"
+
+getContentType
+public String getContentType()
+Return the MIME type of this object as retrieved from
+ the source object. Note that this is the full
+ type with parameters.
+
+Returns:
+the MIME type
+
+
+"
+DataHandler,getDataSource(),DataSource,Return the DataSource associated with this instance of DataHandler.,"
+
+getDataSource
+public DataSource getDataSource()
+Return the DataSource associated with this instance
+ of DataHandler.
+ 
+ For DataHandlers that have been instantiated with a DataSource,
+ this method returns the DataSource that was used to create the
+ DataHandler object. In other cases the DataHandler
+ constructs a DataSource from the data used to construct
+ the DataHandler. DataSources created for DataHandlers not
+ instantiated with a DataSource are cached for performance
+ reasons.
+
+Returns:
+a valid DataSource object for this DataHandler
+
+
+"
+DataHandler,getInputStream(),InputStream,Get the InputStream for this object.,"
+
+getInputStream
+public InputStream getInputStream()
+                           throws IOException
+Get the InputStream for this object. 
+
+ For DataHandlers instantiated with a DataSource, the DataHandler
+ calls the DataSource.getInputStream method and
+ returns the result to the caller.
+ 
+ For DataHandlers instantiated with an Object, the DataHandler
+ first attempts to find a DataContentHandler for the Object. If
+ the DataHandler can not find a DataContentHandler for this MIME
+ type, it throws an UnsupportedDataTypeException.  If it is
+ successful, it creates a pipe and a thread.  The thread uses the
+ DataContentHandler's writeTo method to write the
+ stream data into one end of the pipe.  The other end of the pipe
+ is returned to the caller.  Because a thread is created to copy
+ the data, IOExceptions that may occur during the copy can not be
+ propagated back to the caller. The result is an empty stream.
+
+Returns:
+the InputStream representing this data
+Throws:
+IOException - if an I/O error occurs
+See Also:
+DataContentHandler.writeTo(java.lang.Object, java.lang.String, java.io.OutputStream), 
+UnsupportedDataTypeException
+
+
+"
+DataHandler,getName(),String,Return the name of the data object.,"
+
+getName
+public String getName()
+Return the name of the data object. If this DataHandler
+ was created with a DataSource, this method calls through
+ to the DataSource.getName method, otherwise it
+ returns null.
+
+Returns:
+the name of the object
+
+
+"
+DataHandler,getOutputStream(),OutputStream,Get an OutputStream for this DataHandler to allow overwriting the underlying data.,"
+
+getOutputStream
+public OutputStream getOutputStream()
+                             throws IOException
+Get an OutputStream for this DataHandler to allow overwriting
+ the underlying data.
+ If the DataHandler was created with a DataSource, the
+ DataSource's getOutputStream method is called.
+ Otherwise, null is returned.
+
+Returns:
+the OutputStream
+Throws:
+IOException
+See Also:
+DataSource.getOutputStream(), 
+URLDataSource
+
+
+"
+DataHandler,getPreferredCommands(),CommandInfo[],Return the preferred commands for this type of data.,"
+
+getPreferredCommands
+public CommandInfo[] getPreferredCommands()
+Return the preferred commands for this type of data.
+ This method calls the getPreferredCommands method
+ in the CommandMap associated with this instance of DataHandler.
+ This method returns an array that represents a subset of
+ available commands. In cases where multiple commands for the
+ MIME type represented by this DataHandler are present, the
+ installed CommandMap chooses the appropriate commands.
+
+Returns:
+the CommandInfo objects representing the preferred commands
+See Also:
+CommandMap.getPreferredCommands(java.lang.String)
+
+
+"
+DataHandler,getTransferData(DataFlavor flavor),Object,Returns an object that represents the data to be transferred.,"
+
+getTransferData
+public Object getTransferData(DataFlavor flavor)
+                       throws UnsupportedFlavorException,
+                              IOException
+Returns an object that represents the data to be
+ transferred. The class of the object returned is defined by the
+ representation class of the data flavor.
+For DataHandler's created with DataSources or URLs:
+
+ The DataHandler attempts to locate a DataContentHandler
+ for this MIME type. If one is found, the passed in DataFlavor
+ and the type of the data are passed to its getTransferData
+ method. If the DataHandler fails to locate a DataContentHandler
+ and the flavor specifies this object's MIME type and the
+ java.io.InputStream class, this object's InputStream
+ is returned.
+ Otherwise it throws an UnsupportedFlavorException. 
+For DataHandler's created with Objects:
+
+ The DataHandler attempts to locate a DataContentHandler
+ for this MIME type. If one is found, the passed in DataFlavor
+ and the type of the data are passed to its getTransferData
+ method. If the DataHandler fails to locate a DataContentHandler
+ and the flavor specifies this object's MIME type and its class,
+ this DataHandler's referenced object is returned.
+ Otherwise it throws an UnsupportedFlavorException.
+
+Specified by:
+getTransferData in interface Transferable
+Parameters:
+flavor - the requested flavor for the data
+Returns:
+the object
+Throws:
+UnsupportedFlavorException - if the data could not be
+                  converted to the requested flavor
+IOException - if an I/O error occurs
+See Also:
+ActivationDataFlavor
+
+
+"
+DataHandler,getTransferDataFlavors(),DataFlavor[],Return the DataFlavors in which this data is available.,"
+
+getTransferDataFlavors
+public DataFlavor[] getTransferDataFlavors()
+Return the DataFlavors in which this data is available. 
+
+ Returns an array of DataFlavor objects indicating the flavors
+ the data can be provided in. The array is usually ordered
+ according to preference for providing the data, from most
+ richly descriptive to least richly descriptive.
+
+ The DataHandler attempts to find a DataContentHandler that
+ corresponds to the MIME type of the data. If one is located,
+ the DataHandler calls the DataContentHandler's
+ getTransferDataFlavors method. 
+
+ If a DataContentHandler can not be located, and if the
+ DataHandler was created with a DataSource (or URL), one
+ DataFlavor is returned that represents this object's MIME type
+ and the java.io.InputStream class.  If the
+ DataHandler was created with an object and a MIME type,
+ getTransferDataFlavors returns one DataFlavor that represents
+ this object's MIME type and the object's class.
+
+Specified by:
+getTransferDataFlavors in interface Transferable
+Returns:
+an array of data flavors in which this data can be transferred
+See Also:
+DataContentHandler.getTransferDataFlavors()
+
+
+"
+DataHandler,isDataFlavorSupported(DataFlavor flavor),boolean,Returns whether the specified data flavor is supported for this object.,"
+
+isDataFlavorSupported
+public boolean isDataFlavorSupported(DataFlavor flavor)
+Returns whether the specified data flavor is supported
+ for this object.
+
+ This method iterates through the DataFlavors returned from
+ getTransferDataFlavors, comparing each with
+ the specified flavor.
+
+Specified by:
+isDataFlavorSupported in interface Transferable
+Parameters:
+flavor - the requested flavor for the data
+Returns:
+true if the data flavor is supported
+See Also:
+getTransferDataFlavors()
+
+
+"
+DataHandler,setCommandMap(CommandMap commandMap),void,Set the CommandMap for use by this DataHandler.,"
+
+setCommandMap
+public void setCommandMap(CommandMap commandMap)
+Set the CommandMap for use by this DataHandler.
+ Setting it to null causes the CommandMap to revert
+ to the CommandMap returned by the
+ CommandMap.getDefaultCommandMap method.
+ Changing the CommandMap, or setting it to null,
+ clears out any data cached from the previous CommandMap.
+
+Parameters:
+commandMap - the CommandMap to use in this DataHandler
+See Also:
+CommandMap.setDefaultCommandMap(javax.activation.CommandMap)
+
+
+"
+DataHandler,setDataContentHandlerFactory(DataContentHandlerFactory newFactory),static void,Sets the DataContentHandlerFactory.,"
+
+setDataContentHandlerFactory
+public static void setDataContentHandlerFactory(DataContentHandlerFactory newFactory)
+Sets the DataContentHandlerFactory.  The DataContentHandlerFactory
+ is called first to find DataContentHandlers.
+ The DataContentHandlerFactory can only be set once.
+ 
+ If the DataContentHandlerFactory has already been set,
+ this method throws an Error.
+
+Parameters:
+newFactory - the DataContentHandlerFactory
+Throws:
+Error - if the factory has already been defined.
+See Also:
+DataContentHandlerFactory
+
+
+"
+DataHandler,writeTo(OutputStream os),void,Write the data to an OutputStream.,"
+
+writeTo
+public void writeTo(OutputStream os)
+             throws IOException
+Write the data to an OutputStream.
+
+ If the DataHandler was created with a DataSource, writeTo
+ retrieves the InputStream and copies the bytes from the
+ InputStream to the OutputStream passed in.
+ 
+ If the DataHandler was created with an object, writeTo
+ retrieves the DataContentHandler for the object's type.
+ If the DataContentHandler was found, it calls the
+ writeTo method on the DataContentHandler.
+
+Parameters:
+os - the OutputStream to write to
+Throws:
+IOException - if an I/O error occurs
+
+
+"
+FileDataSource,getContentType(),String,This method returns the MIME type of the data in the form of a string.,"
+
+getContentType
+public String getContentType()
+This method returns the MIME type of the data in the form of a
+ string. This method uses the currently installed FileTypeMap. If
+ there is no FileTypeMap explictly set, the FileDataSource will
+ call the getDefaultFileTypeMap method on
+ FileTypeMap to acquire a default FileTypeMap. Note: By
+ default, the FileTypeMap used will be a MimetypesFileTypeMap.
+
+Specified by:
+getContentType in interface DataSource
+Returns:
+the MIME Type
+See Also:
+FileTypeMap.getDefaultFileTypeMap()
+
+
+"
+FileDataSource,getFile(),File,Return the File object that corresponds to this FileDataSource.,"
+
+getFile
+public File getFile()
+Return the File object that corresponds to this FileDataSource.
+
+Returns:
+the File object for the file represented by this object.
+
+
+"
+FileDataSource,getInputStream(),InputStream,This method will return an InputStream representing the the data and will throw an IOException if it can not do so.,"
+
+getInputStream
+public InputStream getInputStream()
+                           throws IOException
+This method will return an InputStream representing the
+ the data and will throw an IOException if it can
+ not do so. This method will return a new
+ instance of InputStream with each invocation.
+
+Specified by:
+getInputStream in interface DataSource
+Returns:
+an InputStream
+Throws:
+IOException
+
+
+"
+FileDataSource,getName(),String,Return the name of this object.,"
+
+getName
+public String getName()
+Return the name of this object. The FileDataSource
+ will return the file name of the object.
+
+Specified by:
+getName in interface DataSource
+Returns:
+the name of the object.
+See Also:
+DataSource
+
+
+"
+FileDataSource,getOutputStream(),OutputStream,This method will return an OutputStream representing the the data and will throw an IOException if it can not do so.,"
+
+getOutputStream
+public OutputStream getOutputStream()
+                             throws IOException
+This method will return an OutputStream representing the
+ the data and will throw an IOException if it can
+ not do so. This method will return a new instance of
+ OutputStream with each invocation.
+
+Specified by:
+getOutputStream in interface DataSource
+Returns:
+an OutputStream
+Throws:
+IOException
+
+
+"
+FileDataSource,setFileTypeMap(FileTypeMap map),void,Set the FileTypeMap to use with this FileDataSource,"
+
+setFileTypeMap
+public void setFileTypeMap(FileTypeMap map)
+Set the FileTypeMap to use with this FileDataSource
+
+Parameters:
+map - The FileTypeMap for this object.
+
+
+"
+FileTypeMap,getContentType(File file),abstract String,Return the type of the file object.,"
+
+getContentType
+public abstract String getContentType(File file)
+Return the type of the file object. This method should
+ always return a valid MIME type.
+
+Parameters:
+file - A file to be typed.
+Returns:
+The content type.
+
+
+"
+FileTypeMap,getContentType(String filename),abstract String,Return the type of the file passed in.,"
+
+getContentType
+public abstract String getContentType(String filename)
+Return the type of the file passed in.  This method should
+ always return a valid MIME type.
+
+Parameters:
+filename - the pathname of the file.
+Returns:
+The content type.
+
+
+"
+FileTypeMap,getDefaultFileTypeMap(),static FileTypeMap,Return the default FileTypeMap for the system.,"
+
+getDefaultFileTypeMap
+public static FileTypeMap getDefaultFileTypeMap()
+Return the default FileTypeMap for the system.
+ If setDefaultFileTypeMap was called, return
+ that instance, otherwise return an instance of
+ MimetypesFileTypeMap.
+
+Returns:
+The default FileTypeMap
+See Also:
+setDefaultFileTypeMap(javax.activation.FileTypeMap)
+
+
+"
+FileTypeMap,setDefaultFileTypeMap(FileTypeMap fileTypeMap),static void,Sets the default FileTypeMap for the system.,"
+
+setDefaultFileTypeMap
+public static void setDefaultFileTypeMap(FileTypeMap fileTypeMap)
+Sets the default FileTypeMap for the system. This instance
+ will be returned to callers of getDefaultFileTypeMap.
+
+Parameters:
+fileTypeMap - The FileTypeMap.
+Throws:
+SecurityException - if the caller doesn't have permission
+                                  to change the default
+
+
+"
+MailcapCommandMap,addMailcap(String mail_cap),void,Add entries to the registry.,"
+
+addMailcap
+public void addMailcap(String mail_cap)
+Add entries to the registry.  Programmatically
+ added entries are searched before other entries.
+
+ The string that is passed in should be in mailcap
+ format.
+
+Parameters:
+mail_cap - a correctly formatted mailcap string
+
+
+"
+MailcapCommandMap,createDataContentHandler(String mimeType),DataContentHandler,Return the DataContentHandler for the specified MIME type.,"
+
+createDataContentHandler
+public DataContentHandler createDataContentHandler(String mimeType)
+Return the DataContentHandler for the specified MIME type.
+
+Specified by:
+createDataContentHandler in class CommandMap
+Parameters:
+mimeType - the MIME type
+Returns:
+the DataContentHandler
+
+
+"
+MailcapCommandMap,getAllCommands(String mimeType),CommandInfo[],Get all the available commands in all mailcap files known to this instance of MailcapCommandMap for this MIME type.,"
+
+getAllCommands
+public CommandInfo[] getAllCommands(String mimeType)
+Get all the available commands in all mailcap files known to
+ this instance of MailcapCommandMap for this MIME type.
+
+Specified by:
+getAllCommands in class CommandMap
+Parameters:
+mimeType - the MIME type
+Returns:
+the CommandInfo objects representing all the commands.
+
+
+"
+MailcapCommandMap,"getCommand(String mimeType, String cmdName)",CommandInfo,Get the command corresponding to cmdName for the MIME type.,"
+
+getCommand
+public CommandInfo getCommand(String mimeType,
+                              String cmdName)
+Get the command corresponding to cmdName for the MIME type.
+
+Specified by:
+getCommand in class CommandMap
+Parameters:
+mimeType - the MIME type
+cmdName - the command name
+Returns:
+the CommandInfo object corresponding to the command.
+
+
+"
+MailcapCommandMap,getMimeTypes(),String[],Get all the MIME types known to this command map.,"
+
+getMimeTypes
+public String[] getMimeTypes()
+Get all the MIME types known to this command map.
+
+Overrides:
+getMimeTypes in class CommandMap
+Returns:
+array of MIME types as strings
+Since:
+JAF 1.1
+
+
+"
+MailcapCommandMap,getNativeCommands(String mimeType),String[],Get the native commands for the given MIME type.,"
+
+getNativeCommands
+public String[] getNativeCommands(String mimeType)
+Get the native commands for the given MIME type.
+ Returns an array of strings where each string is
+ an entire mailcap file entry.  The application
+ will need to parse the entry to extract the actual
+ command as well as any attributes it needs. See
+ RFC 1524
+ for details of the mailcap entry syntax.  Only mailcap
+ entries that specify a view command for the specified
+ MIME type are returned.
+
+Returns:
+array of native command entries
+Since:
+JAF 1.1
+
+
+"
+MailcapCommandMap,getPreferredCommands(String mimeType),CommandInfo[],Get the preferred command list for a MIME Type.,"
+
+getPreferredCommands
+public CommandInfo[] getPreferredCommands(String mimeType)
+Get the preferred command list for a MIME Type. The MailcapCommandMap
+ searches the mailcap files as described above under
+ Mailcap file search order.
+
+ The result of the search is a proper subset of available
+ commands in all mailcap files known to this instance of
+ MailcapCommandMap.  The first entry for a particular command
+ is considered the preferred command.
+
+Specified by:
+getPreferredCommands in class CommandMap
+Parameters:
+mimeType - the MIME type
+Returns:
+the CommandInfo objects representing the preferred commands.
+
+
+"
+MimeType,getBaseType(),String,Return a String representation of this object without the parameter list.,"
+
+getBaseType
+public String getBaseType()
+Return a String representation of this object
+ without the parameter list.
+
+Returns:
+the MIME type and sub-type
+
+
+"
+MimeType,getParameter(String name),String,"Retrieve the value associated with the given name, or null if there is no current association.","
+
+getParameter
+public String getParameter(String name)
+Retrieve the value associated with the given name, or null if there
+ is no current association.
+
+Parameters:
+name - the parameter name
+Returns:
+the paramter's value
+
+
+"
+MimeType,getParameters(),MimeTypeParameterList,Retrieve this object's parameter list.,"
+
+getParameters
+public MimeTypeParameterList getParameters()
+Retrieve this object's parameter list.
+
+Returns:
+a MimeTypeParameterList object representing the parameters
+
+
+"
+MimeType,getPrimaryType(),String,Retrieve the primary type of this object.,"
+
+getPrimaryType
+public String getPrimaryType()
+Retrieve the primary type of this object.
+
+Returns:
+the primary MIME type
+
+
+"
+MimeType,getSubType(),String,Retrieve the subtype of this object.,"
+
+getSubType
+public String getSubType()
+Retrieve the subtype of this object.
+
+Returns:
+the MIME subtype
+
+
+"
+MimeType,match(MimeType type),boolean,Determine if the primary and sub type of this object is the same as what is in the given type.,"
+
+match
+public boolean match(MimeType type)
+Determine if the primary and sub type of this object is
+ the same as what is in the given type.
+
+Parameters:
+type - the MimeType object to compare with
+Returns:
+true if they match
+
+
+"
+MimeType,match(String rawdata),boolean,Determine if the primary and sub type of this object is the same as the content type described in rawdata.,"
+
+match
+public boolean match(String rawdata)
+              throws MimeTypeParseException
+Determine if the primary and sub type of this object is
+ the same as the content type described in rawdata.
+
+Parameters:
+rawdata - the MIME type string to compare with
+Returns:
+true if they match
+Throws:
+MimeTypeParseException
+
+
+"
+MimeType,readExternal(ObjectInput in),void,"The object implements the readExternal method to restore its contents by calling the methods of DataInput for primitive types and readObject for objects, strings and arrays.","
+
+readExternal
+public void readExternal(ObjectInput in)
+                  throws IOException,
+                         ClassNotFoundException
+The object implements the readExternal method to restore its
+ contents by calling the methods of DataInput for primitive
+ types and readObject for objects, strings and arrays.  The
+ readExternal method must read the values in the same sequence
+ and with the same types as were written by writeExternal.
+
+Specified by:
+readExternal in interface Externalizable
+Parameters:
+in - the ObjectInput object to read from
+Throws:
+ClassNotFoundException - If the class for an object being
+              restored cannot be found.
+IOException - if I/O errors occur
+
+
+"
+MimeType,removeParameter(String name),void,Remove any value associated with the given name.,"
+
+removeParameter
+public void removeParameter(String name)
+Remove any value associated with the given name.
+
+Parameters:
+name - the parameter name
+
+
+"
+MimeType,"setParameter(String name, String value)",void,"Set the value to be associated with the given name, replacing any previous association.","
+
+setParameter
+public void setParameter(String name,
+                         String value)
+Set the value to be associated with the given name, replacing
+ any previous association.
+
+Parameters:
+name - the parameter name
+value - the paramter's value
+
+
+"
+MimeType,setPrimaryType(String primary),void,Set the primary type for this object to the given String.,"
+
+setPrimaryType
+public void setPrimaryType(String primary)
+                    throws MimeTypeParseException
+Set the primary type for this object to the given String.
+
+Parameters:
+primary - the primary MIME type
+Throws:
+MimeTypeParseException - if the primary type
+                                          is not a valid token
+
+
+"
+MimeType,setSubType(String sub),void,Set the subtype for this object to the given String.,"
+
+setSubType
+public void setSubType(String sub)
+                throws MimeTypeParseException
+Set the subtype for this object to the given String.
+
+Parameters:
+sub - the MIME subtype
+Throws:
+MimeTypeParseException - if the subtype
+                                          is not a valid token
+
+
+"
+MimeType,toString(),String,Return the String representation of this object.,"
+
+toString
+public String toString()
+Return the String representation of this object.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of the object.
+
+
+"
+MimeType,writeExternal(ObjectOutput out),void,"The object implements the writeExternal method to save its contents by calling the methods of DataOutput for its primitive values or calling the writeObject method of ObjectOutput for objects, strings and arrays.","
+
+writeExternal
+public void writeExternal(ObjectOutput out)
+                   throws IOException
+The object implements the writeExternal method to save its contents
+ by calling the methods of DataOutput for its primitive values or
+ calling the writeObject method of ObjectOutput for objects, strings
+ and arrays.
+
+Specified by:
+writeExternal in interface Externalizable
+Parameters:
+out - the ObjectOutput object to write to
+Throws:
+IOException - Includes any I/O exceptions that may occur
+
+
+"
+MimeTypeParameterList,get(String name),String,"Retrieve the value associated with the given name, or null if there is no current association.","
+
+get
+public String get(String name)
+Retrieve the value associated with the given name, or null if there
+ is no current association.
+
+Parameters:
+name - the parameter name
+Returns:
+the parameter's value
+
+
+"
+MimeTypeParameterList,getNames(),Enumeration,Retrieve an enumeration of all the names in this list.,"
+
+getNames
+public Enumeration getNames()
+Retrieve an enumeration of all the names in this list.
+
+Returns:
+an enumeration of all parameter names
+
+
+"
+MimeTypeParameterList,isEmpty(),boolean,Determine whether or not this list is empty.,"
+
+isEmpty
+public boolean isEmpty()
+Determine whether or not this list is empty.
+
+Returns:
+true if there are no parameters
+
+
+"
+MimeTypeParameterList,parse(String parameterList),protected void,A routine for parsing the parameter list out of a String.,"
+
+parse
+protected void parse(String parameterList)
+              throws MimeTypeParseException
+A routine for parsing the parameter list out of a String.
+
+Parameters:
+parameterList - an RFC 2045, 2046 compliant parameter list.
+Throws:
+MimeTypeParseException
+
+
+"
+MimeTypeParameterList,remove(String name),void,Remove any value associated with the given name.,"
+
+remove
+public void remove(String name)
+Remove any value associated with the given name.
+
+Parameters:
+name - the parameter name
+
+
+"
+MimeTypeParameterList,"set(String name, String value)",void,"Set the value to be associated with the given name, replacing any previous association.","
+
+set
+public void set(String name,
+                String value)
+Set the value to be associated with the given name, replacing
+ any previous association.
+
+Parameters:
+name - the parameter name
+value - the parameter's value
+
+
+"
+MimeTypeParameterList,size(),int,Return the number of name-value pairs in this list.,"
+
+size
+public int size()
+Return the number of name-value pairs in this list.
+
+Returns:
+the number of parameters
+
+
+"
+MimeTypeParameterList,toString(),String,Return a string representation of this object.,"
+
+toString
+public String toString()
+Return a string representation of this object.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of the object.
+
+
+"
+MimetypesFileTypeMap,addMimeTypes(String mime_types),void,Prepend the MIME type values to the registry.,"
+
+addMimeTypes
+public void addMimeTypes(String mime_types)
+Prepend the MIME type values to the registry.
+
+Parameters:
+mime_types - A .mime.types formatted string of entries.
+
+
+"
+MimetypesFileTypeMap,getContentType(File f),String,Return the MIME type of the file object.,"
+
+getContentType
+public String getContentType(File f)
+Return the MIME type of the file object.
+ The implementation in this class calls
+ getContentType(f.getName()).
+
+Specified by:
+getContentType in class FileTypeMap
+Parameters:
+f - the file
+Returns:
+the file's MIME type
+
+
+"
+MimetypesFileTypeMap,getContentType(String filename),String,Return the MIME type based on the specified file name.,"
+
+getContentType
+public String getContentType(String filename)
+Return the MIME type based on the specified file name.
+ The MIME type entries are searched as described above under
+ MIME types file search order.
+ If no entry is found, the type ""application/octet-stream"" is returned.
+
+Specified by:
+getContentType in class FileTypeMap
+Parameters:
+filename - the file name
+Returns:
+the file's MIME type
+
+
+"
+URLDataSource,getContentType(),String,Returns the value of the URL content-type header field.,"
+
+getContentType
+public String getContentType()
+Returns the value of the URL content-type header field.
+ It calls the URL's URLConnection.getContentType method
+ after retrieving a URLConnection object.
+ Note: this method attempts to call the openConnection
+ method on the URL. If this method fails, or if a content type is not
+ returned from the URLConnection, getContentType returns
+ ""application/octet-stream"" as the content type.
+
+Specified by:
+getContentType in interface DataSource
+Returns:
+the content type.
+
+
+"
+URLDataSource,getInputStream(),InputStream,The getInputStream method from the URL.,"
+
+getInputStream
+public InputStream getInputStream()
+                           throws IOException
+The getInputStream method from the URL. Calls the
+ openStream method on the URL.
+
+Specified by:
+getInputStream in interface DataSource
+Returns:
+the InputStream.
+Throws:
+IOException
+
+
+"
+URLDataSource,getName(),String,Calls the getFile method on the URL used to instantiate the object.,"
+
+getName
+public String getName()
+Calls the getFile method on the URL used to
+ instantiate the object.
+
+Specified by:
+getName in interface DataSource
+Returns:
+the result of calling the URL's getFile method.
+
+
+"
+URLDataSource,getOutputStream(),OutputStream,The getOutputStream method from the URL.,"
+
+getOutputStream
+public OutputStream getOutputStream()
+                             throws IOException
+The getOutputStream method from the URL. First an attempt is
+ made to get the URLConnection object for the URL. If that
+ succeeds, the getOutputStream method on the URLConnection
+ is returned.
+
+Specified by:
+getOutputStream in interface DataSource
+Returns:
+the OutputStream.
+Throws:
+IOException
+
+
+"
+URLDataSource,getURL(),URL,Return the URL used to create this DataSource.,"
+
+getURL
+public URL getURL()
+Return the URL used to create this DataSource.
+
+Returns:
+The URL.
+
+
+"

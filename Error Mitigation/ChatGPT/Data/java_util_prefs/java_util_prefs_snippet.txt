@@ -1,0 +1,409 @@
+Sample: 0 AbstractPreferences_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.AbstractPreferences;
+import java.util.prefs.BackingStoreException;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractPreferences preferences = new AbstractPreferences() {
+            @Override
+            public String[] childrenNames() throws BackingStoreException {
+                // Implementation of the childrenNames method
+                return new String[0]; // Placeholder return statement
+            }
+        };
+        
+        try {
+            String[] children = preferences.childrenNames();
+            for (String child : children) {
+                System.out.println(child);
+            }
+        } catch (BackingStoreException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 AbstractPreferences_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.AbstractPreferences;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractPreferences preferences = new AbstractPreferences() {
+            @Override
+            public void put(String key, String value) {
+                if (key == null || value == null) {
+                    throw new NullPointerException();
+                }
+                if (key.length() > MAX_KEY_LENGTH || value.length() > MAX_VALUE_LENGTH) {
+                    throw new IllegalArgumentException();
+                }
+                // Obtain lock
+                synchronized (this.lock) {
+                    // Check if node has been removed
+                    if (isRemoved()) {
+                        throw new IllegalStateException();
+                    }
+                    // Invoke putSpi method
+                    putSpi(key, value);
+                    // Enqueue notification event for preference change listeners
+                    if (changeListeners != null) {
+                        enqueuePreferenceChangeEvent(key, value);
+                    }
+                }
+            }
+        };
+        
+        // Example usage
+        preferences.put("key1", "value1");
+    }
+}
+```
+================================================================
+
+Sample: 2 AbstractPreferences_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.AbstractPreferences;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractPreferences preferences = new AbstractPreferences() {
+            @Override
+            public String get(String key, String def) {
+                if (key == null) {
+                    throw new NullPointerException("Key cannot be null");
+                }
+                // Obtain lock
+                // Check if node has been removed
+                // Invoke getSpi(String)
+                // Return result or def if null or exception
+                return null; // Placeholder, actual implementation needed
+            }
+        };
+        
+        String value = preferences.get("exampleKey", "defaultValue");
+        System.out.println("Value: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 3 AbstractPreferences_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.AbstractPreferences;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractPreferences preferences = new AbstractPreferences() {
+            @Override
+            public void remove(String key) {
+                // Implementation of the remove method
+                // Obtain lock
+                // Check if node has been removed
+                // Invoke removeSpi(String)
+                // Enqueue notification event if needed
+            }
+        };
+        
+        // Example usage
+        preferences.remove("exampleKey");
+    }
+}
+```
+================================================================
+
+Sample: 4 AbstractPreferences_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.AbstractPreferences;
+import java.util.prefs.BackingStoreException;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractPreferences preferences = new AbstractPreferences() {
+            @Override
+            public void clear() throws BackingStoreException {
+                // Implementation of the clear method
+                lock();
+                String[] keys = keys();
+                for (String key : keys) {
+                    remove(key);
+                }
+            }
+        };
+        
+        try {
+            preferences.clear();
+        } catch (BackingStoreException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 NodeChangeEvent_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.NodeChangeEvent;
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        NodeChangeEvent event = new NodeChangeEvent(new Preferences() {
+            @Override
+            public Preferences node(String pathName) {
+                return null;
+            }
+
+            @Override
+            public boolean nodeExists(String pathName) throws IllegalStateException {
+                return false;
+            }
+
+            @Override
+            public void removeNode() throws IllegalStateException {
+                
+            }
+
+            @Override
+            public String[] childrenNames() throws IllegalStateException {
+                return new String[0];
+            }
+
+            @Override
+            public Preferences parent() {
+                return null;
+            }
+
+            @Override
+            public void put(String key, String value) {
+                
+            }
+
+            @Override
+            public String get(String key, String def) {
+                return null;
+            }
+
+            @Override
+            public void remove(String key) {
+                
+            }
+
+            @Override
+            public void clear() throws IllegalStateException {
+                
+            }
+
+            @Override
+            public void flush() throws IllegalStateException {
+                
+            }
+
+            @Override
+            public void sync() throws IllegalStateException {
+                
+            }
+        }, new Preferences() {
+            @Override
+            public Preferences node(String pathName) {
+                return null;
+            }
+
+            @Override
+            public boolean nodeExists(String pathName) throws IllegalStateException {
+                return false;
+            }
+
+            @Override
+            public void removeNode() throws IllegalStateException {
+                
+            }
+
+            @Override
+            public String[] childrenNames() throws IllegalStateException {
+                return new String[0];
+            }
+
+            @Override
+            public Preferences parent() {
+                return null;
+            }
+
+            @Override
+            public void put(String key, String value) {
+                
+            }
+
+            @Override
+            public String get(String key, String def) {
+                return null;
+            }
+
+            @Override
+            public void remove(String key) {
+                
+            }
+
+            @Override
+            public void clear() throws IllegalStateException {
+                
+            }
+
+            @Override
+            public void flush() throws IllegalStateException {
+                
+            }
+
+            @Override
+            public void sync() throws IllegalStateException {
+                
+            }
+        });
+        
+        Preferences childNode = event.getChild();
+        System.out.println("Child node: " + childNode);
+    }
+}
+```
+================================================================
+
+Sample: 6 NodeChangeEvent_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.NodeChangeEvent;
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        NodeChangeEvent event = new NodeChangeEvent(new Preferences() {
+            @Override
+            public Preferences parent() {
+                return null;
+            }
+        });
+        Preferences parent = event.getParent();
+        System.out.println("Parent node: " + parent);
+    }
+}
+```
+================================================================
+
+Sample: 7 Preferences_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences prefs = Preferences.userRoot().node("com.example");
+        String value = prefs.get("key1", "default");
+        System.out.println("Value: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 8 Preferences_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences prefs = Preferences.userRoot().node("com.example");
+        prefs.put("key1", "value1");
+        String value = prefs.get("key1", "default");
+        System.out.println("Retrieved value: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 9 Preferences_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.Preferences;
+import java.util.prefs.BackingStoreException;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences prefs = Preferences.userRoot().node("com.example");
+        
+        try {
+            String[] keys = prefs.keys();
+            for (String key : keys) {
+                System.out.println(key + ": " + prefs.get(key, null));
+            }
+        } catch (BackingStoreException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 Preferences_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences preferences = Preferences.userRoot().node("exampleNode");
+        
+        // Adding a key-value pair
+        preferences.put("key1", "value1");
+        
+        // Removing the value associated with the specified key
+        preferences.remove("key1");
+        
+        // Checking if the value is removed
+        String value = preferences.get("key1", "default");
+        System.out.println("Value for key1: " + value); // Output: Value for key1: default
+    }
+}
+```
+================================================================
+
+Sample: 11 Preferences_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences preferences = Preferences.userRoot().node("com/example/app");
+        preferences.put("key1", "value1");
+        preferences.put("key2", "value2");
+        
+        String value1 = preferences.get("key1", "default1");
+        String value2 = preferences.get("key2", "default2");
+        
+        System.out.println("Value for key1: " + value1);
+        System.out.println("Value for key2: " + value2);
+    }
+}
+```
+================================================================
+

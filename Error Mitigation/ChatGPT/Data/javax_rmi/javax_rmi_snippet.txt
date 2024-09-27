@@ -1,0 +1,122 @@
+Sample: 0 PortableRemoteObject_1
+----------------------------------------------------------------
+`void unexportObject(Remote obj)`: This method deregisters a server object from the runtime, allowing the object to become available for garbage collection.
+
+Code snippet:
+```java
+import javax.rmi.PortableRemoteObject;
+import java.rmi.Remote;
+import java.rmi.NoSuchObjectException;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a Remote object
+        Remote remoteObject = new RemoteImpl();
+        
+        try {
+            // Export the object
+            PortableRemoteObject.exportObject(remoteObject);
+            
+            // Perform some operations with the object
+            
+            // Unexport the object
+            PortableRemoteObject.unexportObject(remoteObject);
+        } catch (NoSuchObjectException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// Example Remote implementation class
+class RemoteImpl implements Remote {
+    // Implement remote interface methods
+}
+```
+================================================================
+
+Sample: 1 PortableRemoteObject_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.rmi.PortableRemoteObject;
+import java.rmi.Remote;
+import java.rmi.NoSuchObjectException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a server object
+            MyServerObject serverObject = new MyServerObject();
+            
+            // Get the stub for the server object
+            Remote stub = PortableRemoteObject.toStub(serverObject);
+            
+            // Print the stub
+            System.out.println("Stub: " + stub);
+        } catch (NoSuchObjectException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+
+class MyServerObject implements Remote {
+    // Server object implementation
+}
+```
+================================================================
+
+Sample: 2 PortableRemoteObject_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.rmi.PortableRemoteObject;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Remote target = new YourRemoteImplementation(); // Replace YourRemoteImplementation with your actual implementation
+            Remote source = new YourConnectedRemoteObject(); // Replace YourConnectedRemoteObject with your actual connected object
+            
+            PortableRemoteObject.connect(target, source);
+            
+            System.out.println("Connected successfully");
+        } catch (RemoteException e) {
+            System.out.println("Error connecting: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 PortableRemoteObject_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.rmi.PortableRemoteObject;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a server object to export
+        Remote serverObject = new ServerObject();
+        
+        try {
+            // Export the server object
+            PortableRemoteObject.exportObject(serverObject);
+            System.out.println("Server object exported successfully.");
+        } catch (RemoteException e) {
+            System.err.println("Error exporting server object: " + e.getMessage());
+        }
+    }
+}
+
+// Sample server object implementation
+class ServerObject implements Remote {
+    // Server object implementation
+}
+```
+================================================================
+

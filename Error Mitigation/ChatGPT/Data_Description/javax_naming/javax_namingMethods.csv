@@ -1,0 +1,2380 @@
+ClassName,Method,Return Type,Description,Full Description
+BinaryRefAddr,equals(Object obj),boolean,Determines whether obj is equal to this address.,"
+
+equals
+public boolean equals(Object obj)
+Determines whether obj is equal to this address.  It is equal if
+ it contains the same address type and their contents are byte-wise
+ equivalent.
+
+Overrides:
+equals in class RefAddr
+Parameters:
+obj - The possibly null object to check.
+Returns:
+true if the object is equal; false otherwise.
+See Also:
+RefAddr.getContent(), 
+RefAddr.getType()
+
+
+"
+BinaryRefAddr,getContent(),Object,Retrieves the contents of this address as an Object.,"
+
+getContent
+public Object getContent()
+Retrieves the contents of this address as an Object.
+ The result is a byte array.
+ Changes to this array will affect this BinaryRefAddr's contents.
+ Programs are recommended against changing this array's contents
+ and to lock the buffer if they need to change it.
+
+Specified by:
+getContent in class RefAddr
+Returns:
+The non-null buffer containing this address's contents.
+
+
+"
+BinaryRefAddr,hashCode(),int,Computes the hash code of this address using its address type and contents.,"
+
+hashCode
+public int hashCode()
+Computes the hash code of this address using its address type and contents.
+ Two BinaryRefAddrs have the same hash code if they have
+ the same address type and the same contents.
+ It is also possible for different BinaryRefAddrs to have
+ the same hash code.
+
+Overrides:
+hashCode in class RefAddr
+Returns:
+The hash code of this address as an int.
+See Also:
+Object.hashCode()
+
+
+"
+BinaryRefAddr,toString(),String,Generates the string representation of this address.,"
+
+toString
+public String toString()
+Generates the string representation of this address.
+ The string consists of the address's type and contents with labels.
+ The first 32 bytes of contents are displayed (in hexadecimal).
+ If there are more than 32 bytes, ""..."" is used to indicate more.
+ This string is meant to used for debugging purposes and not
+ meant to be interpreted programmatically.
+
+Overrides:
+toString in class RefAddr
+Returns:
+The non-null string representation of this address.
+
+
+"
+Binding,getClassName(),String,Retrieves the class name of the object bound to the name of this binding.,"
+
+getClassName
+public String getClassName()
+Retrieves the class name of the object bound to the name of this binding.
+ If the class name has been set explicitly, return it.
+ Otherwise, if this binding contains a non-null object,
+ that object's class name is used. Otherwise, null is returned.
+
+Overrides:
+getClassName in class NameClassPair
+Returns:
+A possibly null string containing class name of object bound.
+See Also:
+getObject(), 
+getClassName(), 
+NameClassPair.setClassName(java.lang.String)
+
+
+"
+Binding,getObject(),Object,Retrieves the object bound to the name of this binding.,"
+
+getObject
+public Object getObject()
+Retrieves the object bound to the name of this binding.
+
+Returns:
+The object bound; null if this binding does not contain an object.
+See Also:
+setObject(java.lang.Object)
+
+
+"
+Binding,setObject(Object obj),void,Sets the object associated with this binding.,"
+
+setObject
+public void setObject(Object obj)
+Sets the object associated with this binding.
+
+Parameters:
+obj - The possibly null object to use.
+See Also:
+getObject()
+
+
+"
+Binding,toString(),String,Generates the string representation of this binding.,"
+
+toString
+public String toString()
+Generates the string representation of this binding.
+ The string representation consists of the string representation
+ of the name/class pair and the string representation of
+ this binding's object, separated by ':'.
+ The contents of this string is useful
+ for debugging and is not meant to be interpreted programmatically.
+
+Overrides:
+toString in class NameClassPair
+Returns:
+The non-null string representation of this binding.
+
+
+"
+CompositeName,"add(int posn, String comp)",Name,Adds a single component at a specified position within this composite name.,"
+
+add
+public Name add(int posn,
+                String comp)
+         throws InvalidNameException
+Adds a single component at a specified position within this
+ composite name.
+ Components of this composite name at or after the index of the new
+ component are shifted up by one (away from index 0) to accommodate
+ the new component.
+
+Specified by:
+add in interface Name
+Parameters:
+comp - The non-null component to add.
+posn - The index at which to add the new component.
+                 Must be in the range [0,size()].
+Returns:
+The updated CompositeName, not a new one. Cannot be null.
+Throws:
+ArrayIndexOutOfBoundsException - If posn is outside the specified range.
+InvalidNameException - If adding comp at the specified position
+                         would violate the name's syntax.
+
+
+"
+CompositeName,add(String comp),Name,Adds a single component to the end of this composite name.,"
+
+add
+public Name add(String comp)
+         throws InvalidNameException
+Adds a single component to the end of this composite name.
+
+Specified by:
+add in interface Name
+Parameters:
+comp - The non-null component to add.
+Returns:
+The updated CompositeName, not a new one. Cannot be null.
+Throws:
+InvalidNameException - If adding comp at end of the name
+                         would violate the name's syntax.
+
+
+"
+CompositeName,"addAll(int posn, Name n)",Name,Adds the components of a composite name -- in order -- at a specified position within this composite name.,"
+
+addAll
+public Name addAll(int posn,
+                   Name n)
+            throws InvalidNameException
+Adds the components of a composite name -- in order -- at a specified
+ position within this composite name.
+ Components of this composite name at or after the index of the first
+ new component are shifted up (away from index 0)
+ to accommodate the new components.
+
+Specified by:
+addAll in interface Name
+Parameters:
+n - The non-null components to add.
+posn - The index in this name at which to add the new
+                 components.  Must be in the range [0,size()].
+Returns:
+The updated CompositeName, not a new one. Cannot be null.
+Throws:
+InvalidNameException - If n is not a composite name.
+ArrayIndexOutOfBoundsException - If posn is outside the specified range.
+
+
+"
+CompositeName,addAll(Name suffix),Name,Adds the components of a composite name -- in order -- to the end of this composite name.,"
+
+addAll
+public Name addAll(Name suffix)
+            throws InvalidNameException
+Adds the components of a composite name -- in order -- to the end of
+ this composite name.
+
+Specified by:
+addAll in interface Name
+Parameters:
+suffix - The non-null components to add.
+Returns:
+The updated CompositeName, not a new one. Cannot be null.
+Throws:
+InvalidNameException - If suffix is not a composite name.
+
+
+"
+CompositeName,clone(),Object,Generates a copy of this composite name.,"
+
+clone
+public Object clone()
+Generates a copy of this composite name.
+ Changes to the components of this composite name won't
+ affect the new copy and vice versa.
+
+Specified by:
+clone in interface Name
+Overrides:
+clone in class Object
+Returns:
+A non-null copy of this composite name.
+See Also:
+Cloneable
+
+
+"
+CompositeName,compareTo(Object obj),int,Compares this CompositeName with the specified Object for order.,"
+
+compareTo
+public int compareTo(Object obj)
+Compares this CompositeName with the specified Object for order.
+ Returns a
+ negative integer, zero, or a positive integer as this Name is less
+ than, equal to, or greater than the given Object.
+ 
+ If obj is null or not an instance of CompositeName, ClassCastException
+ is thrown.
+ 
+ See equals() for what it means for two composite names to be equal.
+ If two composite names are equal, 0 is returned.
+ 
+ Ordering of composite names follows the lexicographical rules for
+ string comparison, with the extension that this applies to all
+ the components in the composite name. The effect is as if all the
+ components were lined up in their specified ordered and the
+ lexicographical rules applied over the two line-ups.
+ If this composite name is ""lexicographically"" lesser than obj,
+ a negative number is returned.
+ If this composite name is ""lexicographically"" greater than obj,
+ a positive number is returned.
+
+Specified by:
+compareTo in interface Comparable<Object>
+Specified by:
+compareTo in interface Name
+Parameters:
+obj - The non-null object to compare against.
+Returns:
+a negative integer, zero, or a positive integer as this Name
+          is less than, equal to, or greater than the given Object.
+Throws:
+ClassCastException - if obj is not a CompositeName.
+See Also:
+Comparable.compareTo(Object)
+
+
+"
+CompositeName,endsWith(Name n),boolean,Determines whether a composite name is a suffix of this composite name.,"
+
+endsWith
+public boolean endsWith(Name n)
+Determines whether a composite name is a suffix of this composite name.
+ A composite name 'n' is a suffix if it it is equal to
+ getSuffix(size()-n.size())--in other words, this
+ composite name ends with 'n'.
+ If n is null or not a composite name, false is returned.
+
+Specified by:
+endsWith in interface Name
+Parameters:
+n - The possibly null name to check.
+Returns:
+true if n is a CompositeName and
+         is a suffix of this composite name, false otherwise.
+
+
+"
+CompositeName,equals(Object obj),boolean,Determines whether two composite names are equal.,"
+
+equals
+public boolean equals(Object obj)
+Determines whether two composite names are equal.
+ If obj is null or not a composite name, false is returned.
+ Two composite names are equal if each component in one is equal
+ to the corresponding component in the other. This implies
+ both have the same number of components, and each component's
+ equals() test against the corresponding component in the other name
+ returns true.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - The possibly null object to compare against.
+Returns:
+true if obj is equal to this composite name, false otherwise.
+See Also:
+hashCode()
+
+
+"
+CompositeName,get(int posn),String,Retrieves a component of this composite name.,"
+
+get
+public String get(int posn)
+Retrieves a component of this composite name.
+
+Specified by:
+get in interface Name
+Parameters:
+posn - The 0-based index of the component to retrieve.
+                 Must be in the range [0,size()).
+Returns:
+The non-null component at index posn.
+Throws:
+ArrayIndexOutOfBoundsException - if posn is outside the
+         specified range.
+
+
+"
+CompositeName,getAll(),Enumeration<String>,Retrieves the components of this composite name as an enumeration of strings.,"
+
+getAll
+public Enumeration<String> getAll()
+Retrieves the components of this composite name as an enumeration
+ of strings.
+ The effects of updates to this composite name on this enumeration
+ is undefined.
+
+Specified by:
+getAll in interface Name
+Returns:
+A non-null enumeration of the components of
+         this composite name. Each element of the enumeration is of
+         class String.
+
+
+"
+CompositeName,getPrefix(int posn),Name,Creates a composite name whose components consist of a prefix of the components in this composite name.,"
+
+getPrefix
+public Name getPrefix(int posn)
+Creates a composite name whose components consist of a prefix of the
+ components in this composite name. Subsequent changes to
+ this composite name does not affect the name that is returned.
+
+Specified by:
+getPrefix in interface Name
+Parameters:
+posn - The 0-based index of the component at which to stop.
+                 Must be in the range [0,size()].
+Returns:
+A composite name consisting of the components at indexes in
+         the range [0,posn).
+Throws:
+ArrayIndexOutOfBoundsException - If posn is outside the specified range.
+
+
+"
+CompositeName,getSuffix(int posn),Name,Creates a composite name whose components consist of a suffix of the components in this composite name.,"
+
+getSuffix
+public Name getSuffix(int posn)
+Creates a composite name whose components consist of a suffix of the
+ components in this composite name. Subsequent changes to
+ this composite name does not affect the name that is returned.
+
+Specified by:
+getSuffix in interface Name
+Parameters:
+posn - The 0-based index of the component at which to start.
+                 Must be in the range [0,size()].
+Returns:
+A composite name consisting of the components at indexes in
+         the range [posn,size()).  If posn is equal to
+         size(), an empty composite name is returned.
+Throws:
+ArrayIndexOutOfBoundsException - If posn is outside the specified range.
+
+
+"
+CompositeName,hashCode(),int,Computes the hash code of this composite name.,"
+
+hashCode
+public int hashCode()
+Computes the hash code of this composite name.
+ The hash code is the sum of the hash codes of individual components
+ of this composite name.
+
+Overrides:
+hashCode in class Object
+Returns:
+An int representing the hash code of this name.
+See Also:
+equals(java.lang.Object)
+
+
+"
+CompositeName,isEmpty(),boolean,Determines whether this composite name is empty.,"
+
+isEmpty
+public boolean isEmpty()
+Determines whether this composite name is empty. A composite name
+ is empty if it has zero components.
+
+Specified by:
+isEmpty in interface Name
+Returns:
+true if this composite name is empty, false otherwise.
+
+
+"
+CompositeName,remove(int posn),Object,Deletes a component from this composite name.,"
+
+remove
+public Object remove(int posn)
+              throws InvalidNameException
+Deletes a component from this composite name.
+ The component of this composite name at position 'posn' is removed,
+ and components at indices greater than 'posn'
+ are shifted down (towards index 0) by one.
+
+Specified by:
+remove in interface Name
+Parameters:
+posn - The index of the component to delete.
+                 Must be in the range [0,size()).
+Returns:
+The component removed (a String).
+Throws:
+ArrayIndexOutOfBoundsException - If posn is outside the specified range (includes case where
+         composite name is empty).
+InvalidNameException - If deleting the component
+                         would violate the name's syntax.
+
+
+"
+CompositeName,size(),int,Retrieves the number of components in this composite name.,"
+
+size
+public int size()
+Retrieves the number of components in this composite name.
+
+Specified by:
+size in interface Name
+Returns:
+The nonnegative number of components in this composite name.
+
+
+"
+CompositeName,startsWith(Name n),boolean,Determines whether a composite name is a prefix of this composite name.,"
+
+startsWith
+public boolean startsWith(Name n)
+Determines whether a composite name is a prefix of this composite name.
+ A composite name 'n' is a prefix if it is equal to
+ getPrefix(n.size())--in other words, this composite name
+ starts with 'n'. If 'n' is null or not a composite name, false is returned.
+
+Specified by:
+startsWith in interface Name
+Parameters:
+n - The possibly null name to check.
+Returns:
+true if n is a CompositeName and
+         is a prefix of this composite name, false otherwise.
+
+
+"
+CompositeName,toString(),String,Generates the string representation of this composite name.,"
+
+toString
+public String toString()
+Generates the string representation of this composite name.
+ The string representation consists of enumerating in order
+ each component of the composite name and separating
+ each component by a forward slash character. Quoting and
+ escape characters are applied where necessary according to
+ the JNDI syntax, which is described in the class description.
+ An empty component is represented by an empty string.
+
+ The string representation thus generated can be passed to
+ the CompositeName constructor to create a new equivalent
+ composite name.
+
+Overrides:
+toString in class Object
+Returns:
+A non-null string representation of this composite name.
+
+
+"
+CompoundName,"add(int posn, String comp)",Name,Adds a single component at a specified position within this compound name.,"
+
+add
+public Name add(int posn,
+                String comp)
+         throws InvalidNameException
+Adds a single component at a specified position within this
+ compound name.
+ Components of this compound name at or after the index of the new
+ component are shifted up by one (away from index 0)
+ to accommodate the new component.
+
+Specified by:
+add in interface Name
+Parameters:
+comp - The non-null component to add.
+posn - The index at which to add the new component.
+                 Must be in the range [0,size()].
+Returns:
+The updated CompoundName, not a new one. Cannot be null.
+Throws:
+ArrayIndexOutOfBoundsException - If posn is outside the specified range.
+InvalidNameException - If adding comp at the specified position
+                         would violate the compound name's syntax.
+
+
+"
+CompoundName,add(String comp),Name,Adds a single component to the end of this compound name.,"
+
+add
+public Name add(String comp)
+         throws InvalidNameException
+Adds a single component to the end of this compound name.
+
+Specified by:
+add in interface Name
+Parameters:
+comp - The non-null component to add.
+Returns:
+The updated CompoundName, not a new one. Cannot be null.
+Throws:
+InvalidNameException - If adding comp at end of the name
+                         would violate the compound name's syntax.
+
+
+"
+CompoundName,"addAll(int posn, Name n)",Name,Adds the components of a compound name -- in order -- at a specified position within this compound name.,"
+
+addAll
+public Name addAll(int posn,
+                   Name n)
+            throws InvalidNameException
+Adds the components of a compound name -- in order -- at a specified
+ position within this compound name.
+ Components of this compound name at or after the index of the first
+ new component are shifted up (away from index 0)
+ to accommodate the new components.
+
+ Implementation note: Currently the syntax properties of suffix
+  is not used or checked. They might be in the future.
+
+Specified by:
+addAll in interface Name
+Parameters:
+n - The non-null components to add.
+posn - The index in this name at which to add the new
+                 components.  Must be in the range [0,size()].
+Returns:
+The updated CompoundName, not a new one. Cannot be null.
+Throws:
+ArrayIndexOutOfBoundsException - If posn is outside the specified range.
+InvalidNameException - If n is not a compound name,
+            or if the addition of the components violates the syntax
+            of this compound name (e.g. exceeding number of components).
+
+
+"
+CompoundName,addAll(Name suffix),Name,Adds the components of a compound name -- in order -- to the end of this compound name.,"
+
+addAll
+public Name addAll(Name suffix)
+            throws InvalidNameException
+Adds the components of a compound name -- in order -- to the end of
+ this compound name.
+
+ Implementation note: Currently the syntax properties of suffix
+  is not used or checked. They might be in the future.
+
+Specified by:
+addAll in interface Name
+Parameters:
+suffix - The non-null components to add.
+Returns:
+The updated CompoundName, not a new one. Cannot be null.
+Throws:
+InvalidNameException - If suffix is not a compound name,
+            or if the addition of the components violates the syntax
+            of this compound name (e.g. exceeding number of components).
+
+
+"
+CompoundName,clone(),Object,Creates a copy of this compound name.,"
+
+clone
+public Object clone()
+Creates a copy of this compound name.
+ Changes to the components of this compound name won't
+ affect the new copy and vice versa.
+ The clone and this compound name share the same syntax.
+
+Specified by:
+clone in interface Name
+Overrides:
+clone in class Object
+Returns:
+A non-null copy of this compound name.
+See Also:
+Cloneable
+
+
+"
+CompoundName,compareTo(Object obj),int,Compares this CompoundName with the specified Object for order.,"
+
+compareTo
+public int compareTo(Object obj)
+Compares this CompoundName with the specified Object for order.
+ Returns a
+ negative integer, zero, or a positive integer as this Name is less
+ than, equal to, or greater than the given Object.
+ 
+ If obj is null or not an instance of CompoundName, ClassCastException
+ is thrown.
+ 
+ See equals() for what it means for two compound names to be equal.
+ If two compound names are equal, 0 is returned.
+
+ Ordering of compound names depend on the syntax of the compound name.
+ By default, they follow lexicographical rules for string comparison
+ with the extension that this applies to all the components in the
+ compound name and that comparison of individual components is
+ affected by the jndi.syntax.ignorecase and jndi.syntax.trimblanks
+ properties, identical to how they affect equals().
+ If this compound name is ""lexicographically"" lesser than obj,
+ a negative number is returned.
+ If this compound name is ""lexicographically"" greater than obj,
+ a positive number is returned.
+
+ Implementation note: Currently the syntax properties of the two compound
+ names are not compared when checking order. They might be in the future.
+
+Specified by:
+compareTo in interface Comparable<Object>
+Specified by:
+compareTo in interface Name
+Parameters:
+obj - The non-null object to compare against.
+Returns:
+a negative integer, zero, or a positive integer as this Name
+          is less than, equal to, or greater than the given Object.
+Throws:
+ClassCastException - if obj is not a CompoundName.
+See Also:
+equals(java.lang.Object)
+
+
+"
+CompoundName,endsWith(Name n),boolean,Determines whether a compound name is a suffix of this compound name.,"
+
+endsWith
+public boolean endsWith(Name n)
+Determines whether a compound name is a suffix of this compound name.
+ A compound name 'n' is a suffix if it it is equal to
+ getSuffix(size()-n.size())--in other words, this
+ compound name ends with 'n'.
+ If n is null or not a compound name, false is returned.
+
+ Implementation note: Currently the syntax properties of n
+  are not used when doing the comparison. They might be in the future.
+
+Specified by:
+endsWith in interface Name
+Parameters:
+n - The possibly null compound name to check.
+Returns:
+true if n is a CompoundName and
+         is a suffix of this compound name, false otherwise.
+
+
+"
+CompoundName,equals(Object obj),boolean,Determines whether obj is syntactically equal to this compound name.,"
+
+equals
+public boolean equals(Object obj)
+Determines whether obj is syntactically equal to this compound name.
+ If obj is null or not a CompoundName, false is returned.
+ Two compound names are equal if each component in one is ""equal""
+ to the corresponding component in the other.
+
+ Equality is also defined in terms of the syntax of this compound name.
+ The default implementation of CompoundName uses the syntax properties
+ jndi.syntax.ignorecase and jndi.syntax.trimblanks when comparing
+ two components for equality.  If case is ignored, two strings
+ with the same sequence of characters but with different cases
+ are considered equal. If blanks are being trimmed, leading and trailing
+ blanks are ignored for the purpose of the comparison.
+
+ Both compound names must have the same number of components.
+
+ Implementation note: Currently the syntax properties of the two compound
+ names are not compared for equality. They might be in the future.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - The possibly null object to compare against.
+Returns:
+true if obj is equal to this compound name, false otherwise.
+See Also:
+compareTo(java.lang.Object obj)
+
+
+"
+CompoundName,get(int posn),String,Retrieves a component of this compound name.,"
+
+get
+public String get(int posn)
+Retrieves a component of this compound name.
+
+Specified by:
+get in interface Name
+Parameters:
+posn - The 0-based index of the component to retrieve.
+                 Must be in the range [0,size()).
+Returns:
+The component at index posn.
+Throws:
+ArrayIndexOutOfBoundsException - if posn is outside the
+         specified range.
+
+
+"
+CompoundName,getAll(),Enumeration<String>,Retrieves the components of this compound name as an enumeration of strings.,"
+
+getAll
+public Enumeration<String> getAll()
+Retrieves the components of this compound name as an enumeration
+ of strings.
+ The effects of updates to this compound name on this enumeration
+ is undefined.
+
+Specified by:
+getAll in interface Name
+Returns:
+A non-null enumeration of the components of this
+ compound name. Each element of the enumeration is of class String.
+
+
+"
+CompoundName,getPrefix(int posn),Name,Creates a compound name whose components consist of a prefix of the components in this compound name.,"
+
+getPrefix
+public Name getPrefix(int posn)
+Creates a compound name whose components consist of a prefix of the
+ components in this compound name.
+ The result and this compound name share the same syntax.
+ Subsequent changes to
+ this compound name does not affect the name that is returned and
+ vice versa.
+
+Specified by:
+getPrefix in interface Name
+Parameters:
+posn - The 0-based index of the component at which to stop.
+                 Must be in the range [0,size()].
+Returns:
+A compound name consisting of the components at indexes in
+         the range [0,posn).
+Throws:
+ArrayIndexOutOfBoundsException - If posn is outside the specified range.
+
+
+"
+CompoundName,getSuffix(int posn),Name,Creates a compound name whose components consist of a suffix of the components in this compound name.,"
+
+getSuffix
+public Name getSuffix(int posn)
+Creates a compound name whose components consist of a suffix of the
+ components in this compound name.
+ The result and this compound name share the same syntax.
+ Subsequent changes to
+ this compound name does not affect the name that is returned.
+
+Specified by:
+getSuffix in interface Name
+Parameters:
+posn - The 0-based index of the component at which to start.
+                 Must be in the range [0,size()].
+Returns:
+A compound name consisting of the components at indexes in
+         the range [posn,size()).  If posn is equal to
+         size(), an empty compound name is returned.
+Throws:
+ArrayIndexOutOfBoundsException - If posn is outside the specified range.
+
+
+"
+CompoundName,hashCode(),int,Computes the hash code of this compound name.,"
+
+hashCode
+public int hashCode()
+Computes the hash code of this compound name.
+ The hash code is the sum of the hash codes of the ""canonicalized""
+ forms of individual components of this compound name.
+ Each component is ""canonicalized"" according to the
+ compound name's syntax before its hash code is computed.
+ For a case-insensitive name, for example, the uppercased form of
+ a name has the same hash code as its lowercased equivalent.
+
+Overrides:
+hashCode in class Object
+Returns:
+An int representing the hash code of this name.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+CompoundName,isEmpty(),boolean,Determines whether this compound name is empty.,"
+
+isEmpty
+public boolean isEmpty()
+Determines whether this compound name is empty.
+ A compound name is empty if it has zero components.
+
+Specified by:
+isEmpty in interface Name
+Returns:
+true if this compound name is empty, false otherwise.
+
+
+"
+CompoundName,remove(int posn),Object,Deletes a component from this compound name.,"
+
+remove
+public Object remove(int posn)
+              throws InvalidNameException
+Deletes a component from this compound name.
+ The component of this compound name at position 'posn' is removed,
+ and components at indices greater than 'posn'
+ are shifted down (towards index 0) by one.
+
+Specified by:
+remove in interface Name
+Parameters:
+posn - The index of the component to delete.
+                 Must be in the range [0,size()).
+Returns:
+The component removed (a String).
+Throws:
+ArrayIndexOutOfBoundsException - If posn is outside the specified range (includes case where
+         compound name is empty).
+InvalidNameException - If deleting the component
+                         would violate the compound name's syntax.
+
+
+"
+CompoundName,size(),int,Retrieves the number of components in this compound name.,"
+
+size
+public int size()
+Retrieves the number of components in this compound name.
+
+Specified by:
+size in interface Name
+Returns:
+The nonnegative number of components in this compound name.
+
+
+"
+CompoundName,startsWith(Name n),boolean,Determines whether a compound name is a prefix of this compound name.,"
+
+startsWith
+public boolean startsWith(Name n)
+Determines whether a compound name is a prefix of this compound name.
+ A compound name 'n' is a prefix if it is equal to
+ getPrefix(n.size())--in other words, this compound name
+ starts with 'n'.
+ If n is null or not a compound name, false is returned.
+
+ Implementation note: Currently the syntax properties of n
+  are not used when doing the comparison. They might be in the future.
+
+Specified by:
+startsWith in interface Name
+Parameters:
+n - The possibly null compound name to check.
+Returns:
+true if n is a CompoundName and
+                 is a prefix of this compound name, false otherwise.
+
+
+"
+CompoundName,toString(),String,"Generates the string representation of this compound name, using the syntax rules of the compound name.","
+
+toString
+public String toString()
+Generates the string representation of this compound name, using
+ the syntax rules of the compound name. The syntax rules
+ are described in the class description.
+ An empty component is represented by an empty string.
+
+ The string representation thus generated can be passed to
+ the CompoundName constructor with the same syntax properties
+ to create a new equivalent compound name.
+
+Overrides:
+toString in class Object
+Returns:
+A non-null string representation of this compound name.
+
+
+"
+InitialContext,"addToEnvironment(String propName, Object propVal)",Object,Adds a new environment property to the environment of this context.,"
+
+addToEnvironment
+public Object addToEnvironment(String propName,
+                               Object propVal)
+                        throws NamingException
+Description copied from interface: Context
+Adds a new environment property to the environment of this
+ context.  If the property already exists, its value is overwritten.
+ See class description for more details on environment properties.
+
+Specified by:
+addToEnvironment in interface Context
+Parameters:
+propName - the name of the environment property to add; may not be null
+propVal - the value of the property to add; may not be null
+Returns:
+the previous value of the property, or null if the property was
+          not in the environment before
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+Context.getEnvironment(), 
+Context.removeFromEnvironment(String)
+
+
+"
+InitialContext,"bind(Name name, Object obj)",void,Binds a name to an object.,"
+
+bind
+public void bind(Name name,
+                 Object obj)
+          throws NamingException
+Description copied from interface: Context
+Binds a name to an object.
+ All intermediate contexts and the target context (that named by all
+ but terminal atomic component of the name) must already exist.
+
+Specified by:
+bind in interface Context
+Parameters:
+name - the name to bind; may not be empty
+obj - the object to bind; possibly null
+Throws:
+NameAlreadyBoundException - if name is already bound
+InvalidAttributesException - if object did not supply all mandatory attributes
+NamingException - if a naming exception is encountered
+See Also:
+Context.bind(String, Object), 
+Context.rebind(Name, Object), 
+DirContext.bind(Name, Object,
+          javax.naming.directory.Attributes)
+
+
+"
+InitialContext,"bind(String name, Object obj)",void,Binds a name to an object.,"
+
+bind
+public void bind(String name,
+                 Object obj)
+          throws NamingException
+Description copied from interface: Context
+Binds a name to an object.
+ See Context.bind(Name, Object) for details.
+
+Specified by:
+bind in interface Context
+Parameters:
+name - the name to bind; may not be empty
+obj - the object to bind; possibly null
+Throws:
+NameAlreadyBoundException - if name is already bound
+InvalidAttributesException - if object did not supply all mandatory attributes
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,close(),void,Closes this context.,"
+
+close
+public void close()
+           throws NamingException
+Description copied from interface: Context
+Closes this context.
+ This method releases this context's resources immediately, instead of
+ waiting for them to be released automatically by the garbage collector.
+
+  This method is idempotent:  invoking it on a context that has
+ already been closed has no effect.  Invoking any other method
+ on a closed context is not allowed, and results in undefined behaviour.
+
+Specified by:
+close in interface Context
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,"composeName(Name name, Name prefix)",Name,Composes the name of this context with a name relative to this context.,"
+
+composeName
+public Name composeName(Name name,
+                        Name prefix)
+                 throws NamingException
+Composes the name of this context with a name relative to
+ this context.
+ Since an initial context may never be named relative
+ to any context other than itself, the value of the
+ prefix parameter must be an empty name.
+
+Specified by:
+composeName in interface Context
+Parameters:
+name - a name relative to this context
+prefix - the name of this context relative to one of its ancestors
+Returns:
+the composition of prefix and name
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+Context.composeName(String, String)
+
+
+"
+InitialContext,"composeName(String name, String prefix)",String,Composes the name of this context with a name relative to this context.,"
+
+composeName
+public String composeName(String name,
+                          String prefix)
+                   throws NamingException
+Composes the name of this context with a name relative to
+ this context.
+ Since an initial context may never be named relative
+ to any context other than itself, the value of the
+ prefix parameter must be an empty name ("""").
+
+Specified by:
+composeName in interface Context
+Parameters:
+name - a name relative to this context
+prefix - the name of this context relative to one of its ancestors
+Returns:
+the composition of prefix and name
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,createSubcontext(Name name),Context,Creates and binds a new context.,"
+
+createSubcontext
+public Context createSubcontext(Name name)
+                         throws NamingException
+Description copied from interface: Context
+Creates and binds a new context.
+ Creates a new context with the given name and binds it in
+ the target context (that named by all but terminal atomic
+ component of the name).  All intermediate contexts and the
+ target context must already exist.
+
+Specified by:
+createSubcontext in interface Context
+Parameters:
+name - the name of the context to create; may not be empty
+Returns:
+the newly created context
+Throws:
+NameAlreadyBoundException - if name is already bound
+InvalidAttributesException - if creation of the subcontext requires specification of
+          mandatory attributes
+NamingException - if a naming exception is encountered
+See Also:
+Context.createSubcontext(String), 
+DirContext.createSubcontext(javax.naming.Name, javax.naming.directory.Attributes)
+
+
+"
+InitialContext,createSubcontext(String name),Context,Creates and binds a new context.,"
+
+createSubcontext
+public Context createSubcontext(String name)
+                         throws NamingException
+Description copied from interface: Context
+Creates and binds a new context.
+ See Context.createSubcontext(Name) for details.
+
+Specified by:
+createSubcontext in interface Context
+Parameters:
+name - the name of the context to create; may not be empty
+Returns:
+the newly created context
+Throws:
+NameAlreadyBoundException - if name is already bound
+InvalidAttributesException - if creation of the subcontext requires specification of
+          mandatory attributes
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,destroySubcontext(Name name),void,Destroys the named context and removes it from the namespace.,"
+
+destroySubcontext
+public void destroySubcontext(Name name)
+                       throws NamingException
+Description copied from interface: Context
+Destroys the named context and removes it from the namespace.
+ Any attributes associated with the name are also removed.
+ Intermediate contexts are not destroyed.
+
+  This method is idempotent.
+ It succeeds even if the terminal atomic name
+ is not bound in the target context, but throws
+ NameNotFoundException
+ if any of the intermediate contexts do not exist.
+
+  In a federated naming system, a context from one naming system
+ may be bound to a name in another.  One can subsequently
+ look up and perform operations on the foreign context using a
+ composite name.  However, an attempt destroy the context using
+ this composite name will fail with
+ NotContextException, because the foreign context is not
+ a ""subcontext"" of the context in which it is bound.
+ Instead, use unbind() to remove the
+ binding of the foreign context.  Destroying the foreign context
+ requires that the destroySubcontext() be performed
+ on a context from the foreign context's ""native"" naming system.
+
+Specified by:
+destroySubcontext in interface Context
+Parameters:
+name - the name of the context to be destroyed; may not be empty
+Throws:
+NameNotFoundException - if an intermediate context does not exist
+NotContextException - if the name is bound but does not name a
+          context, or does not name a context of the appropriate type
+ContextNotEmptyException - if the named context is not empty
+NamingException - if a naming exception is encountered
+See Also:
+Context.destroySubcontext(String)
+
+
+"
+InitialContext,destroySubcontext(String name),void,Destroys the named context and removes it from the namespace.,"
+
+destroySubcontext
+public void destroySubcontext(String name)
+                       throws NamingException
+Description copied from interface: Context
+Destroys the named context and removes it from the namespace.
+ See Context.destroySubcontext(Name) for details.
+
+Specified by:
+destroySubcontext in interface Context
+Parameters:
+name - the name of the context to be destroyed; may not be empty
+Throws:
+NameNotFoundException - if an intermediate context does not exist
+NotContextException - if the name is bound but does not name a
+          context, or does not name a context of the appropriate type
+ContextNotEmptyException - if the named context is not empty
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,doLookup(Name name),static <T> T,A static method to retrieve the named object.,"
+
+doLookup
+public static <T> T doLookup(Name name)
+                      throws NamingException
+A static method to retrieve the named object.
+ This is a shortcut method equivalent to invoking:
+ 
+
+        InitialContext ic = new InitialContext();
+        Object obj = ic.lookup();
+ 
+ If name is empty, returns a new instance of this context
+ (which represents the same naming context as this context, but its
+ environment may be modified independently and it may be accessed
+ concurrently).
+
+Type Parameters:
+T - the type of the returned object
+Parameters:
+name - the name of the object to look up
+Returns:
+the object bound to name
+Throws:
+NamingException - if a naming exception is encountered
+Since:
+1.6
+See Also:
+doLookup(String), 
+lookup(Name)
+
+
+"
+InitialContext,doLookup(String name),static <T> T,A static method to retrieve the named object.,"
+
+doLookup
+public static <T> T doLookup(String name)
+                      throws NamingException
+A static method to retrieve the named object.
+ See doLookup(Name) for details.
+
+Type Parameters:
+T - the type of the returned object
+Parameters:
+name - the name of the object to look up
+Returns:
+the object bound to name
+Throws:
+NamingException - if a naming exception is encountered
+Since:
+1.6
+
+
+"
+InitialContext,getDefaultInitCtx(),protected Context,Retrieves the initial context by calling NamingManager.getInitialContext() and cache it in defaultInitCtx.,"
+
+getDefaultInitCtx
+protected Context getDefaultInitCtx()
+                             throws NamingException
+Retrieves the initial context by calling
+ NamingManager.getInitialContext()
+ and cache it in defaultInitCtx.
+ Set gotDefault so that we know we've tried this before.
+
+Returns:
+The non-null cached initial context.
+Throws:
+NoInitialContextException - If cannot find an initial context.
+NamingException - If a naming exception was encountered.
+
+
+"
+InitialContext,getEnvironment(),"Hashtable<?,?>",Retrieves the environment in effect for this context.,"
+
+getEnvironment
+public Hashtable<?,?> getEnvironment()
+                              throws NamingException
+Description copied from interface: Context
+Retrieves the environment in effect for this context.
+ See class description for more details on environment properties.
+
+  The caller should not make any changes to the object returned:
+ their effect on the context is undefined.
+ The environment of this context may be changed using
+ addToEnvironment() and removeFromEnvironment().
+
+Specified by:
+getEnvironment in interface Context
+Returns:
+the environment of this context; never null
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+Context.addToEnvironment(String, Object), 
+Context.removeFromEnvironment(String)
+
+
+"
+InitialContext,getNameInNamespace(),String,Retrieves the full name of this context within its own namespace.,"
+
+getNameInNamespace
+public String getNameInNamespace()
+                          throws NamingException
+Description copied from interface: Context
+Retrieves the full name of this context within its own namespace.
+
+  Many naming services have a notion of a ""full name"" for objects
+ in their respective namespaces.  For example, an LDAP entry has
+ a distinguished name, and a DNS record has a fully qualified name.
+ This method allows the client application to retrieve this name.
+ The string returned by this method is not a JNDI composite name
+ and should not be passed directly to context methods.
+ In naming systems for which the notion of full name does not
+ make sense, OperationNotSupportedException is thrown.
+
+Specified by:
+getNameInNamespace in interface Context
+Returns:
+this context's name in its own namespace; never null
+Throws:
+OperationNotSupportedException - if the naming system does
+          not have the notion of a full name
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,getNameParser(Name name),NameParser,Retrieves the parser associated with the named context.,"
+
+getNameParser
+public NameParser getNameParser(Name name)
+                         throws NamingException
+Description copied from interface: Context
+Retrieves the parser associated with the named context.
+ In a federation of namespaces, different naming systems will
+ parse names differently.  This method allows an application
+ to get a parser for parsing names into their atomic components
+ using the naming convention of a particular naming system.
+ Within any single naming system, NameParser objects
+ returned by this method must be equal (using the equals()
+ test).
+
+Specified by:
+getNameParser in interface Context
+Parameters:
+name - the name of the context from which to get the parser
+Returns:
+a name parser that can parse compound names into their atomic
+          components
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+Context.getNameParser(String), 
+CompoundName
+
+
+"
+InitialContext,getNameParser(String name),NameParser,Retrieves the parser associated with the named context.,"
+
+getNameParser
+public NameParser getNameParser(String name)
+                         throws NamingException
+Description copied from interface: Context
+Retrieves the parser associated with the named context.
+ See Context.getNameParser(Name) for details.
+
+Specified by:
+getNameParser in interface Context
+Parameters:
+name - the name of the context from which to get the parser
+Returns:
+a name parser that can parse compound names into their atomic
+          components
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,getURLOrDefaultInitCtx(Name name),protected Context,Retrieves a context for resolving name.,"
+
+getURLOrDefaultInitCtx
+protected Context getURLOrDefaultInitCtx(Name name)
+                                  throws NamingException
+Retrieves a context for resolving name.
+ If the first component of name name is a URL string,
+ then attempt to find a URL context for it. If none is found, or if
+ the first component of name is not a URL string,
+ then return getDefaultInitCtx().
+
+ When creating a subclass of InitialContext, use this method as
+ follows.
+ Define a new method that uses this method to get an initial
+ context of the desired subclass.
+ 
+ protected XXXContext getURLOrDefaultInitXXXCtx(Name name)
+ throws NamingException {
+  Context answer = getURLOrDefaultInitCtx(name);
+  if (!(answer instanceof XXXContext)) {
+    if (answer == null) {
+      throw new NoInitialContextException();
+    } else {
+      throw new NotContextException(""Not an XXXContext"");
+    }
+  }
+  return (XXXContext)answer;
+ }
+ 
+ When providing implementations for the new methods in the subclass,
+ use this newly defined method to get the initial context.
+ 
+ public Object XXXMethod1(Name name, ...) {
+  throws NamingException {
+    return getURLOrDefaultInitXXXCtx(name).XXXMethod1(name, ...);
+ }
+ 
+
+Parameters:
+name - The non-null name for which to get the context.
+Returns:
+A URL context for name or the cached
+         initial context. The result cannot be null.
+Throws:
+NoInitialContextException - If cannot find an initial context.
+NamingException - In a naming exception is encountered.
+See Also:
+NamingManager.getURLContext(java.lang.String, java.util.Hashtable<?, ?>)
+
+
+"
+InitialContext,getURLOrDefaultInitCtx(String name),protected Context,Retrieves a context for resolving the string name name.,"
+
+getURLOrDefaultInitCtx
+protected Context getURLOrDefaultInitCtx(String name)
+                                  throws NamingException
+Retrieves a context for resolving the string name name.
+ If name name is a URL string, then attempt
+ to find a URL context for it. If none is found, or if
+ name is not a URL string, then return
+ getDefaultInitCtx().
+
+ See getURLOrDefaultInitCtx(Name) for description
+ of how a subclass should use this method.
+
+Parameters:
+name - The non-null name for which to get the context.
+Returns:
+A URL context for name or the cached
+         initial context. The result cannot be null.
+Throws:
+NoInitialContextException - If cannot find an initial context.
+NamingException - In a naming exception is encountered.
+See Also:
+NamingManager.getURLContext(java.lang.String, java.util.Hashtable<?, ?>)
+
+
+"
+InitialContext,"init(Hashtable<?,?> environment)",protected void,Initializes the initial context using the supplied environment.,"
+
+init
+protected void init(Hashtable<?,?> environment)
+             throws NamingException
+Initializes the initial context using the supplied environment.
+ Environment properties are discussed in the class description.
+
+  This method will modify environment and save
+ a reference to it.  The caller may no longer modify it.
+
+Parameters:
+environment - environment used to create the initial context.
+          Null indicates an empty environment.
+Throws:
+NamingException - if a naming exception is encountered
+Since:
+1.3
+See Also:
+InitialContext(boolean)
+
+
+"
+InitialContext,list(Name name),NamingEnumeration<NameClassPair>,"Enumerates the names bound in the named context, along with the class names of objects bound to them.","
+
+list
+public NamingEnumeration<NameClassPair> list(Name name)
+                                      throws NamingException
+Description copied from interface: Context
+Enumerates the names bound in the named context, along with the
+ class names of objects bound to them.
+ The contents of any subcontexts are not included.
+
+  If a binding is added to or removed from this context,
+ its effect on an enumeration previously returned is undefined.
+
+Specified by:
+list in interface Context
+Parameters:
+name - the name of the context to list
+Returns:
+an enumeration of the names and class names of the
+          bindings in this context.  Each element of the
+          enumeration is of type NameClassPair.
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+Context.list(String), 
+Context.listBindings(Name), 
+NameClassPair
+
+
+"
+InitialContext,list(String name),NamingEnumeration<NameClassPair>,"Enumerates the names bound in the named context, along with the class names of objects bound to them.","
+
+list
+public NamingEnumeration<NameClassPair> list(String name)
+                                      throws NamingException
+Description copied from interface: Context
+Enumerates the names bound in the named context, along with the
+ class names of objects bound to them.
+ See Context.list(Name) for details.
+
+Specified by:
+list in interface Context
+Parameters:
+name - the name of the context to list
+Returns:
+an enumeration of the names and class names of the
+          bindings in this context.  Each element of the
+          enumeration is of type NameClassPair.
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,listBindings(Name name),NamingEnumeration<Binding>,"Enumerates the names bound in the named context, along with the objects bound to them.","
+
+listBindings
+public NamingEnumeration<Binding> listBindings(Name name)
+                                        throws NamingException
+Description copied from interface: Context
+Enumerates the names bound in the named context, along with the
+ objects bound to them.
+ The contents of any subcontexts are not included.
+
+  If a binding is added to or removed from this context,
+ its effect on an enumeration previously returned is undefined.
+
+Specified by:
+listBindings in interface Context
+Parameters:
+name - the name of the context to list
+Returns:
+an enumeration of the bindings in this context.
+          Each element of the enumeration is of type
+          Binding.
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+Context.listBindings(String), 
+Context.list(Name), 
+Binding
+
+
+"
+InitialContext,listBindings(String name),NamingEnumeration<Binding>,"Enumerates the names bound in the named context, along with the objects bound to them.","
+
+listBindings
+public NamingEnumeration<Binding> listBindings(String name)
+                                        throws NamingException
+Description copied from interface: Context
+Enumerates the names bound in the named context, along with the
+ objects bound to them.
+ See Context.listBindings(Name) for details.
+
+Specified by:
+listBindings in interface Context
+Parameters:
+name - the name of the context to list
+Returns:
+an enumeration of the bindings in this context.
+          Each element of the enumeration is of type
+          Binding.
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,lookup(Name name),Object,Retrieves the named object.,"
+
+lookup
+public Object lookup(Name name)
+              throws NamingException
+Description copied from interface: Context
+Retrieves the named object.
+ If name is empty, returns a new instance of this context
+ (which represents the same naming context as this context, but its
+ environment may be modified independently and it may be accessed
+ concurrently).
+
+Specified by:
+lookup in interface Context
+Parameters:
+name - the name of the object to look up
+Returns:
+the object bound to name
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+Context.lookup(String), 
+Context.lookupLink(Name)
+
+
+"
+InitialContext,lookup(String name),Object,Retrieves the named object.,"
+
+lookup
+public Object lookup(String name)
+              throws NamingException
+Description copied from interface: Context
+Retrieves the named object.
+ See Context.lookup(Name) for details.
+
+Specified by:
+lookup in interface Context
+Parameters:
+name - the name of the object to look up
+Returns:
+the object bound to name
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,lookupLink(Name name),Object,"Retrieves the named object, following links except for the terminal atomic component of the name.","
+
+lookupLink
+public Object lookupLink(Name name)
+                  throws NamingException
+Description copied from interface: Context
+Retrieves the named object, following links except
+ for the terminal atomic component of the name.
+ If the object bound to name is not a link,
+ returns the object itself.
+
+Specified by:
+lookupLink in interface Context
+Parameters:
+name - the name of the object to look up
+Returns:
+the object bound to name, not following the
+          terminal link (if any).
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+Context.lookupLink(String)
+
+
+"
+InitialContext,lookupLink(String name),Object,"Retrieves the named object, following links except for the terminal atomic component of the name.","
+
+lookupLink
+public Object lookupLink(String name)
+                  throws NamingException
+Description copied from interface: Context
+Retrieves the named object, following links except
+ for the terminal atomic component of the name.
+ See Context.lookupLink(Name) for details.
+
+Specified by:
+lookupLink in interface Context
+Parameters:
+name - the name of the object to look up
+Returns:
+the object bound to name, not following the
+          terminal link (if any)
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,"rebind(Name name, Object obj)",void,"Binds a name to an object, overwriting any existing binding.","
+
+rebind
+public void rebind(Name name,
+                   Object obj)
+            throws NamingException
+Description copied from interface: Context
+Binds a name to an object, overwriting any existing binding.
+ All intermediate contexts and the target context (that named by all
+ but terminal atomic component of the name) must already exist.
+
+  If the object is a DirContext, any existing attributes
+ associated with the name are replaced with those of the object.
+ Otherwise, any existing attributes associated with the name remain
+ unchanged.
+
+Specified by:
+rebind in interface Context
+Parameters:
+name - the name to bind; may not be empty
+obj - the object to bind; possibly null
+Throws:
+InvalidAttributesException - if object did not supply all mandatory attributes
+NamingException - if a naming exception is encountered
+See Also:
+Context.rebind(String, Object), 
+Context.bind(Name, Object), 
+DirContext.rebind(Name, Object,
+          javax.naming.directory.Attributes), 
+DirContext
+
+
+"
+InitialContext,"rebind(String name, Object obj)",void,"Binds a name to an object, overwriting any existing binding.","
+
+rebind
+public void rebind(String name,
+                   Object obj)
+            throws NamingException
+Description copied from interface: Context
+Binds a name to an object, overwriting any existing binding.
+ See Context.rebind(Name, Object) for details.
+
+Specified by:
+rebind in interface Context
+Parameters:
+name - the name to bind; may not be empty
+obj - the object to bind; possibly null
+Throws:
+InvalidAttributesException - if object did not supply all mandatory attributes
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,removeFromEnvironment(String propName),Object,Removes an environment property from the environment of this context.,"
+
+removeFromEnvironment
+public Object removeFromEnvironment(String propName)
+                             throws NamingException
+Description copied from interface: Context
+Removes an environment property from the environment of this
+ context.  See class description for more details on environment
+ properties.
+
+Specified by:
+removeFromEnvironment in interface Context
+Parameters:
+propName - the name of the environment property to remove; may not be null
+Returns:
+the previous value of the property, or null if the property was
+          not in the environment
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+Context.getEnvironment(), 
+Context.addToEnvironment(String, Object)
+
+
+"
+InitialContext,"rename(Name oldName, Name newName)",void,"Binds a new name to the object bound to an old name, and unbinds the old name.","
+
+rename
+public void rename(Name oldName,
+                   Name newName)
+            throws NamingException
+Description copied from interface: Context
+Binds a new name to the object bound to an old name, and unbinds
+ the old name.  Both names are relative to this context.
+ Any attributes associated with the old name become associated
+ with the new name.
+ Intermediate contexts of the old name are not changed.
+
+Specified by:
+rename in interface Context
+Parameters:
+oldName - the name of the existing binding; may not be empty
+newName - the name of the new binding; may not be empty
+Throws:
+NameAlreadyBoundException - if newName is already bound
+NamingException - if a naming exception is encountered
+See Also:
+Context.rename(String, String), 
+Context.bind(Name, Object), 
+Context.rebind(Name, Object)
+
+
+"
+InitialContext,"rename(String oldName, String newName)",void,"Binds a new name to the object bound to an old name, and unbinds the old name.","
+
+rename
+public void rename(String oldName,
+                   String newName)
+            throws NamingException
+Description copied from interface: Context
+Binds a new name to the object bound to an old name, and unbinds
+ the old name.
+ See Context.rename(Name, Name) for details.
+
+Specified by:
+rename in interface Context
+Parameters:
+oldName - the name of the existing binding; may not be empty
+newName - the name of the new binding; may not be empty
+Throws:
+NameAlreadyBoundException - if newName is already bound
+NamingException - if a naming exception is encountered
+
+
+"
+InitialContext,unbind(Name name),void,Unbinds the named object.,"
+
+unbind
+public void unbind(Name name)
+            throws NamingException
+Description copied from interface: Context
+Unbinds the named object.
+ Removes the terminal atomic name in name
+ from the target context--that named by all but the terminal
+ atomic part of name.
+
+  This method is idempotent.
+ It succeeds even if the terminal atomic name
+ is not bound in the target context, but throws
+ NameNotFoundException
+ if any of the intermediate contexts do not exist.
+
+  Any attributes associated with the name are removed.
+ Intermediate contexts are not changed.
+
+Specified by:
+unbind in interface Context
+Parameters:
+name - the name to unbind; may not be empty
+Throws:
+NameNotFoundException - if an intermediate context does not exist
+NamingException - if a naming exception is encountered
+See Also:
+Context.unbind(String)
+
+
+"
+InitialContext,unbind(String name),void,Unbinds the named object.,"
+
+unbind
+public void unbind(String name)
+            throws NamingException
+Description copied from interface: Context
+Unbinds the named object.
+ See Context.unbind(Name) for details.
+
+Specified by:
+unbind in interface Context
+Parameters:
+name - the name to unbind; may not be empty
+Throws:
+NameNotFoundException - if an intermediate context does not exist
+NamingException - if a naming exception is encountered
+
+
+"
+LinkRef,getLinkName(),String,Retrieves the name of this link.,"
+
+getLinkName
+public String getLinkName()
+                   throws NamingException
+Retrieves the name of this link.
+
+Returns:
+The non-null name of this link.
+Throws:
+MalformedLinkException - If a link name could not be extracted
+NamingException - If a naming exception was encountered.
+
+
+"
+NameClassPair,getClassName(),String,Retrieves the class name of the object bound to the name of this binding.,"
+
+getClassName
+public String getClassName()
+Retrieves the class name of the object bound to the name of this binding.
+ If a reference or some other indirect information is bound,
+ retrieves the class name of the eventual object that
+ will be returned by Binding.getObject().
+
+Returns:
+The possibly null class name of object bound.
+          It is null if the object bound is null.
+See Also:
+Binding.getObject(), 
+Binding.getClassName(), 
+setClassName(java.lang.String)
+
+
+"
+NameClassPair,getName(),String,Retrieves the name of this binding.,"
+
+getName
+public String getName()
+Retrieves the name of this binding.
+ If isRelative() is true, this name is relative to the
+ target context (which is named by the first parameter of the
+ list()).
+ If isRelative() is false, this name is a URL string.
+
+Returns:
+The non-null name of this binding.
+See Also:
+isRelative(), 
+setName(java.lang.String)
+
+
+"
+NameClassPair,getNameInNamespace(),String,Retrieves the full name of this binding.,"
+
+getNameInNamespace
+public String getNameInNamespace()
+Retrieves the full name of this binding.
+ The full name is the absolute name of this binding within
+ its own namespace. See Context.getNameInNamespace().
+ 
+
+ In naming systems for which the notion of full name does not
+ apply to this binding an UnsupportedOperationException
+ is thrown.
+ This exception is also thrown when a service provider written before
+ the introduction of the method is in use.
+ 
+ The string returned by this method is not a JNDI composite name and
+ should not be passed directly to context methods.
+
+Returns:
+The full name of this binding.
+Throws:
+UnsupportedOperationException - if the notion of full name
+         does not apply to this binding in the naming system.
+Since:
+1.5
+See Also:
+setNameInNamespace(java.lang.String), 
+getName()
+
+
+"
+NameClassPair,isRelative(),boolean,Determines whether the name of this binding is relative to the target context (which is named by the first parameter of the list() method).,"
+
+isRelative
+public boolean isRelative()
+Determines whether the name of this binding is
+ relative to the target context (which is named by
+ the first parameter of the list() method).
+
+Returns:
+true if the name of this binding is relative to the
+          target context;
+          false if the name of this binding is a URL string.
+See Also:
+setRelative(boolean), 
+getName()
+
+
+"
+NameClassPair,setClassName(String name),void,Sets the class name of this binding.,"
+
+setClassName
+public void setClassName(String name)
+Sets the class name of this binding.
+
+Parameters:
+name - the possibly null string to use as the class name.
+ If null, Binding.getClassName() will return
+ the actual class name of the object in the binding.
+ The class name will be null if the object bound is null.
+See Also:
+getClassName(), 
+Binding.getClassName()
+
+
+"
+NameClassPair,setName(String name),void,Sets the name of this binding.,"
+
+setName
+public void setName(String name)
+Sets the name of this binding.
+
+Parameters:
+name - the non-null string to use as the name.
+See Also:
+getName(), 
+setRelative(boolean)
+
+
+"
+NameClassPair,setNameInNamespace(String fullName),void,Sets the full name of this binding.,"
+
+setNameInNamespace
+public void setNameInNamespace(String fullName)
+Sets the full name of this binding.
+ This method must be called to set the full name whenever a
+ NameClassPair is created and a full name is
+ applicable to this binding.
+ 
+ Setting the full name to null, or not setting it at all, will
+ cause getNameInNamespace() to throw an exception.
+
+Parameters:
+fullName - The full name to use.
+Since:
+1.5
+See Also:
+getNameInNamespace(), 
+setName(java.lang.String)
+
+
+"
+NameClassPair,setRelative(boolean r),void,Sets whether the name of this binding is relative to the target context (which is named by the first parameter of the list() method).,"
+
+setRelative
+public void setRelative(boolean r)
+Sets whether the name of this binding is relative to the target
+ context (which is named by the first parameter of the list()
+ method).
+
+Parameters:
+r - If true, the name of binding is relative to the target context;
+          if false, the name of binding is a URL string.
+See Also:
+isRelative(), 
+setName(java.lang.String)
+
+
+"
+NameClassPair,toString(),String,Generates the string representation of this name/class pair.,"
+
+toString
+public String toString()
+Generates the string representation of this name/class pair.
+ The string representation consists of the name and class name separated
+ by a colon (':').
+ The contents of this string is useful
+ for debugging and is not meant to be interpreted programmatically.
+
+Overrides:
+toString in class Object
+Returns:
+The string representation of this name/class pair.
+
+
+"
+RefAddr,equals(Object obj),boolean,Determines whether obj is equal to this RefAddr.,"
+
+equals
+public boolean equals(Object obj)
+Determines whether obj is equal to this RefAddr.
+
+ obj is equal to this RefAddr all of these conditions are true
+
+ non-null
+ instance of RefAddr
+ obj has the same address type as this RefAddr (using String.compareTo())
+ both obj and this RefAddr's contents are null or they are equal
+         (using the equals() test).
+
+
+Overrides:
+equals in class Object
+Parameters:
+obj - possibly null obj to check.
+Returns:
+true if obj is equal to this refaddr; false otherwise.
+See Also:
+getContent(), 
+getType()
+
+
+"
+RefAddr,getContent(),abstract Object,Retrieves the contents of this address.,"
+
+getContent
+public abstract Object getContent()
+Retrieves the contents of this address.
+
+Returns:
+The possibly null address contents.
+
+
+"
+RefAddr,getType(),String,Retrieves the address type of this address.,"
+
+getType
+public String getType()
+Retrieves the address type of this address.
+
+Returns:
+The non-null address type of this address.
+
+
+"
+RefAddr,hashCode(),int,Computes the hash code of this address using its address type and contents.,"
+
+hashCode
+public int hashCode()
+Computes the hash code of this address using its address type and contents.
+ The hash code is the sum of the hash code of the address type and
+ the hash code of the address contents.
+
+Overrides:
+hashCode in class Object
+Returns:
+The hash code of this address as an int.
+See Also:
+Object.hashCode()
+
+
+"
+RefAddr,toString(),String,Generates the string representation of this address.,"
+
+toString
+public String toString()
+Generates the string representation of this address.
+ The string consists of the address's type and contents with labels.
+ This representation is intended for display only and not to be parsed.
+
+Overrides:
+toString in class Object
+Returns:
+The non-null string representation of this address.
+
+
+"
+Reference,"add(int posn, RefAddr addr)",void,Adds an address to the list of addresses at index posn.,"
+
+add
+public void add(int posn,
+                RefAddr addr)
+Adds an address to the list of addresses at index posn.
+ All addresses at index posn or greater are shifted up
+ the list by one (away from index 0).
+
+Parameters:
+posn - The 0-based index of the list to insert addr.
+addr - The non-null address to add.
+Throws:
+ArrayIndexOutOfBoundsException - If posn not in the specified
+         range.
+
+
+"
+Reference,add(RefAddr addr),void,Adds an address to the end of the list of addresses.,"
+
+add
+public void add(RefAddr addr)
+Adds an address to the end of the list of addresses.
+
+Parameters:
+addr - The non-null address to add.
+
+
+"
+Reference,clear(),void,Deletes all addresses from this reference.,"
+
+clear
+public void clear()
+Deletes all addresses from this reference.
+
+"
+Reference,clone(),Object,"Makes a copy of this reference using its class name list of addresses, class factory name and class factory location.","
+
+clone
+public Object clone()
+Makes a copy of this reference using its class name
+ list of addresses, class factory name and class factory location.
+ Changes to the newly created copy does not affect this Reference
+ and vice versa.
+
+Overrides:
+clone in class Object
+Returns:
+a clone of this instance.
+See Also:
+Cloneable
+
+
+"
+Reference,equals(Object obj),boolean,Determines whether obj is a reference with the same addresses (in same order) as this reference.,"
+
+equals
+public boolean equals(Object obj)
+Determines whether obj is a reference with the same addresses
+ (in same order) as this reference.
+ The addresses are checked using RefAddr.equals().
+ In addition to having the same addresses, the Reference also needs to
+ have the same class name as this reference.
+ The class factory and class factory location are not checked.
+ If obj is null or not an instance of Reference, null is returned.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - The possibly null object to check.
+Returns:
+true if obj is equal to this reference; false otherwise.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+Reference,get(int posn),RefAddr,Retrieves the address at index posn.,"
+
+get
+public RefAddr get(int posn)
+Retrieves the address at index posn.
+
+Parameters:
+posn - The index of the address to retrieve.
+Returns:
+The address at the 0-based index posn. It must be in the
+         range [0,getAddressCount()).
+Throws:
+ArrayIndexOutOfBoundsException - If posn not in the specified
+         range.
+
+
+"
+Reference,get(String addrType),RefAddr,Retrieves the first address that has the address type 'addrType'.,"
+
+get
+public RefAddr get(String addrType)
+Retrieves the first address that has the address type 'addrType'.
+ String.compareTo() is used to test the equality of the address types.
+
+Parameters:
+addrType - The non-null address type for which to find the address.
+Returns:
+The address in this reference with address type 'addrType;
+         null if no such address exist.
+
+
+"
+Reference,getAll(),Enumeration<RefAddr>,Retrieves an enumeration of the addresses in this reference.,"
+
+getAll
+public Enumeration<RefAddr> getAll()
+Retrieves an enumeration of the addresses in this reference.
+ When addresses are added, changed or removed from this reference,
+ its effects on this enumeration are undefined.
+
+Returns:
+An non-null enumeration of the addresses
+         (RefAddr) in this reference.
+         If this reference has zero addresses, an enumeration with
+         zero elements is returned.
+
+
+"
+Reference,getClassName(),String,Retrieves the class name of the object to which this reference refers.,"
+
+getClassName
+public String getClassName()
+Retrieves the class name of the object to which this reference refers.
+
+Returns:
+The non-null fully-qualified class name of the object.
+         (e.g. ""java.lang.String"")
+
+
+"
+Reference,getFactoryClassLocation(),String,Retrieves the location of the factory of the object to which this reference refers.,"
+
+getFactoryClassLocation
+public String getFactoryClassLocation()
+Retrieves the location of the factory of the object
+ to which this reference refers.
+ If it is a codebase, then it is an ordered list of URLs,
+ separated by spaces, listing locations from where the factory
+ class definition should be loaded.
+
+Returns:
+The possibly null string containing the
+                 location for loading in the factory's class.
+
+
+"
+Reference,getFactoryClassName(),String,Retrieves the class name of the factory of the object to which this reference refers.,"
+
+getFactoryClassName
+public String getFactoryClassName()
+Retrieves the class name of the factory of the object
+ to which this reference refers.
+
+Returns:
+The possibly null fully-qualified class name of the factory.
+         (e.g. ""java.lang.String"")
+
+
+"
+Reference,hashCode(),int,Computes the hash code of this reference.,"
+
+hashCode
+public int hashCode()
+Computes the hash code of this reference.
+ The hash code is the sum of the hash code of its addresses.
+
+Overrides:
+hashCode in class Object
+Returns:
+A hash code of this reference as an int.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+Reference,remove(int posn),Object,Deletes the address at index posn from the list of addresses.,"
+
+remove
+public Object remove(int posn)
+Deletes the address at index posn from the list of addresses.
+ All addresses at index greater than posn are shifted down
+ the list by one (towards index 0).
+
+Parameters:
+posn - The 0-based index of in address to delete.
+Returns:
+The address removed.
+Throws:
+ArrayIndexOutOfBoundsException - If posn not in the specified
+         range.
+
+
+"
+Reference,size(),int,Retrieves the number of addresses in this reference.,"
+
+size
+public int size()
+Retrieves the number of addresses in this reference.
+
+Returns:
+The nonnegative number of addresses in this reference.
+
+
+"
+Reference,toString(),String,Generates the string representation of this reference.,"
+
+toString
+public String toString()
+Generates the string representation of this reference.
+ The string consists of the class name to which this reference refers,
+ and the string representation of each of its addresses.
+ This representation is intended for display only and not to be parsed.
+
+Overrides:
+toString in class Object
+Returns:
+The non-null string representation of this reference.
+
+
+"
+StringRefAddr,getContent(),Object,Retrieves the contents of this address.,"
+
+getContent
+public Object getContent()
+Retrieves the contents of this address. The result is a string.
+
+Specified by:
+getContent in class RefAddr
+Returns:
+The possibly null address contents.
+
+
+"

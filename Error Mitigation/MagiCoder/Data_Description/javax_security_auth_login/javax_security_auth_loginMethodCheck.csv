@@ -1,0 +1,163 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,AppConfigurationEntry,1,AppConfigurationEntry[] getAppConfigurationEntry(String appName),False,,NULL
+0,AppConfigurationEntry,2,void refresh(),False,,NULL
+0,AppConfigurationEntry,3,"void setAppConfigurationEntry(String appName, AppConfigurationEntry[] entries)",False,,NULL
+0,AppConfigurationEntry,4,void removeAppConfigurationEntry(String appName),False,,NULL
+0,AppConfigurationEntry,5,void clear(),False,,NULL
+1,AppConfigurationEntry.LoginModuleControlFlag,1,LoginModuleControlFlag(String name),False,,NULL
+1,AppConfigurationEntry.LoginModuleControlFlag,2,String getName(),False,,NULL
+1,AppConfigurationEntry.LoginModuleControlFlag,3,boolean equals(Object obj),False,,NULL
+1,AppConfigurationEntry.LoginModuleControlFlag,4,int hashCode(),False,,NULL
+1,AppConfigurationEntry.LoginModuleControlFlag,5,String toString(),True,Return a String representation of this controlFlag.,"
+
+toString
+public String toString()
+Return a String representation of this controlFlag.
+
+  The String has the format, ""LoginModuleControlFlag: flag"",
+ where flag is either required, requisite,
+ sufficient, or optional.
+
+Overrides:
+toString in class Object
+Returns:
+a String representation of this controlFlag.
+
+
+"
+2,Configuration,1,void add(LoginModule lm),False,,NULL
+2,Configuration,2,void remove(LoginModule lm),False,,NULL
+2,Configuration,3,void refresh(),True,Refresh and reload the Configuration.,"
+
+refresh
+public void refresh()
+Refresh and reload the Configuration.
+
+  This method causes this Configuration object to refresh/reload its
+ contents in an implementation-dependent manner.
+ For example, if this Configuration object stores its entries in a file,
+ calling refresh may cause the file to be re-read.
+
+  The default implementation of this method does nothing.
+ This method should be overridden if a refresh operation is supported
+ by the implementation.
+
+Throws:
+SecurityException - if the caller does not have permission
+                          to refresh its Configuration.
+
+
+"
+2,Configuration,4,LoginModule[] getLoginModules(),False,,NULL
+2,Configuration,5,LoginModule getLoginModule(String name),False,,NULL
+3,ConfigurationSpi,1,void refresh(),False,,NULL
+3,ConfigurationSpi,2,void commit(),False,,NULL
+3,ConfigurationSpi,3,void rollback(),False,,NULL
+3,ConfigurationSpi,4,void close(),False,,NULL
+3,ConfigurationSpi,5,void setParent(Configuration parent),False,,NULL
+4,LoginContext,1,"LoginContext(String name, CallbackHandler callbackHandler)",False,,NULL
+4,LoginContext,2,void login() throws LoginException,True,Perform the authentication.,"
+
+login
+public void login()
+           throws LoginException
+Perform the authentication.
+
+  This method invokes the login method for each
+ LoginModule configured for the name specified to the
+ LoginContext constructor, as determined by the login
+ Configuration.  Each LoginModule
+ then performs its respective type of authentication
+ (username/password, smart card pin verification, etc.).
+
+  This method completes a 2-phase authentication process by
+ calling each configured LoginModule's commit method
+ if the overall authentication succeeded (the relevant REQUIRED,
+ REQUISITE, SUFFICIENT, and OPTIONAL LoginModules succeeded),
+ or by calling each configured LoginModule's abort method
+ if the overall authentication failed.  If authentication succeeded,
+ each successful LoginModule's commit method associates
+ the relevant Principals and Credentials with the Subject.
+ If authentication failed, each LoginModule's abort method
+ removes/destroys any previously stored state.
+
+  If the commit phase of the authentication process
+ fails, then the overall authentication fails and this method
+ invokes the abort method for each configured
+ LoginModule.
+
+  If the abort phase
+ fails for any reason, then this method propagates the
+ original exception thrown either during the login phase
+ or the commit phase.  In either case, the overall
+ authentication fails.
+
+  In the case where multiple LoginModules fail,
+ this method propagates the exception raised by the first
+ LoginModule which failed.
+
+  Note that if this method enters the abort phase
+ (either the login or commit phase failed),
+ this method invokes all LoginModules configured for the
+ application regardless of their respective Configuration
+ flag parameters.  Essentially this means that Requisite
+ and Sufficient semantics are ignored during the
+ abort phase.  This guarantees that proper cleanup
+ and state restoration can take place.
+
+ 
+
+Throws:
+LoginException - if the authentication fails.
+
+
+"
+4,LoginContext,3,Subject getSubject(),True,Return the authenticated Subject.,"
+
+getSubject
+public Subject getSubject()
+Return the authenticated Subject.
+
+ 
+
+Returns:
+the authenticated Subject.  If the caller specified a
+          Subject to this LoginContext's constructor,
+          this method returns the caller-specified Subject.
+          If a Subject was not specified and authentication succeeds,
+          this method returns the Subject instantiated and used for
+          authentication by this LoginContext.
+          If a Subject was not specified, and authentication fails or
+          has not been attempted, this method returns null.
+
+
+"
+4,LoginContext,4,void logout() throws LoginException,True,Logout the Subject.,"
+
+logout
+public void logout()
+            throws LoginException
+Logout the Subject.
+
+  This method invokes the logout method for each
+ LoginModule configured for this LoginContext.
+ Each LoginModule performs its respective logout procedure
+ which may include removing/destroying
+ Principal and Credential information
+ from the Subject and state cleanup.
+
+  Note that this method invokes all LoginModules configured for the
+ application regardless of their respective
+ Configuration flag parameters.  Essentially this means
+ that Requisite and Sufficient semantics are
+ ignored for this method.  This guarantees that proper cleanup
+ and state restoration can take place.
+
+ 
+
+Throws:
+LoginException - if the logout fails.
+
+
+"
+4,LoginContext,5,void setSession(boolean flag),False,,NULL

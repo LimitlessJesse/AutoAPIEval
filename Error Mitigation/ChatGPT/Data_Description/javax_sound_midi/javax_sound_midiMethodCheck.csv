@@ -1,0 +1,628 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Instrument,1,Soundbank getSoundbank(),False,,NULL
+0,Instrument,2,Patch getPatch(),True,,"
+
+getPatch
+public Patch getPatch()
+Obtains the Patch object that indicates the bank and program
+ numbers where this instrument is to be stored in the synthesizer.
+
+Returns:
+this instrument's patch
+
+
+"
+0,Instrument,3,String getName(),False,,NULL
+0,Instrument,4,String toString(),False,,NULL
+0,Instrument,5,int getPolyphony(),False,,NULL
+1,MetaMessage,1,int getType(),True,,"
+
+getType
+public int getType()
+Obtains the type of the MetaMessage.
+
+Returns:
+an integer representing the MetaMessage type
+
+
+"
+1,MetaMessage,2,byte[] getData(),True,,"
+
+getData
+public byte[] getData()
+Obtains a copy of the data for the meta message.  The returned
+ array of bytes does not include the status byte or the message
+ length data.  The length of the data for the meta message is
+ the length of the array.  Note that the length of the entire
+ message includes the status byte and the meta message type
+ byte, and therefore may be longer than the returned array.
+
+Returns:
+array containing the meta message data.
+See Also:
+MidiMessage.getLength()
+
+
+"
+1,MetaMessage,3,"void setMessage(int type, byte[] data, int length)",True,,"
+
+setMessage
+public void setMessage(int type,
+                       byte[] data,
+                       int length)
+                throws InvalidMidiDataException
+Sets the message parameters for a MetaMessage.
+ Since only one status byte value, 0xFF, is allowed for meta-messages,
+ it does not need to be specified here.  Calls to getStatus return
+ 0xFF for all meta-messages.
+ 
+ The type argument should be a valid value for the byte that
+ follows the status byte in the MetaMessage.  The data argument
+ should contain all the subsequent bytes of the MetaMessage.  In other words,
+ the byte that specifies the type of MetaMessage is not considered a data byte.
+
+Parameters:
+type - meta-message type (must be less than 128)
+data - the data bytes in the MIDI message
+length - the number of bytes in the data
+ byte array
+Throws:
+InvalidMidiDataException - if the
+ parameter values do not specify a valid MIDI meta message
+
+
+"
+1,MetaMessage,4,"void setMessage(byte[] data, int length)",False,,NULL
+1,MetaMessage,5,Object clone(),True,,"
+
+clone
+public Object clone()
+Creates a new object of the same class and with the same contents
+ as this object.
+
+Specified by:
+clone in class MidiMessage
+Returns:
+a clone of this instance
+See Also:
+Cloneable
+
+
+"
+3,MidiEvent,1,MidiMessage getMessage(),True,,"
+
+getMessage
+public MidiMessage getMessage()
+Obtains the MIDI message contained in the event.
+
+Returns:
+the MIDI message
+
+
+"
+3,MidiEvent,2,long getTick(),True,,"
+
+getTick
+public long getTick()
+Obtains the time-stamp for the event, in MIDI ticks
+
+Returns:
+the time-stamp for the event, in MIDI ticks
+
+
+"
+3,MidiEvent,3,"void setMessage(MidiMessage message, long tick)",False,,NULL
+3,MidiEvent,4,int compareTo(MidiEvent e),False,,NULL
+3,MidiEvent,5,String toString(),False,,NULL
+4,MidiFileFormat,1,int getType(),True,,"
+
+getType
+public int getType()
+Obtains the MIDI file type.
+
+Returns:
+the file's type (0, 1, or 2)
+
+
+"
+4,MidiFileFormat,2,long getByteLength(),False,,NULL
+4,MidiFileFormat,3,long getMicrosecondLength(),True,,"
+
+getMicrosecondLength
+public long getMicrosecondLength()
+Obtains the length of the MIDI file, expressed in microseconds.
+
+Returns:
+the file's duration in microseconds, or UNKNOWN_LENGTH if not known
+See Also:
+Sequence.getMicrosecondLength(), 
+getByteLength(), 
+UNKNOWN_LENGTH
+
+
+"
+4,MidiFileFormat,4,int getResolution(),True,,"
+
+getResolution
+public int getResolution()
+Obtains the timing resolution for the MIDI file.
+ If the division type is PPQ, the resolution is specified in ticks per beat.
+ For SMTPE timing, the resolution is specified in ticks per frame.
+
+Returns:
+the number of ticks per beat (PPQ) or per frame (SMPTE)
+See Also:
+getDivisionType(), 
+Sequence.getResolution()
+
+
+"
+4,MidiFileFormat,5,int getDivisionType(),False,,NULL
+5,MidiMessage,1,int getStatus(),True,,"
+
+getStatus
+public int getStatus()
+Obtains the status byte for the MIDI message.  The status ""byte"" is
+ represented as an integer; see the
+ discussion in the
+ MidiMessage class description.
+
+Returns:
+the integer representation of this event's status byte
+
+
+"
+5,MidiMessage,2,int getLength(),True,,"
+
+getLength
+public int getLength()
+Obtains the total length of the MIDI message in bytes.  A
+ MIDI message consists of one status byte and zero or more
+ data bytes.  The return value ranges from 1 for system real-time messages,
+ to 2 or 3 for channel messages, to any value for meta and system
+ exclusive messages.
+
+Returns:
+the length of the message in bytes
+
+
+"
+5,MidiMessage,3,byte[] getMessage(),True,,"
+
+getMessage
+public byte[] getMessage()
+Obtains the MIDI message data.  The first byte of the returned byte
+ array is the status byte of the message.  Any subsequent bytes up to
+ the length of the message are data bytes.  The byte array may have a
+ length which is greater than that of the actual message; the total
+ length of the message in bytes is reported by the getLength()
+ method.
+
+Returns:
+the byte array containing the complete MidiMessage data
+
+
+"
+5,MidiMessage,4,Object clone(),True,,"
+
+clone
+public abstract Object clone()
+Creates a new object of the same class and with the same contents
+ as this object.
+
+Overrides:
+clone in class Object
+Returns:
+a clone of this instance.
+See Also:
+Cloneable
+
+
+"
+5,MidiMessage,5,String toString(),False,,NULL
+6,MidiSystem,1,Sequencer getSequencer(),True,,"
+
+getSequencer
+public static Sequencer getSequencer()
+                              throws MidiUnavailableException
+Obtains the default Sequencer, connected to
+ a default device.
+ The returned Sequencer instance is
+ connected to the default Synthesizer,
+ as returned by getSynthesizer().
+ If there is no Synthesizer
+ available, or the default Synthesizer
+ cannot be opened, the sequencer is connected
+ to the default Receiver, as returned
+ by getReceiver().
+ The connection is made by retrieving a Transmitter
+ instance from the Sequencer and setting its
+ Receiver.
+ Closing and re-opening the sequencer will restore the
+ connection to the default device.
+
+ This method is equivalent to calling
+ getSequencer(true).
+
+ If the system property
+ javax.sound.midi.Sequencer
+ is defined or it is defined in the file ""sound.properties"",
+ it is used to identify the default sequencer.
+ For details, refer to the class description.
+
+Returns:
+the default sequencer, connected to a default Receiver
+Throws:
+MidiUnavailableException - if the sequencer is not
+         available due to resource restrictions,
+         or there is no Receiver available by any
+         installed MidiDevice,
+         or no sequencer is installed in the system.
+See Also:
+getSequencer(boolean), 
+getSynthesizer(), 
+getReceiver()
+
+
+"
+6,MidiSystem,2,Synthesizer getSynthesizer(),True,,"
+
+getSynthesizer
+public static Synthesizer getSynthesizer()
+                                  throws MidiUnavailableException
+Obtains the default synthesizer.
+
+ If the system property
+ javax.sound.midi.Synthesizer
+ is defined or it is defined in the file ""sound.properties"",
+ it is used to identify the default synthesizer.
+ For details, refer to the class description.
+
+Returns:
+the default synthesizer
+Throws:
+MidiUnavailableException - if the synthesizer is not
+         available due to resource restrictions,
+         or no synthesizer is installed in the system
+
+
+"
+6,MidiSystem,3,Receiver getReceiver(),True,,"
+
+getReceiver
+public static Receiver getReceiver()
+                            throws MidiUnavailableException
+Obtains a MIDI receiver from an external MIDI port
+ or other default device.
+ The returned receiver always implements
+ the MidiDeviceReceiver interface.
+
+ If the system property
+ javax.sound.midi.Receiver
+ is defined or it is defined in the file ""sound.properties"",
+ it is used to identify the device that provides the default receiver.
+ For details, refer to the class description.
+
+ If a suitable MIDI port is not available, the Receiver is
+ retrieved from an installed synthesizer.
+
+ If a native receiver provided by the default device does not implement
+ the MidiDeviceReceiver interface, it will be wrapped in a
+ wrapper class that implements the MidiDeviceReceiver interface.
+ The corresponding Receiver method calls will be forwarded
+ to the native receiver.
+
+ If this method returns successfully, the MidiDevice the
+ Receiver belongs to is opened implicitly, if it is
+ not already open. It is possible to close an implicitly opened
+ device by calling close
+ on the returned Receiver. All open Receiver
+ instances have to be closed in order to release system resources
+ hold by the MidiDevice. For a
+ detailed description of open/close behaviour see the class
+ description of MidiDevice.
+
+Returns:
+the default MIDI receiver
+Throws:
+MidiUnavailableException - if the default receiver is not
+         available due to resource restrictions,
+         or no device providing receivers is installed in the system
+
+
+"
+6,MidiSystem,4,Transmitter getTransmitter(),True,,"
+
+getTransmitter
+public static Transmitter getTransmitter()
+                                  throws MidiUnavailableException
+Obtains a MIDI transmitter from an external MIDI port
+ or other default source.
+ The returned transmitter always implements
+ the MidiDeviceTransmitter interface.
+
+ If the system property
+ javax.sound.midi.Transmitter
+ is defined or it is defined in the file ""sound.properties"",
+ it is used to identify the device that provides the default transmitter.
+ For details, refer to the class description.
+
+ If a native transmitter provided by the default device does not implement
+ the MidiDeviceTransmitter interface, it will be wrapped in a
+ wrapper class that implements the MidiDeviceTransmitter interface.
+ The corresponding Transmitter method calls will be forwarded
+ to the native transmitter.
+
+ If this method returns successfully, the MidiDevice the
+ Transmitter belongs to is opened implicitly, if it
+ is not already open. It is possible to close an implicitly
+ opened device by calling close on the returned
+ Transmitter. All open Transmitter
+ instances have to be closed in order to release system resources
+ hold by the MidiDevice. For a detailed description
+ of open/close behaviour see the class description of MidiDevice.
+
+Returns:
+the default MIDI transmitter
+Throws:
+MidiUnavailableException - if the default transmitter is not
+         available due to resource restrictions,
+         or no device providing transmitters is installed in the system
+
+
+"
+6,MidiSystem,5,MidiDevice.Info[] getMidiDeviceInfo(),True,,"
+
+getMidiDeviceInfo
+public static MidiDevice.Info[] getMidiDeviceInfo()
+Obtains an array of information objects representing
+ the set of all MIDI devices available on the system.
+ A returned information object can then be used to obtain the
+ corresponding device object, by invoking
+ getMidiDevice.
+
+Returns:
+an array of MidiDevice.Info objects, one
+ for each installed MIDI device.  If no such devices are installed,
+ an array of length 0 is returned.
+
+
+"
+7,Patch,1,int getBank(),True,,"
+
+getBank
+public int getBank()
+Returns the number of the bank that contains the instrument
+ whose location this Patch specifies.
+
+Returns:
+the bank number, whose range is from 0 to 16383
+See Also:
+MidiChannel.programChange(int, int)
+
+
+"
+7,Patch,2,int getProgram(),True,,"
+
+getProgram
+public int getProgram()
+Returns the index, within
+ a bank, of the instrument whose location this Patch specifies.
+
+Returns:
+the instrument's program number, whose range is from 0 to 127
+See Also:
+MidiChannel.getProgram(), 
+MidiChannel.programChange(int), 
+MidiChannel.programChange(int, int)
+
+
+"
+7,Patch,3,boolean equals(Object obj),False,,NULL
+7,Patch,4,int hashCode(),False,,NULL
+7,Patch,5,String toString(),False,,NULL
+8,Sequence,1,Track createTrack(),True,,"
+
+createTrack
+public Track createTrack()
+Creates a new, initially empty track as part of this sequence.
+ The track initially contains the meta-event End of Track.
+ The newly created track is returned.  All tracks in the sequence
+ may be retrieved using getTracks().  Tracks may be
+ removed from the sequence using deleteTrack(javax.sound.midi.Track).
+
+Returns:
+the newly created track
+
+
+"
+8,Sequence,2,long getMicrosecondLength(),True,,"
+
+getMicrosecondLength
+public long getMicrosecondLength()
+Obtains the duration of this sequence, expressed in microseconds.
+
+Returns:
+this sequence's duration in microseconds.
+
+
+"
+8,Sequence,3,int getResolution(),True,,"
+
+getResolution
+public int getResolution()
+Obtains the timing resolution for this sequence.
+ If the sequence's division type is PPQ, the resolution is specified in ticks per beat.
+ For SMTPE timing, the resolution is specified in ticks per frame.
+
+Returns:
+the number of ticks per beat (PPQ) or per frame (SMPTE)
+See Also:
+getDivisionType(), 
+Sequence(float, int), 
+MidiFileFormat.getResolution()
+
+
+"
+8,Sequence,4,float getDivisionType(),True,,"
+
+getDivisionType
+public float getDivisionType()
+Obtains the timing division type for this sequence.
+
+Returns:
+the division type (PPQ or one of the SMPTE types)
+See Also:
+PPQ, 
+SMPTE_24, 
+SMPTE_25, 
+SMPTE_30DROP, 
+SMPTE_30, 
+Sequence(float, int), 
+MidiFileFormat.getDivisionType()
+
+
+"
+8,Sequence,5,void deleteTrack(Track track),False,,NULL
+9,Sequencer.SyncMode,1,boolean canPulse,False,,NULL
+9,Sequencer.SyncMode,2,boolean canStart,False,,NULL
+9,Sequencer.SyncMode,3,boolean canStop,False,,NULL
+9,Sequencer.SyncMode,4,boolean canSync,False,,NULL
+9,Sequencer.SyncMode,5,boolean canTempo,False,,NULL
+10,ShortMessage,1,int getChannel(),True,,"
+
+getChannel
+public int getChannel()
+Obtains the MIDI channel associated with this event.  This method
+ assumes that the event is a MIDI channel message; if not, the return
+ value will not be meaningful.
+
+Returns:
+MIDI channel associated with the message.
+See Also:
+setMessage(int, int, int, int)
+
+
+"
+10,ShortMessage,2,int getCommand(),True,,"
+
+getCommand
+public int getCommand()
+Obtains the MIDI command associated with this event.  This method
+ assumes that the event is a MIDI channel message; if not, the return
+ value will not be meaningful.
+
+Returns:
+the MIDI command associated with this event
+See Also:
+setMessage(int, int, int, int)
+
+
+"
+10,ShortMessage,3,int getData1(),True,,"
+
+getData1
+public int getData1()
+Obtains the first data byte in the message.
+
+Returns:
+the value of the data1 field
+See Also:
+setMessage(int, int, int)
+
+
+"
+10,ShortMessage,4,int getData2(),True,,"
+
+getData2
+public int getData2()
+Obtains the second data byte in the message.
+
+Returns:
+the value of the data2 field
+See Also:
+setMessage(int, int, int)
+
+
+"
+10,ShortMessage,5,int getLength(),False,,NULL
+11,SoundbankResource,1,String getDescription(),False,,NULL
+11,SoundbankResource,2,InputStream openStream(),False,,NULL
+11,SoundbankResource,3,boolean isLooping(),False,,NULL
+11,SoundbankResource,4,void setLooping(boolean looping),False,,NULL
+11,SoundbankResource,5,long getLength(),False,,NULL
+12,SysexMessage,1,int getLength(),False,,NULL
+12,SysexMessage,2,byte[] getData(),True,,"
+
+getData
+public byte[] getData()
+Obtains a copy of the data for the system exclusive message.
+ The returned array of bytes does not include the status byte.
+
+Returns:
+array containing the system exclusive message data.
+
+
+"
+12,SysexMessage,3,"void setMessage(byte[] data, int length)",True,,"
+
+setMessage
+public void setMessage(byte[] data,
+                       int length)
+                throws InvalidMidiDataException
+Sets the data for the system exclusive message.   The
+ first byte of the data array must be a valid system
+ exclusive status byte (0xF0 or 0xF7).
+
+Overrides:
+setMessage in class MidiMessage
+Parameters:
+data - the system exclusive message data
+length - the length of the valid message data in
+ the array, including the status byte.
+Throws:
+InvalidMidiDataException - if the parameter values do not specify a valid MIDI meta message
+
+
+"
+12,SysexMessage,4,SysexMessage clone(),False,,NULL
+12,SysexMessage,5,String toString(),False,,NULL
+13,Track,1,void add(MidiEvent event),False,,NULL
+13,Track,2,MidiEvent get(int index),True,,"
+
+get
+public MidiEvent get(int index)
+              throws ArrayIndexOutOfBoundsException
+Obtains the event at the specified index.
+
+Parameters:
+index - the location of the desired event in the event vector
+Returns:
+the event at the specified index
+Throws:
+ArrayIndexOutOfBoundsException - if the
+ specified index is negative or not less than the current size of
+ this track.
+See Also:
+size()
+
+
+"
+13,Track,3,int size(),True,,"
+
+size
+public int size()
+Obtains the number of events in this track.
+
+Returns:
+the size of the track's event vector
+
+
+"
+13,Track,4,void remove(MidiEvent event),False,,NULL
+13,Track,5,void clear(),False,,NULL
+14,VoiceStatus,1,int getVoice(),False,,NULL
+14,VoiceStatus,2,int getChannel(),False,,NULL
+14,VoiceStatus,3,boolean isActive(),False,,NULL
+14,VoiceStatus,4,int getBank(),False,,NULL
+14,VoiceStatus,5,int getProgram(),False,,NULL

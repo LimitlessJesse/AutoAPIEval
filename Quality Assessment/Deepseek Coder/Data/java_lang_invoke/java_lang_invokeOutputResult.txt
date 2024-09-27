@@ -1,0 +1,94 @@
+Sample: ConstantCallSite_3
+----------------------------------------------------------------
+output:
+./Data/java_lang_invoke/javaFiles/ConstantCallSite_3.java:17: error: cannot find symbol
+        ConstantCallSite callSite = ConstantCallSite.create(addMethodHandle);
+                                                    ^
+  symbol:   method create(MethodHandle)
+  location: class ConstantCallSite
+1 error
+
+
+================================================================
+
+Sample: MethodHandles_Lookup_3
+----------------------------------------------------------------
+stderr:
+Exception in thread "main" java.lang.IllegalAccessException: no such method: java.util.ArrayList.add(Object)boolean/invokeStatic
+	at java.base/java.lang.invoke.MemberName.makeAccessException(MemberName.java:972)
+	at java.base/java.lang.invoke.MemberName$Factory.resolveOrFail(MemberName.java:1117)
+	at java.base/java.lang.invoke.MethodHandles$Lookup.resolveOrFail(MethodHandles.java:3649)
+	at java.base/java.lang.invoke.MethodHandles$Lookup.findStatic(MethodHandles.java:2588)
+	at MethodHandles_Lookup_3.main(MethodHandles_Lookup_3.java:9)
+Caused by: java.lang.IncompatibleClassChangeError: Expected static method 'boolean java.util.ArrayList.add(java.lang.Object)'
+	at java.base/java.lang.invoke.MethodHandleNatives.resolve(Native Method)
+	at java.base/java.lang.invoke.MemberName$Factory.resolve(MemberName.java:1085)
+	at java.base/java.lang.invoke.MemberName$Factory.resolveOrFail(MemberName.java:1114)
+	at java.base/java.lang.invoke.MethodHandles$Lookup.resolveOrFail(MethodHandles.java:3649)
+	at java.base/java.lang.invoke.MethodHandles$Lookup.findStatic(MethodHandles.java:2588)
+	at MethodHandles_Lookup_3.main(MethodHandles_Lookup_3.java:9)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at jdk.compiler/com.sun.tools.javac.launcher.Main.execute(Main.java:419)
+	at jdk.compiler/com.sun.tools.javac.launcher.Main.run(Main.java:192)
+	at jdk.compiler/com.sun.tools.javac.launcher.Main.main(Main.java:132)
+
+================================================================
+
+Sample: MethodHandles_Lookup_4
+----------------------------------------------------------------
+stdout:
+[Hello]
+
+================================================================
+
+Sample: MutableCallSite_3
+----------------------------------------------------------------
+output:
+./Data/java_lang_invoke/javaFiles/MutableCallSite_3.java:13: error: cannot find symbol
+        MethodHandle addMethodHandle = lookup.findVirtual(ArrayList.class, "add", MethodType.methodType(boolean.class, Object.class), ArrayList.class);
+                                                                                  ^
+  symbol:   variable MethodType
+  location: class MutableCallSite_3
+./Data/java_lang_invoke/javaFiles/MutableCallSite_3.java:28: error: cannot find symbol
+        Method method = ((MethodHandles.Lookup) target.lookup()).reflect();
+                                                      ^
+  symbol:   method lookup()
+  location: variable target of type MethodHandle
+./Data/java_lang_invoke/javaFiles/MutableCallSite_3.java:28: error: cannot find symbol
+        Method method = ((MethodHandles.Lookup) target.lookup()).reflect();
+                                                                ^
+  symbol:   method reflect()
+  location: class Lookup
+3 errors
+
+
+================================================================
+
+Sample: MutableCallSite_4
+----------------------------------------------------------------
+output:
+./Data/java_lang_invoke/javaFiles/MutableCallSite_4.java:13: error: cannot find symbol
+        MethodHandle addMethodHandle = lookup.findVirtual(ArrayList.class, "add", MethodType.methodType(boolean.class, Object.class), ArrayList.class.getMethod("add", Object.class));
+                                                                                  ^
+  symbol:   variable MethodType
+  location: class MutableCallSite_4
+./Data/java_lang_invoke/javaFiles/MutableCallSite_4.java:16: error: no suitable constructor found for MutableCallSite(no arguments)
+        MutableCallSite callSite = new MutableCallSite();
+                                   ^
+    constructor MutableCallSite.MutableCallSite(MethodType) is not applicable
+      (actual and formal argument lists differ in length)
+    constructor MutableCallSite.MutableCallSite(MethodHandle) is not applicable
+      (actual and formal argument lists differ in length)
+./Data/java_lang_invoke/javaFiles/MutableCallSite_4.java:22: error: cannot find symbol
+        callSite.dynamicInvoke(list, "Hello");
+                ^
+  symbol:   method dynamicInvoke(ArrayList<String>,String)
+  location: variable callSite of type MutableCallSite
+3 errors
+
+
+================================================================
+

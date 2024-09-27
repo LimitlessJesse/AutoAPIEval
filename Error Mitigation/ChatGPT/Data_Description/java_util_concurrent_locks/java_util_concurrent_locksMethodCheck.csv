@@ -1,0 +1,385 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+1,AbstractQueuedLongSynchronizer,1,void setState(long newState),True,,"
+
+setState
+protected final void setState(long newState)
+Sets the value of synchronization state.
+ This operation has memory semantics of a volatile write.
+
+Parameters:
+newState - the new state value
+
+
+"
+1,AbstractQueuedLongSynchronizer,2,long getState(),True,,"
+
+getState
+protected final long getState()
+Returns the current value of synchronization state.
+ This operation has memory semantics of a volatile read.
+
+Returns:
+current state value
+
+
+"
+1,AbstractQueuedLongSynchronizer,3,"boolean compareAndSetState(long expect, long update)",True,,"
+
+compareAndSetState
+protected final boolean compareAndSetState(long expect,
+                                           long update)
+Atomically sets synchronization state to the given updated
+ value if the current state value equals the expected value.
+ This operation has memory semantics of a volatile read
+ and write.
+
+Parameters:
+expect - the expected value
+update - the new value
+Returns:
+true if successful. False return indicates that the actual
+         value was not equal to the expected value.
+
+
+"
+1,AbstractQueuedLongSynchronizer,4,void acquire(long arg),True,,"
+
+acquire
+public final void acquire(long arg)
+Acquires in exclusive mode, ignoring interrupts.  Implemented
+ by invoking at least once tryAcquire(long),
+ returning on success.  Otherwise the thread is queued, possibly
+ repeatedly blocking and unblocking, invoking tryAcquire(long) until success.  This method can be used
+ to implement method Lock.lock().
+
+Parameters:
+arg - the acquire argument.  This value is conveyed to
+        tryAcquire(long) but is otherwise uninterpreted and
+        can represent anything you like.
+
+
+"
+1,AbstractQueuedLongSynchronizer,5,boolean release(long arg),True,,"
+
+release
+public final boolean release(long arg)
+Releases in exclusive mode.  Implemented by unblocking one or
+ more threads if tryRelease(long) returns true.
+ This method can be used to implement method Lock.unlock().
+
+Parameters:
+arg - the release argument.  This value is conveyed to
+        tryRelease(long) but is otherwise uninterpreted and
+        can represent anything you like.
+Returns:
+the value returned from tryRelease(long)
+
+
+"
+2,AbstractQueuedSynchronizer,1,void acquire(int permits),True,,"
+
+acquire
+public final void acquire(int arg)
+Acquires in exclusive mode, ignoring interrupts.  Implemented
+ by invoking at least once tryAcquire(int),
+ returning on success.  Otherwise the thread is queued, possibly
+ repeatedly blocking and unblocking, invoking tryAcquire(int) until success.  This method can be used
+ to implement method Lock.lock().
+
+Parameters:
+arg - the acquire argument.  This value is conveyed to
+        tryAcquire(int) but is otherwise uninterpreted and
+        can represent anything you like.
+
+
+"
+2,AbstractQueuedSynchronizer,2,"boolean tryAcquireNanos(int permits, long nanosTimeout)",True,,"
+
+tryAcquireNanos
+public final boolean tryAcquireNanos(int arg,
+                                     long nanosTimeout)
+                              throws InterruptedException
+Attempts to acquire in exclusive mode, aborting if interrupted,
+ and failing if the given timeout elapses.  Implemented by first
+ checking interrupt status, then invoking at least once tryAcquire(int), returning on success.  Otherwise, the thread is
+ queued, possibly repeatedly blocking and unblocking, invoking
+ tryAcquire(int) until success or the thread is interrupted
+ or the timeout elapses.  This method can be used to implement
+ method Lock.tryLock(long, TimeUnit).
+
+Parameters:
+arg - the acquire argument.  This value is conveyed to
+        tryAcquire(int) but is otherwise uninterpreted and
+        can represent anything you like.
+nanosTimeout - the maximum number of nanoseconds to wait
+Returns:
+true if acquired; false if timed out
+Throws:
+InterruptedException - if the current thread is interrupted
+
+
+"
+2,AbstractQueuedSynchronizer,3,void release(int permits),False,,NULL
+2,AbstractQueuedSynchronizer,4,int getQueueLength(),True,,"
+
+getQueueLength
+public final int getQueueLength()
+Returns an estimate of the number of threads waiting to
+ acquire.  The value is only an estimate because the number of
+ threads may change dynamically while this method traverses
+ internal data structures.  This method is designed for use in
+ monitoring system state, not for synchronization
+ control.
+
+Returns:
+the estimated number of threads waiting to acquire
+
+
+"
+2,AbstractQueuedSynchronizer,5,boolean hasQueuedThreads(),True,,"
+
+hasQueuedThreads
+public final boolean hasQueuedThreads()
+Queries whether any threads are waiting to acquire. Note that
+ because cancellations due to interrupts and timeouts may occur
+ at any time, a true return does not guarantee that any
+ other thread will ever acquire.
+
+ In this implementation, this operation returns in
+ constant time.
+
+Returns:
+true if there may be other threads waiting to acquire
+
+
+"
+4,ReentrantLock,1,void lock(),True,,"
+
+lock
+public void lock()
+Acquires the lock.
+
+ Acquires the lock if it is not held by another thread and returns
+ immediately, setting the lock hold count to one.
+
+ If the current thread already holds the lock then the hold
+ count is incremented by one and the method returns immediately.
+
+ If the lock is held by another thread then the
+ current thread becomes disabled for thread scheduling
+ purposes and lies dormant until the lock has been acquired,
+ at which time the lock hold count is set to one.
+
+Specified by:
+lock in interface Lock
+
+
+"
+4,ReentrantLock,2,void unlock(),True,,"
+
+unlock
+public void unlock()
+Attempts to release this lock.
+
+ If the current thread is the holder of this lock then the hold
+ count is decremented.  If the hold count is now zero then the lock
+ is released.  If the current thread is not the holder of this
+ lock then IllegalMonitorStateException is thrown.
+
+Specified by:
+unlock in interface Lock
+Throws:
+IllegalMonitorStateException - if the current thread does not
+         hold this lock
+
+
+"
+4,ReentrantLock,3,Condition newCondition(),True,,"
+
+newCondition
+public Condition newCondition()
+Returns a Condition instance for use with this
+ Lock instance.
+
+ The returned Condition instance supports the same
+ usages as do the Object monitor methods (wait, notify, and notifyAll) when used with the built-in
+ monitor lock.
+
+ 
+If this lock is not held when any of the Condition
+waiting or signalling methods are called, then an IllegalMonitorStateException is thrown.
+
+ When the condition waiting
+ methods are called the lock is released and, before they
+ return, the lock is reacquired and the lock hold count restored
+ to what it was when the method was called.
+
+ If a thread is interrupted
+ while waiting then the wait will terminate, an InterruptedException will be thrown, and the thread's
+ interrupted status will be cleared.
+
+  Waiting threads are signalled in FIFO order.
+
+ The ordering of lock reacquisition for threads returning
+ from waiting methods is the same as for threads initially
+ acquiring the lock, which is in the default case not specified,
+ but for fair locks favors those threads that have been
+ waiting the longest.
+
+ 
+
+Specified by:
+newCondition in interface Lock
+Returns:
+the Condition object
+
+
+"
+4,ReentrantLock,4,boolean tryLock(),True,,"
+
+tryLock
+public boolean tryLock()
+Acquires the lock only if it is not held by another thread at the time
+ of invocation.
+
+ Acquires the lock if it is not held by another thread and
+ returns immediately with the value true, setting the
+ lock hold count to one. Even when this lock has been set to use a
+ fair ordering policy, a call to tryLock() will
+ immediately acquire the lock if it is available, whether or not
+ other threads are currently waiting for the lock.
+ This ""barging"" behavior can be useful in certain
+ circumstances, even though it breaks fairness. If you want to honor
+ the fairness setting for this lock, then use
+ tryLock(0, TimeUnit.SECONDS) 
+ which is almost equivalent (it also detects interruption).
+
+ If the current thread already holds this lock then the hold
+ count is incremented by one and the method returns true.
+
+ If the lock is held by another thread then this method will return
+ immediately with the value false.
+
+Specified by:
+tryLock in interface Lock
+Returns:
+true if the lock was free and was acquired by the
+         current thread, or the lock was already held by the current
+         thread; and false otherwise
+
+
+"
+4,ReentrantLock,5,boolean isHeldByCurrentThread(),True,,"
+
+isHeldByCurrentThread
+public boolean isHeldByCurrentThread()
+Queries if this lock is held by the current thread.
+
+ Analogous to the Thread.holdsLock(Object) method for
+ built-in monitor locks, this method is typically used for
+ debugging and testing. For example, a method that should only be
+ called while a lock is held can assert that this is the case:
+
+   
+ class X {
+   ReentrantLock lock = new ReentrantLock();
+   // ...
+
+   public void m() {
+       assert lock.isHeldByCurrentThread();
+       // ... method body
+   }
+ }
+It can also be used to ensure that a reentrant lock is used
+ in a non-reentrant manner, for example:
+
+   
+ class X {
+   ReentrantLock lock = new ReentrantLock();
+   // ...
+
+   public void m() {
+       assert !lock.isHeldByCurrentThread();
+       lock.lock();
+       try {
+           // ... method body
+       } finally {
+           lock.unlock();
+       }
+   }
+ }
+
+Returns:
+true if current thread holds this lock and
+         false otherwise
+
+
+"
+5,ReentrantReadWriteLock,1,ReadWriteLock readWriteLock(),False,,NULL
+5,ReentrantReadWriteLock,2,Lock readLock(),False,,NULL
+5,ReentrantReadWriteLock,3,Lock writeLock(),False,,NULL
+5,ReentrantReadWriteLock,4,int getReadHoldCount(),True,,"
+
+getReadHoldCount
+public int getReadHoldCount()
+Queries the number of reentrant read holds on this lock by the
+ current thread.  A reader thread has a hold on a lock for
+ each lock action that is not matched by an unlock action.
+
+Returns:
+the number of holds on the read lock by the current thread,
+         or zero if the read lock is not held by the current thread
+Since:
+1.6
+
+
+"
+5,ReentrantReadWriteLock,5,int getWriteHoldCount(),True,,"
+
+getWriteHoldCount
+public int getWriteHoldCount()
+Queries the number of reentrant write holds on this lock by the
+ current thread.  A writer thread has a hold on a lock for
+ each lock action that is not matched by an unlock action.
+
+Returns:
+the number of holds on the write lock by the current thread,
+         or zero if the write lock is not held by the current thread
+
+
+"
+6,ReentrantReadWriteLock.ReadLock,1,void lock(),True,,"
+
+lock
+public void lock()
+Acquires the read lock.
+
+ Acquires the read lock if the write lock is not held by
+ another thread and returns immediately.
+
+ If the write lock is held by another thread then
+ the current thread becomes disabled for thread scheduling
+ purposes and lies dormant until the read lock has been acquired.
+
+Specified by:
+lock in interface Lock
+
+
+"
+6,ReentrantReadWriteLock.ReadLock,2,void unlock(),True,,"
+
+unlock
+public void unlock()
+Attempts to release this lock.
+
+ If the number of readers is now zero then the lock
+ is made available for write lock attempts.
+
+Specified by:
+unlock in interface Lock
+
+
+"
+6,ReentrantReadWriteLock.ReadLock,3,int getHoldCount(),False,,NULL
+6,ReentrantReadWriteLock.ReadLock,4,boolean isHeldByCurrentThread(),False,,NULL
+6,ReentrantReadWriteLock.ReadLock,5,int getQueueLength(),False,,NULL

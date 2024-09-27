@@ -1,0 +1,181 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,IIOMetadata,1,IIOMetadataFormat getMetadataFormat(),False,,NULL
+0,IIOMetadata,2,Node getAsTree(String formatName),True,,"
+
+getAsTree
+public abstract Node getAsTree(String formatName)
+Returns an XML DOM Node object that represents the
+ root of a tree of metadata contained within this object
+ according to the conventions defined by a given metadata
+ format.
+
+  The names of the available metadata formats may be queried
+ using the getMetadataFormatNames method.
+
+Parameters:
+formatName - the desired metadata format.
+Returns:
+an XML DOM Node object forming the
+ root of a tree.
+Throws:
+IllegalArgumentException - if formatName
+ is null or is not one of the names returned by
+ getMetadataFormatNames.
+See Also:
+getMetadataFormatNames(), 
+setFromTree(java.lang.String, org.w3c.dom.Node), 
+mergeTree(java.lang.String, org.w3c.dom.Node)
+
+
+"
+0,IIOMetadata,3,"void mergeTree(String formatName, Node root)",True,,"
+
+mergeTree
+public abstract void mergeTree(String formatName,
+                               Node root)
+                        throws IIOInvalidTreeException
+Alters the internal state of this IIOMetadata
+ object from a tree of XML DOM Nodes whose syntax
+ is defined by the given metadata format.  The previous state is
+ altered only as necessary to accommodate the nodes that are
+ present in the given tree.  If the tree structure or contents
+ are invalid, an IIOInvalidTreeException will be
+ thrown.
+
+  As the semantics of how a tree or subtree may be merged with
+ another tree are completely format-specific, plug-in authors may
+ implement this method in whatever manner is most appropriate for
+ the format, including simply replacing all existing state with the
+ contents of the given tree.
+
+Parameters:
+formatName - the desired metadata format.
+root - an XML DOM Node object forming the
+ root of a tree.
+Throws:
+IllegalStateException - if this object is read-only.
+IllegalArgumentException - if formatName
+ is null or is not one of the names returned by
+ getMetadataFormatNames.
+IllegalArgumentException - if root is
+ null.
+IIOInvalidTreeException - if the tree cannot be parsed
+ successfully using the rules of the given format.
+See Also:
+getMetadataFormatNames(), 
+getAsTree(java.lang.String), 
+setFromTree(java.lang.String, org.w3c.dom.Node)
+
+
+"
+0,IIOMetadata,4,void reset(),True,,"
+
+reset
+public abstract void reset()
+Resets all the data stored in this object to default values,
+ usually to the state this object was in immediately after
+ construction, though the precise semantics are plug-in specific.
+ Note that there are many possible default values, depending on
+ how the object was created.
+
+Throws:
+IllegalStateException - if this object is read-only.
+See Also:
+ImageReader.getStreamMetadata(), 
+ImageReader.getImageMetadata(int), 
+ImageWriter.getDefaultStreamMetadata(javax.imageio.ImageWriteParam), 
+ImageWriter.getDefaultImageMetadata(javax.imageio.ImageTypeSpecifier, javax.imageio.ImageWriteParam)
+
+
+"
+0,IIOMetadata,5,boolean isReadOnly(),True,,"
+
+isReadOnly
+public abstract boolean isReadOnly()
+Returns true if this object does not support the
+ mergeTree, setFromTree, and
+ reset methods.
+
+Returns:
+true if this IIOMetadata object cannot be
+ modified.
+
+
+"
+1,IIOMetadataFormatImpl,1,IIOMetadataNode getElement(String elementName),False,,NULL
+1,IIOMetadataFormatImpl,2,IIOMetadataNode getRoot(),False,,NULL
+1,IIOMetadataFormatImpl,3,"String getElementDescription(String elementName, Locale locale)",True,,"
+
+getElementDescription
+public String getElementDescription(String elementName,
+                                    Locale locale)
+Returns a String containing a description of the
+ named element, or null.  The description will be
+ localized for the supplied Locale if possible.
+
+  The default implementation will first locate a
+ ResourceBundle using the current resource base
+ name set by setResourceBaseName and the supplied
+ Locale, using the fallback mechanism described in
+ the comments for ResourceBundle.getBundle.  If a
+ ResourceBundle is found, the element name will be
+ used as a key to its getString method, and the
+ result returned.  If no ResourceBundle is found,
+ or no such key is present, null will be returned.
+
+  If locale is null, the current
+ default Locale returned by Locale.getLocale
+ will be used.
+
+Specified by:
+getElementDescription in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element.
+locale - the Locale for which localization
+ will be attempted.
+Returns:
+the element description.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this format.
+See Also:
+setResourceBaseName(java.lang.String)
+
+
+"
+1,IIOMetadataFormatImpl,4,String[] getChildNames(String elementName),True,,"
+
+getChildNames
+public String[] getChildNames(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns an array of Strings indicating the names
+ of the element which are allowed to be children of the named
+ element, in the order in which they should appear.  If the
+ element cannot have children, null is returned.
+
+Specified by:
+getChildNames in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+an array of Strings, or null.
+
+
+"
+1,IIOMetadataFormatImpl,5,String[] getAttributeNames(String elementName),True,,"
+
+getAttributeNames
+public String[] getAttributeNames(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns an array of Strings listing the names of
+ the attributes that may be associated with the named element.
+
+Specified by:
+getAttributeNames in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+an array of Strings.
+
+
+"

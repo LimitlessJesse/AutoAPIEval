@@ -1,0 +1,235 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,ZoneOffsetTransition,1,ZoneOffset getOffsetBefore(),True,,"
+
+getOffsetBefore
+public ZoneOffset getOffsetBefore()
+Gets the offset before the transition.
+ 
+ This is the offset in use before the instant of the transition.
+
+Returns:
+the offset before the transition, not null
+
+
+"
+0,ZoneOffsetTransition,2,ZoneOffset getOffsetAfter(),True,,"
+
+getOffsetAfter
+public ZoneOffset getOffsetAfter()
+Gets the offset after the transition.
+ 
+ This is the offset in use on and after the instant of the transition.
+
+Returns:
+the offset after the transition, not null
+
+
+"
+0,ZoneOffsetTransition,3,boolean isGap(),True,,"
+
+isGap
+public boolean isGap()
+Does this transition represent a gap in the local time-line.
+ 
+ Gaps occur where there are local date-times that simply do not exist.
+ An example would be when the offset changes from +01:00 to +02:00.
+ This might be described as 'the clocks will move forward one hour tonight at 1am'.
+
+Returns:
+true if this transition is a gap, false if it is an overlap
+
+
+"
+0,ZoneOffsetTransition,4,boolean isValidOffset(ZoneOffset offset),True,,"
+
+isValidOffset
+public boolean isValidOffset(ZoneOffset offset)
+Checks if the specified offset is valid during this transition.
+ 
+ This checks to see if the given offset will be valid at some point in the transition.
+ A gap will always return false.
+ An overlap will return true if the offset is either the before or after offset.
+
+Parameters:
+offset - the offset to check, null returns false
+Returns:
+true if the offset is valid during the transition
+
+
+"
+0,ZoneOffsetTransition,5,Instant getInstant(),True,,"
+
+getInstant
+public Instant getInstant()
+Gets the transition instant.
+ 
+ This is the instant of the discontinuity, which is defined as the first
+ instant that the 'after' offset applies.
+ 
+ The methods getInstant(), getDateTimeBefore() and getDateTimeAfter()
+ all represent the same instant.
+
+Returns:
+the transition instant, not null
+
+
+"
+1,ZoneOffsetTransitionRule,1,ZoneOffsetTransition createTransition(LocalDateTime dateTime),False,,NULL
+1,ZoneOffsetTransitionRule,2,ZoneOffsetTransition createTransition(int year),True,,"
+
+createTransition
+public ZoneOffsetTransition createTransition(int year)
+Creates a transition instance for the specified year.
+ 
+ Calculations are performed using the ISO-8601 chronology.
+
+Parameters:
+year - the year to create a transition for, not null
+Returns:
+the transition instance, not null
+
+
+"
+1,ZoneOffsetTransitionRule,3,"ZoneOffsetTransition createTransition(int year, Month month, int dayOfMonth, LocalTime time, boolean timeEndOfDay, ZoneOffsetTransitionRule.TimeDefinition timeDefnition)",False,,NULL
+1,ZoneOffsetTransitionRule,4,boolean isTransition(LocalDate localDate),False,,NULL
+1,ZoneOffsetTransitionRule,5,"ZoneOffsetTransitionRule createRule(Month month, int dayOfMonthIndicator, DayOfWeek dayOfWeek, LocalTime time, boolean timeEndOfDay, ZoneOffsetTransitionRule.TimeDefinition timeDefinition, ZoneOffset standardOffset, ZoneOffset offsetBefore, ZoneOffset offsetAfter)",False,,NULL
+2,ZoneRules,1,ZoneOffset getOffset(LocalDateTime dateTime),True,,"
+
+getOffset
+public ZoneOffset getOffset(LocalDateTime localDateTime)
+Gets a suitable offset for the specified local date-time in these rules.
+ 
+ The mapping from a local date-time to an offset is not straightforward.
+ There are three cases:
+ 
+Normal, with one valid offset. For the vast majority of the year, the normal
+  case applies, where there is a single valid offset for the local date-time.
+Gap, with zero valid offsets. This is when clocks jump forward typically
+  due to the spring daylight savings change from ""winter"" to ""summer"".
+  In a gap there are local date-time values with no valid offset.
+Overlap, with two valid offsets. This is when clocks are set back typically
+  due to the autumn daylight savings change from ""summer"" to ""winter"".
+  In an overlap there are local date-time values with two valid offsets.
+
+ Thus, for any given local date-time there can be zero, one or two valid offsets.
+ This method returns the single offset in the Normal case, and in the Gap or Overlap
+ case it returns the offset before the transition.
+ 
+ Since, in the case of Gap and Overlap, the offset returned is a ""best"" value, rather
+ than the ""correct"" value, it should be treated with care. Applications that care
+ about the correct offset should use a combination of this method,
+ getValidOffsets(LocalDateTime) and getTransition(LocalDateTime).
+
+Parameters:
+localDateTime - the local date-time to query, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the best available offset for the local date-time, not null
+
+
+"
+2,ZoneRules,2,ZoneOffsetTransition nextTransition(Instant instant),True,,"
+
+nextTransition
+public ZoneOffsetTransition nextTransition(Instant instant)
+Gets the next transition after the specified instant.
+ 
+ This returns details of the next transition after the specified instant.
+ For example, if the instant represents a point where ""Summer"" daylight savings time
+ applies, then the method will return the transition to the next ""Winter"" time.
+
+Parameters:
+instant - the instant to get the next transition after, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the next transition after the specified instant, null if this is after the last transition
+
+
+"
+2,ZoneRules,3,boolean isFixedOffset(),True,,"
+
+isFixedOffset
+public boolean isFixedOffset()
+Checks of the zone rules are fixed, such that the offset never varies.
+
+Returns:
+true if the time-zone is fixed and the offset never changes
+
+
+"
+2,ZoneRules,4,List<ZoneOffsetTransition> getTransitions(),True,,"
+
+getTransitions
+public List<ZoneOffsetTransition> getTransitions()
+Gets the complete list of fully defined transitions.
+ 
+ The complete set of transitions for this rules instance is defined by this method
+ and getTransitionRules(). This method returns those transitions that have
+ been fully defined. These are typically historical, but may be in the future.
+ 
+ The list will be empty for fixed offset rules and for any time-zone where there has
+ only ever been a single offset. The list will also be empty if the transition rules are unknown.
+
+Returns:
+an immutable list of fully defined transitions, not null
+
+
+"
+2,ZoneRules,5,ZoneOffsetTransition getTransition(LocalDateTime dateTime),True,,"
+
+getTransition
+public ZoneOffsetTransition getTransition(LocalDateTime localDateTime)
+Gets the offset transition applicable at the specified local date-time in these rules.
+ 
+ The mapping from a local date-time to an offset is not straightforward.
+ There are three cases:
+ 
+Normal, with one valid offset. For the vast majority of the year, the normal
+  case applies, where there is a single valid offset for the local date-time.
+Gap, with zero valid offsets. This is when clocks jump forward typically
+  due to the spring daylight savings change from ""winter"" to ""summer"".
+  In a gap there are local date-time values with no valid offset.
+Overlap, with two valid offsets. This is when clocks are set back typically
+  due to the autumn daylight savings change from ""summer"" to ""winter"".
+  In an overlap there are local date-time values with two valid offsets.
+
+ A transition is used to model the cases of a Gap or Overlap.
+ The Normal case will return null.
+ 
+ There are various ways to handle the conversion from a LocalDateTime.
+ One technique, using this method, would be:
+ 
+  ZoneOffsetTransition trans = rules.getTransition(localDT);
+  if (trans == null) {
+    // Gap or Overlap: determine what to do from transition
+  } else {
+    // Normal case: only one valid offset
+    zoneOffset = rule.getOffset(localDT);
+  }
+ 
+
+Parameters:
+localDateTime - the local date-time to query for offset transition, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the offset transition, null if the local date-time is not in transition
+
+
+"
+3,ZoneRulesProvider,1,Set<String> getAvailableZoneIds(),True,,"
+
+getAvailableZoneIds
+public static Set<String> getAvailableZoneIds()
+Gets the set of available zone IDs.
+ 
+ These IDs are the string form of a ZoneId.
+
+Returns:
+a modifiable copy of the set of zone IDs, not null
+
+
+"
+3,ZoneRulesProvider,2,ZoneRules getRules(String zoneId),False,,NULL
+3,ZoneRulesProvider,3,ZoneOffset getOffset(Instant instant),False,,NULL
+3,ZoneRulesProvider,4,boolean isFixedOffset(),False,,NULL
+3,ZoneRulesProvider,5,ZoneOffsetTransitionRules getTransitionRules(),False,,NULL

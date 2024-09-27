@@ -1,0 +1,315 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,BinaryRefAddr,1,"BinaryRefAddr(String type, byte[] addr)",False,,NULL
+0,BinaryRefAddr,2,String getType(),False,,NULL
+0,BinaryRefAddr,3,byte[] getAddress(),False,,NULL
+0,BinaryRefAddr,4,boolean equals(Object obj),True,Determines whether obj is equal to this address.,"
+
+equals
+public boolean equals(Object obj)
+Determines whether obj is equal to this address.  It is equal if
+ it contains the same address type and their contents are byte-wise
+ equivalent.
+
+Overrides:
+equals in class RefAddr
+Parameters:
+obj - The possibly null object to check.
+Returns:
+true if the object is equal; false otherwise.
+See Also:
+RefAddr.getContent(), 
+RefAddr.getType()
+
+
+"
+0,BinaryRefAddr,5,int hashCode(),True,Computes the hash code of this address using its address type and contents.,"
+
+hashCode
+public int hashCode()
+Computes the hash code of this address using its address type and contents.
+ Two BinaryRefAddrs have the same hash code if they have
+ the same address type and the same contents.
+ It is also possible for different BinaryRefAddrs to have
+ the same hash code.
+
+Overrides:
+hashCode in class RefAddr
+Returns:
+The hash code of this address as an int.
+See Also:
+Object.hashCode()
+
+
+"
+1,Binding,1,getName(),False,,NULL
+1,Binding,2,getObject(),False,,NULL
+1,Binding,3,setName(String name),False,,NULL
+1,Binding,4,setObject(Object obj),False,,NULL
+1,Binding,5,getClass(),False,,NULL
+2,CompositeName,1,CompositeName(String[] name),False,,NULL
+2,CompositeName,2,String get(int index),True,Retrieves a component of this composite name.,"
+
+get
+public String get(int posn)
+Retrieves a component of this composite name.
+
+Specified by:
+get in interface Name
+Parameters:
+posn - The 0-based index of the component to retrieve.
+                 Must be in the range [0,size()).
+Returns:
+The non-null component at index posn.
+Throws:
+ArrayIndexOutOfBoundsException - if posn is outside the
+         specified range.
+
+
+"
+2,CompositeName,3,int size(),True,Retrieves the number of components in this composite name.,"
+
+size
+public int size()
+Retrieves the number of components in this composite name.
+
+Specified by:
+size in interface Name
+Returns:
+The nonnegative number of components in this composite name.
+
+
+"
+2,CompositeName,4,String toString(),True,Generates the string representation of this composite name.,"
+
+toString
+public String toString()
+Generates the string representation of this composite name.
+ The string representation consists of enumerating in order
+ each component of the composite name and separating
+ each component by a forward slash character. Quoting and
+ escape characters are applied where necessary according to
+ the JNDI syntax, which is described in the class description.
+ An empty component is represented by an empty string.
+
+ The string representation thus generated can be passed to
+ the CompositeName constructor to create a new equivalent
+ composite name.
+
+Overrides:
+toString in class Object
+Returns:
+A non-null string representation of this composite name.
+
+
+"
+2,CompositeName,5,String[] getAll(),False,,NULL
+3,CompoundName,1,boolean add(E e),False,,NULL
+3,CompoundName,2,boolean addAll(Collection<? extends E> c),False,,NULL
+3,CompoundName,3,void clear(),False,,NULL
+3,CompoundName,4,boolean contains(Object o),False,,NULL
+3,CompoundName,5,boolean containsAll(Collection<?> c),False,,NULL
+4,InitialContext,1,Context lookup(Name name),False,,NULL
+4,InitialContext,2,"void rebind(Name name, Object obj)",True,"Binds a name to an object, overwriting any existing binding.","
+
+rebind
+public void rebind(Name name,
+                   Object obj)
+            throws NamingException
+Description copied from interface: Context
+Binds a name to an object, overwriting any existing binding.
+ All intermediate contexts and the target context (that named by all
+ but terminal atomic component of the name) must already exist.
+
+  If the object is a DirContext, any existing attributes
+ associated with the name are replaced with those of the object.
+ Otherwise, any existing attributes associated with the name remain
+ unchanged.
+
+Specified by:
+rebind in interface Context
+Parameters:
+name - the name to bind; may not be empty
+obj - the object to bind; possibly null
+Throws:
+InvalidAttributesException - if object did not supply all mandatory attributes
+NamingException - if a naming exception is encountered
+See Also:
+Context.rebind(String, Object), 
+Context.bind(Name, Object), 
+DirContext.rebind(Name, Object,
+          javax.naming.directory.Attributes), 
+DirContext
+
+
+"
+4,InitialContext,3,void unbind(Name name),True,Unbinds the named object.,"
+
+unbind
+public void unbind(Name name)
+            throws NamingException
+Description copied from interface: Context
+Unbinds the named object.
+ Removes the terminal atomic name in name
+ from the target context--that named by all but the terminal
+ atomic part of name.
+
+  This method is idempotent.
+ It succeeds even if the terminal atomic name
+ is not bound in the target context, but throws
+ NameNotFoundException
+ if any of the intermediate contexts do not exist.
+
+  Any attributes associated with the name are removed.
+ Intermediate contexts are not changed.
+
+Specified by:
+unbind in interface Context
+Parameters:
+name - the name to unbind; may not be empty
+Throws:
+NameNotFoundException - if an intermediate context does not exist
+NamingException - if a naming exception is encountered
+See Also:
+Context.unbind(String)
+
+
+"
+4,InitialContext,4,void close(),True,Closes this context.,"
+
+close
+public void close()
+           throws NamingException
+Description copied from interface: Context
+Closes this context.
+ This method releases this context's resources immediately, instead of
+ waiting for them to be released automatically by the garbage collector.
+
+  This method is idempotent:  invoking it on a context that has
+ already been closed has no effect.  Invoking any other method
+ on a closed context is not allowed, and results in undefined behaviour.
+
+Specified by:
+close in interface Context
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+4,InitialContext,5,Context createSubcontext(Name name),True,Creates and binds a new context.,"
+
+createSubcontext
+public Context createSubcontext(Name name)
+                         throws NamingException
+Description copied from interface: Context
+Creates and binds a new context.
+ Creates a new context with the given name and binds it in
+ the target context (that named by all but terminal atomic
+ component of the name).  All intermediate contexts and the
+ target context must already exist.
+
+Specified by:
+createSubcontext in interface Context
+Parameters:
+name - the name of the context to create; may not be empty
+Returns:
+the newly created context
+Throws:
+NameAlreadyBoundException - if name is already bound
+InvalidAttributesException - if creation of the subcontext requires specification of
+          mandatory attributes
+NamingException - if a naming exception is encountered
+See Also:
+Context.createSubcontext(String), 
+DirContext.createSubcontext(javax.naming.Name, javax.naming.directory.Attributes)
+
+
+"
+5,LinkRef,1,"LinkRef(String linkName, String linkValue)",False,,NULL
+5,LinkRef,2,String getLinkName(),True,Retrieves the name of this link.,"
+
+getLinkName
+public String getLinkName()
+                   throws NamingException
+Retrieves the name of this link.
+
+Returns:
+The non-null name of this link.
+Throws:
+MalformedLinkException - If a link name could not be extracted
+NamingException - If a naming exception was encountered.
+
+
+"
+5,LinkRef,3,String getLinkValue(),False,,NULL
+5,LinkRef,4,void setLinkName(String linkName),False,,NULL
+5,LinkRef,5,void setLinkValue(String linkValue),False,,NULL
+6,NameClassPair,1,"NameClassPair(String name, String className)",False,,NULL
+6,NameClassPair,2,String getName(),True,Retrieves the name of this binding.,"
+
+getName
+public String getName()
+Retrieves the name of this binding.
+ If isRelative() is true, this name is relative to the
+ target context (which is named by the first parameter of the
+ list()).
+ If isRelative() is false, this name is a URL string.
+
+Returns:
+The non-null name of this binding.
+See Also:
+isRelative(), 
+setName(java.lang.String)
+
+
+"
+6,NameClassPair,3,String getClassName(),True,Retrieves the class name of the object bound to the name of this binding.,"
+
+getClassName
+public String getClassName()
+Retrieves the class name of the object bound to the name of this binding.
+ If a reference or some other indirect information is bound,
+ retrieves the class name of the eventual object that
+ will be returned by Binding.getObject().
+
+Returns:
+The possibly null class name of object bound.
+          It is null if the object bound is null.
+See Also:
+Binding.getObject(), 
+Binding.getClassName(), 
+setClassName(java.lang.String)
+
+
+"
+6,NameClassPair,4,int hashCode(),False,,NULL
+6,NameClassPair,5,boolean equals(Object obj),False,,NULL
+7,RefAddr,1,"RefAddr(String type, Object addr)",False,,NULL
+7,RefAddr,2,Object getAddress(),False,,NULL
+7,RefAddr,3,String getType(),True,Retrieves the address type of this address.,"
+
+getType
+public String getType()
+Retrieves the address type of this address.
+
+Returns:
+The non-null address type of this address.
+
+
+"
+7,RefAddr,4,void setAddress(Object addr),False,,NULL
+7,RefAddr,5,void setType(String type),False,,NULL
+8,Reference,1,Reference,False,,NULL
+8,Reference,2,getClassName,False,,NULL
+8,Reference,3,getFactoryClassName,False,,NULL
+8,Reference,4,getFactoryLocation,False,,NULL
+8,Reference,5,getContent,False,,NULL
+8,Reference,6,setContent,False,,NULL
+8,Reference,7,getReference,False,,NULL
+8,Reference,8,setReference,False,,NULL
+8,Reference,9,getContentDescription,False,,NULL
+8,Reference,10,setContentDescription,False,,NULL
+9,StringRefAddr,1,"StringRefAddr(String type, String addr)",False,,NULL
+9,StringRefAddr,2,String getAddrType(),False,,NULL
+9,StringRefAddr,3,String getAddress(),False,,NULL
+9,StringRefAddr,4,void setAddrType(String type),False,,NULL
+9,StringRefAddr,5,void setAddress(String addr),False,,NULL

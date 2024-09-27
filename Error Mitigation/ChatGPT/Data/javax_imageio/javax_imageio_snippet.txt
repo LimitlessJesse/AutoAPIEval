@@ -1,0 +1,499 @@
+Sample: 0 IIOImage_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.IIOImage;
+import javax.imageio.metadata.IIOMetadata;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an IIOImage object
+        IIOImage image = new IIOImage();
+
+        // Get the metadata associated with the image
+        IIOMetadata metadata = image.getMetadata();
+
+        // Print the metadata object
+        System.out.println(metadata);
+    }
+}
+```
+================================================================
+
+Sample: 1 IIOImage_4
+----------------------------------------------------------------
+`Raster getRaster()`: This method returns the currently set Raster, or null if only a RenderedImage is available.
+
+Code snippet:
+```java
+import javax.imageio.IIOImage;
+import java.awt.image.Raster;
+
+public class Main {
+    public static void main(String[] args) {
+        IIOImage image = new IIOImage();
+        Raster raster = image.getRaster();
+        if (raster != null) {
+            System.out.println("Raster found: " + raster);
+        } else {
+            System.out.println("No Raster available, only RenderedImage.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 IIOImage_5
+----------------------------------------------------------------
+`void setRaster(Raster raster)`: This method sets the current Raster for the IIOImage object.
+
+Code snippet:
+```java
+import javax.imageio.IIOImage;
+import java.awt.image.Raster;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of IIOImage
+        IIOImage iioImage = new IIOImage();
+
+        // Create a Raster object
+        Raster raster = null; // Initialize with your Raster object
+
+        // Set the Raster for the IIOImage object
+        iioImage.setRaster(raster);
+    }
+}
+```
+================================================================
+
+Sample: 3 IIOParam_1
+----------------------------------------------------------------
+`void setSourceRegion(Rectangle sourceRegion)`: This method sets the source region of interest for image I/O operations.
+
+Code snippet:
+```java
+import javax.imageio.IIOParam;
+import java.awt.Rectangle;
+
+public class Main {
+    public static void main(String[] args) {
+        IIOParam param = new IIOParam();
+        Rectangle sourceRegion = new Rectangle(0, 0, 100, 100); // Example source region
+        param.setSourceRegion(sourceRegion);
+    }
+}
+```
+================================================================
+
+Sample: 4 IIOParam_2
+----------------------------------------------------------------
+`Rectangle getSourceRegion()`: This method returns the source region to be used. The returned value is that set by the most recent call to setSourceRegion, and will be null if there is no region set.
+
+Code snippet:
+```java
+import javax.imageio.IIOParam;
+import java.awt.Rectangle;
+
+public class Main {
+    public static void main(String[] args) {
+        IIOParam param = new IIOParam();
+        Rectangle sourceRegion = param.getSourceRegion();
+        System.out.println("Source Region: " + sourceRegion);
+    }
+}
+```
+================================================================
+
+Sample: 5 IIOParam_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.IIOParam;
+
+public class Main {
+    public static void main(String[] args) {
+        IIOParam param = new IIOParam();
+        int[] sourceBands = {0, 1, 2};
+        param.setSourceBands(sourceBands);
+    }
+}
+```
+================================================================
+
+Sample: 6 ImageIO_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageIO;
+
+public class Main {
+    public static void main(String[] args) {
+        String[] formatNames = ImageIO.getReaderFormatNames();
+        for (String formatName : formatNames) {
+            System.out.println(formatName);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 ImageIO_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageIO;
+
+public class Main {
+    public static void main(String[] args) {
+        String[] writerFormatNames = ImageIO.getWriterFormatNames();
+        for (String formatName : writerFormatNames) {
+            System.out.println(formatName);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 ImageIO_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageIO;
+import java.awt.image.RenderedImage;
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        RenderedImage image = null; // Initialize with your RenderedImage object
+        String formatName = "PNG"; // Specify the format name
+        OutputStream output = null; // Initialize with your OutputStream object
+        
+        try {
+            boolean success = ImageIO.write(image, formatName, output);
+            if(success) {
+                System.out.println("Image successfully written.");
+            } else {
+                System.out.println("No appropriate writer found.");
+            }
+        } catch (IllegalArgumentException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 ImageReader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageReader imageReader = null; // Initialize your ImageReader object
+        
+        try {
+            int numImages = imageReader.getNumImages(true);
+            System.out.println("Number of images: " + numImages);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 ImageReader_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageReader reader = null; // Initialize your ImageReader object here
+        ImageReadParam param = reader.getDefaultReadParam();
+        // Use the param object to control the decoding process with default settings
+    }
+}
+```
+================================================================
+
+Sample: 11 ImageReader_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageReader;
+import javax.imageio.metadata.IIOMetadata;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageReader reader = null; // Initialize your ImageReader object here
+
+        try {
+            IIOMetadata metadata = reader.getImageMetadata(0); // Pass the image index here
+            if (metadata != null) {
+                // Process the metadata object
+                System.out.println("Metadata found: " + metadata.toString());
+            } else {
+                System.out.println("No metadata available for the image.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred during reading: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 ImageReader_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageReader;
+import javax.imageio.ImageTypeSpecifier;
+import java.io.IOException;
+import java.util.Iterator;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageReader imageReader = null; // Initialize your ImageReader object
+        
+        try {
+            int imageIndex = 0; // Set the index of the image to be retrieved
+            Iterator<ImageTypeSpecifier> imageTypes = imageReader.getImageTypes(imageIndex);
+            
+            while (imageTypes.hasNext()) {
+                ImageTypeSpecifier imageTypeSpecifier = imageTypes.next();
+                // Process the ImageTypeSpecifier as needed
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 ImageReadParam_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageReadParam;
+import java.awt.Dimension;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageReadParam param = new ImageReadParam();
+        Dimension size = new Dimension(200, 150); // Desired width and height
+        try {
+            param.setSourceRenderSize(size);
+            System.out.println("Source render size set successfully.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid width or height provided.");
+        } catch (UnsupportedOperationException e) {
+            System.out.println("Image resizing is not supported by this plug-in.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 14 ImageReadParam_4
+----------------------------------------------------------------
+`Dimension getSourceRenderSize()`: This method returns the width and height of the source image as it will be rendered during decoding, if they have been set via the setSourceRenderSize method. A null value indicates that no setting has been made.
+
+Code snippet:
+```java
+import javax.imageio.ImageReadParam;
+import java.awt.Dimension;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageReadParam param = new ImageReadParam();
+        Dimension renderSize = param.getSourceRenderSize();
+        System.out.println("Rendered width: " + renderSize.getWidth());
+        System.out.println("Rendered height: " + renderSize.getHeight());
+    }
+}
+```
+================================================================
+
+Sample: 15 ImageTypeSpecifier_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageTypeSpecifier;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageTypeSpecifier imageTypeSpecifier = new ImageTypeSpecifier();
+        int numBands = imageTypeSpecifier.getNumBands();
+        System.out.println("Number of bands: " + numBands);
+    }
+}
+```
+================================================================
+
+Sample: 16 ImageTypeSpecifier_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageTypeSpecifier;
+import java.awt.image.ColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageTypeSpecifier imageTypeSpecifier = new ImageTypeSpecifier();
+        ColorModel colorModel = imageTypeSpecifier.getColorModel();
+        System.out.println(colorModel);
+    }
+}
+```
+================================================================
+
+Sample: 17 ImageTypeSpecifier_3
+----------------------------------------------------------------
+`SampleModel getSampleModel()`: This method returns a SampleModel based on the settings encapsulated within the ImageTypeSpecifier object. The width and height of the SampleModel will be set to arbitrary values.
+
+Code snippet:
+```java
+import javax.imageio.ImageTypeSpecifier;
+import java.awt.image.SampleModel;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageTypeSpecifier imageTypeSpecifier = new ImageTypeSpecifier();
+        SampleModel sampleModel = imageTypeSpecifier.getSampleModel();
+        System.out.println("SampleModel dimensions: " + sampleModel.getWidth() + "x" + sampleModel.getHeight());
+    }
+}
+```
+================================================================
+
+Sample: 18 ImageTypeSpecifier_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageTypeSpecifier;
+import java.awt.image.BufferedImage;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageTypeSpecifier imageTypeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_ARGB);
+        int bufferedImageType = imageTypeSpecifier.getBufferedImageType();
+        System.out.println("BufferedImage type: " + bufferedImageType);
+    }
+}
+```
+================================================================
+
+Sample: 19 ImageWriteParam_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageWriteParam;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageWriteParam param = new ImageWriteParam(null);
+        param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+    }
+}
+```
+================================================================
+
+Sample: 20 ImageWriteParam_2
+----------------------------------------------------------------
+`int getCompressionMode()`: This method returns the current compression mode, if compression is supported.
+
+Code snippet:
+```java
+import javax.imageio.ImageWriteParam;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageWriteParam param = new ImageWriteParam(null);
+        int compressionMode = param.getCompressionMode();
+        System.out.println("Compression Mode: " + compressionMode);
+    }
+}
+```
+================================================================
+
+Sample: 21 ImageWriteParam_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageWriteParam;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageWriteParam param = new ImageWriteParam(null);
+        param.setCompressionQuality(0.8f);
+    }
+}
+```
+================================================================
+
+Sample: 22 ImageWriteParam_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageWriteParam;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageWriteParam param = new ImageWriteParam(null);
+        float compressionQuality = param.getCompressionQuality();
+        System.out.println("Compression Quality: " + compressionQuality);
+    }
+}
+```
+================================================================
+
+Sample: 23 ImageWriter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageWriter imageWriter = null; // Initialize your ImageWriter object
+        
+        // Set the output destination
+        ImageOutputStream output = null; // Initialize your ImageOutputStream object
+        imageWriter.setOutput(output);
+    }
+}
+```
+================================================================
+
+Sample: 24 ImageWriter_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.ImageWriter;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageWriter imageWriter = null; // Initialize ImageWriter object
+        
+        Locale locale = new Locale("en_US"); // Create a new Locale object
+        
+        // Set the Locale for the ImageWriter
+        imageWriter.setLocale(locale);
+    }
+}
+```
+================================================================
+

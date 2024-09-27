@@ -1,0 +1,710 @@
+Sample: 0 Instrument_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Soundbank soundbank = MidiSystem.getSoundbank(new File("soundbank.sf2"));
+        Instrument[] instruments = soundbank.getInstruments();
+        
+        if (instruments.length > 0) {
+            Patch patch = instruments[0].getPatch();
+            System.out.println("Patch: " + patch);
+        } else {
+            System.out.println("No instruments found");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 MetaMessage_1
+----------------------------------------------------------------
+`int getType()`: This method returns the type of the meta message.
+
+Code snippet:
+```java
+import javax.sound.midi.MetaMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        MetaMessage metaMessage = new MetaMessage();
+        int type = metaMessage.getType();
+        System.out.println("MetaMessage type: " + type);
+    }
+}
+```
+================================================================
+
+Sample: 2 MetaMessage_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MetaMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        MetaMessage metaMessage = new MetaMessage();
+        byte[] data = metaMessage.getData();
+
+        // Example usage of byte[] data
+        for (byte b : data) {
+            System.out.print(b + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 MetaMessage_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MetaMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        MetaMessage message = new MetaMessage();
+        int type = 1; // Example type value
+        byte[] data = {0x01, 0x02, 0x03}; // Example byte array data
+        int length = data.length; // Example length of data array
+
+        message.setMessage(type, data, length);
+        
+        // Print out the message
+        System.out.println("Type: " + message.getType());
+        System.out.print("Data: ");
+        for (byte b : message.getData()) {
+            System.out.print(Integer.toHexString(b & 0xFF) + " ");
+        }
+        System.out.println("\nLength: " + message.getLength());
+    }
+}
+```
+================================================================
+
+Sample: 4 MidiDevice_Info_1
+----------------------------------------------------------------
+`String getName()`: This method returns the name of the MIDI device. 
+
+Code snippet:
+```java
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
+        for (MidiDevice.Info info : infos) {
+            System.out.println("Name: " + info.getName());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 MidiDevice_Info_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
+            for (MidiDevice.Info info : infos) {
+                System.out.println("Vendor: " + info.getVendor());
+            }
+        } catch (MidiUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 MidiDevice_Info_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiDevice;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiDevice.Info info = new MidiDevice.Info("MidiDevice", "Vendor", "Description", "Version");
+        String description = info.getDescription();
+        System.out.println(description);
+    }
+}
+```
+================================================================
+
+Sample: 7 MidiDevice_Info_4
+----------------------------------------------------------------
+```java
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
+            for (MidiDevice.Info info : infos) {
+                String version = info.getVersion();
+                System.out.println("Device Name: " + info.getName() + ", Version: " + version);
+            }
+        } catch (MidiUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 MidiDevice_Info_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiDevice;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiDevice.Info info = new MidiDevice.Info("Name", "Vendor", "Description", "Version");
+        String infoString = info.toString();
+        System.out.println(infoString);
+    }
+}
+```
+================================================================
+
+Sample: 9 MidiEvent_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming midiEvent is a MidiEvent object
+        MidiEvent midiEvent = new MidiEvent();
+        
+        long tick = midiEvent.getTick();
+        
+        System.out.println("Tick: " + tick);
+    }
+}
+```
+================================================================
+
+Sample: 10 MidiEvent_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a MidiEvent
+        MidiEvent event = new MidiEvent();
+        
+        // Set the tick value using setTick method
+        event.setTick(100);
+        
+        // Display the tick value
+        System.out.println("Tick value set: " + event.getTick());
+    }
+}
+```
+================================================================
+
+Sample: 11 MidiFileFormat_1
+----------------------------------------------------------------
+`int getType()`: This method returns the type of the MIDI file.
+
+Code snippet:
+```java
+import javax.sound.midi.MidiFileFormat;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiFileFormat midiFileFormat = new MidiFileFormat(Type, divisionType, resolution);
+        int type = midiFileFormat.getType();
+        System.out.println("MIDI file type: " + type);
+    }
+}
+```
+================================================================
+
+Sample: 12 MidiFileFormat_2
+----------------------------------------------------------------
+`int getResolution()`: This method retrieves the timing resolution for the MIDI file.
+
+Code snippet:
+```java
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiFileFormat;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MidiFileFormat midiFileFormat = MidiSystem.getMidiFileFormat(new File("example.mid"));
+            int resolution = midiFileFormat.getResolution();
+            System.out.println("MIDI File Resolution: " + resolution);
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 MidiFileFormat_4
+----------------------------------------------------------------
+`int getByteLength()`: This method returns the length in bytes of the entire MIDI file's data, including the header chunk and all the track chunks.
+
+Code snippet:
+```java
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiFileFormat;
+import javax.sound.midi.InvalidMidiDataException;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        File midiFile = new File("path/to/your/midi/file.mid");
+        
+        try {
+            MidiFileFormat midiFileFormat = MidiSystem.getMidiFileFormat(midiFile);
+            int byteLength = midiFileFormat.getByteLength();
+            System.out.println("Byte length of the MIDI file: " + byteLength + " bytes");
+        } catch (InvalidMidiDataException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+Make sure to replace `"path/to/your/midi/file.mid"` with the actual path to your MIDI file.
+================================================================
+
+Sample: 14 MidiFileFormat_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiFileFormat;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MidiFileFormat midiFileFormat = MidiSystem.getMidiFileFormat(new File("example.mid"));
+            long microsecondLength = midiFileFormat.getMicrosecondLength();
+            System.out.println("Microsecond length: " + microsecondLength);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 MidiMessage_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiMessage message = new MidiMessage();
+        int length = message.getLength();
+        System.out.println("Length of MidiMessage: " + length);
+    }
+}
+```
+================================================================
+
+Sample: 16 MidiSystem_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import java.io.IOException;
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("http://www.example.com/example.mid");
+            Sequence sequence = MidiSystem.getSequence(url);
+            System.out.println("Sequence loaded successfully!");
+        } catch (IOException | InvalidMidiDataException | MidiUnavailableException e) {
+            System.out.println("Error loading MIDI sequence: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 MidiSystem_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.Sequence;
+import javax.sound.midi.MidiSystem;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Sequence sequence = MidiSystem.getSequence(new File("path/to/your/midi/file.mid"));
+            System.out.println("Successfully loaded MIDI file");
+        } catch (Exception e) {
+            System.out.println("Error loading MIDI file: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 MidiSystem_3
+----------------------------------------------------------------
+`Receiver getReceiver()`: This method obtains the Receiver for the default Transmitter from the system. 
+
+Code snippet:
+```java
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.Receiver;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Receiver receiver = MidiSystem.getReceiver();
+            System.out.println("Receiver obtained: " + receiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 19 MidiSystem_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.Transmitter;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Transmitter transmitter = MidiSystem.getTransmitter();
+            System.out.println("Transmitter obtained: " + transmitter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 Patch_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.Patch;
+
+public class Main {
+    public static void main(String[] args) {
+        Patch patch = new Patch();
+        int bank = patch.getBank();
+        System.out.println("Bank: " + bank);
+    }
+}
+```
+================================================================
+
+Sample: 21 Patch_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.Patch;
+
+public class Main {
+    public static void main(String[] args) {
+        Patch patch = new Patch();
+        int program = patch.getProgram();
+        System.out.println("Program number: " + program);
+    }
+}
+```
+================================================================
+
+Sample: 22 Sequence_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.Sequence;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Sequence sequence = MidiSystem.getSequence(new File("example.mid"));
+            long microsecondLength = sequence.getMicrosecondLength();
+            System.out.println("Microsecond Length: " + microsecondLength);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 23 Sequence_3
+----------------------------------------------------------------
+`int getResolution()`: This method gets the timing resolution for this sequence.
+
+Code snippet:
+```java
+import javax.sound.midi.Sequence;
+import javax.sound.midi.InvalidMidiDataException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a new sequence
+            Sequence sequence = new Sequence(Sequence.PPQ, 480);
+
+            // Get the resolution of the sequence
+            int resolution = sequence.getResolution();
+
+            System.out.println("Resolution: " + resolution);
+        } catch (InvalidMidiDataException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 24 Sequence_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.Sequence;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Sequence sequence = new Sequence(Sequence.PPQ, 24);
+            // Use the getDivisionType method
+            float divisionType = sequence.getDivisionType();
+            System.out.println("Division Type: " + divisionType);
+        } catch (InvalidMidiDataException e) {
+            e.printStackTrace();
+        } catch (MidiUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 25 ShortMessage_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.ShortMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        ShortMessage message = new ShortMessage();
+        int channel = message.getChannel();
+        System.out.println("Channel: " + channel);
+    }
+}
+```
+================================================================
+
+Sample: 26 ShortMessage_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.ShortMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        ShortMessage msg = new ShortMessage();
+        int data = msg.getData1();
+        System.out.println("Data1: " + data);
+    }
+}
+```
+================================================================
+
+Sample: 27 ShortMessage_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.ShortMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        ShortMessage message = new ShortMessage();
+        int data2 = message.getData2();
+        System.out.println("Data2: " + data2);
+    }
+}
+```
+================================================================
+
+Sample: 28 ShortMessage_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.ShortMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        ShortMessage message = new ShortMessage();
+        int command = message.getCommand();
+        System.out.println("Command: " + command);
+    }
+}
+```
+================================================================
+
+Sample: 29 SysexMessage_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.SysexMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        SysexMessage sysexMessage = new SysexMessage();
+        byte[] data = sysexMessage.getData();
+        // Use data array as needed
+    }
+}
+```
+================================================================
+
+Sample: 30 SysexMessage_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.SysexMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        SysexMessage message = new SysexMessage();
+        int status = 0; // example status value
+        byte[] data = new byte[]{0x11, 0x22, 0x33}; // example data
+        int length = data.length;
+        message.setMessage(status, data, length);
+    }
+}
+```
+================================================================
+
+Sample: 31 SysexMessage_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.SysexMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a SysexMessage object
+        SysexMessage originalMessage = new SysexMessage();
+
+        try {
+            // Create a clone of the original SysexMessage object
+            SysexMessage clonedMessage = (SysexMessage) originalMessage.clone();
+            
+            // Display the hashCode of the original and cloned objects to show they are different instances
+            System.out.println("Original hashCode: " + originalMessage.hashCode());
+            System.out.println("Cloned hashCode: " + clonedMessage.hashCode());
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 32 Track_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.Track;
+
+public class Main {
+    public static void main(String[] args) {
+        Track track = new Track();
+        int size = track.size();
+        System.out.println("Size of the track: " + size);
+    }
+}
+```
+================================================================
+
+Sample: 33 Track_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.Track;
+
+public class Main {
+    public static void main(String[] args) {
+        Track track = new Track();
+
+        // Assume we have added some MidiEvent objects to the track
+        
+        // Getting the MidiEvent at index 0
+        MidiEvent midiEvent = track.get(0);
+        
+        // Do something with the retrieved MidiEvent
+    }
+}
+```
+================================================================
+
+Sample: 34 Track_5
+----------------------------------------------------------------
+`long ticks()`: This method returns the total duration of the track in ticks.
+
+Code snippet:
+```java
+import javax.sound.midi.Track;
+
+public class Main {
+    public static void main(String[] args) {
+        Track track = new Track();
+        long totalTicks = track.ticks();
+        System.out.println("Total duration of the track in ticks: " + totalTicks);
+    }
+}
+```
+================================================================
+

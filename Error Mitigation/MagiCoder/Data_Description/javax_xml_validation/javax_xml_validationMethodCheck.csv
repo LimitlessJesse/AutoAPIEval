@@ -1,0 +1,285 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Schema,1,SchemaFactory,False,,NULL
+0,Schema,2,newSchema(Source source),False,,NULL
+0,Schema,3,newSchema(URL source),False,,NULL
+0,Schema,4,newSchema(Reader source),False,,NULL
+0,Schema,5,newSchema(InputStream source),False,,NULL
+0,Schema,6,newSchema(File source),False,,NULL
+0,Schema,7,newSchema(Source[] sources),False,,NULL
+0,Schema,8,newSchema(URL[] sources),False,,NULL
+0,Schema,9,newSchema(Reader[] sources),False,,NULL
+0,Schema,10,newSchema(InputStream[] sources),False,,NULL
+0,Schema,11,newSchema(File[] sources),False,,NULL
+0,Schema,12,"newSchema(Source source, String id)",False,,NULL
+0,Schema,13,"newSchema(URL source, String id)",False,,NULL
+0,Schema,14,"newSchema(Reader source, String id)",False,,NULL
+0,Schema,15,"newSchema(InputStream source, String id)",False,,NULL
+0,Schema,16,"newSchema(File source, String id)",False,,NULL
+0,Schema,17,"newSchema(Source[] sources, String id)",False,,NULL
+0,Schema,18,"newSchema(URL[] sources, String id)",False,,NULL
+0,Schema,19,"newSchema(Reader[] sources, String id)",False,,NULL
+0,Schema,20,"newSchema(InputStream[] sources, String id)",False,,NULL
+0,Schema,21,"newSchema(File[] sources, String id)",False,,NULL
+1,SchemaFactory,1,SchemaFactory newInstance(String schemaLanguage),True,Lookup an implementation of the SchemaFactory that supports the specified schema language and return it.,"
+
+newInstance
+public static SchemaFactory newInstance(String schemaLanguage)
+Lookup an implementation of the SchemaFactory that supports the specified
+ schema language and return it.
+To find a SchemaFactory object for a given schema language,
+ this method looks the following places in the following order
+ where ""the class loader"" refers to the context class loader:
+
+
+     If the system property
+     ""javax.xml.validation.SchemaFactory:schemaLanguage""
+     is present (where schemaLanguage is the parameter
+     to this method), then its value is read
+     as a class name. The method will try to
+     create a new instance of this class by using the class loader,
+     and returns it if it is successfully created.
+   
+
+$java.home/lib/jaxp.properties is read and
+     the value associated with the key being the system property above
+     is looked for. If present, the value is processed just like above.
+   
+
+   Use the service-provider loading facilities, defined by the
+   ServiceLoader class, to attempt to locate and load an
+   implementation of the service using the default loading mechanism:
+   the service-provider loading facility will use the current thread's context class loader
+   to attempt to load the service. If the context class
+   loader is null, the system class loader will be used.
+   
+   Each potential service provider is required to implement the method
+        isSchemaLanguageSupported(String schemaLanguage).
+   
+   The first service provider found that supports the specified schema
+   language is returned.
+   
+   In case of ServiceConfigurationError a
+   SchemaFactoryConfigurationError will be thrown.
+   
+
+     Platform default SchemaFactory is located
+     in a implementation specific way. There must be a platform default
+     SchemaFactory for W3C XML Schema.
+   
+
+If everything fails, IllegalArgumentException will be thrown.
+Tip for Trouble-shooting:
+See Properties.load(java.io.InputStream) for
+ exactly how a property file is parsed. In particular, colons ':'
+ need to be escaped in a property file, so make sure schema language
+ URIs are properly escaped in it. For example:
+
+ http\://www.w3.org/2001/XMLSchema=org.acme.foo.XSSchemaFactory
+ 
+
+Parameters:
+schemaLanguage - Specifies the schema language which the returned
+      SchemaFactory will understand. See
+      the list of available
+      schema languages for the possible values.
+Returns:
+New instance of a SchemaFactory
+Throws:
+IllegalArgumentException - If no implementation of the schema language is available.
+NullPointerException - If the schemaLanguage parameter is null.
+SchemaFactoryConfigurationError - If a configuration error is encountered.
+See Also:
+newInstance(String schemaLanguage, String factoryClassName, ClassLoader classLoader)
+
+
+"
+1,SchemaFactory,2,Schema newSchema(Source schemaSources),True,Parses the specified source as a schema and returns it as a schema.,"
+
+newSchema
+public Schema newSchema(Source schema)
+                 throws SAXException
+Parses the specified source as a schema and returns it as a schema.
+This is a convenience method for newSchema(Source[] schemas).
+
+Parameters:
+schema - Source that represents a schema.
+Returns:
+New Schema from parsing schema.
+Throws:
+SAXException - If a SAX error occurs during parsing.
+NullPointerException - if schema is null.
+
+
+"
+1,SchemaFactory,3,Schema newSchema(URL schemaURL),True,Parses the specified URL as a schema and returns it as a Schema.,"
+
+newSchema
+public Schema newSchema(URL schema)
+                 throws SAXException
+Parses the specified URL as a schema and returns it as a Schema.
+This is a convenience method for newSchema(Source schema).
+
+Parameters:
+schema - URL that represents a schema.
+Returns:
+New Schema from parsing schema.
+Throws:
+SAXException - If a SAX error occurs during parsing.
+NullPointerException - if schema is null.
+
+
+"
+1,SchemaFactory,4,Schema newSchema(File schemaFile),True,Parses the specified File as a schema and returns it as a Schema.,"
+
+newSchema
+public Schema newSchema(File schema)
+                 throws SAXException
+Parses the specified File as a schema and returns it as a Schema.
+This is a convenience method for newSchema(Source schema).
+
+Parameters:
+schema - File that represents a schema.
+Returns:
+New Schema from parsing schema.
+Throws:
+SAXException - If a SAX error occurs during parsing.
+NullPointerException - if schema is null.
+
+
+"
+1,SchemaFactory,5,Schema newSchema(Reader schemaReader),False,,NULL
+2,SchemaFactoryLoader,1,SchemaFactory newInstance(String schemaLanguage),False,,NULL
+2,SchemaFactoryLoader,2,Schema newSchema(Source schemaSources),False,,NULL
+2,SchemaFactoryLoader,3,Schema newSchema(URL schemaURL),False,,NULL
+2,SchemaFactoryLoader,4,Schema newSchema(File schemaFile),False,,NULL
+2,SchemaFactoryLoader,5,Schema newSchema(Reader schemaReader),False,,NULL
+3,TypeInfoProvider,1,boolean isValid(Source source),False,,NULL
+3,TypeInfoProvider,2,"boolean isValid(Source source, String schemaLanguage, String schemaLocation)",False,,NULL
+3,TypeInfoProvider,3,"boolean isValid(Source source, String schemaLanguage, String schemaLocation, String schemaVersion)",False,,NULL
+3,TypeInfoProvider,4,"boolean isValid(Source source, String schemaLanguage, String schemaLocation, String schemaVersion, String schemaInstance)",False,,NULL
+3,TypeInfoProvider,5,"boolean isValid(Source source, String schemaLanguage, String schemaLocation, String schemaVersion, String schemaInstance, String schemaType)",False,,NULL
+4,Validator,1,boolean validate(Source source),False,,NULL
+4,Validator,2,"boolean validate(Source source, Result result)",False,,NULL
+4,Validator,3,"boolean validate(Source source, ValidatorHandler handler)",False,,NULL
+4,Validator,4,"boolean validate(Source source, ValidatorHandler handler, boolean recover)",False,,NULL
+4,Validator,5,"boolean validate(Source source, ValidatorHandler handler, boolean recover, boolean validationErrorAsFatal)",False,,NULL
+5,ValidatorHandler,1,boolean validate(Source source),False,,NULL
+5,ValidatorHandler,2,void setErrorHandler(ErrorHandler handler),True,Sets the ErrorHandler to receive errors encountered during the validation.,"
+
+setErrorHandler
+public abstract void setErrorHandler(ErrorHandler errorHandler)
+Sets the ErrorHandler to receive errors encountered
+ during the validation.
+
+ 
+ Error handler can be used to customize the error handling process
+ during a validation. When an ErrorHandler is set,
+ errors found during the validation will be first sent
+ to the ErrorHandler.
+
+ 
+ The error handler can abort further validation immediately
+ by throwing SAXException from the handler. Or for example
+ it can print an error to the screen and try to continue the
+ validation by returning normally from the ErrorHandler
+
+ If any Throwable is thrown from an ErrorHandler,
+ the same Throwable object will be thrown toward the
+ root of the call stack.
+
+ 
+ValidatorHandler is not allowed to
+ throw SAXException without first reporting it to
+ ErrorHandler.
+
+ 
+ When the ErrorHandler is null, the implementation will
+ behave as if the following ErrorHandler is set:
+ 
+ class DraconianErrorHandler implements ErrorHandler {
+     public void fatalError( SAXParseException e ) throws SAXException {
+         throw e;
+     }
+     public void error( SAXParseException e ) throws SAXException {
+         throw e;
+     }
+     public void warning( SAXParseException e ) throws SAXException {
+         // noop
+     }
+ }
+ 
+
+ When a new ValidatorHandler object is created, initially
+ this field is set to null.
+
+Parameters:
+errorHandler - A new error handler to be set. This parameter can be null.
+
+
+"
+5,ValidatorHandler,3,void setSchema(Schema schema),False,,NULL
+5,ValidatorHandler,4,"void setProperty(String property, Object value)",True,Set the value of a property.,"
+
+setProperty
+public void setProperty(String name,
+                        Object object)
+                 throws SAXNotRecognizedException,
+                        SAXNotSupportedException
+Set the value of a property.
+
+ The property name is any fully-qualified URI.  It is
+ possible for a ValidatorHandler to recognize a property name but
+ to be unable to change the current value.
+ Some property values may be immutable or mutable only
+ in specific contexts, such as before, during, or after
+ a validation.
+ValidatorHandlers are not required to recognize setting
+ any specific property names.
+
+Parameters:
+name - The property name, which is a non-null fully-qualified URI.
+object - The requested value for the property.
+Throws:
+SAXNotRecognizedException - If the property
+   value can't be assigned or retrieved.
+SAXNotSupportedException - When the
+   ValidatorHandler recognizes the property name but
+   cannot set the requested value.
+NullPointerException - When name is null.
+
+
+"
+5,ValidatorHandler,5,Object getProperty(String property),True,Look up the value of a property.,"
+
+getProperty
+public Object getProperty(String name)
+                   throws SAXNotRecognizedException,
+                          SAXNotSupportedException
+Look up the value of a property.
+
+ The property name is any fully-qualified URI.  It is
+ possible for a ValidatorHandler to recognize a property name but
+ temporarily be unable to return its value.
+ Some property values may be available only in specific
+ contexts, such as before, during, or after a validation.
+ValidatorHandlers are not required to recognize any specific
+ property names.
+Implementors are free (and encouraged) to invent their own properties,
+ using names built on their own URIs.
+
+Parameters:
+name - The property name, which is a non-null fully-qualified URI.
+Returns:
+The current value of the property.
+Throws:
+SAXNotRecognizedException - If the property
+   value can't be assigned or retrieved.
+SAXNotSupportedException - When the
+   XMLReader recognizes the property name but
+   cannot determine its value at this time.
+NullPointerException - When name is null.
+See Also:
+setProperty(String, Object)
+
+
+"

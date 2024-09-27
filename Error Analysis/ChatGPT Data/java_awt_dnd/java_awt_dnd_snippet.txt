@@ -1,0 +1,761 @@
+Sample: 0 DragGestureEvent_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragSourceContext;
+import java.awt.Component;
+
+public class Main {
+    public static void main(String[] args) {
+        DragGestureEvent dge = new DragGestureEvent(new DragSourceContext(), 0, 0, 0, null);
+
+        Component component = dge.getComponent();
+        System.out.println("Component: " + component);
+    }
+}
+```
+================================================================
+
+Sample: 1 DragGestureEvent_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragGestureEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DragGestureEvent event = null; // Create a DragGestureEvent object
+        int dragAction = event.getDragAction(); // Get the drag action
+        System.out.println("Drag action: " + dragAction);
+    }
+}
+```
+================================================================
+
+Sample: 2 DragGestureEvent_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragGestureEvent;
+import java.awt.Point;
+
+public class Main {
+    public static void main(String[] args) {
+        DragGestureEvent dge = new DragGestureEvent(null, 0, new Point(10, 20), null, null);
+        Point dragOrigin = dge.getDragOrigin();
+        
+        System.out.println("Drag Origin: " + dragOrigin);
+    }
+}
+```
+================================================================
+
+Sample: 3 DragGestureRecognizer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragGestureRecognizer;
+
+public class Main {
+    public static void main(String[] args) {
+        DragGestureRecognizer dragGestureRecognizer = new DragGestureRecognizer() {
+            @Override
+            public int getSourceActions() {
+                // Add your implementation here
+                return 0;
+            }
+        };
+        System.out.println("Source Actions: " + dragGestureRecognizer.getSourceActions());
+    }
+}
+```
+================================================================
+
+Sample: 4 DragGestureRecognizer_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragGestureRecognizer;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a DragGestureRecognizer object
+        DragGestureRecognizer dragGestureRecognizer;
+
+        // Set the source actions to a specific value
+        dragGestureRecognizer.setSourceActions(3);
+    }
+}
+```
+================================================================
+
+Sample: 5 DragGestureRecognizer_5
+----------------------------------------------------------------
+```java
+import java.awt.dnd.DragGestureRecognizer;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSourceListener;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    // Method to set the component for the DragGestureRecognizer
+    public void setComponent(DragGestureRecognizer dgr, DragGestureListener dgl, DragSourceListener dsl) {
+        dgr.setComponent(component);
+    }
+}
+```
+================================================================
+
+Sample: 6 DragSource_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceListener;
+import java.awt.datatransfer.Transferable;
+import java.awt.Cursor;
+import java.awt.Image;
+import java.awt.Point;
+
+public class Main {
+    public static void main(String[] args) {
+        DragGestureEvent trigger = null; // Initialize your DragGestureEvent
+        Cursor dragCursor = Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR); // Define the cursor
+        Image dragImage = null; // Initialize your drag image
+        Point imageOffset = new Point(0, 0); // Define the image offset
+        Transferable transferable = null; // Initialize your Transferable
+        DragSourceListener dsl = null; // Initialize your DragSourceListener
+        
+        DragSource dragSource = DragSource.getDefaultDragSource();
+        dragSource.startDrag(trigger, dragCursor, dragImage, imageOffset, transferable, dsl);
+    }
+}
+```
+================================================================
+
+Sample: 7 DragSource_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceListener;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of DragSource
+        DragSource dragSource = new DragSource();
+        
+        // Create an instance of DragSourceListener
+        DragSourceListener listener = new DragSourceListener() {
+            @Override
+            public void dragEnter(java.awt.dnd.DragSourceDragEvent dsde) {
+                // Implement dragEnter functionality
+            }
+
+            @Override
+            public void dragOver(java.awt.dnd.DragSourceDragEvent dsde) {
+                // Implement dragOver functionality
+            }
+
+            @Override
+            public void dropActionChanged(java.awt.dnd.DragSourceDragEvent dsde) {
+                // Implement dropActionChanged functionality
+            }
+
+            @Override
+            public void dragExit(java.awt.dnd.DragSourceEvent dse) {
+                // Implement dragExit functionality
+            }
+
+            @Override
+            public void dragDropEnd(java.awt.dnd.DragSourceDropEvent dsde) {
+                // Implement dragDropEnd functionality
+            }
+        };
+        
+        // Add DragSourceListener to DragSource
+        dragSource.addDragSourceListener(listener);
+    }
+}
+```
+================================================================
+
+Sample: 8 DragSource_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceListener;
+
+public class Main {
+    public static void main(String[] args) {
+        DragSource dragSource = new DragSource();
+        DragSourceListener listener = new MyDragSourceListener();
+        
+        // Remove the DragSourceListener from the DragSource
+        dragSource.removeDragSourceListener(listener);
+    }
+    
+    static class MyDragSourceListener implements DragSourceListener {
+        // Implement DragSourceListener methods
+    }
+}
+```
+================================================================
+
+Sample: 9 DragSourceContext_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragSourceContext;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of DragSourceContext
+        DragSourceContext dsc = new DragSourceContext(null);
+        
+        // Get the component associated with the DragSourceContext
+        Component component = dsc.getComponent();
+        
+        // Output the component
+        System.out.println("Component: " + component);
+    }
+}
+```
+================================================================
+
+Sample: 10 DragSourceContext_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragSourceContext;
+import java.awt.Cursor;
+
+public class Main {
+    public static void main(String[] args) {
+        DragSourceContext dragSourceContext = new DragSourceContext(null, null, null);
+        Cursor cursor = dragSourceContext.getCursor();
+        System.out.println("Current cursor: " + cursor);
+    }
+}
+```
+================================================================
+
+Sample: 11 DragSourceDragEvent_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragSourceDragEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming dragEvent is an instance of DragSourceDragEvent
+        int modifiers = dragEvent.getGestureModifiers();
+        System.out.println("Gesture Modifiers: " + modifiers);
+    }
+}
+```
+================================================================
+
+Sample: 12 DragSourceEvent_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DragSourceContext;
+import java.awt.dnd.DragSourceEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DragSourceEvent event = new DragSourceEvent(new DragSourceContext(), 0, 0, 0);
+        DragSourceContext context = event.getDragSourceContext();
+        System.out.println("Drag Source Context: " + context);
+    }
+}
+```
+================================================================
+
+Sample: 13 DropTarget_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTargetDropEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTarget dropTarget = new DropTarget();
+
+        dropTarget.addDropTargetListener(new DropTargetListener() {
+            @Override
+            public void dragEnter(DropTargetDragEvent dtde) {
+                // Implement dragEnter functionality
+            }
+
+            @Override
+            public void dragOver(DropTargetDragEvent dtde) {
+                // Implement dragOver functionality
+            }
+
+            @Override
+            public void dropActionChanged(DropTargetDragEvent dtde) {
+                // Implement dropActionChanged functionality
+            }
+
+            @Override
+            public void dragExit(DropTargetEvent dte) {
+                // Implement dragExit functionality
+            }
+
+            @Override
+            public void drop(DropTargetDropEvent dtde) {
+                // Implement drop functionality
+            }
+        });
+
+        // Other code related to the DropTargetListener
+    }
+}
+```
+================================================================
+
+Sample: 14 DropTarget_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetListener;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTarget dropTarget = new DropTarget();
+        DropTargetListener dropTargetListener = new CustomDropTargetListener();
+        
+        dropTarget.addDropTargetListener(dropTargetListener);
+        dropTarget.removeDropTargetListener(dropTargetListener);
+    }
+}
+
+class CustomDropTargetListener implements DropTargetListener {
+    // Implement the necessary methods for DropTargetListener
+    // For example:
+    @Override
+    public void dragEnter(DropTargetDragEvent dtde) {
+        // Implementation
+    }
+}
+```
+================================================================
+
+Sample: 15 DropTarget_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DropTarget;
+import java.awt.Component;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTarget dropTarget = new DropTarget();
+        Component component = new Component() {};
+        
+        // Using setComponent method to set the Component
+        dropTarget.setComponent(component);
+        
+        // Code continues here...
+    }
+}
+```
+================================================================
+
+Sample: 16 DropTarget_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DropTarget;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTarget dropTarget = new DropTarget();
+        int actions = DnDConstants.ACTION_COPY_OR_MOVE;
+        dropTarget.setDefaultActions(actions);
+    }
+}
+```
+================================================================
+
+Sample: 17 DropTarget_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DropTarget;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTarget dropTarget = new DropTarget();
+        dropTarget.setActive(true);
+    }
+}
+```
+================================================================
+
+Sample: 18 DropTarget_DropTargetAutoScroller_2
+----------------------------------------------------------------
+void stop(): This method stops the auto-scrolling behavior.
+```java
+import java.awt.dnd.DropTarget.DropTargetAutoScroller;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTargetAutoScroller scroller = new DropTargetAutoScroller();
+        scroller.stop();
+    }
+}
+```
+================================================================
+
+Sample: 19 DropTargetAdapter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetAdapter;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void dragEnter(DropTargetDragEvent dtde) {
+        if (dtde.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+            try {
+                String draggedData = (String) dtde.getTransferable().getTransferData(DataFlavor.stringFlavor);
+                System.out.println("Dragged data: " + draggedData);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 DropTargetAdapter_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetAdapter;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void dragExit(DropTargetEvent dte) {
+        // Code implementation for dragExit
+    }
+}
+```
+================================================================
+
+Sample: 21 DropTargetAdapter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDragEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void dragOver(DropTargetDragEvent dtde) {
+        // Add your implementation here
+    }
+}
+```
+================================================================
+
+Sample: 22 DropTargetAdapter_5
+----------------------------------------------------------------
+void dropActionChanged(DropTargetDragEvent dtde): This method is called when the drag action has changed (such as switching between copy, move, or link actions).
+
+Code snippet:
+```java
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDragEvent;
+
+public class Main extends DropTargetAdapter {
+    
+    public static void main(String[] args) {
+        // Instantiate an object of Main class
+        Main main = new Main();
+        
+        // Simulate a DropTargetDragEvent to test the dropActionChanged method
+        DropTargetDragEvent dtde = new DropTargetDragEvent(null, null, 0, 0);
+        
+        // Call the dropActionChanged method
+        main.dropActionChanged(dtde);
+    }
+    
+    @Override
+    public void dropActionChanged(DropTargetDragEvent dtde) {
+        System.out.println("Drop action changed");
+    }
+}
+```
+================================================================
+
+Sample: 23 DropTargetContext_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DropTargetContext;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTargetContext dropTargetContext = new DropTargetContext();
+        Transferable transferable = dropTargetContext.getTransferable();
+        System.out.println("Transferable object: " + transferable);
+    }
+}
+```
+================================================================
+
+Sample: 24 DropTargetContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DropTargetContext;
+import java.awt.dnd.DropTarget;
+import java.awt.Component;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a DropTargetContext object
+        DropTargetContext dropTargetContext = new DropTargetContext();
+
+        // Get the Component associated with the DropTargetContext
+        Component component = dropTargetContext.getComponent();
+        
+        // Print the Component
+        System.out.println("Component: " + component);
+    }
+}
+```
+================================================================
+
+Sample: 25 DropTargetContext_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetContext;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTarget dropTarget = new DropTarget();
+        DropTargetContext dropTargetContext = dropTarget.getDropTargetContext();
+        System.out.println("DropTargetContext: " + dropTargetContext);
+    }
+}
+```
+================================================================
+
+Sample: 26 DropTargetDragEvent_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DropTargetDragEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTargetDragEvent event = new DropTargetDragEvent(null, null, 0, 0);
+        DataFlavor dataFlavor = DataFlavor.stringFlavor;
+        boolean isSupported = event.isDataFlavorSupported(dataFlavor);
+        System.out.println("Is DataFlavor Supported: " + isSupported);
+    }
+}
+```
+================================================================
+
+Sample: 27 DropTargetDragEvent_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DropTargetDragEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTargetDragEvent event = new DropTargetDragEvent();
+        int sourceActions = event.getSourceActions();
+    }
+}
+```
+================================================================
+
+Sample: 28 DropTargetDragEvent_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.*;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTargetDragEvent event = new DropTargetDragEvent(null, null, 0, 0);
+        Transferable transferable = event.getTransferable();
+        System.out.println("Transferable: " + transferable);
+    }
+}
+```
+================================================================
+
+Sample: 29 DropTargetDragEvent_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.DropTargetDragEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a DropTargetDragEvent instance
+        DropTargetDragEvent dropEvent = new DropTargetDragEvent(null, 0, 0, 0);
+        
+        // Get the drop action
+        int dropAction = dropEvent.getDropAction();
+        
+        System.out.println("Drop Action: " + dropAction);
+    }
+}
+```
+================================================================
+
+Sample: 30 MouseDragGestureRecognizer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.Component;
+import java.awt.dnd.MouseDragGestureRecognizer;
+
+public class Main {
+    public static void main(String[] args) {
+        MouseDragGestureRecognizer recognizer = new MouseDragGestureRecognizer() {
+            @Override
+            protected void registerListeners() {
+                // Add code here to register the necessary listeners for mouse drag gesture recognition
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 31 MouseDragGestureRecognizer_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.MouseDragGestureRecognizer;
+
+public class Main {
+    public static void main(String[] args) {
+        MouseDragGestureRecognizer mouseDragGestureRecognizer = new MouseDragGestureRecognizer() {
+            @Override
+            public void unregisterListeners() {
+                // Implementation of unregisterListeners()
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 32 MouseDragGestureRecognizer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.dnd.MouseDragGestureRecognizer;
+import java.awt.event.MouseEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void mouseClicked(MouseEvent e) {
+        // Your implementation of mouseClicked method here
+    }
+}
+```
+================================================================
+
+Sample: 33 MouseDragGestureRecognizer_4
+----------------------------------------------------------------
+`void mouseDragged(MouseEvent e)`: This method is called every time a mouse is dragged with a button down, and it should be overridden in a class that implements MouseInputListener to provide specific functionality for mouse dragging events.
+
+Code snippet:
+```java
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import javax.swing.JFrame;
+
+public class Main extends JFrame implements MouseMotionListener {
+
+    public Main() {
+        addMouseMotionListener(this);
+        setSize(500, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+        System.out.println("Mouse dragged at: x=" + x + ", y=" + y);
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        // Implement if needed
+    }
+
+    public static void main(String[] args) {
+        new Main();
+    }
+}
+```
+================================================================
+
+Sample: 34 MouseDragGestureRecognizer_5
+----------------------------------------------------------------
+```java
+import java.awt.dnd.MouseDragGestureRecognizer;
+import java.awt.event.MouseEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void mouseReleased(MouseEvent e){
+        MouseDragGestureRecognizer recognizer = new MouseDragGestureRecognizer();
+        recognizer.mouseReleased(e);
+    }
+}
+```
+================================================================
+

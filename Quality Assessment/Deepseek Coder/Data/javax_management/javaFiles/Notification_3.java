@@ -1,0 +1,27 @@
+import javax.management.Notification;
+import javax.management.NotificationBroadcaster;
+import javax.management.NotificationFilter;
+import javax.management.NotificationListener;
+
+public class Notification_3 {
+    public static void main(String[] args) {
+        NotificationBroadcaster broadcaster = new NotificationBroadcaster() {
+            @Override
+            public void addNotificationListener(NotificationListener listener, NotificationFilter filter, Object handback) {
+            }
+
+            @Override
+            public void removeNotificationListener(NotificationListener listener) {
+            }
+        };
+
+        Notification notification = new Notification("TEST", this, 1, System.currentTimeMillis()) {
+            @Override
+            public long getSequenceNumber() {
+                return 1;
+            }
+        };
+
+        System.out.println(notification.getSequenceNumber());
+    }
+}

@@ -1,0 +1,445 @@
+Sample: 0 AbstractQueuedLongSynchronizer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractQueuedLongSynchronizer aqs = new AbstractQueuedLongSynchronizer();
+        boolean hasQueuedPredecessors = aqs.hasQueuedPredecessors();
+        System.out.println("Are there any queued predecessors?: " + hasQueuedPredecessors);
+    }
+}
+```
+================================================================
+
+Sample: 1 AbstractQueuedLongSynchronizer_4
+----------------------------------------------------------------
+`boolean hasQueuedThreads()`: This method returns true if there are any threads currently queued for this synchronizer.
+
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractQueuedLongSynchronizer sync = new AbstractQueuedLongSynchronizer();
+        boolean result = sync.hasQueuedThreads();
+        System.out.println("Are there any queued threads: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 2 AbstractQueuedLongSynchronizer_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
+
+public class Main {
+    
+    static class CustomSync extends AbstractQueuedLongSynchronizer {
+        
+        boolean isHeldExclusively() {
+            return getState() == 1;
+        }
+    }
+    
+    public static void main(String[] args) {
+        CustomSync sync = new CustomSync();
+        sync.acquire(1);
+        
+        System.out.println(sync.isHeldExclusively()); // Output will be true
+    }
+}
+```
+================================================================
+
+Sample: 3 AbstractQueuedSynchronizer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        MyAbstractQueuedSynchronizer synchronizer = new MyAbstractQueuedSynchronizer();
+        boolean result = synchronizer.tryAcquire(1);
+        System.out.println("Try Acquire Result: " + result);
+    }
+}
+
+class MyAbstractQueuedSynchronizer extends AbstractQueuedSynchronizer {
+    // Implement other methods as needed...
+    @Override
+    protected boolean tryAcquire(int arg) {
+        // Custom implementation of tryAcquire
+        return true; // Placeholder return value
+    }
+}
+```
+================================================================
+
+Sample: 4 AbstractQueuedSynchronizer_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
+public class Main {
+    
+    static class CustomSync extends AbstractQueuedSynchronizer {
+        
+        void acquire(int arg) {
+            acquireShared(arg);
+        }
+        
+    }
+    
+    public static void main(String[] args) {
+        CustomSync sync = new CustomSync();
+        sync.acquire(1);
+    }
+}
+```
+================================================================
+
+Sample: 5 AbstractQueuedSynchronizer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        CustomSync sync = new CustomSync();
+        int state = sync.getState();
+        System.out.println("Current state: " + state);
+    }
+
+    static class CustomSync extends AbstractQueuedSynchronizer {
+        @Override
+        protected int getState() {
+            return super.getState();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 ReentrantLock_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantLock lock = new ReentrantLock();
+        
+        lock.lock();
+        try {
+            // Critical section
+            System.out.println("Lock acquired");
+        } finally {
+            lock.unlock();
+            System.out.println("Lock released");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 ReentrantLock_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantLock lock = new ReentrantLock();
+        lock.unlock();
+    }
+}
+```
+================================================================
+
+Sample: 8 ReentrantLock_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantLock lock = new ReentrantLock();
+        
+        // Check if the lock is currently locked
+        boolean isLocked = lock.isLocked();
+        
+        System.out.println("Is lock locked? " + isLocked);
+    }
+}
+```
+================================================================
+
+Sample: 9 ReentrantLock_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantLock lock = new ReentrantLock();
+        System.out.println("Hold count of the lock: " + lock.getHoldCount());
+    }
+}
+```
+================================================================
+
+Sample: 10 ReentrantLock_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantLock lock = new ReentrantLock();
+        
+        // Check if the lock is held by the current thread
+        boolean isHeld = lock.isHeldByCurrentThread();
+        System.out.println("Is lock held by current thread? " + isHeld);
+    }
+}
+```
+================================================================
+
+Sample: 11 ReentrantReadWriteLock_4
+----------------------------------------------------------------
+Method int getReadLockCount(): This method returns the number of readers holding the read lock.
+
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+        int readLockCount = lock.getReadLockCount();
+        System.out.println("Number of readers holding the read lock: " + readLockCount);
+    }
+}
+```
+================================================================
+
+Sample: 12 ReentrantReadWriteLock_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+        boolean writeLocked = lock.writeLock().isHeldByCurrentThread();
+        System.out.println("Is write locked: " + writeLocked);
+    }
+}
+```
+================================================================
+
+Sample: 13 ReentrantReadWriteLock.ReadLock_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+        lock.readLock().lock();
+        
+        // Perform read operations here
+        
+        lock.readLock().unlock();
+    }
+}
+```
+================================================================
+
+Sample: 14 ReentrantReadWriteLock_ReadLock_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+        ReentrantReadWriteLock.ReadLock readLock = readWriteLock.readLock();
+
+        readLock.lock();
+        try {
+            // Critical section where shared data is read
+            System.out.println("Reading shared data...");
+        } finally {
+            readLock.unlock();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 ReentrantReadWriteLock_ReadLock_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+        ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
+        
+        boolean isLocked = readLock.tryLock();
+        System.out.println("Is lock acquired: " + isLocked);
+    }
+}
+```
+================================================================
+
+Sample: 16 ReentrantReadWriteLock_ReadLock_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+        ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
+
+        boolean locked = false;
+        try {
+            locked = readLock.tryLock(5, TimeUnit.SECONDS);
+            
+            if (locked) {
+                System.out.println("Read lock acquired");
+            } else {
+                System.out.println("Failed to acquire read lock within 5 seconds");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            if (locked) {
+                readLock.unlock();
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 StampedLock_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.StampedLock;
+
+public class Main {
+    private static final StampedLock lock = new StampedLock();
+
+    public static void main(String[] args) {
+        long stamp = lock.tryOptimisticRead();
+        // Check if stamp is valid for optimistic reading
+        if (lock.validate(stamp)) {
+            // Perform optimistic reading
+            System.out.println("Optimistic reading successful");
+        } else {
+            // Stamp is not valid for optimistic reading, handle accordingly
+            System.out.println("Optimistic reading failed");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 StampedLock_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.StampedLock;
+
+public class Main {
+    public static void main(String[] args) {
+        StampedLock lock = new StampedLock();
+        
+        long stamp = lock.tryReadLock();
+        try {
+            // code that requires read lock
+        } finally {
+            lock.unlockRead(stamp);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 19 StampedLock_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.StampedLock;
+
+public class Main {
+    public static void main(String[] args) {
+        StampedLock lock = new StampedLock();
+
+        long stamp = lock.writeLock();
+        try {
+            // Critical section
+            System.out.println("Write lock acquired");
+        } finally {
+            lock.unlockWrite(stamp);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 StampedLock_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.StampedLock;
+
+public class Main {
+    public static void main(String[] args) {
+        StampedLock lock = new StampedLock();
+        
+        long stamp = lock.writeLock();
+        try {
+            // Perform write operations
+        } finally {
+            lock.unlockWrite(stamp);
+        }
+        
+        long optimisticStamp = lock.tryConvertToOptimisticRead(stamp);
+        if (optimisticStamp != 0) {
+            // Perform optimistic read operations
+            System.out.println("Optimistic read successful");
+        } else {
+            // Handle conversion failure
+            System.out.println("Optimistic read conversion failed");
+        }
+    }
+}
+```
+================================================================
+

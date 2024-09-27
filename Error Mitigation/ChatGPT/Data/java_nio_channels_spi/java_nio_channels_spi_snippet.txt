@@ -1,0 +1,294 @@
+Sample: 0 AbstractInterruptibleChannel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.channels.spi.AbstractInterruptibleChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractInterruptibleChannel channel = new AbstractInterruptibleChannel() {
+            @Override
+            protected void implCloseChannel() throws IOException {
+                // Custom implementation for closing the channel
+            }
+        };
+        
+        try {
+            channel.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 AbstractInterruptibleChannel_2
+----------------------------------------------------------------
+`boolean isOpen()`: This method tells whether or not this channel is open.
+
+Code snippet:
+```java
+import java.nio.channels.spi.AbstractInterruptibleChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractInterruptibleChannel channel = new AbstractInterruptibleChannel() {
+            @Override
+            public void close() {
+                // implementation of close method
+            }
+        };
+        
+        System.out.println("Is channel open? " + channel.isOpen());
+    }
+}
+```
+================================================================
+
+Sample: 2 AbstractInterruptibleChannel_4
+----------------------------------------------------------------
+`void begin()`: Marks the beginning of an I/O operation that might block indefinitely.
+
+Code snippet:
+```java
+import java.nio.channels.spi.AbstractInterruptibleChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractInterruptibleChannel channel = new AbstractInterruptibleChannel() {
+            // Implementing the begin method
+            protected final void begin() {
+                System.out.println("Beginning of I/O operation");
+            }
+        };
+        
+        // Calling the begin method
+        channel.begin();
+    }
+}
+```
+================================================================
+
+Sample: 3 AbstractInterruptibleChannel_5
+----------------------------------------------------------------
+`void end(boolean completed)`: Marks the end of an I/O operation that might block indefinitely.
+
+Code snippet:
+```java
+import java.nio.channels.spi.AbstractInterruptibleChannel;
+import java.nio.channels.AsynchronousCloseException;
+import java.nio.channels.ClosedByInterruptException;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractInterruptibleChannel channel = new AbstractInterruptibleChannel() {
+            // Implementing the end method
+            protected final void end(boolean completed) throws AsynchronousCloseException, ClosedByInterruptException {
+                // Your implementation here
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 4 AbstractSelectableChannel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.spi.AbstractSelectableChannel;
+import java.nio.channels.spi.SelectorProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractSelectableChannel channel = new AbstractSelectableChannel() {
+            @Override
+            public SelectorProvider provider() {
+                return super.provider();
+            }
+        };
+        
+        SelectorProvider provider = channel.provider();
+        System.out.println("Provider: " + provider);
+    }
+}
+```
+================================================================
+
+Sample: 5 AbstractSelectableChannel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.SelectableChannel;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+
+public class Main {
+    public static void main(String[] args) {
+        SelectableChannel channel = null; // Initialize your SelectableChannel object here
+        Selector selector = null; // Initialize your Selector object here
+        
+        SelectionKey key = channel.keyFor(selector);
+        
+        if(key != null) {
+            System.out.println("Key: " + key);
+        } else {
+            System.out.println("Channel is not currently registered with the selector");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 AbstractSelectableChannel_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.channels.SelectableChannel;
+import java.nio.channels.spi.AbstractSelectableChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractSelectableChannel channel = new AbstractSelectableChannel() {
+            @Override
+            protected void implCloseChannel() throws IOException {
+                // Implementation of closing the channel
+            }
+
+            @Override
+            protected void implConfigureBlocking(boolean block) throws IOException {
+                // Implementation of configuring blocking mode
+            }
+        };
+
+        try {
+            channel.configureBlocking(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 AbstractSelector_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.spi.AbstractSelector;
+import java.nio.channels.spi.SelectorProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractSelector selector = new AbstractSelector() {
+            @Override
+            public SelectorProvider provider() {
+                return super.provider();
+            }
+        };
+        
+        SelectorProvider provider = selector.provider();
+        System.out.println("Provider: " + provider);
+    }
+}
+```
+================================================================
+
+Sample: 8 AsynchronousChannelProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.channels.spi.AsynchronousChannelProvider;
+import java.nio.channels.AsynchronousChannelGroup;
+import java.util.concurrent.ThreadFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            AsynchronousChannelProvider provider = AsynchronousChannelProvider.provider();
+            AsynchronousChannelGroup group = provider.openAsynchronousChannelGroup(4, Thread::new);
+            // Use the asynchronous channel group
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 AsynchronousChannelProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.spi.AsynchronousChannelProvider;
+import java.nio.channels.AsynchronousChannelGroup;
+import java.util.concurrent.ExecutorService;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        AsynchronousChannelProvider provider = AsynchronousChannelProvider.provider();
+        ExecutorService executor = // create your ExecutorService here
+        int initialSize = 10; // set your initialSize value here
+        
+        try {
+            AsynchronousChannelGroup group = provider.openAsynchronousChannelGroup(executor, initialSize);
+            // Use the asynchronous channel group as needed
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 AsynchronousChannelProvider_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.channels.AsynchronousChannelGroup;
+import java.nio.channels.AsynchronousServerSocketChannel;
+import java.nio.channels.spi.AsynchronousChannelProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            AsynchronousChannelGroup group = AsynchronousChannelProvider.provider().openAsynchronousChannelGroup(1, null);
+            AsynchronousServerSocketChannel channel = AsynchronousChannelProvider.provider().openAsynchronousServerSocketChannel(group);
+            System.out.println("Asynchronous server socket channel opened successfully.");
+        } catch (IOException e) {
+            System.out.println("An I/O error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 AsynchronousChannelProvider_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.channels.AsynchronousChannelGroup;
+import java.nio.channels.AsynchronousSocketChannel;
+import java.nio.channels.spi.AsynchronousChannelProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            AsynchronousChannelGroup group = AsynchronousChannelProvider.provider().openAsynchronousChannelGroup(1, null).get();
+            AsynchronousSocketChannel channel = AsynchronousChannelProvider.provider().openAsynchronousSocketChannel(group);
+            System.out.println("Asynchronous socket channel opened successfully.");
+        } catch (IOException e) {
+            System.out.println("An I/O error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+

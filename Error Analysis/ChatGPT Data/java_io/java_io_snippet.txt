@@ -1,0 +1,4096 @@
+Sample: 0 BufferedInputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.BufferedInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            BufferedInputStream bis = new BufferedInputStream(System.in);
+            int inputData = bis.read();
+            System.out.println("Input data: " + inputData);
+            bis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 BufferedInputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream("test.txt"))) {
+            byte[] buffer = new byte[1024];
+            int bytesRead = bis.read(buffer, 0, 1024);
+            System.out.println("Bytes read: " + bytesRead);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 BufferedInputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream("example.txt"))) {
+            long n = 10;
+            long skipped = bis.skip(n);
+            System.out.println("Skipped " + skipped + " bytes.");
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("IO Exception");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 BufferedInputStream_4
+----------------------------------------------------------------
+`int available()`: This method returns an estimate of the number of bytes that can be read from the input stream without blocking.
+
+Code snippet:
+```java
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream("example.txt"))) {
+            System.out.println("Available bytes: " + bis.available());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 BufferedInputStream_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream("example.txt");
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+
+            // Perform operations with BufferedInputStream
+
+            bufferedInputStream.close();
+            System.out.println("BufferedInputStream is closed.");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 BufferedOutputStream_1
+----------------------------------------------------------------
+`void flush()`: This method flushes the output stream, ensuring that any buffered data is written out.   
+
+Code snippet:
+```java
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("output.txt"));
+            String data = "Hello World!";
+            bos.write(data.getBytes());
+            bos.flush(); // Flushing the buffered output stream
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 BufferedOutputStream_2
+----------------------------------------------------------------
+```java
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a new BufferedOutputStream
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("output.txt"));
+
+            // Write a byte to the output stream
+            bos.write('A');
+
+            // Flush the output stream
+            bos.flush();
+
+            // Close the output stream
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 BufferedOutputStream_3
+----------------------------------------------------------------
+`void write(byte[] b, int off, int len)`: This method writes len bytes from the specified byte array starting at offset off to the output stream.
+
+Code snippet:
+```java
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileOutputStream fos = new FileOutputStream("output.txt");
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+
+            byte[] data = { 65, 66, 67, 68, 69 }; // ASCII values for A, B, C, D, E
+            int offset = 1;
+            int length = 3;
+
+            bos.write(data, offset, length);
+
+            bos.close();
+            System.out.println("Data has been written to the file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 BufferedWriter_2
+----------------------------------------------------------------
+void newLine(): This method writes a line separator to the buffered writer.
+
+Code snippet:
+```java
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"));
+            writer.write("This is a line of text.");
+            writer.newLine();
+            writer.write("This is another line of text.");
+            writer.close();
+            System.out.println("Lines written to file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 BufferedWriter_3
+----------------------------------------------------------------
+`void flush()`: This method flushes the output stream. 
+
+Code snippet:
+```java
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"));
+            writer.write("Hello, World!");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 BufferedWriter_4
+----------------------------------------------------------------
+`void close()`: This method closes the BufferedWriter, flushing any buffered content to the underlying stream.
+
+Code snippet:
+```java
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
+            writer.write("Hello, World!");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 ByteArrayInputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] byteArray = { 65, 66, 67, 68, 69 }; // Example byte array
+
+        ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
+        byte[] buffer = new byte[3]; // Create a buffer of size 3
+
+        int bytesRead = bais.read(buffer, 0, 3); // Read bytes into buffer starting from index 0 with length 3
+        
+        System.out.println("Bytes read: " + bytesRead);
+        for (int i = 0; i < bytesRead; i++) {
+            System.out.println("Byte at index " + i + ": " + buffer[i]); // Print individual bytes read
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 ByteArrayInputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] byteArray = {65, 66, 67, 68, 69};
+        ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
+
+        System.out.println("Available bytes in the input stream: " + bais.available());
+    }
+}
+```
+================================================================
+
+Sample: 13 ByteArrayInputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] byteArray = {1, 2, 3, 4, 5};
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray);
+        
+        try {
+            long skipped = inputStream.skip(2);
+            System.out.println("Number of bytes skipped: " + skipped);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 14 ByteArrayInputStream_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a new ByteArrayInputStream
+        byte[] data = { 1, 2, 3, 4, 5 };
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
+
+        // Reset the ByteArrayInputStream
+        inputStream.reset();
+
+        // Read the data from the reset ByteArrayInputStream
+        int byteRead = 0;
+        while ((byteRead = inputStream.read()) != -1) {
+            System.out.print(byteRead + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 ByteArrayOutputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        
+        byte b = 65; // ASCII value for 'A'
+        outputStream.write(b);
+        
+        byte[] byteArray = outputStream.toByteArray();
+        for (byte value : byteArray) {
+            System.out.println((char)value); // should print 'A'
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 ByteArrayOutputStream_2
+----------------------------------------------------------------
+`void write(byte[] b, int off, int len)`: This method writes len bytes from the specified byte array starting at offset off to this ByteArrayOutputStream.
+
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        
+        byte[] bytes = {65, 66, 67, 68, 69};
+        byteArrayOutputStream.write(bytes, 1, 3);
+        
+        byte[] result = byteArrayOutputStream.toByteArray();
+        for (byte b : result) {
+            System.out.print(b + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 ByteArrayOutputStream_3
+----------------------------------------------------------------
+`void writeTo(OutputStream out)`: This method writes the complete contents of this byte array output stream to the specified output stream.
+
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            byteArrayOutputStream.write("Hello, World!".getBytes());
+            
+            byteArrayOutputStream.writeTo(System.out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 ByteArrayOutputStream_4
+----------------------------------------------------------------
+`void reset()`: This method resets the ByteArrayOutputStream to an initial state with no data in it.
+
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        baos.write("Hello, World!".getBytes());
+        System.out.println("Before reset: " + baos.toString());
+        
+        baos.reset();
+        System.out.println("After reset: " + baos.toString());
+    }
+}
+```
+================================================================
+
+Sample: 19 ByteArrayOutputStream_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byteArrayOutputStream.write("Hello, World!".getBytes());
+        
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        
+        for(byte b : byteArray) {
+            System.out.println(b);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 CharArrayReader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.CharArrayReader;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] charArray = {'a', 'b', 'c', 'd', 'e'};
+        CharArrayReader reader = new CharArrayReader(charArray); 
+        
+        try {
+            int charRead = reader.read();
+            System.out.println((char) charRead);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 21 CharArrayReader_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.CharArrayReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] cbuf = {'a', 'b', 'c', 'd', 'e'};
+        CharArrayReader reader = new CharArrayReader(cbuf);
+
+        char[] buffer = new char[3];
+        int off = 1;
+        int len = 3;
+
+        try {
+            int bytesRead = reader.read(buffer, off, len);
+            System.out.println("Number of characters read: " + bytesRead);
+            
+            for (char c : buffer) {
+                System.out.print(c + " ");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 22 CharArrayReader_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.CharArrayReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] charArray = {'a', 'b', 'c', 'd', 'e'};
+        CharArrayReader reader = new CharArrayReader(charArray);
+
+        try {
+            // Read and print character by character
+            int data;
+            while ((data = reader.read()) != -1) {
+                System.out.print((char) data);
+            }
+
+            // Close the CharArrayReader
+            reader.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 23 CharArrayReader_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.CharArrayReader;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] charArray = {'a', 'b', 'c', 'd', 'e'};
+        CharArrayReader reader = new CharArrayReader(charArray);
+        
+        boolean markSupported = reader.markSupported();
+        System.out.println("markSupported: " + markSupported);
+    }
+}
+```
+================================================================
+
+Sample: 24 CharArrayReader_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.CharArrayReader;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] charArray = {'a', 'b', 'c', 'd', 'e'};
+        CharArrayReader reader = new CharArrayReader(charArray);
+        
+        // Mark the current position of the reader with a limit of 3 characters
+        reader.mark(3);
+        
+        // Code to use the reader goes here
+        
+    }
+}
+```
+================================================================
+
+Sample: 25 CharArrayWriter_1
+----------------------------------------------------------------
+void write(char[] cbuf, int off, int len): This method writes characters from the specified char array to this CharArrayWriter. The characters written are taken from the subarray of cbuf starting at index off and extending for length len characters.
+
+Code snippet:
+```java
+import java.io.CharArrayWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        CharArrayWriter writer = new CharArrayWriter();
+        char[] chars = {'H', 'e', 'l', 'l', 'o'};
+        writer.write(chars, 0, 5); // Write all characters in the char array
+        System.out.println(writer.toString());
+    }
+}
+```
+================================================================
+
+Sample: 26 CharArrayWriter_2
+----------------------------------------------------------------
+`void write(int c)`: This method writes a single character to the CharArrayWriter.
+
+Code snippet:
+```java
+import java.io.CharArrayWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        CharArrayWriter writer = new CharArrayWriter();
+
+        // Writing a single character 'A' using write(int c) method
+        writer.write('A');
+
+        // Getting the written characters as a char array
+        char[] charArray = writer.toCharArray();
+
+        // Printing the written characters
+        for (char c : charArray) {
+            System.out.print(c);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 27 Console_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.Console;
+
+public class Main {
+    public static void main(String[] args) {
+        Console console = System.console();
+        
+        if (console == null) {
+            System.out.println("Console is not available");
+            return;
+        }
+        
+        String userInput = console.readLine("Enter your input: ");
+        System.out.println("You entered: " + userInput);
+    }
+}
+```
+================================================================
+
+Sample: 28 Console_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.Console;
+
+public class Main {
+    public static void main(String[] args) {
+        Console console = System.console();
+        if (console == null) {
+            System.out.println("No console available");
+            return;
+        }
+        
+        char[] passwordArray = console.readPassword("Enter your password: ");
+        String password = new String(passwordArray);
+        
+        System.out.println("Password entered: " + password);
+    }
+}
+```
+================================================================
+
+Sample: 29 Console_3
+----------------------------------------------------------------
+`PrintWriter writer()`: This method returns a PrintWriter object that can be used to write to the console.
+
+Code snippet:
+```java
+import java.io.Console;
+import java.io.PrintWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        Console console = System.console();
+        if (console != null) {
+            PrintWriter writer = console.writer();
+            writer.println("Hello, world!");
+        } else {
+            System.out.println("Console is not available");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 30 Console_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.Console;
+
+public class Main {
+    public static void main(String[] args) {
+        Console console = System.console();
+
+        if (console == null) {
+            System.out.println("No console available");
+            return;
+        }
+
+        String name = console.readLine("Enter your name: ");
+        console.printf("Hello, %s!\n", name);
+    }
+}
+```
+================================================================
+
+Sample: 31 DataOutputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileOutputStream fos = new FileOutputStream("output.txt");
+            DataOutputStream dos = new DataOutputStream(fos);
+            dos.write(65); // Writes the integer value 65 as a byte to the output file
+            dos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 32 DataOutputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream("data.txt"));
+            
+            boolean value = true;
+            dataOutputStream.writeBoolean(value);
+            
+            dataOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 33 DataOutputStream_4
+----------------------------------------------------------------
+`void writeDouble(double v)`: This method writes a double to the output stream as a 8-byte value.
+
+Code snippet:
+```java
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DataOutputStream dos = new DataOutputStream(new FileOutputStream("output.txt"));
+            double value = 3.14;
+            dos.writeDouble(value);
+            dos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 34 DataOutputStream_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DataOutputStream dos = new DataOutputStream(new FileOutputStream("output.txt"));
+            dos.writeChar(65); // writes character 'A' to the output stream
+            dos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 35 File_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        File file = new File("newFile.txt");
+        try {
+            boolean created = file.createNewFile();
+            if (created) {
+                System.out.println("File created successfully");
+            } else {
+                System.out.println("File already exists");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 36 File_2
+----------------------------------------------------------------
+`boolean delete()`: This method deletes the file or directory represented by this abstract pathname.
+
+Code snippet:
+```java
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        File file = new File("test.txt");
+        
+        // Check if the file exists
+        if(file.exists()){
+            boolean isDeleted = file.delete(); // Delete the file
+            if(isDeleted){
+                System.out.println("File deleted successfully");
+            } else {
+                System.out.println("Failed to delete the file");
+            }
+        } else {
+            System.out.println("File does not exist");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 37 File_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        File directory = new File("path/to/directory");
+        String[] fileList = directory.list();
+        
+        if (fileList != null) {
+            for (String file : fileList) {
+                System.out.println(file);
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 38 File_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        File directory = new File("newDirectory");
+        boolean success = directory.mkdir();
+        
+        if (success) {
+            System.out.println("Directory created successfully");
+        } else {
+            System.out.println("Failed to create directory");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 39 File_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        File file = new File("example.txt");
+
+        // Get the length of the file in bytes
+        long fileSize = file.length();
+        System.out.println("File size (in bytes): " + fileSize);
+    }
+}
+```
+================================================================
+
+Sample: 40 FileDescriptor_2
+----------------------------------------------------------------
+`void sync()`: This method syncs the data for the file descriptor with the underlying disk storage.
+
+Code snippet:
+```java
+import java.io.FileDescriptor;
+
+public class Main {
+    public static void main(String[] args) {
+        FileDescriptor fd = FileDescriptor.out;
+        try {
+            fd.sync();
+            System.out.println("Synced successfully");
+        } catch (Exception e) {
+            System.out.println("Error syncing file descriptor: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 41 FileDescriptor_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileDescriptor;
+
+public class Main {
+    public static void main(String[] args) {
+        FileDescriptor fd = FileDescriptor.out;
+        boolean isValid = fd.valid();
+        System.out.println("Is valid: " + isValid);
+    }
+}
+```
+================================================================
+
+Sample: 42 FileOutputStream_1
+----------------------------------------------------------------
+void write(int b) method from java.io.FileOutputStream is used to write a byte of data to the output stream. Below is a code snippet demonstrating the usage of this method:
+
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileOutputStream fos = new FileOutputStream("output.txt");
+            int data = 65; // ASCII value of 'A'
+            fos.write(data);
+            fos.close();
+            System.out.println("Data written to file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 43 FileOutputStream_2
+----------------------------------------------------------------
+`void write(byte[] b)`: This method writes the specified byte array to the output stream.
+
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] data = { 65, 66, 67, 68, 69 }; // ASCII values for A, B, C, D, E
+            FileOutputStream fos = new FileOutputStream("output.txt");
+            fos.write(data);
+            fos.close();
+            System.out.println("Data has been written to output.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 44 FileOutputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileOutputStream fos = new FileOutputStream("output.txt");
+            byte[] data = {65, 66, 67, 68, 69}; // ABCDE
+            int off = 1;
+            int len = 3;
+            fos.write(data, off, len);
+            fos.close();
+            System.out.println("Data written to file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 45 FileOutputStream_4
+----------------------------------------------------------------
+`void close()`: This method closes the file output stream. Any buffered output bytes are flushed. Once stream is closed, any further write() or flush() will cause IOException.
+
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileOutputStream fos = new FileOutputStream("output.txt");
+            // write some data
+            fos.write("Hello, World!".getBytes());
+            // close the file output stream
+            fos.close();
+            System.out.println("File closed successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 46 FilePermission_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FilePermission;
+import java.security.PermissionCollection;
+
+public class Main {
+    public static void main(String[] args) {
+        FilePermission filePermission = new FilePermission("/path/to/file", "read");
+        PermissionCollection permissionCollection = filePermission.newPermissionCollection();
+        permissionCollection.add(filePermission);
+        
+        System.out.println(filePermission.getActions());
+    }
+}
+```
+================================================================
+
+Sample: 47 FilePermission_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FilePermission;
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating two FilePermission objects
+        FilePermission filePerm1 = new FilePermission("/tmp/*", "read");
+        FilePermission filePerm2 = new FilePermission("/tmp/*", "read");
+
+        // Checking if the two FilePermission objects are equal
+        boolean isEqual = filePerm1.equals(filePerm2);
+        
+        System.out.println("Are the FilePermission objects equal? " + isEqual);
+    }
+}
+```
+================================================================
+
+Sample: 48 FilePermission_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FilePermission;
+
+public class Main {
+    public static void main(String[] args) {
+        FilePermission filePerm = new FilePermission("/path/to/file", "read");
+        int hashCode = filePerm.hashCode();
+        System.out.println("Hashcode of FilePermission object: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 49 FilterOutputStream_1
+----------------------------------------------------------------
+`void write(int b)`: This method writes the specified byte to this output stream.
+
+Code snippet:
+```java
+import java.io.FilterOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FilterOutputStream fos = new FilterOutputStream(new FileOutputStream("output.txt"));
+            fos.write(65); // Writes the byte value for 'A' to the output stream
+            fos.close();
+            System.out.println("Byte has been written to output.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 50 FilterOutputStream_2
+----------------------------------------------------------------
+`void write(byte[] b)`: This method writes `b.length` bytes from the specified byte array to the output stream. 
+
+Code snippet:
+```java
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] bytesToWrite = {65, 66, 67, 68, 69}; // Corresponding to ASCII values A, B, C, D, E
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            FilterOutputStream filterOutputStream = new FilterOutputStream(outputStream) {
+            };
+
+            filterOutputStream.write(bytesToWrite);
+
+            byte[] writtenBytes = outputStream.toByteArray();
+            for (byte b : writtenBytes) {
+                System.out.print((char) b + " ");
+            }
+
+            filterOutputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 51 FilterOutputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] data = {65, 66, 67, 68, 69};
+        try {
+            CustomFilterOutputStream filterOutputStream = new CustomFilterOutputStream(System.out);
+            filterOutputStream.write(data, 1, 3); // Writes from index 1 to index 3 (66, 67, 68) to the output stream
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class CustomFilterOutputStream extends FilterOutputStream {
+
+        public CustomFilterOutputStream(OutputStream out) {
+            super(out);
+        }
+
+        @Override
+        public void write(byte[] b, int off, int len) throws IOException {
+            for (int i = off; i < off + len; i++) {
+                out.write(b[i]); // Writes each byte within the specified range to the output stream
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 52 FilterOutputStream_4
+----------------------------------------------------------------
+`void flush()`: This method flushes the output stream. This forces any buffered output bytes to be written out.
+
+Code snippet:
+```java
+import java.io.FilterOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        MyFilterOutputStream outputStream = new MyFilterOutputStream();
+        try {
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class MyFilterOutputStream extends FilterOutputStream {
+        MyFilterOutputStream() {
+            super(System.out);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 53 FilterOutputStream_5
+----------------------------------------------------------------
+`void close()`: This method closes the output stream.
+
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.FilterOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FilterOutputStream fos = new FilterOutputStream(new FileOutputStream("output.txt"));
+            
+            // Write data to the output stream
+            
+            fos.close(); // Closing the output stream
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 54 FilterReader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FilterReader;
+import java.io.IOException;
+import java.io.Reader;
+
+public class Main {
+    public static void main(String[] args) {
+        FilterReader filterReader = new FilterReader(new Reader() {
+            @Override
+            public int read() throws IOException {
+                return 0;
+            }
+
+            @Override
+            public int read(char[] cbuf, int off, int len) throws IOException {
+                return 0;
+            }
+
+            @Override
+            public void close() throws IOException {
+                
+            }
+        });
+    }
+}
+```
+================================================================
+
+Sample: 55 FilterReader_2
+----------------------------------------------------------------
+`int read(char[] cbuf, int off, int len)`: This method reads characters into a portion of an array.
+
+Code snippet:
+```java
+import java.io.FilterReader;
+import java.io.StringReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        String text = "Hello, World!";
+        char[] buffer = new char[5];
+
+        try {
+            FilterReader filterReader = new FilterReader(new StringReader(text));
+
+            int bytesRead = filterReader.read(buffer, 0, 5);
+
+            System.out.println("Bytes read: " + bytesRead);
+            System.out.println("Read characters: ");
+            for (char c : buffer) {
+                System.out.print(c + " ");
+            }
+
+            filterReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 56 FilterReader_3
+----------------------------------------------------------------
+boolean ready(): This method tests whether this input stream reader is ready to be read.
+Code snippet:
+```java
+import java.io.FilterReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileReader fileReader = new FileReader("file.txt");
+            FilterReader filterReader = new FilterReader(fileReader) {
+                @Override
+                public boolean ready() throws IOException {
+                    return super.ready();
+                }
+            };
+            System.out.println("Is reader ready: " + filterReader.ready());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 57 FilterReader_4
+----------------------------------------------------------------
+`long skip(long n)`: This method skips over and discards n characters of data from the input stream. 
+
+Code snippet:
+```java
+import java.io.FilterReader;
+import java.io.StringReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        String data = "Hello World!";
+        StringReader reader = new StringReader(data);
+        
+        try {
+            FilterReader filterReader = new FilterReader(reader) {
+                @Override
+                public long skip(long n) throws IOException {
+                    return super.skip(n);
+                }
+            };
+            
+            // Skipping 6 characters
+            long skipped = filterReader.skip(6);
+            System.out.println("Skipped " + skipped + " characters");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 58 FilterReader_5
+----------------------------------------------------------------
+`void mark(int readAheadLimit)`: This method marks the present position in the stream. Subsequent calls to `reset()` will attempt to reposition the stream to this point.
+
+```java
+import java.io.FilterReader;
+import java.io.StringReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        String text = "Hello, World!";
+        FilterReader reader = new FilterReader(new StringReader(text));
+
+        try {
+            reader.mark(5); // Mark the current position with readAheadLimit of 5
+            int data = reader.read(); // Read the next character
+            System.out.println((char) data); // Output: H
+            
+            data = reader.read(); // Read the next character
+            reader.reset(); // Reset the stream to the marked position
+            data = reader.read(); // Read the next character again
+            System.out.println((char) data); // Output: H
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 59 FilterWriter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FilterWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+
+public class Main {
+    public static void main(String[] args) {
+        StringWriter stringWriter = new StringWriter();
+        CustomFilterWriter customFilterWriter = new CustomFilterWriter(stringWriter);
+        
+        try {
+            customFilterWriter.write('a');
+            System.out.println(stringWriter.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class CustomFilterWriter extends FilterWriter {
+    protected CustomFilterWriter(Writer out) {
+        super(out);
+    }
+
+    @Override
+    public void write(int c) throws IOException {
+        // Custom logic before writing
+        super.write(c); // actual writing
+    }
+}
+```
+================================================================
+
+Sample: 60 FilterWriter_4
+----------------------------------------------------------------
+void write(String str, int off, int len)`: This method writes a portion of a string to the writer.
+
+Code snippet:
+```java
+import java.io.FilterWriter;
+import java.io.StringWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        StringWriter writer = new StringWriter();
+        
+        try {
+            FilterWriter filterWriter = new FilterWriter(writer) {
+                @Override
+                public void write(String str, int off, int len) throws IOException {
+                    super.write(str, off, len);
+                }
+            };
+            
+            String text = "Hello World";
+            filterWriter.write(text, 6, 5); // Writes "World" starting from index 6
+            
+            System.out.println(writer.toString()); // Output: World
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 61 FilterWriter_5
+----------------------------------------------------------------
+`void write(char[] cbuf, int off, int len)`: This method writes characters from a portion of an array to the writer.
+
+Code snippet:
+```java
+import java.io.FilterWriter;
+import java.io.StringWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        StringWriter stringWriter = new StringWriter();
+        FilterWriter filterWriter = new FilterWriter(stringWriter) {
+            @Override
+            public void write(char[] cbuf, int off, int len) throws IOException {
+                super.write(cbuf, off, len);
+            }
+        };
+
+        char[] chars = {'H', 'e', 'l', 'l', 'o'};
+        try {
+            filterWriter.write(chars, 0, 5);
+            System.out.println(stringWriter.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 62 InputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.InputStream;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        int data;
+        
+        try {
+            System.out.println("Enter a number:");
+            data = inputStream.read();
+            System.out.println("You entered: " + data);
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 63 InputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.InputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] buffer = new byte[10];
+        try {
+            InputStream inputStream = System.in;
+            int bytesRead = inputStream.read(buffer);
+            System.out.println("Number of bytes read: " + bytesRead);
+            System.out.println("Data read from input stream: " + new String(buffer));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 64 InputStream_3
+----------------------------------------------------------------
+`long skip(long n)`: This method skips over and discards n bytes of data from the input stream. 
+
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (FileInputStream inputStream = new FileInputStream("example.txt")) {
+            long bytesSkipped = inputStream.skip(5);
+            System.out.println("Skipped " + bytesSkipped + " bytes");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 65 InputStream_4
+----------------------------------------------------------------
+`int available()`: This method returns an estimate of the number of bytes that can be read (or skipped over) from this input stream without blocking by the next invocation of a method for this input stream.
+
+Code snippet:
+```java
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InputStream input = new FileInputStream("sample.txt");
+            System.out.println("Available bytes: " + input.available());
+            input.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 66 InputStream_5
+----------------------------------------------------------------
+`void close()`: This method closes this input stream and releases any system resources associated with the stream.
+
+Code snippet:
+```java
+import java.io.InputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = null;
+        try {
+            // Code to open an input stream
+            inputStream = new InputStream() {
+                @Override
+                public int read() throws IOException {
+                    return 0;
+                }
+            };
+            
+            // Code to read from the input stream
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 67 InputStreamReader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStreamReader isr = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(isr);
+
+        try {
+            System.out.println("Enter a number: ");
+            int number = Integer.parseInt(br.readLine());
+            System.out.println("You entered: " + number);
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 68 InputStreamReader_3
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStreamReader isr = new InputStreamReader(System.in);
+        Charset encoding = isr.getEncoding();
+
+        System.out.println("Current encoding: " + encoding);
+    }
+}
+```
+================================================================
+
+Sample: 69 InputStreamReader_4
+----------------------------------------------------------------
+`void close()`: This method closes the input stream and releases any system resources associated with it.
+
+Code snippet:
+```java
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStreamReader isr = new InputStreamReader(System.in);
+        
+        try {
+            isr.close();
+            System.out.println("Input stream closed successfully");
+        } catch (IOException e) {
+            System.out.println("An error occurred while closing the input stream");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 70 LineNumberInputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.LineNumberInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            LineNumberInputStream inputStream = new LineNumberInputStream(System.in);
+            int data = inputStream.read();
+            System.out.println("Read data: " + data);
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 71 LineNumberInputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.LineNumberInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        LineNumberInputStream lineNumberInputStream = new LineNumberInputStream(System.in);
+        byte[] buffer = new byte[1024];
+        try {
+            int bytesRead = lineNumberInputStream.read(buffer, 0, buffer.length);
+            System.out.println("Number of bytes read: " + bytesRead);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 72 LineNumberInputStream_3
+----------------------------------------------------------------
+`int available()`: This method returns the number of bytes that can be read from the input stream without blocking.
+
+Code snippet:
+```java
+import java.io.LineNumberInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            LineNumberInputStream lineNumberInputStream = new LineNumberInputStream(System.in);
+            int bytesAvailable = lineNumberInputStream.available();
+            System.out.println("Bytes available for reading: " + bytesAvailable);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 73 LineNumberInputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.LineNumberInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        LineNumberInputStream stream = new LineNumberInputStream(System.in);
+        try {
+            long skippedBytes = stream.skip(10);
+            System.out.println("Skipped " + skippedBytes + " bytes.");
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 74 LineNumberInputStream_5
+----------------------------------------------------------------
+`void mark(int readlimit)`: This method marks the current position in this input stream. A subsequent call to the `reset()` method repositions this stream at the last marked position.
+
+Code snippet:
+```java
+import java.io.LineNumberInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        LineNumberInputStream inputStream = new LineNumberInputStream(System.in);
+        try {
+            // Mark the current position with a read limit of 100
+            inputStream.mark(100);
+            
+            // Perform some operations
+            
+            // Reset the stream to the previously marked position
+            inputStream.reset();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 75 LineNumberReader_1
+----------------------------------------------------------------
+`int getLineNumber()`: This method returns the current line number in the input stream.
+
+Code snippet:
+```java
+import java.io.LineNumberReader;
+import java.io.StringReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        String text = "Line 1\nLine 2\nLine 3";
+        
+        try (LineNumberReader reader = new LineNumberReader(new StringReader(text))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                int lineNumber = reader.getLineNumber();
+                System.out.println("Line " + lineNumber + ": " + line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 76 LineNumberReader_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.LineNumberReader;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        String text = "Hello World!";
+        StringReader stringReader = new StringReader(text);
+        LineNumberReader reader = new LineNumberReader(stringReader);
+        try {
+            String line = reader.readLine();
+            System.out.println("Line read: " + line);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 77 LineNumberReader_3
+----------------------------------------------------------------
+`void setLineNumber(int lineNumber)`: This method sets the current line number for this LineNumberReader.
+
+Code snippet:
+```java
+import java.io.LineNumberReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            LineNumberReader reader = new LineNumberReader(new FileReader("file.txt"));
+            reader.setLineNumber(5);
+            System.out.println("Current line number: " + reader.getLineNumber());
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 78 ObjectInputStream_1
+----------------------------------------------------------------
+`Object readObject()`: This method reads an object from the ObjectInputStream.
+
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fileIn = new FileInputStream("data.ser");
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+
+            Object obj = objectIn.readObject();
+            System.out.println("Object read from file: " + obj);
+
+            objectIn.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 79 ObjectInputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data.txt"));
+            int dataAvailable = ois.available();
+            System.out.println("Number of bytes available to read: " + dataAvailable);
+            ois.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 80 ObjectInputStream_3
+----------------------------------------------------------------
+`void defaultReadObject()`: This method reads the non-static and non-transient fields of the current class from this stream. 
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+
+public class Main implements Serializable {
+    private String name;
+    private int age;
+
+    public Main(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        ois.defaultReadObject();
+    }
+
+    public static void main(String[] args) {
+        Main obj = new Main("John", 25);
+        System.out.println("Object Created: " + obj.name + ", " + obj.age);
+    }
+}
+```
+================================================================
+
+Sample: 81 ObjectInputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            boolean myBool = true;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeBoolean(myBool);
+
+            byte[] bytes = baos.toByteArray();
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+            ObjectInputStream ois = new ObjectInputStream(bais);
+
+            boolean readBool = ois.readBoolean();
+            System.out.println("Read boolean value: " + readBool);
+
+            oos.close();
+            ois.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 82 ObjectInputStream_5
+----------------------------------------------------------------
+Method: `char readChar()`: This method reads a char value from the input stream.
+
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fileIn = new FileInputStream("data.txt");
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+
+            char charValue = objectIn.readChar();
+            System.out.println("Read char value: " + charValue);
+
+            objectIn.close();
+            fileIn.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 83 ObjectInputStream_GetField_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+
+public class Main {
+    
+    static class MyClass implements Serializable {
+        private final boolean myField;
+        
+        public MyClass(boolean value) {
+            myField = value;
+        }
+        
+    }
+
+    public static void main(String[] args) {
+        MyClass obj = new MyClass(true);
+        ObjectInputStream.GetField fields;
+        
+        try {
+            // Create ObjectInputStream GetField
+            fields = ObjectInputStream.GetField(obj);
+            
+            // Get the value of the field with the specified name
+            boolean value = fields.defaulted("myField");
+            
+            // Print the value
+            System.out.println("myField defaulted value: " + value);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 84 ObjectInputStream_GetField_2
+----------------------------------------------------------------
+```java
+import java.io.ObjectInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Create an instance of ObjectInputStream.GetField
+        ObjectInputStream.GetField getField = null;
+
+        // Use getField.get(String name, byte defaultValue) method
+        byte result = getField.get("fieldName", (byte) 10);
+
+        // Print the result
+        System.out.println("Byte value: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 85 ObjectInputStream_GetField_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjectInputStream.GetField field = null; // Assume this is initialized with some values
+        String name = "example";
+
+        char defaultValue = 'a';
+        char value = field.get(name, defaultValue);
+
+        System.out.println("Value for " + name + " is: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 86 ObjectInputStream_GetField_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjectInputStream.GetField getField = null; // Assuming getField is obtained from somewhere
+        
+        // Using double get(String name, double defaultValue) method
+        double value = getField.get("fieldName", 0.0);
+        System.out.println("Value: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 87 ObjectInputStream_GetField_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectInputStream;
+import java.io.ObjectStreamClass;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fis = new FileInputStream("data.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            ObjectStreamClass osc = ObjectStreamClass.lookup(Main.class);
+            ObjectInputStream.GetField fields = ois.readFields();
+            
+            float value = fields.get("fieldName", 0.0f);
+            System.out.println("Value: " + value);
+            
+            ois.close();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 88 ObjectOutputStream_PutField_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ObjectOutputStream.PutField putField = new ObjectOutputStream().putFields();
+            putField.put("name", true);
+            // Use putField.put(String name, boolean val) method to set a boolean value
+            // You can then serialize the object using ObjectOutputStream
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 89 ObjectOutputStream_PutField_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjectOutputStream.PutField putField = new ObjectOutputStream.PutField() {
+            @Override
+            public void put(String name, byte val) {
+                System.out.println("Field Name: " + name + ", Field Value: " + val);
+            }
+
+            @Override
+            public void put(String name, char val) {
+            }
+
+            @Override
+            public void put(String name, double val) {
+            }
+
+            @Override
+            public void put(String name, float val) {
+            }
+
+            @Override
+            public void put(String name, int val) {
+            }
+
+            @Override
+            public void put(String name, long val) {
+            }
+
+            @Override
+            public void put(String name, Object val) {
+            }
+
+            @Override
+            public void put(String name, short val) {
+            }
+
+            @Override
+            public void write(ObjectOutput out) {
+            }
+        };
+
+        putField.put("age", (byte) 25);
+    }
+}
+```
+================================================================
+
+Sample: 90 ObjectOutputStream_PutField_3
+----------------------------------------------------------------
+`void put(String name, char val)`: This method sets the named field to the specified char value.
+
+Code snippet:
+```java
+import java.io.ObjectOutputStream;
+import java.io.ObjectOutput;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream("output.txt");
+            ObjectOutput objectOutput = new ObjectOutputStream(fileOutputStream);
+
+            ObjectOutputStream.PutField putField = objectOutput.putFields();
+            putField.put("name", 'A');
+            objectOutput.writeFields();
+
+            fileOutputStream.close();
+            System.out.println("Field 'name' set to 'A' successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 91 ObjectOutputStream_PutField_4
+----------------------------------------------------------------
+`void put(String name, double val)`: This method assigns a value to the named field.
+
+Code snippet:
+```java
+import java.io.ObjectOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjectOutputStream.PutField putField = new ObjectOutputStream.PutFieldImpl();
+        putField.put("fieldName", 10.5);
+    }
+}
+```
+================================================================
+
+Sample: 92 ObjectOutputStream_PutField_5
+----------------------------------------------------------------
+`void put(String name, float val)`: This method sets the value of the named field in the "stream" to the given float value.
+
+Code snippet:
+```java
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream("data.txt");
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+
+            // Create a PutField object
+            ObjectOutputStream.PutField putField = objectOutputStream.putFields();
+            
+            // Put a float value with a given field name
+            putField.put("floatField", 3.14f);
+            
+            // Write the PutField object to the ObjectOutputStream
+            objectOutputStream.writeFields();
+
+            objectOutputStream.close();
+            fileOutputStream.close();
+            System.out.println("Field value set successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 93 ObjectStreamClass_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectStreamClass;
+
+public class Main {
+    public static void main(String[] args) {
+        long serialVersionUID = ObjectStreamClass.lookup(Main.class).getSerialVersionUID();
+        System.out.println("SerialVersionUID: " + serialVersionUID);
+    }
+}
+```
+================================================================
+
+Sample: 94 ObjectStreamClass_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectStreamClass;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjectStreamClass osc = ObjectStreamClass.lookup(String.class);
+        String className = osc.getName();
+        System.out.println("Class name: " + className);
+    }
+}
+```
+================================================================
+
+Sample: 95 ObjectStreamClass_3
+----------------------------------------------------------------
+`ObjectStreamField getField(String name)`: This method returns the ObjectStreamField object representing the field of the specified name in the stream class descriptor.
+
+Code snippet:
+```java
+import java.io.ObjectStreamField;
+import java.io.ObjectStreamClass;
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating an ObjectStreamClass for demonstration
+        ObjectStreamField[] fields = {
+            new ObjectStreamField("name", String.class),
+            new ObjectStreamField("age", int.class)
+        };
+        ObjectStreamClass osc = ObjectStreamClass.lookup(MyClass.class);
+
+        // Getting the field with name "age"
+        ObjectStreamField field = osc.getField("age");
+
+        // Outputting the field's details
+        if(field != null) {
+            System.out.println("Field Name: " + field.getName());
+            System.out.println("Field Type: " + field.getType().toString());
+        } else {
+            System.out.println("Field not found.");
+        }
+    }
+}
+
+class MyClass {
+    private String name;
+    private int age;
+}
+```
+================================================================
+
+Sample: 96 ObjectStreamClass_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectStreamClass;
+
+public class Main {
+    public static void main(String[] args) {
+        long serialVersionUID = ObjectStreamClass.lookup(java.util.ArrayList.class).getSerialVersionUID();
+        System.out.println("SerialVersionUID of ArrayList class: " + serialVersionUID);
+    }
+}
+```
+================================================================
+
+Sample: 97 ObjectStreamClass_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectStreamClass;
+
+public class Main {
+    public static void main(String[] args) {
+        Class<?> clazz = ObjectStreamClass.class;
+        System.out.println("Class name: " + clazz.getName());
+    }
+}
+```
+================================================================
+
+Sample: 98 ObjectStreamField_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectStreamField;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjectStreamField field = new ObjectStreamField("name", String.class);
+        String fieldName = field.getName();
+        System.out.println(fieldName);
+    }
+}
+```
+================================================================
+
+Sample: 99 ObjectStreamField_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectStreamField;
+import java.io.Serializable;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjectStreamField field = new ObjectStreamField("fieldName", Serializable.class);
+        int offset = field.getOffset();
+        System.out.println("Offset: " + offset);
+    }
+}
+```
+================================================================
+
+Sample: 100 ObjectStreamField_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectStreamField;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjectStreamField field = new ObjectStreamField("name", String.class);
+        Class<?> fieldType = field.getType();
+        System.out.println("Field type: " + fieldType);
+    }
+}
+```
+================================================================
+
+Sample: 101 ObjectStreamField_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectStreamField;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an ObjectStreamField
+        ObjectStreamField field = new ObjectStreamField("name", String.class);
+
+        // Get the type of the field as a string
+        String typeString = field.getTypeString();
+
+        // Print the type string
+        System.out.println("Type of the field: " + typeString);
+    }
+}
+```
+================================================================
+
+Sample: 102 ObjectStreamField_5
+----------------------------------------------------------------
+`char getTypeCode()`: This method returns the type code for the type described by this ObjectStreamField.
+
+```java
+import java.io.ObjectStreamField;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjectStreamField field = new ObjectStreamField("exampleField", String.class);
+        char typeCode = field.getTypeCode();
+        System.out.println("Type Code: " + typeCode);
+    }
+}
+```
+================================================================
+
+Sample: 103 OutputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            OutputStream outputStream = new FileOutputStream("output.txt");
+            int b = 65; // ASCII value for character 'A'
+            outputStream.write(b);
+            outputStream.close();
+            System.out.println("Data written to file successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 104 OutputStream_2
+----------------------------------------------------------------
+`void flush()`: This method flushes the output stream.
+
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileOutputStream outputStream = new FileOutputStream("output.txt");
+            String data = "This is some data to write to the file.";
+            byte[] bytes = data.getBytes();
+            outputStream.write(bytes);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 105 OutputStream_3
+----------------------------------------------------------------
+`void close()`: This method closes the output stream and releases any system resources associated with the stream.
+
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileOutputStream outputStream = new FileOutputStream("output.txt");
+            outputStream.write("Hello, World!".getBytes());
+            outputStream.close();
+            System.out.println("Output stream closed successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 106 OutputStream_4
+----------------------------------------------------------------
+`void write(byte[] b)`: This method writes `b.length` bytes from the specified byte array to this output stream.
+
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String text = "Hello, this is a test text.";
+            byte[] bytes = text.getBytes();
+
+            FileOutputStream outputStream = new FileOutputStream("output.txt");
+            outputStream.write(bytes);
+
+            outputStream.close();
+            System.out.println("Data has been written to output.txt");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 107 OutputStream_5
+----------------------------------------------------------------
+void write(byte[] b, int off, int len): This method writes len bytes from the specified byte array starting at offset off to the output stream.
+
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            byte[] data = {65, 66, 67, 68, 69}; // ASCII values for A, B, C, D, E
+            int offset = 1;
+            int length = 3;
+            
+            outputStream.write(data, offset, length);
+            
+            byte[] result = outputStream.toByteArray();
+            for (byte b : result) {
+                System.out.print((char) b + " ");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 108 OutputStreamWriter_1
+----------------------------------------------------------------
+`void write(int c)`: This method writes a single character to the output stream.
+
+Code snippet:
+```java
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream("output.txt"));
+            writer.write('A');
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 109 OutputStreamWriter_4
+----------------------------------------------------------------
+`void flush()`: This method flushes the stream.
+
+Code snippet:
+```java
+import java.io.OutputStreamWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            OutputStreamWriter writer = new OutputStreamWriter(System.out);
+            writer.write("Hello, World!");
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 110 OutputStreamWriter_5
+----------------------------------------------------------------
+`void close()`: This method closes the stream, flushing it first. Once the stream has been closed, further write() or flush() invocations will cause an IOException to be thrown.
+
+Code snippet:
+```java
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        OutputStreamWriter writer = null;
+        try {
+            writer = new OutputStreamWriter(new FileOutputStream("output.txt"));
+            writer.write("Hello, World!");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 111 PipedInputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.PipedInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PipedInputStream pipedInputStream = new PipedInputStream();
+            pipedInputStream.read(); // Reads a byte of data from this input stream
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 112 PipedInputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.PipedInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] buffer = new byte[10];
+            int bytesRead;
+            PipedInputStream in = new PipedInputStream();
+            
+            // Reading from PipedInputStream
+            bytesRead = in.read(buffer, 0, buffer.length);
+            
+            System.out.println("Bytes read: " + bytesRead);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 113 PipedInputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PipedOutputStream output = new PipedOutputStream();
+            PipedInputStream input = new PipedInputStream();
+
+            // Connect the PipedOutputStream to the PipedInputStream
+            input.connect(output);
+
+            // Use the input and output streams here
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 114 PipedInputStream_5
+----------------------------------------------------------------
+`int available()`: This method returns the number of bytes that can be read from the input stream without blocking. 
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.PipedInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PipedInputStream input = new PipedInputStream();
+            int bytesAvailable = input.available();
+            System.out.println("Bytes Available: " + bytesAvailable);
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 115 PipedOutputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.PipedOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PipedOutputStream pipedOutputStream = new PipedOutputStream();
+            int b = 65; // ASCII value of character 'A'
+            pipedOutputStream.write(b);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 116 PipedOutputStream_3
+----------------------------------------------------------------
+`void write(byte[] b, int off, int len)`: This method writes len bytes from the specified byte array starting at offset off to this piped output stream.
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.PipedOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PipedOutputStream pipedOutputStream = new PipedOutputStream();
+            byte[] byteArray = {65, 66, 67, 68, 69}; // A, B, C, D, E in ASCII
+            int offset = 1;
+            int length = 3;
+
+            pipedOutputStream.write(byteArray, offset, length);
+
+            // Print some output to show usage of the method
+            System.out.println("Bytes written from offset " + offset + " with length " + length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 117 PipedOutputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.PipedOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PipedOutputStream outputStream = new PipedOutputStream();
+            // Some operations
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 118 PipedOutputStream_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.PipedOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        PipedOutputStream output = new PipedOutputStream();
+        
+        try {
+            output.close();
+            System.out.println("PipedOutputStream closed successfully");
+        } catch (IOException e) {
+            System.out.println("An error occurred while closing PipedOutputStream");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 119 PipedReader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.PipedReader;
+import java.io.PipedWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PipedWriter writer = new PipedWriter();
+            PipedReader reader = new PipedReader();
+
+            // Connect the writer to the reader
+            reader.connect(writer);
+
+            // Write data to the writer
+            writer.write("Hello, World!");
+
+            // Read data from the reader
+            int data = reader.read();
+            while (data != -1) {
+                System.out.print((char) data);
+                data = reader.read();
+            }
+
+            // Close the writer and reader
+            writer.close();
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 120 PipedReader_2
+----------------------------------------------------------------
+`int read()`: This method reads a single character from the input stream.
+
+Code snippet:
+```java
+import java.io.PipedReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PipedReader reader = new PipedReader();
+            reader.write('A');
+            int data = reader.read();
+            System.out.println("Read character: " + (char)data);
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 121 PipedReader_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.PipedReader;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] cbuf = new char[5];
+        PipedReader reader = new PipedReader();
+
+        try {
+            int bytesRead = reader.read(cbuf, 0, 5);
+            System.out.println("Number of bytes read: " + bytesRead);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 122 PipedReader_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.PipedReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PipedReader reader = new PipedReader();
+            boolean isReady = reader.ready();
+            System.out.println("Is ready: " + isReady);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 123 PipedReader_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.PipedReader;
+
+public class Main {
+    public static void main(String[] args) {
+        PipedReader reader = new PipedReader();
+        try {
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 124 PrintStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.PrintStream;
+
+public class Main {
+    public static void main(String[] args) {
+        boolean testValue = true;
+        PrintStream ps = System.out;
+        ps.print(testValue);
+    }
+}
+```
+================================================================
+
+Sample: 125 PrintStream_2
+----------------------------------------------------------------
+`void print(char c)`: This method prints the specified character to the standard output stream.
+
+Code snippet:
+```java
+import java.io.PrintStream;
+
+public class Main {
+    public static void main(String[] args) {
+        PrintStream ps = new PrintStream(System.out);
+        ps.print('A');
+    }
+}
+```
+================================================================
+
+Sample: 126 PrintStream_3
+----------------------------------------------------------------
+`void print(int i)`: This method prints the integer value passed to the standard output stream.
+
+Code snippet:
+```java
+import java.io.PrintStream;
+
+public class Main {
+    public static void main(String[] args) {
+        PrintStream ps = System.out;
+        ps.print(42);
+    }
+}
+```
+================================================================
+
+Sample: 127 PrintStream_4
+----------------------------------------------------------------
+void print(String s) : This method prints the specified string to the console.
+
+Code snippet:
+```java
+import java.io.PrintStream;
+
+public class Main {
+    public static void main(String[] args) {
+        PrintStream ps = new PrintStream(System.out);
+        ps.print("Hello, World!");
+    }
+}
+```
+================================================================
+
+Sample: 128 PrintStream_5
+----------------------------------------------------------------
+`void println(Object x)`: This method prints the object to the standard output stream.
+
+Code snippet:
+```java
+import java.io.PrintStream;
+
+public class Main {
+    public static void main(String[] args) {
+        PrintStream ps = new PrintStream(System.out);
+        ps.println("Hello, World!");
+    }
+}
+```
+================================================================
+
+Sample: 129 PrintWriter_1
+----------------------------------------------------------------
+`void print(String s)`: This method prints a string to the PrintWriter's output stream.
+
+Code snippet:
+```java
+import java.io.PrintWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        PrintWriter writer = new PrintWriter(System.out);
+        writer.print("Hello, World!");
+        writer.flush();
+    }
+}
+```
+================================================================
+
+Sample: 130 PrintWriter_2
+----------------------------------------------------------------
+void println(String x): This method prints a string followed by a newline to the output stream.
+
+Code snippet:
+```java
+import java.io.PrintWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        PrintWriter out = new PrintWriter(System.out);
+        out.println("Hello, World!");
+        out.flush();
+    }
+}
+```
+================================================================
+
+Sample: 131 PrintWriter_3
+----------------------------------------------------------------
+`void flush()`: This method flushes the stream.
+
+Code snippet:
+```java
+import java.io.PrintWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        PrintWriter pw = new PrintWriter(System.out);
+        pw.print("Hello");
+        pw.flush();
+    }
+}
+```
+================================================================
+
+Sample: 132 PrintWriter_4
+----------------------------------------------------------------
+`void close()`: This method closes the PrintWriter and releases any system resources associated with it.
+
+Code snippet:
+```java
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PrintWriter writer = new PrintWriter(new FileWriter("output.txt"));
+            writer.println("Hello, World!");
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 133 PrintWriter_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.PrintWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        try (PrintWriter writer = new PrintWriter(System.out)) {
+            writer.format("Hello, %s! The answer to life, the universe, and everything is %d", "World", 42);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 134 RandomAccessFile_1
+----------------------------------------------------------------
+`void seek(long pos)`: This method sets the file-pointer offset, measured from the beginning of this file, at which the next read or write occurs.
+
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RandomAccessFile file = new RandomAccessFile("test.txt", "rw");
+            file.writeBytes("Hello, World!");
+            
+            // Set the file-pointer offset at position 7
+            file.seek(7);
+            // Check the current file pointer offset
+            System.out.println("Current File Pointer offset: " + file.getFilePointer());
+            
+            file.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 135 RandomAccessFile_2
+----------------------------------------------------------------
+`void write(byte[] b)`: This method writes the content of the byte array `b` to the file opened by the RandomAccessFile object.
+
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RandomAccessFile file = new RandomAccessFile("test.txt", "rw");
+            byte[] data = "Hello, World!".getBytes();
+            file.write(data);
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 136 RandomAccessFile_3
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RandomAccessFile file = new RandomAccessFile("data.txt", "r");
+            int intValue = file.readInt();
+            System.out.println("Read integer value: " + intValue);
+            file.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the integer value.");
+            e.printStackTrace();
+        }
+    }
+}
+``` 
+This code snippet demonstrates how to use `readInt()` from `java.io.RandomAccessFile` to read an integer value from a file.
+================================================================
+
+Sample: 137 RandomAccessFile_4
+----------------------------------------------------------------
+`long length()`: This method returns the length in bytes of the file denoted by this RandomAccessFile object.
+
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RandomAccessFile file = new RandomAccessFile("sample.txt", "r");
+            long fileLength = file.length();
+            System.out.println("File length: " + fileLength);
+            file.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 138 RandomAccessFile_5
+----------------------------------------------------------------
+`void writeUTF(String str)`: This method writes a string in UTF format to the file.
+
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a RandomAccessFile with read-write access
+            RandomAccessFile file = new RandomAccessFile("test.txt", "rw");
+
+            // Write a string in UTF format to the file
+            String text = "Hello, World!";
+            file.writeUTF(text);
+
+            // Close the file
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 139 Reader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        StringReader reader = new StringReader("12345");
+        try {
+            int number = reader.read();
+            System.out.println("Read number: " + number);
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 140 Reader_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] cbuf = new char[5];
+        StringReader reader = new StringReader("Hello");
+        try {
+            int numChars = reader.read(cbuf);
+            System.out.println("Number of characters read: " + numChars);
+            System.out.println("Characters read: ");
+            for (char c : cbuf) {
+                System.out.print(c + " ");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 141 Reader_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileReader reader = new FileReader("file.txt");
+            long skipResult = skip(reader, 5);
+            System.out.println("Skipped " + skipResult + " characters");
+            reader.close();
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+    }
+
+    public static long skip(FileReader reader, long n) throws IOException {
+        return reader.skip(n);
+    }
+}
+```
+================================================================
+
+Sample: 142 Reader_4
+----------------------------------------------------------------
+`boolean ready()`: This method tells whether this stream is ready to be read.
+
+Code snippet:
+```java
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        StringReader reader = new StringReader("Hello, World!");
+        if(reader.ready()) {
+            System.out.println("Stream is ready to be read.");
+        } else {
+            System.out.println("Stream is not ready.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 143 Reader_5
+----------------------------------------------------------------
+`void close()`: This method closes the stream and releases any system resources associated with it.
+
+Code snippet:
+```java
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileReader reader = new FileReader("file.txt");
+            // Code to read from the file
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 144 SequenceInputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.SequenceInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream input1 = new FileInputStream("file1.txt");
+            FileInputStream input2 = new FileInputStream("file2.txt");
+            SequenceInputStream sequence = new SequenceInputStream(input1, input2);
+            int data;
+            while ((data = sequence.read()) != -1) {
+                System.out.print((char) data);
+            }
+            sequence.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 145 SequenceInputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayInputStream;
+import java.io.SequenceInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] byteArray1 = {65, 66, 67};
+        byte[] byteArray2 = {68, 69, 70};
+        
+        ByteArrayInputStream input1 = new ByteArrayInputStream(byteArray1);
+        ByteArrayInputStream input2 = new ByteArrayInputStream(byteArray2);
+        
+        SequenceInputStream sequenceInput = new SequenceInputStream(input1, input2);
+        
+        byte[] buffer = new byte[5];
+        int bytesRead = sequenceInput.read(buffer, 0, 5);
+        
+        System.out.println("Bytes read: " + bytesRead);
+        System.out.print("Content read: ");
+        for (int i = 0; i < bytesRead; i++) {
+            System.out.print((char) buffer[i]);
+        }
+        
+        sequenceInput.close();
+    }
+}
+```
+================================================================
+
+Sample: 146 SequenceInputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.SequenceInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream input1 = new FileInputStream("file1.txt");
+            FileInputStream input2 = new FileInputStream("file2.txt");
+
+            SequenceInputStream sequenceInputStream = new SequenceInputStream(input1, input2);
+
+            System.out.println(sequenceInputStream.available());
+
+            sequenceInputStream.close();
+            input1.close();
+            input2.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 147 SequenceInputStream_4
+----------------------------------------------------------------
+void close(): This method closes both the input streams that this SequenceInputStream manages.
+
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.SequenceInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream input1 = new FileInputStream("file1.txt");
+            FileInputStream input2 = new FileInputStream("file2.txt");
+            SequenceInputStream sequenceInputStream = new SequenceInputStream(input1, input2);
+            
+            // Perform operations using the SequenceInputStream
+            
+            sequenceInputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 148 StreamTokenizer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.StreamTokenizer;
+import java.io.StringReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        String str = "10 20 30";
+        StringReader sr = new StringReader(str);
+        StreamTokenizer tokenizer = new StreamTokenizer(sr);
+        
+        try {
+            int token;
+            while ((token = tokenizer.nextToken()) != StreamTokenizer.TT_EOF) {
+                if (token == StreamTokenizer.TT_NUMBER) {
+                    int num = (int) tokenizer.nval;
+                    System.out.println("Number: " + num);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 149 StreamTokenizer_4
+----------------------------------------------------------------
+`void eolIsSignificant(boolean flag)`: This method specifies that end-of-line characters are significant. If flag is true, this indicates that EOL will be treated as a token. If flag is false, EOL will be treated as whitespace.
+
+Code snippet:
+```java
+import java.io.StreamTokenizer;
+import java.io.StringReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        String text = "Hello World\nThis is a test";
+        
+        try {
+            StringReader reader = new StringReader(text);
+            StreamTokenizer tokenizer = new StreamTokenizer(reader);
+            tokenizer.eolIsSignificant(true);
+            
+            while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
+                System.out.println("Token: " + tokenizer.sval);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 150 StringBufferInputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.StringBufferInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        StringBufferInputStream stream = new StringBufferInputStream("12345");
+        int data;
+        while ((data = stream.read()) != -1) {
+            System.out.print((char) data);
+        }
+        stream.close();
+    }
+}
+```
+================================================================
+
+Sample: 151 StringBufferInputStream_2
+----------------------------------------------------------------
+```java
+import java.io.StringBufferInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] buffer = new byte[10];
+        StringBufferInputStream stream = new StringBufferInputStream("Hello World");
+        int bytesRead = stream.read(buffer, 0, 5);
+        System.out.println("Bytes read: " + bytesRead);
+        System.out.println(new String(buffer));
+    }
+}
+```
+================================================================
+
+Sample: 152 StringBufferInputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.StringBufferInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        StringBufferInputStream stream = new StringBufferInputStream("Hello World");
+        long skipped = stream.skip(6);
+        System.out.println("Skipped " + skipped + " bytes");
+    }
+}
+```
+================================================================
+
+Sample: 153 StringBufferInputStream_4
+----------------------------------------------------------------
+Below is the code snippet demonstrating the use of `int available()` from `java.io.StringBufferInputStream`:
+
+Code snippet:
+```java
+import java.io.StringBufferInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        String str = "Hello, World!";
+        StringBufferInputStream stream = new StringBufferInputStream(str);
+        
+        // Get the number of bytes that can be read without blocking
+        int bytesAvailable = stream.available();
+        
+        System.out.println("Number of bytes available: " + bytesAvailable);
+    }
+}
+```
+================================================================
+
+Sample: 154 StringBufferInputStream_5
+----------------------------------------------------------------
+void reset(): This method resets the stream to the last marked position.
+Code snippet:
+```java
+import java.io.StringBufferInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        StringBufferInputStream stream = new StringBufferInputStream("Hello, World!");
+
+        // Use reset() method
+        stream.reset();
+
+        int data;
+        while ((data = stream.read()) != -1) {
+            System.out.print((char) data);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 155 StringReader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.StringReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        String input = "12345";
+        StringReader reader = new StringReader(input);
+        try {
+            int data = reader.read();
+            while(data != -1) {
+                System.out.print((char) data);
+                data = reader.read();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 156 StringReader_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.StringReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        StringReader stringReader = new StringReader("Example String");
+        char[] buffer = new char[5];
+        try {
+            int bytesRead = stringReader.read(buffer, 2, 3);
+            System.out.println("Number of characters read: " + bytesRead);
+            System.out.println("Characters read: ");
+            for (char c : buffer) {
+                System.out.print(c + " ");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 157 StringReader_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.StringReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            StringReader reader = new StringReader("Hello World");
+            reader.skip(6); // Skips the first 6 characters
+            int c;
+            while ((c = reader.read()) != -1) {
+                System.out.print((char) c); // Output: World
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 158 StringReader_4
+----------------------------------------------------------------
+`void close()`: This method closes the stream and releases any system resources associated with it.
+
+Code snippet:
+```java
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        StringReader stringReader = new StringReader("This is a sample string.");
+        try {
+            int data = stringReader.read();
+            System.out.println("Read data: " + (char)data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            stringReader.close();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 159 StringReader_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        StringReader reader = new StringReader("Hello, World!");
+        System.out.println("markSupported(): " + reader.markSupported());
+    }
+}
+```
+================================================================
+
+Sample: 160 StringWriter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.StringWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        StringWriter sw = new StringWriter();
+        sw.write("Hello, this is a test string");
+        System.out.println(sw.toString());
+    }
+}
+```
+================================================================
+
+Sample: 161 StringWriter_2
+----------------------------------------------------------------
+`void write(int c)`: This method writes a single character to the StringWriter.
+
+Code snippet:
+```java
+import java.io.StringWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        StringWriter writer = new StringWriter();
+        writer.write('A');
+        System.out.println(writer.toString());
+    }
+}
+```
+================================================================
+
+Sample: 162 StringWriter_3
+----------------------------------------------------------------
+`void write(char[] cbuf, int off, int len)`: This method writes specified characters to the StringWriter.
+
+Code snippet:
+```java
+import java.io.StringWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        StringWriter writer = new StringWriter();
+        char[] chars = {'a', 'b', 'c', 'd', 'e'};
+        int offset = 1;
+        int length = 3;
+
+        try {
+            writer.write(chars, offset, length);
+            System.out.println(writer.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 163 StringWriter_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.StringWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        StringWriter writer = new StringWriter();
+        String str = "Hello World";
+        int off = 6;
+        int len = 5;
+        
+        writer.write(str, off, len);
+        
+        System.out.println(writer.toString()); // Output: World
+    }
+}
+```
+================================================================
+
+Sample: 164 StringWriter_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.StringWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        StringWriter writer = new StringWriter();
+        writer.write("Hello, World!");
+        String result = writer.toString();
+        System.out.println(result);
+    }
+}
+```
+================================================================
+
+Sample: 165 Writer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileWriter writer = new FileWriter("output.txt");
+            writer.write("This is a sample text.");
+            writer.close();
+            System.out.println("write() method executed successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 166 Writer_2
+----------------------------------------------------------------
+`void write(char[] cbuf, int off, int len)`: This method writes len characters from the specified character array starting at offset off to this Writer.
+
+Code snippet:
+```java
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileWriter writer = new FileWriter("output.txt");
+            char[] text = {'H', 'e', 'l', 'l', 'o'};
+            writer.write(text, 0, 5);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 167 Writer_3
+----------------------------------------------------------------
+`void flush()`: This method flushes the stream.
+
+Code snippet:
+```java
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileWriter writer = new FileWriter("output.txt");
+            writer.write("Hello, World!");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 168 Writer_4
+----------------------------------------------------------------
+`void close()`: This method closes the stream, flushing it first. Once the stream has been closed, further write or flush operations will cause an IOException to be thrown.
+
+Code snippet:
+```java
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileWriter writer = new FileWriter("output.txt");
+            writer.write("Hello, World!");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

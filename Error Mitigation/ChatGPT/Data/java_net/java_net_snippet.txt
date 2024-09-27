@@ -1,0 +1,2950 @@
+Sample: 0 Authenticator_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.Authenticator;
+import java.net.InetAddress;
+import java.net.PasswordAuthentication;
+
+public class Main {
+    public static void main(String[] args) {
+        InetAddress addr = null;
+        int port = 8080;
+        String protocol = "http";
+        String prompt = "Please enter your credentials";
+        String scheme = "Basic";
+
+        PasswordAuthentication passwordAuthentication = Authenticator.requestPasswordAuthentication(addr, port, protocol, prompt, scheme);
+
+        if (passwordAuthentication != null) {
+            String username = passwordAuthentication.getUserName();
+            char[] password = passwordAuthentication.getPassword();
+            System.out.println("Username: " + username);
+            System.out.println("Password: " + new String(password));
+        } else {
+            System.out.println("Username/password could not be obtained.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 Authenticator_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.Authenticator;
+
+public class Main {
+    public static void main(String[] args) {
+        Authenticator authenticator = new Authenticator() {
+            // Override methods as needed
+        };
+        
+        Authenticator.setDefault(authenticator);
+    }
+}
+```
+================================================================
+
+Sample: 2 CacheRequest_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.CacheRequest;
+
+public class Main {
+    public static void main(String[] args) {
+        CacheRequest cacheRequest = new CacheRequest() {
+            @Override
+            public void abort() {
+                // Implementation of abort method
+                System.out.println("Aborting cache request");
+            }
+
+            @Override
+            public void close() {
+                // Implementation of close method
+            }
+        };
+
+        cacheRequest.abort();
+    }
+}
+```
+================================================================
+
+Sample: 3 CacheRequest_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.OutputStream;
+import java.io.IOException;
+import java.net.CacheRequest;
+
+public class Main {
+    public static void main(String[] args) {
+        CacheRequest cacheRequest = new CacheRequest() {
+            @Override
+            public OutputStream getBody() throws IOException {
+                // Implement your logic here to write response body to the OutputStream
+                return null;
+            }
+
+            @Override
+            public void abort() {
+                // Implement your logic here to abort the request
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 4 CacheResponse_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.InputStream;
+import java.io.IOException;
+import java.net.CacheResponse;
+
+public class Main {
+    public static void main(String[] args) {
+        CacheResponse cacheResponse = new CacheResponse() {
+            @Override
+            public InputStream getBody() throws IOException {
+                // Implement the logic to retrieve response body as InputStream
+                return null;
+            }
+        };
+        
+        try {
+            InputStream responseBody = cacheResponse.getBody();
+            // Use the InputStream to access the response body
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 ContentHandler_1
+----------------------------------------------------------------
+`Object getContent(URLConnection urlc)`: This method reads an object from a URL connection stream.
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.ContentHandler;
+import java.net.URLConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        URLConnection urlc = null; // Initialize URL connection
+        
+        ContentHandler contentHandler = new ContentHandler() {
+            @Override
+            public Object getContent(URLConnection urlc) throws IOException {
+                // Read object from URL connection stream and create an object
+                return null; // Return the object read by the ContentHandler
+            }
+        };
+        
+        try {
+            Object object = contentHandler.getContent(urlc);
+            System.out.println("Object read: " + object);
+        } catch (IOException e) {
+            System.out.println("An I/O error occurred while reading the object.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 ContentHandler_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.ContentHandler;
+import java.net.URLConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        URLConnection urlc = null; // Initialize URL connection
+        Class[] classes = {Object.class}; // Specify the types requested
+        
+        try {
+            ContentHandler contentHandler = new ContentHandler() {
+                @Override
+                public Object getContent(URLConnection urlc, Class[] classes) throws IOException {
+                    // Implementation of getContent method
+                    return null; // Placeholder return value
+                }
+            };
+            
+            Object object = contentHandler.getContent(urlc, classes); // Call getContent method
+            System.out.println("Object read: " + object);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 CookieHandler_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.CookieHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        CookieHandler cookieHandler = CookieHandler.getDefault();
+        System.out.println("System-wide cookie handler: " + cookieHandler);
+    }
+}
+```
+================================================================
+
+Sample: 8 CookieHandler_2
+----------------------------------------------------------------
+`void setDefault(CookieHandler cHandler)`: This method sets (or unsets) the system-wide cookie handler.
+
+Code snippet:
+```java
+import java.net.CookieHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        CookieHandler cookieHandler = new CookieHandler() {
+            // Implement the necessary methods for the CookieHandler interface
+        };
+        
+        CookieHandler.setDefault(cookieHandler);
+    }
+}
+```
+================================================================
+
+Sample: 9 CookieHandler_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.CookieHandler;
+import java.net.URI;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        CookieHandler cookieHandler = CookieHandler.getDefault();
+        URI uri = URI.create("https://example.com");
+        Map<String, List<String>> responseHeaders = Map.of("Set-Cookie2", List.of("cookie1=value1", "cookie2=value2"));
+        
+        try {
+            cookieHandler.put(uri, responseHeaders);
+            System.out.println("Cookies set successfully");
+        } catch (IOException e) {
+            System.out.println("An I/O error occurred: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid argument: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 CookieManager_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+
+public class Main {
+    public static void main(String[] args) {
+        CookieManager cookieManager = new CookieManager();
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+    }
+}
+```
+================================================================
+
+Sample: 11 CookieManager_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.CookieManager;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        CookieManager cookieManager = new CookieManager();
+        URI uri = URI.create("https://example.com");
+        Map<String, List<String>> responseHeaders = new HashMap<>();
+        List<String> cookieValues = new ArrayList<>();
+        cookieValues.add("cookie1=value1");
+        cookieValues.add("cookie2=value2");
+        responseHeaders.put("Set-Cookie2", cookieValues);
+
+        try {
+            cookieManager.put(uri, responseHeaders);
+            System.out.println("Cookies set successfully.");
+        } catch (IOException e) {
+            System.out.println("An I/O error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 DatagramPacket_1
+----------------------------------------------------------------
+`void setData(byte[] buf)`: This method sets the data buffer for the DatagramPacket.
+
+Code snippet:
+```java
+import java.net.DatagramPacket;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] data = "Hello, World!".getBytes();
+        DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
+        
+        packet.setData(data);
+        
+        System.out.println("Data set for DatagramPacket: " + new String(packet.getData()));
+    }
+}
+```
+================================================================
+
+Sample: 13 DatagramPacket_2
+----------------------------------------------------------------
+`byte[] getData()`: This method returns the data buffer. The data received or the data to be sent starts from the offset in the buffer, and runs for length long.
+
+Code snippet:
+```java
+import java.net.DatagramPacket;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] data = new byte[10];
+        DatagramPacket packet = new DatagramPacket(data, data.length);
+        
+        byte[] receivedData = packet.getData();
+        System.out.println("Data received: " + new String(receivedData));
+    }
+}
+```
+================================================================
+
+Sample: 14 DatagramPacket_3
+----------------------------------------------------------------
+`void setLength(int length)`: This method sets the length for the DatagramPacket.
+
+Code snippet:
+```java
+import java.net.DatagramPacket;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] data = new byte[10];
+        DatagramPacket packet = new DatagramPacket(data, data.length);
+        
+        // Set the length of the packet
+        int length = 5;
+        packet.setLength(length);
+        
+        System.out.println("Packet length set to: " + packet.getLength());
+    }
+}
+```
+================================================================
+
+Sample: 15 DatagramPacket_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.DatagramPacket;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] data = new byte[10];
+        DatagramPacket packet = new DatagramPacket(data, data.length);
+        int length = packet.getLength();
+        System.out.println("Length of data: " + length);
+    }
+}
+```
+================================================================
+
+Sample: 16 DatagramPacket_5
+----------------------------------------------------------------
+`SocketAddress getSocketAddress()`: This method gets the SocketAddress (usually IP address + port number) of the remote host that this packet is being sent to or is coming from.
+
+Code snippet:
+```java
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.SocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] data = new byte[1024];
+            DatagramPacket packet = new DatagramPacket(data, data.length);
+            SocketAddress address = packet.getSocketAddress();
+            System.out.println("Socket Address: " + address);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 DatagramSocket_1
+----------------------------------------------------------------
+`void bind(SocketAddress bindpoint)`: This method binds the DatagramSocket to a specific address and port.
+
+Code snippet:
+```java
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.net.SocketException;
+
+public class Main {
+    public static void main(String[] args) {
+        DatagramSocket socket = new DatagramSocket();
+        SocketAddress address = new InetSocketAddress("localhost", 8080);
+        
+        try {
+            socket.bind(address);
+            System.out.println("DatagramSocket bound successfully to " + address);
+        } catch (SocketException e) {
+            System.err.println("Error binding DatagramSocket: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 DatagramSocket_2
+----------------------------------------------------------------
+`void close()`: This method closes the datagram socket.
+
+Code snippet:
+```java
+import java.net.DatagramSocket;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatagramSocket socket = new DatagramSocket();
+            socket.close();
+            System.out.println("Socket closed successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 19 DatagramSocket_3
+----------------------------------------------------------------
+`void connect(SocketAddress address)`: This method connects the DatagramSocket to a remote socket address.
+
+Code snippet:
+```java
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.net.SocketException;
+
+public class Main {
+    public static void main(String[] args) {
+        DatagramSocket socket = new DatagramSocket();
+        InetSocketAddress address = new InetSocketAddress("127.0.0.1", 8080);
+        
+        try {
+            socket.connect(address);
+            System.out.println("Socket connected to: " + address);
+        } catch (SocketException e) {
+            System.err.println("SocketException: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 DatagramSocket_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.DatagramSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatagramSocket socket = new DatagramSocket();
+            socket.disconnect();
+            System.out.println("Socket disconnected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 21 DatagramSocket_5
+----------------------------------------------------------------
+`void send(DatagramPacket p)`: This method sends a datagram packet from the DatagramSocket.
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatagramSocket socket = new DatagramSocket();
+            byte[] data = "Hello, World!".getBytes();
+            InetAddress address = InetAddress.getByName("localhost");
+            int port = 12345;
+            DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
+            
+            socket.send(packet);
+            
+            System.out.println("Datagram packet sent successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 22 DatagramSocketImpl_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.SocketException;
+import java.net.DatagramSocketImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        DatagramSocketImpl socketImpl = new DatagramSocketImpl() {
+            @Override
+            protected void create() throws SocketException {
+                // Implementation of creating a datagram socket
+                System.out.println("Datagram socket created");
+            }
+        };
+
+        try {
+            socketImpl.create();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 23 DatagramSocketImpl_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.DatagramSocketImpl;
+import java.net.InetAddress;
+import java.net.SocketException;
+
+public class Main {
+    public static void main(String[] args) {
+        DatagramSocketImpl socket = new DatagramSocketImpl() {
+            @Override
+            protected void bind(int lport, InetAddress laddr) throws SocketException {
+                // Implementation of the bind method
+            }
+        };
+        
+        try {
+            socket.bind(8080, InetAddress.getLocalHost());
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 24 DatagramSocketImpl_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.DatagramPacket;
+import java.io.IOException;
+import java.net.PortUnreachableException;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a DatagramPacket
+        byte[] data = "Hello, World!".getBytes();
+        DatagramPacket packet = new DatagramPacket(data, data.length);
+
+        // Implement the send method
+        try {
+            send(packet);
+            System.out.println("Packet sent successfully.");
+        } catch (IOException e) {
+            System.out.println("An I/O exception occurred while sending the datagram packet.");
+        } catch (PortUnreachableException e) {
+            System.out.println("The socket is connected to a currently unreachable destination.");
+        }
+    }
+
+    protected static void send(DatagramPacket p) throws IOException {
+        // Implement the send method here
+        // This is just a placeholder method
+        // You would need to implement the actual sending logic
+    }
+}
+```
+================================================================
+
+Sample: 25 DatagramSocketImpl_4
+----------------------------------------------------------------
+`void receive(DatagramPacket p)`: This method receives the datagram packet.
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.PortUnreachableException;
+
+public class Main {
+    public static void main(String[] args) {
+        // Implement the receive method here
+    }
+
+    protected void receive(DatagramPacket p) throws IOException, PortUnreachableException {
+        // Implementation of receiving the datagram packet
+    }
+}
+```
+================================================================
+
+Sample: 26 DatagramSocketImpl_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.DatagramSocketImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        // This method is protected and abstract, so it needs to be implemented in a subclass
+        // Example implementation:
+        DatagramSocketImpl socket = new DatagramSocketImpl() {
+            @Override
+            protected void close() {
+                // Implement close method here
+                System.out.println("Socket closed");
+            }
+        };
+        
+        // Call the close method
+        socket.close();
+    }
+}
+```
+================================================================
+
+Sample: 27 HttpCookie_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.HttpCookie;
+
+public class Main {
+    public static void main(String[] args) {
+        HttpCookie cookie = new HttpCookie("myCookie", "cookieValue");
+        String cookieName = cookie.getName();
+        System.out.println("Cookie Name: " + cookieName);
+    }
+}
+```
+================================================================
+
+Sample: 28 HttpCookie_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.HttpCookie;
+
+public class Main {
+    public static void main(String[] args) {
+        HttpCookie cookie = new HttpCookie("myCookie", "cookieValue");
+        String value = cookie.getValue();
+        System.out.println("Cookie value: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 29 HttpCookie_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.HttpCookie;
+
+public class Main {
+    public static void main(String[] args) {
+        HttpCookie cookie = new HttpCookie("session", "12345");
+        cookie.setPath("/catalog");
+        System.out.println("Cookie path set to: " + cookie.getPath());
+    }
+}
+```
+================================================================
+
+Sample: 30 HttpCookie_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.HttpCookie;
+
+public class Main {
+    public static void main(String[] args) {
+        HttpCookie cookie = new HttpCookie("myCookie", "cookieValue");
+        cookie.setMaxAge(3600); // Set the maximum age of the cookie to 1 hour (3600 seconds)
+        System.out.println("Cookie max age: " + cookie.getMaxAge());
+    }
+}
+```
+================================================================
+
+Sample: 31 HttpCookie_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.HttpCookie;
+
+public class Main {
+    public static void main(String[] args) {
+        HttpCookie cookie = new HttpCookie("myCookie", "cookieValue");
+        cookie.setSecure(true);
+        System.out.println("Is cookie secure? " + cookie.getSecure());
+    }
+}
+```
+================================================================
+
+Sample: 32 HttpURLConnection_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL("http://www.example.com").openConnection();
+            connection.setRequestMethod("GET");
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 33 HttpURLConnection_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("http://www.example.com");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 34 IDN_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.IDN;
+
+public class Main {
+    public static void main(String[] args) {
+        String input = "example.com";
+        String aceRepresentation = IDN.toASCII(input);
+        System.out.println("ACE representation: " + aceRepresentation);
+    }
+}
+```
+================================================================
+
+Sample: 35 IDN_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.IDN;
+
+public class Main {
+    public static void main(String[] args) {
+        String input = "xn--fsq.example.com";
+        String unicode = IDN.toUnicode(input);
+        System.out.println(unicode);
+    }
+}
+```
+================================================================
+
+Sample: 36 Inet6Address_2
+----------------------------------------------------------------
+`int getScopeId()`: This method returns the numeric scopeId, if this instance is associated with an interface. If no scoped_id is set, the returned value is zero.
+
+Code snippet:
+```java
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Inet6Address inet6Address = (Inet6Address) InetAddress.getByName("2001:0db8:85a3:0000:0000:8a2e:0370:7334");
+            int scopeId = inet6Address.getScopeId();
+            System.out.println("ScopeId: " + scopeId);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 37 Inet6Address_3
+----------------------------------------------------------------
+`boolean isAnyLocalAddress()`: This method checks if the InetAddress is a wildcard address.
+
+Code snippet:
+```java
+import java.net.Inet6Address;
+import java.net.InetAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Inet6Address inet6Address = (Inet6Address) InetAddress.getByName("::");
+            boolean isAnyLocal = inet6Address.isAnyLocalAddress();
+            System.out.println("Is any local address: " + isAnyLocal);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 38 Inet6Address_4
+----------------------------------------------------------------
+`boolean isLinkLocalAddress()`: This method checks if the InetAddress is a link local address.
+
+Code snippet:
+```java
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Inet6Address inet6Address = (Inet6Address) InetAddress.getByName("fe80::1");
+            boolean isLinkLocal = inet6Address.isLinkLocalAddress();
+            System.out.println("Is Link Local Address: " + isLinkLocal);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 39 Inet6Address_5
+----------------------------------------------------------------
+`boolean isSiteLocalAddress()`: Utility routine to check if the InetAddress is a site local address.
+
+Code snippet:
+```java
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Inet6Address inet6Address = (Inet6Address) InetAddress.getByName("fe80::1");
+            boolean isSiteLocal = inet6Address.isSiteLocalAddress();
+            System.out.println("Is site local address: " + isSiteLocal);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 40 InetAddress_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InetAddress address = InetAddress.getByName("www.google.com");
+            System.out.println("IP Address: " + address.getHostAddress());
+        } catch (UnknownHostException e) {
+            System.out.println("Unknown host exception: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 41 InetAddress_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InetAddress address = InetAddress.getByName("www.google.com");
+            byte[] rawAddress = address.getAddress();
+            System.out.print("Raw IP Address: ");
+            for (byte b : rawAddress) {
+                System.out.print((b & 0xFF) + ".");
+            }
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 42 InetAddress_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InetAddress address = InetAddress.getByName("www.google.com");
+            System.out.println("IP Address: " + address.getHostAddress());
+        } catch (UnknownHostException e) {
+            System.out.println("Unknown host");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 43 InetAddress_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InetAddress address = InetAddress.getByName("www.google.com");
+            String hostName = address.getHostName();
+            System.out.println("Host Name: " + hostName);
+        } catch (UnknownHostException e) {
+            System.out.println("Unknown Host");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 44 InetAddress_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetAddress;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InetAddress address = InetAddress.getByName("www.google.com");
+            boolean isReachable = address.isReachable(5000); // Timeout set to 5 seconds
+            System.out.println("Is reachable: " + isReachable);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 45 InetSocketAddress_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetSocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        InetSocketAddress address = new InetSocketAddress("localhost", 8080);
+        int port = address.getPort();
+        System.out.println("Port number: " + port);
+    }
+}
+```
+================================================================
+
+Sample: 46 InetSocketAddress_2
+----------------------------------------------------------------
+`String getHostName()`: This method retrieves the hostname part of the InetSocketAddress.
+
+Code snippet:
+```java
+import java.net.InetSocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        InetSocketAddress address = new InetSocketAddress("example.com", 80);
+        String hostname = address.getHostName();
+        System.out.println("Hostname: " + hostname);
+    }
+}
+```
+================================================================
+
+Sample: 47 InetSocketAddress_3
+----------------------------------------------------------------
+`InetAddress getAddress()`: This method returns the InetAddress associated with this InetSocketAddress.
+
+Code snippet:
+```java
+import java.net.InetSocketAddress;
+import java.net.InetAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        InetSocketAddress address = new InetSocketAddress("localhost", 8080);
+        InetAddress inetAddress = address.getAddress();
+        
+        System.out.println("InetAddress: " + inetAddress);
+    }
+}
+```
+================================================================
+
+Sample: 48 InetSocketAddress_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetSocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        InetSocketAddress address = new InetSocketAddress("example.com", 80);
+        boolean unresolved = address.isUnresolved();
+        System.out.println("Is address unresolved? " + unresolved);
+    }
+}
+```
+================================================================
+
+Sample: 49 InetSocketAddress_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetSocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        InetSocketAddress address = new InetSocketAddress("localhost", 8080);
+        System.out.println(address.toString());
+    }
+}
+```
+================================================================
+
+Sample: 50 InterfaceAddress_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetAddress;
+import java.net.InterfaceAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        InterfaceAddress interfaceAddress = new InterfaceAddress();
+        InetAddress address = interfaceAddress.getAddress();
+        System.out.println("InetAddress for this address: " + address);
+    }
+}
+```
+================================================================
+
+Sample: 51 InterfaceAddress_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InterfaceAddress;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<InterfaceAddress> interfaceAddresses = new ArrayList<>();
+        
+        // Assuming interfaceAddresses list is populated with InterfaceAddress objects
+        
+        for (InterfaceAddress interfaceAddress : interfaceAddresses) {
+            short prefixLength = interfaceAddress.getNetworkPrefixLength();
+            System.out.println("Network Prefix Length: " + prefixLength);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 52 InterfaceAddress_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InterfaceAddress;
+import java.net.InetAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        InterfaceAddress address1 = new InterfaceAddress(InetAddress.getLoopbackAddress(), 24, InetAddress.getLoopbackAddress());
+        InterfaceAddress address2 = new InterfaceAddress(InetAddress.getLoopbackAddress(), 24, InetAddress.getLoopbackAddress());
+        
+        boolean result = address1.equals(address2);
+        System.out.println("Are the addresses equal? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 53 InterfaceAddress_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InterfaceAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        InterfaceAddress interfaceAddress = new InterfaceAddress();
+        int hashCode = interfaceAddress.hashCode();
+        System.out.println("Hash code for Interface Address: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 54 InterfaceAddress_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InterfaceAddress;
+import java.net.InetAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InterfaceAddress interfaceAddress = new InterfaceAddress(InetAddress.getLocalHost(), 24);
+            System.out.println(interfaceAddress.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 55 JarURLConnection_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.JarURLConnection;
+import java.util.jar.JarFile;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JarURLConnection jarConnection = new JarURLConnection(null, null);
+            JarFile jarFile = jarConnection.getJarFile();
+            System.out.println("Jar file: " + jarFile.getName());
+        } catch (IOException e) {
+            System.out.println("An IOException occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 56 JarURLConnection_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.JarURLConnection;
+import java.util.jar.JarEntry;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JarURLConnection jarConnection = new JarURLConnection(null, null);
+            JarEntry jarEntry = jarConnection.getJarEntry();
+            System.out.println("Jar Entry: " + jarEntry);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 57 JarURLConnection_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.JarURLConnection;
+import java.util.jar.Attributes;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JarURLConnection jarConnection = null; // Initialize with your JarURLConnection object
+            Attributes attributes = jarConnection.getAttributes();
+            System.out.println(attributes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 58 JarURLConnection_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.JarURLConnection;
+import java.util.jar.Manifest;
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("jar:file:/path/to/your/jar/file.jar!/");
+            JarURLConnection jarConnection = (JarURLConnection) url.openConnection();
+            Manifest manifest = jarConnection.getManifest();
+            System.out.println(manifest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 59 MulticastSocket_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.MulticastSocket;
+import java.net.NetworkInterface;
+import java.net.SocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MulticastSocket multicastSocket = new MulticastSocket();
+            SocketAddress mcastaddr = null; // specify the multicast address
+            NetworkInterface netIf = NetworkInterface.getByName("eth0"); // specify the network interface
+            multicastSocket.joinGroup(mcastaddr, netIf);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 60 MulticastSocket_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.MulticastSocket;
+import java.net.NetworkInterface;
+import java.net.SocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MulticastSocket socket = new MulticastSocket();
+            SocketAddress mcastaddr = null; // specify the multicast address
+            NetworkInterface netIf = null; // specify the network interface
+            socket.leaveGroup(mcastaddr, netIf);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 61 MulticastSocket_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetAddress;
+import java.net.MulticastSocket;
+import java.net.SocketException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MulticastSocket socket = new MulticastSocket();
+            InetAddress inf = InetAddress.getByName("224.0.0.1");
+            socket.setInterface(inf);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 62 MulticastSocket_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.MulticastSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MulticastSocket socket = new MulticastSocket();
+            socket.setTimeToLive(10);
+            System.out.println("Time-to-live set successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 63 MulticastSocket_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.MulticastSocket;
+import java.net.SocketException;
+
+public class Main {
+    public static void main(String[] args) {
+        MulticastSocket multicastSocket = new MulticastSocket();
+        try {
+            multicastSocket.setLoopbackMode(true);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 64 NetworkInterface_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.NetworkInterface;
+import java.util.Enumeration;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            while (networkInterfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = networkInterfaces.nextElement();
+                System.out.println("Network Interface Name: " + networkInterface.getName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 65 NetworkInterface_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.NetworkInterface;
+import java.net.InetAddress;
+import java.util.Enumeration;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            NetworkInterface networkInterface = NetworkInterface.getByName("eth0");
+            Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
+            
+            while (addresses.hasMoreElements()) {
+                InetAddress address = addresses.nextElement();
+                System.out.println(address.getHostAddress());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 66 NetworkInterface_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.NetworkInterface;
+import java.net.SocketException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            NetworkInterface networkInterface = NetworkInterface.getByName("eth0");
+            if (networkInterface != null) {
+                boolean isInterfaceUp = networkInterface.isUp();
+                System.out.println("Is interface up and running? " + isInterfaceUp);
+            } else {
+                System.out.println("Network interface not found.");
+            }
+        } catch (SocketException e) {
+            System.out.println("SocketException occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 67 NetworkInterface_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.NetworkInterface;
+import java.net.SocketException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            NetworkInterface networkInterface = NetworkInterface.getByName("eth0");
+            boolean isLoopback = networkInterface.isLoopback();
+            System.out.println("Is loopback interface: " + isLoopback);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 68 NetworkInterface_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.NetworkInterface;
+import java.net.SocketException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            NetworkInterface networkInterface = NetworkInterface.getByName("eth0");
+            if (networkInterface != null) {
+                boolean isVirtual = networkInterface.isVirtual();
+                System.out.println("Is virtual interface: " + isVirtual);
+            } else {
+                System.out.println("Network interface not found.");
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 69 PasswordAuthentication_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.PasswordAuthentication;
+
+public class Main {
+    public static void main(String[] args) {
+        PasswordAuthentication passwordAuthentication = new PasswordAuthentication("username", "password".toCharArray());
+        String username = passwordAuthentication.getUserName();
+        System.out.println("Username: " + username);
+    }
+}
+```
+================================================================
+
+Sample: 70 PasswordAuthentication_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.PasswordAuthentication;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] password = new char[]{'s', 'e', 'c', 'r', 'e', 't'};
+        
+        PasswordAuthentication passwordAuthentication = new PasswordAuthentication("username", password);
+        
+        char[] retrievedPassword = passwordAuthentication.getPassword();
+        
+        System.out.println("Retrieved password: " + new String(retrievedPassword));
+        
+        // Zero out the password information after it is no longer needed
+        for (int i = 0; i < password.length; i++) {
+            password[i] = 0;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 71 Proxy_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.Proxy;
+
+public class Main {
+    public static void main(String[] args) {
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new java.net.InetSocketAddress("proxy.example.com", 8080));
+        Proxy.Type proxyType = proxy.type();
+        System.out.println("Proxy Type: " + proxyType);
+    }
+}
+```
+================================================================
+
+Sample: 72 Proxy_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.Proxy;
+import java.net.SocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new SocketAddress() {
+            @Override
+            public String toString() {
+                return "Proxy Socket Address";
+            }
+        });
+        
+        SocketAddress address = proxy.address();
+        System.out.println(address);
+    }
+}
+```
+================================================================
+
+Sample: 73 Proxy_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.Proxy;
+import java.net.InetSocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.example.com", 8080));
+        System.out.println(proxy.toString());
+    }
+}
+```
+================================================================
+
+Sample: 74 Proxy_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.Proxy;
+import java.net.InetSocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        Proxy proxy1 = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.example.com", 8080));
+        Proxy proxy2 = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.example.com", 8080));
+        
+        boolean result = proxy1.equals(proxy2);
+        System.out.println("Are proxy1 and proxy2 equal? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 75 Proxy_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.Proxy;
+
+public class Main {
+    public static void main(String[] args) {
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new java.net.InetSocketAddress("proxy.example.com", 8080));
+        int hashCode = proxy.hashCode();
+        System.out.println("Hash code for the proxy: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 76 ProxySelector_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.Proxy;
+import java.net.ProxySelector;
+import java.net.URI;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        ProxySelector proxySelector = ProxySelector.getDefault();
+        URI uri = URI.create("http://www.example.com");
+        List<Proxy> proxies = proxySelector.select(uri);
+        
+        for (Proxy proxy : proxies) {
+            System.out.println(proxy);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 77 ProxySelector_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.ProxySelector;
+import java.net.SocketAddress;
+import java.net.URI;
+
+public class Main {
+    public static void main(String[] args) {
+        ProxySelector proxySelector = ProxySelector.getDefault();
+        URI uri = URI.create("http://example.com");
+        SocketAddress sa = new SocketAddress() {
+            @Override
+            public String toString() {
+                return "ProxyServerAddress";
+            }
+        };
+        IOException ioe = new IOException("Connection failed");
+
+        proxySelector.connectFailed(uri, sa, ioe);
+    }
+}
+```
+================================================================
+
+Sample: 78 ProxySelector_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.Proxy;
+import java.net.ProxySelector;
+import java.net.URI;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        ProxySelector proxySelector = ProxySelector.getDefault();
+        URI uri = URI.create("http://www.example.com");
+        List<Proxy> proxies = proxySelector.select(uri);
+        
+        for (Proxy proxy : proxies) {
+            System.out.println(proxy);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 79 ProxySelector_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.ProxySelector;
+import java.net.SocketAddress;
+import java.net.URI;
+
+public class Main {
+    public static void main(String[] args) {
+        ProxySelector proxySelector = ProxySelector.getDefault();
+        URI uri = URI.create("http://example.com");
+        SocketAddress sa = new SocketAddress() {
+            @Override
+            public String toString() {
+                return "ProxyServerAddress";
+            }
+        };
+        IOException ioe = new IOException("Connection failed");
+
+        proxySelector.connectFailed(uri, sa, ioe);
+    }
+}
+```
+================================================================
+
+Sample: 80 ProxySelector_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.ProxySelector;
+
+public class Main {
+    public static void main(String[] args) {
+        ProxySelector proxySelector = ProxySelector.getDefault();
+        System.out.println("System-wide ProxySelector: " + proxySelector);
+    }
+}
+```
+================================================================
+
+Sample: 81 ResponseCache_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.ResponseCache;
+
+public class Main {
+    public static void main(String[] args) {
+        ResponseCache responseCache = ResponseCache.getDefault();
+        System.out.println("System-wide ResponseCache: " + responseCache);
+    }
+}
+```
+================================================================
+
+Sample: 82 ResponseCache_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.ResponseCache;
+
+public class Main {
+    public static void main(String[] args) {
+        // Set the system-wide cache
+        ResponseCache responseCache = new MyResponseCache(); // Assuming MyResponseCache is a custom implementation of ResponseCache
+        ResponseCache.setDefault(responseCache);
+    }
+}
+```
+================================================================
+
+Sample: 83 ResponseCache_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.CacheResponse;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a sample URI, request method, and request headers
+        URI uri = URI.create("http://example.com");
+        String requestMethod = "GET";
+        Map<String, List<String>> requestHeaders = new HashMap<>();
+        requestHeaders.put("Content-Type", List.of("application/json"));
+        
+        // Call the get method from CacheResponse
+        try {
+            CacheResponse cacheResponse = ResponseCache.getDefault().get(uri, requestMethod, requestHeaders);
+            if (cacheResponse != null) {
+                // Use the cached response
+                System.out.println("Cached response found: " + cacheResponse);
+            } else {
+                System.out.println("No cached response found.");
+            }
+        } catch (IOException e) {
+            System.out.println("An I/O error occurred: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("One of the arguments is null: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 84 ResponseCache_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.CacheRequest;
+import java.net.URI;
+import java.net.URLConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a dummy URI and URLConnection for demonstration
+        URI uri = URI.create("http://www.example.com");
+        URLConnection conn = null; // Assume URLConnection is properly initialized
+        
+        // Call the put method from ResponseCache
+        try {
+            CacheRequest cacheRequest = responseCache.put(uri, conn);
+            if (cacheRequest != null) {
+                // Resource is to be cached, write to the OutputStream in CacheRequest
+                // For demonstration purposes, let's assume writing to the OutputStream
+                // cacheRequest.getBody().write("Resource content".getBytes());
+            } else {
+                // Resource is not to be cached
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 85 SecureCacheResponse_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.SecureCacheResponse;
+
+public class Main {
+    public static void main(String[] args) {
+        SecureCacheResponse response = new SecureCacheResponse() {
+            @Override
+            public String getCipherSuite() {
+                return "TLS_RSA_WITH_AES_128_CBC_SHA";
+            }
+        };
+        
+        System.out.println("Cipher Suite: " + response.getCipherSuite());
+    }
+}
+```
+================================================================
+
+Sample: 86 SecureCacheResponse_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.SecureCacheResponse;
+import java.security.cert.Certificate;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        SecureCacheResponse secureCacheResponse = new SecureCacheResponse() {
+            @Override
+            public List<Certificate> getLocalCertificateChain() {
+                // Implement the logic to retrieve the local certificate chain
+                return null;
+            }
+        };
+        
+        List<Certificate> certificateChain = secureCacheResponse.getLocalCertificateChain();
+        System.out.println(certificateChain);
+    }
+}
+```
+================================================================
+
+Sample: 87 SecureCacheResponse_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.SecureCacheResponse;
+import java.security.cert.Certificate;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        SecureCacheResponse secureCacheResponse = new SecureCacheResponse() {
+            @Override
+            public List<Certificate> getServerCertificateChain() {
+                // Implement the logic to retrieve the server's certificate chain
+                return null;
+            }
+        };
+        
+        try {
+            List<Certificate> serverCertificateChain = secureCacheResponse.getServerCertificateChain();
+            // Use the serverCertificateChain as needed
+        } catch (SSLPeerUnverifiedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 88 ServerSocket_1
+----------------------------------------------------------------
+`void bind(SocketAddress endpoint)`: This method binds the ServerSocket to a specific address (IP address and port number).
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.SocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ServerSocket serverSocket = new ServerSocket();
+            SocketAddress endpoint = new InetSocketAddress("127.0.0.1", 8080);
+            serverSocket.bind(endpoint);
+            System.out.println("ServerSocket bound to address: " + endpoint);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 89 ServerSocket_2
+----------------------------------------------------------------
+`Socket accept()`: This method listens for a connection to be made to the server socket and accepts it. The method blocks until a connection is made.
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ServerSocket serverSocket = new ServerSocket(8080);
+            System.out.println("Server socket created. Waiting for connection...");
+
+            Socket socket = serverSocket.accept();
+            System.out.println("Connection accepted from: " + socket.getInetAddress());
+
+            serverSocket.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 90 ServerSocket_3
+----------------------------------------------------------------
+`void close()`: This method closes the server socket.
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.ServerSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ServerSocket serverSocket = new ServerSocket(8080);
+            serverSocket.close();
+            System.out.println("Server socket closed successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 91 ServerSocket_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetAddress;
+import java.net.ServerSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ServerSocket serverSocket = new ServerSocket(8080);
+            InetAddress address = serverSocket.getInetAddress();
+            System.out.println("Local address of the server socket: " + address);
+            serverSocket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 92 ServerSocket_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.ServerSocket;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ServerSocket serverSocket = new ServerSocket(8080);
+            int port = serverSocket.getLocalPort();
+            System.out.println("Server is listening on port: " + port);
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 93 Socket_1
+----------------------------------------------------------------
+`void connect(SocketAddress endpoint)`: This method connects the socket to the server.
+
+Code snippet:
+```java
+import java.net.Socket;
+import java.net.InetSocketAddress;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        Socket socket = new Socket();
+        InetSocketAddress address = new InetSocketAddress("example.com", 80);
+        
+        try {
+            socket.connect(address);
+            System.out.println("Socket connected to: " + address);
+        } catch (IOException e) {
+            System.out.println("An error occurred during the connection: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 94 Socket_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Socket socket = new Socket("example.com", 80);
+            InputStream inputStream = socket.getInputStream();
+            // Use the inputStream to read data from the socket
+            inputStream.close(); // Closing the InputStream will also close the associated socket
+            socket.close(); // Close the socket when done
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 95 Socket_3
+----------------------------------------------------------------
+`OutputStream getOutputStream()`: This method returns an output stream for the socket.
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.Socket;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Socket socket = new Socket("example.com", 80);
+            OutputStream outputStream = socket.getOutputStream();
+            outputStream.write("Hello, World!".getBytes());
+            outputStream.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 96 Socket_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.Socket;
+import java.net.SocketException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Socket socket = new Socket();
+            socket.setSoTimeout(5000); // Set timeout to 5 seconds
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 97 Socket_5
+----------------------------------------------------------------
+`void close()`: This method closes the socket.
+
+Code snippet:
+```java
+import java.net.Socket;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Socket socket = new Socket("localhost", 8080);
+            socket.close();
+            System.out.println("Socket closed successfully");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 98 SocketImpl_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.SocketImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        MySocketImpl socketImpl = new MySocketImpl();
+        try {
+            socketImpl.create(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class MySocketImpl extends SocketImpl {
+        @Override
+        protected void create(boolean stream) throws IOException {
+            if (stream) {
+                System.out.println("Creating a stream socket");
+            } else {
+                System.out.println("Creating a datagram socket");
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 99 SocketImpl_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.SocketImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        SocketImpl socket = new SocketImpl() {
+            @Override
+            protected void connect(String host, int port) throws IOException {
+                // Implementation of connecting to the specified host and port
+                System.out.println("Connecting to host: " + host + " on port: " + port);
+            }
+        };
+
+        try {
+            socket.connect("example.com", 80);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 100 SocketImpl_5
+----------------------------------------------------------------
+`void bind(InetAddress host, int port)`: This method binds the socket to the specified local IP address and port number.
+
+Code snippet:
+```java
+import java.net.InetAddress;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a new instance of SocketImpl
+            SocketImpl socket = new SocketImpl();
+
+            // Specify the local IP address and port number to bind
+            InetAddress host = InetAddress.getLocalHost();
+            int port = 8080;
+
+            // Bind the socket to the specified address and port
+            socket.bind(host, port);
+
+            System.out.println("Socket bound successfully to " + host + ":" + port);
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+
+class SocketImpl {
+    protected void bind(InetAddress host, int port) throws IOException {
+        // Implementation of binding the socket to the specified address and port
+        System.out.println("Binding socket to " + host + ":" + port);
+    }
+}
+```
+================================================================
+
+Sample: 101 URI_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URI;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URI uri = new URI("https://www.example.com");
+            String scheme = uri.getScheme();
+            System.out.println("Scheme: " + scheme);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 102 URI_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URI;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URI uri = new URI("https://www.example.com");
+            String host = uri.getHost();
+            System.out.println("Host: " + host);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 103 URI_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URI;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URI uri = new URI("http://www.example.com:8080");
+            int port = uri.getPort();
+            System.out.println("Port number: " + port);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 104 URI_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URI;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URI uri = new URI("https://www.example.com/path/to/resource");
+            String path = uri.getPath();
+            System.out.println("Decoded Path: " + path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 105 URI_5
+----------------------------------------------------------------
+`String getQuery()`: This method returns the decoded query component of the URI.
+
+Code snippet:
+```java
+import java.net.URI;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URI uri = new URI("http://www.example.com/test?param1=value1&param2=value2");
+            String query = uri.getQuery();
+            System.out.println("Query: " + query);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 106 URL_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com/index.html?query=example");
+            String fileName = url.getFile();
+            System.out.println("File Name: " + fileName);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 107 URL_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com");
+            String host = url.getHost();
+            System.out.println("Host name: " + host);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 108 URL_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com:8080");
+            int port = url.getPort();
+            System.out.println("Port number: " + port);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 109 URL_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com");
+            String protocol = url.getProtocol();
+            System.out.println("Protocol: " + protocol);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 110 URL_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com");
+            System.out.println(url.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 111 URLClassLoader_1
+----------------------------------------------------------------
+`Class<?> findClass(String name)`: This method finds and loads the class with the specified name from the URL search path. Any URLs referring to JAR files are loaded and opened as needed until the class is found.
+
+Code snippet:
+```java
+import java.net.URLClassLoader;
+
+public class Main {
+    public static void main(String[] args) {
+        URLClassLoader classLoader = new URLClassLoader(new URL[]{});
+        try {
+            Class<?> myClass = classLoader.findClass("MyClass");
+            System.out.println("Class found: " + myClass.getName());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not found: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 112 URLClassLoader_2
+----------------------------------------------------------------
+`URL findResource(String name)`: This method finds the resource with the specified name on the URL search path.
+
+Code snippet:
+```java
+import java.net.URL;
+import java.net.URLClassLoader;
+
+public class Main {
+    public static void main(String[] args) {
+        URLClassLoader classLoader = (URLClassLoader) Main.class.getClassLoader();
+        URL resourceURL = classLoader.findResource("example.txt");
+        
+        if (resourceURL != null) {
+            System.out.println("Resource found at: " + resourceURL);
+        } else {
+            System.out.println("Resource not found.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 113 URLClassLoader_3
+----------------------------------------------------------------
+`Enumeration<URL> findResources(String name)`: This method returns an Enumeration of URLs representing all of the resources on the URL search path having the specified name.
+
+Code snippet:
+```java
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.io.IOException;
+import java.util.Enumeration;
+
+public class Main {
+    public static void main(String[] args) {
+        URLClassLoader classLoader = (URLClassLoader) Main.class.getClassLoader();
+        
+        try {
+            Enumeration<URL> resources = classLoader.findResources("example.txt");
+            
+            while (resources.hasMoreElements()) {
+                URL resource = resources.nextElement();
+                System.out.println("Found resource: " + resource);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 114 URLClassLoader_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.URLClassLoader;
+
+public class Main {
+    public static void main(String[] args) {
+        URLClassLoader classLoader = new URLClassLoader(new URL[]{});
+        
+        try {
+            classLoader.close();
+            System.out.println("URLClassLoader closed successfully");
+        } catch (IOException e) {
+            System.out.println("Error closing URLClassLoader: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 115 URLClassLoader_5
+----------------------------------------------------------------
+`void addURL(URL url)`: This method appends the specified URL to the list of URLs to search for classes and resources.
+
+Code snippet:
+```java
+import java.net.URL;
+import java.net.URLClassLoader;
+
+public class Main {
+    public static void main(String[] args) {
+        URLClassLoader classLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
+        try {
+            URL url = new URL("file:/path/to/your/jar/file.jar");
+            classLoader.addURL(url);
+            System.out.println("URL added successfully");
+        } catch (Exception e) {
+            System.out.println("Error adding URL: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 116 URLConnection_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com");
+            URLConnection connection = url.openConnection();
+            connection.connect();
+            System.out.println("Connection established successfully");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 117 URLConnection_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com");
+            URLConnection connection = url.openConnection();
+            InputStream inputStream = connection.getInputStream();
+            // Read from the input stream here
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 118 URLConnection_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com");
+            URLConnection connection = url.openConnection();
+            OutputStream outputStream = connection.getOutputStream();
+            outputStream.write("Hello, World!".getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 119 URLConnection_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URL;
+import java.net.URLConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com");
+            URLConnection connection = url.openConnection();
+            int contentLength = connection.getContentLength();
+            System.out.println("Content Length: " + contentLength);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 120 URLConnection_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URL;
+import java.net.URLConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com");
+            URLConnection connection = url.openConnection();
+            String contentType = connection.getContentType();
+            System.out.println("Content Type: " + contentType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 121 URLDecoder_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URLDecoder;
+import java.io.UnsupportedEncodingException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String encodedString = "Hello%20World";
+            String decodedString = URLDecoder.decode(encodedString, "UTF-8");
+            System.out.println(decodedString);
+        } catch (UnsupportedEncodingException e) {
+            System.out.println("Unsupported Encoding Exception: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 122 URLDecoder_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String encodedString = "Hello%20World";
+            String decodedString = URLDecoder.decode(encodedString, "UTF-8");
+            System.out.println(decodedString);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 123 URLEncoder_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String originalString = "Hello World!";
+            String encodedString = URLEncoder.encode(originalString, "UTF-8");
+            System.out.println("Encoded String: " + encodedString);
+        } catch (UnsupportedEncodingException e) {
+            System.out.println("Unsupported Encoding Exception: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 124 URLEncoder_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String originalString = "Hello World!";
+            String encodedString = URLEncoder.encode(originalString, "UTF-8");
+            System.out.println("Encoded String: " + encodedString);
+        } catch (UnsupportedEncodingException e) {
+            System.out.println("Unsupported Encoding Exception: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 125 URLPermission_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URLPermission;
+
+public class Main {
+    public static void main(String[] args) {
+        URLPermission permission = new URLPermission("http://example.com", "GET,POST", "Authorization");
+        String actions = permission.getActions();
+        System.out.println(actions);
+    }
+}
+```
+================================================================
+
+Sample: 126 URLStreamHandler_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com");
+            URLConnection connection = url.openConnection();
+            System.out.println("Connection opened successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while opening the connection: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 127 URLStreamHandler_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URL;
+import java.net.URLStreamHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        URLStreamHandler handler = new URLStreamHandler() {
+            @Override
+            protected void parseURL(URL u, String spec, int start, int limit) {
+                // Your implementation of the parseURL method goes here
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 128 URLStreamHandler_3
+----------------------------------------------------------------
+`int getDefaultPort()`: This method returns the default port for a URL parsed by this handler.
+
+Code snippet:
+```java
+import java.net.URLStreamHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        URLStreamHandler handler = new URLStreamHandler() {
+            @Override
+            protected int getDefaultPort() {
+                return 80; // Default port for HTTP
+            }
+        };
+
+        int defaultPort = handler.getDefaultPort();
+        System.out.println("Default port: " + defaultPort);
+    }
+}
+```
+================================================================
+
+Sample: 129 URLStreamHandler_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        URL url1 = new URL("http://www.example.com");
+        URL url2 = new URL("http://www.example.com");
+        
+        boolean areEqual = equals(url1, url2);
+        System.out.println("Are the URLs equal? " + areEqual);
+    }
+    
+    protected static boolean equals(URL u1, URL u2) {
+        // Default equals calculation
+        return u1.sameFile(u2);
+    }
+}
+```
+================================================================
+
+Sample: 130 URLStreamHandler_5
+----------------------------------------------------------------
+`int hashCode(URL u)`: This method provides the default hash calculation for a URL object.
+
+Code snippet:
+```java
+import java.net.URL;
+import java.net.URLStreamHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        URLStreamHandler handler = new URLStreamHandler() {
+            @Override
+            protected int hashCode(URL u) {
+                // Custom hash calculation based on URL object
+                return u.hashCode();
+            }
+        };
+
+        URL url = new URL("http://www.example.com");
+        int hash = handler.hashCode(url);
+        System.out.println("Hash code for URL: " + hash);
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,313 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,ChannelBinding,1,byte[] getInitiatorAddress(),False,,NULL
+0,ChannelBinding,2,byte[] getAcceptorAddress(),False,,NULL
+0,ChannelBinding,3,int getInitiatorToken(),False,,NULL
+0,ChannelBinding,4,int getAcceptorToken(),False,,NULL
+0,ChannelBinding,5,boolean equals(Object obj),True,,"
+
+equals
+public boolean equals(Object obj)
+Compares two instances of ChannelBinding.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - another ChannelBinding to compare this one with
+Returns:
+true if the two ChannelBinding's contain
+ the same values for the initiator and acceptor addresses and the
+ application data.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+1,GSSManager,1,"GSSName createName(String name, Oid nameType)",True,,"
+
+createName
+public abstract GSSName createName(String nameStr,
+                                   Oid nameType)
+                            throws GSSException
+Factory method to convert a string name from the
+ specified namespace to a GSSName object. In general, the
+ GSSName object created  will contain multiple
+ representations of the name, one for each mechanism that is
+ supported; two examples that are exceptions to this are when
+ the namespace type parameter indicates NT_EXPORT_NAME or when the
+ GSS-API implementation is not multi-mechanism. It is
+ not recommended to use this method with a NT_EXPORT_NAME type because
+ representing a previously exported name consisting of arbitrary bytes
+ as a String might cause problems with character encoding schemes. In
+ such cases it is recommended that the bytes be passed in directly to
+ the overloaded form of this method createName.
+
+Parameters:
+nameStr - the string representing a printable form of the name to
+ create.
+nameType - the Oid specifying the namespace of the printable name
+ supplied. null can be used to specify
+ that a mechanism specific default printable syntax should
+ be assumed by each mechanism that examines nameStr.
+ It is not advisable to use the nametype NT_EXPORT_NAME with this
+ method.
+Returns:
+a GSSName representing the indicated principal
+Throws:
+GSSException - containing the following
+ major error codes:
+    GSSException.BAD_NAMETYPE,
+    GSSException.BAD_NAME,
+    GSSException.BAD_MECH,
+    GSSException.FAILURE
+See Also:
+GSSName, 
+GSSName.NT_EXPORT_NAME
+
+
+"
+1,GSSManager,2,"GSSCredential createCredential(GSSName desiredName, int lifetime, Oid[] mechanism, int usage)",True,,"
+
+createCredential
+public abstract GSSCredential createCredential(GSSName name,
+                                               int lifetime,
+                                               Oid[] mechs,
+                                               int usage)
+                                        throws GSSException
+Factory method for acquiring credentials over a set of
+ mechanisms. This method attempts to acquire credentials for
+ each of the mechanisms specified in the array called mechs.  To
+ determine the list of mechanisms for which the acquisition of
+ credentials succeeded, the caller should use the GSSCredential.getMechs method.
+
+ GSS-API mechanism providers must impose a local access-control
+ policy on callers to prevent unauthorized callers from acquiring
+ credentials to which they are not entitled. The kinds of permissions
+ needed by different mechanism providers will be documented on a
+ per-mechanism basis. A failed permission check might cause a SecurityException to be thrown from
+ this method.
+
+ Non-default values for lifetime cannot always be honored by the
+ underlying mechanisms, thus applications should be prepared to call
+ getRemainingLifetime
+ on the returned credential.
+
+Parameters:
+name - the name of the principal for whom this credential is to
+ be acquired.  Use null to specify the default
+ principal.
+lifetime - The number of seconds that credentials should remain
+ valid.  Use GSSCredential.INDEFINITE_LIFETIME to request that the credentials
+ have the maximum permitted lifetime.  Use GSSCredential.DEFAULT_LIFETIME to
+ request default credential lifetime.
+mechs - an array of Oid's indicating the mechanisms over which
+ the credential is to be acquired.  Use (Oid[]) null for
+ requesting a system specific default set of mechanisms.
+usage - The intended usage for this credential object. The value
+ of this parameter must be one of:
+ GSSCredential.INITIATE_AND_ACCEPT,
+ GSSCredential.ACCEPT_ONLY, and
+ GSSCredential.INITIATE_ONLY.
+Returns:
+a GSSCredential of the requested type.
+Throws:
+GSSException - containing the following
+ major error codes:
+    GSSException.BAD_MECH,
+    GSSException.BAD_NAMETYPE,
+    GSSException.BAD_NAME,
+    GSSException.CREDENTIALS_EXPIRED,
+    GSSException.NO_CRED,
+    GSSException.FAILURE
+See Also:
+GSSCredential
+
+
+"
+1,GSSManager,3,"GSSContext createContext(GSSName peer, Oid mech, GSSCredential myCred, int lifetime)",True,,"
+
+createContext
+public abstract GSSContext createContext(GSSName peer,
+                                         Oid mech,
+                                         GSSCredential myCred,
+                                         int lifetime)
+                                  throws GSSException
+Factory method for creating a context on the initiator's
+ side.
+
+ Some mechanism providers might require that the caller be granted
+ permission to initiate a security context. A failed permission check
+ might cause a SecurityException
+ to be thrown from this method.
+
+ Non-default values for lifetime cannot always be honored by the
+ underlying mechanism, thus applications should be prepared to call
+ getLifetime on the returned
+ context.
+
+Parameters:
+peer - the name of the target peer.
+mech - the Oid of the desired mechanism.  Use null
+ to request the default mechanism.
+myCred - the credentials of the initiator.  Use
+ null to act as the default initiator principal.
+lifetime - the lifetime, in seconds, requested for the
+ context. Use GSSContext.INDEFINITE_LIFETIME to request that the context have the
+ maximum permitted lifetime. Use GSSContext.DEFAULT_LIFETIME to request a default lifetime for the
+ context.
+Returns:
+an unestablished GSSContext
+Throws:
+GSSException - containing the following
+ major error codes:
+    GSSException.NO_CRED
+GSSException.CREDENTIALS_EXPIRED
+GSSException.BAD_NAMETYPE
+GSSException.BAD_MECH
+GSSException.FAILURE
+See Also:
+GSSContext
+
+
+"
+1,GSSManager,4,GSSContext getContext(byte[] interProcessToken),False,,NULL
+1,GSSManager,5,Oid[] getMechs(),True,,"
+
+getMechs
+public abstract Oid[] getMechs()
+Returns a list of mechanisms that are available to GSS-API callers
+ through this GSSManager. The default GSSManager obtained from the
+ getInstance() method includes the Oid
+ ""1.2.840.113554.1.2.2"" in its list. This Oid identifies the Kerberos
+ v5 GSS-API mechanism that is defined in RFC 1964.
+
+Returns:
+an array of Oid objects corresponding to the mechanisms that
+ are available. A null value is returned when no
+ mechanism are available (an example of this would be when mechanism
+ are dynamically configured, and currently no mechanisms are
+ installed).
+
+
+"
+2,MessageProp,1,void setQOP(int qop),True,,"
+
+setQOP
+public void setQOP(int qop)
+Sets the QOP value.
+
+Parameters:
+qop - the int value to set the QOP to
+See Also:
+getQOP()
+
+
+"
+2,MessageProp,2,int getQOP(),True,,"
+
+getQOP
+public int getQOP()
+Retrieves the QOP value.
+
+Returns:
+an int representing the QOP value
+See Also:
+setQOP(int)
+
+
+"
+2,MessageProp,3,void setPrivacy(boolean privacy),True,,"
+
+setPrivacy
+public void setPrivacy(boolean privState)
+Sets the privacy state.
+
+Parameters:
+privState - true is the privacy (i.e., confidentiality) state
+ is true, false otherwise.
+See Also:
+getPrivacy()
+
+
+"
+2,MessageProp,4,boolean getPrivacy(),True,,"
+
+getPrivacy
+public boolean getPrivacy()
+Retrieves the privacy state.
+
+Returns:
+true if the privacy (i.e., confidentiality) state is true,
+ false otherwise.
+See Also:
+setPrivacy(boolean)
+
+
+"
+2,MessageProp,5,void setIntegrity(boolean integrity),False,,NULL
+3,Oid,1,boolean equals(Object obj),True,,"
+
+equals
+public boolean equals(Object other)
+Tests if two Oid objects represent the same Object identifier
+ value.
+
+Overrides:
+equals in class Object
+Parameters:
+other - the Oid object that has to be compared to this one
+Returns:
+true if the two Oid objects represent the same
+ value, false otherwise.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+3,Oid,2,int hashCode(),True,,"
+
+hashCode
+public int hashCode()
+Returns a hashcode value for this Oid.
+
+Overrides:
+hashCode in class Object
+Returns:
+a hashCode value
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+3,Oid,3,String toString(),True,,"
+
+toString
+public String toString()
+Returns a string representation of the oid's integer components
+ in dot separated notation.
+
+Overrides:
+toString in class Object
+Returns:
+string representation in the following format: ""1.2.3.4.5""
+
+
+"
+3,Oid,4,byte[] getDER(),True,,"
+
+getDER
+public byte[] getDER()
+              throws GSSException
+Returns the full ASN.1 DER encoding for this oid object, which
+ includes the tag and length.
+
+Returns:
+byte array containing the DER encoding of this oid object.
+Throws:
+GSSException - may be thrown when the oid can't be encoded
+
+
+"
+3,Oid,5,int compareTo(Oid other),False,,NULL

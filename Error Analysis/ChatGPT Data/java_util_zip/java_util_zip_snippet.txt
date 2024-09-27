@@ -1,0 +1,1421 @@
+Sample: 0 CheckedInputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.zip.CheckedInputStream;
+import java.util.zip.Checksum;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fis = new FileInputStream("file.txt");
+            Checksum checksum = new SomeChecksum();
+            CheckedInputStream cis = new CheckedInputStream(fis, checksum);
+            int data = cis.read();
+            System.out.println("Read data: " + data);
+            cis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    static class SomeChecksum implements Checksum {
+        @Override
+        public void update(int b) {
+
+        }
+
+        @Override
+        public void update(byte[] b, int off, int len) {
+
+        }
+
+        @Override
+        public long getValue() {
+            return 0;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 CheckedInputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.*;
+import java.util.zip.CheckedInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fis= new FileInputStream("example.txt");
+            CheckedInputStream cis = new CheckedInputStream(fis, new CRC32());
+            byte[] buffer = new byte[1024];
+            int bytesRead = 0;
+            while ((bytesRead = cis.read(buffer, 0, buffer.length)) != -1) {
+                System.out.println("Read " + bytesRead + " bytes");
+            }
+            cis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 CheckedInputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.zip.CheckedInputStream;
+import java.util.zip.Checksum;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fis = new FileInputStream("file.txt");
+            Checksum checksum = new CheckedInputStream(fis, new CRC32()).getChecksum();
+            byte[] buffer = new byte[1024];
+            while (fis.read(buffer) != -1) {
+                checksum.update(buffer, 0, buffer.length);
+            }
+            System.out.println("Checksum value: " + checksum.getValue());
+            fis.close();
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 CheckedOutputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.*;
+import java.util.zip.CheckedOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileOutputStream fos = new FileOutputStream("output.txt");
+            CheckedOutputStream cos = new CheckedOutputStream(fos, new CRC32());
+            cos.write(65); // writing byte value 65 to the output stream
+            cos.flush();
+            cos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 CheckedOutputStream_2
+----------------------------------------------------------------
+void write(byte[] b, int off, int len): This method writes len bytes from the specified byte array starting at offset off to the output stream.
+
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.CheckedOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] data = {65, 66, 67, 68, 69}; // Sample byte array
+
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+             CheckedOutputStream checkedOutputStream = new CheckedOutputStream(byteArrayOutputStream, null)) {
+
+            checkedOutputStream.write(data, 1, 3);
+
+            byte[] result = byteArrayOutputStream.toByteArray();
+            System.out.println("Resulting byte array after write: ");
+            for (byte b : result) {
+                System.out.print(b + " ");
+            }
+            System.out.println("\nChecksum value: " + checkedOutputStream.getChecksum().getValue());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 CRC32_1
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import java.util.zip.CRC32;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] data = "Hello, World!".getBytes();
+        CRC32 crc = new CRC32();
+        crc.update(data);
+        
+        System.out.println("CRC32 Value: " + crc.getValue());
+    }
+}
+```
+================================================================
+
+Sample: 6 CRC32_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.CRC32;
+
+public class Main {
+    public static void main(String[] args) {
+        CRC32 crc32 = new CRC32();
+        crc32.update("Hello, World!".getBytes());
+        long crcValue = crc32.getValue();
+        System.out.println("CRC32 Value: " + crcValue);
+    }
+}
+```
+================================================================
+
+Sample: 7 CRC32_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.CRC32;
+
+public class Main {
+    public static void main(String[] args) {
+        CRC32 crc = new CRC32();
+        crc.reset();
+        System.out.println("CRC reset completed.");
+    }
+}
+```
+================================================================
+
+Sample: 8 CRC32_4
+----------------------------------------------------------------
+`void update(int b)`: This method updates the CRC-32 checksum with the specified byte value.
+
+Code snippet:
+```java
+import java.util.zip.CRC32;
+
+public class Main {
+    public static void main(String[] args) {
+        CRC32 crc32 = new CRC32();
+        int byteValue = 65; // ASCII value of character 'A'
+        crc32.update(byteValue);
+        System.out.println("CRC-32 checksum after updating with byte value: " + crc32.getValue());
+    }
+}
+```
+================================================================
+
+Sample: 9 CRC32_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.CRC32;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a new CRC32 object
+        CRC32 crc = new CRC32();
+        
+        // Update the CRC32 checksum with the specified data
+        byte[] data = "Hello, World!".getBytes();
+        crc.update(data, 0, data.length);
+        
+        // Get the updated CRC32 checksum value
+        long checksumValue = crc.getValue();
+        
+        System.out.println("CRC32 checksum value: " + checksumValue);
+    }
+}
+```
+================================================================
+
+Sample: 10 Deflater_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.Deflater;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] input = { 65, 66, 67, 68, 69 }; // Input data
+        Deflater deflater = new Deflater();
+        deflater.setInput(input);
+        deflater.finish();
+
+        byte[] output = new byte[input.length];
+        int compressedDataLength = deflater.deflate(output, 0, input.length);
+
+        System.out.println("Compressed data length: " + compressedDataLength);
+        System.out.println("Compressed output: ");
+        for (int i = 0; i < compressedDataLength; i++) {
+            System.out.print(output[i] + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 Deflater_2
+----------------------------------------------------------------
+`void finish()`: This method finishes the process of compression without closing the Deflater. This method should be called when all data to be compressed has been fed to the Deflater. 
+
+Code snippet:
+```java
+import java.util.zip.Deflater;
+
+public class Main {
+    public static void main(String[] args) {
+        Deflater deflater = new Deflater();
+        
+        byte[] input = "Hello, World!".getBytes();
+        byte[] output = new byte[100];
+        
+        deflater.setInput(input);
+        deflater.finish();
+        
+        int compressedDataLength = deflater.deflate(output);
+        System.out.println("Compressed data length: " + compressedDataLength);
+        
+        deflater.end();
+    }
+}
+```
+================================================================
+
+Sample: 12 Deflater_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.Deflater;
+
+public class Main {
+    public static void main(String[] args) {
+        Deflater deflater = new Deflater();
+        byte[] input = "Hello, world!".getBytes();
+        deflater.setInput(input);
+        deflater.finish();
+        
+        int adler = deflater.getAdler();
+        System.out.println("Adler value: " + adler);
+    }
+}
+```
+================================================================
+
+Sample: 13 Deflater_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.Deflater;
+
+public class Main {
+    public static void main(String[] args) {
+        Deflater deflater = new Deflater();
+        
+        // Reset the deflater
+        deflater.reset();
+        
+        // Continue with using the deflater...
+    }
+}
+```
+================================================================
+
+Sample: 14 Deflater_5
+----------------------------------------------------------------
+`void setLevel(int level)`: This method sets the compression level for the Deflater.
+
+Code snippet:
+```java
+import java.util.zip.Deflater;
+
+public class Main {
+    public static void main(String[] args) {
+        Deflater deflater = new Deflater();
+        int compressionLevel = 9; // Highest compression level
+        deflater.setLevel(compressionLevel);
+        
+        System.out.println("Compression level set to: " + deflater.level());
+    }
+}
+```
+================================================================
+
+Sample: 15 DeflaterInputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.zip.DeflaterInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] input = new byte[] {72, 101, 108, 108, 111}; // "Hello" in byte array
+        ByteArrayInputStream bais = new ByteArrayInputStream(input);
+        DeflaterInputStream dis = new DeflaterInputStream(bais);
+        
+        byte[] buffer = new byte[10];
+        try {
+            int bytesRead = dis.read(buffer, 0, buffer.length);
+            System.out.println("Number of bytes read: " + bytesRead);
+            System.out.print("Read bytes: ");
+            for (int i = 0; i < bytesRead; i++) {
+                System.out.print(buffer[i] + " ");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                dis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 DeflaterInputStream_2
+----------------------------------------------------------------
+`int available()`: This method returns an estimate of the number of bytes that can be read from the input stream without blocking.
+
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.zip.DeflaterInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fis = new FileInputStream("file.txt");
+            DeflaterInputStream dis = new DeflaterInputStream(fis);
+
+            int availableBytes = dis.available();
+            System.out.println("Available bytes to read: " + availableBytes);
+
+            dis.close();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 DeflaterInputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.DeflaterInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fileInput = new FileInputStream("example.txt");
+            DeflaterInputStream inflater = new DeflaterInputStream(fileInput);
+            System.out.println("markSupported(): " + inflater.markSupported());
+            inflater.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 DeflaterInputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.DeflaterInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] data = "Hello, World!".getBytes();
+        DeflaterInputStream inputStream = new DeflaterInputStream(new ByteArrayOutputStream());
+        
+        try {
+            // Process data using DeflaterInputStream
+            
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 19 DeflaterInputStream_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.*;
+import java.util.zip.DeflaterInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try (FileInputStream fis = new FileInputStream("input.txt");
+             DeflaterInputStream dis = new DeflaterInputStream(fis);) {
+
+            long skipped = dis.skip(10);
+            System.out.println("Number of bytes skipped: " + skipped);
+
+            byte[] buffer = new byte[1024];
+            int bytesRead = dis.read(buffer);
+            System.out.println("Number of bytes read: " + bytesRead);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 DeflaterOutputStream_2
+----------------------------------------------------------------
+`void write(byte[] b, int off, int len)`: This method writes an array of bytes to the compressed output stream, starting at the specified offset and writing the specified number of bytes.
+
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.DeflaterOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             DeflaterOutputStream dos = new DeflaterOutputStream(baos)) {
+             
+            byte[] data = {65, 66, 67, 68, 69}; // Sample byte array
+            dos.write(data, 1, 3); // Write 3 bytes starting from index 1
+            
+            dos.finish();
+            dos.close();
+            
+            byte[] compressedData = baos.toByteArray();
+            System.out.println("Compressed data: " + new String(compressedData));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 21 DeflaterOutputStream_3
+----------------------------------------------------------------
+`void flush()`: This method flushes the compressed output stream. 
+
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.DeflaterOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(byteArrayOutputStream);
+
+            // Write some data to the compressed output stream
+            deflaterOutputStream.write("Hello, World!".getBytes());
+            deflaterOutputStream.flush(); // Flush the compressed output stream
+
+            deflaterOutputStream.close(); // Close the output stream
+
+            System.out.println("Compressed data: " + byteArrayOutputStream.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 22 DeflaterOutputStream_4
+----------------------------------------------------------------
+`void finish()`: This method finishes writing compressed data to the output stream without closing the underlying stream.
+
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.util.zip.DeflaterOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(byteArrayOutputStream);
+
+            // Write data to DeflaterOutputStream
+
+            deflaterOutputStream.finish(); // Finish writing compressed data
+
+            // Continue using the DeflaterOutputStream or close it
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 23 DeflaterOutputStream_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.DeflaterOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            DeflaterOutputStream dos = new DeflaterOutputStream(bos);
+            dos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 24 GZIPInputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.zip.GZIPInputStream;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        byte[] compressedData = { 
+            (byte) 31, (byte) 139, (byte) 8, (byte) 0, (byte) 0, (byte) 0, 
+            (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 3, (byte) 75, 
+            (byte) 204, (byte) 204, (byte) 45, (byte) 200, (byte) 201, 
+            (byte) 201, (byte) 215, (byte) 81, (byte) 40, (byte) 207, 
+            (byte) 47, (byte) 202, (byte) 73, (byte) 45, (byte) 1, 
+            (byte) 0, (byte) 51, (byte) 228, (byte) 122, (byte) 89, 
+            (byte) 0, (byte) 0, (byte) 0 
+        };
+        
+        GZIPInputStream gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(compressedData));
+        byte[] decompressedData = new byte[100];
+        int bytesRead = gzipInputStream.read(decompressedData, 0, decompressedData.length);
+        
+        System.out.println("Decompressed data:");
+        System.out.println(new String(decompressedData, 0, bytesRead));
+        
+        gzipInputStream.close();
+    }
+}
+```
+================================================================
+
+Sample: 25 GZIPInputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.zip.GZIPInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            GZIPInputStream gzipInputStream = new GZIPInputStream(new FileInputStream("file.txt.gz"));
+            // Perform operations using GZIPInputStream
+            gzipInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 26 GZIPOutputStream_1
+----------------------------------------------------------------
+`void finish()`: This method writes any remaining compressed data to the underlying output stream without closing the stream. 
+
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.zip.GZIPOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileOutputStream fos = new FileOutputStream("compressedFile.gz");
+            GZIPOutputStream gzipOS = new GZIPOutputStream(fos);
+
+            String data = "This is the data to be compressed.";
+            byte[] bytes = data.getBytes();
+
+            gzipOS.write(bytes);
+
+            // Finish writing compressed data to the output stream without closing it
+            gzipOS.finish();
+
+            gzipOS.close();
+            fos.close();
+            System.out.println("Data compressed successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 27 GZIPOutputStream_3
+----------------------------------------------------------------
+`void write(byte[] b, int off, int len)`: This method writes a subarray of bytes to the compressed output stream.
+
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.GZIPOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            GZIPOutputStream gzipOutput = new GZIPOutputStream(baos);
+            byte[] data = "Hello, World!".getBytes();
+            int offset = 0;
+            int length = data.length;
+            
+            gzipOutput.write(data, offset, length);
+            gzipOutput.finish();
+            gzipOutput.close();
+            
+            byte[] compressedData = baos.toByteArray();
+            System.out.println("Compressed data length: " + compressedData.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 28 Inflater_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.Inflater;
+
+public class Main {
+    public static void main(String[] args) {
+        Inflater inflater = new Inflater();
+        byte[] input = {120, -100, 35, 23, 45, -67, 89, -12}; // input data in byte array
+        int offset = 0; // starting offset for input data
+        int length = input.length; // length of input data
+        
+        inflater.setInput(input, offset, length);
+    }
+}
+```
+================================================================
+
+Sample: 29 Inflater_2
+----------------------------------------------------------------
+boolean needsInput(): This method returns true if a needsInput() or setDictionary() must be called in order to proceed with input data. If needsInput() returns true, the input data buffer should be cleared before calling setInput(). 
+
+Code Snippet:
+```java
+import java.util.zip.Inflater;
+
+public class Main {
+    public static void main(String[] args) {
+        Inflater inflater = new Inflater();
+        boolean inputNeeded = inflater.needsInput();
+        System.out.println("Input needed: " + inputNeeded);
+    }
+}
+```
+================================================================
+
+Sample: 30 Inflater_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.Inflater;
+
+public class Main {
+    public static void main(String[] args) {
+        Inflater inflater = new Inflater();
+        boolean isFinished = inflater.finished();
+        System.out.println("Is finished: " + isFinished);
+    }
+}
+```
+================================================================
+
+Sample: 31 Inflater_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.Inflater;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] compressedData = {...}; // Replace {...} with actual compressed data
+        Inflater inflater = new Inflater();
+        inflater.setInput(compressedData);
+
+        byte[] buffer = new byte[1024]; // Placeholder buffer
+        int bytesRead = 0;
+        try {
+            bytesRead = inflater.inflate(buffer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        inflater.end();
+
+        System.out.println("Inflated data: " + new String(buffer, 0, bytesRead));
+    }
+}
+```
+================================================================
+
+Sample: 32 InflaterInputStream_2
+----------------------------------------------------------------
+`int read(byte[] b, int off, int len)`: This method reads up to len bytes of data from the input stream into an array of bytes. It starts reading at the specified offset off in the array.
+
+Code snippet:
+```java
+import java.util.zip.InflaterInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fileInput = new FileInputStream("file.txt");
+            InflaterInputStream inflaterInput = new InflaterInputStream(fileInput);
+            byte[] data = new byte[1024];
+            int bytesRead = inflaterInput.read(data, 0, data.length);
+            System.out.println("Bytes read: " + bytesRead);
+
+            inflaterInput.close();
+            fileInput.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 33 InflaterInputStream_3
+----------------------------------------------------------------
+`int available()`: This method returns the number of bytes that can be read from the input stream without blocking.
+
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.zip.InflaterInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream("compressedFile.txt");
+            InflaterInputStream inflaterInputStream = new InflaterInputStream(fileInputStream);
+
+            int bytesAvailable = inflaterInputStream.available();
+            System.out.println("Number of bytes available to read: " + bytesAvailable);
+
+            inflaterInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 34 InflaterInputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.InflaterInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        InflaterInputStream inputStream = new InflaterInputStream(System.in);
+        boolean isMarkSupported = inputStream.markSupported();
+        System.out.println("Is mark supported: " + isMarkSupported);
+    }
+}
+```
+================================================================
+
+Sample: 35 InflaterInputStream_5
+----------------------------------------------------------------
+`void close()`: This method closes the input stream and releases any system resources associated with the stream. 
+
+Code snippet:
+```java
+import java.util.zip.InflaterInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (FileInputStream fis = new FileInputStream("compressedFile.gz");
+             InflaterInputStream iis = new InflaterInputStream(fis)) {
+             
+            // Read data from the input stream
+            
+            iis.close(); // Close the input stream
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 36 InflaterOutputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.InflaterOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            InflaterOutputStream inflaterOutputStream = new InflaterOutputStream(byteArrayOutputStream);
+            
+            byte[] data = {97, 98, 99, 100, 101}; // Sample byte array
+            
+            // Writing data to InflaterOutputStream
+            inflaterOutputStream.write(data, 0, data.length);
+            inflaterOutputStream.close(); // Closing stream
+            
+            byte[] decompressedData = byteArrayOutputStream.toByteArray();
+            System.out.println("Decompressed data: " + new String(decompressedData));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 37 InflaterOutputStream_2
+----------------------------------------------------------------
+`void finish()`: This method finishes writing the compressed data without closing the stream.
+
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.DeflaterOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        String data = "Hello, World!";
+        byte[] input = data.getBytes();
+        
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+             DeflaterOutputStream deflater = new DeflaterOutputStream(outputStream)) {
+            deflater.write(input);
+            deflater.finish();
+            
+            byte[] compressedData = outputStream.toByteArray();
+            
+            System.out.println("Compressed data: " + new String(compressedData));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 38 InflaterOutputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.InflaterOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            InflaterOutputStream inflater = new InflaterOutputStream(baos);
+            
+            // Write data to the InflaterOutputStream
+            
+            inflater.flush();
+            
+            // Continue processing or close the stream
+            
+            inflater.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 39 ZipFile_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ZipFile zipFile = new ZipFile("example.zip");
+            ZipEntry entry = zipFile.getEntry("file.txt");
+            
+            if (entry != null) {
+                System.out.println("Entry found: " + entry.getName());
+            } else {
+                System.out.println("Entry not found.");
+            }
+            
+            zipFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 40 ZipFile_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.File;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ZipFile zipFile = new ZipFile(new File("example.zip"));
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            
+            while(entries.hasMoreElements()){
+                ZipEntry entry = entries.nextElement();
+                System.out.println(entry.getName());
+            }
+            
+            zipFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 41 ZipFile_3
+----------------------------------------------------------------
+void close(): This method closes the ZIP file input stream. 
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.util.zip.ZipFile;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ZipFile zipFile = new ZipFile("example.zip");
+            
+            // Process zip file contents
+            
+            zipFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 42 ZipFile_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ZipFile zipFile = new ZipFile("example.zip");
+            ZipEntry entry = zipFile.getEntry("file.txt");
+            if (entry != null) {
+                InputStream inputStream = zipFile.getInputStream(entry);
+                // Use the InputStream here
+            }
+            zipFile.close();
+        } catch (ZipException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 43 ZipFile_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ZipFile zipFile = new ZipFile("file.zip");
+            int numEntries = zipFile.size();
+            System.out.println("Number of entries in the zip file: " + numEntries);
+            zipFile.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 44 ZipInputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream("example.zip"))) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                System.out.println("File: " + entry.getName());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 45 ZipInputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream("example.zip"))) {
+            ZipEntry entry;
+            while ((entry = zipInputStream.getNextEntry()) != null) {
+                if (!entry.isDirectory()) {
+                    // Process the entry
+
+                    // Close the current entry
+                    zipInputStream.closeEntry();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 46 ZipInputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.zip.ZipInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (ZipInputStream zipStream = new ZipInputStream(new FileInputStream("example.zip"))) {
+            byte[] buffer = new byte[1024];
+            int bytesRead = zipStream.read(buffer, 0, buffer.length);
+            System.out.println("Bytes read: " + bytesRead);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 47 ZipInputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fis = new FileInputStream("example.zip");
+            ZipInputStream zis = new ZipInputStream(fis);
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                System.out.println(entry.getName());
+            }
+            zis.close();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 48 ZipInputStream_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipEntry;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ZipInputStream zipInput = new ZipInputStream(new FileInputStream("example.zip"));
+            ZipEntry entry = zipInput.getNextEntry();
+            int availableBytes = zipInput.available();
+            System.out.println("Available bytes in the current zip entry: " + availableBytes);
+            zipInput.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 49 ZipOutputStream_1
+----------------------------------------------------------------
+void putNextEntry(ZipEntry e): This method creates a new entry for a ZIP file and sets the specified ZipEntry as the next entry.
+
+Code snippet:
+```java
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream("example.zip"));
+            ZipEntry entry = new ZipEntry("example.txt");
+            zipOut.putNextEntry(entry);
+
+            FileInputStream fileInput = new FileInputStream(new File("example.txt"));
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fileInput.read(buffer)) >= 0) {
+                zipOut.write(buffer, 0, length);
+            }
+
+            fileInput.close();
+            zipOut.closeEntry();
+            zipOut.close();
+            System.out.println("File has been zipped successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 50 ZipOutputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try (FileOutputStream fos = new FileOutputStream("example.zip");
+             ZipOutputStream zos = new ZipOutputStream(fos)) {
+
+            ZipEntry entry = new ZipEntry("example.txt");
+            zos.putNextEntry(entry);
+            zos.closeEntry();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 51 ZipOutputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        String comment = "This is a comment for the zip file.";
+
+        try (FileOutputStream fos = new FileOutputStream("example.zip");
+             ZipOutputStream zos = new ZipOutputStream(fos)) {
+
+            zos.setComment(comment);
+
+            ZipEntry entry = new ZipEntry("example.txt");
+            zos.putNextEntry(entry);
+            zos.write("Hello, World!".getBytes());
+            zos.closeEntry();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 52 ZipOutputStream_4
+----------------------------------------------------------------
+`void setMethod(int method)`: This method sets the compression method for subsequent entries. 
+
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream("example.zip"))) {
+            zos.setMethod(ZipOutputStream.STORED); // Set compression method to STORED
+            ZipEntry entry = new ZipEntry("example.txt");
+            zos.putNextEntry(entry);
+            zos.write("This is an example file".getBytes());
+            zos.closeEntry();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 53 ZipOutputStream_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try (ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream("example.zip"))) {
+            ZipEntry entry = new ZipEntry("example.txt");
+            zipOut.putNextEntry(entry);
+            zipOut.write("Hello, World!".getBytes());
+            zipOut.closeEntry();
+            
+            zipOut.finish(); // Finishes writing the contents of the ZIP output stream without closing it
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

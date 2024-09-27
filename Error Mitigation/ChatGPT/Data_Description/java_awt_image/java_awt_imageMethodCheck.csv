@@ -1,0 +1,2695 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,AffineTransformOp,1,"BufferedImage filter(BufferedImage src, BufferedImage dest)",True,,"
+
+filter
+public final BufferedImage filter(BufferedImage src,
+                                  BufferedImage dst)
+Transforms the source BufferedImage and stores the results
+ in the destination BufferedImage.
+ If the color models for the two images do not match, a color
+ conversion into the destination color model is performed.
+ If the destination image is null,
+ a BufferedImage is created with the source
+ ColorModel.
+ 
+ The coordinates of the rectangle returned by
+ getBounds2D(BufferedImage)
+ are not necessarily the same as the coordinates of the
+ BufferedImage returned by this method.  If the
+ upper-left corner coordinates of the rectangle are
+ negative then this part of the rectangle is not drawn.  If the
+ upper-left corner coordinates of the  rectangle are positive
+ then the filtered image is drawn at that position in the
+ destination BufferedImage.
+ 
+ An IllegalArgumentException is thrown if the source is
+ the same as the destination.
+
+Specified by:
+filter in interface BufferedImageOp
+Parameters:
+src - The BufferedImage to transform.
+dst - The BufferedImage in which to store the results
+ of the transformation.
+Returns:
+The filtered BufferedImage.
+Throws:
+IllegalArgumentException - if src and
+         dst are the same
+ImagingOpException - if the image cannot be transformed
+         because of a data-processing error that might be
+         caused by an invalid image format, tile format, or
+         image-processing operation, or any other unsupported
+         operation.
+
+
+"
+0,AffineTransformOp,2,"BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM)",True,,"
+
+createCompatibleDestImage
+public BufferedImage createCompatibleDestImage(BufferedImage src,
+                                               ColorModel destCM)
+Creates a zeroed destination image with the correct size and number of
+ bands.  A RasterFormatException may be thrown if the
+ transformed width or height is equal to 0.
+ 
+ If destCM is null,
+ an appropriate ColorModel is used; this
+ ColorModel may have
+ an alpha channel even if the source ColorModel is opaque.
+
+Specified by:
+createCompatibleDestImage in interface BufferedImageOp
+Parameters:
+src - The BufferedImage to be transformed.
+destCM - ColorModel of the destination.  If null,
+ an appropriate ColorModel is used.
+Returns:
+The zeroed destination image.
+
+
+"
+0,AffineTransformOp,3,"void filter(Raster src, WritableRaster dest)",False,,NULL
+0,AffineTransformOp,4,"Point2D getPoint2D(Point2D srcPt, Point2D dstPt)",True,,"
+
+getPoint2D
+public final Point2D getPoint2D(Point2D srcPt,
+                                Point2D dstPt)
+Returns the location of the corresponding destination point given a
+ point in the source.  If dstPt is specified, it
+ is used to hold the return value.
+
+Specified by:
+getPoint2D in interface BufferedImageOp
+Specified by:
+getPoint2D in interface RasterOp
+Parameters:
+srcPt - The Point2D that represents the source
+              point.
+dstPt - The Point2D in which to store the result.
+Returns:
+The Point2D in the destination that corresponds to
+ the specified point in the source.
+
+
+"
+0,AffineTransformOp,5,Rectangle2D getBounds2D(BufferedImage src),True,,"
+
+getBounds2D
+public final Rectangle2D getBounds2D(BufferedImage src)
+Returns the bounding box of the transformed destination.  The
+ rectangle returned is the actual bounding box of the
+ transformed points.  The coordinates of the upper-left corner
+ of the returned rectangle might not be (0, 0).
+
+Specified by:
+getBounds2D in interface BufferedImageOp
+Parameters:
+src - The BufferedImage to be transformed.
+Returns:
+The Rectangle2D representing the destination's
+ bounding box.
+
+
+"
+1,AreaAveragingScaleFilter,1,void setHints(int hints),True,,"
+
+setHints
+public void setHints(int hints)
+Detect if the data is being delivered with the necessary hints
+ to allow the averaging algorithm to do its work.
+ 
+ Note: This method is intended to be called by the
+ ImageProducer of the Image whose
+ pixels are being filtered.  Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setHints in interface ImageConsumer
+Overrides:
+setHints in class ImageFilter
+Parameters:
+hints - a set of hints that the ImageConsumer uses to
+        process the pixels
+See Also:
+ImageConsumer.setHints(int)
+
+
+"
+1,AreaAveragingScaleFilter,2,"void setPixels(int x, int y, int w, int h, ColorModel model, int[] pixels, int off, int scansize)",True,,"
+
+setPixels
+public void setPixels(int x,
+                      int y,
+                      int w,
+                      int h,
+                      ColorModel model,
+                      int[] pixels,
+                      int off,
+                      int scansize)
+Combine the components for the delivered int pixels into the
+ accumulation arrays and send on any averaged data for rows of
+ pixels that are complete.  If the correct hints were not
+ specified in the setHints call then relay the work to our
+ superclass which is capable of scaling pixels regardless of
+ the delivery hints.
+ 
+ Note: This method is intended to be called by the
+ ImageProducer of the Image
+ whose pixels are being filtered.  Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setPixels in interface ImageConsumer
+Overrides:
+setPixels in class ReplicateScaleFilter
+Parameters:
+x - the X coordinate of the upper-left corner of the
+        area of pixels to be set
+y - the Y coordinate of the upper-left corner of the
+        area of pixels to be set
+w - the width of the area of pixels
+h - the height of the area of pixels
+model - the specified ColorModel
+pixels - the array of pixels
+off - the offset into the pixels array
+scansize - the distance from one row of pixels to the next in
+ the pixels array
+See Also:
+ReplicateScaleFilter
+
+
+"
+1,AreaAveragingScaleFilter,3,"void setPixels(int x, int y, int w, int h, ColorModel model, byte[] pixels, int off, int scansize)",True,,"
+
+setPixels
+public void setPixels(int x,
+                      int y,
+                      int w,
+                      int h,
+                      ColorModel model,
+                      byte[] pixels,
+                      int off,
+                      int scansize)
+Combine the components for the delivered byte pixels into the
+ accumulation arrays and send on any averaged data for rows of
+ pixels that are complete.  If the correct hints were not
+ specified in the setHints call then relay the work to our
+ superclass which is capable of scaling pixels regardless of
+ the delivery hints.
+ 
+ Note: This method is intended to be called by the
+ ImageProducer of the Image
+ whose pixels are being filtered.  Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setPixels in interface ImageConsumer
+Overrides:
+setPixels in class ReplicateScaleFilter
+Parameters:
+x - the X coordinate of the upper-left corner of the
+        area of pixels to be set
+y - the Y coordinate of the upper-left corner of the
+        area of pixels to be set
+w - the width of the area of pixels
+h - the height of the area of pixels
+model - the specified ColorModel
+pixels - the array of pixels
+off - the offset into the pixels array
+scansize - the distance from one row of pixels to the next in
+ the pixels array
+See Also:
+ReplicateScaleFilter
+
+
+"
+1,AreaAveragingScaleFilter,4,"void setPixels(int x, int y, int w, int h, ColorModel model, int[] pixels, int off, int scansize, int xoffset, int yoffset)",False,,NULL
+1,AreaAveragingScaleFilter,5,"void setPixels(int x, int y, int w, int h, ColorModel model, byte[] pixels, int off, int scansize, int xoffset, int yoffset)",False,,NULL
+2,BandCombineOp,1,"Raster filter(Raster src, Raster dest)",False,,NULL
+2,BandCombineOp,2,int getNumBands(),False,,NULL
+2,BandCombineOp,3,float[] getMatrix(),False,,NULL
+2,BandCombineOp,4,void setMatrix(float[] matrix),False,,NULL
+2,BandCombineOp,5,boolean equals(Object obj),False,,NULL
+3,BandedSampleModel,1,int getNumBands(),False,,NULL
+3,BandedSampleModel,2,int[] getBandOffsets(),False,,NULL
+3,BandedSampleModel,3,int[] getBankIndices(),False,,NULL
+3,BandedSampleModel,4,int[] getPixelStride(),False,,NULL
+3,BandedSampleModel,5,int[] getScanlineStride(),False,,NULL
+4,BufferedImage,1,int getWidth(),True,,"
+
+getWidth
+public int getWidth()
+Returns the width of the BufferedImage.
+
+Specified by:
+getWidth in interface RenderedImage
+Returns:
+the width of this BufferedImage
+
+
+"
+4,BufferedImage,2,int getHeight(),True,,"
+
+getHeight
+public int getHeight()
+Returns the height of the BufferedImage.
+
+Specified by:
+getHeight in interface RenderedImage
+Returns:
+the height of this BufferedImage
+
+
+"
+4,BufferedImage,3,"int getRGB(int x, int y)",True,,"
+
+getRGB
+public int getRGB(int x,
+                  int y)
+Returns an integer pixel in the default RGB color model
+ (TYPE_INT_ARGB) and default sRGB colorspace.  Color
+ conversion takes place if this default model does not match
+ the image ColorModel.  There are only 8-bits of
+ precision for each color component in the returned data when using
+ this method.
+
+ 
+
+ An ArrayOutOfBoundsException may be thrown
+ if the coordinates are not in bounds.
+ However, explicit bounds checking is not guaranteed.
+
+Parameters:
+x - the X coordinate of the pixel from which to get
+          the pixel in the default RGB color model and sRGB
+          color space
+y - the Y coordinate of the pixel from which to get
+          the pixel in the default RGB color model and sRGB
+          color space
+Returns:
+an integer pixel in the default RGB color model and
+          default sRGB colorspace.
+See Also:
+setRGB(int, int, int), 
+setRGB(int, int, int, int, int[], int, int)
+
+
+"
+4,BufferedImage,4,"void setRGB(int x, int y, int rgb)",True,,"
+
+setRGB
+public void setRGB(int x,
+                   int y,
+                   int rgb)
+Sets a pixel in this BufferedImage to the specified
+ RGB value. The pixel is assumed to be in the default RGB color
+ model, TYPE_INT_ARGB, and default sRGB color space.  For images
+ with an IndexColorModel, the index with the nearest
+ color is chosen.
+
+ 
+
+ An ArrayOutOfBoundsException may be thrown
+ if the coordinates are not in bounds.
+ However, explicit bounds checking is not guaranteed.
+
+Parameters:
+x - the X coordinate of the pixel to set
+y - the Y coordinate of the pixel to set
+rgb - the RGB value
+See Also:
+getRGB(int, int), 
+getRGB(int, int, int, int, int[], int, int)
+
+
+"
+4,BufferedImage,5,"BufferedImage getSubimage(int x, int y, int w, int h)",True,,"
+
+getSubimage
+public BufferedImage getSubimage(int x,
+                                 int y,
+                                 int w,
+                                 int h)
+Returns a subimage defined by a specified rectangular region.
+ The returned BufferedImage shares the same
+ data array as the original image.
+
+Parameters:
+x - the X coordinate of the upper-left corner of the
+          specified rectangular region
+y - the Y coordinate of the upper-left corner of the
+          specified rectangular region
+w - the width of the specified rectangular region
+h - the height of the specified rectangular region
+Returns:
+a BufferedImage that is the subimage of this
+          BufferedImage.
+Throws:
+RasterFormatException - if the specified
+ area is not contained within this BufferedImage.
+
+
+"
+5,BufferedImageFilter,1,BufferedImageFilterOp getFilterOp(),False,,NULL
+5,BufferedImageFilter,2,void setFilterOp(BufferedImageOp op),False,,NULL
+5,BufferedImageFilter,3,"BufferedImage getFilteredBufferedImage(BufferedImage src, BufferedImage dest)",False,,NULL
+5,BufferedImageFilter,4,void setHints(Map hints),False,,NULL
+5,BufferedImageFilter,5,void setSourceRegion(Rectangle region),False,,NULL
+6,BufferStrategy,1,Graphics getDrawGraphics(),True,,"
+
+getDrawGraphics
+public abstract Graphics getDrawGraphics()
+Creates a graphics context for the drawing buffer.  This method may not
+ be synchronized for performance reasons; use of this method by multiple
+ threads should be handled at the application level.  Disposal of the
+ graphics object obtained must be handled by the application.
+
+Returns:
+a graphics context for the drawing buffer
+
+
+"
+6,BufferStrategy,2,boolean contentsLost(),True,,"
+
+contentsLost
+public abstract boolean contentsLost()
+Returns whether the drawing buffer was lost since the last call to
+ getDrawGraphics.  Since the buffers in a buffer strategy
+ are usually type VolatileImage, they may become lost.
+ For a discussion on lost buffers, see VolatileImage.
+
+Returns:
+Whether or not the drawing buffer was lost since the last call
+ to getDrawGraphics.
+See Also:
+VolatileImage
+
+
+"
+6,BufferStrategy,3,void show(),True,,"
+
+show
+public abstract void show()
+Makes the next available buffer visible by either copying the memory
+ (blitting) or changing the display pointer (flipping).
+
+"
+6,BufferStrategy,4,BufferCapabilities getCapabilities(),True,,"
+
+getCapabilities
+public abstract BufferCapabilities getCapabilities()
+Returns the BufferCapabilities for this
+ BufferStrategy.
+
+Returns:
+the buffering capabilities of this strategy
+
+
+"
+6,BufferStrategy,5,Image getDrawBuffer(),False,,NULL
+7,ByteLookupTable,1,int getOffset(),False,,NULL
+7,ByteLookupTable,2,int[] getTable(),False,,NULL
+7,ByteLookupTable,3,"int[] lookupPixel(int[] src, int[] dst)",True,,"
+
+lookupPixel
+public int[] lookupPixel(int[] src,
+                         int[] dst)
+Returns an array of samples of a pixel, translated with the lookup
+ table. The source and destination array can be the same array.
+ Array dst is returned.
+
+Specified by:
+lookupPixel in class LookupTable
+Parameters:
+src - the source array.
+dst - the destination array. This array must be at least as
+         long as src.  If dst is
+         null, a new array will be allocated having the
+         same length as src.
+Returns:
+the array dst, an int array of
+         samples.
+Throws:
+ArrayIndexOutOfBoundsException - if src is
+            longer than dst or if for any element
+            i of src,
+            src[i]-offset is either less than zero or
+            greater than or equal to the length of the lookup table
+            for any band.
+
+
+"
+7,ByteLookupTable,4,"int[] lookupPixels(int[] src, int[] dst, int numPixels)",False,,NULL
+7,ByteLookupTable,5,void setOffset(int offset),False,,NULL
+8,ColorConvertOp,1,"BufferedImage filter(BufferedImage src, BufferedImage dest)",True,,"
+
+filter
+public final BufferedImage filter(BufferedImage src,
+                                  BufferedImage dest)
+ColorConverts the source BufferedImage.
+ If the destination image is null,
+ a BufferedImage will be created with an appropriate ColorModel.
+
+Specified by:
+filter in interface BufferedImageOp
+Parameters:
+src - the source BufferedImage to be converted
+dest - the destination BufferedImage,
+        or null
+Returns:
+dest color converted from src
+         or a new, converted BufferedImage
+         if dest is null
+Throws:
+IllegalArgumentException - if dest is null and this op was
+             constructed using the constructor which takes only a
+             RenderingHints argument, since the operation is ill defined.
+
+
+"
+8,ColorConvertOp,2,int getRGB(Object inData),False,,NULL
+8,ColorConvertOp,3,void setColorModel(ColorModel newmodel),False,,NULL
+8,ColorConvertOp,4,void setDestinationType(ColorSpace cs),False,,NULL
+8,ColorConvertOp,5,"void setRenderingHints(Map<?, ?> hints)",False,,NULL
+9,ColorModel,1,int getRed(int pixel),True,,"
+
+getRed
+public abstract int getRed(int pixel)
+Returns the red color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
+ is done if necessary.  The pixel value is specified as an int.
+ An IllegalArgumentException is thrown if pixel
+ values for this ColorModel are not conveniently
+ representable as a single int.  The returned value is not a
+ pre-multiplied value.  For example, if the
+ alpha is premultiplied, this method divides it out before returning
+ the value.  If the alpha value is 0, the red value is 0.
+
+Parameters:
+pixel - a specified pixel
+Returns:
+the value of the red component of the specified pixel.
+
+
+"
+9,ColorModel,2,int getGreen(int pixel),True,,"
+
+getGreen
+public abstract int getGreen(int pixel)
+Returns the green color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
+ is done if necessary.  The pixel value is specified as an int.
+ An IllegalArgumentException is thrown if pixel
+ values for this ColorModel are not conveniently
+ representable as a single int.  The returned value is a non
+ pre-multiplied value.  For example, if the alpha is premultiplied,
+ this method divides it out before returning
+ the value.  If the alpha value is 0, the green value is 0.
+
+Parameters:
+pixel - the specified pixel
+Returns:
+the value of the green component of the specified pixel.
+
+
+"
+9,ColorModel,3,int getBlue(int pixel),True,,"
+
+getBlue
+public abstract int getBlue(int pixel)
+Returns the blue color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
+ is done if necessary.  The pixel value is specified as an int.
+ An IllegalArgumentException is thrown if pixel values
+ for this ColorModel are not conveniently representable
+ as a single int.  The returned value is a non pre-multiplied
+ value, for example, if the alpha is premultiplied, this method
+ divides it out before returning the value.  If the alpha value is
+ 0, the blue value is 0.
+
+Parameters:
+pixel - the specified pixel
+Returns:
+the value of the blue component of the specified pixel.
+
+
+"
+9,ColorModel,4,int getAlpha(int pixel),True,,"
+
+getAlpha
+public abstract int getAlpha(int pixel)
+Returns the alpha component for the specified pixel, scaled
+ from 0 to 255.  The pixel value is specified as an int.
+ An IllegalArgumentException is thrown if pixel
+ values for this ColorModel are not conveniently
+ representable as a single int.
+
+Parameters:
+pixel - the specified pixel
+Returns:
+the value of alpha component of the specified pixel.
+
+
+"
+9,ColorModel,5,"int getRGB(int r, int g, int b)",False,,NULL
+10,ComponentColorModel,1,int getAlpha(int pixel),True,,"
+
+getAlpha
+public int getAlpha(int pixel)
+Returns the alpha component for the specified pixel, scaled
+ from 0 to 255.   The pixel value is specified as an int.
+
+Specified by:
+getAlpha in class ColorModel
+Parameters:
+pixel - The pixel from which you want to get the alpha component.
+Returns:
+The alpha component for the specified pixel, as an int.
+Throws:
+IllegalArgumentException - If there is more than
+ one component in this ColorModel.
+IllegalArgumentException - If the component value for this
+ ColorModel is signed
+
+
+"
+10,ComponentColorModel,2,int getBlue(int pixel),True,,"
+
+getBlue
+public int getBlue(int pixel)
+Returns the blue color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
+ is done if necessary.  The pixel value is specified as an int.
+ The returned value will be a non
+ pre-multiplied value. If the alpha is premultiplied, this method
+ divides it out before returning the value (if the alpha value is 0,
+ the blue value will be 0).
+
+Specified by:
+getBlue in class ColorModel
+Parameters:
+pixel - The pixel from which you want to get the blue color component.
+Returns:
+The blue color component for the specified pixel, as an int.
+Throws:
+IllegalArgumentException - If there is more than
+ one component in this ColorModel.
+IllegalArgumentException - If the component value for this
+ ColorModel is signed
+
+
+"
+10,ComponentColorModel,3,int getGreen(int pixel),True,,"
+
+getGreen
+public int getGreen(int pixel)
+Returns the green color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
+ is done if necessary.  The pixel value is specified as an int.
+ The returned value will be a non
+ pre-multiplied value. If the alpha is premultiplied, this method
+ divides it out before returning the value (if the alpha value is 0,
+ the green value will be 0).
+
+Specified by:
+getGreen in class ColorModel
+Parameters:
+pixel - The pixel from which you want to get the green color component.
+Returns:
+The green color component for the specified pixel, as an int.
+Throws:
+IllegalArgumentException - If there is more than
+ one component in this ColorModel.
+IllegalArgumentException - If the component value for this
+ ColorModel is signed
+
+
+"
+10,ComponentColorModel,4,int getRed(int pixel),True,,"
+
+getRed
+public int getRed(int pixel)
+Returns the red color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
+ is done if necessary.  The pixel value is specified as an int.
+ The returned value will be a non pre-multiplied value.
+ If the alpha is premultiplied, this method divides
+ it out before returning the value (if the alpha value is 0,
+ the red value will be 0).
+
+Specified by:
+getRed in class ColorModel
+Parameters:
+pixel - The pixel from which you want to get the red color component.
+Returns:
+The red color component for the specified pixel, as an int.
+Throws:
+IllegalArgumentException - If there is more than
+ one component in this ColorModel.
+IllegalArgumentException - If the component value for this
+ ColorModel is signed
+
+
+"
+10,ComponentColorModel,5,"int getRGB(int r, int g, int b)",False,,NULL
+11,ComponentSampleModel,1,int getNumBands(),False,,NULL
+11,ComponentSampleModel,2,int getNumComponents(),False,,NULL
+11,ComponentSampleModel,3,int getPixelStride(),True,,"
+
+getPixelStride
+public final int getPixelStride()
+Returns the pixel stride of this ComponentSampleModel.
+
+Returns:
+the pixel stride of this ComponentSampleModel.
+
+
+"
+11,ComponentSampleModel,4,int getScanlineStride(),True,,"
+
+getScanlineStride
+public final int getScanlineStride()
+Returns the scanline stride of this ComponentSampleModel.
+
+Returns:
+the scanline stride of this ComponentSampleModel.
+
+
+"
+11,ComponentSampleModel,5,int[] getBandOffsets(),True,,"
+
+getBandOffsets
+public final int[] getBandOffsets()
+Returns the band offset for all bands.
+
+Returns:
+the band offsets for all bands.
+
+
+"
+12,ConvolveOp,1,"BufferedImage filter(BufferedImage src, BufferedImage dest)",True,,"
+
+filter
+public final BufferedImage filter(BufferedImage src,
+                                  BufferedImage dst)
+Performs a convolution on BufferedImages.  Each component of the
+ source image will be convolved (including the alpha component, if
+ present).
+ If the color model in the source image is not the same as that
+ in the destination image, the pixels will be converted
+ in the destination.  If the destination image is null,
+ a BufferedImage will be created with the source ColorModel.
+ The IllegalArgumentException may be thrown if the source is the
+ same as the destination.
+
+Specified by:
+filter in interface BufferedImageOp
+Parameters:
+src - the source BufferedImage to filter
+dst - the destination BufferedImage for the
+        filtered src
+Returns:
+the filtered BufferedImage
+Throws:
+NullPointerException - if src is null
+IllegalArgumentException - if src equals
+         dst
+ImagingOpException - if src cannot be filtered
+
+
+"
+12,ConvolveOp,2,Kernel getKernel(),True,,"
+
+getKernel
+public final Kernel getKernel()
+Returns the Kernel.
+
+Returns:
+the Kernel of this ConvolveOp.
+
+
+"
+12,ConvolveOp,3,RenderingHints getRenderingHints(),True,,"
+
+getRenderingHints
+public final RenderingHints getRenderingHints()
+Returns the rendering hints for this op.
+
+Specified by:
+getRenderingHints in interface BufferedImageOp
+Specified by:
+getRenderingHints in interface RasterOp
+Returns:
+The RenderingHints object for this
+ BufferedImageOp.  Returns
+ null if no hints have been set.
+
+
+"
+12,ConvolveOp,4,"Point getPoint2D(Point srcPt, Point dstPt)",False,,NULL
+12,ConvolveOp,5,"BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM)",True,,"
+
+createCompatibleDestImage
+public BufferedImage createCompatibleDestImage(BufferedImage src,
+                                               ColorModel destCM)
+Creates a zeroed destination image with the correct size and number
+ of bands.  If destCM is null, an appropriate ColorModel will be used.
+
+Specified by:
+createCompatibleDestImage in interface BufferedImageOp
+Parameters:
+src - Source image for the filter operation.
+destCM - ColorModel of the destination.  Can be null.
+Returns:
+a destination BufferedImage with the correct
+         size and number of bands.
+
+
+"
+13,CropImageFilter,1,void setHints(int hints),False,,NULL
+13,CropImageFilter,2,int getHints(),False,,NULL
+13,CropImageFilter,3,"void setDimensions(int width, int height)",True,,"
+
+setDimensions
+public void setDimensions(int w,
+                          int h)
+Override the source image's dimensions and pass the dimensions
+ of the rectangular cropped region to the ImageConsumer.
+ 
+ Note: This method is intended to be called by the
+ ImageProducer of the Image whose
+ pixels are being filtered. Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setDimensions in interface ImageConsumer
+Overrides:
+setDimensions in class ImageFilter
+Parameters:
+w - the width of the source image
+h - the height of the source image
+See Also:
+ImageConsumer
+
+
+"
+13,CropImageFilter,4,int getWidth(),False,,NULL
+13,CropImageFilter,5,int getHeight(),False,,NULL
+14,DataBuffer,1,int getSize(),True,,"
+
+getSize
+public int getSize()
+Returns the size (in array elements) of all banks.
+
+Returns:
+the size of all banks.
+
+
+"
+14,DataBuffer,2,"int getElem(int bank, int i)",True,,"
+
+getElem
+public abstract int getElem(int bank,
+                            int i)
+Returns the requested data array element from the specified bank
+ as an integer.
+
+Parameters:
+bank - the specified bank
+i - the index of the requested data array element
+Returns:
+the data array element at the specified index from the
+         specified bank at the specified index.
+See Also:
+setElem(int, int), 
+setElem(int, int, int)
+
+
+"
+14,DataBuffer,3,"void setElem(int bank, int i, int val)",True,,"
+
+setElem
+public abstract void setElem(int bank,
+                             int i,
+                             int val)
+Sets the requested data array element in the specified bank
+ from the given integer.
+
+Parameters:
+bank - the specified bank
+i - the specified index into the data array
+val - the data to set the element in the specified bank
+ at the specified index in the data array
+See Also:
+getElem(int), 
+getElem(int, int)
+
+
+"
+14,DataBuffer,4,int getOffset(),True,,"
+
+getOffset
+public int getOffset()
+Returns the offset of the default bank in array elements.
+
+Returns:
+the offset of the default bank.
+
+
+"
+14,DataBuffer,5,int getNumBanks(),True,,"
+
+getNumBanks
+public int getNumBanks()
+Returns the number of banks in this DataBuffer.
+
+Returns:
+the number of banks.
+
+
+"
+15,DataBufferByte,1,byte[] getData(),True,,"
+
+getData
+public byte[] getData()
+Returns the default (first) byte data array.
+ 
+ Note that calling this method may cause this DataBuffer
+ object to be incompatible with performance
+ optimizations used by some implementations (such as caching
+ an associated image in video memory).
+
+Returns:
+The first byte data array.
+
+
+"
+15,DataBufferByte,2,"int getElem(int bank, int i)",True,,"
+
+getElem
+public int getElem(int bank,
+                   int i)
+Returns the requested data array element from the specified bank.
+
+Specified by:
+getElem in class DataBuffer
+Parameters:
+bank - The bank from which you want to get a data array element.
+i - The data array element you want to get.
+Returns:
+The requested data array element as an integer.
+See Also:
+setElem(int, int), 
+setElem(int, int, int)
+
+
+"
+15,DataBufferByte,3,"void setElem(int bank, int i, int val)",True,,"
+
+setElem
+public void setElem(int bank,
+                    int i,
+                    int val)
+Sets the requested data array element in the specified bank
+ from the given integer.
+
+Specified by:
+setElem in class DataBuffer
+Parameters:
+bank - The bank in which you want to set the data array element.
+i - The data array element you want to set.
+val - The integer value to which you want to set the specified data array element.
+See Also:
+getElem(int), 
+getElem(int, int)
+
+
+"
+15,DataBufferByte,4,int getElem(int i),True,,"
+
+getElem
+public int getElem(int i)
+Returns the requested data array element from the first (default) bank.
+
+Overrides:
+getElem in class DataBuffer
+Parameters:
+i - The data array element you want to get.
+Returns:
+The requested data array element as an integer.
+See Also:
+setElem(int, int), 
+setElem(int, int, int)
+
+
+"
+15,DataBufferByte,5,"void setElem(int i, int val)",True,,"
+
+setElem
+public void setElem(int i,
+                    int val)
+Sets the requested data array element in the first (default) bank
+ to the specified value.
+
+Overrides:
+setElem in class DataBuffer
+Parameters:
+i - The data array element you want to set.
+val - The integer value to which you want to set the data array element.
+See Also:
+getElem(int), 
+getElem(int, int)
+
+
+"
+16,DataBufferDouble,1,"double getElem(int bank, int i)",False,,NULL
+16,DataBufferDouble,2,"void setElem(int bank, int i, double val)",False,,NULL
+16,DataBufferDouble,3,double[] getData(),True,,"
+
+getData
+public double[] getData()
+Returns the default (first) double data array.
+ 
+ Note that calling this method may cause this DataBuffer
+ object to be incompatible with performance
+ optimizations used by some implementations (such as caching
+ an associated image in video memory).
+
+Returns:
+the first double data array.
+
+
+"
+16,DataBufferDouble,4,int getElem(int i),True,,"
+
+getElem
+public int getElem(int i)
+Returns the requested data array element from the first
+ (default) bank as an int.
+
+Overrides:
+getElem in class DataBuffer
+Parameters:
+i - The desired data array element.
+Returns:
+The data entry as an int.
+See Also:
+setElem(int, int), 
+setElem(int, int, int)
+
+
+"
+16,DataBufferDouble,5,"void setElem(int i, double val)",False,,NULL
+17,DataBufferFloat,1,float[] getData(),True,,"
+
+getData
+public float[] getData()
+Returns the default (first) float data array.
+ 
+ Note that calling this method may cause this DataBuffer
+ object to be incompatible with performance
+ optimizations used by some implementations (such as caching
+ an associated image in video memory).
+
+Returns:
+the first float data array.
+
+
+"
+17,DataBufferFloat,2,void setData(float[] data),False,,NULL
+17,DataBufferFloat,3,"float getElem(int bank, int i)",False,,NULL
+17,DataBufferFloat,4,"void setElem(int bank, int i, float val)",False,,NULL
+17,DataBufferFloat,5,int getElemFloat(int i),False,,NULL
+18,DataBufferInt,1,int[] getData(),True,,"
+
+getData
+public int[] getData()
+Returns the default (first) int data array in DataBuffer.
+ 
+ Note that calling this method may cause this DataBuffer
+ object to be incompatible with performance
+ optimizations used by some implementations (such as caching
+ an associated image in video memory).
+
+Returns:
+The first integer data array.
+
+
+"
+18,DataBufferInt,2,"int getElem(int bank, int i)",True,,"
+
+getElem
+public int getElem(int bank,
+                   int i)
+Returns the requested data array element from the specified bank.
+
+Specified by:
+getElem in class DataBuffer
+Parameters:
+bank - The bank from which you want to get a data array element.
+i - The data array element you want to get.
+Returns:
+The requested data array element as an integer.
+See Also:
+setElem(int, int), 
+setElem(int, int, int)
+
+
+"
+18,DataBufferInt,3,"void setElem(int bank, int i, int val)",True,,"
+
+setElem
+public void setElem(int bank,
+                    int i,
+                    int val)
+Sets the requested data array element in the specified bank
+ to the integer value i.
+
+Specified by:
+setElem in class DataBuffer
+Parameters:
+bank - The bank in which you want to set the data array element.
+i - The data array element you want to set.
+val - The integer value to which you want to set the specified data array element.
+See Also:
+getElem(int), 
+getElem(int, int)
+
+
+"
+18,DataBufferInt,4,int getElem(int i),True,,"
+
+getElem
+public int getElem(int i)
+Returns the requested data array element from the first (default) bank.
+
+Overrides:
+getElem in class DataBuffer
+Parameters:
+i - The data array element you want to get.
+Returns:
+The requested data array element as an integer.
+See Also:
+setElem(int, int), 
+setElem(int, int, int)
+
+
+"
+18,DataBufferInt,5,"void setElem(int i, int val)",True,,"
+
+setElem
+public void setElem(int i,
+                    int val)
+Sets the requested data array element in the first (default) bank
+ to the specified value.
+
+Overrides:
+setElem in class DataBuffer
+Parameters:
+i - The data array element you want to set.
+val - The integer value to which you want to set the data array element.
+See Also:
+getElem(int), 
+getElem(int, int)
+
+
+"
+19,DataBufferShort,1,"short getElem(int bank, int i)",False,,NULL
+19,DataBufferShort,2,"void setElem(int bank, int i, short val)",False,,NULL
+19,DataBufferShort,3,short[] getData(),True,,"
+
+getData
+public short[] getData()
+Returns the default (first) byte data array.
+ 
+ Note that calling this method may cause this DataBuffer
+ object to be incompatible with performance
+ optimizations used by some implementations (such as caching
+ an associated image in video memory).
+
+Returns:
+The first short data array.
+
+
+"
+19,DataBufferShort,4,int getElem(int i),True,,"
+
+getElem
+public int getElem(int i)
+Returns the requested data array element from the first (default) bank.
+
+Overrides:
+getElem in class DataBuffer
+Parameters:
+i - The data array element you want to get.
+Returns:
+The requested data array element as an integer.
+See Also:
+setElem(int, int), 
+setElem(int, int, int)
+
+
+"
+19,DataBufferShort,5,"void setElem(int i, short val)",False,,NULL
+20,DataBufferUShort,1,short[] getData(),True,,"
+
+getData
+public short[] getData()
+Returns the default (first) unsigned-short data array.
+ 
+ Note that calling this method may cause this DataBuffer
+ object to be incompatible with performance
+ optimizations used by some implementations (such as caching
+ an associated image in video memory).
+
+Returns:
+The first unsigned-short data array.
+
+
+"
+20,DataBufferUShort,2,"int getElem(int bank, int i)",True,,"
+
+getElem
+public int getElem(int bank,
+                   int i)
+Returns the requested data array element from the specified bank.
+
+Specified by:
+getElem in class DataBuffer
+Parameters:
+bank - The bank from which you want to get a data array element.
+i - The data array element you want to get.
+Returns:
+The requested data array element as an integer.
+See Also:
+setElem(int, int), 
+setElem(int, int, int)
+
+
+"
+20,DataBufferUShort,3,"void setElem(int bank, int i, int val)",True,,"
+
+setElem
+public void setElem(int bank,
+                    int i,
+                    int val)
+Sets the requested data array element in the specified bank
+ from the given integer.
+
+Specified by:
+setElem in class DataBuffer
+Parameters:
+bank - The bank in which you want to set the data array element.
+i - The data array element you want to set.
+val - The integer value to which you want to set the specified data array element.
+See Also:
+getElem(int), 
+getElem(int, int)
+
+
+"
+20,DataBufferUShort,4,int getElem(int i),True,,"
+
+getElem
+public int getElem(int i)
+Returns the requested data array element from the first (default) bank.
+
+Overrides:
+getElem in class DataBuffer
+Parameters:
+i - The data array element you want to get.
+Returns:
+The requested data array element as an integer.
+See Also:
+setElem(int, int), 
+setElem(int, int, int)
+
+
+"
+20,DataBufferUShort,5,"void setElem(int i, int val)",True,,"
+
+setElem
+public void setElem(int i,
+                    int val)
+Sets the requested data array element in the first (default) bank
+ to the specified value.
+
+Overrides:
+setElem in class DataBuffer
+Parameters:
+i - The data array element you want to set.
+val - The integer value to which you want to set the data array element.
+See Also:
+getElem(int), 
+getElem(int, int)
+
+
+"
+21,DirectColorModel,1,int getRed(int pixel),True,,"
+
+getRed
+public final int getRed(int pixel)
+Returns the red color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  A
+ color conversion is done if necessary.  The pixel value is specified
+ as an int.
+ The returned value is a non pre-multiplied value.  Thus, if the
+ alpha is premultiplied, this method divides it out before returning
+ the value.  If the alpha value is 0, for example, the red value
+ is 0.
+
+Specified by:
+getRed in class ColorModel
+Parameters:
+pixel - the specified pixel
+Returns:
+the red color component for the specified pixel, from
+         0 to 255 in the sRGB ColorSpace.
+
+
+"
+21,DirectColorModel,2,int getGreen(int pixel),True,,"
+
+getGreen
+public final int getGreen(int pixel)
+Returns the green color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  A
+ color conversion is done if necessary.  The pixel value is specified
+ as an int.
+ The returned value is a non pre-multiplied value.  Thus, if the
+ alpha is premultiplied, this method divides it out before returning
+ the value.  If the alpha value is 0, for example, the green value
+ is 0.
+
+Specified by:
+getGreen in class ColorModel
+Parameters:
+pixel - the specified pixel
+Returns:
+the green color component for the specified pixel, from
+         0 to 255 in the sRGB ColorSpace.
+
+
+"
+21,DirectColorModel,3,int getBlue(int pixel),True,,"
+
+getBlue
+public final int getBlue(int pixel)
+Returns the blue color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  A
+ color conversion is done if necessary.  The pixel value is specified
+ as an int.
+ The returned value is a non pre-multiplied value.  Thus, if the
+ alpha is premultiplied, this method divides it out before returning
+ the value.  If the alpha value is 0, for example, the blue value
+ is 0.
+
+Specified by:
+getBlue in class ColorModel
+Parameters:
+pixel - the specified pixel
+Returns:
+the blue color component for the specified pixel, from
+         0 to 255 in the sRGB ColorSpace.
+
+
+"
+21,DirectColorModel,4,int getAlpha(int pixel),True,,"
+
+getAlpha
+public final int getAlpha(int pixel)
+Returns the alpha component for the specified pixel, scaled
+ from 0 to 255.  The pixel value is specified as an int.
+
+Specified by:
+getAlpha in class ColorModel
+Parameters:
+pixel - the specified pixel
+Returns:
+the value of the alpha component of pixel
+         from 0 to 255.
+
+
+"
+21,DirectColorModel,5,"int getRGB(int r, int g, int b)",False,,NULL
+22,FilteredImageSource,1,"void setDimensions(int width, int height)",False,,NULL
+22,FilteredImageSource,2,void setHints(int hints),False,,NULL
+22,FilteredImageSource,3,"void setPixels(int x, int y, int w, int h, ColorModel model, int[] pixels, int off, int scansize)",False,,NULL
+22,FilteredImageSource,4,"void setProperties(Hashtable<?, ?> props)",False,,NULL
+22,FilteredImageSource,5,"void setPixels(int x, int y, int w, int h, ColorModel model, byte[] pixels, int off, int scansize)",False,,NULL
+23,ImageFilter,1,"void setPixels(int x, int y, int w, int h, ColorModel model, int[] pixels, int off, int scansize)",True,,"
+
+setPixels
+public void setPixels(int x,
+                      int y,
+                      int w,
+                      int h,
+                      ColorModel model,
+                      int[] pixels,
+                      int off,
+                      int scansize)
+Filters the information provided in the setPixels method of the
+ ImageConsumer interface which takes an array of integers.
+ 
+ Note: This method is intended to be called by the ImageProducer
+ of the Image whose pixels are being filtered.  Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setPixels in interface ImageConsumer
+Parameters:
+x - the X coordinate of the upper-left corner of the
+        area of pixels to be set
+y - the Y coordinate of the upper-left corner of the
+        area of pixels to be set
+w - the width of the area of pixels
+h - the height of the area of pixels
+model - the specified ColorModel
+pixels - the array of pixels
+off - the offset into the pixels array
+scansize - the distance from one row of pixels to the next in
+ the pixels array
+See Also:
+ImageConsumer.setPixels(int, int, int, int, java.awt.image.ColorModel, byte[], int, int)
+
+
+"
+23,ImageFilter,2,void setColorModel(ColorModel model),True,,"
+
+setColorModel
+public void setColorModel(ColorModel model)
+Filter the information provided in the setColorModel method
+ of the ImageConsumer interface.
+ 
+ Note: This method is intended to be called by the ImageProducer
+ of the Image whose pixels are being filtered.  Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setColorModel in interface ImageConsumer
+Parameters:
+model - the specified ColorModel
+See Also:
+ImageConsumer.setColorModel(java.awt.image.ColorModel)
+
+
+"
+23,ImageFilter,3,void setHints(int hints),True,,"
+
+setHints
+public void setHints(int hints)
+Filters the information provided in the setHints method
+ of the ImageConsumer interface.
+ 
+ Note: This method is intended to be called by the ImageProducer
+ of the Image whose pixels are being filtered.  Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setHints in interface ImageConsumer
+Parameters:
+hints - a set of hints that the ImageConsumer uses to
+        process the pixels
+See Also:
+ImageConsumer.setHints(int)
+
+
+"
+23,ImageFilter,4,"void setDimensions(int width, int height)",True,,"
+
+setDimensions
+public void setDimensions(int width,
+                          int height)
+Filters the information provided in the setDimensions method
+ of the ImageConsumer interface.
+ 
+ Note: This method is intended to be called by the ImageProducer
+ of the Image whose pixels are being filtered.  Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setDimensions in interface ImageConsumer
+Parameters:
+width - the width of the source image
+height - the height of the source image
+See Also:
+ImageConsumer.setDimensions(int, int)
+
+
+"
+23,ImageFilter,5,void imageComplete(int status),True,,"
+
+imageComplete
+public void imageComplete(int status)
+Filters the information provided in the imageComplete method of
+ the ImageConsumer interface.
+ 
+ Note: This method is intended to be called by the ImageProducer
+ of the Image whose pixels are being filtered.  Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+imageComplete in interface ImageConsumer
+Parameters:
+status - the status of image loading
+See Also:
+ImageConsumer.imageComplete(int)
+
+
+"
+24,IndexColorModel,1,int getRed(int pixel),True,,"
+
+getRed
+public final int getRed(int pixel)
+Returns the red color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  The pixel value
+ is specified as an int.
+ Only the lower n bits of the pixel value, as specified in the
+ class description above, are used to
+ calculate the returned value.
+ The returned value is a non pre-multiplied value.
+
+Specified by:
+getRed in class ColorModel
+Parameters:
+pixel - the specified pixel
+Returns:
+the value of the red color component for the specified pixel
+
+
+"
+24,IndexColorModel,2,int getGreen(int pixel),True,,"
+
+getGreen
+public final int getGreen(int pixel)
+Returns the green color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  The pixel value
+ is specified as an int.
+ Only the lower n bits of the pixel value, as specified in the
+ class description above, are used to
+ calculate the returned value.
+ The returned value is a non pre-multiplied value.
+
+Specified by:
+getGreen in class ColorModel
+Parameters:
+pixel - the specified pixel
+Returns:
+the value of the green color component for the specified pixel
+
+
+"
+24,IndexColorModel,3,int getBlue(int pixel),True,,"
+
+getBlue
+public final int getBlue(int pixel)
+Returns the blue color component for the specified pixel, scaled
+ from 0 to 255 in the default RGB ColorSpace, sRGB.  The pixel value
+ is specified as an int.
+ Only the lower n bits of the pixel value, as specified in the
+ class description above, are used to
+ calculate the returned value.
+ The returned value is a non pre-multiplied value.
+
+Specified by:
+getBlue in class ColorModel
+Parameters:
+pixel - the specified pixel
+Returns:
+the value of the blue color component for the specified pixel
+
+
+"
+24,IndexColorModel,4,int getAlpha(int pixel),True,,"
+
+getAlpha
+public final int getAlpha(int pixel)
+Returns the alpha component for the specified pixel, scaled
+ from 0 to 255.  The pixel value is specified as an int.
+ Only the lower n bits of the pixel value, as specified in the
+ class description above, are used to
+ calculate the returned value.
+
+Specified by:
+getAlpha in class ColorModel
+Parameters:
+pixel - the specified pixel
+Returns:
+the value of the alpha component for the specified pixel
+
+
+"
+24,IndexColorModel,5,int getTransparentPixel(),True,,"
+
+getTransparentPixel
+public final int getTransparentPixel()
+Returns the index of a transparent pixel in this
+ IndexColorModel or -1 if there is no pixel
+ with an alpha value of 0.  If a transparent pixel was
+ explicitly specified in one of the constructors by its
+ index, then that index will be preferred, otherwise,
+ the index of any pixel which happens to be fully transparent
+ may be returned.
+
+Returns:
+the index of a transparent pixel in this
+         IndexColorModel object, or -1 if there
+         is no such pixel
+
+
+"
+25,Kernel,1,int getWidth(),True,,"
+
+getWidth
+public final int getWidth()
+Returns the width of this Kernel.
+
+Returns:
+the width of this Kernel.
+
+
+"
+25,Kernel,2,int getHeight(),True,,"
+
+getHeight
+public final int getHeight()
+Returns the height of this Kernel.
+
+Returns:
+the height of this Kernel.
+
+
+"
+25,Kernel,3,float[] getKernelData(float[] data),True,,"
+
+getKernelData
+public final float[] getKernelData(float[] data)
+Returns the kernel data in row major order.
+ The data array is returned.  If data
+ is null, a new array is allocated.
+
+Parameters:
+data - if non-null, contains the returned kernel data
+Returns:
+the data array containing the kernel data
+         in row major order or, if data is
+         null, a newly allocated array containing
+         the kernel data in row major order
+Throws:
+IllegalArgumentException - if data is less
+         than the size of this Kernel
+
+
+"
+25,Kernel,4,void setKernelData(float[] data),False,,NULL
+25,Kernel,5,"Kernel(int width, int height, float[] data)",False,,NULL
+26,LookupOp,1,"BufferedImage filter(BufferedImage src, BufferedImage dest)",True,,"
+
+filter
+public final BufferedImage filter(BufferedImage src,
+                                  BufferedImage dst)
+Performs a lookup operation on a BufferedImage.
+ If the color model in the source image is not the same as that
+ in the destination image, the pixels will be converted
+ in the destination.  If the destination image is null,
+ a BufferedImage will be created with an appropriate
+ ColorModel.  An IllegalArgumentException
+ might be thrown if the number of arrays in the
+ LookupTable does not meet the restrictions
+ stated in the class comment above, or if the source image
+ has an IndexColorModel.
+
+Specified by:
+filter in interface BufferedImageOp
+Parameters:
+src - the BufferedImage to be filtered
+dst - the BufferedImage in which to
+            store the results of the filter operation
+Returns:
+the filtered BufferedImage.
+Throws:
+IllegalArgumentException - if the number of arrays in the
+         LookupTable does not meet the restrictions
+         described in the class comments, or if the source image
+         has an IndexColorModel.
+
+
+"
+26,LookupOp,2,"int[] lookupPixel(int[] src, int[] dest)",False,,NULL
+26,LookupOp,3,void setTable(int[] table),False,,NULL
+26,LookupOp,4,int[] getTable(),False,,NULL
+26,LookupOp,5,void setDest(BufferedImage dest),False,,NULL
+27,LookupTable,1,int getNumComponents(),True,,"
+
+getNumComponents
+public int getNumComponents()
+Returns the number of components in the lookup table.
+
+Returns:
+the number of components in this LookupTable.
+
+
+"
+27,LookupTable,2,int[] getOffsets(),False,,NULL
+27,LookupTable,3,int[] getComponentSize(),False,,NULL
+27,LookupTable,4,int[][] getTable(),False,,NULL
+27,LookupTable,5,void setTable(int[][] table),False,,NULL
+28,MemoryImageSource,1,void setAnimated(boolean animated),True,,"
+
+setAnimated
+public void setAnimated(boolean animated)
+Changes this memory image into a multi-frame animation or a
+ single-frame static image depending on the animated parameter.
+ This method should be called immediately after the
+ MemoryImageSource is constructed and before an image is
+ created with it to ensure that all ImageConsumers will
+ receive the correct multi-frame data.  If an ImageConsumer
+ is added to this ImageProducer before this flag is set then
+ that ImageConsumer will see only a snapshot of the pixel
+ data that was available when it connected.
+
+Parameters:
+animated - true if the image is a
+       multi-frame animation
+
+
+"
+28,MemoryImageSource,2,void setFullBufferUpdates(boolean fullbuffers),True,,"
+
+setFullBufferUpdates
+public void setFullBufferUpdates(boolean fullbuffers)
+Specifies whether this animated memory image should always be
+ updated by sending the complete buffer of pixels whenever
+ there is a change.
+ This flag is ignored if the animation flag is not turned on
+ through the setAnimated() method.
+ This method should be called immediately after the
+ MemoryImageSource is constructed and before an image is
+ created with it to ensure that all ImageConsumers will
+ receive the correct pixel delivery hints.
+
+Parameters:
+fullbuffers - true if the complete pixel
+             buffer should always
+ be sent
+See Also:
+setAnimated(boolean)
+
+
+"
+28,MemoryImageSource,3,void setHints(int hints),False,,NULL
+28,MemoryImageSource,4,"void setPixels(int x, int y, int w, int h, ColorModel model, int[] pixels, int off, int scansize)",False,,NULL
+28,MemoryImageSource,5,"void setProperties(Hashtable<?, ?> props)",False,,NULL
+29,MultiPixelPackedSampleModel,1,int getNumBands(),False,,NULL
+29,MultiPixelPackedSampleModel,2,int getSampleSize(int band),True,,"
+
+getSampleSize
+public int getSampleSize(int band)
+Returns the number of bits per sample for the specified band.
+
+Specified by:
+getSampleSize in class SampleModel
+Parameters:
+band - the specified band
+Returns:
+the number of bits per sample for the specified band.
+
+
+"
+29,MultiPixelPackedSampleModel,3,int getScanlineStride(),True,,"
+
+getScanlineStride
+public int getScanlineStride()
+Returns the scanline stride.
+
+Returns:
+the scanline stride of this
+ MultiPixelPackedSampleModel.
+
+
+"
+29,MultiPixelPackedSampleModel,4,int getPixelBitStride(),True,,"
+
+getPixelBitStride
+public int getPixelBitStride()
+Returns the pixel bit stride in bits.  This value is the same as
+ the number of bits per pixel.
+
+Returns:
+the pixelBitStride of this
+ MultiPixelPackedSampleModel.
+
+
+"
+29,MultiPixelPackedSampleModel,5,"int getOffset(int x, int y)",True,,"
+
+getOffset
+public int getOffset(int x,
+                     int y)
+Returns the offset of pixel (x, y) in data array elements.
+
+Parameters:
+x - the X coordinate of the specified pixel
+y - the Y coordinate of the specified pixel
+Returns:
+the offset of the specified pixel.
+
+
+"
+30,PackedColorModel,1,int getAlpha(int pixel),False,,NULL
+30,PackedColorModel,2,int getBlue(int pixel),False,,NULL
+30,PackedColorModel,3,int getGreen(int pixel),False,,NULL
+30,PackedColorModel,4,int getRed(int pixel),False,,NULL
+30,PackedColorModel,5,"int getRGB(int r, int g, int b)",False,,NULL
+31,PixelGrabber,1,int getWidth(),True,,"
+
+getWidth
+public int getWidth()
+Get the width of the pixel buffer (after adjusting for image width).
+ If no width was specified for the rectangle of pixels to grab then
+ then this information will only be available after the image has
+ delivered the dimensions.
+
+Returns:
+the final width used for the pixel buffer or -1 if the width
+ is not yet known
+See Also:
+getStatus()
+
+
+"
+31,PixelGrabber,2,int getHeight(),True,,"
+
+getHeight
+public int getHeight()
+Get the height of the pixel buffer (after adjusting for image height).
+ If no width was specified for the rectangle of pixels to grab then
+ then this information will only be available after the image has
+ delivered the dimensions.
+
+Returns:
+the final height used for the pixel buffer or -1 if the height
+ is not yet known
+See Also:
+getStatus()
+
+
+"
+31,PixelGrabber,3,int[] getPixels(),False,,NULL
+31,PixelGrabber,4,boolean grabPixels(),True,,"
+
+grabPixels
+public boolean grabPixels()
+                   throws InterruptedException
+Request the Image or ImageProducer to start delivering pixels and
+ wait for all of the pixels in the rectangle of interest to be
+ delivered.
+
+Returns:
+true if the pixels were successfully grabbed, false on
+ abort, error or timeout
+Throws:
+InterruptedException - Another thread has interrupted this thread.
+
+
+"
+31,PixelGrabber,5,"void setDimensions(int width, int height)",True,,"
+
+setDimensions
+public void setDimensions(int width,
+                          int height)
+The setDimensions method is part of the ImageConsumer API which
+ this class must implement to retrieve the pixels.
+ 
+ Note: This method is intended to be called by the ImageProducer
+ of the Image whose pixels are being grabbed.  Developers using
+ this class to retrieve pixels from an image should avoid calling
+ this method directly since that operation could result in problems
+ with retrieving the requested pixels.
+
+Specified by:
+setDimensions in interface ImageConsumer
+Parameters:
+width - the width of the dimension
+height - the height of the dimension
+
+
+"
+32,PixelInterleavedSampleModel,1,int getNumBands(),False,,NULL
+32,PixelInterleavedSampleModel,2,int getNumDataElements(),False,,NULL
+32,PixelInterleavedSampleModel,3,int[] getBandOffsets(),False,,NULL
+32,PixelInterleavedSampleModel,4,int[] getPixelStride(),False,,NULL
+32,PixelInterleavedSampleModel,5,int[] getScanlineStride(),False,,NULL
+33,Raster,1,int getWidth(),True,,"
+
+getWidth
+public final int getWidth()
+Returns the width in pixels of the Raster.
+
+Returns:
+the width of this Raster.
+
+
+"
+33,Raster,2,int getHeight(),True,,"
+
+getHeight
+public final int getHeight()
+Returns the height in pixels of the Raster.
+
+Returns:
+the height of this Raster.
+
+
+"
+33,Raster,3,"int[] getPixel(int x, int y, int[] iArray)",True,,"
+
+getPixel
+public int[] getPixel(int x,
+                      int y,
+                      int[] iArray)
+Returns the samples in an array of int for the specified pixel.
+ An ArrayIndexOutOfBoundsException may be thrown
+ if the coordinates are not in bounds.  However, explicit bounds
+ checking is not guaranteed.
+
+Parameters:
+x - The X coordinate of the pixel location
+y - The Y coordinate of the pixel location
+iArray - An optionally preallocated int array
+Returns:
+the samples for the specified pixel.
+Throws:
+ArrayIndexOutOfBoundsException - if the coordinates are not
+ in bounds, or if iArray is too small to hold the output.
+
+
+"
+33,Raster,4,"void setPixel(int x, int y, int[] iArray)",False,,NULL
+33,Raster,5,WritableRaster createCompatibleWritableRaster(),True,,"
+
+createCompatibleWritableRaster
+public WritableRaster createCompatibleWritableRaster()
+Create a compatible WritableRaster the same size as this Raster with
+ the same SampleModel and a new initialized DataBuffer.
+
+Returns:
+a compatible WritableRaster with the same sample
+         model and a new data buffer.
+
+
+"
+34,ReplicateScaleFilter,1,void setHints(int hints),False,,NULL
+34,ReplicateScaleFilter,2,int getHints(),False,,NULL
+34,ReplicateScaleFilter,3,"void setPixels(int x, int y, int w, int h, ColorModel model, int[] pixels, int off, int scansize)",True,,"
+
+setPixels
+public void setPixels(int x,
+                      int y,
+                      int w,
+                      int h,
+                      ColorModel model,
+                      int[] pixels,
+                      int off,
+                      int scansize)
+Choose which rows and columns of the delivered int pixels are
+ needed for the destination scaled image and pass through just
+ those rows and columns that are needed, replicated as necessary.
+ 
+ Note: This method is intended to be called by the
+ ImageProducer of the Image whose pixels
+ are being filtered. Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setPixels in interface ImageConsumer
+Overrides:
+setPixels in class ImageFilter
+Parameters:
+x - the X coordinate of the upper-left corner of the
+        area of pixels to be set
+y - the Y coordinate of the upper-left corner of the
+        area of pixels to be set
+w - the width of the area of pixels
+h - the height of the area of pixels
+model - the specified ColorModel
+pixels - the array of pixels
+off - the offset into the pixels array
+scansize - the distance from one row of pixels to the next in
+ the pixels array
+See Also:
+ImageConsumer.setPixels(int, int, int, int, java.awt.image.ColorModel, byte[], int, int)
+
+
+"
+34,ReplicateScaleFilter,4,"void setPixels(int x, int y, int w, int h, ColorModel model, byte[] pixels, int off, int scansize)",True,,"
+
+setPixels
+public void setPixels(int x,
+                      int y,
+                      int w,
+                      int h,
+                      ColorModel model,
+                      byte[] pixels,
+                      int off,
+                      int scansize)
+Choose which rows and columns of the delivered byte pixels are
+ needed for the destination scaled image and pass through just
+ those rows and columns that are needed, replicated as necessary.
+ 
+ Note: This method is intended to be called by the
+ ImageProducer of the Image whose pixels
+ are being filtered. Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setPixels in interface ImageConsumer
+Overrides:
+setPixels in class ImageFilter
+Parameters:
+x - the X coordinate of the upper-left corner of the
+        area of pixels to be set
+y - the Y coordinate of the upper-left corner of the
+        area of pixels to be set
+w - the width of the area of pixels
+h - the height of the area of pixels
+model - the specified ColorModel
+pixels - the array of pixels
+off - the offset into the pixels array
+scansize - the distance from one row of pixels to the next in
+ the pixels array
+See Also:
+ImageConsumer.setPixels(int, int, int, int, java.awt.image.ColorModel, byte[], int, int)
+
+
+"
+34,ReplicateScaleFilter,5,"void setPixels(int x, int y, int w, int h, ColorModel model, int[] pixels, int off, int scansize)",True,,"
+
+setPixels
+public void setPixels(int x,
+                      int y,
+                      int w,
+                      int h,
+                      ColorModel model,
+                      int[] pixels,
+                      int off,
+                      int scansize)
+Choose which rows and columns of the delivered int pixels are
+ needed for the destination scaled image and pass through just
+ those rows and columns that are needed, replicated as necessary.
+ 
+ Note: This method is intended to be called by the
+ ImageProducer of the Image whose pixels
+ are being filtered. Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setPixels in interface ImageConsumer
+Overrides:
+setPixels in class ImageFilter
+Parameters:
+x - the X coordinate of the upper-left corner of the
+        area of pixels to be set
+y - the Y coordinate of the upper-left corner of the
+        area of pixels to be set
+w - the width of the area of pixels
+h - the height of the area of pixels
+model - the specified ColorModel
+pixels - the array of pixels
+off - the offset into the pixels array
+scansize - the distance from one row of pixels to the next in
+ the pixels array
+See Also:
+ImageConsumer.setPixels(int, int, int, int, java.awt.image.ColorModel, byte[], int, int)
+
+
+"
+35,RescaleOp,1,"BufferedImage filter(BufferedImage src, BufferedImage dest)",True,,"
+
+filter
+public final BufferedImage filter(BufferedImage src,
+                                  BufferedImage dst)
+Rescales the source BufferedImage.
+ If the color model in the source image is not the same as that
+ in the destination image, the pixels will be converted
+ in the destination.  If the destination image is null,
+ a BufferedImage will be created with the source ColorModel.
+ An IllegalArgumentException may be thrown if the number of
+ scaling factors/offsets in this object does not meet the
+ restrictions stated in the class comments above, or if the
+ source image has an IndexColorModel.
+
+Specified by:
+filter in interface BufferedImageOp
+Parameters:
+src - the BufferedImage to be filtered
+dst - the destination for the filtering operation
+            or null
+Returns:
+the filtered BufferedImage.
+Throws:
+IllegalArgumentException - if the ColorModel
+         of src is an IndexColorModel,
+         or if the number of scaling factors and offsets in this
+         RescaleOp do not meet the requirements
+         stated in the class comments.
+
+
+"
+35,RescaleOp,2,"BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM)",True,,"
+
+createCompatibleDestImage
+public BufferedImage createCompatibleDestImage(BufferedImage src,
+                                               ColorModel destCM)
+Creates a zeroed destination image with the correct size and number of
+ bands.
+
+Specified by:
+createCompatibleDestImage in interface BufferedImageOp
+Parameters:
+src - Source image for the filter operation.
+destCM - ColorModel of the destination.  If null, the
+                  ColorModel of the source will be used.
+Returns:
+the zeroed-destination image.
+
+
+"
+35,RescaleOp,3,"Raster filter(Raster src, WritableRaster dest)",False,,NULL
+35,RescaleOp,4,"Point2D getPoint2D(Point2D srcPt, Point2D dstPt)",True,,"
+
+getPoint2D
+public final Point2D getPoint2D(Point2D srcPt,
+                                Point2D dstPt)
+Returns the location of the destination point given a
+ point in the source.  If dstPt is non-null, it will
+ be used to hold the return value.  Since this is not a geometric
+ operation, the srcPt will equal the dstPt.
+
+Specified by:
+getPoint2D in interface BufferedImageOp
+Specified by:
+getPoint2D in interface RasterOp
+Parameters:
+srcPt - a point in the source image
+dstPt - the destination point or null
+Returns:
+the location of the destination point.
+
+
+"
+35,RescaleOp,5,Rectangle2D getBounds2D(BufferedImage src),True,,"
+
+getBounds2D
+public final Rectangle2D getBounds2D(BufferedImage src)
+Returns the bounding box of the rescaled destination image.  Since
+ this is not a geometric operation, the bounding box does not
+ change.
+
+Specified by:
+getBounds2D in interface BufferedImageOp
+Parameters:
+src - The BufferedImage to be filtered
+Returns:
+The Rectangle2D representing the destination
+ image's bounding box.
+
+
+"
+36,RGBImageFilter,1,"void setDimensions(int width, int height)",False,,NULL
+36,RGBImageFilter,2,"void setPixels(int x, int y, int w, int h, ColorModel model, byte[] pixels, int off, int scansize)",True,,"
+
+setPixels
+public void setPixels(int x,
+                      int y,
+                      int w,
+                      int h,
+                      ColorModel model,
+                      byte[] pixels,
+                      int off,
+                      int scansize)
+If the ColorModel object is the same one that has already
+ been converted, then simply passes the pixels through with the
+ converted ColorModel. Otherwise converts the buffer of byte
+ pixels to the default RGB ColorModel and passes the converted
+ buffer to the filterRGBPixels method to be converted one by one.
+ 
+ Note: This method is intended to be called by the
+ ImageProducer of the Image whose pixels
+ are being filtered. Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setPixels in interface ImageConsumer
+Overrides:
+setPixels in class ImageFilter
+Parameters:
+x - the X coordinate of the upper-left corner of the
+        area of pixels to be set
+y - the Y coordinate of the upper-left corner of the
+        area of pixels to be set
+w - the width of the area of pixels
+h - the height of the area of pixels
+model - the specified ColorModel
+pixels - the array of pixels
+off - the offset into the pixels array
+scansize - the distance from one row of pixels to the next in
+ the pixels array
+See Also:
+ColorModel.getRGBdefault(), 
+filterRGBPixels(int, int, int, int, int[], int, int)
+
+
+"
+36,RGBImageFilter,3,"void setPixels(int x, int y, int w, int h, ColorModel model, int[] pixels, int off, int scansize)",True,,"
+
+setPixels
+public void setPixels(int x,
+                      int y,
+                      int w,
+                      int h,
+                      ColorModel model,
+                      int[] pixels,
+                      int off,
+                      int scansize)
+If the ColorModel object is the same one that has already
+ been converted, then simply passes the pixels through with the
+ converted ColorModel, otherwise converts the buffer of integer
+ pixels to the default RGB ColorModel and passes the converted
+ buffer to the filterRGBPixels method to be converted one by one.
+ Converts a buffer of integer pixels to the default RGB ColorModel
+ and passes the converted buffer to the filterRGBPixels method.
+ 
+ Note: This method is intended to be called by the
+ ImageProducer of the Image whose pixels
+ are being filtered. Developers using
+ this class to filter pixels from an image should avoid calling
+ this method directly since that operation could interfere
+ with the filtering operation.
+
+Specified by:
+setPixels in interface ImageConsumer
+Overrides:
+setPixels in class ImageFilter
+Parameters:
+x - the X coordinate of the upper-left corner of the
+        area of pixels to be set
+y - the Y coordinate of the upper-left corner of the
+        area of pixels to be set
+w - the width of the area of pixels
+h - the height of the area of pixels
+model - the specified ColorModel
+pixels - the array of pixels
+off - the offset into the pixels array
+scansize - the distance from one row of pixels to the next in
+ the pixels array
+See Also:
+ColorModel.getRGBdefault(), 
+filterRGBPixels(int, int, int, int, int[], int, int)
+
+
+"
+36,RGBImageFilter,4,"void substituteColorModel(ColorModel model, ColorModel newmodel)",True,,"
+
+substituteColorModel
+public void substituteColorModel(ColorModel oldcm,
+                                 ColorModel newcm)
+Registers two ColorModel objects for substitution.  If the oldcm
+ is encountered during any of the setPixels methods, the newcm
+ is substituted and the pixels passed through
+ untouched (but with the new ColorModel object).
+
+Parameters:
+oldcm - the ColorModel object to be replaced on the fly
+newcm - the ColorModel object to replace oldcm on the fly
+
+
+"
+36,RGBImageFilter,5,void substitutePixels(UnpackedImage img),False,,NULL
+37,SampleModel,1,int getNumBands(),True,,"
+
+getNumBands
+public final int getNumBands()
+Returns the total number of bands of image data.
+
+Returns:
+the number of bands of image data that this
+          SampleModel describes.
+
+
+"
+37,SampleModel,2,int getNumDataElements(),True,,"
+
+getNumDataElements
+public abstract int getNumDataElements()
+Returns the number of data elements needed to transfer a pixel
+  via the getDataElements and setDataElements methods.  When pixels
+  are transferred via these methods, they may be transferred in a
+  packed or unpacked format, depending on the implementation of the
+  SampleModel.  Using these methods, pixels are transferred as an
+  array of getNumDataElements() elements of a primitive type given
+  by getTransferType().  The TransferType may or may not be the same
+  as the storage DataType.
+
+Returns:
+the number of data elements.
+See Also:
+getDataElements(int, int, Object, DataBuffer), 
+getDataElements(int, int, int, int, Object, DataBuffer), 
+setDataElements(int, int, Object, DataBuffer), 
+setDataElements(int, int, int, int, Object, DataBuffer), 
+getTransferType()
+
+
+"
+37,SampleModel,3,int getSampleSize(int band),True,,"
+
+getSampleSize
+public abstract int getSampleSize(int band)
+Returns the size in bits of samples for the specified band.
+
+Parameters:
+band - the specified band
+Returns:
+the size of the samples of the specified band.
+
+
+"
+37,SampleModel,4,int[] getSampleSize(),True,,"
+
+getSampleSize
+public abstract int[] getSampleSize()
+Returns the size in bits of samples for all bands.
+
+Returns:
+the size of samples for all bands.
+
+
+"
+37,SampleModel,5,"int[] getPixel(int x, int y, int[] iArray)",False,,NULL
+38,ShortLookupTable,1,int[] getOffsets(),False,,NULL
+38,ShortLookupTable,2,int[][] getTable(),False,,NULL
+38,ShortLookupTable,3,"ShortLookupTable(int offset, short[][] data)",False,,NULL
+38,ShortLookupTable,4,int getNumComponents(),False,,NULL
+38,ShortLookupTable,5,ShortLookupTable createInverse(),False,,NULL
+39,SinglePixelPackedSampleModel,1,"int[] getPixel(int x, int y, int[] iArray)",False,,NULL
+39,SinglePixelPackedSampleModel,2,"int getSample(int x, int y, int b, DataBuffer data)",True,,"
+
+getSample
+public int getSample(int x,
+                     int y,
+                     int b,
+                     DataBuffer data)
+Returns as int the sample in a specified band for the pixel
+ located at (x,y).
+ ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+ not in bounds.
+
+Specified by:
+getSample in class SampleModel
+Parameters:
+x - The X coordinate of the pixel location.
+y - The Y coordinate of the pixel location.
+b - The band to return.
+data - The DataBuffer containing the image data.
+Returns:
+the sample in a specified band for the specified
+         pixel.
+See Also:
+setSample(int, int, int, int, DataBuffer)
+
+
+"
+39,SinglePixelPackedSampleModel,3,"int[] getSamples(int x, int y, int w, int h, int b, int[] iArray, DataBuffer data)",True,,"
+
+getSamples
+public int[] getSamples(int x,
+                        int y,
+                        int w,
+                        int h,
+                        int b,
+                        int[] iArray,
+                        DataBuffer data)
+Returns the samples for a specified band for the specified rectangle
+ of pixels in an int array, one sample per array element.
+ ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+ not in bounds.
+
+Overrides:
+getSamples in class SampleModel
+Parameters:
+x - The X coordinate of the upper left pixel location.
+y - The Y coordinate of the upper left pixel location.
+w - The width of the pixel rectangle.
+h - The height of the pixel rectangle.
+b - The band to return.
+iArray - If non-null, returns the samples in this array.
+data - The DataBuffer containing the image data.
+Returns:
+the samples for the specified band for the specified
+         region of pixels.
+See Also:
+setSamples(int, int, int, int, int, int[], DataBuffer)
+
+
+"
+39,SinglePixelPackedSampleModel,4,"void setDataElements(int x, int y, Object obj, DataBuffer data)",True,,"
+
+setDataElements
+public void setDataElements(int x,
+                            int y,
+                            Object obj,
+                            DataBuffer data)
+Sets the data for a single pixel in the specified DataBuffer from a
+ primitive array of type TransferType.  For a
+ SinglePixelPackedSampleModel, only the first element of the array
+ will hold valid data, and the type of the array must be the same as
+ the storage data type of the SinglePixelPackedSampleModel.
+ 
+ The following code illustrates transferring data for one pixel from
+ DataBuffer db1, whose storage layout is described by
+ SinglePixelPackedSampleModel sppsm1,
+ to DataBuffer db2, whose storage layout is described by
+ SinglePixelPackedSampleModel sppsm2.
+ The transfer will generally be more efficient than using
+ getPixel/setPixel.
+ 
+       SinglePixelPackedSampleModel sppsm1, sppsm2;
+       DataBufferInt db1, db2;
+       sppsm2.setDataElements(x, y, sppsm1.getDataElements(x, y, null,
+                              db1), db2);
+ 
+ Using getDataElements/setDataElements to transfer between two
+ DataBuffer/SampleModel pairs is legitimate if the SampleModels have
+ the same number of bands, corresponding bands have the same number of
+ bits per sample, and the TransferTypes are the same.
+ 
+ obj must be a primitive array of type TransferType.  Otherwise,
+ a ClassCastException is thrown.  An
+ ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+ not in bounds, or if obj is not large enough to hold the pixel data.
+
+Specified by:
+setDataElements in class SampleModel
+Parameters:
+x - The X coordinate of the pixel location.
+y - The Y coordinate of the pixel location.
+obj - A primitive array containing pixel data.
+data - The DataBuffer containing the image data.
+See Also:
+getDataElements(int, int, Object, DataBuffer)
+
+
+"
+39,SinglePixelPackedSampleModel,5,"void setPixel(int x, int y, int[] iArray, DataBuffer data)",True,,"
+
+setPixel
+public void setPixel(int x,
+                     int y,
+                     int[] iArray,
+                     DataBuffer data)
+Sets a pixel in the DataBuffer using an int array of samples for input.
+ ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+ not in bounds.
+
+Overrides:
+setPixel in class SampleModel
+Parameters:
+x - The X coordinate of the pixel location.
+y - The Y coordinate of the pixel location.
+iArray - The input samples in an int array.
+data - The DataBuffer containing the image data.
+See Also:
+getPixel(int, int, int[], DataBuffer)
+
+
+"
+40,VolatileImage,1,Graphics2D createGraphics(),True,,"
+
+createGraphics
+public abstract Graphics2D createGraphics()
+Creates a Graphics2D, which can be used to draw into
+ this VolatileImage.
+
+Returns:
+a Graphics2D, used for drawing into this
+          image.
+
+
+"
+40,VolatileImage,2,int validate(GraphicsConfiguration gc),True,,"
+
+validate
+public abstract int validate(GraphicsConfiguration gc)
+Attempts to restore the drawing surface of the image if the surface
+ had been lost since the last validate call.  Also
+ validates this image against the given GraphicsConfiguration
+ parameter to see whether operations from this image to the
+ GraphicsConfiguration are compatible.  An example of an
+ incompatible combination might be a situation where a VolatileImage
+ object was created on one graphics device and then was used
+ to render to a different graphics device.  Since VolatileImage
+ objects tend to be very device-specific, this operation might
+ not work as intended, so the return code from this validate
+ call would note that incompatibility.  A null or incorrect
+ value for gc may cause incorrect values to be returned from
+ validate and may cause later problems with rendering.
+
+Parameters:
+gc - a GraphicsConfiguration object for this
+          image to be validated against.  A null gc implies that the
+          validate method should skip the compatibility test.
+Returns:
+IMAGE_OK if the image did not need validation
+IMAGE_RESTORED if the image needed restoration.
+          Restoration implies that the contents of the image may have
+          been affected and the image may need to be re-rendered.
+IMAGE_INCOMPATIBLE if the image is incompatible
+          with the GraphicsConfiguration object passed
+          into the validate method.  Incompatibility
+          implies that the image may need to be recreated with a
+          new Component or
+          GraphicsConfiguration in order to get an image
+          that can be used successfully with this
+          GraphicsConfiguration.
+          An incompatible image is not checked for whether restoration
+          was necessary, so the state of the image is unchanged
+          after a return value of IMAGE_INCOMPATIBLE
+          and this return value implies nothing about whether the
+          image needs to be restored.
+See Also:
+GraphicsConfiguration, 
+Component, 
+IMAGE_OK, 
+IMAGE_RESTORED, 
+IMAGE_INCOMPATIBLE
+
+
+"
+40,VolatileImage,3,void flush(),False,,NULL
+40,VolatileImage,4,boolean contentsLost(),True,,"
+
+contentsLost
+public abstract boolean contentsLost()
+Returns true if rendering data was lost since last
+ validate call.  This method should be called by the
+ application at the end of any series of rendering operations to
+ or from the image to see whether
+ the image needs to be validated and the rendering redone.
+
+Returns:
+true if the drawing surface needs to be restored;
+ false otherwise.
+
+
+"
+40,VolatileImage,5,ImageCapabilities getCapabilities(),True,,"
+
+getCapabilities
+public abstract ImageCapabilities getCapabilities()
+Returns an ImageCapabilities object which can be
+ inquired as to the specific capabilities of this
+ VolatileImage.  This would allow programmers to find
+ out more runtime information on the specific VolatileImage
+ object that they have created.  For example, the user
+ might create a VolatileImage but the system may have
+ no video memory left for creating an image of that
+ size, so although the object is a VolatileImage, it is
+ not as accelerated as other VolatileImage objects on
+ this platform might be.  The user might want that
+ information to find other solutions to their problem.
+
+Returns:
+an ImageCapabilities object that contains
+         the capabilities of this VolatileImage.
+Since:
+1.4
+
+
+"
+41,WritableRaster,1,"void setPixel(int x, int y, int[] iArray)",True,,"
+
+setPixel
+public void setPixel(int x,
+                     int y,
+                     int[] iArray)
+Sets a pixel in the DataBuffer using an int array of samples for input.
+ An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+ not in bounds.
+ However, explicit bounds checking is not guaranteed.
+
+Parameters:
+x - The X coordinate of the pixel location.
+y - The Y coordinate of the pixel location.
+iArray - The input samples in a int array.
+Throws:
+NullPointerException - if iArray is null.
+ArrayIndexOutOfBoundsException - if the coordinates are not
+ in bounds, or if iArray is too small to hold the input.
+
+
+"
+41,WritableRaster,2,"void setDataElements(int x, int y, Object obj)",True,,"
+
+setDataElements
+public void setDataElements(int x,
+                            int y,
+                            Object inData)
+Sets the data for a single pixel from a
+ primitive array of type TransferType.  For image data supported by
+ the Java 2D(tm) API, this will be one of DataBuffer.TYPE_BYTE,
+ DataBuffer.TYPE_USHORT, DataBuffer.TYPE_INT, DataBuffer.TYPE_SHORT,
+ DataBuffer.TYPE_FLOAT, or DataBuffer.TYPE_DOUBLE.  Data in the array
+ may be in a packed format, thus increasing efficiency for data
+ transfers.
+ An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+ not in bounds, or if inData is not large enough to hold the pixel data.
+ However, explicit bounds checking is not guaranteed.
+ A ClassCastException will be thrown if the input object is not null
+ and references anything other than an array of TransferType.
+
+Parameters:
+x - The X coordinate of the pixel location.
+y - The Y coordinate of the pixel location.
+inData - An object reference to an array of type defined by
+                 getTransferType() and length getNumDataElements()
+                 containing the pixel data to place at x,y.
+Throws:
+ArrayIndexOutOfBoundsException - if the coordinates are not
+ in bounds, or if inData is too small to hold the input.
+See Also:
+SampleModel.setDataElements(int, int, Object, DataBuffer)
+
+
+"
+41,WritableRaster,3,"void setPixels(int x, int y, int w, int h, int[] iArray)",True,,"
+
+setPixels
+public void setPixels(int x,
+                      int y,
+                      int w,
+                      int h,
+                      int[] iArray)
+Sets all samples for a rectangle of pixels from an int array containing
+ one sample per array element.
+ An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+ not in bounds.
+ However, explicit bounds checking is not guaranteed.
+
+Parameters:
+x - The X coordinate of the upper left pixel location.
+y - The Y coordinate of the upper left pixel location.
+w - Width of the pixel rectangle.
+h - Height of the pixel rectangle.
+iArray - The input int pixel array.
+Throws:
+NullPointerException - if iArray is null.
+ArrayIndexOutOfBoundsException - if the coordinates are not
+ in bounds, or if iArray is too small to hold the input.
+
+
+"
+41,WritableRaster,4,"void setDataElements(int x, int y, Raster raster)",True,,"
+
+setDataElements
+public void setDataElements(int x,
+                            int y,
+                            Raster inRaster)
+Sets the data for a rectangle of pixels from an input Raster.
+ The input Raster must be compatible with this WritableRaster
+ in that they must have the same number of bands, corresponding bands
+ must have the same number of bits per sample, the TransferTypes
+ and NumDataElements must be the same, and the packing used by
+ the getDataElements/setDataElements must be identical.
+ An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+ not in bounds.
+ However, explicit bounds checking is not guaranteed.
+
+Parameters:
+x - The X coordinate of the pixel location.
+y - The Y coordinate of the pixel location.
+inRaster - Raster containing data to place at x,y.
+Throws:
+NullPointerException - if inRaster is null.
+ArrayIndexOutOfBoundsException - if the coordinates are not
+ in bounds.
+
+
+"
+41,WritableRaster,5,"void setSamples(int x, int y, int w, int h, int b, int[] iArray)",True,,"
+
+setSamples
+public void setSamples(int x,
+                       int y,
+                       int w,
+                       int h,
+                       int b,
+                       int[] iArray)
+Sets the samples in the specified band for the specified rectangle
+ of pixels from an int array containing one sample per array element.
+ An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+ not in bounds.
+ However, explicit bounds checking is not guaranteed.
+
+Parameters:
+x - The X coordinate of the upper left pixel location.
+y - The Y coordinate of the upper left pixel location.
+w - Width of the pixel rectangle.
+h - Height of the pixel rectangle.
+b - The band to set.
+iArray - The input int sample array.
+Throws:
+NullPointerException - if iArray is null.
+ArrayIndexOutOfBoundsException - if the coordinates or
+ the band index are not in bounds, or if iArray is too small to
+ hold the input.
+
+
+"

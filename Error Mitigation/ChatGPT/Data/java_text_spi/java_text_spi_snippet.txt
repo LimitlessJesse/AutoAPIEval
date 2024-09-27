@@ -1,0 +1,318 @@
+Sample: 0 BreakIteratorProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.BreakIterator;
+import java.text.spi.BreakIteratorProvider;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        BreakIteratorProvider provider = new BreakIteratorProvider() {
+            @Override
+            public BreakIterator getWordInstance(Locale locale) {
+                if (locale == null) {
+                    throw new NullPointerException("Locale cannot be null");
+                }
+                // Implement logic to return BreakIterator instance for word breaks based on the locale
+                return BreakIterator.getWordInstance(locale);
+            }
+        };
+        
+        Locale locale = new Locale("en", "US");
+        BreakIterator wordIterator = provider.getWordInstance(locale);
+        // Use wordIterator for word breaks
+    }
+}
+```
+================================================================
+
+Sample: 1 BreakIteratorProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.BreakIterator;
+import java.text.spi.BreakIteratorProvider;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        BreakIteratorProvider provider = new BreakIteratorProvider() {
+            @Override
+            public BreakIterator getLineInstance(Locale locale) {
+                if (locale == null) {
+                    throw new NullPointerException("Locale cannot be null");
+                }
+                // Implement logic to return BreakIterator instance for line breaks
+                return BreakIterator.getLineInstance(locale);
+            }
+        };
+        
+        Locale locale = new Locale("en");
+        BreakIterator lineBreakIterator = provider.getLineInstance(locale);
+        // Use lineBreakIterator for line breaks
+    }
+}
+```
+================================================================
+
+Sample: 2 BreakIteratorProvider_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.BreakIterator;
+import java.util.Locale;
+import java.text.spi.BreakIteratorProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        BreakIteratorProvider provider = new BreakIteratorProvider() {
+            @Override
+            public BreakIterator getCharacterInstance(Locale locale) {
+                if (locale == null) {
+                    throw new NullPointerException("Locale cannot be null");
+                }
+                // Implement logic to return BreakIterator for character breaks based on the locale
+                return BreakIterator.getCharacterInstance(locale);
+            }
+        };
+        
+        Locale locale = new Locale("en_US");
+        BreakIterator breakIterator = provider.getCharacterInstance(locale);
+        // Use the breakIterator for character breaks
+    }
+}
+```
+================================================================
+
+Sample: 3 BreakIteratorProvider_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.BreakIterator;
+import java.text.spi.BreakIteratorProvider;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        BreakIteratorProvider provider = new BreakIteratorProvider() {
+            @Override
+            public BreakIterator getSentenceInstance(Locale locale) {
+                if (locale == null) {
+                    throw new NullPointerException("Locale cannot be null");
+                }
+                // Implement logic to return BreakIterator for sentence breaks based on the locale
+                return BreakIterator.getSentenceInstance(locale);
+            }
+        };
+        
+        Locale locale = new Locale("en", "US");
+        BreakIterator sentenceIterator = provider.getSentenceInstance(locale);
+        // Use the sentenceIterator for sentence breaking logic
+    }
+}
+```
+================================================================
+
+Sample: 4 CollatorProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.Collator;
+import java.util.Locale;
+import java.text.spi.CollatorProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        CollatorProvider provider = new CollatorProvider() {
+            @Override
+            public Collator getInstance(Locale locale) {
+                return Collator.getInstance(locale);
+            }
+        };
+        
+        Locale locale = new Locale("en", "US");
+        Collator collator = provider.getInstance(locale);
+        
+        System.out.println(collator.compare("apple", "banana"));
+    }
+}
+```
+================================================================
+
+Sample: 5 DateFormatProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.DateFormat;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, Locale.US);
+        System.out.println(dateFormat.format(new Date()));
+    }
+}
+```
+================================================================
+
+Sample: 6 DateFormatProvider_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.DateFormat;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        DateFormat df = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.US);
+        System.out.println(df.format(System.currentTimeMillis()));
+    }
+}
+```
+================================================================
+
+Sample: 7 DateFormatProvider_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.DateFormat;
+import java.text.spi.DateFormatProvider;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        DateFormatProvider provider = new DateFormatProvider() {
+            @Override
+            public DateFormat getDateTimeInstance(int dateStyle, int timeStyle, Locale locale) {
+                return DateFormat.getDateTimeInstance(dateStyle, timeStyle, locale);
+            }
+        };
+
+        DateFormat dateFormat = provider.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.US);
+        System.out.println(dateFormat.format(System.currentTimeMillis()));
+    }
+}
+```
+================================================================
+
+Sample: 8 DateFormatSymbolsProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.DateFormatSymbols;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        Locale locale = new Locale("en", "US");
+        DateFormatSymbols symbols = DateFormatSymbols.getInstance(locale);
+        String[] months = symbols.getMonths();
+        for (String month : months) {
+            System.out.println(month);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 DecimalFormatSymbolsProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.DecimalFormatSymbols;
+import java.text.spi.DecimalFormatSymbolsProvider;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        DecimalFormatSymbolsProvider provider = new DecimalFormatSymbolsProvider() {
+            @Override
+            public DecimalFormatSymbols getInstance(Locale locale) {
+                return new DecimalFormatSymbols(locale);
+            }
+        };
+        
+        Locale locale = new Locale("en", "US");
+        DecimalFormatSymbols symbols = provider.getInstance(locale);
+        
+        System.out.println("Decimal separator: " + symbols.getDecimalSeparator());
+        System.out.println("Grouping separator: " + symbols.getGroupingSeparator());
+    }
+}
+```
+================================================================
+
+Sample: 10 NumberFormatProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.NumberFormat;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
+        double value = 12345.67;
+        String formattedValue = numberFormat.format(value);
+        System.out.println("Formatted value: " + formattedValue);
+    }
+}
+```
+================================================================
+
+Sample: 11 NumberFormatProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.NumberFormat;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        Locale locale = Locale.US;
+        NumberFormat numberFormat = NumberFormat.getIntegerInstance(locale);
+        int number = 12345;
+        String formattedNumber = numberFormat.format(number);
+        System.out.println("Formatted Number: " + formattedNumber);
+    }
+}
+```
+================================================================
+
+Sample: 12 NumberFormatProvider_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.NumberFormat;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+        double number = 12345.67;
+        String formattedNumber = numberFormat.format(number);
+        System.out.println(formattedNumber);
+    }
+}
+```
+================================================================
+
+Sample: 13 NumberFormatProvider_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.text.NumberFormat;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        NumberFormat numberFormat = NumberFormat.getPercentInstance(Locale.US);
+        double value = 0.75;
+        String formattedValue = numberFormat.format(value);
+        System.out.println(formattedValue);
+    }
+}
+```
+================================================================
+

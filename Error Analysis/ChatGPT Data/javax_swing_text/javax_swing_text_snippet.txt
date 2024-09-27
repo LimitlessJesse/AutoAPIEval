@@ -1,0 +1,2101 @@
+Sample: 0 AbstractDocument_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
+
+public class Main {
+    public static void main(String[] args) {
+        PlainDocument document = new PlainDocument();
+        
+        DocumentFilter filter = new DocumentFilter() {
+            @Override
+            public void insertString(DocumentFilter.FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
+                super.insertString(fb, offset, text, attr);
+            }
+
+            @Override
+            public void remove(DocumentFilter.FilterBypass fb, int offset, int length) throws BadLocationException {
+                super.remove(fb, offset, length);
+            }
+
+            @Override
+            public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                super.replace(fb, offset, length, text, attrs);
+            }
+        };
+        
+        document.setDocumentFilter(filter);
+    }
+}
+```
+================================================================
+
+Sample: 1 AbstractDocument_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AbstractDocument;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractDocument document = new AbstractDocument() {
+            @Override
+            public int getLength() {
+                // Your implementation of getLength() method here
+                return super.getLength();
+            }
+        };
+
+        // Call getLength() method
+        int length = document.getLength();
+        System.out.println("Length of document: " + length);
+    }
+}
+```
+================================================================
+
+Sample: 2 AbstractDocument_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.Element;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractDocument document = new AbstractDocument();
+        Element rootElement = document.getDefaultRootElement();
+        System.out.println(rootElement);
+    }
+}
+```
+================================================================
+
+Sample: 3 AbstractDocument_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import javax.swing.text.Element;
+import javax.swing.text.AbstractDocument;
+
+import javax.swing.text.PlainDocument;
+import javax.swing.text.StyledDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+
+public class Main {
+    public static void main(String[] args) {
+        StyledDocument doc = new PlainDocument(); // Use a StyledDocument for attribute support
+        try {
+            doc.insertString(0, "Hello", null); // Inserting "Hello" at the beginning
+            AttributeSet attr = new SimpleAttributeSet();
+            StyleConstants.setBold(attr, true); // Applying bold style
+            doc.insertString(doc.getLength(), "\nWorld", attr); // Inserting "World" at the end with bold style
+            System.out.println(doc.getText(0, doc.getLength())); // Output the contents of the document
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 AbstractDocument_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AbstractDocument;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractDocument doc = new AbstractDocument();
+        doc.remove(0, 5); // Removes 5 characters starting from offset 0
+    }
+}
+```
+================================================================
+
+Sample: 5 AbstractWriter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AbstractWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] cbuf = {'H', 'e', 'l', 'l', 'o'};
+        AbstractWriter writer = new AbstractWriter() {
+            @Override
+            public void write(char[] cbuf, int off, int len) {
+                super.write(cbuf, off, len);
+            }
+        };
+        writer.write(cbuf, 0, cbuf.length);
+    }
+}
+```
+================================================================
+
+Sample: 6 AsyncBoxView_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AsyncBoxView;
+
+public class Main {
+    public static void main(String[] args) {
+        AsyncBoxView asyncBoxView = new AsyncBoxView(null);
+        float preferredSpanX = asyncBoxView.getPreferredSpan(AsyncBoxView.X_AXIS);
+        float preferredSpanY = asyncBoxView.getPreferredSpan(AsyncBoxView.Y_AXIS);
+        System.out.println("Preferred Span X: " + preferredSpanX);
+        System.out.println("Preferred Span Y: " + preferredSpanY);
+    }
+}
+```
+================================================================
+
+Sample: 7 AsyncBoxView_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AsyncBoxView;
+
+public class Main {
+    public static void main(String[] args) {
+        AsyncBoxView asyncBoxView = new AsyncBoxView(null);
+        float minimumSpan = asyncBoxView.getMinimumSpan(0);
+        System.out.println("Minimum span on axis 0: " + minimumSpan);
+    }
+}
+```
+================================================================
+
+Sample: 8 BoxView_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.BoxView;
+import javax.swing.text.View;
+import java.awt.*;
+
+public class Main {
+    public static void main(String[] args) {
+        BoxView boxView = new BoxView(null, 0);
+        Shape a = new Rectangle(0, 0, 100, 100);
+        Shape childAllocation = boxView.getChildAllocation(0, a);
+        System.out.println(childAllocation);
+    }
+}
+```
+================================================================
+
+Sample: 9 BoxView_5
+----------------------------------------------------------------
+import javax.swing.text.BoxView;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of BoxView
+        BoxView boxView = new BoxView(null, BoxView.X_AXIS);
+
+        // Call the layout method with specified width and height
+        boxView.layout(100, 50);
+    }
+}
+================================================================
+
+Sample: 10 CompositeView_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.CompositeView;
+import javax.swing.text.Position;
+
+public class Main {
+    public static void main(String[] args) {
+        CompositeView compositeView = new CompositeView(null);
+        int position = 5;
+        Position.Bias bias = Position.Bias.Forward;
+        int viewIndex = compositeView.getViewIndex(position, bias);
+        System.out.println("View index: " + viewIndex);
+    }
+}
+```
+================================================================
+
+Sample: 11 CompositeView_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.CompositeView;
+import javax.swing.text.View;
+import javax.swing.text.View.UnnecessarilyDurable;
+import java.awt.Shape;
+
+public class Main {
+    public static void main(String[] args) {
+        CompositeView compositeView = new CompositeView() {
+            @Override
+            public Shape getChildAllocation(int index, Shape a) {
+                // Implement the getChildAllocation method here
+                return null;
+            }
+        };
+
+        Shape childAllocation = compositeView.getChildAllocation(0, null);
+        System.out.println(childAllocation);
+    }
+}
+```
+================================================================
+
+Sample: 12 CompositeView_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.CompositeView;
+import javax.swing.text.View;
+import java.awt.Rectangle;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public View getViewAtPoint(int x, int y, Rectangle a) {
+        // implementation of getViewAtPoint method goes here
+        return null;
+    }
+}
+```
+================================================================
+
+Sample: 13 CompositeView_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Position;
+import javax.swing.text.CompositeView;
+import java.awt.Shape;
+
+public class Main {
+    public static void main(String[] args) {
+        CompositeView view = new CompositeView(null);
+        int pos = 0;
+        Position.Bias bias = Position.Bias.Forward;
+        Shape a = null;
+        int direction = 1;
+        Position.Bias[] biasRet = new Position.Bias[1];
+        int nextVisualPos = view.getNextVisualPositionFrom(pos, bias, a, direction, biasRet);
+        System.out.println("Next visual position: " + nextVisualPos);
+    }
+}
+```
+================================================================
+
+Sample: 14 DefaultCaret_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultCaret;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultCaret caret = new DefaultCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+    }
+}
+```
+================================================================
+
+Sample: 15 DefaultCaret_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultCaret;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultCaret caret = new DefaultCaret();
+        int updatePolicy = caret.getUpdatePolicy();
+        System.out.println("Update policy: " + updatePolicy);
+    }
+}
+```
+================================================================
+
+Sample: 16 DefaultCaret_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultCaret;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultCaret caret = new DefaultCaret();
+        boolean selectionVisible = caret.isSelectionVisible();
+        System.out.println("Is selection visible: " + selectionVisible);
+    }
+}
+```
+================================================================
+
+Sample: 17 DefaultCaret_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultCaret;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultCaret caret = new DefaultCaret();
+        caret.setSelectionVisible(true);
+    }
+}
+```
+================================================================
+
+Sample: 18 DefaultCaret_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultCaret;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultCaret caret = new DefaultCaret();
+        caret.setVisible(true);
+    }
+}
+```
+================================================================
+
+Sample: 19 DefaultEditorKit_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.Document;
+import java.io.StringWriter;
+import java.io.Writer;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultEditorKit editorKit = new DefaultEditorKit();
+        Document doc = editorKit.createDefaultDocument();
+        StringWriter out = new StringWriter();
+
+        try {
+            editorKit.write(out, doc, 0, doc.getLength());
+            System.out.println(out.toString());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 DefaultEditorKit_BeepAction_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultEditorKit;
+import java.awt.event.ActionEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultEditorKit.BeepAction beepAction = new DefaultEditorKit.BeepAction();
+        beepAction.actionPerformed(new ActionEvent(new Object(), ActionEvent.ACTION_PERFORMED, "BeepAction"));
+    }
+}
+```
+================================================================
+
+Sample: 21 DefaultEditorKit_CopyAction_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultEditorKit.CopyAction;
+import java.awt.event.ActionEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        CopyAction copyAction = new DefaultEditorKit.CopyAction();
+        ActionEvent event = new ActionEvent(copyAction, ActionEvent.ACTION_PERFORMED, null);
+        copyAction.actionPerformed(event);
+    }
+}
+```
+================================================================
+
+Sample: 22 DefaultEditorKit_CutAction_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultEditorKit;
+import java.awt.event.ActionEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        DefaultEditorKit.CutAction cutAction = new DefaultEditorKit.CutAction();
+        cutAction.actionPerformed(e);
+    }
+}
+```
+================================================================
+
+Sample: 23 DefaultEditorKit_DefaultKeyTypedAction_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultEditorKit;
+import java.awt.event.ActionEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        DefaultEditorKit.DefaultKeyTypedAction action = new DefaultEditorKit.DefaultKeyTypedAction();
+        action.actionPerformed(e);
+    }
+}
+```
+================================================================
+
+Sample: 24 DefaultEditorKit_InsertBreakAction_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultEditorKit;
+import java.awt.event.ActionEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        DefaultEditorKit.InsertBreakAction breakAction = new DefaultEditorKit.InsertBreakAction();
+        breakAction.actionPerformed(e);
+    }
+}
+```
+================================================================
+
+Sample: 25 DefaultEditorKit_InsertContentAction_1
+----------------------------------------------------------------
+void actionPerformed(ActionEvent e): This method specifies the action to be performed when an action event is received.
+
+Code snippet:
+```java
+import javax.swing.text.DefaultEditorKit.InsertContentAction;
+import java.awt.event.ActionEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        InsertContentAction action = new InsertContentAction("Insert Content", null);
+        action.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Insert Content"));
+    }
+}
+```
+================================================================
+
+Sample: 26 DefaultEditorKit_InsertTabAction_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultEditorKit;
+import java.awt.event.ActionEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        DefaultEditorKit.InsertTabAction insertTabAction = new DefaultEditorKit.InsertTabAction();
+        insertTabAction.actionPerformed(e);
+    }
+}
+```
+================================================================
+
+Sample: 27 DefaultEditorKit_PasteAction_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultEditorKit.PasteAction;
+import java.awt.event.ActionEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        PasteAction pasteAction = new PasteAction();
+        // Create an ActionEvent object with necessary parameters
+        ActionEvent e = new ActionEvent(new Object(), ActionEvent.ACTION_PERFORMED, "Paste");
+        pasteAction.actionPerformed(e);
+    }
+}
+```
+================================================================
+
+Sample: 28 DefaultFormatter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultFormatter formatter = new DefaultFormatter();
+        
+        Object value = "Example";
+        String formattedValue = formatter.valueToString(value);
+        System.out.println("Formatted value: " + formattedValue);
+    }
+}
+```
+================================================================
+
+Sample: 29 DefaultFormatter_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultFormatter formatter = new DefaultFormatter();
+        String text = "123";
+        Object value = formatter.stringToValue(text);
+        System.out.println("Converted value: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 30 DefaultFormatter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultFormatter formatter = new DefaultFormatter();
+        formatter.setOverwriteMode(true);
+    }
+}
+```
+================================================================
+
+Sample: 31 DefaultFormatter_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultFormatter formatter = new DefaultFormatter();
+        formatter.setValueClass(Integer.class);
+    }
+}
+```
+================================================================
+
+Sample: 32 DefaultFormatter_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultFormatter formatter = new DefaultFormatter();
+        formatter.setAllowsInvalid(true);
+    }
+}
+```
+================================================================
+
+Sample: 33 DefaultHighlighter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultHighlighter;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultHighlighter highlighter = new DefaultHighlighter();
+        boolean newValue = true;
+        highlighter.setDrawsLayeredHighlights(newValue);
+    }
+}
+```
+================================================================
+
+Sample: 34 DefaultHighlighter_DefaultHighlightPainter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultHighlighter.DefaultHighlightPainter;
+import java.awt.Color;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultHighlightPainter highlighter = new DefaultHighlightPainter(Color.YELLOW);
+        Color color = highlighter.getColor();
+        System.out.println("Color: " + color);
+    }
+}
+```
+================================================================
+
+Sample: 35 DefaultStyledDocument_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AttributeSet;
+import javax.swing.text.Style;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
+import javax.swing.text.DefaultStyledDocument;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultStyledDocument doc = new DefaultStyledDocument();
+        Style parentStyle = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+        Style newStyle = doc.addStyle("NewStyle", parentStyle);
+
+        AttributeSet attributes = newStyle.getResolveParent();
+        System.out.println("New Style Attributes: " + attributes);
+    }
+}
+
+```
+================================================================
+
+Sample: 36 DefaultStyledDocument_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.Style;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void removeStyle(DefaultStyledDocument doc, String nm) {
+        Style style = doc.getStyle(nm);
+        if (style != null) {
+            doc.removeStyle(nm);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 37 DocumentFilter_FilterBypass_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.DocumentFilter.FilterBypass;
+
+public class Main {
+    public static void main(String[] args) {
+        FilterBypass fb = new FilterBypass() {
+            @Override
+            public Document getDocument() {
+                return null;
+            }
+
+            @Override
+            public void remove(int offset, int length) {}
+
+            @Override
+            public void insertString(int offset, String string, AttributeSet attr) {}
+        };
+    }
+}
+```
+================================================================
+
+Sample: 38 EditorKit_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Document;
+import javax.swing.text.EditorKit;
+import java.io.Reader;
+
+public class Main {
+    public static void main(String[] args) {
+        // Example usage of read method
+        Reader reader = null; // Initialize your Reader object here
+        Document document = null; // Initialize your Document object here
+        int position = 0; // Specify the position where you want to start reading
+
+        EditorKit editorKit = new EditorKit(); // Creating an instance of EditorKit
+        editorKit.read(reader, document, position); // Using the read method
+
+        // Display any output or additional operations here
+    }
+}
+```
+================================================================
+
+Sample: 39 EditorKit_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Document;
+import javax.swing.text.EditorKit;
+import java.io.StringWriter;
+import java.io.Writer;
+
+public class Main {
+    public static void main(String[] args) {
+        EditorKit editorKit = new EditorKit() {
+            @Override
+            public void read(Reader in, Document doc, int pos) {
+                // Implementation of read method
+            }
+
+            @Override
+            public void write(Writer out, Document doc, int pos, int len) {
+                try {
+                    String text = doc.getText(pos, len);
+                    out.write(text);
+                } catch (Exception e) {
+                    System.out.println("Error writing document: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void read(InputStream in, Document doc, int pos) {
+                // Implementation of read method
+            }
+
+            @Override
+            public void write(OutputStream out, Document doc, int pos, int len) {
+                // Implementation of write method
+            }
+        };
+
+        Document document = editorKit.createDefaultDocument();
+        try {
+            StringWriter writer = new StringWriter();
+            editorKit.write(writer, document, 0, document.getLength());
+            System.out.println("Document content: " + writer.toString());
+        } catch (Exception e) {
+            System.out.println("Error creating document: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 40 EditorKit_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Document;
+import javax.swing.text.EditorKit;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an EditorKit object
+        EditorKit editorKit = new EditorKit() {
+            @Override
+            public void read(InputStream in, Document doc, int pos) {
+                // Implementation of read method goes here
+            }
+
+            @Override
+            public void write(OutputStream out, Document doc, int pos, int len) {
+                // Implementation of write method goes here
+            }
+        };
+
+        // Example usage of the read method
+        InputStream inputStream = new FileInputStream("example.txt");
+        Document document = editorKit.createDefaultDocument();
+        editorKit.read(inputStream, document, 0);
+    }
+}
+```
+================================================================
+
+Sample: 41 ElementIterator_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.ElementIterator;
+import javax.swing.text.Element;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an ElementIterator to iterate through elements
+        ElementIterator iterator = new ElementIterator(rootElement);
+
+        // Iterate through elements using next()
+        Element element;
+        while ((element = iterator.next()) != null) {
+            // Do something with the element
+            System.out.println("Element name: " + element.getName());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 42 ElementIterator_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Element;
+import javax.swing.text.ElementIterator;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.AbstractDocument;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractDocument doc = new javax.swing.text.PlainDocument();
+        ElementIterator elementIterator = new ElementIterator(doc.getDefaultRootElement());
+        
+        Element firstElement = elementIterator.first();
+        if (firstElement != null) {
+            try {
+                int startOffset = firstElement.getStartOffset();
+                int endOffset = firstElement.getEndOffset();
+                
+                String text = doc.getText(startOffset, endOffset - startOffset);
+                System.out.println("First element text: " + text);
+            } catch (BadLocationException ex) {
+                System.err.println("Error retrieving text from element");
+            }
+        } else {
+            System.out.println("Document is empty");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 43 GapContent_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.GapContent;
+
+public class Main {
+    public static void main(String[] args) {
+        GapContent gapContent = new GapContent();
+        int contentLength = gapContent.length();
+        System.out.println("Content length: " + contentLength);
+    }
+}
+```
+================================================================
+
+Sample: 44 GapContent_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.GapContent;
+
+public class Main {
+    public static void main(String[] args) {
+        GapContent content = new GapContent();
+        content.insertString(0, "Hello World!");
+        String result = content.getString(6, 5);
+        System.out.println(result); // Output: World
+    }
+}
+```
+================================================================
+
+Sample: 45 GlyphView_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.GlyphView;
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
+
+public class Main {
+    public static void main(String[] args) {
+        GlyphView glyphView = new GlyphView(null);
+        Shape shape = new Rectangle2D.Float(0, 0, 100, 100);
+        int pos = 0;
+        Position.Bias bias = Position.Bias.Forward;
+        
+        Shape view = glyphView.modelToView(pos, shape, bias);
+        System.out.println("View shape: " + view);
+    }
+}
+```
+================================================================
+
+Sample: 46 GlyphView_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Position;
+import javax.swing.text.GlyphView;
+import java.awt.Shape;
+
+public class Main {
+    public static void main(String[] args) {
+        GlyphView glyphView = new GlyphView();
+        int pos = 0;
+        Position.Bias b = Position.Bias.Forward;
+        Shape a = null;
+        int direction = 1;
+        Position.Bias[] biasRet = new Position.Bias[1];
+        int nextPos = glyphView.getNextVisualPositionFrom(pos, b, a, direction, biasRet);
+        System.out.println(nextPos);
+    }
+}
+```
+================================================================
+
+Sample: 47 GlyphView_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.GlyphView;
+import java.awt.Graphics;
+import java.awt.Shape;
+
+public class Main {
+    public static void main(String[] args) {
+        // Instantiate a GlyphView object
+        GlyphView glyphView = new GlyphView(null);
+        
+        // Call the paint method with a Graphics object and a Shape object
+        Graphics graphics = null; // Create a Graphics object
+        Shape shape = null; // Create a Shape object
+        glyphView.paint(graphics, shape);
+    }
+}
+```
+================================================================
+
+Sample: 48 IconView_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.BadLocationException;
+import javax.swing.text.IconView;
+import javax.swing.text.Position;
+import javax.swing.text.View;
+import java.awt.*;
+
+public class Main {
+    public static void main(String[] args) throws BadLocationException {
+        IconView iconView = new IconView(null);
+        Shape shape = new Rectangle(10, 10, 50, 50); // Example shape
+        int pos = 5; // Example position
+        Position.Bias bias = Position.Bias.Forward; // Example bias
+
+        View view = iconView.modelToView(pos, shape, bias);
+
+        System.out.println("View bounds x: " + view.getBounds().x + ", y: " + view.getBounds().y + ", width: " + view.getBounds().width + ", height: " + view.getBounds().height);
+    }
+}
+```
+================================================================
+
+Sample: 49 IconView_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.IconView;
+import javax.swing.text.Position;
+
+public class Main {
+    public static void main(String[] args) {
+        IconView iconView = new IconView(null, null);
+        float x = 10.5f;
+        float y = 20.5f;
+        Shape a = null;
+        Position.Bias[] biasReturn = new Position.Bias[1];
+        int result = iconView.viewToModel(x, y, a, biasReturn);
+        System.out.println("Result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 50 JTextComponent_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.JTextArea;
+
+public class Main {
+    public static void main(String[] args) {
+        JTextArea textArea = new JTextArea();
+        textArea.setText("Hello World");
+        
+        String replacement = "Universe";
+        textArea.replaceSelection(replacement);
+        
+        System.out.println(textArea.getText());
+    }
+}
+```
+================================================================
+
+Sample: 51 JTextComponent_2
+----------------------------------------------------------------
+`String getText()`: This method returns the text contained in the JTextComponent.
+
+Code snippet:
+```java
+import javax.swing.JTextArea;
+
+public class Main {
+    public static void main(String[] args) {
+        JTextArea textArea = new JTextArea("Hello, World!");
+        System.out.println("Text in JTextArea: " + textArea.getText());
+    }
+}
+```
+================================================================
+
+Sample: 52 JTextComponent_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.JTextComponent;
+
+public class Main {
+    public static void main(String[] args) {
+        JTextComponent textComponent = new JTextComponent() {
+            public void setCaretPosition(int position) {
+                // Set caret position logic here
+                System.out.println("Caret position set to: " + position);
+            }
+        };
+        
+        textComponent.setCaretPosition(10);
+    }
+}
+```
+================================================================
+
+Sample: 53 JTextComponent_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.JTextComponent;
+
+public class Main {
+    public static void main(String[] args) {
+        JTextComponent textComponent = new JTextComponent() {
+            @Override
+            public boolean isEditable() {
+                return true;
+            }
+        };
+
+        boolean isEditable = textComponent.isEditable();
+        System.out.println("Is Editable: " + isEditable);
+    }
+}
+```
+================================================================
+
+Sample: 54 LabelView_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.View;
+import javax.swing.text.LabelView;
+import java.awt.Color;
+
+public class Main {
+    public static void main(String[] args) {
+        LabelView labelView = new LabelView(null);
+        Color foregroundColor = labelView.getForeground();
+        System.out.println("Foreground color: " + foregroundColor);
+    }
+}
+```
+================================================================
+
+Sample: 55 LabelView_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.LabelView;
+import java.awt.Color;
+
+public class Main {
+    public static void main(String[] args) {
+        LabelView labelView = new LabelView(null);
+        labelView.setBackground(Color.BLUE);
+    }
+}
+```
+================================================================
+
+Sample: 56 LayeredHighlighter.LayerPainter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.JTextComponent;
+import javax.swing.text.View;
+import javax.swing.text.LayeredHighlighter;
+import java.awt.Graphics;
+import java.awt.Shape;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void paintLayer(Graphics g, int p0, int p1, Shape bounds, JTextComponent c, View view) {
+        // Implementation of the paintLayer method
+        // Use the Graphics object to paint the specified shape within the text component
+    }
+}
+```
+================================================================
+
+Sample: 57 LayoutQueue_1
+----------------------------------------------------------------
+```java
+import javax.swing.text.LayoutQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        LayoutQueue layoutQueue = new LayoutQueue();
+        layoutQueue.addTask(() -> {
+            // Task to be executed
+            System.out.println("Task is executed");
+        });
+    }
+}
+```
+================================================================
+
+Sample: 58 MaskFormatter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.MaskFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MaskFormatter formatter = new MaskFormatter("###-##-####");
+            formatter.setPlaceholderCharacter('*');
+            System.out.println(formatter.getPlaceholderCharacter());
+        } catch (java.text.ParseException ex) {
+            System.err.println("Error creating mask formatter");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 59 MaskFormatter_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.MaskFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        MaskFormatter formatter = null;
+        try {
+            formatter = new MaskFormatter("####-####");
+            formatter.setValidCharacters("0123456789");
+            System.out.println("Valid characters set successfully");
+        } catch (java.text.ParseException e) {
+            System.out.println("Error setting valid characters: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 60 NavigationFilter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Position;
+import javax.swing.text.NavigationFilter;
+
+public class Main {
+    public static void main(String[] args) {
+        NavigationFilter.FilterBypass fb = null;
+        int dot = 0;
+        Position.Bias bias = Position.Bias.Forward;
+        
+        setDot(fb, dot, bias);
+    }
+    
+    private static void setDot(NavigationFilter.FilterBypass fb, int dot, Position.Bias bias) {
+        // Implementation of the setDot method goes here
+    }
+}
+```
+================================================================
+
+Sample: 61 NavigationFilter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.JTextComponent;
+import javax.swing.text.Position;
+
+public class Main {
+    public static void main(String[] args) {
+        JTextComponent textComponent = new JTextComponent() {
+            @Override
+            public int getNextVisualPositionFrom(JTextComponent text, int pos, Position.Bias bias, int direction, Position.Bias[] biasRet) {
+                // Implementation of the method
+                return super.getNextVisualPositionFrom(text, pos, bias, direction, biasRet);
+            }
+        };
+        
+        int pos = 0;
+        Position.Bias bias = Position.Bias.Forward;
+        int direction = 1;
+        Position.Bias[] biasRet = new Position.Bias[1];
+        
+        int nextPos = textComponent.getNextVisualPositionFrom(textComponent, pos, bias, direction, biasRet);
+        System.out.println("Next Visual Position: " + nextPos);
+    }
+}
+```
+================================================================
+
+Sample: 62 NavigationFilter.FilterBypass_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Position;
+
+public class Main {
+    
+    public void setDot(int dot, Position.Bias bias) {
+        // Your implementation here
+    }
+
+    public static void main(String[] args) {
+        Main main = new Main();
+        
+        // Example usage of setDot method
+        main.setDot(10, Position.Bias.Forward);
+    }
+}
+```
+================================================================
+
+Sample: 63 NavigationFilter.FilterBypass_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Position;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void moveDot(int dot, Position.Bias bias) {
+        // Add code here to implement the moveDot method
+    }
+}
+```
+================================================================
+
+Sample: 64 NavigationFilter.FilterBypass_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Position;
+
+public class Main {
+    public static void main(String[] args) {
+        // Example usage of setDot method
+        int dot = 5;
+        Position.Bias bias = Position.Bias.Forward;
+        // Invoke setDot method here
+    }
+}
+```
+================================================================
+
+Sample: 65 PasswordView_2
+----------------------------------------------------------------
+```java
+import javax.swing.text.Position;
+import javax.swing.text.PasswordView;
+import java.awt.Shape;
+import javax.swing.text.Element;
+
+public class Main {
+    public static void main(String[] args) {
+        PasswordView passwordView = new PasswordView(Element element);
+        float x = 0.0f;
+        float y = 0.0f;
+        Shape a = new Shape();
+        Position.Bias[] biasReturn = new Position.Bias[1];
+        int viewToModel = passwordView.viewToModel(x, y, a, biasReturn);
+    }
+}
+```
+================================================================
+
+Sample: 66 PlainDocument_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
+
+public class Main {
+    public static void main(String[] args) {
+        PlainDocument document = new PlainDocument();
+        AttributeSet attributeSet = null;
+        try {
+            document.insertString(0, "Hello", attributeSet);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+        System.out.println(document.getText(0, document.getLength()));
+    }
+}
+```
+================================================================
+
+Sample: 67 PlainView_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Document;
+import javax.swing.text.DocumentEvent;
+import javax.swing.text.PlainView;
+import javax.swing.text.ViewFactory;
+import java.awt.Shape;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a PlainView instance
+        PlainView plainView = new PlainView(new javax.swing.text.PlainDocument(), 0);
+
+        // Creating instances of needed objects for the method insertUpdate
+        DocumentEvent e = new DocumentEvent() {
+            @Override
+            public Document getDocument() {
+                return null;
+            }
+
+            @Override
+            public int getOffset() {
+                return 0;
+            }
+
+            @Override
+            public int getLength() {
+                return 0;
+            }
+
+            @Override
+            public DocumentEvent.ElementChange getChange(Element elem) {
+                return null;
+            }
+        };
+
+        Shape a = new Shape() {
+            @Override
+            public Rectangle getBounds() {
+                return new Rectangle(0, 0, 0, 0);
+            }
+
+            @Override
+            public Rectangle2D getBounds2D() {
+                return new Rectangle2D.Float(0, 0, 0, 0);
+            }
+
+            @Override
+            public boolean contains(double x, double y) {
+                return false;
+            }
+
+            @Override
+            public boolean contains(Point2D p) {
+                return false;
+            }
+
+            @Override
+            public boolean intersects(double x, double y, double w, double h) {
+                return false;
+            }
+
+            @Override
+            public boolean intersects(Rectangle2D r) {
+                return false;
+            }
+
+            @Override
+            public boolean contains(double x, double y, double w, double h) {
+                return false;
+            }
+
+            @Override
+            public boolean contains(Rectangle2D r) {
+                return false;
+            }
+
+            @Override
+            public PathIterator getPathIterator(AffineTransform at) {
+                return null;
+            }
+
+            @Override
+            public PathIterator getPathIterator(AffineTransform at, double flatness) {
+                return null;
+            }
+        };
+
+        ViewFactory f = element -> null;
+
+        // Call the insertUpdate method
+        plainView.insertUpdate(e, a, f);
+    }
+}
+```
+================================================================
+
+Sample: 68 PlainView_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+import javax.swing.text.View;
+import javax.swing.text.PlainView;
+import javax.swing.text.ViewFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        DocumentEvent e = new DocumentEvent();
+        Shape a = new Shape();
+        ViewFactory f = new ViewFactory();
+        
+        PlainView plainView = new PlainView(new Element(), e, a); //Creating a PlainView instance
+        plainView.removeUpdate(e, a, f); // Using the removeUpdate method
+    }
+}
+
+class DocumentEvent {
+    // DocumentEvent implementation
+}
+
+class Shape {
+    // Shape implementation
+}
+
+class ViewFactory {
+    // ViewFactory implementation
+}
+```
+================================================================
+
+Sample: 69 Position_Bias_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Position;
+
+public class Main {
+    public static void main(String[] args) {
+        Position.Bias bias = Position.Bias.Forward;
+        System.out.println(bias.toString());
+    }
+}
+```
+================================================================
+
+Sample: 70 Segment_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Segment;
+
+public class Main {
+    public static void main(String[] args) {
+        Segment segment = new Segment("Hello", 0, 5);
+        char firstChar = segment.first();
+        System.out.println("First character: " + firstChar);
+    }
+}
+```
+================================================================
+
+Sample: 71 Segment_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Segment;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] data = {'H', 'e', 'l', 'l', 'o'};
+        Segment segment = new Segment(data, 0, data.length);
+        char lastChar = segment.last();
+        System.out.println("Last character: " + lastChar);
+    }
+}
+```
+================================================================
+
+Sample: 72 Segment_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Segment;
+
+public class Main {
+    public static void main(String[] args) {
+        Segment segment = new Segment();
+        segment.array = "Hello".toCharArray();
+        segment.offset = 0;
+        segment.count = 5;
+        
+        char result = segment.charAt(1);
+        System.out.println("Character at index 1: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 73 StringContent_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.StringContent;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a StringContent object
+        StringContent content = new StringContent();
+        
+        // Set some content
+        content.insertString(0, "Hello, World!");
+        
+        // Use getString(int where, int len) to get a substring
+        String substring = content.getString(7, 5);
+        
+        // Output the substring
+        System.out.println(substring); // Output: World
+    }
+}
+```
+================================================================
+
+Sample: 74 StyleConstants_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.StyleConstants;
+import java.awt.Color;
+
+public class Main {
+    public static void main(String[] args) {
+        MutableAttributeSet attr = StyleConstants.getEmptySet();
+        Color color = Color.RED;
+        
+        StyleConstants.setForeground(attr, color);
+        
+        System.out.println("Foreground color set to: " + attr.getAttribute(StyleConstants.Foreground));
+    }
+}
+```
+================================================================
+
+Sample: 75 StyleConstants_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.StyleConstants;
+
+public class Main {
+    public static void main(String[] args) {
+        MutableAttributeSet attr = StyleConstants.getEmptySet();
+        String family = "Arial";
+        
+        StyleConstants.setFontFamily(attr, family);
+        System.out.println("Font family set to: " + StyleConstants.getFontFamily(attr));
+    }
+}
+```
+================================================================
+
+Sample: 76 StyleConstants_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.StyleConstants;
+
+public class Main {
+    public static void main(String[] args) {
+        MutableAttributeSet attr = StyleConstants.getEmptySet();
+        int size = 12;
+        StyleConstants.setFontSize(attr, size);
+        System.out.println("Font size set to: " + StyleConstants.getFontSize(attr));
+    }
+}
+```
+================================================================
+
+Sample: 77 StyleContext_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Style;
+import javax.swing.text.StyleContext;
+
+public class Main {
+    public static void main(String[] args) {
+        StyleContext context = new StyleContext();
+        Style parent = context.getStyle(StyleContext.DEFAULT_STYLE);
+        Style customStyle = context.addStyle("CustomStyle", parent);
+    }
+}
+```
+================================================================
+
+Sample: 78 StyleContext_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.StyleContext;
+
+public class Main {
+    public static void main(String[] args) {
+        StyleContext context = new StyleContext();
+        context.removeStyle("MyStyle");
+    }
+}
+```
+================================================================
+
+Sample: 79 StyleContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.Style;
+import javax.swing.text.StyleContext;
+
+public class Main {
+    public static void main(String[] args) {
+        StyleContext styleContext = new StyleContext();
+        Style style = styleContext.getStyle("default"); // Example style name
+        // Use the 'style' object as needed
+    }
+}
+```
+================================================================
+
+Sample: 80 StyleContext_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.StyleContext;
+import java.util.Enumeration;
+
+public class Main {
+    public static void main(String[] args) {
+        StyleContext styleContext = new StyleContext();
+        Enumeration<?> styleNames = styleContext.getStyleNames();
+        
+        // Loop through and print out all style names
+        while (styleNames.hasMoreElements()) {
+            System.out.println(styleNames.nextElement());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 81 StyledEditorKit_BoldAction_1
+----------------------------------------------------------------
+`void actionPerformed(ActionEvent e)`: This method is called when the action is performed. In this case, it toggles the bold attribute of the selected text in a text component.
+
+Code snippet:
+```java
+import javax.swing.text.StyledEditorKit;
+import javax.swing.text.StyledEditorKit.BoldAction;
+import javax.swing.text.JTextComponent;
+import java.awt.event.ActionEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        JTextComponent textComponent = new JTextComponent() {
+            // Implement necessary methods
+        };
+        
+        BoldAction boldAction = new StyledEditorKit.BoldAction();
+        boldAction.actionPerformed(new ActionEvent(textComponent, ActionEvent.ACTION_PERFORMED, ""));
+    }
+}
+```
+================================================================
+
+Sample: 82 StyledEditorKit_FontFamilyAction_5
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import javax.swing.text.StyledEditorKit;
+
+public class Main {
+    public static void main(String[] args) {
+        StyledEditorKit.FontFamilyAction fontFamilyAction = new StyledEditorKit.FontFamilyAction("fontFamily", "Font Family");
+        fontFamilyAction.actionPerformed(null);
+    }
+}
+```
+================================================================
+
+Sample: 83 StyledEditorKit_ForegroundAction_5
+----------------------------------------------------------------
+`void actionPerformed(ActionEvent e)`: This method performs the action when triggered by an event.
+
+Code snippet:
+```java
+import javax.swing.text.StyledEditorKit;
+import java.awt.event.ActionEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        StyledEditorKit.ForegroundAction foregroundAction = new StyledEditorKit.ForegroundAction("Foreground", null);
+        foregroundAction.actionPerformed(e);
+    }
+}
+```
+================================================================
+
+Sample: 84 StyledEditorKit_UnderlineAction_1
+----------------------------------------------------------------
+```java
+import javax.swing.text.StyledEditorKit;
+import javax.swing.text.StyledEditorKit.UnderlineAction;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        JTextPane textPane = new JTextPane();
+        StyledEditorKit styledEditorKit = new StyledEditorKit();
+        Action underlineAction = styledEditorKit.getAction(StyledEditorKit.UnderlineAction);
+        
+        ActionEvent actionEvent = new ActionEvent(textPane, ActionEvent.ACTION_PERFORMED, "");
+
+        underlineAction.actionPerformed(actionEvent);
+    }
+}
+```
+================================================================
+
+Sample: 85 TabSet_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.TabSet;
+
+public class Main {
+    public static void main(String[] args) {
+        TabSet tabSet = ...; // initialize TabSet object
+        int tabCount = tabSet.getTabCount();
+        System.out.println("Tab count: " + tabCount);
+    }
+}
+```
+================================================================
+
+Sample: 86 TabSet_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.TabSet;
+import javax.swing.text.TabStop;
+
+public class Main {
+    public static void main(String[] args) {
+        TabStop tab1 = new TabStop(100, TabStop.ALIGN_CENTER, TabStop.LEAD_NONE);
+        TabStop tab2 = new TabStop(200, TabStop.ALIGN_DECIMAL, TabStop.LEAD_NONE);
+
+        TabStop[] tabs = {tab1, tab2};
+        TabSet tabSet = new TabSet(tabs);
+
+        TabStop tabStop = tabSet.getTab(1);
+        System.out.println("Tab position: " + tabStop.getPosition() + ", Alignment: " + tabStop.getAlignment());
+    }
+}
+```
+================================================================
+
+Sample: 87 TabSet_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.TabSet;
+
+public class Main {
+    public static void main(String[] args) {
+        TabSet tabSet1 = new TabSet(null);
+        TabSet tabSet2 = new TabSet(null);
+        
+        System.out.println(tabSet1.equals(tabSet2));
+    }
+}
+```
+================================================================
+
+Sample: 88 TabSet_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.TabStop;
+import javax.swing.text.TabSet;
+
+public class Main {
+    public static void main(String[] args) {
+        TabStop tabStop = new TabStop(100.0f, TabStop.ALIGN_RIGHT, TabStop.LEAD_DOTS);
+        TabSet tabSet = new TabSet(new TabStop[]{tabStop});
+        
+        int hashCode = tabSet.hashCode();
+        System.out.println("Hash code of tabSet: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 89 TabSet_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.TabSet;
+
+public class Main {
+    public static void main(String[] args) {
+        TabSet tabSet = new TabSet();
+        String tabSetString = tabSet.toString();
+        System.out.println(tabSetString);
+    }
+}
+```
+================================================================
+
+Sample: 90 TabStop_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.TabStop;
+
+public class Main {
+    public static void main(String[] args) {
+        TabStop tabStop = new TabStop(100, TabStop.ALIGN_RIGHT);
+        int alignment = tabStop.getAlignment();
+        System.out.println("TabStop alignment: " + alignment);
+    }
+}
+```
+================================================================
+
+Sample: 91 TabStop_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.TabStop;
+
+public class Main {
+    public static void main(String[] args) {
+        TabStop tabStop = new TabStop(100.0f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE);
+        int leader = tabStop.getLeader();
+        System.out.println("Leader: " + leader);
+    }
+}
+```
+================================================================
+
+Sample: 92 View_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.View;
+import javax.swing.text.Position;
+import java.awt.Shape;
+
+public class Main {
+    public static void main(String[] args) {
+        View view = new View(null);
+        int pos = 0;
+        Shape a = view.modelToView(pos, null, Position.Bias.Forward);
+    }
+}
+```
+================================================================
+
+Sample: 93 View_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.View;
+import javax.swing.text.Position;
+
+public class Main {
+    public static void main(String[] args) {
+        View view = new View(null);
+        float x = 10.0f;
+        float y = 20.0f;
+        Shape a = null;
+        Position.Bias[] biasReturn = new Position.Bias[1];
+        int modelIndex = view.viewToModel(x, y, a, biasReturn);
+        System.out.println("Model Index: " + modelIndex);
+    }
+}
+```
+================================================================
+
+Sample: 94 View_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.View;
+
+public class Main {
+    public static void main(String[] args) {
+        View view = new View();
+        int axis = 0;
+        int offset = 0;
+        float pos = 0.0f;
+        float len = 10.0f;
+        
+        // Creating a break view
+        View breakView = view.breakView(axis, offset, pos, len);
+        
+        System.out.println("Break view created: " + breakView);
+    }
+}
+```
+================================================================
+
+Sample: 95 View_4
+----------------------------------------------------------------
+`View getView(int n)`: This method returns the child View at the given index.
+
+Code snippet:
+```java
+import javax.swing.text.View;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a new view
+        View parentView = new View(null); // Passing null as argument for simplicity
+        
+        // Get the child view at index 0
+        View childView = parentView.getView(0);
+        
+        // Print out the child view
+        System.out.println(childView);
+    }
+}
+```
+================================================================
+
+Sample: 96 View_5
+----------------------------------------------------------------
+Method: int getViewCount()
+
+Code snippet:
+```java
+import javax.swing.text.View;
+
+public class Main {
+    public static void main(String[] args) {
+        View view = new View(null);
+        int viewCount = view.getViewCount();
+        System.out.println("View Count: " + viewCount);
+    }
+}
+```
+================================================================
+
+Sample: 97 WrappedPlainView_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.WrappedPlainView;
+import java.awt.Graphics;
+
+public class Main {
+    public static void main(String[] args) {
+        WrappedPlainView view = new WrappedPlainView();
+        Graphics g = null;
+        int x = 0;
+        int y = 0;
+        int p0 = 0;
+        int p1 = 5;
+        
+        int result = view.drawUnselectedText(g, x, y, p0, p1);
+        System.out.println("Result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 98 ZoneView_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.text.ZoneView;
+
+public class Main {
+    public static void main(String[] args) {
+        ZoneView zoneView = new ZoneView(null);
+        int index = zoneView.getViewIndexAtPosition(10);
+        System.out.println("Index at position 10: " + index);
+    }
+}
+```
+================================================================
+

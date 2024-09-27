@@ -1,0 +1,278 @@
+ClassName,Method,Return Type,Description,Full Description
+X500Principal,equals(Object o),boolean,Compares the specified Object with this X500Principal for equality.,"
+
+equals
+public boolean equals(Object o)
+Compares the specified Object with this
+ X500Principal for equality.
+
+  Specifically, this method returns true if
+ the Object o is an X500Principal
+ and if the respective canonical string representations
+ (obtained via the getName(X500Principal.CANONICAL) method)
+ of this object and o are equal.
+
+  This implementation is compliant with the requirements of RFC 3280.
+
+Specified by:
+equals in interface Principal
+Overrides:
+equals in class Object
+Parameters:
+o - Object to be compared for equality with this
+          X500Principal
+Returns:
+true if the specified Object is equal
+          to this X500Principal, false otherwise
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+X500Principal,getEncoded(),byte[],Returns the distinguished name in ASN.1 DER encoded form.,"
+
+getEncoded
+public byte[] getEncoded()
+Returns the distinguished name in ASN.1 DER encoded form. The ASN.1
+ notation for this structure is supplied in the documentation for
+ X500Principal(byte[] name).
+
+ Note that the byte array returned is cloned to protect against
+ subsequent modifications.
+
+Returns:
+a byte array containing the distinguished name in ASN.1 DER
+ encoded form
+
+
+"
+X500Principal,getName(),String,Returns a string representation of the X.500 distinguished name using the format defined in RFC 2253.,"
+
+getName
+public String getName()
+Returns a string representation of the X.500 distinguished name using
+ the format defined in RFC 2253.
+
+ This method is equivalent to calling
+ getName(X500Principal.RFC2253).
+
+Specified by:
+getName in interface Principal
+Returns:
+the distinguished name of this X500Principal
+
+
+"
+X500Principal,getName(String format),String,Returns a string representation of the X.500 distinguished name using the specified format.,"
+
+getName
+public String getName(String format)
+Returns a string representation of the X.500 distinguished name
+ using the specified format. Valid values for the format are
+ ""RFC1779"", ""RFC2253"", and ""CANONICAL"" (case insensitive).
+
+  If ""RFC1779"" is specified as the format,
+ this method emits the attribute type keywords defined in
+ RFC 1779 (CN, L, ST, O, OU, C, STREET).
+ Any other attribute type is emitted as an OID.
+
+  If ""RFC2253"" is specified as the format,
+ this method emits the attribute type keywords defined in
+ RFC 2253 (CN, L, ST, O, OU, C, STREET, DC, UID).
+ Any other attribute type is emitted as an OID.
+ Under a strict reading, RFC 2253 only specifies a UTF-8 string
+ representation. The String returned by this method is the
+ Unicode string achieved by decoding this UTF-8 representation.
+
+  If ""CANONICAL"" is specified as the format,
+ this method returns an RFC 2253 conformant string representation
+ with the following additional canonicalizations:
+
+ 
+ Leading zeros are removed from attribute types
+          that are encoded as dotted decimal OIDs
+  DirectoryString attribute values of type
+          PrintableString and UTF8String are not
+          output in hexadecimal format
+  DirectoryString attribute values of types
+          other than PrintableString and UTF8String
+          are output in hexadecimal format
+  Leading and trailing white space characters
+          are removed from non-hexadecimal attribute values
+          (unless the value consists entirely of white space characters)
+  Internal substrings of one or more white space characters are
+          converted to a single space in non-hexadecimal
+          attribute values
+  Relative Distinguished Names containing more than one
+          Attribute Value Assertion (AVA) are output in the
+          following order: an alphabetical ordering of AVAs
+          containing standard keywords, followed by a numeric
+          ordering of AVAs containing OID keywords.
+  The only characters in attribute values that are escaped are
+          those which section 2.4 of RFC 2253 states must be escaped
+          (they are escaped using a preceding backslash character)
+  The entire name is converted to upper case
+          using String.toUpperCase(Locale.US)
+ The entire name is converted to lower case
+          using String.toLowerCase(Locale.US)
+ The name is finally normalized using normalization form KD,
+          as described in the Unicode Standard and UAX #15
+ 
+ Additional standard formats may be introduced in the future.
+
+Parameters:
+format - the format to use
+Returns:
+a string representation of this X500Principal
+          using the specified format
+Throws:
+IllegalArgumentException - if the specified format is invalid
+          or null
+
+
+"
+X500Principal,"getName(String format, Map<String,String> oidMap)",String,Returns a string representation of the X.500 distinguished name using the specified format.,"
+
+getName
+public String getName(String format,
+                      Map<String,String> oidMap)
+Returns a string representation of the X.500 distinguished name
+ using the specified format. Valid values for the format are
+ ""RFC1779"" and ""RFC2253"" (case insensitive). ""CANONICAL"" is not
+ permitted and an IllegalArgumentException will be thrown.
+
+ This method returns Strings in the format as specified in
+ getName(String) and also emits additional attribute type
+ keywords for OIDs that have entries in the oidMap
+ parameter. OID entries in the oidMap take precedence over the default
+ OIDs recognized by getName(String).
+ Improperly specified OIDs are ignored; however if an OID
+ in the name maps to an improperly specified keyword, an
+ IllegalArgumentException is thrown.
+
+  Additional standard formats may be introduced in the future.
+
+  Warning: additional attribute type keywords may not be recognized
+ by other implementations; therefore do not use this method if
+ you are unsure if these keywords will be recognized by other
+ implementations.
+
+Parameters:
+format - the format to use
+oidMap - an OID map, where each key is an object identifier in
+  String form (a sequence of nonnegative integers separated by periods)
+  that maps to a corresponding attribute type keyword String.
+  The map may be empty but never null.
+Returns:
+a string representation of this X500Principal
+          using the specified format
+Throws:
+IllegalArgumentException - if the specified format is invalid,
+  null, or an OID in the name maps to an improperly specified keyword
+NullPointerException - if oidMap is null
+Since:
+1.6
+
+
+"
+X500Principal,hashCode(),int,Return a hash code for this X500Principal.,"
+
+hashCode
+public int hashCode()
+Return a hash code for this X500Principal.
+
+  The hash code is calculated via:
+ getName(X500Principal.CANONICAL).hashCode()
+
+Specified by:
+hashCode in interface Principal
+Overrides:
+hashCode in class Object
+Returns:
+a hash code for this X500Principal
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+X500Principal,toString(),String,Return a user-friendly string representation of this X500Principal.,"
+
+toString
+public String toString()
+Return a user-friendly string representation of this
+ X500Principal.
+
+Specified by:
+toString in interface Principal
+Overrides:
+toString in class Object
+Returns:
+a string representation of this X500Principal
+
+
+"
+X500PrivateCredential,destroy(),void,"Clears the references to the X.509 certificate, private key and the KeyStore alias in this object.","
+
+destroy
+public void destroy()
+Clears the references to the X.509 certificate, private key and the
+ KeyStore alias in this object.
+
+Specified by:
+destroy in interface Destroyable
+
+
+"
+X500PrivateCredential,getAlias(),String,Returns the KeyStore alias.,"
+
+getAlias
+public String getAlias()
+Returns the KeyStore alias.
+ 
+
+Returns:
+the KeyStore alias
+
+
+"
+X500PrivateCredential,getCertificate(),X509Certificate,Returns the X.509 certificate.,"
+
+getCertificate
+public X509Certificate getCertificate()
+Returns the X.509 certificate.
+ 
+
+Returns:
+the X509Certificate
+
+
+"
+X500PrivateCredential,getPrivateKey(),PrivateKey,Returns the PrivateKey.,"
+
+getPrivateKey
+public PrivateKey getPrivateKey()
+Returns the PrivateKey.
+ 
+
+Returns:
+the PrivateKey
+
+
+"
+X500PrivateCredential,isDestroyed(),boolean,Determines if the references to the X.509 certificate and private key in this object have been cleared.,"
+
+isDestroyed
+public boolean isDestroyed()
+Determines if the references to the X.509 certificate and private key
+ in this object have been cleared.
+ 
+
+Specified by:
+isDestroyed in interface Destroyable
+Returns:
+true if X509Certificate and the PrivateKey are null
+
+
+"

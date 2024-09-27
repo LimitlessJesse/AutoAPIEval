@@ -1,0 +1,331 @@
+Sample: 0 AclEntry_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.UserPrincipal;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry aclEntry = ...; // Initialize AclEntry object
+        UserPrincipal principal = aclEntry.principal();
+        System.out.println("Principal: " + principal);
+    }
+}
+```
+================================================================
+
+Sample: 1 AclEntry_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.AclEntryPermission;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry aclEntry = ...; // Initialize AclEntry object
+        Set<AclEntryPermission> permissions = aclEntry.permissions();
+        System.out.println("Permissions: " + permissions);
+    }
+}
+```
+================================================================
+
+Sample: 2 AclEntry_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.AclEntryFlag;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry aclEntry = ...; // Initialize AclEntry object
+        Set<AclEntryFlag> flags = aclEntry.flags();
+        System.out.println(flags);
+    }
+}
+```
+================================================================
+
+Sample: 3 AclEntry_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry aclEntry = ...; // Initialize AclEntry object
+        AclEntryType entryType = aclEntry.type();
+        System.out.println("ACL Entry Type: " + entryType);
+    }
+}
+```
+================================================================
+
+Sample: 4 AclEntry_Builder_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.UserPrincipal;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry.Builder builder = AclEntry.newBuilder();
+        UserPrincipal principal = ...; // Initialize UserPrincipal object
+        builder.setPrincipal(principal);
+    }
+}
+```
+================================================================
+
+Sample: 5 AclEntry_Builder_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.AclEntryType;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry.Builder builder = AclEntry.newBuilder();
+        AclEntryType type = AclEntryType.ALLOW;
+        builder.setType(type);
+    }
+}
+```
+================================================================
+
+Sample: 6 AclEntry_Builder_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.AclEntryPermission;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry.Builder builder = AclEntry.newBuilder();
+        Set<AclEntryPermission> permissions = new HashSet<>();
+        permissions.add(AclEntryPermission.READ_DATA);
+        permissions.add(AclEntryPermission.WRITE_DATA);
+        
+        AclEntry.Builder updatedBuilder = builder.setPermissions(permissions);
+        
+        System.out.println("Permissions set: " + updatedBuilder.permissions());
+    }
+}
+```
+================================================================
+
+Sample: 7 AclEntry_Builder_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.AclEntryFlag;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry.Builder builder = AclEntry.newBuilder();
+        Set<AclEntryFlag> flags = new HashSet<>();
+        flags.add(AclEntryFlag.DIRECTORY_INHERIT);
+        flags.add(AclEntryFlag.FILE_INHERIT);
+        
+        builder.setFlags(flags);
+    }
+}
+```
+================================================================
+
+Sample: 8 AclEntry_Builder_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.AclEntry.Builder;
+
+public class Main {
+    public static void main(String[] args) {
+        Builder builder = AclEntry.newBuilder();
+        builder.setType(AclEntryType.ALLOW);
+        builder.setPrincipal(UserPrincipalLookupService.lookupPrincipalByName("user:john"));
+        
+        AclEntry entry = builder.build();
+        System.out.println("New ACL entry: " + entry);
+    }
+}
+```
+================================================================
+
+Sample: 9 FileTime_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.FileTime;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        FileTime fileTime = FileTime.fromMillis(System.currentTimeMillis());
+        long value = fileTime.to(TimeUnit.SECONDS);
+        System.out.println("File time in seconds since epoch: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 10 FileTime_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.FileTime;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        long value = 1000;
+        TimeUnit unit = TimeUnit.MILLISECONDS;
+        
+        FileTime fileTime = FileTime.from(value, unit);
+        System.out.println(fileTime);
+    }
+}
+```
+================================================================
+
+Sample: 11 FileTime_3
+----------------------------------------------------------------
+`boolean equals(Object obj)`: This method tests this FileTime for equality with the given object.
+
+Code snippet:
+```java
+import java.nio.file.attribute.FileTime;
+
+public class Main {
+    public static void main(String[] args) {
+        FileTime time1 = FileTime.fromMillis(System.currentTimeMillis());
+        FileTime time2 = FileTime.fromMillis(System.currentTimeMillis());
+
+        boolean result = time1.equals(time2);
+        System.out.println("Are the FileTimes equal? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 12 FileTime_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.FileTime;
+
+public class Main {
+    public static void main(String[] args) {
+        FileTime time1 = FileTime.fromMillis(System.currentTimeMillis());
+        FileTime time2 = FileTime.fromMillis(System.currentTimeMillis() + 1000);
+        
+        int comparison = time1.compareTo(time2);
+        
+        if(comparison == 0) {
+            System.out.println("Both times are equal");
+        } else if(comparison < 0) {
+            System.out.println("time1 is before time2");
+        } else {
+            System.out.println("time1 is after time2");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 FileTime_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.FileTime;
+
+public class Main {
+    public static void main(String[] args) {
+        FileTime fileTime = FileTime.fromMillis(1234567890000L);
+        System.out.println(fileTime.toString());
+    }
+}
+```
+================================================================
+
+Sample: 14 PosixFilePermissions_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxr-x---");
+        System.out.println(perms);
+    }
+}
+```
+================================================================
+
+Sample: 15 PosixFilePermissions_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        Set<PosixFilePermission> permissions = new HashSet<>();
+        permissions.add(PosixFilePermission.OWNER_READ);
+        permissions.add(PosixFilePermission.OWNER_WRITE);
+        
+        String permissionString = PosixFilePermissions.toString(permissions);
+        System.out.println(permissionString);
+    }
+}
+```
+================================================================
+
+Sample: 16 UserPrincipalLookupService_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.UserPrincipalLookupService;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        UserPrincipalLookupService service = FileSystems.getDefault().getUserPrincipalLookupService();
+        
+        try {
+            UserPrincipal userPrincipal = service.lookupPrincipalByName("username");
+            System.out.println("User principal found: " + userPrincipal.toString());
+        } catch (UserPrincipalNotFoundException e) {
+            System.out.println("User principal not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("An I/O error occurred: " + e.getMessage());
+        } catch (SecurityException e) {
+            System.out.println("Security exception occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+

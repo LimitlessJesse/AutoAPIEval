@@ -1,0 +1,290 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,AuthPermission,1,String getName(),False,,NULL
+0,AuthPermission,2,boolean implies(Permission p),False,,NULL
+0,AuthPermission,3,PermissionCollection newPermissionCollection(),False,,NULL
+0,AuthPermission,4,boolean equals(Object obj),False,,NULL
+0,AuthPermission,5,int hashCode(),False,,NULL
+1,Policy,1,PermissionCollection getPermissions(ProtectionDomain domain),False,,NULL
+1,Policy,2,void refresh(),True,,"
+
+refresh
+public abstract void refresh()
+Deprecated. 
+Refresh and reload the Policy.
+
+ This method causes this object to refresh/reload its current
+ Policy. This is implementation-dependent.
+ For example, if the Policy object is stored in
+ a file, calling refresh will cause the file to be re-read.
+
+ 
+
+Throws:
+SecurityException - if the caller does not have permission
+                          to refresh the Policy.
+
+
+"
+1,Policy,3,void setPolicy(Policy policy),True,,"
+
+setPolicy
+public static void setPolicy(Policy policy)
+Deprecated. 
+Sets the system-wide Policy object. This method first calls
+ SecurityManager.checkPermission with the
+ AuthPermission(""setPolicy"")
+ permission to ensure the caller has permission to set the Policy.
+
+ 
+
+Parameters:
+policy - the new system Policy object.
+Throws:
+SecurityException - if the current thread does not
+          have permission to set the Policy.
+See Also:
+getPolicy()
+
+
+"
+1,Policy,4,void refresh(),True,,"
+
+refresh
+public abstract void refresh()
+Deprecated. 
+Refresh and reload the Policy.
+
+ This method causes this object to refresh/reload its current
+ Policy. This is implementation-dependent.
+ For example, if the Policy object is stored in
+ a file, calling refresh will cause the file to be re-read.
+
+ 
+
+Throws:
+SecurityException - if the caller does not have permission
+                          to refresh the Policy.
+
+
+"
+1,Policy,5,PermissionCollection getPermissions(CodeSource codesource),False,,NULL
+2,PrivateCredentialPermission,1,boolean implies(java.security.Permission permission),False,,NULL
+2,PrivateCredentialPermission,2,String getActions(),True,,"
+
+getActions
+public String getActions()
+Returns the ""canonical string representation"" of the actions.
+ This method always returns the String, ""read"".
+
+ 
+
+Specified by:
+getActions in class Permission
+Returns:
+the actions (always returns ""read"").
+
+
+"
+2,PrivateCredentialPermission,3,boolean equals(Object obj),True,,"
+
+equals
+public boolean equals(Object obj)
+Checks two PrivateCredentialPermission objects for
+ equality.  Checks that obj is a
+ PrivateCredentialPermission,
+ and has the same credential class as this object,
+ as well as the same Principals as this object.
+ The order of the Principals in the respective Permission's
+ target names is not relevant.
+
+ 
+
+Specified by:
+equals in class Permission
+Parameters:
+obj - the object we are testing for equality with this object.
+Returns:
+true if obj is a PrivateCredentialPermission,
+          has the same credential class as this object,
+          and has the same Principals as this object.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+2,PrivateCredentialPermission,4,int hashCode(),True,,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this object.
+
+Specified by:
+hashCode in class Permission
+Returns:
+a hash code value for this object.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+2,PrivateCredentialPermission,5,String toString(),False,,NULL
+3,Subject,1,boolean isReadOnly(),True,,"
+
+isReadOnly
+public boolean isReadOnly()
+Query whether this Subject is read-only.
+
+ 
+
+Returns:
+true if this Subject is read-only, false otherwise.
+
+
+"
+3,Subject,2,Set<Principal> getPrincipals(),True,,"
+
+getPrincipals
+public Set<Principal> getPrincipals()
+Return the Set of Principals associated with this
+ Subject.  Each Principal represents
+ an identity for this Subject.
+
+  The returned Set is backed by this Subject's
+ internal Principal Set.  Any modification
+ to the returned Set affects the internal
+ Principal Set as well.
+
+ 
+
+Returns:
+The Set of Principals associated with this
+          Subject.
+
+
+"
+3,Subject,3,boolean equals(Object o),True,,"
+
+equals
+public boolean equals(Object o)
+Compares the specified Object with this Subject
+ for equality.  Returns true if the given object is also a Subject
+ and the two Subject instances are equivalent.
+ More formally, two Subject instances are
+ equal if their Principal and Credential
+ Sets are equal.
+
+ 
+
+Overrides:
+equals in class Object
+Parameters:
+o - Object to be compared for equality with this
+          Subject.
+Returns:
+true if the specified Object is equal to this
+          Subject.
+Throws:
+SecurityException - if the caller does not have permission
+          to access the private credentials for this Subject,
+          or if the caller does not have permission to access the
+          private credentials for the provided Subject.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+3,Subject,4,boolean removePrincipal(Principal p),False,,NULL
+3,Subject,5,boolean isReadOnly(),True,,"
+
+isReadOnly
+public boolean isReadOnly()
+Query whether this Subject is read-only.
+
+ 
+
+Returns:
+true if this Subject is read-only, false otherwise.
+
+
+"
+4,SubjectDomainCombiner,1,"ProtectionDomain[] combine(ProtectionDomain[] currentDomains, ProtectionDomain[] assignedDomains)",True,,"
+
+combine
+public ProtectionDomain[] combine(ProtectionDomain[] currentDomains,
+                                  ProtectionDomain[] assignedDomains)
+Update the relevant ProtectionDomains with the Principals
+ from the Subject associated with this
+ SubjectDomainCombiner.
+
+  A new ProtectionDomain instance is created
+ for each ProtectionDomain in the
+ currentDomains array.  Each new ProtectionDomain
+ instance is created using the CodeSource,
+ Permissions and ClassLoader
+ from the corresponding ProtectionDomain in
+ currentDomains, as well as with the Principals from
+ the Subject associated with this
+ SubjectDomainCombiner.
+
+  All of the newly instantiated ProtectionDomains are
+ combined into a new array.  The ProtectionDomains from the
+ assignedDomains array are appended to this new array,
+ and the result is returned.
+
+  Note that optimizations such as the removal of duplicate
+ ProtectionDomains may have occurred.
+ In addition, caching of ProtectionDomains may be permitted.
+
+ 
+
+Specified by:
+combine in interface DomainCombiner
+Parameters:
+currentDomains - the ProtectionDomains associated with the
+          current execution Thread, up to the most recent
+          privileged ProtectionDomain.
+          The ProtectionDomains are are listed in order of execution,
+          with the most recently executing ProtectionDomain
+          residing at the beginning of the array. This parameter may
+          be null if the current execution Thread
+          has no associated ProtectionDomains.
+assignedDomains - the ProtectionDomains inherited from the
+          parent Thread, or the ProtectionDomains from the
+          privileged context, if a call to
+          AccessController.doPrivileged(..., context)
+          had occurred  This parameter may be null
+          if there were no ProtectionDomains inherited from the
+          parent Thread, or from the privileged context.
+Returns:
+a new array consisting of the updated ProtectionDomains,
+          or null.
+
+
+"
+4,SubjectDomainCombiner,2,Subject getSubject(),True,,"
+
+getSubject
+public Subject getSubject()
+Get the Subject associated with this
+ SubjectDomainCombiner.
+
+ 
+
+Returns:
+the Subject associated with this
+          SubjectDomainCombiner, or null
+          if no Subject is associated with this
+          SubjectDomainCombiner.
+Throws:
+SecurityException - if the caller does not have permission
+          to get the Subject associated with this
+          SubjectDomainCombiner.
+
+
+"
+4,SubjectDomainCombiner,3,void setSubject(Subject subject),False,,NULL
+4,SubjectDomainCombiner,4,void clearSubject(),False,,NULL
+4,SubjectDomainCombiner,5,boolean equals(Object obj),False,,NULL

@@ -1,0 +1,1298 @@
+Sample: 0 Cipher_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import java.security.Key;
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Generate a random key
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(128, new SecureRandom());
+            Key key = keyGen.generateKey();
+            
+            // Create a cipher object
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            
+            // Input data
+            byte[] input = "Hello, World!".getBytes();
+            
+            // Encrypt the input data
+            byte[] encrypted = cipher.doFinal(input);
+            
+            // Output the encrypted data
+            System.out.println("Encrypted data: " + new String(encrypted));
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 Cipher_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Cipher;
+import javax.crypto.Key;
+import java.security.spec.AlgorithmParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        int opmode = Cipher.ENCRYPT_MODE;
+        Key key = ...; // Initialize your key
+        AlgorithmParameterSpec params = ...; // Initialize your AlgorithmParameterSpec
+        
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(opmode, key, params);
+    }
+}
+```
+================================================================
+
+Sample: 2 Cipher_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Cipher;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            byte[] input = "Hello World".getBytes();
+            byte[] key = "1234567890123456".getBytes();
+            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"));
+            byte[] encryptedData = cipher.doFinal(input);
+
+            byte[] updatedData = cipher.update(encryptedData, 0, encryptedData.length);
+
+            for (byte b : updatedData) {
+                System.out.print((char) b);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 Cipher_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        int opmode = Cipher.ENCRYPT_MODE; // Example operation mode
+        try {
+            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+            SecretKey secretKey = keyGenerator.generateKey();
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(opmode, secretKey);
+            
+            // Continue with encryption or decryption process
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 Cipher_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Cipher;
+
+public class Main {
+    public static void main(String[] args) {
+        int inputLen = 16;
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        int outputSize = cipher.getOutputSize(inputLen);
+        System.out.println("Output size for input length " + inputLen + ": " + outputSize);
+    }
+}
+```
+================================================================
+
+Sample: 5 CipherInputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import java.io.FileInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            FileInputStream fis = new FileInputStream("encryptedFile.txt");
+            CipherInputStream cis = new CipherInputStream(fis, cipher);
+            
+            int data;
+            while ((data = cis.read()) != -1) {
+                System.out.print((char) data);
+            }
+            
+            cis.close();
+            fis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 CipherInputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.CipherInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assume cipherInputStream is already initialized
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        
+        try {
+            while ((bytesRead = cipherInputStream.read(buffer)) != -1) {
+                // Process the read bytes here
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 CipherInputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.CipherInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fis = new FileInputStream("file.txt");
+            CipherInputStream cis = new CipherInputStream(fis, cipher);
+
+            byte[] buffer = new byte[1024];
+            int bytesRead = cis.read(buffer, 0, buffer.length);
+
+            while (bytesRead != -1) {
+                // Process the read bytes here
+
+                bytesRead = cis.read(buffer, 0, buffer.length);
+            }
+
+            cis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 CipherInputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.CipherInputStream;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            File inputFile = new File("input.txt");
+            FileInputStream fileInputStream = new FileInputStream(inputFile);
+            CipherInputStream cipherInputStream = new CipherInputStream(fileInputStream, null);
+
+            long bytesSkipped = cipherInputStream.skip(10);
+            System.out.println("Number of bytes skipped: " + bytesSkipped);
+
+            cipherInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 CipherInputStream_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        CipherInputStream cipherInputStream = new CipherInputStream(System.in, cipher);
+        
+        int bytesRead = 0;
+        while (cipherInputStream.available() > 0) {
+            int data = cipherInputStream.read();
+            // Process the data read from CipherInputStream
+            bytesRead++;
+        }
+        
+        System.out.println("Total bytes read: " + bytesRead);
+        
+        cipherInputStream.close();
+    }
+}
+```
+================================================================
+
+Sample: 10 CipherOutputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.CipherOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.security.Key;
+import javax.crypto.Cipher;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Key secretKey = // initialize your secret key here
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            
+            OutputStream outputStream = new FileOutputStream("encrypted.txt");
+            CipherOutputStream cipherOutputStream = new CipherOutputStream(outputStream, cipher);
+            
+            byte[] data = "Hello, World!".getBytes();
+            cipherOutputStream.write(data);
+            
+            cipherOutputStream.close();
+            outputStream.close();
+            
+            System.out.println("Encryption completed.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 CipherOutputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.Cipher;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] input = "Hello, World!".getBytes();
+        
+        try {
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            // Initialize the Cipher with ENCRYPT_MODE or DECRYPT_MODE and the key
+            CipherOutputStream cos = new CipherOutputStream(System.out, cipher);
+            cos.write(input, 0, input.length);
+            cos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 CipherOutputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.CipherOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        CipherOutputStream cipherOutputStream = new CipherOutputStream(System.out);
+        try {
+            cipherOutputStream.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 CipherOutputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.CipherOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        CipherOutputStream cipherOutputStream = null;
+        try {
+            cipherOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 14 CipherSpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.CipherSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            CipherSpi cipherSpi = cipher.getProvider().getCipher(cipher.getAlgorithm());
+            int blockSize = cipherSpi.engineGetBlockSize();
+            System.out.println("Block size: " + blockSize);
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 CipherSpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Cipher;
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            SecureRandom random = new SecureRandom();
+            byte[] iv = cipher.getIV();
+
+            System.out.println("Initialization Vector (IV): " + new String(iv));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 CipherSpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Cipher;
+
+public class Main {
+    public static void main(String[] args) {
+        int inputLen = 16;
+        Cipher cipher = new Cipher() {
+            @Override
+            protected byte[] engineGetOutputSize(int inputLen) {
+                return new byte[0];
+            }
+        };
+        int outputSize = cipher.engineGetOutputSize(inputLen);
+        System.out.println("Output size for input length " + inputLen + ": " + outputSize);
+    }
+}
+```
+================================================================
+
+Sample: 17 CipherSpi_5
+----------------------------------------------------------------
+`void engineSetMode(String mode)`: This method sets the mode of operation for this CipherSpi object.
+
+Code snippet:
+```java
+import javax.crypto.CipherSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        MyCipherSpi cipherSpi = new MyCipherSpi();
+        cipherSpi.engineSetMode("ECB");
+    }
+
+    static class MyCipherSpi extends CipherSpi {
+        @Override
+        protected void engineSetMode(String mode) {
+            System.out.println("Mode set to: " + mode);
+        }
+
+        // Other required abstract methods for CipherSpi
+        // These methods can be left empty for illustration purposes
+        @Override
+        protected byte[] engineDoFinal(byte[] input, int inputOffset, int inputLen) {
+            return new byte[0];
+        }
+
+        @Override
+        protected int engineGetBlockSize() {
+            return 0;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 EncryptedPrivateKeyInfo_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.EncryptedPrivateKeyInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        EncryptedPrivateKeyInfo encryptedPrivateKeyInfo = new EncryptedPrivateKeyInfo(byte[] encryptedData);
+        byte[] data = encryptedPrivateKeyInfo.getEncryptedData();
+    }
+}
+```
+================================================================
+
+Sample: 19 EncryptedPrivateKeyInfo_2
+----------------------------------------------------------------
+```java
+import javax.crypto.EncryptedPrivateKeyInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        EncryptedPrivateKeyInfo info = new EncryptedPrivateKeyInfo();
+        String algName = info.getAlgName();
+        System.out.println("Algorithm name: " + algName);
+    }
+}
+```
+================================================================
+
+Sample: 20 EncryptedPrivateKeyInfo_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.EncryptedPrivateKeyInfo;
+import java.security.AlgorithmParameters;
+import java.security.spec.PKCS8EncodedKeySpec;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        // Sample encrypted private key info
+        byte[] encoded = {} // your encrypted private key info bytes here
+
+        EncryptedPrivateKeyInfo encryptedPrivateKeyInfo = new EncryptedPrivateKeyInfo(encoded);
+        AlgorithmParameters algorithmParameters = encryptedPrivateKeyInfo.getAlgParameters();
+
+        // Use algorithmParameters as needed
+    }
+}
+```
+================================================================
+
+Sample: 21 ExemptionMechanism_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.ExemptionMechanism;
+
+public class Main {
+    public static void main(String[] args) {
+        ExemptionMechanism ex = ExemptionMechanism.getInstance("Test");
+        String name = ex.getName();
+        System.out.println("Exemption mechanism name: " + name);
+    }
+}
+```
+================================================================
+
+Sample: 22 ExemptionMechanismSpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.ExemptionMechanismSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        ExemptionMechanismSpi spi = new ExemptionMechanismSpi() {
+            @Override
+            protected byte[] engineGenExemptionBlob() {
+                // Implement your logic here to generate the exemption blob
+                return new byte[0];
+            }
+        };
+
+        byte[] exemptionBlob = spi.engineGenExemptionBlob();
+        // Make use of the generated exemption blob
+    }
+}
+```
+================================================================
+
+Sample: 23 KeyAgreement_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.KeyAgreement;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyAgreement keyAgreement = KeyAgreement.getInstance("DiffieHellman");
+            String algorithm = keyAgreement.getAlgorithm();
+            System.out.println("Key agreement algorithm: " + algorithm);
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 24 KeyAgreement_4
+----------------------------------------------------------------
+`Provider getProvider()`: This method returns the provider of this KeyAgreement object.
+
+Code snippet:
+```java
+import javax.crypto.KeyAgreement;
+import java.security.Provider;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyAgreement keyAgreement = KeyAgreement.getInstance("DiffieHellman");
+            Provider provider = keyAgreement.getProvider();
+            System.out.println("Provider: " + provider.getName());
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 25 KeyAgreement_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.KeyAgreement;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("DiffieHellman");
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+            KeyAgreement keyAgreement = KeyAgreement.getInstance("DiffieHellman");
+            keyAgreement.init(keyPair.getPrivate());
+
+            // Continue with key agreement process
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 26 KeyAgreementSpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.KeyAgreement;
+import java.security.Key;
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyAgreement keyAgreement = new KeyAgreementSpi();
+        Key key = // initialize Key object
+        SecureRandom random = // initialize SecureRandom object
+        
+        keyAgreement.engineInit(key, random);
+    }
+}
+```
+================================================================
+
+Sample: 27 KeyAgreementSpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.KeyAgreementSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        // Instantiate KeyAgreementSpi
+        KeyAgreementSpi keyAgreementSpi = new KeyAgreementSpi();
+        
+        // Call engineGenerateSecret() method
+        byte[] secret = keyAgreementSpi.engineGenerateSecret();
+        
+        // Use secret as needed
+    }
+}
+```
+================================================================
+
+Sample: 28 KeyAgreementSpi_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.KeyAgreement;
+import javax.crypto.KeyAgreementSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] sharedSecret = new byte[16]; // Example shared secret
+        int offset = 0; // Example offset
+        KeyAgreementSpi keyAgreementSpi = new KeyAgreementSpi() {
+            @Override
+            protected byte[] engineGenerateSecret() {
+                return sharedSecret; // Return shared secret
+            }
+
+            @Override
+            protected int engineGenerateSecret(byte[] sharedSecret, int offset) {
+                // Generate secret implementation
+                // You can add your own logic here
+                return 0; // Return the generated secret
+            }
+        };
+        
+        keyAgreementSpi.engineGenerateSecret(sharedSecret, offset);
+    }
+}
+```
+================================================================
+
+Sample: 29 KeyAgreementSpi_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.KeyAgreementSpi;
+import javax.crypto.SecretKey;
+
+public class Main {
+    public static void main(String[] args) {
+        String algorithm = "AES";
+        KeyAgreementSpi keyAgreementSpi = new KeyAgreementSpi() {
+            @Override
+            protected byte[] engineGenerateSecret() {
+                // Implementation to generate secret key
+                return new byte[16];
+            }
+        };
+        
+        SecretKey secretKey = keyAgreementSpi.engineGenerateSecret(algorithm);
+        System.out.println("Generated Secret Key: " + secretKey);
+    }
+}
+```
+================================================================
+
+Sample: 30 KeyGenerator_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.KeyGenerator;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+            System.out.println("KeyGenerator algorithm: " + keyGenerator.getAlgorithm());
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 31 KeyGenerator_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.KeyGenerator;
+
+public class Main {
+    public static void main(String[] args) {
+        int keysize = 128;
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(keysize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 32 KeyGenerator_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+
+public class Main {
+    public static void main(String[] args) {
+        try{
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(256);
+            SecretKey secretKey = keyGen.generateKey();
+            System.out.println("Generated Key: " + secretKey);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 33 KeyGenerator_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.KeyGenerator;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            System.out.println("Algorithm: " + keyGen.getAlgorithm());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 34 KeyGenerator_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.KeyGenerator;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+            System.out.println("Provider: " + keyGenerator.getProvider());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 35 Mac_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Mac;
+import javax.crypto.KeyGenerator;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
+            Key key = keyGen.generateKey();
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(key);
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 36 Mac_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            byte[] key = "secretkey".getBytes(); // Example key, replace with your own
+            SecretKeySpec secretKey = new SecretKeySpec(key, "HmacSHA256");
+            mac.init(secretKey);
+
+            byte[] input = "Hello World".getBytes(); // Example input
+            mac.update(input);
+
+            byte[] result = mac.doFinal();
+            System.out.println("MAC result: " + javax.xml.bind.DatatypeConverter.printHexBinary(result));
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 37 Mac_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Mac;
+import javax.crypto.KeyGenerator;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
+            Mac mac = Mac.getInstance("HmacSHA256");
+
+            // Resetting the MAC object
+            mac.reset();
+
+            System.out.println("MAC object reset successfully.");
+        } catch (Exception e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 38 Mac_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            byte[] keyData = "secretKey".getBytes();
+            SecretKeySpec key = new SecretKeySpec(keyData, "HmacSHA256");
+            mac.init(key);
+            
+            byte[] message = "Hello World".getBytes();
+            byte[] result = mac.doFinal(message);
+            
+            System.out.println("MAC result: " + new String(result));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 39 Mac_5
+----------------------------------------------------------------
+`int getMacLength()`: This method returns the length of the MAC in bytes.
+
+Code snippet:
+```java
+import javax.crypto.Mac;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            int macLength = mac.getMacLength();
+            System.out.println("MAC Length: " + macLength);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 40 MacSpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.spec.IvParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] keyBytes = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09};
+        Key key = new SecretKeySpec(keyBytes, "HmacSHA256");
+        AlgorithmParameterSpec params = new IvParameterSpec(new byte[16]);
+
+        Mac mac = new Mac() {
+            @Override
+            protected byte[] engineDoFinal() {
+                // implementation
+                return new byte[0];
+            }
+
+            @Override
+            protected int engineGetMacLength() {
+                // implementation
+                return 0;
+            }
+
+            @Override
+            protected void engineInit(Key key, AlgorithmParameterSpec params) {
+                // implementation
+            }
+
+            @Override
+            protected void engineReset() {
+                // implementation
+            }
+
+            @Override
+            protected void engineUpdate(byte input) {
+                // implementation
+            }
+
+            @Override
+            protected void engineUpdate(byte[] input, int offset, int len) {
+                // implementation
+            }
+        };
+        mac.engineInit(key, params);
+        // Additional code to use Mac object
+    }
+}
+```
+================================================================
+
+Sample: 41 MacSpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.MacSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of MacSpi
+        MacSpi macSpi = new MacSpi() {
+            @Override
+            protected int engineUpdate(byte input) {
+                // Implement the engineUpdate method according to your requirements
+                return 0;
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 42 MacSpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.MacSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        void engineReset() {
+            // Reset the MAC algorithm to the initial state
+        }
+    }
+}
+```
+================================================================
+
+Sample: 43 MacSpi_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Mac;
+import javax.crypto.ShortBufferException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            int macLength = mac.getMacLength();
+            System.out.println("Mac length: " + macLength);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```  
+================================================================
+
+Sample: 44 MacSpi_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            byte[] keyBytes = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
+            SecretKeySpec key = new SecretKeySpec(keyBytes, "HmacSHA256");
+            mac.init(key);
+            
+            byte[] data = "Hello World".getBytes();
+            byte[] result = mac.doFinal(data);
+            
+            System.out.println("Result: " + new String(result));
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 45 SealedObject_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.SealedObject;
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating a SealedObject
+        SealedObject sealedObject = new SealedObject("Hello", null);
+
+        // Getting the algorithm used to seal the object
+        String algorithm = sealedObject.getAlgorithm();
+
+        System.out.println("SealedObject algorithm: " + algorithm);
+    }
+}
+```
+================================================================
+
+Sample: 46 SecretKeyFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        char[] password = "password".toCharArray();
+        byte[] salt = new byte[] {1, 2, 3, 4, 5, 6, 7, 8};
+        int iterations = 10000;
+        int keyLength = 256;
+
+        PBEKeySpec keySpec = new PBEKeySpec(password, salt, iterations, keyLength);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        SecretKey secretKey = factory.generateSecret(keySpec);
+
+        System.out.println("Generated secret key: " + secretKey);
+    }
+}
+```
+================================================================
+
+Sample: 47 SecretKeyFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.spec.KeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.InvalidKeyException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Generate a SecretKey
+            byte[] keyBytes = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("DES");
+            SecretKey key = new SecretKeySpec(keyBytes, "DES");
+
+            // Generate a KeySpec based on the SecretKey
+            Class<PBEKeySpec> keySpecClass = PBEKeySpec.class;
+            KeySpec keySpec = factory.getKeySpec(key, keySpecClass);
+            System.out.println(keySpec.getClass().getName()); // Output will be javax.crypto.spec.PBEKeySpec
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 48 SecretKeyFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.SecretKeyFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("AES");
+        String algorithm = keyFactory.getAlgorithm();
+        System.out.println("Algorithm: " + algorithm);
+    }
+}
+```
+================================================================
+
+Sample: 49 SecretKeyFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.SecretKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Generate a sample secret key
+            byte[] keyBytes = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
+            SecretKey originalKey = new SecretKeySpec(keyBytes, "AES");
+
+            // Create SecretKeyFactory instance
+            SecretKeyFactory factory = SecretKeyFactory.getInstance(originalKey.getAlgorithm());
+
+            // Translate the secret key
+            SecretKey translatedKey = factory.translateKey(originalKey);
+
+            // Display the original and translated keys
+            System.out.println("Original Key: " + originalKey);
+            System.out.println("Translated Key: " + translatedKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 50 SecretKeyFactorySpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.SecretKey;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Initialize the SecretKeyFactory
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+
+            // Set up the KeySpec (example with a password)
+            char[] password = "password".toCharArray();
+            byte[] salt = // Generate a salt here
+            int iterations = 10000;
+            int keyLength = 256;
+
+            PBEKeySpec keySpec = new PBEKeySpec(password, salt, iterations, keyLength);
+
+            // Generate the SecretKey using the KeySpec
+            SecretKey secretKey = factory.generateSecret(keySpec);
+
+            // Use the secretKey for encryption or decryption
+            System.out.println("SecretKey generated: " + secretKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 51 SecretKeyFactorySpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.SecretKeyFactorySpi;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.spec.KeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SecretKeyFactorySpi factory = new SecretKeyFactorySpi() {
+                @Override
+                protected SecretKey engineTranslateKey(SecretKey key) {
+                    byte[] keyBytes = key.getEncoded();
+                    KeySpec keySpec = new SecretKeySpec(keyBytes, key.getAlgorithm());
+                    return engineGenerateSecret(keySpec);
+                }
+            };
+
+            // Example usage
+            byte[] keyValue = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
+            SecretKey originalKey = new SecretKeySpec(keyValue, "AES");
+
+            SecretKey translatedKey = factory.engineTranslateKey(originalKey);
+
+            System.out.println("Original key: " + originalKey);
+            System.out.println("Translated key: " + translatedKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,435 @@
+Sample: 0 AbstractScriptEngine_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+public class Main {
+    public static void main(String[] args) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("js");
+
+        try {
+            Object result = engine.eval("1 + 2");
+            System.out.println("Result: " + result);
+        } catch (ScriptException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 AbstractScriptEngine_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("JavaScript");
+
+        try {
+            Object result = engine.eval(new StringReader("2 + 2"));
+            System.out.println("Result: " + result);
+        } catch (ScriptException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 AbstractScriptEngine_3
+----------------------------------------------------------------
+`Object eval(String script, Bindings bindings)`: This method evaluates the specified script using the provided bindings.
+
+Code snippet:
+```java
+import javax.script.*;
+
+public class Main {
+    public static void main(String[] args) throws ScriptException {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("js");
+
+        Bindings bindings = engine.createBindings();
+        bindings.put("name", "John");
+
+        Object result = engine.eval("print('Hello, ' + name);", bindings);
+    }
+}
+```
+================================================================
+
+Sample: 3 AbstractScriptEngine_4
+----------------------------------------------------------------
+`Object eval(Reader reader, Bindings bindings)`: This method evaluates the script in the provided Reader using the specified Bindings.
+
+Code snippet:
+```java
+import javax.script.AbstractScriptEngine;
+import javax.script.ScriptException;
+import javax.script.Bindings;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractScriptEngine scriptEngine = new AbstractScriptEngine() {
+            @Override
+            public Object eval(Reader reader, Bindings bindings) throws ScriptException {
+                // Implementation of eval method
+                return null;
+            }
+        };
+
+        String script = "print('Hello, World!')";
+        Bindings bindings = scriptEngine.createBindings();
+        bindings.put("name", "John");
+
+        try {
+            scriptEngine.eval(new StringReader(script), bindings);
+        } catch (ScriptException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 CompiledScript_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.*;
+
+public class Main {
+    public static void main(String[] args) throws ScriptException {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("js");
+        
+        CompiledScript compiledScript = ((Compilable) engine).compile("var x = 10; var y = 20; x + y;");
+        Object result = compiledScript.eval();
+        
+        System.out.println("Result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 5 CompiledScript_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.*;
+
+public class Main {
+    public static void main(String[] args) throws ScriptException {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("js");
+        
+        CompiledScript compiledScript = ((Compilable) engine).compile("var x = 10; x * 2;");
+        Bindings bindings = engine.createBindings();
+        
+        Object result = compiledScript.eval(bindings);
+        System.out.println("Result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 6 CompiledScript_3
+----------------------------------------------------------------
+`Object eval(ScriptContext context)`: This method executes the program stored in the CompiledScript object.
+
+Code snippet:
+```java
+import javax.script.*;
+
+public class Main {
+    public static void main(String[] args) throws ScriptException {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("js");
+        
+        CompiledScript compiledScript = ((Compilable) engine).compile("var x = 10; var y = 20; x + y;");
+        ScriptContext context = new SimpleScriptContext();
+        
+        Object result = compiledScript.eval(context);
+        System.out.println("Result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 7 ScriptEngineManager_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+public class Main {
+    public static void main(String[] args) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("JavaScript");
+        
+        if(engine != null) {
+            System.out.println("ScriptEngine found: " + engine);
+        } else {
+            System.out.println("ScriptEngine not found");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 ScriptEngineManager_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptEngineFactory;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        List<ScriptEngineFactory> engineFactories = manager.getEngineFactories();
+        
+        for (ScriptEngineFactory factory : engineFactories) {
+            System.out.println(factory.getEngineName());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 ScriptEngineManager_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+public class Main {
+    public static void main(String[] args) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByExtension("js");
+        
+        if (engine != null) {
+            System.out.println("ScriptEngine found for extension 'js': " + engine);
+        } else {
+            System.out.println("ScriptEngine not found for extension 'js'");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 ScriptEngineManager_4
+----------------------------------------------------------------
+`ScriptEngine getEngineByMimeType(String mimeType)`: This method looks up and creates a ScriptEngine for a given mime type.
+
+Code snippet:
+```java
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+public class Main {
+    public static void main(String[] args) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByMimeType("text/javascript");
+        
+        if(engine != null) {
+            System.out.println("ScriptEngine found for mime type: " + engine.getFactory().getEngineName());
+        } else {
+            System.out.println("ScriptEngine not found for the specified mime type.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 ScriptEngineManager_5
+----------------------------------------------------------------
+`void registerEngineName(String name, ScriptEngineFactory factory)`: This method registers a ScriptEngineFactory to handle a language name. It overrides any existing association found using the Discovery mechanism.
+
+Code snippet:
+```java
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptEngineFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngineFactory factory = new MyScriptEngineFactory(); // Assuming MyScriptEngineFactory is a custom implementation of ScriptEngineFactory
+        manager.registerEngineName("myLanguage", factory);
+    }
+}
+```
+================================================================
+
+Sample: 12 SimpleBindings_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.SimpleBindings;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleBindings bindings = new SimpleBindings();
+        bindings.put("key1", "value1");
+        bindings.put("key2", "value2");
+
+        Object value1 = bindings.get("key1");
+        Object value3 = bindings.get("key3");
+
+        System.out.println("Value for key1: " + value1);
+        System.out.println("Value for key3: " + value3);
+    }
+}
+```
+================================================================
+
+Sample: 13 SimpleBindings_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.SimpleBindings;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleBindings bindings = new SimpleBindings();
+        bindings.put("key1", "value1");
+        bindings.put("key2", "value2");
+
+        System.out.println("Before removal: " + bindings);
+
+        Object removedValue = bindings.remove("key1");
+
+        System.out.println("Removed value: " + removedValue);
+        System.out.println("After removal: " + bindings);
+    }
+}
+```
+================================================================
+
+Sample: 14 SimpleBindings_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.SimpleBindings;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleBindings bindings = new SimpleBindings();
+        bindings.put("key1", "value1");
+        bindings.put("key2", "value2");
+
+        System.out.println(bindings.containsKey("key1")); // Output: true
+        System.out.println(bindings.containsKey("key3")); // Output: false
+    }
+}
+```
+================================================================
+
+Sample: 15 SimpleScriptContext_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.SimpleScriptContext;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleScriptContext context = new SimpleScriptContext();
+        context.setAttribute("name", "John", SimpleScriptContext.ENGINE_SCOPE);
+        
+        Object attributeValue = context.getAttribute("name");
+        System.out.println("Attribute value: " + attributeValue);
+    }
+}
+```
+================================================================
+
+Sample: 16 SimpleScriptContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.SimpleScriptContext;
+import java.io.Writer;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleScriptContext context = new SimpleScriptContext();
+        Writer writer = context.getWriter();
+        // Use the writer to display output
+    }
+}
+```
+================================================================
+
+Sample: 17 SimpleScriptContext_4
+----------------------------------------------------------------
+`void setWriter(Writer writer)`: This method sets the Writer for scripts to use when displaying output.
+
+Code snippet:
+```java
+import javax.script.SimpleScriptContext;
+import java.io.StringWriter;
+import java.io.Writer;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleScriptContext scriptContext = new SimpleScriptContext();
+        
+        // Create a new StringWriter
+        StringWriter stringWriter = new StringWriter();
+        
+        // Set the StringWriter as the Writer for the script context
+        scriptContext.setWriter(stringWriter);
+        
+        // Test output
+        System.out.println("Hello, World!");
+        System.out.println("Output from script: " + stringWriter.toString());
+    }
+}
+```
+================================================================
+
+Sample: 18 SimpleScriptContext_5
+----------------------------------------------------------------
+`void setErrorWriter(Writer writer)`: This method sets the Writer used to display error output.
+
+Code snippet:
+```java
+import javax.script.SimpleScriptContext;
+import java.io.StringWriter;
+import java.io.Writer;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleScriptContext scriptContext = new SimpleScriptContext();
+        
+        // Create a StringWriter to use as the error output
+        StringWriter errorOutput = new StringWriter();
+        
+        // Set the error writer to the StringWriter
+        scriptContext.setErrorWriter(errorOutput);
+        
+        // Test error output
+        scriptContext.getErrorWriter().write("Error message");
+        
+        // Display the error output
+        System.out.println(errorOutput.toString());
+    }
+}
+```
+================================================================
+

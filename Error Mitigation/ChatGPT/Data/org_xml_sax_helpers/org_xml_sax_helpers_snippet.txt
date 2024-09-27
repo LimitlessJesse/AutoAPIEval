@@ -1,0 +1,668 @@
+Sample: 0 AttributesImpl_1
+----------------------------------------------------------------
+`void clear()`: This method clears the attribute list for reuse.
+
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributesImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributesImpl attributes = new AttributesImpl();
+        attributes.addAttribute("", "name", "name", "CDATA", "John Doe");
+        System.out.println("Before clear: " + attributes.getLength());
+        
+        attributes.clear();
+        System.out.println("After clear: " + attributes.getLength());
+    }
+}
+```
+================================================================
+
+Sample: 1 AttributesImpl_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributesImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributesImpl attributes = new AttributesImpl();
+        attributes.setAttribute(0, "http://example.com", "attributeName", "qName", "string", "attributeValue");
+    }
+}
+```
+================================================================
+
+Sample: 2 AttributesImpl_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributesImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributesImpl attributes = new AttributesImpl();
+        attributes.addAttribute("", "name", "name", "CDATA", "John");
+        attributes.removeAttribute(0);
+    }
+}
+```
+================================================================
+
+Sample: 3 AttributesImpl_4
+----------------------------------------------------------------
+`void setAttributes(Attributes atts)`: This method copies an entire Attributes object.
+
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributesImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributesImpl attributes = new AttributesImpl();
+        attributes.addAttribute("", "name", "name", "CDATA", "John Doe");
+        
+        AttributesImpl copiedAttributes = new AttributesImpl();
+        copiedAttributes.setAttributes(attributes);
+        
+        System.out.println("Copied attributes: " + copiedAttributes);
+    }
+}
+```
+================================================================
+
+Sample: 4 AttributesImpl_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributesImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributesImpl attributes = new AttributesImpl();
+        attributes.addAttribute("", "localName1", "localName1", "CDATA", "value1");
+        attributes.addAttribute("", "localName2", "localName2", "CDATA", "value2");
+
+        // Set the local name of the attribute at index 1
+        attributes.setLocalName(1, "newLocalName");
+
+        // Display the updated attributes
+        for (int i = 0; i < attributes.getLength(); i++) {
+            System.out.println("Local Name at index " + i + ": " + attributes.getLocalName(i));
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 DefaultHandler_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.SAXException;
+
+public class Main extends DefaultHandler {
+    @Override
+    public void characters(char[] ch, int start, int length) throws SAXException {
+        // Receive notification of character data inside an element
+        // Add your specific actions here
+    }
+
+    public static void main(String[] args) {
+        // Your main method code here
+    }
+}
+```
+================================================================
+
+Sample: 6 DefaultHandler_2
+----------------------------------------------------------------
+`void endDocument()`: This method receives notification of the end of the document.
+
+Code snippet:
+```java
+import org.xml.sax.SAXException;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.helpers.DefaultHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultHandler handler = new DefaultHandler() {
+            @Override
+            public void endDocument() throws SAXException {
+                // Perform specific actions at the end of the document
+                System.out.println("End of the document");
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 7 DefaultHandler_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.SAXException;
+
+public class MyHandler extends DefaultHandler {
+    
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        // Add your custom implementation here
+        System.out.println("End of element: " + qName);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyHandler handler = new MyHandler();
+        try {
+            handler.endElement("http://example.com", "element", "prefix:element");
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 DefaultHandler_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.SAXException;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultHandler handler = new DefaultHandler() {
+            @Override
+            public void startDocument() throws SAXException {
+                // Add specific actions to be taken at the beginning of a document
+                System.out.println("Document started");
+            }
+        };
+        
+        try {
+            handler.startDocument();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 DefaultHandler_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+public class Main extends DefaultHandler {
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+        // Add your custom implementation here
+        System.out.println("Start Element: " + qName);
+    }
+
+    public static void main(String[] args) {
+        Main handler = new Main();
+        try {
+            handler.startElement("http://example.com", "element", "prefix:element", null);
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 LocatorImpl_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.Locator;
+import org.xml.sax.helpers.LocatorImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        LocatorImpl locator = new LocatorImpl();
+        locator.setColumnNumber(5);
+        int columnNumber = locator.getColumnNumber();
+        System.out.println("Column Number: " + columnNumber);
+    }
+}
+```
+================================================================
+
+Sample: 11 LocatorImpl_2
+----------------------------------------------------------------
+```java
+import org.xml.sax.Locator;
+import org.xml.sax.helpers.LocatorImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        Locator locator = new LocatorImpl();
+        int lineNumber = ((LocatorImpl) locator).getLineNumber();
+        System.out.println("Line number: " + lineNumber);
+    }
+}
+```
+================================================================
+
+Sample: 12 LocatorImpl_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.Locator;
+import org.xml.sax.helpers.LocatorImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        Locator locator = new LocatorImpl();
+        String publicId = locator.getPublicId();
+        System.out.println("Public ID: " + publicId);
+    }
+}
+```
+================================================================
+
+Sample: 13 LocatorImpl_4
+----------------------------------------------------------------
+`String getSystemId()`: This method returns the saved system identifier.
+
+Code snippet:
+```java
+import org.xml.sax.Locator;
+import org.xml.sax.helpers.LocatorImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        Locator locator = new LocatorImpl();
+        String systemId = locator.getSystemId();
+        System.out.println("System Identifier: " + systemId);
+    }
+}
+```
+================================================================
+
+Sample: 14 LocatorImpl_5
+----------------------------------------------------------------
+`void setColumnNumber(int columnNumber)`: This method sets the column number for the LocatorImpl object.
+
+Code snippet:
+```java
+import org.xml.sax.helpers.LocatorImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        LocatorImpl locator = new LocatorImpl();
+        locator.setColumnNumber(5);
+        System.out.println("Column number set to: " + locator.getColumnNumber());
+    }
+}
+```
+================================================================
+
+Sample: 15 NamespaceSupport_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.NamespaceSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        NamespaceSupport ns = new NamespaceSupport();
+        ns.pushContext();
+    }
+}
+```
+================================================================
+
+Sample: 16 NamespaceSupport_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.NamespaceSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        NamespaceSupport ns = new NamespaceSupport();
+        ns.popContext();
+    }
+}
+```
+================================================================
+
+Sample: 17 NamespaceSupport_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.NamespaceSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        NamespaceSupport namespaceSupport = new NamespaceSupport();
+        String prefix = "xml";
+        String uri = namespaceSupport.getURI(prefix);
+        System.out.println("Namespace URI for prefix '" + prefix + "': " + uri);
+    }
+}
+```
+================================================================
+
+Sample: 18 NamespaceSupport_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.NamespaceSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        NamespaceSupport ns = new NamespaceSupport();
+        String uri = "http://www.example.com";
+        String prefix = ns.getPrefix(uri);
+        System.out.println("Prefix for URI " + uri + ": " + prefix);
+    }
+}
+```
+================================================================
+
+Sample: 19 ParserAdapter_2
+----------------------------------------------------------------
+`void setEntityResolver(EntityResolver resolver)`: This method sets the entity resolver for the ParserAdapter.
+
+Code snippet:
+```java
+import org.xml.sax.EntityResolver;
+import org.xml.sax.helpers.ParserAdapter;
+
+public class Main {
+    public static void main(String[] args) {
+        ParserAdapter parserAdapter = new ParserAdapter();
+        EntityResolver resolver = new EntityResolver() {
+            @Override
+            public InputSource resolveEntity(String publicId, String systemId) {
+                // Implement entity resolution logic here
+                return null;
+            }
+        };
+        
+        parserAdapter.setEntityResolver(resolver);
+    }
+}
+```
+================================================================
+
+Sample: 20 ParserAdapter_3
+----------------------------------------------------------------
+`void setErrorHandler(ErrorHandler handler)`: This method sets the error handler for the ParserAdapter.
+
+Code snippet:
+```java
+import org.xml.sax.helpers.ParserAdapter;
+import org.xml.sax.ErrorHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        ParserAdapter parserAdapter = new ParserAdapter();
+        ErrorHandler errorHandler = new CustomErrorHandler(); // CustomErrorHandler is a placeholder, you need to implement your own ErrorHandler
+        parserAdapter.setErrorHandler(errorHandler);
+    }
+}
+```
+================================================================
+
+Sample: 21 ParserAdapter_4
+----------------------------------------------------------------
+`void setDTDHandler(DTDHandler handler)`: This method sets the DTD handler for the ParserAdapter.
+
+Code snippet:
+```java
+import org.xml.sax.helpers.ParserAdapter;
+import org.xml.sax.DTDHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        ParserAdapter parserAdapter = new ParserAdapter();
+        DTDHandler dtdHandler = new CustomDTDHandler(); // CustomDTDHandler is a placeholder, you need to implement your own DTDHandler
+        parserAdapter.setDTDHandler(dtdHandler);
+    }
+}
+```
+================================================================
+
+Sample: 22 XMLFilterImpl_1
+----------------------------------------------------------------
+`void startDocument()`: This method filters a start document event.
+
+Code snippet:
+```java
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.XMLFilterImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLFilterImpl filter = new XMLFilterImpl() {
+            @Override
+            public void startDocument() throws SAXException {
+                // Filter start document event
+                System.out.println("Start document event filtered");
+            }
+        };
+
+        try {
+            filter.startDocument();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 23 XMLFilterImpl_2
+----------------------------------------------------------------
+`void endDocument()`: This method filters an end document event.
+
+Code snippet:
+```java
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.XMLFilterImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLFilterImpl filter = new XMLFilterImpl() {
+            @Override
+            public void endDocument() throws SAXException {
+                // Filter end document event
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 24 XMLFilterImpl_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.XMLFilterImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
+        // Your implementation here
+    }
+}
+```
+================================================================
+
+Sample: 25 XMLFilterImpl_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.XMLFilterImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLFilterImpl xmlFilter = new XMLFilterImpl() {
+            @Override
+            public void endElement(String uri, String localName, String qName) throws SAXException {
+                // Your implementation of the endElement method goes here
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 26 XMLFilterImpl_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.XMLFilterImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLFilterImpl xmlFilter = new XMLFilterImpl() {
+            @Override
+            public void characters(char[] ch, int start, int length) throws SAXException {
+                // Filter implementation for character data event
+                String data = new String(ch, start, length);
+                System.out.println("Filtered characters: " + data);
+            }
+        };
+
+        // Example usage
+        char[] data = {'H', 'e', 'l', 'l', 'o'};
+        try {
+            xmlFilter.characters(data, 0, data.length);
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 27 XMLReaderAdapter_1
+----------------------------------------------------------------
+`void setEntityResolver(EntityResolver resolver)`: This method registers the entity resolver.
+
+Code snippet:
+```java
+import org.xml.sax.EntityResolver;
+import org.xml.sax.helpers.XMLReaderAdapter;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLReaderAdapter adapter = new XMLReaderAdapter();
+        EntityResolver resolver = new EntityResolver() {
+            @Override
+            public InputSource resolveEntity(String publicId, String systemId) {
+                // Implement entity resolution logic here
+                return null;
+            }
+        };
+        adapter.setEntityResolver(resolver);
+    }
+}
+```
+================================================================
+
+Sample: 28 XMLReaderAdapter_2
+----------------------------------------------------------------
+`void setDTDHandler(DTDHandler handler)`: This method registers the DTD event handler.
+
+Code snippet:
+```java
+import org.xml.sax.DTDHandler;
+import org.xml.sax.helpers.XMLReaderAdapter;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLReaderAdapter readerAdapter = new XMLReaderAdapter();
+        DTDHandler handler = new CustomDTDHandler(); // CustomDTDHandler is a custom implementation of DTDHandler
+        readerAdapter.setDTDHandler(handler);
+    }
+}
+```
+================================================================
+
+Sample: 29 XMLReaderAdapter_4
+----------------------------------------------------------------
+`void setErrorHandler(ErrorHandler handler)`: This method registers the error event handler.
+
+Code snippet:
+```java
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.helpers.XMLReaderAdapter;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLReaderAdapter reader = new XMLReaderAdapter();
+        ErrorHandler errorHandler = new CustomErrorHandler(); // CustomErrorHandler is a class implementing org.xml.sax.ErrorHandler
+        reader.setErrorHandler(errorHandler);
+    }
+}
+```
+================================================================
+
+Sample: 30 XMLReaderFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+            System.out.println("XMLReader created successfully: " + xmlReader.getClass().getName());
+        } catch (SAXException e) {
+            System.out.println("Error creating XMLReader: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 31 XMLReaderFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            XMLReader reader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
+            System.out.println("XMLReader created successfully: " + reader.getClass().getName());
+        } catch (SAXException e) {
+            System.out.println("Error creating XMLReader: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+

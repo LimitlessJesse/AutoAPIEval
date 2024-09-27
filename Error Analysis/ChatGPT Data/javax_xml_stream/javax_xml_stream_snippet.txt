@@ -1,0 +1,182 @@
+Sample: 0 XMLInputFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) throws XMLStreamException {
+        String xmlString = "<book><title>Java Programming</title><author>John Doe</author></book>";
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        XMLStreamReader reader = factory.createXMLStreamReader(new StringReader(xmlString));
+
+        while (reader.hasNext()) {
+            int event = reader.next();
+            if (event == XMLStreamReader.START_ELEMENT) {
+                System.out.println("Start Element: " + reader.getLocalName());
+            } else if (event == XMLStreamReader.CHARACTERS) {
+                System.out.println("Text: " + reader.getText());
+            } else if (event == XMLStreamReader.END_ELEMENT) {
+                System.out.println("End Element: " + reader.getLocalName());
+            }
+        }
+
+        reader.close();
+    }
+}
+```
+================================================================
+
+Sample: 1 XMLInputFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+            InputStream inputStream = new FileInputStream("example.xml");
+            XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
+            
+            while (reader.hasNext()) {
+                int event = reader.next();
+                if (event == XMLStreamReader.START_ELEMENT) {
+                    System.out.println("Start Element: " + reader.getLocalName());
+                } else if (event == XMLStreamReader.CHARACTERS) {
+                    System.out.println("Text: " + reader.getText());
+                } else if (event == XMLStreamReader.END_ELEMENT) {
+                    System.out.println("End Element: " + reader.getLocalName());
+                }
+            }
+            
+            reader.close();
+        } catch (XMLStreamException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 XMLInputFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
+import javax.xml.stream.XMLEventReader;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        String xmlString = "<root>Hello World!</root>";
+        
+        try {
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+            XMLEventReader reader = factory.createXMLEventReader(new StringReader(xmlString));
+            
+            while (reader.hasNext()) {
+                XMLEvent event = reader.nextEvent();
+                System.out.println(event.toString());
+            }
+            
+            reader.close();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 XMLInputFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
+
+import java.io.InputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Sample input stream (Replace with your own input stream)
+            InputStream inputStream = Main.class.getResourceAsStream("example.xml");
+
+            // Create XMLInputFactory
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+
+            // Create XMLEventReader using createXMLEventReader method
+            XMLEventReader eventReader = factory.createXMLEventReader(inputStream);
+
+            // Iterate through the XML events
+            while (eventReader.hasNext()) {
+                XMLEvent event = eventReader.nextEvent();
+                System.out.println(event);
+            }
+
+            // Close the XMLEventReader
+            eventReader.close();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 XMLInputFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.StreamFilter;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an XMLInputFactory
+        XMLInputFactory factory = XMLInputFactory.newFactory();
+        
+        // Create XMLStreamReader from some input source
+        XMLStreamReader reader = null; // Initialize it with your XML input source
+        
+        // Create a StreamFilter to use with createFilteredReader method
+        StreamFilter filter = null; // Initialize it with your custom filter logic
+        
+        try {
+            // Create a filtered XMLStreamReader
+            XMLStreamReader filteredReader = factory.createFilteredReader(reader, filter);
+            
+            // Use the filtered reader for further processing
+            // For example, iterate through the filtered XML content
+            while(filteredReader.hasNext()) {
+                filteredReader.next();
+                // Process the XML content here
+            }
+            
+            // Close resources
+            filteredReader.close();
+            reader.close();
+            
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

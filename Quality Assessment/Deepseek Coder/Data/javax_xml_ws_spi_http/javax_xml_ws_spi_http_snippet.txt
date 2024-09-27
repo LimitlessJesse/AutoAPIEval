@@ -1,0 +1,546 @@
+Sample: 0 HttpExchange_2
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use String getRequestMethod() from javax.xml.ws.spi.http.HttpExchange
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is the code snippet for the `getRequestMethod()` method from `javax.xml.ws.spi.http.HttpExchange`:
+
+```java
+import javax.xml.ws.spi.http.HttpExchange;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+        server.createContext("/test", new MyHandler());
+        server.setExecutor(null); // creates a default executor
+        server.start();
+    }
+
+    static class MyHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange t) throws IOException {
+            String requestMethod = t.getRequestMethod();
+            System.out.println("Request Method: " + requestMethod);
+            OutputStream os = t.getResponseBody();
+            String response = "Hello, this is a response";
+            t.sendResponseHeaders(200, response.length());
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
+}
+```
+
+In this code snippet, we create a simple HTTP server using `com.sun.net.httpserver`. When a request is made to the "/test" endpoint, the `handle()` method is called. Inside this method, we call `getRequestMethod()` to get the HTTP method of the request (GET, POST, etc.) and print it.
+
+Please note that `javax.xml.ws.spi.http.HttpExchange` is not part of the standard Java API and is part of the JAX-WS (Java API for XML Web Services) implementation. The code snippet provided here is for demonstration purposes and may not work in a standard Java environment.
+
+Also, the `com.sun.net.httpserver` package is not part of the standard Java API and is part of the Java implementation. It is used here for simplicity, but in a real-world application, you would likely use a third-party library or a standard HTTP server library.
+
+================================================================
+
+Sample: 1 HttpExchange_3
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use String getRequestURI() from javax.xml.ws.spi.http.HttpExchange
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is the code snippet for the `getRequestURI()` method from `javax.xml.ws.spi.http.HttpExchange`:
+
+```java
+import javax.xml.ws.spi.http.HttpExchange;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+public class Main {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+               .uri(URI.create("http://example.com"))
+               .build();
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+        HttpExchange exchange = new HttpExchange() {
+            @Override
+            public String getRequestURI() {
+                return request.uri().toString();
+            }
+        };
+        System.out.println("Request URI: " + exchange.getRequestURI());
+    }
+}
+```
+
+In this code snippet, we are creating a new HttpClient and sending a GET request to "http://example.com". The URI of the request is then retrieved using the `getRequestURI()` method from the `HttpExchange` interface. The URI is printed to the console.
+
+Please note that the `javax.xml.ws.spi.http.HttpExchange` class is not part of the standard Java API and is likely a part of a specific library or framework. The code provided here is a general example of how to use the `getRequestURI()` method from the `HttpExchange` class.
+
+Also, the `HttpExchange` class is an interface and cannot be instantiated directly. The provided code snippet creates an anonymous inner class that implements the `HttpExchange` interface and overrides the `getRequestURI()` method.
+
+Please replace "http://example.com" with the actual URL you want to send the request to.
+
+================================================================
+
+Sample: 2 HttpExchange_4
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use InputStream getRequestBody() from javax.xml.ws.spi.http.HttpExchange
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a code snippet that uses the `getRequestBody()` method from `javax.xml.ws.spi.http.HttpExchange`:
+
+```java
+import javax.xml.ws.spi.http.HttpExchange;
+import java.io.InputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assume we have an HttpExchange object
+        HttpExchange exchange = null;
+
+        // Get the request body as an InputStream
+        InputStream requestBody = exchange.getRequestBody();
+
+        // Read the content of the request body
+        try {
+            int content;
+            while ((content = requestBody.read())!= -1) {
+                System.out.print((char) content);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+Please note that the `HttpExchange` class is part of the Java API for XML Web Services (JAX-WS) and it's not available in the standard Java API. You would need to use it in a context where JAX-WS is used, such as in a JAX-WS web service.
+
+Also, the `getRequestBody()` method returns an `InputStream` that you can use to read the content of the HTTP request body. The `read()` method of the `InputStream` class is used to read the content of the stream. The `read()` method returns an `int` that represents the byte read, or -1 if the end of the stream has been reached.
+
+The `try-catch` block is used to handle any `IOException` that might be thrown by the `read()` method.
+
+Please replace the `exchange` object with your actual `HttpExchange` object.
+
+================================================================
+
+Sample: 3 HttpExchange_5
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use OutputStream getResponseBody() from javax.xml.ws.spi.http.HttpExchange
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a code snippet that uses the `getResponseBody()` method from `javax.xml.ws.spi.http.HttpExchange`:
+
+```java
+import javax.xml.ws.spi.http.HttpExchange;
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        HttpExchange exchange = /* get HttpExchange instance somehow */;
+        try {
+            OutputStream outputStream = exchange.getResponseBody();
+            String response = "Hello, World!";
+            outputStream.write(response.getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+Please note that `HttpExchange` is an interface and you need to get an instance of it somehow. In this example, I've used a placeholder comment `/* get HttpExchange instance somehow */`. You should replace it with the actual code to get an instance of `HttpExchange`.
+
+Also, remember to handle the `IOException` that might be thrown when writing to the output stream. In this example, I've used a try-catch block to handle it.
+
+This code will write the string "Hello, World!" to the response body of the `HttpExchange`.
+
+Please note that the `getResponseBody()` method returns an `OutputStream` that you can write to. The response body is not automatically committed, so you need to close the output stream to commit the response.
+
+This code snippet assumes that you are using Java 8 or later, as the `getResponseBody()` method was added in Java 8.
+
+================================================================
+
+Sample: 4 HttpExchange_7
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use String getRequestMethod() from javax.xml.ws.spi.http.HttpExchange
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is the code snippet for the `getRequestMethod()` method from `javax.xml.ws.spi.http.HttpExchange`:
+
+```java
+import javax.xml.ws.spi.http.HttpExchange;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+        server.createContext("/test", new MyHandler());
+        server.setExecutor(null); // creates a default executor
+        server.start();
+    }
+
+    static class MyHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange t) throws IOException {
+            String requestMethod = t.getRequestMethod();
+            System.out.println("Request Method: " + requestMethod);
+            OutputStream os = t.getResponseBody();
+            String response = "Hello, this is a response";
+            t.sendResponseHeaders(200, response.length());
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
+}
+```
+
+In this code snippet, we create a simple HTTP server using `com.sun.net.httpserver`. When a request is made to the "/test" endpoint, the `handle()` method is called. Inside this method, we call `getRequestMethod()` to get the HTTP method of the request (GET, POST, etc.) and print it.
+
+Please note that `javax.xml.ws.spi.http.HttpExchange` is not part of the standard Java API and is part of the JAX-WS (Java API for XML Web Services) implementation. The code snippet provided here is for demonstration purposes and may not work in a standard Java environment.
+
+Also, the `com.sun.net.httpserver` package is not part of the standard Java API and is part of the Java implementation. It is used here for simplicity, but in a real-world application, you would likely use a third-party library or a standard HTTP server library.
+
+================================================================
+
+Sample: 5 HttpExchange_8
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use String getRequestURI() from javax.xml.ws.spi.http.HttpExchange
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is the code snippet for the `getRequestURI()` method from `javax.xml.ws.spi.http.HttpExchange`:
+
+```java
+import javax.xml.ws.spi.http.HttpExchange;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+public class Main {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+               .uri(URI.create("http://example.com"))
+               .build();
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+        HttpExchange exchange = new HttpExchange() {
+            @Override
+            public String getRequestURI() {
+                return request.uri().toString();
+            }
+        };
+        System.out.println("Request URI: " + exchange.getRequestURI());
+    }
+}
+```
+
+In this code snippet, we are creating a new HttpClient and sending a GET request to "http://example.com". The URI of the request is then retrieved using the `getRequestURI()` method from the `HttpExchange` interface. The URI is printed to the console.
+
+Please note that the `javax.xml.ws.spi.http.HttpExchange` class is not part of the standard Java API and is likely a part of a specific library or framework. The code provided here is a general example of how to use the `getRequestURI()` method from the `HttpExchange` class.
+
+Also, the `HttpExchange` class is an interface and cannot be instantiated directly. The provided code snippet creates an anonymous inner class that implements the `HttpExchange` interface and overrides the `getRequestURI()` method.
+
+Please replace "http://example.com" with the actual URL you want to send the request to.
+
+================================================================
+
+Sample: 6 HttpExchange_9
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use InputStream getRequestBody() from javax.xml.ws.spi.http.HttpExchange
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a code snippet that uses the `getRequestBody()` method from `javax.xml.ws.spi.http.HttpExchange`:
+
+```java
+import javax.xml.ws.spi.http.HttpExchange;
+import java.io.InputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assume we have an HttpExchange object
+        HttpExchange exchange = null;
+
+        // Get the request body as an InputStream
+        InputStream requestBody = exchange.getRequestBody();
+
+        // Read the content of the request body
+        try {
+            int content;
+            while ((content = requestBody.read())!= -1) {
+                System.out.print((char) content);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+Please note that the `HttpExchange` class is part of the Java API for XML Web Services (JAX-WS) and it's not available in the standard Java API. You would need to use it in a context where JAX-WS is used, such as in a JAX-WS web service.
+
+Also, the `getRequestBody()` method returns an `InputStream` that you can use to read the content of the HTTP request body. The `read()` method of the `InputStream` class is used to read the content of the stream. The `read()` method returns an `int` that represents the byte read, or -1 if the end of the stream has been reached.
+
+The `try-catch` block is used to handle any `IOException` that might be thrown by the `read()` method.
+
+Please replace the `exchange` object with your actual `HttpExchange` object.
+
+================================================================
+
+Sample: 7 HttpExchange_10
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use OutputStream getResponseBody() from javax.xml.ws.spi.http.HttpExchange
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a code snippet that uses the `getResponseBody()` method from `javax.xml.ws.spi.http.HttpExchange`:
+
+```java
+import javax.xml.ws.spi.http.HttpExchange;
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        HttpExchange exchange = /* get HttpExchange instance somehow */;
+        try {
+            OutputStream outputStream = exchange.getResponseBody();
+            String response = "Hello, World!";
+            outputStream.write(response.getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+Please note that `HttpExchange` is an interface and you need to get an instance of it somehow. In this example, I've used a placeholder comment `/* get HttpExchange instance somehow */`. You should replace it with the actual code to get an instance of `HttpExchange`.
+
+Also, remember to handle the `IOException` that might be thrown when writing to the output stream. In this example, I've used a try-catch block to handle it.
+
+This code will write the string "Hello, World!" to the response body of the `HttpExchange`.
+
+Please note that the `getResponseBody()` method returns an `OutputStream` that you can write to. The response body is not automatically committed, so you need to close the output stream to commit the response.
+
+This code snippet assumes that you are using Java 8 or later, as the `getResponseBody()` method was added in Java 8.
+
+================================================================
+

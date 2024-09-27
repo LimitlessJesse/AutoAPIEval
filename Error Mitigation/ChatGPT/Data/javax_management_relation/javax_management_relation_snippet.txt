@@ -1,0 +1,383 @@
+Sample: 0 RelationNotification_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RelationNotification;
+
+public class Main {
+    public static void main(String[] args) {
+        RelationNotification notification = new RelationNotification("relationType", "source", 1, System.currentTimeMillis(), "message", "relationId");
+        String relationId = notification.getRelationId();
+        System.out.println("Relation ID: " + relationId);
+    }
+}
+```
+================================================================
+
+Sample: 1 RelationNotification_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.ObjectName;
+import javax.management.relation.RelationNotification;
+
+public class Main {
+    public static void main(String[] args) {
+        RelationNotification notification = new RelationNotification("relationType", "source", 1, System.currentTimeMillis(), "message", "relationId", new ObjectName("domain", "key", "value"));
+        ObjectName objectName = notification.getObjectName();
+        System.out.println("Object Name: " + objectName);
+    }
+}
+```
+================================================================
+
+Sample: 2 RelationNotification_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RelationNotification;
+
+public class Main {
+    public static void main(String[] args) {
+        RelationNotification notification = new RelationNotification("relationType", this, 1, System.currentTimeMillis(), "Notification message", "relationTypeName");
+        String relationTypeName = notification.getRelationTypeName();
+        System.out.println("Relation Type Name: " + relationTypeName);
+    }
+}
+```
+================================================================
+
+Sample: 3 RelationService_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RelationService;
+import javax.management.relation.RelationServiceMBean;
+import javax.management.relation.RelationServiceNotRegisteredException;
+import javax.management.relation.RelationTypeNotFoundException;
+
+public class Main {
+    public static void main(String[] args) {
+        RelationService relationService = new RelationService();
+        
+        try {
+            relationService.removeRelationType("exampleRelationType");
+        } catch (RelationServiceNotRegisteredException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (RelationTypeNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 RelationService_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RelationService;
+import javax.management.relation.RelationServiceMBean;
+import javax.management.relation.RelationServiceNotRegisteredException;
+import javax.management.relation.RelationNotFoundException;
+
+public class Main {
+    public static void main(String[] args) {
+        RelationService relationService = new RelationService();
+        String relationId = "exampleRelationId";
+        
+        try {
+            relationService.removeRelation(relationId);
+        } catch (RelationServiceNotRegisteredException | IllegalArgumentException | RelationNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 RelationTypeSupport_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RelationTypeSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        RelationTypeSupport relationTypeSupport = new RelationTypeSupport("ExampleRelationType");
+        String relationTypeName = relationTypeSupport.getRelationTypeName();
+        System.out.println("Relation Type Name: " + relationTypeName);
+    }
+}
+```
+================================================================
+
+Sample: 6 RelationTypeSupport_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RoleInfo;
+import javax.management.relation.InvalidRelationTypeException;
+
+public class Main {
+    public static void main(String[] args) {
+        RoleInfo roleInfo = new RoleInfo("RoleName", "RoleClass");
+        RelationTypeSupport relationTypeSupport = new RelationTypeSupport("RelationTypeName", "RelationTypeDesc");
+        
+        try {
+            relationTypeSupport.addRoleInfo(roleInfo);
+        } catch (IllegalArgumentException | InvalidRelationTypeException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 RelationTypeSupport_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RoleInfo;
+import javax.management.relation.RoleInfoNotFoundException;
+import javax.management.relation.RelationTypeSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        RelationTypeSupport relationTypeSupport = new RelationTypeSupport("ExampleRelationType");
+        
+        try {
+            RoleInfo roleInfo = relationTypeSupport.getRoleInfo("ExampleRole");
+            System.out.println("Role Info Name: " + roleInfo.getName());
+            System.out.println("Role Info Description: " + roleInfo.getDescription());
+        } catch (IllegalArgumentException | RoleInfoNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 Role_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.Role;
+
+public class Main {
+    public static void main(String[] args) {
+        Role role = new Role("roleName");
+        String roleName = role.getRoleName();
+        System.out.println("Role Name: " + roleName);
+    }
+}
+```
+================================================================
+
+Sample: 9 Role_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.ObjectName;
+import javax.management.relation.Role;
+
+public class Main {
+    public static void main(String[] args) {
+        Role role = new Role("roleName");
+        role.setRoleValue(new ArrayList<ObjectName>());
+        role.getRoleValue();
+    }
+}
+```
+================================================================
+
+Sample: 10 Role_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.Role;
+
+public class Main {
+    public static void main(String[] args) {
+        Role role = new Role();
+        try {
+            role.setRoleName("Admin");
+            System.out.println("Role name set successfully: " + role.getRoleName());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 Role_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.ObjectName;
+import javax.management.relation.Role;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        Role role = new Role("roleName", new ArrayList<>());
+        List<ObjectName> objectNames = new ArrayList<>();
+        objectNames.add(new ObjectName("com.example:type=Example"));
+        
+        try {
+            role.setRoleValue(objectNames);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 RoleInfo_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RoleInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        RoleInfo roleInfo = new RoleInfo("roleName");
+        String roleName = roleInfo.getName();
+        System.out.println("Role Name: " + roleName);
+    }
+}
+```
+================================================================
+
+Sample: 13 RoleInfo_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RoleInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        RoleInfo roleInfo = new RoleInfo("roleName", new String[]{"roleValue1", "roleValue2"});
+        boolean isReadable = roleInfo.isReadable();
+        System.out.println("Is role readable? " + isReadable);
+    }
+}
+```
+================================================================
+
+Sample: 14 RoleInfo_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RoleInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        RoleInfo roleInfo = new RoleInfo("roleName", new String[]{"roleValue1", "roleValue2"});
+        boolean isWritable = roleInfo.isWritable();
+        System.out.println("Is role writable? " + isWritable);
+    }
+}
+```
+================================================================
+
+Sample: 15 RoleInfo_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RoleInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        RoleInfo roleInfo = new RoleInfo("roleName", new String[]{"roleValue1", "roleValue2"});
+        System.out.println(roleInfo.toString());
+    }
+}
+```
+================================================================
+
+Sample: 16 RoleList_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RoleList;
+import javax.management.relation.Role;
+
+public class Main {
+    public static void main(String[] args) {
+        RoleList roleList = new RoleList();
+        Role role = new Role("roleName", new ArrayList<String>());
+        
+        try {
+            roleList.add(role);
+            System.out.println("Role added successfully: " + roleList);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: Role cannot be null");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 RoleUnresolved_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RoleUnresolved;
+
+public class Main {
+    public static void main(String[] args) {
+        RoleUnresolved unresolvedRole = new RoleUnresolved();
+        String roleName = unresolvedRole.getRoleName();
+        System.out.println("Role Name: " + roleName);
+    }
+}
+```
+================================================================
+
+Sample: 18 RoleUnresolved_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RoleUnresolved;
+
+public class Main {
+    public static void main(String[] args) {
+        RoleUnresolved roleUnresolved = new RoleUnresolved();
+        try {
+            roleUnresolved.setRoleName("exampleRole");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 19 RoleUnresolvedList_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.relation.RoleUnresolvedList;
+import javax.management.relation.RoleUnresolved;
+
+public class Main {
+    public static void main(String[] args) {
+        RoleUnresolvedList roleUnresolvedList = new RoleUnresolvedList();
+        RoleUnresolved role = new RoleUnresolved("roleName", "roleValue");
+        
+        try {
+            roleUnresolvedList.add(role);
+        } catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+

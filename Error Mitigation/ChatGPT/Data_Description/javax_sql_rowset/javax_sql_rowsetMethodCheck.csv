@@ -1,0 +1,199 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,BaseRowSet,1,void setCommand(String cmd),True,,"
+
+setCommand
+public void setCommand(String cmd)
+                throws SQLException
+Sets this RowSet object's command property to
+ the given String object and clears the parameters, if any,
+ that were set for the previous command.
+ 
+ The command property may not be needed if the RowSet
+ object gets its data from a source that does not support commands,
+ such as a spreadsheet or other tabular file.
+ Thus, this property is optional and may be null.
+
+Parameters:
+cmd - a String object containing an SQL query
+            that will be set as this RowSet object's command
+            property; may be null but may not be an empty string
+Throws:
+SQLException - if an empty string is provided as the command value
+See Also:
+getCommand()
+
+
+"
+0,BaseRowSet,2,String getCommand(),True,,"
+
+getCommand
+public String getCommand()
+Retrieves the SQL query that is the command for this
+ RowSet object. The command property contains the query that
+ will be executed to populate this RowSet object.
+ 
+ The SQL query returned by this method is used by RowSet methods
+ such as execute and populate, which may be implemented
+ by any class that extends the BaseRowSet abstract class and
+ implements one or more of the standard JSR-114 RowSet
+ interfaces.
+ 
+ The command is used by the RowSet object's
+ reader to obtain a ResultSet object.  The reader then
+ reads the data from the ResultSet object and uses it to
+ to populate this RowSet object.
+ 
+ The default value for the command property is null.
+
+Returns:
+the String that is the value for this
+         RowSet object's command property;
+         may be null
+See Also:
+setCommand(java.lang.String)
+
+
+"
+0,BaseRowSet,3,void setUrl(String url),True,,"
+
+setUrl
+public void setUrl(String url)
+            throws SQLException
+Sets the Url property for this RowSet object
+ to the given String object and sets the dataSource name
+ property to null. The Url property is a
+ JDBC URL that is used when
+ the connection is created using a JDBC technology-enabled driver
+ (""JDBC driver"") and the DriverManager.
+ The correct JDBC URL for the specific driver to be used can be found
+ in the driver documentation.  Although there are guidelines for for how
+ a JDBC URL is formed,
+ a driver vendor can specify any String object except
+ one with a length of 0 (an empty string).
+ 
+ Setting the Url property is optional if connections are established using
+ a DataSource object instead of the DriverManager.
+ The driver will use either the URL property or the
+ dataSourceName property to create a connection, whichever was
+ specified most recently. If an application uses a JDBC URL, it
+ must load a JDBC driver that accepts the JDBC URL before it uses the
+ RowSet object to connect to a database.  The RowSet
+ object will use the URL internally to create a database connection in order
+ to read or write data.
+
+Parameters:
+url - a String object that contains the JDBC URL
+     that will be used to establish the connection to a database for this
+     RowSet object; may be null but must not
+     be an empty string
+Throws:
+SQLException - if an error occurs setting the Url property or the
+     parameter supplied is a string with a length of 0 (an
+     empty string)
+See Also:
+getUrl()
+
+
+"
+0,BaseRowSet,4,String getUrl(),True,,"
+
+getUrl
+public String getUrl()
+              throws SQLException
+Retrieves the JDBC URL that this RowSet object's
+ javax.sql.Reader object uses to make a connection
+ with a relational database using a JDBC technology-enabled driver.
+
+ The Url property will be null if the underlying data
+ source is a non-SQL data source, such as a spreadsheet or an XML
+ data source.
+
+Returns:
+a String object that contains the JDBC URL
+         used to establish the connection for this RowSet
+         object; may be null (default value) if not set
+Throws:
+SQLException - if an error occurs retrieving the URL value
+See Also:
+setUrl(java.lang.String)
+
+
+"
+0,BaseRowSet,5,void setType(int type),True,,"
+
+setType
+public void setType(int type)
+             throws SQLException
+Sets the type for this RowSet object to the specified type.
+ The default type is ResultSet.TYPE_SCROLL_INSENSITIVE.
+
+Parameters:
+type - one of the following constants:
+             ResultSet.TYPE_FORWARD_ONLY,
+             ResultSet.TYPE_SCROLL_INSENSITIVE, or
+             ResultSet.TYPE_SCROLL_SENSITIVE
+Throws:
+SQLException - if the parameter supplied is not one of the
+         following constants:
+          ResultSet.TYPE_FORWARD_ONLY or
+          ResultSet.TYPE_SCROLL_INSENSITIVE
+ResultSet.TYPE_SCROLL_SENSITIVE
+See Also:
+getConcurrency(), 
+getType()
+
+
+"
+2,RowSetProvider,1,RowSetFactory newFactory(),True,,"
+
+newFactory
+public static RowSetFactory newFactory()
+                                throws SQLException
+Creates a new instance of a RowSetFactory
+ implementation.  This method uses the following
+ look up order to determine
+ the RowSetFactory implementation class to load:
+
+
+ The System property javax.sql.rowset.RowSetFactory.  For example:
+ 
+
+ -Djavax.sql.rowset.RowSetFactory=com.sun.rowset.RowSetFactoryImpl
+ 
+
+
+ The ServiceLoader API. The ServiceLoader API will look
+ for a class name in the file
+ META-INF/services/javax.sql.rowset.RowSetFactory
+ in jars available to the runtime. For example, to have the the RowSetFactory
+ implementation com.sun.rowset.RowSetFactoryImpl  loaded, the
+ entry in META-INF/services/javax.sql.rowset.RowSetFactory would be:
+  
+
+com.sun.rowset.RowSetFactoryImpl 
+
+
+
+
+ Platform default RowSetFactory instance.
+ 
+
+Once an application has obtained a reference to a RowSetFactory,
+ it can use the factory to obtain RowSet instances.
+
+Returns:
+New instance of a RowSetFactory
+Throws:
+SQLException - if the default factory class cannot be loaded,
+ instantiated. The cause will be set to actual Exception
+Since:
+1.7
+See Also:
+ServiceLoader
+
+
+"
+2,RowSetProvider,2,RowSetFactory findRowSetFactory(String providerName),False,,NULL
+2,RowSetProvider,3,RowSetFactory findRowSetFactory(),False,,NULL
+2,RowSetProvider,4,"RowSetFactory newRowSetFactory(String className, ClassLoader cl)",False,,NULL
+2,RowSetProvider,5,RowSetFactory newRowSetFactory(),False,,NULL

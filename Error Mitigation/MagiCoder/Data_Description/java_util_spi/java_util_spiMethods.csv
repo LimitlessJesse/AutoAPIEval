@@ -1,0 +1,472 @@
+ClassName,Method,Return Type,Description,Full Description
+CalendarDataProvider,getFirstDayOfWeek(Locale locale),abstract int,Returns the first day of a week in the given locale.,"
+
+getFirstDayOfWeek
+public abstract int getFirstDayOfWeek(Locale locale)
+Returns the first day of a week in the given locale. This
+ information is required by Calendar to support operations on the
+ week-related calendar fields.
+
+Parameters:
+locale - the desired locale
+Returns:
+the first day of a week; one of Calendar.SUNDAY ..
+         Calendar.SATURDAY,
+         or 0 if the value isn't available for the locale
+Throws:
+NullPointerException - if locale is null.
+See Also:
+Calendar.getFirstDayOfWeek(), 
+First Week
+
+
+"
+CalendarDataProvider,getMinimalDaysInFirstWeek(Locale locale),abstract int,Returns the minimal number of days required in the first week of a year.,"
+
+getMinimalDaysInFirstWeek
+public abstract int getMinimalDaysInFirstWeek(Locale locale)
+Returns the minimal number of days required in the first week of a
+ year. This information is required by Calendar to determine the
+ first week of a year. Refer to the description of  how Calendar determines
+ the first week.
+
+Parameters:
+locale - the desired locale
+Returns:
+the minimal number of days of the first week,
+         or 0 if the value isn't available for the locale
+Throws:
+NullPointerException - if locale is null.
+See Also:
+Calendar.getMinimalDaysInFirstWeek()
+
+
+"
+CalendarNameProvider,"getDisplayName(String calendarType, int field, int value, int style, Locale locale)",abstract String,Returns the string representation (display name) of the calendar field value in the given style and locale.,"
+
+getDisplayName
+public abstract String getDisplayName(String calendarType,
+                                      int field,
+                                      int value,
+                                      int style,
+                                      Locale locale)
+Returns the string representation (display name) of the calendar
+ field value in the given style and
+ locale.  If no string representation is
+ applicable, null is returned.
+
+ field is a Calendar field index, such as Calendar.MONTH. The time zone fields, Calendar.ZONE_OFFSET and
+ Calendar.DST_OFFSET, are not supported by this
+ method. null must be returned if any time zone fields are
+ specified.
+
+ value is the numeric representation of the field value.
+ For example, if field is Calendar.DAY_OF_WEEK, the valid
+ values are Calendar.SUNDAY to Calendar.SATURDAY
+ (inclusive).
+
+ style gives the style of the string representation. It is one
+ of Calendar.SHORT_FORMAT (SHORT),
+ Calendar.SHORT_STANDALONE, Calendar.LONG_FORMAT
+ (LONG), Calendar.LONG_STANDALONE,
+ Calendar.NARROW_FORMAT, or Calendar.NARROW_STANDALONE.
+
+ For example, the following call will return ""Sunday"".
+ 
+ getDisplayName(""gregory"", Calendar.DAY_OF_WEEK, Calendar.SUNDAY,
+                Calendar.LONG_STANDALONE, Locale.ENGLISH);
+ 
+
+Parameters:
+calendarType - the calendar type. (Any calendar type given by locale
+              is ignored.)
+field - the Calendar field index,
+              such as Calendar.DAY_OF_WEEK
+value - the value of the Calendar field,
+              such as Calendar.MONDAY
+style - the string representation style: one of Calendar.SHORT_FORMAT (SHORT),
+              Calendar.SHORT_STANDALONE, Calendar.LONG_FORMAT (LONG),
+              Calendar.LONG_STANDALONE,
+              Calendar.NARROW_FORMAT,
+              or Calendar.NARROW_STANDALONE
+locale - the desired locale
+Returns:
+the string representation of the field value, or null if the string representation is not applicable or
+         the given calendar type is unknown
+Throws:
+IllegalArgumentException - if field or style is invalid
+NullPointerException - if locale is null
+See Also:
+TimeZoneNameProvider, 
+Calendar.get(int), 
+Calendar.getDisplayName(int, int, Locale)
+
+
+"
+CalendarNameProvider,"getDisplayNames(String calendarType, int field, int style, Locale locale)","abstract Map<String,Integer>",Returns a Map containing all string representations (display names) of the Calendar field in the given style and locale and their corresponding field values.,"
+
+getDisplayNames
+public abstract Map<String,Integer> getDisplayNames(String calendarType,
+                                                    int field,
+                                                    int style,
+                                                    Locale locale)
+Returns a Map containing all string representations (display
+ names) of the Calendar field in the given style
+ and locale and their corresponding field values.
+
+ field is a Calendar field index, such as Calendar.MONTH. The time zone fields, Calendar.ZONE_OFFSET and
+ Calendar.DST_OFFSET, are not supported by this
+ method. null must be returned if any time zone fields are specified.
+
+ style gives the style of the string representation. It must be
+ one of Calendar.ALL_STYLES, Calendar.SHORT_FORMAT (SHORT), Calendar.SHORT_STANDALONE, Calendar.LONG_FORMAT (LONG), Calendar.LONG_STANDALONE, Calendar.NARROW_FORMAT, or
+ Calendar.NARROW_STANDALONE. Note that narrow names may
+ not be unique due to use of single characters, such as ""S"" for Sunday
+ and Saturday, and that no narrow names are included in that case.
+
+ For example, the following call will return a Map containing
+ ""January"" to Calendar.JANUARY, ""Jan"" to Calendar.JANUARY, ""February"" to Calendar.FEBRUARY,
+ ""Feb"" to Calendar.FEBRUARY, and so on.
+ 
+ getDisplayNames(""gregory"", Calendar.MONTH, Calendar.ALL_STYLES, Locale.ENGLISH);
+ 
+
+Parameters:
+calendarType - the calendar type. (Any calendar type given by locale
+              is ignored.)
+field - the calendar field for which the display names are returned
+style - the style applied to the display names; one of
+              Calendar.ALL_STYLES, Calendar.SHORT_FORMAT
+              (SHORT), Calendar.SHORT_STANDALONE, Calendar.LONG_FORMAT
+              (LONG), Calendar.LONG_STANDALONE,
+              Calendar.NARROW_FORMAT,
+              or Calendar.NARROW_STANDALONE
+locale - the desired locale
+Returns:
+a Map containing all display names of field in
+         style and locale and their field values,
+         or null if no display names are defined for field
+Throws:
+NullPointerException - if locale is null
+See Also:
+Calendar.getDisplayNames(int, int, Locale)
+
+
+"
+CurrencyNameProvider,"getDisplayName(String currencyCode, Locale locale)",String,Returns a name for the currency that is appropriate for display to the user.,"
+
+getDisplayName
+public String getDisplayName(String currencyCode,
+                             Locale locale)
+Returns a name for the currency that is appropriate for display to the
+ user.  The default implementation returns null.
+
+Parameters:
+currencyCode - the ISO 4217 currency code, which
+     consists of three upper-case letters between 'A' (U+0041) and
+     'Z' (U+005A)
+locale - the desired locale
+Returns:
+the name for the currency that is appropriate for display to the
+     user, or null if the name is not available for the locale
+Throws:
+IllegalArgumentException - if currencyCode is not in
+     the form of three upper-case letters, or locale isn't
+     one of the locales returned from
+     getAvailableLocales().
+NullPointerException - if currencyCode or
+     locale is null
+Since:
+1.7
+
+
+"
+CurrencyNameProvider,"getSymbol(String currencyCode, Locale locale)",abstract String,Gets the symbol of the given currency code for the specified locale.,"
+
+getSymbol
+public abstract String getSymbol(String currencyCode,
+                                 Locale locale)
+Gets the symbol of the given currency code for the specified locale.
+ For example, for ""USD"" (US Dollar), the symbol is ""$"" if the specified
+ locale is the US, while for other locales it may be ""US$"". If no
+ symbol can be determined, null should be returned.
+
+Parameters:
+currencyCode - the ISO 4217 currency code, which
+     consists of three upper-case letters between 'A' (U+0041) and
+     'Z' (U+005A)
+locale - the desired locale
+Returns:
+the symbol of the given currency code for the specified locale, or null if
+     the symbol is not available for the locale
+Throws:
+NullPointerException - if currencyCode or
+     locale is null
+IllegalArgumentException - if currencyCode is not in
+     the form of three upper-case letters, or locale isn't
+     one of the locales returned from
+     getAvailableLocales().
+See Also:
+Currency.getSymbol(java.util.Locale)
+
+
+"
+LocaleNameProvider,"getDisplayCountry(String countryCode, Locale locale)",abstract String,Returns a localized name for the given IETF BCP47 region code (either ISO 3166 country code or UN M.49 area codes) and the given locale that is appropriate for display to the user.,"
+
+getDisplayCountry
+public abstract String getDisplayCountry(String countryCode,
+                                         Locale locale)
+Returns a localized name for the given 
+ IETF BCP47 region code (either ISO 3166 country code or UN M.49 area
+ codes) and the given locale that is appropriate for display to the user.
+ For example, if countryCode is ""FR"" and locale
+ is en_US, getDisplayCountry() will return ""France""; if countryCode
+ is ""US"" and locale is fr_FR, getDisplayCountry() will return ""Etats-Unis"".
+ If the name returned cannot be localized according to locale,
+ (say, the provider does not have a Japanese name for Croatia),
+ this method returns null.
+
+Parameters:
+countryCode - the country(region) code string in the form of two
+     upper-case letters between 'A' (U+0041) and 'Z' (U+005A) or the UN M.49 area code
+     in the form of three digit letters between '0' (U+0030) and '9' (U+0039).
+locale - the desired locale
+Returns:
+the name of the given country code for the specified locale, or null if it's not
+     available.
+Throws:
+NullPointerException - if countryCode or locale is null
+IllegalArgumentException - if countryCode is not in the form of
+     two upper-case letters or three digit letters, or locale isn't
+     one of the locales returned from
+     getAvailableLocales().
+See Also:
+Locale.getDisplayCountry(java.util.Locale)
+
+
+"
+LocaleNameProvider,"getDisplayLanguage(String languageCode, Locale locale)",abstract String,Returns a localized name for the given IETF BCP47 language code and the given locale that is appropriate for display to the user.,"
+
+getDisplayLanguage
+public abstract String getDisplayLanguage(String languageCode,
+                                          Locale locale)
+Returns a localized name for the given 
+ IETF BCP47 language code and the given locale that is appropriate for
+ display to the user.
+ For example, if languageCode is ""fr"" and locale
+ is en_US, getDisplayLanguage() will return ""French""; if languageCode
+ is ""en"" and locale is fr_FR, getDisplayLanguage() will return ""anglais"".
+ If the name returned cannot be localized according to locale,
+ (say, the provider does not have a Japanese name for Croatian),
+ this method returns null.
+
+Parameters:
+languageCode - the language code string in the form of two to eight
+     lower-case letters between 'a' (U+0061) and 'z' (U+007A)
+locale - the desired locale
+Returns:
+the name of the given language code for the specified locale, or null if it's not
+     available.
+Throws:
+NullPointerException - if languageCode or locale is null
+IllegalArgumentException - if languageCode is not in the form of
+     two or three lower-case letters, or locale isn't
+     one of the locales returned from
+     getAvailableLocales().
+See Also:
+Locale.getDisplayLanguage(java.util.Locale)
+
+
+"
+LocaleNameProvider,"getDisplayScript(String scriptCode, Locale locale)",String,Returns a localized name for the given IETF BCP47 script code and the given locale that is appropriate for display to the user.,"
+
+getDisplayScript
+public String getDisplayScript(String scriptCode,
+                               Locale locale)
+Returns a localized name for the given 
+ IETF BCP47 script code and the given locale that is appropriate for
+ display to the user.
+ For example, if scriptCode is ""Latn"" and locale
+ is en_US, getDisplayScript() will return ""Latin""; if scriptCode
+ is ""Cyrl"" and locale is fr_FR, getDisplayScript() will return ""cyrillique"".
+ If the name returned cannot be localized according to locale,
+ (say, the provider does not have a Japanese name for Cyrillic),
+ this method returns null. The default implementation returns null.
+
+Parameters:
+scriptCode - the four letter script code string in the form of title-case
+     letters (the first letter is upper-case character between 'A' (U+0041) and
+     'Z' (U+005A) followed by three lower-case character between 'a' (U+0061)
+     and 'z' (U+007A)).
+locale - the desired locale
+Returns:
+the name of the given script code for the specified locale, or null if it's not
+     available.
+Throws:
+NullPointerException - if scriptCode or locale is null
+IllegalArgumentException - if scriptCode is not in the form of
+     four title case letters, or locale isn't
+     one of the locales returned from
+     getAvailableLocales().
+Since:
+1.7
+See Also:
+Locale.getDisplayScript(java.util.Locale)
+
+
+"
+LocaleNameProvider,"getDisplayVariant(String variant, Locale locale)",abstract String,Returns a localized name for the given variant code and the given locale that is appropriate for display to the user.,"
+
+getDisplayVariant
+public abstract String getDisplayVariant(String variant,
+                                         Locale locale)
+Returns a localized name for the given variant code and the given locale that
+ is appropriate for display to the user.
+ If the name returned cannot be localized according to locale,
+ this method returns null.
+
+Parameters:
+variant - the variant string
+locale - the desired locale
+Returns:
+the name of the given variant string for the specified locale, or null if it's not
+     available.
+Throws:
+NullPointerException - if variant or locale is null
+IllegalArgumentException - if locale isn't
+     one of the locales returned from
+     getAvailableLocales().
+See Also:
+Locale.getDisplayVariant(java.util.Locale)
+
+
+"
+LocaleServiceProvider,getAvailableLocales(),abstract Locale[],Returns an array of all locales for which this locale service provider can provide localized objects or names.,"
+
+getAvailableLocales
+public abstract Locale[] getAvailableLocales()
+Returns an array of all locales for which this locale service provider
+ can provide localized objects or names. This information is used to
+ compose getAvailableLocales() values of the locale-dependent
+ services, such as DateFormat.getAvailableLocales().
+
+ The array returned by this method should not include two or more
+ Locale objects only differing in their extensions.
+
+Returns:
+An array of all locales for which this locale service provider
+ can provide localized objects or names.
+
+
+"
+LocaleServiceProvider,isSupportedLocale(Locale locale),boolean,Returns true if the given locale is supported by this locale service provider.,"
+
+isSupportedLocale
+public boolean isSupportedLocale(Locale locale)
+Returns true if the given locale is supported by
+ this locale service provider. The given locale may contain
+ extensions that should be
+ taken into account for the support determination.
+
+ The default implementation returns true if the given locale
+ is equal to any of the available Locales returned by
+ getAvailableLocales() with ignoring any extensions in both the
+ given locale and the available locales. Concrete locale service
+ provider implementations should override this method if those
+ implementations are Locale extensions-aware. For example,
+ DecimalFormatSymbolsProvider implementations will need to check
+ extensions in the given locale to see if any numbering system is
+ specified and can be supported. However, CollatorProvider
+ implementations may not be affected by any particular numbering systems,
+ and in that case, extensions for numbering systems should be ignored.
+
+Parameters:
+locale - a Locale to be tested
+Returns:
+true if the given locale is supported by this
+         provider; false otherwise.
+Throws:
+NullPointerException - if the given locale is null
+Since:
+1.8
+See Also:
+Locale.hasExtensions(), 
+Locale.stripExtensions()
+
+
+"
+TimeZoneNameProvider,"getDisplayName(String ID, boolean daylight, int style, Locale locale)",abstract String,Returns a name for the given time zone ID that's suitable for presentation to the user in the specified locale.,"
+
+getDisplayName
+public abstract String getDisplayName(String ID,
+                                      boolean daylight,
+                                      int style,
+                                      Locale locale)
+Returns a name for the given time zone ID that's suitable for
+ presentation to the user in the specified locale. The given time
+ zone ID is ""GMT"" or one of the names defined using ""Zone"" entries
+ in the ""tz database"", a public domain time zone database at
+ ftp://elsie.nci.nih.gov/pub/.
+ The data of this database is contained in a file whose name starts with
+ ""tzdata"", and the specification of the data format is part of the zic.8
+ man page, which is contained in a file whose name starts with ""tzcode"".
+ 
+ If daylight is true, the method should return a name
+ appropriate for daylight saving time even if the specified time zone
+ has not observed daylight saving time in the past.
+
+Parameters:
+ID - a time zone ID string
+daylight - if true, return the daylight saving name.
+style - either TimeZone.LONG or
+    TimeZone.SHORT
+locale - the desired locale
+Returns:
+the human-readable name of the given time zone in the
+     given locale, or null if it's not available.
+Throws:
+IllegalArgumentException - if style is invalid,
+     or locale isn't one of the locales returned from
+     getAvailableLocales().
+NullPointerException - if ID or locale
+     is null
+See Also:
+TimeZone.getDisplayName(boolean, int, java.util.Locale)
+
+
+"
+TimeZoneNameProvider,"getGenericDisplayName(String ID, int style, Locale locale)",String,Returns a generic name for the given time zone ID that's suitable for presentation to the user in the specified locale.,"
+
+getGenericDisplayName
+public String getGenericDisplayName(String ID,
+                                    int style,
+                                    Locale locale)
+Returns a generic name for the given time zone ID that's suitable
+ for presentation to the user in the specified locale. Generic
+ time zone names are neutral from standard time and daylight saving
+ time. For example, ""PT"" is the short generic name of time zone ID America/Los_Angeles, while its short standard time and daylight saving
+ time names are ""PST"" and ""PDT"", respectively. Refer to
+ getDisplayName
+ for valid time zone IDs.
+
+ The default implementation of this method returns null.
+
+Parameters:
+ID - a time zone ID string
+style - either TimeZone.LONG or
+    TimeZone.SHORT
+locale - the desired locale
+Returns:
+the human-readable generic name of the given time zone in the
+     given locale, or null if it's not available.
+Throws:
+IllegalArgumentException - if style is invalid,
+     or locale isn't one of the locales returned from
+     getAvailableLocales().
+NullPointerException - if ID or locale
+     is null
+Since:
+1.8
+
+
+"

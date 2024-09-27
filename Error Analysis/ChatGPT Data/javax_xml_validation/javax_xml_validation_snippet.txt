@@ -1,0 +1,208 @@
+Sample: 0 SchemaFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import org.xml.sax.SAXException;
+
+public class Main {
+    public static void main(String[] args) {
+        SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+        Schema schema = null;
+        try {
+            schema = factory.newSchema(schema);
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 SchemaFactory_2
+----------------------------------------------------------------
+`void setErrorHandler(ErrorHandler errorHandler)`: This method sets the ErrorHandler to be used when errors are encountered during the validation process.
+
+Code snippet:
+```java
+import javax.xml.XMLConstants;
+import javax.xml.validation.SchemaFactory;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
+public class Main {
+    public static void main(String[] args) {
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        
+        ErrorHandler customErrorHandler = new ErrorHandler() {
+            @Override
+            public void warning(SAXParseException exception) throws SAXException {
+                System.out.println("Warning: " + exception.getMessage());
+            }
+
+            @Override
+            public void error(SAXParseException exception) throws SAXException {
+                System.out.println("Error: " + exception.getMessage());
+            }
+
+            @Override
+            public void fatalError(SAXParseException exception) throws SAXException {
+                System.out.println("Fatal Error: " + exception.getMessage());
+            }
+        };
+        
+        schemaFactory.setErrorHandler(customErrorHandler);
+        // Further code for using the schemaFactory with the custom error handler
+    }
+}
+```
+================================================================
+
+Sample: 2 SchemaFactoryLoader_1
+----------------------------------------------------------------
+```java
+import javax.xml.validation.SchemaFactoryLoader;
+import javax.xml.validation.SchemaFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        SchemaFactory factory = SchemaFactoryLoader.newFactory("http://www.w3.org/2001/XMLSchema");
+        System.out.println(factory.getClass().getName());
+    }
+}
+```
+================================================================
+
+Sample: 3 Validator_1
+----------------------------------------------------------------
+```java
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
+public class Main {
+
+    public static void main(String[] args) {
+        String xmlString = "<root>Hello World!</root>";
+        String xsdString = "<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'><xs:element name='root' type='xs:string'/></xs:schema>";
+
+        Source xmlSource = new StreamSource(new java.io.StringReader(xmlString));
+        Source xsdSource = new StreamSource(new java.io.StringReader(xsdString));
+
+        validate(xmlSource, xsdSource);
+    }
+
+    public static void validate(Source xmlSource, Source xsdSource) {
+        try {
+            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = factory.newSchema(xsdSource);
+            Validator validator = schema.newValidator();
+            validator.validate(xmlSource);
+            System.out.println("Validation successful");
+        } catch (Exception e) {
+            System.out.println("Validation error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 Validator_2
+----------------------------------------------------------------
+void setFeature(String name, boolean value)`: This method sets the specified feature to the given value.
+
+Code snippet:
+```java
+import javax.xml.validation.Validator;
+
+public class Main {
+    public static void main(String[] args) {
+        Validator validator = null; // initialize validator object
+        validator.setFeature("http://apache.org/xml/features/validation/schema", true);
+    }
+}
+```
+================================================================
+
+Sample: 5 Validator_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.validation.Validator;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Schema;
+import org.xml.sax.SAXException;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+            Schema schema = factory.newSchema();
+            Validator validator = schema.newValidator();
+
+            validator.setProperty("http://java.sun.com/xml/jaxp/properties/schemaLanguage", "http://www.w3.org/2001/XMLSchema");
+            validator.setProperty("http://java.sun.com/xml/jaxp/properties/schemaSource", "schema.xsd");
+
+        } catch (SAXException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 Validator_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.XMLConstants;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
+public class Main {
+    public static void main(String[] args) {
+
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        
+        try {
+            Schema schema = factory.newSchema(new StreamSource("schema.xsd"));
+            Validator validator = schema.newValidator();
+            
+            validator.setErrorHandler(new ErrorHandler() {
+                @Override
+                public void warning(SAXParseException exception) throws SAXException {
+                    System.out.println("Warning: " + exception.getMessage());
+                }
+
+                @Override
+                public void error(SAXParseException exception) throws SAXException {
+                    System.out.println("Error: " + exception.getMessage());
+                }
+
+                @Override
+                public void fatalError(SAXParseException exception) throws SAXException {
+                    System.out.println("Fatal Error: " + exception.getMessage());
+                }
+            });
+            
+            // Perform validation here
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

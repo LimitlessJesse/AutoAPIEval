@@ -1,0 +1,218 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,OutputKeys,1,String get(String key),False,,NULL
+0,OutputKeys,2,"void set(String key, String value)",False,,NULL
+0,OutputKeys,3,Enumeration<String> keys(),False,,NULL
+0,OutputKeys,4,void clear(),False,,NULL
+0,OutputKeys,5,void remove(String key),False,,NULL
+1,Transformer,1,"void transform(Source xmlSource, Result outputTarget)",True,,"
+
+transform
+public abstract void transform(Source xmlSource,
+                               Result outputTarget)
+                        throws TransformerException
+Transform the XML Source to a Result.
+ Specific transformation behavior is determined by the settings of the
+ TransformerFactory in effect when the
+ Transformer was instantiated and any modifications made to
+ the Transformer instance.
+An empty Source is represented as an empty document
+ as constructed by DocumentBuilder.newDocument().
+ The result of transforming an empty Source depends on
+ the transformation behavior; it is not always an empty
+ Result.
+
+Parameters:
+xmlSource - The XML input to transform.
+outputTarget - The Result of transforming the
+   xmlSource.
+Throws:
+TransformerException - If an unrecoverable error occurs
+   during the course of the transformation.
+
+
+"
+1,Transformer,2,"void setParameter(String name, Object value)",True,,"
+
+setParameter
+public abstract void setParameter(String name,
+                                  Object value)
+Add a parameter for the transformation.
+
+ Pass a qualified name as a two-part string, the namespace URI
+ enclosed in curly braces ({}), followed by the local name. If the
+ name has a null URL, the String only contain the local name. An
+ application can safely check for a non-null URI by testing to see if the
+ first character of the name is a '{' character.
+For example, if a URI and local name were obtained from an element
+ defined with <xyz:foo
+ xmlns:xyz=""http://xyz.foo.com/yada/baz.html""/>,
+ then the qualified name would be ""{http://xyz.foo.com/yada/baz.html}foo"".
+ Note that no prefix is used.
+
+Parameters:
+name - The name of the parameter, which may begin with a
+ namespace URI in curly braces ({}).
+value - The value object.  This can be any valid Java object. It is
+ up to the processor to provide the proper object coersion or to simply
+ pass the object on for use in an extension.
+Throws:
+NullPointerException - If value is null.
+
+
+"
+1,Transformer,3,void clearParameters(),True,,"
+
+clearParameters
+public abstract void clearParameters()
+Clear all parameters set with setParameter.
+
+"
+1,Transformer,4,void setErrorListener(ErrorListener listener),True,,"
+
+setErrorListener
+public abstract void setErrorListener(ErrorListener listener)
+                               throws IllegalArgumentException
+Set the error event listener in effect for the transformation.
+
+Parameters:
+listener - The new error listener.
+Throws:
+IllegalArgumentException - if listener is null.
+
+
+"
+1,Transformer,5,void setURIResolver(URIResolver resolver),True,,"
+
+setURIResolver
+public abstract void setURIResolver(URIResolver resolver)
+Set an object that will be used to resolve URIs used in
+ document().
+
+ If the resolver argument is null, the URIResolver value will
+ be cleared and the transformer will no longer have a resolver.
+
+Parameters:
+resolver - An object that implements the URIResolver interface,
+ or null.
+
+
+"
+2,TransformerFactory,1,Transformer newTransformer(),True,,"
+
+newTransformer
+public abstract Transformer newTransformer()
+                                    throws TransformerConfigurationException
+Create a new Transformer that performs a copy
+ of the Source to the Result.
+ i.e. the ""identity transform"".
+
+Returns:
+A Transformer object that may be used to perform a transformation
+ in a single thread, never null.
+Throws:
+TransformerConfigurationException - When it is not
+   possible to create a Transformer instance.
+
+
+"
+2,TransformerFactory,2,Templates newTemplates(Source source),True,,"
+
+newTemplates
+public abstract Templates newTemplates(Source source)
+                                throws TransformerConfigurationException
+Process the Source into a Templates object, which is a
+ a compiled representation of the source. This Templates object
+ may then be used concurrently across multiple threads.  Creating
+ a Templates object allows the TransformerFactory to do detailed
+ performance optimization of transformation instructions, without
+ penalizing runtime transformation.
+
+Parameters:
+source - An object that holds a URL, input stream, etc.
+Returns:
+A Templates object capable of being used for transformation
+   purposes, never null.
+Throws:
+TransformerConfigurationException - When parsing to
+   construct the Templates object fails.
+
+
+"
+2,TransformerFactory,3,Transformer newTransformerHandler(),False,,NULL
+2,TransformerFactory,4,"Source getAssociatedStylesheet(Source source, String media, String title, String charset)",True,,"
+
+getAssociatedStylesheet
+public abstract Source getAssociatedStylesheet(Source source,
+                                               String media,
+                                               String title,
+                                               String charset)
+                                        throws TransformerConfigurationException
+Get the stylesheet specification(s) associated with the
+ XML Source document via the
+ 
+ xml-stylesheet processing instruction that match the given criteria.
+ Note that it is possible to return several stylesheets, in which case
+ they are applied as if they were a list of imports or cascades in a
+ single stylesheet.
+
+Parameters:
+source - The XML source document.
+media - The media attribute to be matched.  May be null, in which
+      case the prefered templates will be used (i.e. alternate = no).
+title - The value of the title attribute to match.  May be null.
+charset - The value of the charset attribute to match.  May be null.
+Returns:
+A Source Object suitable for passing
+   to the TransformerFactory.
+Throws:
+TransformerConfigurationException - An Exception
+   is thrown if an error occurings during parsing of the
+   source.
+See Also:
+
+   Associating Style Sheets with XML documents Version 1.0
+
+
+"
+2,TransformerFactory,5,"void setFeature(String name, boolean value)",True,,"
+
+setFeature
+public abstract void setFeature(String name,
+                                boolean value)
+                         throws TransformerConfigurationException
+Set a feature for this TransformerFactory and Transformers
+ or Templates created by this factory.
+
+ Feature names are fully qualified URIs.
+ Implementations may define their own features.
+ An TransformerConfigurationException is thrown if this TransformerFactory or the
+ Transformers or Templates it creates cannot support the feature.
+ It is possible for an TransformerFactory to expose a feature value but be unable to change its state.
+ 
+All implementations are required to support the XMLConstants.FEATURE_SECURE_PROCESSING feature.
+ When the feature is:
+
+
+true: the implementation will limit XML processing to conform to implementation limits
+     and behave in a secure fashion as defined by the implementation.
+     Examples include resolving user defined style sheets and functions.
+     If XML processing is limited for security reasons, it will be reported via a call to the registered
+     ErrorListener.fatalError(TransformerException exception).
+     See setErrorListener(ErrorListener listener).
+   
+
+false: the implementation will processing XML according to the XML specifications without
+     regard to possible implementation limits.
+   
+
+
+Parameters:
+name - Feature name.
+value - Is feature state true or false.
+Throws:
+TransformerConfigurationException - if this TransformerFactory
+   or the Transformers or Templates it creates cannot support this feature.
+NullPointerException - If the name parameter is null.
+
+
+"

@@ -1,0 +1,594 @@
+Sample: 0 ActivationDataFlavor_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.DataFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DataFlavor flavor = new DataFlavor(String.class, "text/plain");
+        String mimeType = flavor.getMimeType();
+        System.out.println("MIME Type: " + mimeType);
+    }
+}
+```
+================================================================
+
+Sample: 1 CommandInfo_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.CommandInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        CommandInfo commandInfo = new CommandInfo("ExampleCommand", "example.CommandClass");
+        String commandClass = commandInfo.getCommandClass();
+        System.out.println("Command Class: " + commandClass);
+    }
+}
+```
+================================================================
+
+Sample: 2 CommandInfo_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.CommandInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        CommandInfo commandInfo = new CommandInfo("commandName", "className");
+        String commandName = commandInfo.getCommandName();
+        System.out.println("Command Name: " + commandName);
+    }
+}
+```
+================================================================
+
+Sample: 3 CommandMap_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.CommandMap;
+
+public class Main {
+    public static void main(String[] args) {
+        CommandMap commandMap = CommandMap.getDefaultCommandMap();
+        System.out.println("Default Command Map: " + commandMap);
+    }
+}
+```
+================================================================
+
+Sample: 4 CommandMap_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.CommandMap;
+
+public class Main {
+    public static void main(String[] args) {
+        CommandMap commandMap = new CommandMap();
+        // example of using setDefaultCommandMap
+        commandMap.setDefaultCommandMap(new CommandMap());
+    }
+}
+```
+================================================================
+
+Sample: 5 DataHandler_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.DataHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        DataHandler dataHandler = new DataHandler("example.txt");
+        
+        try {
+            InputStream inputStream = dataHandler.getInputStream();
+            int data = inputStream.read();
+            while(data != -1) {
+                System.out.print((char)data);
+                data = inputStream.read();
+            }
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 DataHandler_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.DataHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        DataHandler dataHandler = new DataHandler(null, "text/plain");
+        String name = dataHandler.getName();
+        System.out.println("Name: " + name);
+    }
+}
+```
+================================================================
+
+Sample: 7 DataHandler_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.DataSource;
+import javax.activation.DataHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        DataHandler dataHandler = new DataHandler(new DataSource());
+        DataSource dataSource = dataHandler.getDataSource();
+    }
+}
+```
+================================================================
+
+Sample: 8 DataHandler_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.DataHandler;
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a DataHandler object
+        DataHandler dataHandler = new DataHandler("Test data", "text/plain");
+        
+        try {
+            // Get the OutputStream from the DataHandler
+            OutputStream outputStream = dataHandler.getOutputStream();
+            
+            // Write data to the OutputStream
+            outputStream.write("Hello, World!".getBytes());
+            
+            // Flush and close the OutputStream
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 DataHandler_5
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        DataHandler dataHandler = new DataHandler(new MyDataSource());
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            dataHandler.writeTo(outputStream);
+            System.out.println("DataHandler content: " + outputStream.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class MyDataSource implements DataSource {
+        @Override
+        public String getContentType() {
+            return "text/plain";
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            return null; // Return input stream of data
+        }
+
+        @Override
+        public String getName() {
+            return "MyDataSource";
+        }
+
+        @Override
+        public OutputStream getOutputStream() throws IOException {
+            return null; // Return output stream where data will be written
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 FileDataSource_1
+----------------------------------------------------------------
+```java
+import javax.activation.FileDataSource;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileDataSource fileDataSource = new FileDataSource("sample.txt");
+            InputStream inputStream = fileDataSource.getInputStream();
+            int data;
+            while ((data = inputStream.read()) != -1) {
+                System.out.print((char) data);
+            }
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 FileDataSource_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.FileDataSource;
+
+public class Main {
+    public static void main(String[] args) {
+        FileDataSource fileDataSource = new FileDataSource("example.txt");
+        String contentType = fileDataSource.getContentType();
+        System.out.println("Content Type: " + contentType);
+    }
+}
+```
+================================================================
+
+Sample: 12 FileDataSource_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.FileDataSource;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        FileDataSource fileDataSource = new FileDataSource(new File("file.txt"));
+        File file = fileDataSource.getFile();
+        System.out.println("File name: " + file.getName());
+    }
+}
+```
+================================================================
+
+Sample: 13 FileDataSource_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.FileDataSource;
+
+public class Main {
+    public static void main(String[] args) {
+        FileDataSource fileDataSource = new FileDataSource("example.txt");
+        String name = fileDataSource.getName();
+        System.out.println("File name: " + name);
+    }
+}
+```
+================================================================
+
+Sample: 14 FileTypeMap_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.FileTypeMap;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        File file = new File("sample.pdf");
+        String contentType = FileTypeMap.getDefaultFileTypeMap().getContentType(file);
+        System.out.println("Content Type: " + contentType);
+    }
+}
+```
+================================================================
+
+Sample: 15 FileTypeMap_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.FileTypeMap;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        String fileName = "example.txt";
+        FileTypeMap fileTypeMap = FileTypeMap.getDefaultFileTypeMap();
+        String contentType = fileTypeMap.getContentType(fileName);
+        System.out.println("Content Type for " + fileName + " is: " + contentType);
+    }
+}
+```
+================================================================
+
+Sample: 16 FileTypeMap_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.FileTypeMap;
+
+public class Main {
+    public static void main(String[] args) {
+        // Get the default file type map
+        FileTypeMap fileTypeMap = FileTypeMap.getDefaultFileTypeMap();
+        
+        // Use the file type map as needed
+        System.out.println("Default content type of txt file: " + fileTypeMap.getContentType("file.txt"));
+    }
+}
+```
+================================================================
+
+Sample: 17 MailcapCommandMap_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.DataContentHandler;
+import javax.activation.MailcapCommandMap;
+
+public class Main {
+    public static void main(String[] args) {
+        MailcapCommandMap mailcap = new MailcapCommandMap();
+        DataContentHandler handler = mailcap.createDataContentHandler("text/plain");
+        
+        System.out.println("DataContentHandler created for text/plain: " + handler.getClass().getName());
+    }
+}
+```
+================================================================
+
+Sample: 18 MailcapCommandMap_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.MailcapCommandMap;
+import javax.activation.CommandInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        MailcapCommandMap mailcap = new MailcapCommandMap();
+        CommandInfo commandInfo = mailcap.getCommand("text/plain", "view");
+        System.out.println(commandInfo);
+    }
+}
+```
+================================================================
+
+Sample: 19 MailcapCommandMap_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.CommandInfo;
+import javax.activation.MailcapCommandMap;
+
+public class Main {
+    public static void main(String[] args) {
+        MailcapCommandMap mailcapCommandMap = new MailcapCommandMap();
+        CommandInfo[] allCommands = mailcapCommandMap.getAllCommands("text/plain");
+        for (CommandInfo commandInfo : allCommands) {
+            System.out.println(commandInfo.getCommandName());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 MimeTypeParameterList_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.MimeTypeParameterList;
+
+public class Main {
+    public static void main(String[] args) {
+        MimeTypeParameterList mimeTypeParameterList = new MimeTypeParameterList();
+        mimeTypeParameterList.set("name", "value");
+        System.out.println(mimeTypeParameterList);
+    }
+}
+```
+================================================================
+
+Sample: 21 MimeTypeParameterList_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.MimeTypeParameterList;
+
+public class Main {
+    public static void main(String[] args) {
+        MimeTypeParameterList params = new MimeTypeParameterList();
+        params.set("name", "value");
+
+        String name = params.get("name");
+        System.out.println(name);        
+    }
+}
+```
+================================================================
+
+Sample: 22 MimeTypeParameterList_3
+----------------------------------------------------------------
+`void remove(String name)`: This method removes the parameter with the specified name from the MimeTypeParameterList.
+
+Code snippet:
+```java
+import javax.activation.MimeTypeParameterList;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a MimeTypeParameterList
+        MimeTypeParameterList list = new MimeTypeParameterList("text/plain");
+
+        // Add parameters to the list
+        list.set("charset", "UTF-8");
+        list.set("format", "flowed");
+        
+        // Print the list before removing a parameter
+        System.out.println("Before removing: " + list.toString());
+        
+        // Remove a parameter by name
+        list.remove("format");
+        
+        // Print the list after removing a parameter
+        System.out.println("After removing: " + list.toString());
+    }
+}
+```
+================================================================
+
+Sample: 23 MimeTypeParameterList_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.MimeTypeParameterList;
+
+public class Main {
+    public static void main(String[] args) {
+        MimeTypeParameterList list = new MimeTypeParameterList();
+        list.add("charset", "UTF-8");
+        list.add("type", "text/plain");
+        System.out.println(list.size());
+    }
+}
+```
+================================================================
+
+Sample: 24 MimetypesFileTypeMap_1
+----------------------------------------------------------------
+```java
+import javax.activation.MimetypesFileTypeMap;
+import java.io.File;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        File file = new File("example.txt");
+        String contentType = getContentType(file);
+        System.out.println("Content Type: " + contentType);
+    }
+    
+    public static String getContentType(File file) {
+        MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+        return mimeTypesMap.getContentType(file);
+    }
+}
+```
+================================================================
+
+Sample: 25 MimetypesFileTypeMap_2
+----------------------------------------------------------------
+```java
+import javax.activation.MimetypesFileTypeMap;
+
+public class Main {
+    public static void main(String[] args) {
+        String filename = "example.txt";
+        MimetypesFileTypeMap mimetypes = new MimetypesFileTypeMap();
+        String contentType = mimetypes.getContentType(filename);
+        System.out.println("Content Type: " + contentType);
+    }
+}
+```
+================================================================
+
+Sample: 26 URLDataSource_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.URLDataSource;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("http://www.example.com/sample.txt");
+            URLDataSource dataSource = new URLDataSource(url);
+            InputStream inputStream = dataSource.getInputStream();
+            
+            // Read from inputStream or perform operations
+            
+            inputStream.close(); // Don't forget to close the InputStream
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 27 URLDataSource_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.URLDataSource;
+
+public class Main {
+    public static void main(String[] args) {
+        URLDataSource dataSource = new URLDataSource(url);
+        String contentType = dataSource.getContentType();
+        System.out.println("Content Type: " + contentType);
+    }
+}
+```
+================================================================
+
+Sample: 28 URLDataSource_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.URLDataSource;
+
+public class Main {
+    public static void main(String[] args) {
+        URLDataSource urlDataSource = new URLDataSource();
+        String name = urlDataSource.getName();
+        System.out.println("Name of the URL data source: " + name);
+    }
+}
+```
+================================================================
+
+Sample: 29 URLDataSource_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.activation.URLDataSource;
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com");
+            URLDataSource dataSource = new URLDataSource(url);
+            System.out.println(dataSource.getURL());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,154 @@
+Sample: 0 AppConfigurationEntry_3
+----------------------------------------------------------------
+`String getLoginModuleName()`: This method retrieves the class name of the configured LoginModule.
+
+Code snippet:
+```java
+import javax.security.auth.login.AppConfigurationEntry;
+
+public class Main {
+    public static void main(String[] args) {
+        AppConfigurationEntry entry = new AppConfigurationEntry();
+        String loginModuleName = entry.getLoginModuleName();
+        System.out.println("Login Module Name: " + loginModuleName);
+    }
+}
+```
+================================================================
+
+Sample: 1 AppConfigurationEntry_LoginModuleControlFlag_1
+----------------------------------------------------------------
+```java
+import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
+
+public class Main {
+    public static void main(String[] args) {
+        LoginModuleControlFlag controlFlag = LoginModuleControlFlag.REQUIRED;
+        System.out.println(controlFlag.toString());
+    }
+}
+```
+================================================================
+
+Sample: 2 Configuration_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.AppConfigurationEntry;
+import javax.security.auth.login.Configuration;
+
+public class Main {
+    public static void main(String[] args) {
+        Configuration config = Configuration.getConfiguration();
+        AppConfigurationEntry[] entries = config.getAppConfigurationEntry("exampleName");
+        
+        if(entries != null) {
+            for(AppConfigurationEntry entry : entries) {
+                System.out.println("Login Module Class Name: " + entry.getLoginModuleName());
+                System.out.println("Control Flag: " + entry.getControlFlag());
+                System.out.println("Options: " + entry.getOptions());
+            }
+        } else {
+            System.out.println("No entries found for the specified name.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 Configuration_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.Configuration;
+
+public class Main {
+    public static void main(String[] args) {
+        Configuration config = Configuration.getConfiguration();
+        config.refresh();
+    }
+}
+```
+================================================================
+
+Sample: 4 Configuration_3
+----------------------------------------------------------------
+`void setConfiguration(Configuration configuration)`: This method sets the login Configuration.
+
+Code snippet:
+```java
+import javax.security.auth.login.Configuration;
+
+public class Main {
+    public static void main(String[] args) {
+        Configuration configuration = new Configuration();
+        Configuration.setConfiguration(configuration);
+    }
+}
+```
+================================================================
+
+Sample: 5 LoginContext_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            LoginContext lc = new LoginContext("Sample", new SampleCallbackHandler());
+            lc.login();
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 LoginContext_2
+----------------------------------------------------------------
+`void logout()`: This method logs out the Subject by invoking the logout method for each LoginModule configured for the LoginContext.
+
+Code snippet:
+```java
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            LoginContext lc = new LoginContext("Sample", new SampleCallbackHandler());
+            lc.logout();
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 LoginContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.Subject;
+import javax.security.auth.login.LoginContext;
+
+public class Main {
+    public static void main(String[] args) {
+        LoginContext loginContext = new LoginContext("Sample", new SampleCallbackHandler());
+        try {
+            loginContext.login();
+            Subject subject = loginContext.getSubject();
+            System.out.println("Authenticated Subject: " + subject);
+        } catch (Exception e) {
+            System.out.println("Authentication failed: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,295 @@
+Sample: 0 SchemaFactoryLoader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.validation.SchemaFactoryLoader;
+import javax.xml.validation.SchemaFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        SchemaFactoryLoader loader = SchemaFactoryLoader.newInstance();
+        SchemaFactory factory = loader.newFactory("http://www.w3.org/2001/XMLSchema");
+        System.out.println("SchemaFactory created: " + factory);
+    }
+}
+```
+================================================================
+
+Sample: 1 TypeInfoProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.validation.TypeInfoProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assume validatorHandler is already set to the ContentHandler
+        TypeInfoProvider typeInfoProvider = (TypeInfoProvider) validatorHandler;
+        TypeInfo typeInfo = typeInfoProvider.getElementTypeInfo();
+        System.out.println("Type of current element: " + typeInfo);
+    }
+}
+```
+================================================================
+
+Sample: 2 TypeInfoProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.validation.TypeInfoProvider;
+import javax.xml.validation.TypeInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        TypeInfoProvider provider = new TypeInfoProvider(); // Instantiate the TypeInfoProvider
+        int index = 0; // Specify the index of the attribute
+        TypeInfo typeInfo = provider.getAttributeTypeInfo(index); // Get the TypeInfo object for the specified attribute
+        if (typeInfo != null) {
+            System.out.println("Type of attribute at index " + index + ": " + typeInfo.getTypeName());
+        } else {
+            System.out.println("Type information not available for attribute at index " + index);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 Validator_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.transform.Source;
+import javax.xml.validation.Validator;
+import org.xml.sax.SAXException;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        Validator validator = null; // Initialize your Validator object here
+
+        try {
+            Source source = null; // Initialize your Source object here
+            validator.validate(source);
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 Validator_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.validation.Validator;
+import org.xml.sax.ErrorHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        Validator validator = null; // Initialize your Validator object here
+        
+        // Create a custom ErrorHandler
+        ErrorHandler customErrorHandler = new CustomErrorHandler();
+        
+        // Set the custom ErrorHandler to the Validator
+        validator.setErrorHandler(customErrorHandler);
+    }
+    
+    static class CustomErrorHandler implements ErrorHandler {
+        @Override
+        public void warning(org.xml.sax.SAXParseException exception) {
+            // Handle warning
+        }
+
+        @Override
+        public void error(org.xml.sax.SAXParseException exception) {
+            // Handle error
+        }
+
+        @Override
+        public void fatalError(org.xml.sax.SAXParseException exception) {
+            // Handle fatal error
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 Validator_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.validation.Validator;
+import javax.xml.XMLConstants;
+
+public class Main {
+    public static void main(String[] args) {
+        Validator validator = null; // Initialize your Validator object here
+        
+        try {
+            validator.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "some_value");
+            validator.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "some_value");
+        } catch (SAXNotRecognizedException e) {
+            e.printStackTrace();
+        } catch (SAXNotSupportedException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 ValidatorHandler_1
+----------------------------------------------------------------
+`void setFeature(String name, boolean value)`: This method sets a feature for the ValidatorHandler.
+
+Code snippet:
+```java
+import javax.xml.validation.ValidatorHandler;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
+
+public class Main {
+    public static void main(String[] args) {
+        ValidatorHandler validatorHandler = null; // Initialize ValidatorHandler object
+        
+        try {
+            validatorHandler.setFeature("http://xml.org/sax/features/namespaces", true);
+        } catch (SAXNotRecognizedException e) {
+            e.printStackTrace();
+        } catch (SAXNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 ValidatorHandler_2
+----------------------------------------------------------------
+`void setProperty(String name, Object object)`: This method sets the value of a property for the ValidatorHandler.
+
+Code snippet:
+```java
+import javax.xml.validation.ValidatorHandler;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
+
+public class Main {
+    public static void main(String[] args) {
+        ValidatorHandler validatorHandler = null; // Initialize your ValidatorHandler object
+        
+        try {
+            validatorHandler.setProperty("property_name", "property_value");
+        } catch (SAXNotRecognizedException e) {
+            e.printStackTrace();
+        } catch (SAXNotSupportedException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 ValidatorHandler_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.validation.ValidatorHandler;
+import org.xml.sax.ContentHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        ValidatorHandler validatorHandler = new ValidatorHandler() {
+            @Override
+            public void setContentHandler(ContentHandler receiver) {
+                // Implementation of setContentHandler method
+            }
+        };
+        
+        // Call the setContentHandler method
+        ContentHandler contentHandler = new ContentHandler() {
+            // Implement ContentHandler methods
+        };
+        validatorHandler.setContentHandler(contentHandler);
+    }
+}
+```
+================================================================
+
+Sample: 9 ValidatorHandler_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.validation.ValidatorHandler;
+import org.xml.sax.ErrorHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        ValidatorHandler validatorHandler = new ValidatorHandler() {
+            @Override
+            public void setErrorHandler(ErrorHandler errorHandler) {
+                // Implementation of setErrorHandler method
+                // Customize error handling process during validation
+            }
+        };
+        
+        // Example of setting an ErrorHandler
+        validatorHandler.setErrorHandler(new ErrorHandler() {
+            @Override
+            public void warning(org.xml.sax.SAXParseException exception) {
+                System.out.println("Warning: " + exception.getMessage());
+            }
+
+            @Override
+            public void error(org.xml.sax.SAXParseException exception) {
+                System.out.println("Error: " + exception.getMessage());
+            }
+
+            @Override
+            public void fatalError(org.xml.sax.SAXParseException exception) {
+                System.out.println("Fatal Error: " + exception.getMessage());
+            }
+        });
+    }
+}
+```
+================================================================
+
+Sample: 10 ValidatorHandler_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.validation.ValidatorHandler;
+import org.w3c.dom.ls.LSResourceResolver;
+
+public class Main {
+    public static void main(String[] args) {
+        ValidatorHandler validatorHandler = new ValidatorHandler() {
+            @Override
+            public void setResourceResolver(LSResourceResolver resourceResolver) {
+                // Implementation of setResourceResolver method
+            }
+        };
+        
+        // Example of setting a resource resolver
+        LSResourceResolver resourceResolver = new LSResourceResolver() {
+            @Override
+            public LSInput resolveResource(String publicId, String systemId, String baseURI) {
+                return null; // Implementation of resolveResource method
+            }
+        };
+        
+        validatorHandler.setResourceResolver(resourceResolver);
+    }
+}
+```
+================================================================
+

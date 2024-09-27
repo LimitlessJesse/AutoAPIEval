@@ -1,0 +1,1459 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Clock,1,ZoneId getZone(),True,,"
+
+getZone
+public abstract ZoneId getZone()
+Gets the time-zone being used to create dates and times.
+ 
+ A clock will typically obtain the current instant and then convert that
+ to a date or time using a time-zone. This method returns the time-zone used.
+
+Returns:
+the time-zone being used to interpret instants, not null
+
+
+"
+0,Clock,2,Instant instant(),True,,"
+
+instant
+public abstract Instant instant()
+Gets the current instant of the clock.
+ 
+ This returns an instant representing the current instant as defined by the clock.
+
+Returns:
+the current instant from this clock, not null
+Throws:
+DateTimeException - if the instant cannot be obtained, not thrown by most implementations
+
+
+"
+0,Clock,3,long millis(),True,,"
+
+millis
+public long millis()
+Gets the current millisecond instant of the clock.
+ 
+ This returns the millisecond-based instant, measured from 1970-01-01T00:00Z (UTC).
+ This is equivalent to the definition of System.currentTimeMillis().
+ 
+ Most applications should avoid this method and use Instant to represent
+ an instant on the time-line rather than a raw millisecond value.
+ This method is provided to allow the use of the clock in high performance use cases
+ where the creation of an object would be unacceptable.
+ 
+ The default implementation currently calls instant().
+
+Returns:
+the current millisecond instant from this clock, measured from
+  the Java epoch of 1970-01-01T00:00Z (UTC), not null
+Throws:
+DateTimeException - if the instant cannot be obtained, not thrown by most implementations
+
+
+"
+0,Clock,4,Clock withZone(ZoneId zone),True,,"
+
+withZone
+public abstract Clock withZone(ZoneId zone)
+Returns a copy of this clock with a different time-zone.
+ 
+ A clock will typically obtain the current instant and then convert that
+ to a date or time using a time-zone. This method returns a clock with
+ similar properties but using a different time-zone.
+
+Parameters:
+zone - the time-zone to change to, not null
+Returns:
+a clock based on this clock with the specified time-zone, not null
+
+
+"
+0,Clock,5,Clock systemUTC(),True,,"
+
+systemUTC
+public static Clock systemUTC()
+Obtains a clock that returns the current instant using the best available
+ system clock, converting to date and time using the UTC time-zone.
+ 
+ This clock, rather than systemDefaultZone(), should be used when
+ you need the current instant without the date or time.
+ 
+ This clock is based on the best available system clock.
+ This may use System.currentTimeMillis(), or a higher resolution
+ clock if one is available.
+ 
+ Conversion from instant to date or time uses the UTC time-zone.
+ 
+ The returned implementation is immutable, thread-safe and Serializable.
+ It is equivalent to system(ZoneOffset.UTC).
+
+Returns:
+a clock that uses the best available system clock in the UTC zone, not null
+
+
+"
+1,Duration,1,Duration ofSeconds(long seconds),True,,"
+
+ofSeconds
+public static Duration ofSeconds(long seconds)
+Obtains a Duration representing a number of seconds.
+ 
+ The nanosecond in second field is set to zero.
+
+Parameters:
+seconds - the number of seconds, positive or negative
+Returns:
+a Duration, not null
+
+
+"
+1,Duration,2,Duration ofMinutes(long minutes),True,,"
+
+ofMinutes
+public static Duration ofMinutes(long minutes)
+Obtains a Duration representing a number of standard minutes.
+ 
+ The seconds are calculated based on the standard definition of a minute,
+ where each minute is 60 seconds.
+ The nanosecond in second field is set to zero.
+
+Parameters:
+minutes - the number of minutes, positive or negative
+Returns:
+a Duration, not null
+Throws:
+ArithmeticException - if the input minutes exceeds the capacity of Duration
+
+
+"
+1,Duration,3,Duration ofHours(long hours),True,,"
+
+ofHours
+public static Duration ofHours(long hours)
+Obtains a Duration representing a number of standard hours.
+ 
+ The seconds are calculated based on the standard definition of an hour,
+ where each hour is 3600 seconds.
+ The nanosecond in second field is set to zero.
+
+Parameters:
+hours - the number of hours, positive or negative
+Returns:
+a Duration, not null
+Throws:
+ArithmeticException - if the input hours exceeds the capacity of Duration
+
+
+"
+1,Duration,4,Duration ofDays(long days),True,,"
+
+ofDays
+public static Duration ofDays(long days)
+Obtains a Duration representing a number of standard 24 hour days.
+ 
+ The seconds are calculated based on the standard definition of a day,
+ where each day is 86400 seconds which implies a 24 hour day.
+ The nanosecond in second field is set to zero.
+
+Parameters:
+days - the number of days, positive or negative
+Returns:
+a Duration, not null
+Throws:
+ArithmeticException - if the input days exceeds the capacity of Duration
+
+
+"
+1,Duration,5,Duration plus(Duration duration),True,,"
+
+plus
+public Duration plus(Duration duration)
+Returns a copy of this duration with the specified duration added.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+duration - the duration to add, positive or negative, not null
+Returns:
+a Duration based on this duration with the specified duration added, not null
+Throws:
+ArithmeticException - if numeric overflow occurs
+
+
+"
+2,Instant,1,Instant now(),True,,"
+
+now
+public static Instant now()
+Obtains the current instant from the system clock.
+ 
+ This will query the system UTC clock to
+ obtain the current instant.
+ 
+ Using this method will prevent the ability to use an alternate time-source for
+ testing because the clock is effectively hard-coded.
+
+Returns:
+the current instant using the system clock, not null
+
+
+"
+2,Instant,2,Instant ofEpochSecond(long epochSecond),True,,"
+
+ofEpochSecond
+public static Instant ofEpochSecond(long epochSecond)
+Obtains an instance of Instant using seconds from the
+ epoch of 1970-01-01T00:00:00Z.
+ 
+ The nanosecond field is set to zero.
+
+Parameters:
+epochSecond - the number of seconds from 1970-01-01T00:00:00Z
+Returns:
+an instant, not null
+Throws:
+DateTimeException - if the instant exceeds the maximum or minimum instant
+
+
+"
+2,Instant,3,"Instant ofEpochSecond(long epochSecond, long nanoAdjustment)",True,,"
+
+ofEpochSecond
+public static Instant ofEpochSecond(long epochSecond,
+                                    long nanoAdjustment)
+Obtains an instance of Instant using seconds from the
+ epoch of 1970-01-01T00:00:00Z and nanosecond fraction of second.
+ 
+ This method allows an arbitrary number of nanoseconds to be passed in.
+ The factory will alter the values of the second and nanosecond in order
+ to ensure that the stored nanosecond is in the range 0 to 999,999,999.
+ For example, the following will result in the exactly the same instant:
+ 
+  Instant.ofEpochSecond(3, 1);
+  Instant.ofEpochSecond(4, -999_999_999);
+  Instant.ofEpochSecond(2, 1000_000_001);
+ 
+
+Parameters:
+epochSecond - the number of seconds from 1970-01-01T00:00:00Z
+nanoAdjustment - the nanosecond adjustment to the number of seconds, positive or negative
+Returns:
+an instant, not null
+Throws:
+DateTimeException - if the instant exceeds the maximum or minimum instant
+ArithmeticException - if numeric overflow occurs
+
+
+"
+2,Instant,4,Instant parse(CharSequence text),True,,"
+
+parse
+public static Instant parse(CharSequence text)
+Obtains an instance of Instant from a text string such as
+ 2007-12-03T10:15:30.00Z.
+ 
+ The string must represent a valid instant in UTC and is parsed using
+ DateTimeFormatter.ISO_INSTANT.
+
+Parameters:
+text - the text to parse, not null
+Returns:
+the parsed instant, not null
+Throws:
+DateTimeParseException - if the text cannot be parsed
+
+
+"
+2,Instant,5,Instant plus(Duration amountToAdd),False,,NULL
+3,LocalDate,1,LocalDate now(),True,,"
+
+now
+public static LocalDate now()
+Obtains the current date from the system clock in the default time-zone.
+ 
+ This will query the system clock in the default
+ time-zone to obtain the current date.
+ 
+ Using this method will prevent the ability to use an alternate clock for testing
+ because the clock is hard-coded.
+
+Returns:
+the current date using the system clock and default time-zone, not null
+
+
+"
+3,LocalDate,2,"LocalDate of(int year, int month, int dayOfMonth)",True,,"
+
+of
+public static LocalDate of(int year,
+                           int month,
+                           int dayOfMonth)
+Obtains an instance of LocalDate from a year, month and day.
+ 
+ This returns a LocalDate with the specified year, month and day-of-month.
+ The day must be valid for the year and month, otherwise an exception will be thrown.
+
+Parameters:
+year - the year to represent, from MIN_YEAR to MAX_YEAR
+month - the month-of-year to represent, from 1 (January) to 12 (December)
+dayOfMonth - the day-of-month to represent, from 1 to 31
+Returns:
+the local date, not null
+Throws:
+DateTimeException - if the value of any field is out of range,
+  or if the day-of-month is invalid for the month-year
+
+
+"
+3,LocalDate,3,LocalDate parse(CharSequence text),True,,"
+
+parse
+public static LocalDate parse(CharSequence text)
+Obtains an instance of LocalDate from a text string such as 2007-12-03.
+ 
+ The string must represent a valid date and is parsed using
+ DateTimeFormatter.ISO_LOCAL_DATE.
+
+Parameters:
+text - the text to parse such as ""2007-12-03"", not null
+Returns:
+the parsed local date, not null
+Throws:
+DateTimeParseException - if the text cannot be parsed
+
+
+"
+3,LocalDate,4,LocalDate plusDays(long daysToAdd),True,,"
+
+plusDays
+public LocalDate plusDays(long daysToAdd)
+Returns a copy of this LocalDate with the specified number of days added.
+ 
+ This method adds the specified amount to the days field incrementing the
+ month and year fields as necessary to ensure the result remains valid.
+ The result is only invalid if the maximum/minimum year is exceeded.
+ 
+ For example, 2008-12-31 plus one day would result in 2009-01-01.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+daysToAdd - the days to add, may be negative
+Returns:
+a LocalDate based on this date with the days added, not null
+Throws:
+DateTimeException - if the result exceeds the supported date range
+
+
+"
+3,LocalDate,5,LocalDate minusDays(long daysToSubtract),True,,"
+
+minusDays
+public LocalDate minusDays(long daysToSubtract)
+Returns a copy of this LocalDate with the specified number of days subtracted.
+ 
+ This method subtracts the specified amount from the days field decrementing the
+ month and year fields as necessary to ensure the result remains valid.
+ The result is only invalid if the maximum/minimum year is exceeded.
+ 
+ For example, 2009-01-01 minus one day would result in 2008-12-31.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+daysToSubtract - the days to subtract, may be negative
+Returns:
+a LocalDate based on this date with the days subtracted, not null
+Throws:
+DateTimeException - if the result exceeds the supported date range
+
+
+"
+4,LocalDateTime,1,LocalDateTime now(),True,,"
+
+now
+public static LocalDateTime now()
+Obtains the current date-time from the system clock in the default time-zone.
+ 
+ This will query the system clock in the default
+ time-zone to obtain the current date-time.
+ 
+ Using this method will prevent the ability to use an alternate clock for testing
+ because the clock is hard-coded.
+
+Returns:
+the current date-time using the system clock and default time-zone, not null
+
+
+"
+4,LocalDateTime,2,"LocalDateTime of(int year, int month, int dayOfMonth, int hour, int minute)",True,,"
+
+of
+public static LocalDateTime of(int year,
+                               int month,
+                               int dayOfMonth,
+                               int hour,
+                               int minute)
+Obtains an instance of LocalDateTime from year, month,
+ day, hour and minute, setting the second and nanosecond to zero.
+ 
+ This returns a LocalDateTime with the specified year, month,
+ day-of-month, hour and minute.
+ The day must be valid for the year and month, otherwise an exception will be thrown.
+ The second and nanosecond fields will be set to zero.
+
+Parameters:
+year - the year to represent, from MIN_YEAR to MAX_YEAR
+month - the month-of-year to represent, from 1 (January) to 12 (December)
+dayOfMonth - the day-of-month to represent, from 1 to 31
+hour - the hour-of-day to represent, from 0 to 23
+minute - the minute-of-hour to represent, from 0 to 59
+Returns:
+the local date-time, not null
+Throws:
+DateTimeException - if the value of any field is out of range,
+  or if the day-of-month is invalid for the month-year
+
+
+"
+4,LocalDateTime,3,LocalDateTime parse(CharSequence text),True,,"
+
+parse
+public static LocalDateTime parse(CharSequence text)
+Obtains an instance of LocalDateTime from a text string such as 2007-12-03T10:15:30.
+ 
+ The string must represent a valid date-time and is parsed using
+ DateTimeFormatter.ISO_LOCAL_DATE_TIME.
+
+Parameters:
+text - the text to parse such as ""2007-12-03T10:15:30"", not null
+Returns:
+the parsed local date-time, not null
+Throws:
+DateTimeParseException - if the text cannot be parsed
+
+
+"
+4,LocalDateTime,4,LocalDateTime plusDays(long daysToAdd),True,,"
+
+plusDays
+public LocalDateTime plusDays(long days)
+Returns a copy of this LocalDateTime with the specified number of days added.
+ 
+ This method adds the specified amount to the days field incrementing the
+ month and year fields as necessary to ensure the result remains valid.
+ The result is only invalid if the maximum/minimum year is exceeded.
+ 
+ For example, 2008-12-31 plus one day would result in 2009-01-01.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+days - the days to add, may be negative
+Returns:
+a LocalDateTime based on this date-time with the days added, not null
+Throws:
+DateTimeException - if the result exceeds the supported date range
+
+
+"
+4,LocalDateTime,5,LocalDateTime minusHours(long hoursToSubtract),True,,"
+
+minusHours
+public LocalDateTime minusHours(long hours)
+Returns a copy of this LocalDateTime with the specified number of hours subtracted.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+hours - the hours to subtract, may be negative
+Returns:
+a LocalDateTime based on this date-time with the hours subtracted, not null
+Throws:
+DateTimeException - if the result exceeds the supported date range
+
+
+"
+5,LocalTime,1,int getHour(),True,,"
+
+getHour
+public int getHour()
+Gets the hour-of-day field.
+
+Returns:
+the hour-of-day, from 0 to 23
+
+
+"
+5,LocalTime,2,int getMinute(),True,,"
+
+getMinute
+public int getMinute()
+Gets the minute-of-hour field.
+
+Returns:
+the minute-of-hour, from 0 to 59
+
+
+"
+5,LocalTime,3,int getSecond(),True,,"
+
+getSecond
+public int getSecond()
+Gets the second-of-minute field.
+
+Returns:
+the second-of-minute, from 0 to 59
+
+
+"
+5,LocalTime,4,LocalTime plusHours(long hoursToAdd),True,,"
+
+plusHours
+public LocalTime plusHours(long hoursToAdd)
+Returns a copy of this LocalTime with the specified number of hours added.
+ 
+ This adds the specified number of hours to this time, returning a new time.
+ The calculation wraps around midnight.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+hoursToAdd - the hours to add, may be negative
+Returns:
+a LocalTime based on this time with the hours added, not null
+
+
+"
+5,LocalTime,5,LocalTime minusMinutes(long minutesToSubtract),True,,"
+
+minusMinutes
+public LocalTime minusMinutes(long minutesToSubtract)
+Returns a copy of this LocalTime with the specified number of minutes subtracted.
+ 
+ This subtracts the specified number of minutes from this time, returning a new time.
+ The calculation wraps around midnight.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+minutesToSubtract - the minutes to subtract, may be negative
+Returns:
+a LocalTime based on this time with the minutes subtracted, not null
+
+
+"
+6,MonthDay,1,int getMonthValue(),True,,"
+
+getMonthValue
+public int getMonthValue()
+Gets the month-of-year field from 1 to 12.
+ 
+ This method returns the month as an int from 1 to 12.
+ Application code is frequently clearer if the enum Month
+ is used by calling getMonth().
+
+Returns:
+the month-of-year, from 1 to 12
+See Also:
+getMonth()
+
+
+"
+6,MonthDay,2,Month getMonth(),True,,"
+
+getMonth
+public Month getMonth()
+Gets the month-of-year field using the Month enum.
+ 
+ This method returns the enum Month for the month.
+ This avoids confusion as to what int values mean.
+ If you need access to the primitive int value then the enum
+ provides the int value.
+
+Returns:
+the month-of-year, not null
+See Also:
+getMonthValue()
+
+
+"
+6,MonthDay,3,boolean isValidYear(int year),True,,"
+
+isValidYear
+public boolean isValidYear(int year)
+Checks if the year is valid for this month-day.
+ 
+ This method checks whether this month and day and the input year form
+ a valid date. This can only return false for February 29th.
+
+Parameters:
+year - the year to validate
+Returns:
+true if the year is valid for this month-day
+See Also:
+Year.isValidMonthDay(MonthDay)
+
+
+"
+6,MonthDay,4,String toString(),True,,"
+
+toString
+public String toString()
+Outputs this month-day as a String, such as --12-03.
+ 
+ The output will be in the format --MM-dd:
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of this month-day, not null
+
+
+"
+6,MonthDay,5,LocalDate atYear(int year),True,,"
+
+atYear
+public LocalDate atYear(int year)
+Combines this month-day with a year to create a LocalDate.
+ 
+ This returns a LocalDate formed from this month-day and the specified year.
+ 
+ A month-day of February 29th will be adjusted to February 28th in the resulting
+ date if the year is not a leap year.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+year - the year to use, from MIN_YEAR to MAX_YEAR
+Returns:
+the local date formed from this month-day and the specified year, not null
+Throws:
+DateTimeException - if the year is outside the valid range of years
+
+
+"
+7,OffsetDateTime,1,OffsetDateTime plusDays(long days),True,,"
+
+plusDays
+public OffsetDateTime plusDays(long days)
+Returns a copy of this OffsetDateTime with the specified number of days added.
+ 
+ This method adds the specified amount to the days field incrementing the
+ month and year fields as necessary to ensure the result remains valid.
+ The result is only invalid if the maximum/minimum year is exceeded.
+ 
+ For example, 2008-12-31 plus one day would result in 2009-01-01.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+days - the days to add, may be negative
+Returns:
+an OffsetDateTime based on this date-time with the days added, not null
+Throws:
+DateTimeException - if the result exceeds the supported date range
+
+
+"
+7,OffsetDateTime,2,OffsetDateTime minusHours(long hours),True,,"
+
+minusHours
+public OffsetDateTime minusHours(long hours)
+Returns a copy of this OffsetDateTime with the specified number of hours subtracted.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+hours - the hours to subtract, may be negative
+Returns:
+an OffsetDateTime based on this date-time with the hours subtracted, not null
+Throws:
+DateTimeException - if the result exceeds the supported date range
+
+
+"
+7,OffsetDateTime,3,OffsetDateTime withYear(int year),True,,"
+
+withYear
+public OffsetDateTime withYear(int year)
+Returns a copy of this OffsetDateTime with the year altered.
+ 
+ The time and offset do not affect the calculation and will be the same in the result.
+ If the day-of-month is invalid for the year, it will be changed to the last valid day of the month.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+year - the year to set in the result, from MIN_YEAR to MAX_YEAR
+Returns:
+an OffsetDateTime based on this date-time with the requested year, not null
+Throws:
+DateTimeException - if the year value is invalid
+
+
+"
+7,OffsetDateTime,4,OffsetDateTime withOffsetSameInstant(ZoneOffset offset),True,,"
+
+withOffsetSameInstant
+public OffsetDateTime withOffsetSameInstant(ZoneOffset offset)
+Returns a copy of this OffsetDateTime with the specified offset ensuring
+ that the result is at the same instant.
+ 
+ This method returns an object with the specified ZoneOffset and a LocalDateTime
+ adjusted by the difference between the two offsets.
+ This will result in the old and new objects representing the same instant.
+ This is useful for finding the local time in a different offset.
+ For example, if this time represents 2007-12-03T10:30+02:00 and the offset specified is
+ +03:00, then this method will return 2007-12-03T11:30+03:00.
+ 
+ To change the offset without adjusting the local time use withOffsetSameLocal(java.time.ZoneOffset).
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+offset - the zone offset to change to, not null
+Returns:
+an OffsetDateTime based on this date-time with the requested offset, not null
+Throws:
+DateTimeException - if the result exceeds the supported date range
+
+
+"
+7,OffsetDateTime,5,OffsetDateTime truncatedTo(TemporalUnit unit),True,,"
+
+truncatedTo
+public OffsetDateTime truncatedTo(TemporalUnit unit)
+Returns a copy of this OffsetDateTime with the time truncated.
+ 
+ Truncation returns a copy of the original date-time with fields
+ smaller than the specified unit set to zero.
+ For example, truncating with the minutes unit
+ will set the second-of-minute and nano-of-second field to zero.
+ 
+ The unit must have a duration
+ that divides into the length of a standard day without remainder.
+ This includes all supplied time units on ChronoUnit and
+ DAYS. Other units throw an exception.
+ 
+ The offset does not affect the calculation and will be the same in the result.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+unit - the unit to truncate to, not null
+Returns:
+an OffsetDateTime based on this date-time with the time truncated, not null
+Throws:
+DateTimeException - if unable to truncate
+UnsupportedTemporalTypeException - if the unit is not supported
+
+
+"
+8,OffsetTime,1,OffsetTime withHour(int hour),True,,"
+
+withHour
+public OffsetTime withHour(int hour)
+Returns a copy of this OffsetTime with the hour-of-day altered.
+ 
+ The offset does not affect the calculation and will be the same in the result.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+hour - the hour-of-day to set in the result, from 0 to 23
+Returns:
+an OffsetTime based on this time with the requested hour, not null
+Throws:
+DateTimeException - if the hour value is invalid
+
+
+"
+8,OffsetTime,2,OffsetTime withMinute(int minute),True,,"
+
+withMinute
+public OffsetTime withMinute(int minute)
+Returns a copy of this OffsetTime with the minute-of-hour altered.
+ 
+ The offset does not affect the calculation and will be the same in the result.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+minute - the minute-of-hour to set in the result, from 0 to 59
+Returns:
+an OffsetTime based on this time with the requested minute, not null
+Throws:
+DateTimeException - if the minute value is invalid
+
+
+"
+8,OffsetTime,3,OffsetTime withSecond(int second),True,,"
+
+withSecond
+public OffsetTime withSecond(int second)
+Returns a copy of this OffsetTime with the second-of-minute altered.
+ 
+ The offset does not affect the calculation and will be the same in the result.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+second - the second-of-minute to set in the result, from 0 to 59
+Returns:
+an OffsetTime based on this time with the requested second, not null
+Throws:
+DateTimeException - if the second value is invalid
+
+
+"
+8,OffsetTime,4,OffsetTime withOffsetSameLocal(ZoneOffset offset),True,,"
+
+withOffsetSameLocal
+public OffsetTime withOffsetSameLocal(ZoneOffset offset)
+Returns a copy of this OffsetTime with the specified offset ensuring
+ that the result has the same local time.
+ 
+ This method returns an object with the same LocalTime and the specified ZoneOffset.
+ No calculation is needed or performed.
+ For example, if this time represents 10:30+02:00 and the offset specified is
+ +03:00, then this method will return 10:30+03:00.
+ 
+ To take into account the difference between the offsets, and adjust the time fields,
+ use withOffsetSameInstant(java.time.ZoneOffset).
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+offset - the zone offset to change to, not null
+Returns:
+an OffsetTime based on this time with the requested offset, not null
+
+
+"
+8,OffsetTime,5,OffsetTime truncatedTo(TemporalUnit unit),True,,"
+
+truncatedTo
+public OffsetTime truncatedTo(TemporalUnit unit)
+Returns a copy of this OffsetTime with the time truncated.
+ 
+ Truncation returns a copy of the original time with fields
+ smaller than the specified unit set to zero.
+ For example, truncating with the minutes unit
+ will set the second-of-minute and nano-of-second field to zero.
+ 
+ The unit must have a duration
+ that divides into the length of a standard day without remainder.
+ This includes all supplied time units on ChronoUnit and
+ DAYS. Other units throw an exception.
+ 
+ The offset does not affect the calculation and will be the same in the result.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+unit - the unit to truncate to, not null
+Returns:
+an OffsetTime based on this time with the time truncated, not null
+Throws:
+DateTimeException - if unable to truncate
+UnsupportedTemporalTypeException - if the unit is not supported
+
+
+"
+9,Period,1,"Period between(LocalDate startDateInclusive, LocalDate endDateExclusive)",True,,"
+
+between
+public static Period between(LocalDate startDateInclusive,
+                             LocalDate endDateExclusive)
+Obtains a Period consisting of the number of years, months,
+ and days between two dates.
+ 
+ The start date is included, but the end date is not.
+ The period is calculated by removing complete months, then calculating
+ the remaining number of days, adjusting to ensure that both have the same sign.
+ The number of months is then split into years and months based on a 12 month year.
+ A month is considered if the end day-of-month is greater than or equal to the start day-of-month.
+ For example, from 2010-01-15 to 2011-03-18 is one year, two months and three days.
+ 
+ The result of this method can be a negative period if the end is before the start.
+ The negative sign will be the same in each of year, month and day.
+
+Parameters:
+startDateInclusive - the start date, inclusive, not null
+endDateExclusive - the end date, exclusive, not null
+Returns:
+the period between this date and the end date, not null
+See Also:
+ChronoLocalDate.until(ChronoLocalDate)
+
+
+"
+9,Period,2,Period parse(CharSequence text),True,,"
+
+parse
+public static Period parse(CharSequence text)
+Obtains a Period from a text string such as PnYnMnD.
+ 
+ This will parse the string produced by toString() which is
+ based on the ISO-8601 period formats PnYnMnD and PnW.
+ 
+ The string starts with an optional sign, denoted by the ASCII negative
+ or positive symbol. If negative, the whole period is negated.
+ The ASCII letter ""P"" is next in upper or lower case.
+ There are then four sections, each consisting of a number and a suffix.
+ At least one of the four sections must be present.
+ The sections have suffixes in ASCII of ""Y"", ""M"", ""W"" and ""D"" for
+ years, months, weeks and days, accepted in upper or lower case.
+ The suffixes must occur in order.
+ The number part of each section must consist of ASCII digits.
+ The number may be prefixed by the ASCII negative or positive symbol.
+ The number must parse to an int.
+ 
+ The leading plus/minus sign, and negative values for other units are
+ not part of the ISO-8601 standard. In addition, ISO-8601 does not
+ permit mixing between the PnYnMnD and PnW formats.
+ Any week-based input is multiplied by 7 and treated as a number of days.
+ 
+ For example, the following are valid inputs:
+ 
+   ""P2Y""             -- Period.ofYears(2)
+   ""P3M""             -- Period.ofMonths(3)
+   ""P4W""             -- Period.ofWeeks(4)
+   ""P5D""             -- Period.ofDays(5)
+   ""P1Y2M3D""         -- Period.of(1, 2, 3)
+   ""P1Y2M3W4D""       -- Period.of(1, 2, 25)
+   ""P-1Y2M""          -- Period.of(-1, 2, 0)
+   ""-P1Y2M""          -- Period.of(-1, -2, 0)
+ 
+
+Parameters:
+text - the text to parse, not null
+Returns:
+the parsed period, not null
+Throws:
+DateTimeParseException - if the text cannot be parsed to a period
+
+
+"
+9,Period,3,"Period of(int years, int months, int days)",True,,"
+
+of
+public static Period of(int years,
+                        int months,
+                        int days)
+Obtains a Period representing a number of years, months and days.
+ 
+ This creates an instance based on years, months and days.
+
+Parameters:
+years - the amount of years, may be negative
+months - the amount of months, may be negative
+days - the amount of days, may be negative
+Returns:
+the period of years, months and days, not null
+
+
+"
+9,Period,4,Period ofDays(int days),True,,"
+
+ofDays
+public static Period ofDays(int days)
+Obtains a Period representing a number of days.
+ 
+ The resulting period will have the specified days.
+ The years and months units will be zero.
+
+Parameters:
+days - the number of days, positive or negative
+Returns:
+the period of days, not null
+
+
+"
+9,Period,5,Period ofMonths(int months),True,,"
+
+ofMonths
+public static Period ofMonths(int months)
+Obtains a Period representing a number of months.
+ 
+ The resulting period will have the specified months.
+ The years and days units will be zero.
+
+Parameters:
+months - the number of months, positive or negative
+Returns:
+the period of months, not null
+
+
+"
+10,Year,1,int getValue(),True,,"
+
+getValue
+public int getValue()
+Gets the year value.
+ 
+ The year returned by this method is proleptic as per get(YEAR).
+
+Returns:
+the year, MIN_VALUE to MAX_VALUE
+
+
+"
+10,Year,2,boolean isLeap(),True,,"
+
+isLeap
+public boolean isLeap()
+Checks if the year is a leap year, according to the ISO proleptic
+ calendar system rules.
+ 
+ This method applies the current rules for leap years across the whole time-line.
+ In general, a year is a leap year if it is divisible by four without
+ remainder. However, years divisible by 100, are not leap years, with
+ the exception of years divisible by 400 which are.
+ 
+ For example, 1904 is a leap year it is divisible by 4.
+ 1900 was not a leap year as it is divisible by 100, however 2000 was a
+ leap year as it is divisible by 400.
+ 
+ The calculation is proleptic - applying the same rules into the far future and far past.
+ This is historically inaccurate, but is correct for the ISO-8601 standard.
+
+Returns:
+true if the year is leap, false otherwise
+
+
+"
+10,Year,3,Year minusYears(long years),True,,"
+
+minusYears
+public Year minusYears(long yearsToSubtract)
+Returns a copy of this Year with the specified number of years subtracted.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+yearsToSubtract - the years to subtract, may be negative
+Returns:
+a Year based on this year with the year subtracted, not null
+Throws:
+DateTimeException - if the result exceeds the supported range
+
+
+"
+10,Year,4,Year plusYears(long years),True,,"
+
+plusYears
+public Year plusYears(long yearsToAdd)
+Returns a copy of this Year with the specified number of years added.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+yearsToAdd - the years to add, may be negative
+Returns:
+a Year based on this year with the years added, not null
+Throws:
+DateTimeException - if the result exceeds the supported range
+
+
+"
+10,Year,5,LocalDate atDay(int dayOfYear),True,,"
+
+atDay
+public LocalDate atDay(int dayOfYear)
+Combines this year with a day-of-year to create a LocalDate.
+ 
+ This returns a LocalDate formed from this year and the specified day-of-year.
+ 
+ The day-of-year value 366 is only valid in a leap year.
+
+Parameters:
+dayOfYear - the day-of-year to use, from 1 to 365-366
+Returns:
+the local date formed from this year and the specified date of year, not null
+Throws:
+DateTimeException - if the day of year is zero or less, 366 or greater or equal
+  to 366 and this is not a leap year
+
+
+"
+11,YearMonth,1,int lengthOfMonth(),True,,"
+
+lengthOfMonth
+public int lengthOfMonth()
+Returns the length of the month, taking account of the year.
+ 
+ This returns the length of the month in days.
+ For example, a date in January would return 31.
+
+Returns:
+the length of the month in days, from 28 to 31
+
+
+"
+11,YearMonth,2,YearMonth plusYears(long years),True,,"
+
+plusYears
+public YearMonth plusYears(long yearsToAdd)
+Returns a copy of this YearMonth with the specified number of years added.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+yearsToAdd - the years to add, may be negative
+Returns:
+a YearMonth based on this year-month with the years added, not null
+Throws:
+DateTimeException - if the result exceeds the supported range
+
+
+"
+11,YearMonth,3,YearMonth minusYears(long years),True,,"
+
+minusYears
+public YearMonth minusYears(long yearsToSubtract)
+Returns a copy of this YearMonth with the specified number of years subtracted.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+yearsToSubtract - the years to subtract, may be negative
+Returns:
+a YearMonth based on this year-month with the years subtracted, not null
+Throws:
+DateTimeException - if the result exceeds the supported range
+
+
+"
+11,YearMonth,4,YearMonth plusMonths(long months),True,,"
+
+plusMonths
+public YearMonth plusMonths(long monthsToAdd)
+Returns a copy of this YearMonth with the specified number of months added.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+monthsToAdd - the months to add, may be negative
+Returns:
+a YearMonth based on this year-month with the months added, not null
+Throws:
+DateTimeException - if the result exceeds the supported range
+
+
+"
+11,YearMonth,5,YearMonth minusMonths(long months),True,,"
+
+minusMonths
+public YearMonth minusMonths(long monthsToSubtract)
+Returns a copy of this YearMonth with the specified number of months subtracted.
+ 
+ This instance is immutable and unaffected by this method call.
+
+Parameters:
+monthsToSubtract - the months to subtract, may be negative
+Returns:
+a YearMonth based on this year-month with the months subtracted, not null
+Throws:
+DateTimeException - if the result exceeds the supported range
+
+
+"
+12,ZonedDateTime,1,LocalDateTime toLocalDateTime(),True,,"
+
+toLocalDateTime
+public LocalDateTime toLocalDateTime()
+Gets the LocalDateTime part of this date-time.
+ 
+ This returns a LocalDateTime with the same year, month, day and time
+ as this date-time.
+
+Specified by:
+toLocalDateTime in interface ChronoZonedDateTime<LocalDate>
+Returns:
+the local date-time part of this date-time, not null
+
+
+"
+12,ZonedDateTime,2,ZoneId getZone(),True,,"
+
+getZone
+public ZoneId getZone()
+Gets the time-zone, such as 'Europe/Paris'.
+ 
+ This returns the zone ID. This identifies the time-zone rules
+ that determine when and how the offset from UTC/Greenwich changes.
+ 
+ The zone ID may be same as the offset.
+ If this is true, then any future calculations, such as addition or subtraction,
+ have no complex edge cases due to time-zone rules.
+ See also withFixedOffsetZone().
+
+Specified by:
+getZone in interface ChronoZonedDateTime<LocalDate>
+Returns:
+the time-zone, not null
+
+
+"
+12,ZonedDateTime,3,ZonedDateTime withZoneSameInstant(ZoneId zone),True,,"
+
+withZoneSameInstant
+public ZonedDateTime withZoneSameInstant(ZoneId zone)
+Returns a copy of this date-time with a different time-zone,
+ retaining the instant.
+ 
+ This method changes the time-zone and retains the instant.
+ This normally results in a change to the local date-time.
+ 
+ This method is based on retaining the same instant, thus gaps and overlaps
+ in the local time-line have no effect on the result.
+ 
+ To change the offset while keeping the local time,
+ use withZoneSameLocal(ZoneId).
+
+Specified by:
+withZoneSameInstant in interface ChronoZonedDateTime<LocalDate>
+Parameters:
+zone - the time-zone to change to, not null
+Returns:
+a ZonedDateTime based on this date-time with the requested zone, not null
+Throws:
+DateTimeException - if the result exceeds the supported date range
+
+
+"
+12,ZonedDateTime,4,ZonedDateTime withZoneSameLocal(ZoneId zone),True,,"
+
+withZoneSameLocal
+public ZonedDateTime withZoneSameLocal(ZoneId zone)
+Returns a copy of this date-time with a different time-zone,
+ retaining the local date-time if possible.
+ 
+ This method changes the time-zone and retains the local date-time.
+ The local date-time is only changed if it is invalid for the new zone,
+ determined using the same approach as
+ ofLocal(LocalDateTime, ZoneId, ZoneOffset).
+ 
+ To change the zone and adjust the local date-time,
+ use withZoneSameInstant(ZoneId).
+ 
+ This instance is immutable and unaffected by this method call.
+
+Specified by:
+withZoneSameLocal in interface ChronoZonedDateTime<LocalDate>
+Parameters:
+zone - the time-zone to change to, not null
+Returns:
+a ZonedDateTime based on this date-time with the requested zone, not null
+
+
+"
+12,ZonedDateTime,5,OffsetDateTime toOffsetDateTime(),True,,"
+
+toOffsetDateTime
+public OffsetDateTime toOffsetDateTime()
+Converts this date-time to an OffsetDateTime.
+ 
+ This creates an offset date-time using the local date-time and offset.
+ The zone ID is ignored.
+
+Returns:
+an offset date-time representing the same local date-time and offset, not null
+
+
+"
+13,ZoneId,1,ZoneId of(String zoneId),True,,"
+
+of
+public static ZoneId of(String zoneId)
+Obtains an instance of ZoneId from an ID ensuring that the
+ ID is valid and available for use.
+ 
+ This method parses the ID producing a ZoneId or ZoneOffset.
+ A ZoneOffset is returned if the ID is 'Z', or starts with '+' or '-'.
+ The result will always be a valid ID for which ZoneRules can be obtained.
+ 
+ Parsing matches the zone ID step by step as follows.
+ 
+If the zone ID equals 'Z', the result is ZoneOffset.UTC.
+ If the zone ID consists of a single letter, the zone ID is invalid
+  and DateTimeException is thrown.
+ If the zone ID starts with '+' or '-', the ID is parsed as a
+  ZoneOffset using ZoneOffset.of(String).
+ If the zone ID equals 'GMT', 'UTC' or 'UT' then the result is a ZoneId
+  with the same ID and rules equivalent to ZoneOffset.UTC.
+ If the zone ID starts with 'UTC+', 'UTC-', 'GMT+', 'GMT-', 'UT+' or 'UT-'
+  then the ID is a prefixed offset-based ID. The ID is split in two, with
+  a two or three letter prefix and a suffix starting with the sign.
+  The suffix is parsed as a ZoneOffset.
+  The result will be a ZoneId with the specified UTC/GMT/UT prefix
+  and the normalized offset ID as per ZoneOffset.getId().
+  The rules of the returned ZoneId will be equivalent to the
+  parsed ZoneOffset.
+ All other IDs are parsed as region-based zone IDs. Region IDs must
+  match the regular expression [A-Za-z][A-Za-z0-9~/._+-]+
+  otherwise a DateTimeException is thrown. If the zone ID is not
+  in the configured set of IDs, ZoneRulesException is thrown.
+  The detailed format of the region ID depends on the group supplying the data.
+  The default set of data is supplied by the IANA Time Zone Database (TZDB).
+  This has region IDs of the form '{area}/{city}', such as 'Europe/Paris' or 'America/New_York'.
+  This is compatible with most IDs from TimeZone.
+ 
+
+Parameters:
+zoneId - the time-zone ID, not null
+Returns:
+the zone ID, not null
+Throws:
+DateTimeException - if the zone ID has an invalid format
+ZoneRulesException - if the zone ID is a region ID that cannot be found
+
+
+"
+13,ZoneId,2,Set<String> getAvailableZoneIds(),True,,"
+
+getAvailableZoneIds
+public static Set<String> getAvailableZoneIds()
+Gets the set of available zone IDs.
+ 
+ This set includes the string form of all available region-based IDs.
+ Offset-based zone IDs are not included in the returned set.
+ The ID can be passed to of(String) to create a ZoneId.
+ 
+ The set of zone IDs can increase over time, although in a typical application
+ the set of IDs is fixed. Each call to this method is thread-safe.
+
+Returns:
+a modifiable copy of the set of zone IDs, not null
+
+
+"
+13,ZoneId,3,ZoneId systemDefault(),True,,"
+
+systemDefault
+public static ZoneId systemDefault()
+Gets the system default time-zone.
+ 
+ This queries TimeZone.getDefault() to find the default time-zone
+ and converts it to a ZoneId. If the system default time-zone is changed,
+ then the result of this method will also change.
+
+Returns:
+the zone ID, not null
+Throws:
+DateTimeException - if the converted zone ID has an invalid format
+ZoneRulesException - if the converted zone region ID cannot be found
+
+
+"
+13,ZoneId,4,ZoneRules getRules(),True,,"
+
+getRules
+public abstract ZoneRules getRules()
+Gets the time-zone rules for this ID allowing calculations to be performed.
+ 
+ The rules provide the functionality associated with a time-zone,
+ such as finding the offset for a given instant or local date-time.
+ 
+ A time-zone can be invalid if it is deserialized in a Java Runtime which
+ does not have the same rules loaded as the Java Runtime that stored it.
+ In this case, calling this method will throw a ZoneRulesException.
+ 
+ The rules are supplied by ZoneRulesProvider. An advanced provider may
+ support dynamic updates to the rules without restarting the Java Runtime.
+ If so, then the result of this method may change over time.
+ Each individual call will be still remain thread-safe.
+ 
+ZoneOffset will always return a set of rules where the offset never changes.
+
+Returns:
+the rules, not null
+Throws:
+ZoneRulesException - if no rules are available for this ID
+
+
+"
+13,ZoneId,5,String getId(),True,,"
+
+getId
+public abstract String getId()
+Gets the unique time-zone ID.
+ 
+ This ID uniquely defines this object.
+ The format of an offset based ID is defined by ZoneOffset.getId().
+
+Returns:
+the time-zone unique ID, not null
+
+
+"
+14,ZoneOffset,1,int compareTo(ZoneOffset other),True,,"
+
+compareTo
+public int compareTo(ZoneOffset other)
+Compares this offset to another offset in descending order.
+ 
+ The offsets are compared in the order that they occur for the same time
+ of day around the world. Thus, an offset of +10:00 comes before an
+ offset of +09:00 and so on down to -18:00.
+ 
+ The comparison is ""consistent with equals"", as defined by Comparable.
+
+Specified by:
+compareTo in interface Comparable<ZoneOffset>
+Parameters:
+other - the other date to compare to, not null
+Returns:
+the comparator value, negative if less, positive if greater
+Throws:
+NullPointerException - if other is null
+
+
+"
+14,ZoneOffset,2,boolean equals(Object obj),True,,"
+
+equals
+public boolean equals(Object obj)
+Checks if this offset is equal to another offset.
+ 
+ The comparison is based on the amount of the offset in seconds.
+ This is equivalent to a comparison by ID.
+
+Overrides:
+equals in class ZoneId
+Parameters:
+obj - the object to check, null returns false
+Returns:
+true if this is equal to the other offset
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+14,ZoneOffset,3,int get(ChronoField field),False,,NULL
+14,ZoneOffset,4,String getId(),True,,"
+
+getId
+public String getId()
+Gets the normalized zone offset ID.
+ 
+ The ID is minor variation to the standard ISO-8601 formatted string
+ for the offset. There are three formats:
+ 
+Z - for UTC (ISO-8601)
+ +hh:mm or -hh:mm - if the seconds are zero (ISO-8601)
+ +hh:mm:ss or -hh:mm:ss - if the seconds are non-zero (not ISO-8601)
+ 
+
+Specified by:
+getId in class ZoneId
+Returns:
+the zone offset ID, not null
+
+
+"
+14,ZoneOffset,5,ZoneOffset normalized(),False,,NULL

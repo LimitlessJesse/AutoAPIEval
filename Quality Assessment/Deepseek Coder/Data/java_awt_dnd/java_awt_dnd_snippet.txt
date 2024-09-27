@@ -1,0 +1,1099 @@
+Sample: 0 DragGestureEvent_1
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use int getDragAction() from java.awt.dnd.DragGestureEvent
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is the complete code snippet with import statement and the method `getDragAction()` from `java.awt.dnd.DragGestureEvent`:
+
+```java
+import java.awt.dnd.DragGestureEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DragGestureEvent event = new DragGestureEvent(null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+================================================================
+
+Sample: 1 DragSourceAdapter_2
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use void dragEnter(DragSourceDragEvent dsde) from java.awt.dnd.DragSourceAdapter
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet that uses the `dragEnter(DragSourceDragEvent dsde)` method from `java.awt.dnd.DragSourceAdapter`:
+
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DragSource ds = Toolkit.getDefaultToolkit().getSystemDragSource();
+        final String[] transferData = {"Hello, World!"};
+
+        ds.createDefaultDragGestureRecognizer(new DragSourceAdapter() {
+            public void dragGestureRecognized(DragSourceDragEvent dsde) {
+                try {
+                    dsde.startDrag(new DragSourceDropEvent(dsde, dsde.getX(), dsde.getY(),
+                            dsde.getDropAction(), new Transferable() {
+                                public Object getTransferData(DataFlavor df) {
+                                    if (isDataFlavorSupported(df)) {
+                                        return transferData[0];
+                                    } else {
+                                        throw new UnsupportedFlavorException(df);
+                                    }
+                                }
+
+                                public DataFlavor[] getTransferDataFlavors() {
+                                    return new DataFlavor[]{DataFlavor.stringFlavor};
+                                }
+
+                                public boolean isDataFlavorSupported(DataFlavor df) {
+                                    return df.equals(DataFlavor.stringFlavor);
+                                }
+                            }, null));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, DnDConstants.ACTION_MOVE);
+
+        final JLabel label = new JLabel("Drag me");
+        label.addMouseMotionListener(new MouseAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                ds.startDrag(new DragSourceDragEvent(ds, e.getX(), e.getY(), e.getModifiers(),
+                        new Transferable() {
+                            public Object getTransferData(DataFlavor df) {
+                                if (isDataFlavorSupported(df)) {
+                                    return transferData[0];
+                                } else {
+                                    throw new UnsupportedFlavorException(df);
+                                }
+                            }
+
+                            public DataFlavor[] getTransferDataFlavors() {
+                                return new DataFlavor[]{DataFlavor.stringFlavor};
+                            }
+
+                            public boolean isDataFlavorSupported(DataFlavor df) {
+                                return df.equals(DataFlavor.stringFlavor);
+                            }
+                        }, null));
+            }
+        });
+
+        JFrame frame = new JFrame("Drag and Drop Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(label);
+        frame.setSize(300, 200);
+        frame.setVisible(true);
+    }
+}
+```
+
+In this code, we create a drag source and add a drag gesture recognizer to it. When the user performs a drag gesture, the `dragGestureRecognized` method is called, which starts a drag operation. The `Transferable` object contains the data that is being dragged, in this case, a string.
+
+We also add a `MouseMotionListener` to the label, which listens for mouse drag events. When the user drags the label, the `mouseDragged` method is called, which starts a drag operation. The `Transferable` object contains the same data as before.
+
+Please note that this code requires the `javax.swing` package, which is not included in the standard Java library. You may need to add the `javax.swing` library to your project to run this code.
+
+================================================================
+
+Sample: 2 DragSourceAdapter_3
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use void dragOver(DragSourceDragEvent dsde) from java.awt.dnd.DragSourceAdapter
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet that uses the `dragOver` method from `java.awt.dnd.DragSourceAdapter`:
+
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a new frame
+        JFrame frame = new JFrame("Drag and Drop Example");
+        frame.setSize(300, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Create a new label
+        JLabel label = new JLabel("Drag here");
+        frame.add(label);
+
+        // Create a new DragSource
+        DragSource dragSource = Toolkit.getDefaultToolkit().getSystemDragSource();
+
+        // Add a DragSourceListener to the label
+        label.addMouseMotionListener(new MouseAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                // Create a Transferable object
+                StringSelection selection = new StringSelection("Hello, World!");
+
+                // Start the drag
+                dragSource.startDrag(new DragGestureEvent(e.getSource(), e.getID(), e.getWhen(), e.getModifiers(), e.getPoint(), selection, null, null), new DragSourceAdapter() {
+                    @Override
+                    public void dragExit(DragSourceDragEvent dsde) {
+                        System.out.println("Drag exit");
+                    }
+                });
+            }
+        });
+
+        // Add a DropTargetListener to the frame
+        frame.setDropTarget(new DropTarget() {
+            @Override
+            public void drop(DropTargetDropEvent dtde) {
+                // Accept the drop
+                dtde.acceptDrop(DnDConstants.ACTION_MOVE);
+
+                // Get the Transferable object
+                Transferable transferable = dtde.getTransferable();
+
+                // Get the data from the Transferable object
+                try {
+                    String data = (String) transferable.getTransferData(DataFlavor.stringFlavor);
+                    System.out.println("Received: " + data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                // Drop was successful
+                dtde.dropComplete(true);
+            }
+        });
+
+        // Show the frame
+        frame.setVisible(true);
+    }
+}
+```
+
+In this code, we create a new frame with a label. We then create a `DragSource` and add a `MouseMotionListener` to the label. When the mouse is dragged over the label, a drag is started with the label's text as the transferable data. We also add a `DropTargetListener` to the frame, which accepts the drop and prints the received data to the console.
+
+Please note that this code requires the `javax.swing` and `java.awt.dnd` packages, which are part of the Java Standard Edition (Java SE).
+
+Also, this is a simple example and does not include error handling or other best practices for working with drag and drop in Java.
+
+================================================================
+
+Sample: 3 DragSourceAdapter_4
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use void dropActionChanged(DragSourceDragEvent dsde) from java.awt.dnd.DragSourceAdapter
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet that uses the `dropActionChanged(DragSourceDragEvent dsde)` method from `java.awt.dnd.DragSourceAdapter`:
+
+```java
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.dnd.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DragSource dragSource = DragSource.getDefaultDragSource();
+        DropTarget dropTarget = new DropTarget();
+
+        dropTarget.addDropTargetListener(new DropTargetAdapter() {
+            @Override
+            public void drop(DropTargetDropEvent dtde) {
+                dtde.acceptDrop(DnDConstants.ACTION_COPY);
+                Transferable transferable = dtde.getTransferable();
+                try {
+                    String data = (String) transferable.getTransferData(DataFlavor.stringFlavor);
+                    System.out.println("Dropped data: " + data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                dtde.dropComplete(true);
+            }
+        });
+
+        JLabel label = new JLabel("Drag me");
+        label.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                DragSource ds = DragSource.getDefaultDragSource();
+                ds.startDrag(new DragGestureEvent(e.getSource(), e.getID(), e.getWhen(), e.getModifiers(), e.getPoint(), new DragSourceStub()), new DragSourceAdapter() {
+                    @Override
+                    public void dragExit(DragSourceDragEvent dsde) {
+                        System.out.println("Drag exited");
+                    }
+
+                    @Override
+                    public void dropActionChanged(DragSourceDragEvent dsde) {
+                        System.out.println("Drop action changed: " + dsde.getDropAction());
+                    }
+                });
+            }
+        });
+
+        JFrame frame = new JFrame("Drag and Drop Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(label);
+        frame.setSize(300, 200);
+        frame.setVisible(true);
+    }
+}
+```
+
+In this code, we create a `DragSource` and a `DropTarget`. The `DropTarget` listens for `drop` events and prints out the dropped data. The `DragSource` listens for `dragExit` and `dropActionChanged` events. When the user drags the label, the `dragExit` and `dropActionChanged` events are triggered.
+
+Please note that this code requires the `javax.swing` package, which is part of the Java Standard Edition (SE) but not part of the Java Development Kit (JDK). If you're using an IDE like IntelliJ IDEA or Eclipse, they should automatically add the necessary imports for you.
+
+Also, this code is a simple example and may not cover all the edge cases. For a more robust solution, you might want to consider using a library like DnD4J.
+
+================================================================
+
+Sample: 4 DragSourceContext_3
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use void dropActionChanged(DragSourceDragEvent dsde) from java.awt.dnd.DragSourceContext
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet that demonstrates the use of the `void dropActionChanged(DragSourceDragEvent dsde)` method from `java.awt.dnd.DragSourceContext`:
+
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DragSource ds = DragSource.getDefaultDragSource();
+        DropTarget dt = DropTarget.getDropTarget(new MyComponent());
+
+        dt.addDropTargetListener(new DropTargetListener() {
+            @Override
+            public void dragEnter(DropTargetDragEvent dtde) {
+                dtde.acceptDrag(DnDConstants.ACTION_COPY);
+            }
+
+            @Override
+            public void dragOver(DropTargetDragEvent dtde) {
+                dtde.acceptDrag(DnDConstants.ACTION_COPY);
+            }
+
+            @Override
+            public void dropActionChanged(DropTargetDragEvent dtde) {
+                dtde.acceptDrag(DnDConstants.ACTION_COPY);
+            }
+
+            @Override
+            public void drop(DropTargetDropEvent dtde) {
+                dtde.acceptDrop(DnDConstants.ACTION_COPY);
+                Transferable t = dtde.getTransferable();
+                DataFlavor[] flavors = t.getTransferDataFlavors();
+                for (DataFlavor flavor : flavors) {
+                    try {
+                        String data = (String) t.getTransferData(flavor);
+                        System.out.println("Received data: " + data);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                dtde.dropComplete(true);
+            }
+
+            @Override
+            public void dragExit(DropTargetEvent dte) {
+            }
+        });
+    }
+}
+
+class MyComponent extends MouseAdapter {
+    private DragSource ds;
+
+    public MyComponent() {
+        ds = DragSource.getDefaultDragSource();
+        addMouseMotionListener(new MouseAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                try {
+                    Transferable t = new StringSelection("Hello, World!");
+                    ds.startDrag(new DragGestureEvent(e.getComponent(), e.getID(), e.getX(), e.getY(), e.getModifiers(), t, 0), new DragSourceDragEvent(e.getComponent(), e.getID(), e.getX(), e.getY(), e.getModifiers(), t, 0));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+}
+```
+
+In this code, we first create a `DragSource` and a `DropTarget`. We then add a `DropTargetListener` to the `DropTarget`. The `dropActionChanged` method is called when the user changes the drop action (e.g., from copy to move). In this method, we accept the drop action by calling `dtde.acceptDrag(DnDConstants.ACTION_COPY)`. The `drop` method is called when the user drops the data. We retrieve the data from the `Transferable` and print it to the console.
+
+The `MyComponent` class is a custom component that we add a `MouseMotionListener` to. When the user drags the mouse over this component, we start a drag operation. The transferred data is a string "Hello, World!".
+
+Please note that this code needs to be run in a graphical environment, as it uses the `java.awt` package.
+
+================================================================
+
+Sample: 5 DragSourceEvent_1
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use int getX() from java.awt.dnd.DragSourceEvent
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is the complete code snippet of the `getX()` method from `java.awt.dnd.DragSourceEvent`:
+
+```java
+import java.awt.dnd.DragSourceEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DragSourceEvent event = new DragSourceEvent(null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+================================================================
+
+Sample: 6 DragSourceEvent_2
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use int getY() from java.awt.dnd.DragSourceEvent
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is the complete code snippet with import statement and the method `int getY(DragSourceEvent e)`:
+
+```java
+import java.awt.dnd.DragSourceEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DragSourceEvent event = new DragSourceEvent(null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+================================================================
+
+Sample: 7 DropTarget_3
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use void addDropTargetListener(DropTargetListener listener) from java.awt.dnd.DropTarget
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet that uses the `addDropTargetListener` method from `java.awt.dnd.DropTarget`:
+
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.*;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTarget dt = new DropTarget();
+        dt.addDropTargetListener(new DropTargetListener() {
+            @Override
+            public void dragEnter(DropTargetDragEvent dtde) {
+                dtde.acceptDrag(DnDConstants.ACTION_COPY);
+            }
+
+            @Override
+            public void dragOver(DropTargetDragEvent dtde) {
+                Point point = dtde.getLocation();
+                System.out.println("Drag over at: " + point);
+            }
+
+            @Override
+            public void dropActionChanged(DropTargetDragEvent dtde) {
+                dtde.acceptDrag(DnDConstants.ACTION_COPY);
+            }
+
+            @Override
+            public void dragExit(DropTargetEvent dte) {
+                System.out.println("Drag exit");
+            }
+
+            @Override
+            public void drop(DropTargetDropEvent dtde) {
+                dtde.acceptDrop(DnDConstants.ACTION_COPY);
+                Transferable transferable = dtde.getTransferable();
+                try {
+                    String data = (String) transferable.getTransferData(DataFlavor.stringFlavor);
+                    System.out.println("Dropped: " + data);
+                } catch (UnsupportedFlavorException | IOException ex) {
+                    ex.printStackTrace();
+                }
+                dtde.dropComplete(true);
+            }
+        });
+    }
+}
+```
+
+In this code, we create a `DropTarget` and add a `DropTargetListener` to it. The listener has five methods: `dragEnter`, `dragOver`, `dropActionChanged`, `dragExit`, and `drop`. These methods are called by the `DropTarget` when the user interacts with the drop target.
+
+The `dragEnter` method is called when the user starts dragging over the drop target. The `dragOver` method is called repeatedly while the user is dragging over the drop target. The `dropActionChanged` method is called when the user changes the action (copy, move, link) while dragging over the drop target. The `dragExit` method is called when the user stops dragging over the drop target. The `drop` method is called when the user drops the dragged data on the drop target.
+
+In the `drop` method, we get the transferred data and print it to the console.
+
+Please note that you need to run this code in a graphical environment, as it uses the `java.awt` package which is not available in non-graphical environments.
+
+================================================================
+
+Sample: 8 DropTarget_4
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use void removeDropTargetListener(DropTargetListener listener) from java.awt.dnd.DropTarget
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is the complete code snippet for the `removeDropTargetListener(DropTargetListener listener)` method from `java.awt.dnd.DropTarget`:
+
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.*;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        DropTarget dt = new DropTarget();
+        dt.addDropTargetListener(new DropTargetListener() {
+            @Override
+            public void dragEnter(DropTargetDragEvent dtde) {
+                dtde.acceptDrag(DnDConstants.ACTION_COPY);
+            }
+
+            @Override
+            public void dragOver(DropTargetDragEvent dtde) {
+            }
+
+            @Override
+            public void dropActionChanged(DropTargetDragEvent dtde) {
+            }
+
+            @Override
+            public void dragExit(DropTargetEvent dte) {
+            }
+
+            @Override
+            public void drop(DropTargetDropEvent dtde) {
+                dtde.acceptDrop(DnDConstants.ACTION_COPY);
+                Transferable transferable = dtde.getTransferable();
+                if (transferable.isDataFlavorSupported(DataFlavor.fileListFlavor)) {
+                    try {
+                        List<File> files = (List<File>) transferable.getTransferData(DataFlavor.fileListFlavor);
+                        for (File file : files) {
+                            System.out.println(file.getAbsolutePath());
+                        }
+                    } catch (UnsupportedFlavorException | IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                dtde.dropComplete(true);
+            }
+        });
+
+        // Remove the listener
+        dt.removeDropTargetListener(new DropTargetListener() {
+            @Override
+            public void dragEnter(DropTargetDragEvent dtde) {
+                dtde.acceptDrag(DnDConstants.ACTION_COPY);
+            }
+
+            @Override
+            public void dragOver(DropTargetDragEvent dtde) {
+            }
+
+            @Override
+            public void dropActionChanged(DropTargetDragEvent dtde) {
+            }
+
+            @Override
+            public void dragExit(DropTargetEvent dte) {
+            }
+
+            @Override
+            public void drop(DropTargetDropEvent dtde) {
+                dtde.acceptDrop(DnDConstants.ACTION_COPY);
+                Transferable transferable = dtde.getTransferable();
+                if (transferable.isDataFlavorSupported(DataFlavor.fileListFlavor)) {
+                    try {
+                        List<File> files = (List<File>) transferable.getTransferData(DataFlavor.fileListFlavor);
+                        for (File file : files) {
+                            System.out.println(file.getAbsolutePath());
+                        }
+                    } catch (UnsupportedFlavorException | IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                dtde.dropComplete(true);
+            }
+        });
+    }
+}
+```
+
+In this code, we first add a `DropTargetListener` to the `DropTarget`. Then we remove the same listener using the `removeDropTargetListener` method. The listener is a simple one that prints out the paths of the dropped files.
+
+Please note that the `removeDropTargetListener` method requires an exact listener instance to remove. It will not remove a listener if it is a different instance with the same behavior.
+
+Also, the `removeDropTargetListener` method does not exist in the `java.awt.dnd.DropTarget` class. It is a method of `java.awt.dnd.DropTarget.DropTargetListener` interface. So, you cannot directly call `removeDropTargetListener` on a `DropTarget` object. You need to get the listener from the `DropTarget` and then call `removeDropTargetListener` on it.
+
+In the provided code, we have created a new anonymous `DropTargetListener` instance to remove. This is not the same instance that was added, but it has the same behavior, so it
+================================================================
+
+Sample: 9 DropTargetAdapter_2
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use void dragEnter(DropTargetDragEvent dtde) from java.awt.dnd.DropTargetAdapter
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet that uses the `dragEnter` method from `java.awt.dnd.DropTargetAdapter`:
+
+```java
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.dnd.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class Main {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Drag and Drop Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel panel = new JPanel() {
+            private static final long serialVersionUID = 1L;
+
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                System.out.println("Mouse moved");
+            }
+        };
+
+        panel.setTransferHandler(new TransferHandler() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean canImport(TransferSupport support) {
+                return support.isDataFlavorSupported(DataFlavor.stringFlavor);
+            }
+
+            @Override
+            public boolean importData(TransferSupport support) {
+                try {
+                    String data = (String) support.getTransferable().getTransferData(DataFlavor.stringFlavor);
+                    System.out.println("Imported data: " + data);
+                    return true;
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+        });
+
+        DropTarget dropTarget = new DropTarget(panel, new DropTargetAdapter() {
+            @Override
+            public void dragEnter(DropTargetDragEvent dtde) {
+                dtde.acceptDrag(DnDConstants.ACTION_COPY);
+            }
+        });
+
+        frame.add(panel);
+        frame.setSize(300, 200);
+        frame.setVisible(true);
+    }
+}
+```
+
+In this code, we create a `JFrame` with a `JPanel`. We set a `TransferHandler` on the `JPanel` to handle the import of data. We also set a `DropTarget` on the `JPanel` to handle the drag and drop events. The `dragEnter` method is overridden to accept the drag event. When a drag event enters the panel, the message "Mouse moved" is printed to the console.
+
+Please note that you need to run this code in a graphical environment, as it uses a `JFrame` and `JPanel`.
+
+================================================================
+
+Sample: 10 DropTargetAdapter_3
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use void dragOver(DropTargetDragEvent dtde) from java.awt.dnd.DropTargetAdapter
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet that uses the `dragOver` method from `java.awt.dnd.DropTargetAdapter`:
+
+```java
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+
+public class Main extends DropTargetAdapter {
+
+    public static void main(String[] args) {
+        // Create a new DropTargetAdapter
+        Main dropTargetAdapter = new Main();
+
+        // Add the adapter to a JComponent (or any other component that supports drop events)
+        // component.addDropTargetListener(dropTargetAdapter);
+    }
+
+    @Override
+    public void dragOver(DropTargetDragEvent dtde) {
+        // Handle the event
+        dtde.acceptDrag(DnDConstants.ACTION_COPY);
+    }
+
+    @Override
+    public void dropActionChanged(DropTargetDragEvent dtde) {
+        // Handle the event
+    }
+
+    @Override
+    public void drop(DropTargetDropEvent dtde) {
+        // Handle the event
+    }
+}
+```
+
+In this code snippet, the `dragOver` method is overridden to handle the `DropTargetDragEvent`. The `acceptDrag` method is called on the event to accept the drag and specify the action to be performed when the drop occurs. In this case, the action is `ACTION_COPY`.
+
+Please note that you need to add the adapter to a JComponent (or any other component that supports drop events) to make it work. The commented line is where you would do this.
+
+Also, please note that the `dropActionChanged` and `drop` methods are also overridden in this code snippet, but they are not used in this example. You can use them to handle the drop action change and drop events respectively.
+
+================================================================
+
+Sample: 11 DropTargetAdapter_4
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use void dragExit(DropTargetEvent dte) from java.awt.dnd.DropTargetAdapter
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet that uses the `dragExit(DropTargetEvent dte)` method from `java.awt.dnd.DropTargetAdapter`:
+
+```java
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.dnd.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        DragSource dragSource = DragSourcePrototypeInstance.getDragSource();
+        DropTarget dropTarget = new DropTarget();
+
+        dropTarget.addDropTargetListener(new DropTargetAdapter() {
+            @Override
+            public void dragExit(DropTargetEvent dte) {
+                System.out.println("Drag Exit");
+            }
+        });
+
+        JLabel label = new JLabel("Drag Here");
+        label.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                StringSelection selection = new StringSelection("Hello World");
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(selection, null);
+
+                DragSource ds = DragSourcePrototypeInstance.getDragSource();
+                ds.startDrag(new DragGestureEvent(e.getComponent(), e.getID(), e.getModifiers(), e.getX(), e.getY(), clipboard, new DropTargetContext(), ds), new DragSourceAdapter() {});
+            }
+        });
+
+        JFrame frame = new JFrame();
+        frame.add(label);
+        frame.setSize(300, 300);
+        frame.setVisible(true);
+    }
+}
+```
+
+In this code, we create a `DragSource` and a `DropTarget`. When the mouse is dragged over the label, we create a `StringSelection` object and set it as the content of the clipboard. Then, we start the drag operation using the `DragSource`. When the drag operation is over, the `dragExit(DropTargetEvent dte)` method is called, and it prints "Drag Exit" to the console.
+
+Please note that this code needs to be run in a GUI environment, and it may not work in a console environment.
+
+Also, this code uses the `java.awt.dnd.DragSourcePrototypeInstance` class, which is not part of the standard Java API. It's a prototype class used for testing and development. In a production environment, you should use the `java.awt.dnd.DragSource` class directly.
+
+================================================================
+
+Sample: 12 DropTargetAdapter_5
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use void dropActionChanged(DropTargetDragEvent dtde) from java.awt.dnd.DropTargetAdapter
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet that uses the `dropActionChanged(DropTargetDragEvent dtde)` method from `java.awt.dnd.DropTargetAdapter`:
+
+```java
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.*;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+
+public class Main {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Drop Target Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        JComponent component = new JComponent() {
+            private DropTarget dropTarget;
+
+            @Override
+            public void addNotify() {
+                super.addNotify();
+                dropTarget = new DropTarget(this, new DropTargetAdapter() {
+                    @Override
+                    public void dropActionChanged(DropTargetDragEvent dtde) {
+                        super.dropActionChanged(dtde);
+                        System.out.println("Drop action changed: " + dtde.getDropAction());
+                    }
+                });
+            }
+
+            @Override
+            public void paint(Graphics g) {
+                super.paint(g);
+                g.drawString("Drop files here", 50, 100);
+            }
+        };
+
+        frame.add(component);
+        frame.setVisible(true);
+    }
+}
+```
+
+In this code, we create a `JComponent` and add a `DropTarget` to it. The `DropTargetAdapter` overrides the `dropActionChanged(DropTargetDragEvent dtde)` method, which is called whenever the drop action changes. The `dropActionChanged()` method prints the new drop action to the console.
+
+Please note that this code is a simple example and may not work as expected for all types of files or actions. It's meant to illustrate the use of the `dropActionChanged()` method.
+
+================================================================
+

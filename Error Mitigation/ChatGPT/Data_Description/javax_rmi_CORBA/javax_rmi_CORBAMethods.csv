@@ -1,0 +1,331 @@
+ClassName,Method,Return Type,Description,Full Description
+Stub,connect(ORB orb),void,Connects this stub to an ORB.,"
+
+connect
+public void connect(ORB orb)
+             throws RemoteException
+Connects this stub to an ORB. Required after the stub is deserialized
+ but not after it is demarshalled by an ORB stream. If an unconnected
+ stub is passed to an ORB stream for marshalling, it is implicitly
+ connected to that ORB. Application code should not call this method
+ directly, but should call the portable wrapper method
+ PortableRemoteObject.connect(java.rmi.Remote, java.rmi.Remote).
+
+Parameters:
+orb - the ORB to connect to.
+Throws:
+RemoteException - if the stub is already connected to a different
+ ORB, or if the stub does not represent an exported remote or local object.
+
+
+"
+Stub,equals(Object obj),boolean,Compares two stubs for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares two stubs for equality. Returns true when used to compare stubs
+ that represent the same remote object, and false otherwise.
+
+Overrides:
+equals in class ObjectImpl
+Parameters:
+obj - the reference object with which to compare.
+Returns:
+true if this object is the same as the obj
+          argument; false otherwise.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+Stub,hashCode(),int,Returns a hash code value for the object which is the same for all stubs that represent the same remote object.,"
+
+hashCode
+public int hashCode()
+Returns a hash code value for the object which is the same for all stubs
+ that represent the same remote object.
+
+Overrides:
+hashCode in class ObjectImpl
+Returns:
+the hash code value.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+Stub,toString(),String,Returns a string representation of this stub.,"
+
+toString
+public String toString()
+Returns a string representation of this stub. Returns the same string
+ for all stubs that represent the same remote object.
+
+Overrides:
+toString in class ObjectImpl
+Returns:
+a string representation of this stub.
+
+
+"
+Util,"copyObject(Object obj, ORB orb)",static Object,Copies or connects an object.,"
+
+copyObject
+public static Object copyObject(Object obj,
+                                ORB orb)
+                         throws RemoteException
+Copies or connects an object. Used by local stubs to copy
+ an actual parameter, result object, or exception.
+
+Parameters:
+obj - the object to copy.
+orb - the ORB.
+Returns:
+the copy or connected object.
+Throws:
+RemoteException - if the object could not be copied or connected.
+
+
+"
+Util,"copyObjects(Object[] obj, ORB orb)",static Object[],Copies or connects an array of objects.,"
+
+copyObjects
+public static Object[] copyObjects(Object[] obj,
+                                   ORB orb)
+                            throws RemoteException
+Copies or connects an array of objects. Used by local stubs
+ to copy any number of actual parameters, preserving sharing
+ across parameters as necessary to support RMI semantics.
+
+Parameters:
+obj - the objects to copy or connect.
+orb - the ORB.
+Returns:
+the copied or connected objects.
+Throws:
+RemoteException - if any object could not be copied or connected.
+
+
+"
+Util,createValueHandler(),static ValueHandler,Returns a singleton instance of a class that implements the ValueHandler interface.,"
+
+createValueHandler
+public static ValueHandler createValueHandler()
+Returns a singleton instance of a class that implements the
+ ValueHandler interface.
+
+Returns:
+a class which implements the ValueHandler interface.
+
+
+"
+Util,getCodebase(Class clz),static String,"Returns the codebase, if any, for the given class.","
+
+getCodebase
+public static String getCodebase(Class clz)
+Returns the codebase, if any, for the given class.
+
+Parameters:
+clz - the class to get a codebase for.
+Returns:
+a space-separated list of URLs, or null.
+
+
+"
+Util,getTie(Remote target),static Tie,Returns the tie (if any) for a given target object.,"
+
+getTie
+public static Tie getTie(Remote target)
+Returns the tie (if any) for a given target object.
+
+Returns:
+the tie or null if no tie is registered for the given target.
+
+
+"
+Util,isLocal(Stub stub),static boolean,"The isLocal method has the same semantics as the ObjectImpl._is_local method, except that it can throw a RemoteException.","
+
+isLocal
+public static boolean isLocal(Stub stub)
+                       throws RemoteException
+The isLocal method has the same semantics as the
+ ObjectImpl._is_local
+ method, except that it can throw a RemoteException.
+
+ The _is_local() method is provided so that stubs may determine if a
+ particular object is implemented by a local servant and hence local
+ invocation APIs may be used.
+
+Parameters:
+stub - the stub to test.
+Returns:
+The _is_local() method returns true if
+ the servant incarnating the object is located in the same process as
+ the stub and they both share the same ORB instance.  The _is_local()
+ method returns false otherwise. The default behavior of _is_local() is
+ to return false.
+Throws:
+RemoteException - The Java to IDL specification does not
+ specify the conditions that cause a RemoteException to be thrown.
+
+
+"
+Util,"loadClass(String className, String remoteCodebase, ClassLoader loader)",static Class,Returns a class instance for the specified class.,"
+
+loadClass
+public static Class loadClass(String className,
+                              String remoteCodebase,
+                              ClassLoader loader)
+                       throws ClassNotFoundException
+Returns a class instance for the specified class.
+ The spec for this method is the ""Java to IDL language
+ mapping"", ptc/00-01-06.
+ In Java SE Platform, this method works as follows:
+ Find the first non-null ClassLoader on the
+ call stack and attempt to load the class using this
+ ClassLoader.
+ If the first step fails, and if remoteCodebase
+ is non-null and
+ useCodebaseOnly is false, then call
+ java.rmi.server.RMIClassLoader.loadClass(remoteCodebase, className).
+ If remoteCodebase is null or useCodebaseOnly
+ is true, then call java.rmi.server.RMIClassLoader.loadClass(className).
+ If a class was not successfully loaded by step 1, 2, or 3,
+ and loader is non-null, then call loader.loadClass(className).
+ If a class was successfully loaded by step 1, 2, 3, or 4, then
+  return the loaded class, else throw ClassNotFoundException.
+
+Parameters:
+className - the name of the class.
+remoteCodebase - a space-separated list of URLs at which
+ the class might be found. May be null.
+loader - a ClassLoader that may be used to
+ load the class if all other methods fail.
+Returns:
+the Class object representing the loaded class.
+Throws:
+ClassNotFoundException - if class cannot be loaded.
+
+
+"
+Util,mapSystemException(SystemException ex),static RemoteException,Maps a SystemException to a RemoteException.,"
+
+mapSystemException
+public static RemoteException mapSystemException(SystemException ex)
+Maps a SystemException to a RemoteException.
+
+Parameters:
+ex - the SystemException to map.
+Returns:
+the mapped exception.
+
+
+"
+Util,readAny(InputStream in),static Object,Reads a java.lang.Object as a CORBA any.,"
+
+readAny
+public static Object readAny(InputStream in)
+Reads a java.lang.Object as a CORBA any.
+
+Parameters:
+in - the stream from which to read the any.
+Returns:
+the object read from the stream.
+
+
+"
+Util,"registerTarget(Tie tie, Remote target)",static void,Registers a target for a tie.,"
+
+registerTarget
+public static void registerTarget(Tie tie,
+                                  Remote target)
+Registers a target for a tie. Adds the tie to an internal table and calls
+ Tie.setTarget(java.rmi.Remote) on the tie object.
+
+Parameters:
+tie - the tie to register.
+target - the target for the tie.
+
+
+"
+Util,unexportObject(Remote target),static void,Removes the associated tie from an internal table and calls Tie.deactivate() to deactivate the object.,"
+
+unexportObject
+public static void unexportObject(Remote target)
+                           throws NoSuchObjectException
+Removes the associated tie from an internal table and calls Tie.deactivate()
+ to deactivate the object.
+
+Parameters:
+target - the object to unexport.
+Throws:
+NoSuchObjectException
+
+
+"
+Util,wrapException(Throwable orig),static RemoteException,Wraps an exception thrown by an implementation method.,"
+
+wrapException
+public static RemoteException wrapException(Throwable orig)
+Wraps an exception thrown by an implementation
+ method.  It returns the corresponding client-side exception.
+
+Parameters:
+orig - the exception to wrap.
+Returns:
+the wrapped exception.
+
+
+"
+Util,"writeAbstractObject(OutputStream out, Object obj)",static void,Writes a java.lang.Object as either a value or a CORBA Object.,"
+
+writeAbstractObject
+public static void writeAbstractObject(OutputStream out,
+                                       Object obj)
+Writes a java.lang.Object as either a value or a CORBA Object.
+ If obj is a value object or a stub object, it is written to
+ out.write_abstract_interface(java.lang.Object). If obj
+is
+an exported
+ RMI-IIOP server object, the tie is found and wired to obj,
+ then written to out.write_abstract_interface(java.lang.Object).
+
+Parameters:
+out - the stream in which to write the object.
+obj - the object to write.
+
+
+"
+Util,"writeAny(OutputStream out, Object obj)",static void,Writes any java.lang.Object as a CORBA any.,"
+
+writeAny
+public static void writeAny(OutputStream out,
+                            Object obj)
+Writes any java.lang.Object as a CORBA any.
+
+Parameters:
+out - the stream in which to write the any.
+obj - the object to write as an any.
+
+
+"
+Util,"writeRemoteObject(OutputStream out, Object obj)",static void,Writes a java.lang.Object as a CORBA Object.,"
+
+writeRemoteObject
+public static void writeRemoteObject(OutputStream out,
+                                     Object obj)
+Writes a java.lang.Object as a CORBA Object. If obj is
+ an exported RMI-IIOP server object, the tie is found
+ and wired to obj, then written to
+ out.write_Object(org.omg.CORBA.Object).
+ If obj is a CORBA Object, it is written to
+ out.write_Object(org.omg.CORBA.Object).
+
+Parameters:
+out - the stream in which to write the object.
+obj - the object to write.
+
+
+"

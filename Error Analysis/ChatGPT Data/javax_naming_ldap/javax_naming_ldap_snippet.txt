@@ -1,0 +1,282 @@
+Sample: 0 BasicControl_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.ldap.BasicControl;
+
+public class Main {
+    public static void main(String[] args) {
+        BasicControl control = new BasicControl("1.2.840.113556.1.4.643");
+        byte[] encodedValue = control.getEncodedValue();
+        
+        System.out.println("Encoded value length: " + encodedValue.length);
+    }
+}
+```
+================================================================
+
+Sample: 1 BasicControl_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.ldap.BasicControl;
+
+public class Main {
+    public static void main(String[] args) {
+        BasicControl control = new BasicControl("1.2.840.113556.1.4.801", true, null);
+        boolean isCritical = control.isCritical();
+        System.out.println("Is Critical: " + isCritical);
+    }
+}
+```
+================================================================
+
+Sample: 2 BasicControl_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.ldap.BasicControl;
+
+public class Main {
+    public static void main(String[] args) {
+        BasicControl control = new BasicControl("controlID");
+        String controlID = control.getID();
+        System.out.println("Control ID: " + controlID);
+    }
+}
+```
+================================================================
+
+Sample: 3 InitialLdapContext_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.ldap.ExtendedRequest;
+import javax.naming.ldap.ExtendedResponse;
+import javax.naming.ldap.InitialLdapContext;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of InitialLdapContext
+        InitialLdapContext context = new InitialLdapContext();
+
+        // Create an instance of ExtendedRequest
+        ExtendedRequest request = new ExtendedRequest();
+
+        // Call the extendedOperation method with the ExtendedRequest
+        ExtendedResponse response = context.extendedOperation(request);
+
+        // Handle the response as needed
+    }
+}
+```
+================================================================
+
+Sample: 4 InitialLdapContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.ldap.Control;
+import javax.naming.ldap.InitialLdapContext;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create InitialLdapContext
+            InitialLdapContext ctx = new InitialLdapContext();
+
+            // Create an array of request controls
+            Control[] requestControls = new Control[1]; // Assuming just one control for demo
+            requestControls[0] = new Control() {
+                @Override
+                public byte[] getEncodedValue() {
+                    // Implement getEncodedValue method
+                    return new byte[0];
+                }
+
+                @Override
+                public String getID() {
+                    // Implement getID method
+                    return null;
+                }
+
+                @Override
+                public boolean isCritical() {
+                    // Implement isCritical method
+                    return false;
+                }
+            };
+
+            // Set the request controls on InitialLdapContext
+            ctx.setRequestControls(requestControls);
+
+            // Use the InitialLdapContext with request controls as needed
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 InitialLdapContext_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.Context;
+import javax.naming.directory.InitialDirContext;
+import javax.naming.ldap.Control;
+import javax.naming.ldap.LdapContext;
+import java.util.Hashtable;
+
+public class Main {
+    public static void main(String[] args) {
+        Hashtable<String, String> env = new Hashtable<>();
+        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+        env.put(Context.PROVIDER_URL, "ldap://localhost:389");
+        Control[] connCtls = null;
+        try {
+            LdapContext ctx = new InitialDirContext(env).newInstance(connCtls);
+            System.out.println("LdapContext created successfully");
+            ctx.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 LdapName_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.InvalidNameException;
+import javax.naming.ldap.LdapName;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            LdapName ldapName = new LdapName("cn=John,ou=Users,dc=example,dc=com");
+            System.out.println("Is the LdapName empty? " + ldapName.isEmpty());
+        } catch (InvalidNameException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 LdapName_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.ldap.LdapName;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            LdapName name1 = new LdapName("CN=John Doe,OU=People,DC=example,DC=com");
+            LdapName name2 = new LdapName("OU=People,DC=example,DC=com");
+
+            // Comparing two LdapName objects
+            int result = name1.compareTo(name2);
+            if (result < 0) {
+                System.out.println(name1 + " comes before " + name2);
+            } else if (result > 0) {
+                System.out.println(name1 + " comes after " + name2);
+            } else {
+                System.out.println(name1 + " is equal to " + name2);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 PagedResultsResponseControl_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.ldap.PagedResultsResponseControl;
+
+public class Main {
+    public static void main(String[] args) {
+        PagedResultsResponseControl control = new PagedResultsResponseControl();
+        int resultSize = control.getResultSize();
+        System.out.println("Result Size: " + resultSize);
+    }
+}
+```
+================================================================
+
+Sample: 9 SortKey_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.ldap.SortKey;
+
+public class Main {
+    public static void main(String[] args) {
+        SortKey sortKey = new SortKey("attributeName");
+        String attributeID = sortKey.getAttributeID();
+        System.out.println("Attribute ID: " + attributeID);
+    }
+}
+```
+================================================================
+
+Sample: 10 SortKey_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.ldap.SortKey;
+
+public class Main {
+    public static void main(String[] args) {
+        SortKey sortKey = new SortKey("name");
+        boolean ascending = sortKey.isAscending();
+        System.out.println("Is ascending: " + ascending);
+    }
+}
+```
+================================================================
+
+Sample: 11 SortResponseControl_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.ldap.SortResponseControl;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming you have a SortResponseControl object named control
+        SortResponseControl control = new SortResponseControl();
+        
+        // Using the isSorted() method to check if the response control is sorted
+        boolean sorted = control.isSorted();
+        
+        System.out.println("Is sorted: " + sorted);
+    }
+}
+```
+================================================================
+
+Sample: 12 StartTlsResponse_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.ldap.StartTlsResponse;
+
+public class Main {
+    public static void main(String[] args) {
+        StartTlsResponse response = new StartTlsResponse(null, null);
+        response.close();
+    }
+}
+```
+================================================================
+

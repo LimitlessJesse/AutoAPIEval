@@ -1,0 +1,111 @@
+Sample: 0 Provider_2
+----------------------------------------------------------------
+`Endpoint createEndpoint(String bindingId, Object implementor)`: This method creates an endpoint object with the provided binding and implementation object.
+
+Code snippet:
+```java
+import javax.xml.ws.Endpoint;
+import javax.xml.ws.spi.Provider;
+
+public class Main {
+    public static void main(String[] args) {
+        Provider provider = Provider.provider();
+        Endpoint endpoint = provider.createEndpoint("http://schemas.xmlsoap.org/wsdl/soap/http", new MyService());
+        System.out.println("Endpoint created: " + endpoint);
+    }
+
+    static class MyService {
+        // Service implementation
+    }
+}
+```
+================================================================
+
+Sample: 1 Provider_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.Endpoint;
+import javax.xml.ws.spi.Provider;
+import javax.xml.ws.WebServiceFeature;
+
+public class Main {
+    public static void main(String[] args) {
+        Provider provider = Provider.provider();
+        Endpoint endpoint = provider.createEndpoint("http://schemas.xmlsoap.org/wsdl/soap/http", new MyService(), new WebServiceFeature());
+        System.out.println("Endpoint created: " + endpoint);
+    }
+}
+
+class MyService {
+    // Service implementation code here
+}
+```
+================================================================
+
+Sample: 2 ServiceDelegate_2
+----------------------------------------------------------------
+`Executor getExecutor()`: This method returns the executor for this Service instance.
+
+Code snippet:
+```java
+import javax.xml.ws.spi.ServiceDelegate;
+import java.util.concurrent.Executor;
+
+public class Main {
+    public static void main(String[] args) {
+        ServiceDelegate serviceDelegate = new ServiceDelegate(); // Instantiate ServiceDelegate
+        Executor executor = serviceDelegate.getExecutor(); // Get the executor
+        System.out.println("Executor: " + executor);
+    }
+}
+```
+================================================================
+
+Sample: 3 ServiceDelegate_4
+----------------------------------------------------------------
+`void setExecutor(Executor executor)`: This method sets the executor for the Service instance.
+
+Code snippet:
+```java
+import javax.xml.ws.spi.ServiceDelegate;
+import java.util.concurrent.Executor;
+
+public class Main {
+    public static void main(String[] args) {
+        ServiceDelegate serviceDelegate = new ServiceDelegate(); // Instantiate ServiceDelegate
+        Executor executor = new Executor() {
+            @Override
+            public void execute(Runnable command) {
+                // Implement executor logic here
+            }
+        };
+        serviceDelegate.setExecutor(executor); // Set the executor for the ServiceDelegate
+    }
+}
+```
+================================================================
+
+Sample: 4 ServiceDelegate_5
+----------------------------------------------------------------
+`void setHandlerResolver(HandlerResolver handlerResolver)`: This method sets the HandlerResolver for this Service instance.
+
+Code snippet:
+```java
+import javax.xml.ws.handler.HandlerResolver;
+import javax.xml.ws.spi.ServiceDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        ServiceDelegate serviceDelegate = new ServiceDelegate(); // Instantiate ServiceDelegate
+        HandlerResolver handlerResolver = new CustomHandlerResolver(); // Instantiate custom HandlerResolver
+        serviceDelegate.setHandlerResolver(handlerResolver); // Set the HandlerResolver for the ServiceDelegate
+    }
+}
+
+class CustomHandlerResolver implements HandlerResolver {
+    // Implement custom HandlerResolver logic here
+}
+```
+================================================================
+

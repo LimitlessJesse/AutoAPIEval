@@ -1,0 +1,1312 @@
+Sample: 0 AsynchronousChannelGroup_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.AsynchronousChannelGroup;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+        AsynchronousChannelGroup group = AsynchronousChannelGroup.withThreadPool(executor);
+    }
+}
+```
+================================================================
+
+Sample: 1 AsynchronousFileChannel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousFileChannel;
+import java.nio.channels.CompletionHandler;
+import java.util.concurrent.CompletableFuture;
+
+public class Main {
+    public static void main(String[] args) {
+        AsynchronousFileChannel fileChannel = null; // Initialize with your file channel
+        ByteBuffer buffer = ByteBuffer.allocate(1024); // Allocate buffer size as needed
+        long position = 0; // Specify the position to read from
+        
+        CompletableFuture<Integer> future = new CompletableFuture<>();
+        
+        fileChannel.read(buffer, position, null, new CompletionHandler<Integer, Void>() {
+            @Override
+            public void completed(Integer result, Void attachment) {
+                future.complete(result);
+            }
+
+            @Override
+            public void failed(Throwable exc, Void attachment) {
+                future.completeExceptionally(exc);
+            }
+        });
+        
+        future.thenAccept(result -> {
+            System.out.println("Bytes read: " + result);
+            buffer.flip();
+            System.out.println("Data read: " + new String(buffer.array()));
+        });
+    }
+}
+```
+================================================================
+
+Sample: 2 AsynchronousFileChannel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousFileChannel;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+public class Main {
+    public static void main(String[] args) {
+        Path path = Paths.get("example.txt");
+        
+        try(AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(path)) {
+            ByteBuffer buffer = ByteBuffer.wrap("Hello, World!".getBytes());
+            Future<Integer> operation = fileChannel.write(buffer, 0);
+            
+            // Wait for the operation to complete and get the result 
+            Integer bytesWritten = operation.get();
+            System.out.println("Bytes written: " + bytesWritten);
+        } catch (IOException | InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 AsynchronousFileChannel_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.channels.AsynchronousFileChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Path path = Path.of("example.txt");
+            AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(path, StandardOpenOption.READ, StandardOpenOption.WRITE);
+            long position = 0;
+            long size = 1024;
+            boolean shared = false; // Set whether the lock is shared or exclusive
+
+            Future<FileLock> future = fileChannel.lock(position, size, shared);
+
+            FileLock fileLock = future.get(); // Acquire the lock
+
+            // Perform operations with the locked file
+
+            fileLock.release(); // Release the lock when done
+
+            fileChannel.close(); // Close the file channel
+        } catch (IOException | InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 AsynchronousServerSocketChannel_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.channels.AsynchronousServerSocketChannel;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ExecutorService executor = Executors.newFixedThreadPool(10);
+            AsynchronousServerSocketChannel serverSocket = AsynchronousServerSocketChannel.open(executor);
+            serverSocket.bind(new InetSocketAddress("localhost", 8080));
+            
+            // Further code logic for using the server socket
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 AsynchronousSocketChannel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousSocketChannel;
+import java.util.concurrent.CompletableFuture;
+
+public class Main {
+    public static void main(String[] args) {
+        AsynchronousSocketChannel channel = null; // initialize your AsynchronousSocketChannel
+
+        // Define a ByteBuffer to read data into
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+
+        // Use CompletableFuture to asynchronously read data into the buffer
+        CompletableFuture<Integer> future = new CompletableFuture<>();
+        channel.read(buffer, 0, future, new java.nio.channels.CompletionHandler<Integer, Integer>() {
+            public void completed(Integer result, Integer attachment) {
+                future.complete(result);
+            }
+
+            public void failed(Throwable exc, Integer attachment) {
+                future.completeExceptionally(exc);
+            }
+        });
+
+        future.thenAccept(result -> {
+            System.out.println("Bytes read: " + result);
+        });
+    }
+}
+```
+================================================================
+
+Sample: 6 AsynchronousSocketChannel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousSocketChannel;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+public class Main {
+    public static void main(String[] args) {
+        AsynchronousSocketChannel channel = null; // Initialize your AsynchronousSocketChannel
+        
+        ByteBuffer buffer = ByteBuffer.allocate(1024); // Create a ByteBuffer
+        
+        Future<Integer> future = channel.write(buffer); // Call the write() method
+        
+        try {
+            int bytesWritten = future.get(); // Get the result of the write operation
+            System.out.println("Bytes written: " + bytesWritten);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 AsynchronousSocketChannel_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.channels.AsynchronousSocketChannel;
+import java.nio.channels.CompletionHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            AsynchronousSocketChannel socketChannel = AsynchronousSocketChannel.open();
+            socketChannel.connect(new InetSocketAddress("example.com", 80), null, new CompletionHandler<Void, Void>() {
+                @Override
+                public void completed(Void result, Void attachment) {
+                    try {
+                        System.out.println("Remote Address: " + socketChannel.getRemoteAddress());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void failed(Throwable exc, Void attachment) {
+                    System.out.println("Connection failed");
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 AsynchronousSocketChannel_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.channels.AsynchronousSocketChannel;
+import java.util.concurrent.ExecutionException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            AsynchronousSocketChannel channel = AsynchronousSocketChannel.open();
+            channel.bind(new InetSocketAddress("localhost", 8080)).get();
+            System.out.println("Socket channel bound successfully");
+        } catch (IOException | InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 Channels_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.InputStream;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        ReadableByteChannel channel = Channels.newChannel(inputStream);
+        System.out.println(channel);
+    }
+}
+```
+================================================================
+
+Sample: 10 Channels_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.OutputStream;
+import java.nio.channels.Channels;
+import java.nio.channels.WritableByteChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        OutputStream outputStream = System.out;
+        WritableByteChannel channel = Channels.newChannel(outputStream);
+        
+        try {
+            channel.write(java.nio.ByteBuffer.wrap("Hello, World!".getBytes()));
+            channel.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 DatagramChannel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.DatagramChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try (DatagramChannel channel = DatagramChannel.open()) {
+            ByteBuffer buffer = ByteBuffer.allocate(1024);
+            buffer.put("Hello, World!".getBytes());
+            buffer.flip();
+            channel.send(buffer, new InetSocketAddress("localhost", 8080));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 DatagramChannel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.net.InetSocketAddress;
+import java.nio.channels.DatagramChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatagramChannel channel = DatagramChannel.open();
+            ByteBuffer buffer = ByteBuffer.allocate(1024);
+            InetSocketAddress address = new InetSocketAddress("localhost", 8080);
+            
+            // Receive data into the buffer from the channel's socket address
+            channel.receive(buffer);
+            
+            // Reset the buffer's position to read data
+            buffer.flip();
+            
+            // Print data received from the socket address
+            while (buffer.hasRemaining()) {
+                System.out.print((char) buffer.get());
+            }
+            
+            channel.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 DatagramChannel_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetSocketAddress;
+import java.nio.channels.DatagramChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatagramChannel datagramChannel = DatagramChannel.open();
+            datagramChannel.bind(new InetSocketAddress("localhost", 9999));
+            System.out.println("Datagram channel bound successfully to port 9999");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 14 DatagramChannel_4
+----------------------------------------------------------------
+`int read(ByteBuffer dst)`: This method reads a sequence of bytes from this channel into the given buffer.
+
+Code snippet:
+```java
+import java.nio.ByteBuffer;
+import java.nio.channels.DatagramChannel;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatagramChannel channel = DatagramChannel.open();
+            ByteBuffer buffer = ByteBuffer.allocate(48);
+            int bytesRead = channel.read(buffer);
+            
+            buffer.flip();
+            while (buffer.hasRemaining()) {
+                System.out.print((char) buffer.get());
+            }
+            buffer.clear();
+            
+            channel.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 DatagramChannel_5
+----------------------------------------------------------------
+`int write(ByteBuffer src)`: This method writes a sequence of bytes from the given buffer into this channel.
+
+Code snippet:
+```java
+import java.nio.ByteBuffer;
+import java.nio.channels.DatagramChannel;
+import java.net.InetSocketAddress;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatagramChannel channel = DatagramChannel.open();
+            ByteBuffer buffer = ByteBuffer.allocate(48);
+            buffer.put("Hello, World!".getBytes());
+            buffer.flip();
+            InetSocketAddress address = new InetSocketAddress("localhost", 8080);
+            int bytesSent = channel.send(buffer, address);
+            System.out.println("Bytes sent: " + bytesSent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 FileChannel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RandomAccessFile file = new RandomAccessFile("example.txt", "rw");
+            FileChannel channel = file.getChannel();
+            ByteBuffer buffer = ByteBuffer.allocate(48);
+
+            int bytesRead = channel.read(buffer); // Read data from file into buffer
+            buffer.flip(); // Flip the buffer to start reading from the beginning
+
+            while (buffer.hasRemaining()) {
+                System.out.print((char) buffer.get()); // Read bytes from buffer and cast to char
+            }
+
+            buffer.clear(); // Clear the buffer for re-use
+            channel.close();
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 FileChannel_2
+----------------------------------------------------------------
+`int write(ByteBuffer src)`: This method writes a sequence of bytes from the given buffer into this file channel.
+
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RandomAccessFile file = new RandomAccessFile("output.txt", "rw");
+            FileChannel channel = file.getChannel();
+            
+            String data = "Hello, World!";
+            ByteBuffer buffer = ByteBuffer.wrap(data.getBytes());
+            
+            int bytesWritten = channel.write(buffer);
+            System.out.println("Number of bytes written: " + bytesWritten);
+            
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 FileChannel_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.file.Paths;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RandomAccessFile file = new RandomAccessFile("test.txt", "rw");
+            FileChannel channel = file.getChannel();
+            long size = channel.size();
+            System.out.println("File size: " + size);
+            
+            channel.close();
+            file.close();
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 19 FileChannel_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (RandomAccessFile file = new RandomAccessFile("test.txt", "rw");
+             FileChannel channel = file.getChannel()) {
+
+            // Attempt to lock a region of the file
+            FileLock lock = channel.lock(0, 10, false);
+
+            // Perform operations within the locked region
+
+            // Release the lock
+            lock.release();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 FileChannel_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try (RandomAccessFile file = new RandomAccessFile("test.txt", "rw");
+             FileChannel channel = file.getChannel()) {
+
+            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_WRITE, 0, channel.size());
+
+            // Use the buffer here
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 21 FileLock_1
+----------------------------------------------------------------
+`void release()`: This method releases this file lock. 
+
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RandomAccessFile file = new RandomAccessFile("test.txt", "rw");
+            FileChannel channel = file.getChannel();
+            FileLock lock = channel.lock();
+            
+            lock.release(); // Releases the file lock
+            
+            channel.close();
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 22 FileLock_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (RandomAccessFile file = new RandomAccessFile("test.txt", "rw");
+             FileChannel channel = file.getChannel()) {
+            FileLock lock = channel.lock();
+            
+            // Perform operations with locked channel
+            
+            lock.release();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 23 FileLock_3
+----------------------------------------------------------------
+```java
+import java.io.File;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            File file = new File("test.txt");
+            RandomAccessFile raf = new RandomAccessFile(file, "rw");
+            FileChannel channel = raf.getChannel();
+            FileLock lock = channel.tryLock();
+
+            if(lock != null) {
+                boolean isShared = lock.isShared();
+                System.out.println("Is lock shared? " + isShared);
+
+                lock.release();
+            }
+
+            raf.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 24 FileLock_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.StandardOpenOption;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (RandomAccessFile file = new RandomAccessFile("test.txt", "rw");
+             FileChannel channel = file.getChannel();
+             FileLock lock = channel.lock()) {
+            
+            // Perform operations with the file lock here
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 25 FileLock_5
+----------------------------------------------------------------
+`long size()`: This method returns the size of the file associated with this FileLock.
+
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RandomAccessFile file = new RandomAccessFile("example.txt", "rw");
+            FileChannel channel = file.getChannel();
+            FileLock lock = channel.lock();
+
+            System.out.println("Size of the file: " + lock.size());
+
+            lock.release();
+            channel.close();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 26 MembershipKey_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.InetAddress;
+import java.nio.channels.MembershipKey;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InetAddress multicastAddress = InetAddress.getByName("224.0.0.1");
+            MembershipKey membershipKey = channel.join(multicastAddress, networkInterface);
+
+            // Use the MembershipKey object as needed
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 27 MembershipKey_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.MembershipKey;
+import java.nio.channels.MulticastChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming you have a MulticastChannel instance called multicastChannel
+
+        MembershipKey key = multicastChannel.join(someAddress, someNetworkInterface);
+
+        // Perform some operations
+
+        key.drop();
+    }
+}
+```
+================================================================
+
+Sample: 28 MembershipKey_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating a MembershipKey object
+        MembershipKey key = null;
+
+        // Checking if the MembershipKey is valid
+        boolean isValid = key.isValid();
+        System.out.println("Is MembershipKey valid? " + isValid);
+    }
+}
+```
+================================================================
+
+Sample: 29 Pipe_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.Pipe;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Pipe pipe = Pipe.open();
+            Pipe.SinkChannel sinkChannel = pipe.sink();
+
+            String data = "Hello, Pipe!";
+            sinkChannel.write(java.nio.ByteBuffer.wrap(data.getBytes()));
+
+            sinkChannel.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 30 Pipe_2
+----------------------------------------------------------------
+`Pipe.SourceChannel source()`: This method returns the source channel of the pipe.
+
+Code snippet:
+```java
+import java.nio.channels.Pipe;
+import java.nio.channels.Pipe.SourceChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Pipe pipe = Pipe.open();
+            SourceChannel sourceChannel = pipe.source();
+            
+            System.out.println("Source channel of the pipe: " + sourceChannel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 31 Pipe_SinkChannel_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.Pipe;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Pipe.SinkChannel sinkChannel = Pipe.open().sink();
+            int ops = sinkChannel.validOps();
+            System.out.println("Valid operations: " + ops);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 32 Pipe_SourceChannel_1
+----------------------------------------------------------------
+`int validOps()`: This method returns an OR'ed combination of the operations that are valid for this channel.
+ 
+Code snippet:
+```java
+import java.nio.channels.Pipe;
+
+public class Main {
+    public static void main(String[] args) {
+        Pipe.SourceChannel sourceChannel = Pipe.open().source();
+        int operations = sourceChannel.validOps();
+        System.out.println("Valid operations for the source channel: " + operations);
+    }
+}
+```
+================================================================
+
+Sample: 33 SelectableChannel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.Selector;
+import java.nio.channels.SelectionKey;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Selector selector = Selector.open();
+            SelectionKey selectionKey = selector.keys().iterator().next();
+            SelectionKey key = selectionKey.keyFor(selector);
+            System.out.println("Key for selector: " + key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 34 SelectableChannel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.SelectableChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assume channel is initialized and obtained elsewhere
+        SelectableChannel channel = null;
+
+        try {
+            // Set blocking mode to true
+            channel.configureBlocking(true);
+
+            System.out.println("Blocking mode set to true.");
+        } catch (Exception e) {
+            System.out.println("Error setting blocking mode: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 35 SelectableChannel_3
+----------------------------------------------------------------
+`int validOps()`: This method returns the operations that this channel supports.
+
+Code snippet:
+```java
+import java.nio.channels.SelectableChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        SelectableChannel channel = null; // Initialize your SelectableChannel here
+
+        int operations = channel.validOps();
+        System.out.println("Valid operations for the channel: " + operations);
+    }
+}
+```
+================================================================
+
+Sample: 36 SelectionKey_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.SelectionKey;
+
+public class Main {
+    public static void main(String[] args) {
+        SelectionKey key = null;
+        Selector selector = key.selector();
+        // Use the selector object for further operations
+    }
+}
+```
+================================================================
+
+Sample: 37 SelectionKey_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.SelectionKey;
+import java.nio.channels.SelectableChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        SelectionKey selectionKey = new SelectionKey() {
+            @Override
+            public SelectableChannel channel() {
+                return null;
+            }
+
+            @Override
+            public Selector selector() {
+                return null;
+            }
+
+            @Override
+            public boolean isValid() {
+                return false;
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+
+            @Override
+            public int interestOps() {
+                return 0;
+            }
+
+            @Override
+            public SelectionKey interestOps(int ops) {
+                return null;
+            }
+
+            @Override
+            public int readyOps() {
+                return 0;
+            }
+        };
+
+        SelectableChannel channel = selectionKey.channel();
+        System.out.println("Channel: " + channel);
+    }
+}
+```
+================================================================
+
+Sample: 38 SelectionKey_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.SelectionKey;
+
+public class Main {
+    public static void main(String[] args) {
+        SelectionKey key = // get SelectionKey instance
+        int interestOps = key.interestOps();
+        System.out.println("Interest Ops: " + interestOps);
+    }
+}
+```
+================================================================
+
+Sample: 39 SelectionKey_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.SelectionKey;
+
+public class Main {
+    public static void main(String[] args) {
+        SelectionKey selectionKey = null; // Obtain a SelectionKey object from somewhere
+        int ops = selectionKey.readyOps();
+        System.out.println("Ready operations: " + ops);
+    }
+}
+```
+================================================================
+
+Sample: 40 SelectionKey_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.SelectionKey;
+
+public class Main {
+    public static void main(String[] args) {
+        SelectionKey selectionKey = null; // assuming you have a SelectionKey object
+        boolean isValid = selectionKey.isValid();
+        System.out.println("SelectionKey is valid: " + isValid);
+    }
+}
+```
+================================================================
+
+Sample: 41 Selector_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.Selector;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Selector selector = Selector.open();
+            int numKeys = selector.select();
+            System.out.println("Number of keys selected: " + numKeys);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 42 Selector_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.Selector;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Selector selector = Selector.open();
+        
+        // Add some keys to the selector
+        
+        Set<SelectionKey> keys = selector.keys();
+        
+        System.out.println("Keys in Selector: " + keys);
+    }
+}
+```
+================================================================
+
+Sample: 43 Selector_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.channels.Selector;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Selector selector = Selector.open();
+            // Add code here to use selector.select(timeout)
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 44 Selector_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.Selector;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Selector selector = Selector.open();
+            int keysReady = selector.selectNow();
+            System.out.println("Number of keys ready: " + keysReady);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 45 ServerSocketChannel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.channels.ServerSocketChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+            System.out.println("ServerSocketChannel opened successfully");
+        } catch (IOException e) {
+            System.err.println("Error opening ServerSocketChannel: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 46 ServerSocketChannel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.channels.ServerSocketChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+            int ops = serverSocketChannel.validOps();
+            System.out.println("Valid operations for ServerSocketChannel: " + ops);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 47 SocketChannel_1
+----------------------------------------------------------------
+```java
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a new ByteBuffer
+        ByteBuffer buffer = ByteBuffer.allocate(48);
+        
+        // Open a SocketChannel
+        try (SocketChannel socketChannel = SocketChannel.open()) {
+            // Connect to a server
+            socketChannel.connect(new java.net.InetSocketAddress("www.google.com", 80));
+            
+            // Read data from the SocketChannel into the ByteBuffer
+            int bytesRead = socketChannel.read(buffer);
+            
+            // Print the number of bytes read
+            System.out.println("Bytes read: " + bytesRead);
+            
+            // Print the content of the ByteBuffer
+            buffer.flip();
+            while (buffer.hasRemaining()) {
+                System.out.print((char) buffer.get());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 48 SocketChannel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SocketChannel socketChannel = SocketChannel.open();
+            socketChannel.connect(new InetSocketAddress("example.com", 80));
+
+            ByteBuffer src1 = ByteBuffer.wrap("First ByteBuffer".getBytes());
+            ByteBuffer src2 = ByteBuffer.wrap("Second ByteBuffer".getBytes());
+
+            // Write data from multiple ByteBuffer to SocketChannel
+            ByteBuffer[] srcs = {src1, src2};
+            long bytesWritten = socketChannel.write(srcs);
+
+            System.out.println("Bytes written: " + bytesWritten);
+
+            socketChannel.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 49 SocketChannel_3
+----------------------------------------------------------------
+```java
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.channels.SocketChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SocketChannel socketChannel = SocketChannel.open();
+            socketChannel.bind(new InetSocketAddress("localhost", 8080));
+            System.out.println("SocketChannel bound to localhost on port 8080");
+        } catch (IOException e) {
+            System.out.println("Error binding SocketChannel: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 50 SocketChannel_5
+----------------------------------------------------------------
+```java
+import java.nio.channels.SocketChannel;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        SocketChannel socketChannel = null;
+        try {
+            boolean isConnectionEstablished = socketChannel.finishConnect();
+            if(isConnectionEstablished) {
+                System.out.println("Connection established successfully");
+            } else {
+                System.out.println("Connection not established");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

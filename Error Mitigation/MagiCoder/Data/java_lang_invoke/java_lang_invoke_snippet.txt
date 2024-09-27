@@ -1,0 +1,436 @@
+Sample: 0 CallSite
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: The java.lang.invoke package contains dynamic language support provided directly by the Java core class libraries and virtual machine.
+Here is the description of the class: A CallSite is a holder for a variable MethodHandle, which is called its target.
+Here is the full description of the method: 
+
+
+type
+public MethodType type()
+Returns the type of this call site's target.
+ Although targets may change, any call site's type is permanent, and can never change to an unequal type.
+ The setTarget method enforces this invariant by refusing any new target that does
+ not have the previous target's type.
+
+Returns:
+the type of the current target, which is also the type of any future target
+
+
+
+
+@@ Instruction
+I want to learn how to use MethodType type() from java.lang.invoke.CallSite
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the `type()` method from `java.lang.invoke.CallSite`:
+
+```java
+import java.lang.invoke.MethodType;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.CallSite;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MethodHandles.Lookup lookup = MethodHandles.lookup();
+            MethodHandles.MethodHandle handle = lookup.findVirtual(Main.class, "add", MethodType.methodType(void.class, String.class));
+            CallSite site = CallSite.create(handle);
+            MethodType type = site.type();
+            System.out.println(type);
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void add(String s) {
+        System.out.println("Added: " + s);
+    }
+}
+```
+
+In this code snippet, we are creating a `CallSite` for the `add` method of the `Main` class. We then call the `type()` method on the `CallSite` to get the `MethodType` of the method. The `MethodType` is then printed to the console.
+
+Please note that this code snippet is a simple example and may not work as expected in a real-world scenario. It is also important to handle exceptions properly in a production environment.
+================================================================
+
+Sample: 1 CallSite
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: The java.lang.invoke package contains dynamic language support provided directly by the Java core class libraries and virtual machine.
+Here is the description of the class: A CallSite is a holder for a variable MethodHandle, which is called its target.
+Here is the full description of the method: 
+
+
+dynamicInvoker
+public abstract MethodHandle dynamicInvoker()
+Produces a method handle equivalent to an invokedynamic instruction
+ which has been linked to this call site.
+ 
+ This method is equivalent to the following code:
+ 
+ MethodHandle getTarget, invoker, result;
+ getTarget = MethodHandles.publicLookup().bind(this, "getTarget", MethodType.methodType(MethodHandle.class));
+ invoker = MethodHandles.exactInvoker(this.type());
+ result = MethodHandles.foldArguments(invoker, getTarget)
+ 
+
+Returns:
+a method handle which always invokes this call site's current target
+
+
+
+
+@@ Instruction
+I want to learn how to use MethodHandle dynamicInvoker() from java.lang.invoke.CallSite
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+The `dynamicInvoker()` method is used to create a `MethodHandle` that can be used to invoke the method represented by the `CallSite`. This method is used in conjunction with the `MethodHandles.foldArguments` method to create a `MethodHandle` that can be used to invoke the method represented by the `CallSite`.
+
+Here is a complete code snippet of the `dynamicInvoker()` method:
+
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        ArrayList<String> list = new ArrayList<>();
+        MethodHandle getTarget = MethodHandles.publicLookup().bind(list, "add", MethodType.methodType(boolean.class, String.class));
+        MethodHandle invoker = MethodHandles.exactInvoker(list.getClass(), MethodType.methodType(boolean.class, String.class));
+        MethodHandle dynamicInvoker = MethodHandles.foldArguments(invoker, getTarget);
+        dynamicInvoker.invoke("Hello");
+        System.out.println(list);
+    }
+}
+```
+
+In this code snippet, we first bind the `add` method of the `ArrayList` class to a `MethodHandle`. Then, we create an `exactInvoker` for the `ArrayList` class. Finally, we use `foldArguments` to create a `MethodHandle` that can be used to invoke the `add` method of the `ArrayList` class.
+
+The `invoke` method is then used to add the string "Hello" to the `ArrayList`. The `System.out.println(list)` statement is used to print the contents of the `ArrayList` to the console.
+================================================================
+
+Sample: 2 ConstantCallSite
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: The java.lang.invoke package contains dynamic language support provided directly by the Java core class libraries and virtual machine.
+Here is the description of the class: A ConstantCallSite is a CallSite whose target is permanent, and can never be changed.
+Here is the full description of the method: 
+
+
+getTarget
+public final MethodHandle getTarget()
+Returns the target method of the call site, which behaves
+ like a final field of the ConstantCallSite.
+ That is, the target is always the original value passed
+ to the constructor call which created this instance.
+
+Specified by:
+getTarget in class CallSite
+Returns:
+the immutable linkage state of this call site, a constant method handle
+Throws:
+IllegalStateException - if the ConstantCallSite constructor has not completed
+See Also:
+ConstantCallSite, 
+VolatileCallSite, 
+CallSite.setTarget(java.lang.invoke.MethodHandle), 
+getTarget(), 
+MutableCallSite.getTarget(), 
+VolatileCallSite.getTarget()
+
+
+
+
+@@ Instruction
+I want to learn how to use MethodHandle getTarget() from java.lang.invoke.ConstantCallSite
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the `getTarget()` method from `java.lang.invoke.ConstantCallSite`:
+
+```java
+import java.lang.invoke.ConstantCallSite;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MethodType methodType = MethodType.methodType(void.class, String.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findVirtual(ArrayList.class, "add", methodType);
+            ConstantCallSite callSite = ConstantCallSite.create(methodHandle);
+
+            MethodHandle target = callSite.getTarget();
+            System.out.println(target);
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+In this code snippet, we first create a `MethodType` for the `add` method of `ArrayList`. Then we use `MethodHandles.lookup().findVirtual` to find the `add` method. We then create a `ConstantCallSite` with the `MethodHandle`. Finally, we get the target `MethodHandle` from the `ConstantCallSite` and print it.
+
+Please note that this code snippet is just an example and may not work as expected in your environment. You need to replace `ArrayList` and `add` with your actual class and method.
+================================================================
+
+Sample: 3 MutableCallSite
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: The java.lang.invoke package contains dynamic language support provided directly by the Java core class libraries and virtual machine.
+Here is the description of the class: A MutableCallSite is a CallSite whose target variable behaves like an ordinary field.
+Here is the full description of the method: 
+
+
+setTarget
+public void setTarget(MethodHandle newTarget)
+Updates the target method of this call site, as a normal variable.
+ The type of the new target must agree with the type of the old target.
+ 
+ The interactions with memory are the same
+ as of a write to an ordinary variable, such as an array element or a
+ non-volatile, non-final field.
+ 
+ In particular, unrelated threads may fail to see the updated target
+ until they perform a read from memory.
+ Stronger guarantees can be created by putting appropriate operations
+ into the bootstrap method and/or the target methods used
+ at any given call site.
+
+Specified by:
+setTarget in class CallSite
+Parameters:
+newTarget - the new target
+Throws:
+NullPointerException - if the proposed new target is null
+WrongMethodTypeException - if the proposed new target
+         has a method type that differs from the previous target
+See Also:
+getTarget()
+
+
+
+
+@@ Instruction
+I want to learn how to use void setTarget(MethodHandle target) from java.lang.invoke.MutableCallSite
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is an example of how to use the `setTarget` method from `java.lang.invoke.MutableCallSite`:
+
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MutableCallSite;
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        // Create a new MutableCallSite
+        MutableCallSite callSite = new MutableCallSite();
+
+        // Get the MethodHandle for the add method of ArrayList
+        Method method = ArrayList.class.getMethod("add", Object.class);
+        MethodHandle methodHandle = MethodHandles.lookup().unreflect(method);
+
+        // Set the target of the call site to the add method
+        callSite.setTarget(methodHandle);
+
+        // Create a new ArrayList
+        ArrayList<String> list = new ArrayList<>();
+
+        // Invoke the add method through the call site
+        callSite.dynamicInvoker().invokeExact(list, "Hello");
+
+        // Print the list to verify the addition
+        System.out.println(list);
+    }
+}
+```
+
+In this example, we first create a new `MutableCallSite`. Then, we use `MethodHandles.lookup().unreflect(method)` to get a `MethodHandle` for the `add` method of `ArrayList`. We then set the target of the `MutableCallSite` to this `MethodHandle`. Finally, we use the `dynamicInvoker()` method of the `MutableCallSite` to invoke the `add` method on the `ArrayList`.
+================================================================
+
+Sample: 4 MutableCallSite
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: The java.lang.invoke package contains dynamic language support provided directly by the Java core class libraries and virtual machine.
+Here is the description of the class: A MutableCallSite is a CallSite whose target variable behaves like an ordinary field.
+Here is the full description of the method: 
+
+
+getTarget
+public final MethodHandle getTarget()
+Returns the target method of the call site, which behaves
+ like a normal field of the MutableCallSite.
+ 
+ The interactions of getTarget with memory are the same
+ as of a read from an ordinary variable, such as an array element or a
+ non-volatile, non-final field.
+ 
+ In particular, the current thread may choose to reuse the result
+ of a previous read of the target from memory, and may fail to see
+ a recent update to the target by another thread.
+
+Specified by:
+getTarget in class CallSite
+Returns:
+the linkage state of this call site, a method handle which can change over time
+See Also:
+setTarget(java.lang.invoke.MethodHandle)
+
+
+
+
+@@ Instruction
+I want to learn how to use MethodHandle getTarget() from java.lang.invoke.MutableCallSite
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the `getTarget()` method from `java.lang.invoke.MutableCallSite`:
+
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        MethodHandle methodHandle = MethodHandles.lookup().findVirtual(Main.class, "add", String.class);
+        MutableCallSite callSite = new MutableCallSite(methodHandle);
+        MethodHandle target = callSite.getTarget();
+        System.out.println(target);
+    }
+
+    public void add(String s) {
+        System.out.println("Added: " + s);
+    }
+}
+```
+
+In this code snippet, we first create a `MethodHandle` for the `add` method of the `Main` class. Then we create a `MutableCallSite` with this `MethodHandle`. Finally, we get the target `MethodHandle` from the `MutableCallSite` and print it.
+
+Please note that this code snippet is just an example and may not work as expected in your environment. The `getTarget()` method is used to get the target method of the call site, but in this case, the target method is the `add` method of the `Main` class, so the `getTarget()` method will return the `MethodHandle` for the `add` method.
+================================================================
+

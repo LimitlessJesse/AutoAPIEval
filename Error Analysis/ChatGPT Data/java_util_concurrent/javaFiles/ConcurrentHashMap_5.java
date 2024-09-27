@@ -1,0 +1,12 @@
+import java.util.concurrent.ConcurrentHashMap;
+
+public class ConcurrentHashMap_5 {
+    public static void main(String[] args) {
+        ConcurrentHashMap<Integer, String> map = new ConcurrentHashMap<>();
+        map.put(1, "One");
+        map.put(2, "Two");
+        map.put(3, "Three");
+
+        System.out.println("Size of map: " + map.size());
+    }
+}

@@ -1,0 +1,272 @@
+Sample: 0 TransformerFactory
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: This package defines the generic APIs for processing transformationinstructions, and performing a transformation from source to result.
+Here is the description of the class: A TransformerFactory instance can be used to create Transformer and Templates objects.
+Here is the full description of the method: 
+
+
+newInstance
+public static TransformerFactory newInstance()
+                                      throws TransformerFactoryConfigurationError
+Obtain a new instance of a TransformerFactory.
+ This static method creates a new factory instance.
+This method uses the following ordered lookup procedure to determine
+ the TransformerFactory implementation class to
+ load:
+
+
+ Use the javax.xml.transform.TransformerFactory system
+ property.
+ 
+
+ Use the properties file "lib/jaxp.properties" in the JRE directory.
+ This configuration file is in standard java.util.Properties
+  format and contains the fully qualified name of the
+ implementation class with the key being the system property defined
+ above.
+ 
+ The jaxp.properties file is read only once by the JAXP implementation
+ and it's values are then cached for future use.  If the file does not exist
+ when the first attempt is made to read from it, no further attempts are
+ made to check for its existence.  It is not possible to change the value
+ of any property in jaxp.properties after it has been read for the first time.
+ 
+
+   Use the service-provider loading facilities, defined by the
+   ServiceLoader class, to attempt to locate and load an
+   implementation of the service using the default loading mechanism:
+   the service-provider loading facility will use the current thread's context class loader
+   to attempt to load the service. If the context class
+   loader is null, the system class loader will be used.
+ 
+
+   Otherwise, the system-default implementation is returned.
+ 
+
+Once an application has obtained a reference to a 
+ TransformerFactory it can use the factory to configure
+ and obtain transformer instances.
+
+Returns:
+new TransformerFactory instance, never null.
+Throws:
+TransformerFactoryConfigurationError - Thrown in case of service configuration error or if
+ the implementation is not available or cannot be instantiated.
+
+
+
+
+@@ Instruction
+I want to learn how to use TransformerFactory newInstance() from javax.xml.transform.TransformerFactory
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the `newInstance()` method from `javax.xml.transform.TransformerFactory`:
+
+```java
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            TransformerFactory factory = TransformerFactory.newInstance();
+            System.out.println(factory);
+        } catch (TransformerFactoryConfigurationError e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+In this code snippet, we are creating a new instance of `TransformerFactory` and printing it to the console. If an error occurs during the creation of the factory, it will be caught and printed to the console.
+================================================================
+
+Sample: 1 TransformerFactory
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: This package defines the generic APIs for processing transformationinstructions, and performing a transformation from source to result.
+Here is the description of the class: A TransformerFactory instance can be used to create Transformer and Templates objects.
+Here is the full description of the method: 
+
+
+newTransformer
+public abstract Transformer newTransformer()
+                                    throws TransformerConfigurationException
+Create a new Transformer that performs a copy
+ of the Source to the Result.
+ i.e. the "identity transform".
+
+Returns:
+A Transformer object that may be used to perform a transformation
+ in a single thread, never null.
+Throws:
+TransformerConfigurationException - When it is not
+   possible to create a Transformer instance.
+
+
+
+
+@@ Instruction
+I want to learn how to use Transformer newTransformer() from javax.xml.transform.TransformerFactory
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the `newTransformer` method from `javax.xml.transform.TransformerFactory`:
+
+```java
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Transformer transformer = factory.newTransformer();
+            System.out.println(transformer);
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+In this code snippet, we first create a `TransformerFactory` instance using `TransformerFactory.newInstance()`. Then we call `newTransformer()` on this instance to create a new `Transformer`.
+
+Please note that the `newTransformer()` method does not actually perform any transformation. It simply creates a new `Transformer` object that can be used to perform a copy of the source to the result.
+
+Also, the `newTransformer()` method can throw a `TransformerConfigurationException` if it is not possible to create a `Transformer` instance. In the code snippet, we catch this exception and print the stack trace.
+================================================================
+
+Sample: 2 TransformerFactory
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: This package defines the generic APIs for processing transformationinstructions, and performing a transformation from source to result.
+Here is the description of the class: A TransformerFactory instance can be used to create Transformer and Templates objects.
+Here is the full description of the method: 
+
+
+newTemplates
+public abstract Templates newTemplates(Source source)
+                                throws TransformerConfigurationException
+Process the Source into a Templates object, which is a
+ a compiled representation of the source. This Templates object
+ may then be used concurrently across multiple threads.  Creating
+ a Templates object allows the TransformerFactory to do detailed
+ performance optimization of transformation instructions, without
+ penalizing runtime transformation.
+
+Parameters:
+source - An object that holds a URL, input stream, etc.
+Returns:
+A Templates object capable of being used for transformation
+   purposes, never null.
+Throws:
+TransformerConfigurationException - When parsing to
+   construct the Templates object fails.
+
+
+
+
+@@ Instruction
+I want to learn how to use Templates newTemplates(Source source) from javax.xml.transform.TransformerFactory
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the `newTemplates` method from `javax.xml.transform.TransformerFactory`:
+
+```java
+import javax.xml.transform.Source;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Source source = new javax.xml.transform.stream.StreamSource(new java.io.File("input.xml"));
+            Templates templates = factory.newTemplates(source);
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+In this code snippet, we first create a new instance of `TransformerFactory`. Then we create a `Source` object that points to an XML file. We use this `Source` object to create a `Templates` object. If any error occurs during the process, it will be caught and printed to the console.
+
+Please replace `"input.xml"` with the path to your XML file.
+================================================================
+

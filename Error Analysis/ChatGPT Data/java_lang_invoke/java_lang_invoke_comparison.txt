@@ -1,0 +1,135 @@
+Sample: 0 CallSite
+----------------------------------------------------------------
+1. `Object getTarget()` : Returns the target of the CallSite.
+2. `MethodHandle dynamicInvoker()` : Returns a method handle which can be invoked using dynamic invocations.
+3. `MethodType type()` : Returns the type of this CallSite.
+4. `void setTarget(MethodHandle target)` : Sets a new target for the CallSite.
+5. `void syncAll(MutableCallSite[] sites)` : Synchronizes the targets of multiple MutableCallSites.
+================================================================
+
+Sample: 1 ConstantCallSite
+----------------------------------------------------------------
+1. `Class<? extends CallSite> dynamicInvoker()`: This method returns the dynamic invoker for the ConstantCallSite.
+  
+2. `MethodType type()`: This method returns the type of the target method.
+
+3. `boolean isStable()`: This method returns true if the call site's target, when available, is stable, else false.
+
+4. `CallSite dynamicLink(): This method returns a CallSite relinked according to the target method of this CallSite.
+
+5. `Object getTarget()`: This method returns the target object.
+================================================================
+
+Sample: 2 LambdaMetafactory
+----------------------------------------------------------------
+1. CallSite metafactory()
+   - Return type: CallSite
+   
+2. MethodType altMetafactory()
+   - Return type: MethodType
+   
+3. MethodHandle altMetafactory()
+   - Return type: MethodHandle
+   
+4. CallSite altMetafactory()
+   - Return type: CallSite
+   
+5. MethodHandle altMetafactory()
+   - Return type: MethodHandle
+================================================================
+
+Sample: 3 MethodHandle
+----------------------------------------------------------------
+1. `boolean isVarargsCollector()`: Returns true if this MethodHandle is a collector for varargs array arguments.
+2. `MethodType type()`: Returns the MethodType of this MethodHandle.
+3. `Object invokeExact(Object... args)`: Invoke the method handle, supplying arguments as plain Object array.
+4. `MethodHandle asType(MethodType newType)`: Produces a new method handle that is a transformed view of the original method handle, with a different method type.
+5. `MethodHandle asVarargsCollector(Class<?> arrayType)`: Produces a method handle which can emulate the variable arity calling sequence of a given signature.
+================================================================
+
+Sample: 4 MethodHandleProxies
+----------------------------------------------------------------
+1. `Object invoke(Object... args)`: This method invokes the underlying method handle, passing the arguments as an array.
+2. `MethodHandle asType(MethodType newType)`: This method adjusts the type of the target MethodHandle, as needed to match the proposed new type.
+3. `MethodHandle bindTo(Object x)` : This method creates a copy of the target MethodHandle which, when invoked, will include an additional leading argument.
+4. `MethodHandle asCollector(Class arrayType, int arrayLength)`: This method converts the current target MethodHandle to a variable arity collector.
+5. `MethodType type()`: This method returns the type of the target method handle.
+================================================================
+
+Sample: 5 MethodHandles
+----------------------------------------------------------------
+1. `MethodHandle asType(MethodType newType)`: This method returns a new method handle which is the same as the original handle except for its type.
+2. `MethodHandle bindTo(Object x)`: This method returns a new method handle which is a copy of the original handle, with a bound argument.
+3. `MethodHandle asCollector(Class arrayType, int arrayLength)`: This method creates a collector method handle, whose type accepts a variable number of arguments and collects them into an array.
+4. `MethodHandle dropArguments(int pos, List<Class> types)`: This method returns a new method handle which drops a contiguous range of arguments and return type from the original handle's type.
+5. `MethodHandle filterReturnValue(MethodHandle target, MethodHandle filter)`: This method returns a new method handle which applies a filter function to the result of calling another target method handle.
+================================================================
+
+Sample: 6 MethodHandles.Lookup
+----------------------------------------------------------------
+1. `MethodHandle unreflectConstructor(Constructor<?> constructor)`: This method returns a MethodHandle with the signature of the specified constructor.
+2. `MethodHandle unreflectGetter(Method method)`: This method returns a MethodHandle for a getter method.
+3. `MethodHandle unreflectSetter(Method method)`: This method returns a MethodHandle for a setter method.
+4. `MethodHandle findStatic(Class<?> refc, String name, MethodType type)`: This method returns a MethodHandle for a static method of the given class with the specified name and type.
+5. `MethodHandle findVirtual(Class<?> refc, String name, MethodType type)`: This method returns a MethodHandle for a virtual method of the given class with the specified name and type.
+================================================================
+
+Sample: 7 MethodType
+----------------------------------------------------------------
+1. `MethodType dropParameterTypes(int start, int end)`: This method creates a new method type that is identical to the original method type, except that its parameter list lacks a range of parameter types.
+
+2. `int parameterCount()`: This method returns the number of parameters in the method type.
+
+3. `MethodType appendParameterTypes(Class<?>... ptypes)`: This method creates a new method type that is identical to the original method type, except that its parameter list is extended by appending parameter types.
+
+4. `MethodType changeParameterType(int num, Class<?> ptype)`: This method creates a new method type that is identical to the original method type, except that its num-th parameter type is changed to ptype.
+
+5. `MethodType generic()`: This method creates a new method type that is identical to the original method type, except that it is transformed to be generic.
+================================================================
+
+Sample: 8 MutableCallSite
+----------------------------------------------------------------
+1. `void setTarget(MethodHandle target)`: This method sets the target method handle for the call site.
+2. `MethodHandle getTarget()`: This method returns the current target method handle for the call site.
+3. `void syncAll(MutableCallSite[] sites)`: This method synchronizes the target method handles of multiple call sites.
+4. `void syncLocal(MutableCallSite site)`: This method synchronizes the target method handle of a specific call site.
+5. `void setTargetNormal(MethodHandle target)`: This method sets the normal target method handle for the call site.
+================================================================
+
+Sample: 9 SerializedLambda
+----------------------------------------------------------------
+1. SerializedLambda getCapturingClass()
+   - Return type: Class<?>
+   
+2. int getCapturedArgCount()
+   - Return type: int
+
+3. Object getCapturedArg(int argIndex)
+   - Return type: Object
+   - Parameters: int argIndex
+   
+4. SerializedLambdaImpl getImpl()
+   - Return type: SerializedLambdaImpl
+
+5. boolean hasCapturedArg()
+   - Return type: boolean
+================================================================
+
+Sample: 10 SwitchPoint
+----------------------------------------------------------------
+1. `boolean hasBeenInvalidated()`: This method checks if the switch point has been invalidated.
+2. `boolean hasChanged()`: This method checks if the switch point has been invalidated or changed.
+3. `void invalidate()`: This method invalidates the switch point, causing subsequent calls to it to take a new path.
+4. `void guardWithTest(MethodHandle testValue, MethodHandle target)` : This method creates a method handle which switches behavior based on the switch point being invalidated or not.
+5. `void setAndSwitchToInvalid(MethodHandle target)`: This method sets the switch point to be invalid, and switches to a new behavior.
+================================================================
+
+Sample: 11 VolatileCallSite
+----------------------------------------------------------------
+1. void syncAll(Map<String, CallSite> sites)
+2. void setTarget(MethodHandle ignore) 
+3. boolean isChanging()
+4. MethodHandle dynamicInvoker()
+5. void syncWith(CallerSensitive ignore)
+================================================================
+

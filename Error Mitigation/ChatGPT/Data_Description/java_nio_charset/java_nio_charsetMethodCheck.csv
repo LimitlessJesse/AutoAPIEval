@@ -1,0 +1,257 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Charset,1,"SortedMap<String,Charset> availableCharsets()",True,,"
+
+availableCharsets
+public static SortedMap<String,Charset> availableCharsets()
+Constructs a sorted map from canonical charset names to charset objects.
+
+  The map returned by this method will have one entry for each charset
+ for which support is available in the current Java virtual machine.  If
+ two or more supported charsets have the same canonical name then the
+ resulting map will contain just one of them; which one it will contain
+ is not specified. 
+ The invocation of this method, and the subsequent use of the
+ resulting map, may cause time-consuming disk or network I/O operations
+ to occur.  This method is provided for applications that need to
+ enumerate all of the available charsets, for example to allow user
+ charset selection.  This method is not used by the forName method, which instead employs an efficient incremental lookup
+ algorithm.
+
+  This method may return different results at different times if new
+ charset providers are dynamically made available to the current Java
+ virtual machine.  In the absence of such changes, the charsets returned
+ by this method are exactly those that can be retrieved via the forName method.  
+
+Returns:
+An immutable, case-insensitive map from canonical charset names
+         to charset objects
+
+
+"
+0,Charset,2,Charset defaultCharset(),True,,"
+
+defaultCharset
+public static Charset defaultCharset()
+Returns the default charset of this Java virtual machine.
+
+  The default charset is determined during virtual-machine startup and
+ typically depends upon the locale and charset of the underlying
+ operating system.
+
+Returns:
+A charset object for the default charset
+Since:
+1.5
+
+
+"
+0,Charset,3,Charset forName(String charsetName),True,,"
+
+forName
+public static Charset forName(String charsetName)
+Returns a charset object for the named charset.
+
+Parameters:
+charsetName - The name of the requested charset; may be either
+         a canonical name or an alias
+Returns:
+A charset object for the named charset
+Throws:
+IllegalCharsetNameException - If the given charset name is illegal
+IllegalArgumentException - If the given charsetName is null
+UnsupportedCharsetException - If no support for the named charset is available
+          in this instance of the Java virtual machine
+
+
+"
+0,Charset,4,boolean contains(Charset cs),True,,"
+
+contains
+public abstract boolean contains(Charset cs)
+Tells whether or not this charset contains the given charset.
+
+  A charset C is said to contain a charset D if,
+ and only if, every character representable in D is also
+ representable in C.  If this relationship holds then it is
+ guaranteed that every string that can be encoded in D can also be
+ encoded in C without performing any replacements.
+
+  That C contains D does not imply that each character
+ representable in C by a particular byte sequence is represented
+ in D by the same byte sequence, although sometimes this is the
+ case.
+
+  Every charset contains itself.
+
+  This method computes an approximation of the containment relation:
+ If it returns true then the given charset is known to be
+ contained by this charset; if it returns false, however, then
+ it is not necessarily the case that the given charset is not contained
+ in this charset.
+
+Parameters:
+cs - The given charset
+Returns:
+true if the given charset is contained in this charset
+
+
+"
+0,Charset,5,CharsetDecoder newDecoder(),True,,"
+
+newDecoder
+public abstract CharsetDecoder newDecoder()
+Constructs a new decoder for this charset.
+
+Returns:
+A new decoder for this charset
+
+
+"
+2,CharsetEncoder,1,boolean canEncode(),False,,NULL
+2,CharsetEncoder,2,ByteBuffer encode(CharBuffer in),True,,"
+
+encode
+public final ByteBuffer encode(CharBuffer in)
+                        throws CharacterCodingException
+Convenience method that encodes the remaining content of a single input
+ character buffer into a newly-allocated byte buffer.
+
+  This method implements an entire encoding
+ operation; that is, it resets this encoder, then it encodes the
+ characters in the given character buffer, and finally it flushes this
+ encoder.  This method should therefore not be invoked if an encoding
+ operation is already in progress.  
+
+Parameters:
+in - The input character buffer
+Returns:
+A newly-allocated byte buffer containing the result of the
+         encoding operation.  The buffer's position will be zero and its
+         limit will follow the last byte written.
+Throws:
+IllegalStateException - If an encoding operation is already in progress
+MalformedInputException - If the character sequence starting at the input buffer's current
+          position is not a legal sixteen-bit Unicode sequence and the current malformed-input action
+          is CodingErrorAction.REPORT
+UnmappableCharacterException - If the character sequence starting at the input buffer's current
+          position cannot be mapped to an equivalent byte sequence and
+          the current unmappable-character action is CodingErrorAction.REPORT
+CharacterCodingException
+
+
+"
+2,CharsetEncoder,3,Charset charset(),True,,"
+
+charset
+public final Charset charset()
+Returns the charset that created this encoder.
+
+Returns:
+This encoder's charset
+
+
+"
+2,CharsetEncoder,4,CodingErrorAction malformedInputAction(),True,,"
+
+malformedInputAction
+public CodingErrorAction malformedInputAction()
+Returns this encoder's current action for malformed-input errors.
+
+Returns:
+The current malformed-input action, which is never null
+
+
+"
+2,CharsetEncoder,5,CodingErrorAction unmappableCharacterAction(),True,,"
+
+unmappableCharacterAction
+public CodingErrorAction unmappableCharacterAction()
+Returns this encoder's current action for unmappable-character errors.
+
+Returns:
+The current unmappable-character action, which is never
+         null
+
+
+"
+3,CoderResult,1,boolean isOverflow(),True,,"
+
+isOverflow
+public boolean isOverflow()
+Tells whether or not this object describes an overflow condition.
+
+Returns:
+true if, and only if, this object denotes overflow
+
+
+"
+3,CoderResult,2,boolean isUnderflow(),True,,"
+
+isUnderflow
+public boolean isUnderflow()
+Tells whether or not this object describes an underflow condition.
+
+Returns:
+true if, and only if, this object denotes underflow
+
+
+"
+3,CoderResult,3,boolean isError(),True,,"
+
+isError
+public boolean isError()
+Tells whether or not this object describes an error condition.
+
+Returns:
+true if, and only if, this object denotes either a
+          malformed-input error or an unmappable-character error
+
+
+"
+3,CoderResult,4,boolean isMalformed(),True,,"
+
+isMalformed
+public boolean isMalformed()
+Tells whether or not this object describes a malformed-input error.
+
+Returns:
+true if, and only if, this object denotes a
+          malformed-input error
+
+
+"
+3,CoderResult,5,boolean isUnmappable(),True,,"
+
+isUnmappable
+public boolean isUnmappable()
+Tells whether or not this object describes an unmappable-character
+ error.
+
+Returns:
+true if, and only if, this object denotes an
+          unmappable-character error
+
+
+"
+4,CodingErrorAction,1,CodingErrorAction valueOf(String name),False,,NULL
+4,CodingErrorAction,2,CodingErrorAction[] values(),False,,NULL
+4,CodingErrorAction,3,String toString(),True,,"
+
+toString
+public String toString()
+Returns a string describing this action.
+
+Overrides:
+toString in class Object
+Returns:
+A descriptive string
+
+
+"
+4,CodingErrorAction,4,CodingErrorAction valueOf(int ordinal),False,,NULL
+4,CodingErrorAction,5,int ordinal(),False,,NULL
+5,StandardCharsets,1,Charset forName(String charsetName),False,,NULL
+5,StandardCharsets,2,"SortedMap<String, Charset> availableCharsets()",False,,NULL
+5,StandardCharsets,3,Charset defaultCharset(),False,,NULL
+5,StandardCharsets,4,CharsetEncoder newEncoder(),False,,NULL
+5,StandardCharsets,5,CharsetDecoder newDecoder(),False,,NULL

@@ -1,0 +1,827 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,ConsoleHandler,1,void setOutputStream(OutputStream out),False,,NULL
+0,ConsoleHandler,2,void setEncoding(String encoding),False,,NULL
+0,ConsoleHandler,3,void setFilter(Filter newFilter),False,,NULL
+0,ConsoleHandler,4,void setFormatter(Formatter newFormatter),False,,NULL
+0,ConsoleHandler,5,void setErrorManager(ErrorManager em),False,,NULL
+1,ErrorManager,1,"void error(String msg, Exception ex)",False,,NULL
+1,ErrorManager,2,"void fatalError(String msg, Exception ex)",False,,NULL
+1,ErrorManager,3,"void reportError(String msg, Exception ex, int code)",False,,NULL
+1,ErrorManager,4,void flush(),False,,NULL
+2,FileHandler,1,void setFormatter(Formatter newFormatter),False,,NULL
+2,FileHandler,2,void setEncoding(String encoding),False,,NULL
+2,FileHandler,3,void setLimit(int newLimit),False,,NULL
+2,FileHandler,4,void setCount(int newCount),False,,NULL
+2,FileHandler,5,void setAppend(boolean append),False,,NULL
+3,Formatter,1,String format(LogRecord record),True,,"
+
+format
+public abstract String format(LogRecord record)
+Format the given log record and return the formatted string.
+ 
+ The resulting formatted String will normally include a
+ localized and formatted version of the LogRecord's message field.
+ It is recommended to use the formatMessage(java.util.logging.LogRecord)
+ convenience method to localize and format the message field.
+
+Parameters:
+record - the log record to be formatted.
+Returns:
+the formatted log record
+
+
+"
+3,Formatter,2,String getHead(Handler h),True,,"
+
+getHead
+public String getHead(Handler h)
+Return the header string for a set of formatted records.
+ 
+ This base class returns an empty string, but this may be
+ overridden by subclasses.
+
+Parameters:
+h - The target handler (can be null)
+Returns:
+header string
+
+
+"
+3,Formatter,3,String getTail(Handler h),True,,"
+
+getTail
+public String getTail(Handler h)
+Return the tail string for a set of formatted records.
+ 
+ This base class returns an empty string, but this may be
+ overridden by subclasses.
+
+Parameters:
+h - The target handler (can be null)
+Returns:
+tail string
+
+
+"
+3,Formatter,4,String formatMessage(LogRecord record),True,,"
+
+formatMessage
+public String formatMessage(LogRecord record)
+Localize and format the message string from a log record.  This
+ method is provided as a convenience for Formatter subclasses to
+ use when they are performing formatting.
+ 
+ The message string is first localized to a format string using
+ the record's ResourceBundle.  (If there is no ResourceBundle,
+ or if the message key is not found, then the key is used as the
+ format string.)  The format String uses java.text style
+ formatting.
+ 
+If there are no parameters, no formatter is used.
+ Otherwise, if the string contains ""{0"" then
+     java.text.MessageFormat  is used to format the string.
+ Otherwise no formatting is performed.
+ 
+
+
+Parameters:
+record - the log record containing the raw message
+Returns:
+a localized and formatted message
+
+
+"
+3,Formatter,5,String formatMessage(LogRecord record),True,,"
+
+formatMessage
+public String formatMessage(LogRecord record)
+Localize and format the message string from a log record.  This
+ method is provided as a convenience for Formatter subclasses to
+ use when they are performing formatting.
+ 
+ The message string is first localized to a format string using
+ the record's ResourceBundle.  (If there is no ResourceBundle,
+ or if the message key is not found, then the key is used as the
+ format string.)  The format String uses java.text style
+ formatting.
+ 
+If there are no parameters, no formatter is used.
+ Otherwise, if the string contains ""{0"" then
+     java.text.MessageFormat  is used to format the string.
+ Otherwise no formatting is performed.
+ 
+
+
+Parameters:
+record - the log record containing the raw message
+Returns:
+a localized and formatted message
+
+
+"
+4,Handler,1,void publish(LogRecord record),True,,"
+
+publish
+public abstract void publish(LogRecord record)
+Publish a LogRecord.
+ 
+ The logging request was made initially to a Logger object,
+ which initialized the LogRecord and forwarded it here.
+ 
+ The Handler  is responsible for formatting the message, when and
+ if necessary.  The formatting should include localization.
+
+Parameters:
+record - description of the log event. A null record is
+                 silently ignored and is not published
+
+
+"
+4,Handler,2,void flush(),True,,"
+
+flush
+public abstract void flush()
+Flush any buffered output.
+
+"
+4,Handler,3,void close(),True,,"
+
+close
+public abstract void close()
+                    throws SecurityException
+Close the Handler and free all associated resources.
+ 
+ The close method will perform a flush and then close the
+ Handler.   After close has been called this Handler
+ should no longer be used.  Method calls may either be silently
+ ignored or may throw runtime exceptions.
+
+Throws:
+SecurityException - if a security manager exists and if
+             the caller does not have LoggingPermission(""control"").
+
+
+"
+4,Handler,4,boolean isLoggable(LogRecord record),True,,"
+
+isLoggable
+public boolean isLoggable(LogRecord record)
+Check if this Handler would actually log a given LogRecord.
+ 
+ This method checks if the LogRecord has an appropriate
+ Level and  whether it satisfies any Filter.  It also
+ may make other Handler specific checks that might prevent a
+ handler from logging the LogRecord. It will return false if
+ the LogRecord is null.
+ 
+
+Parameters:
+record - a LogRecord
+Returns:
+true if the LogRecord would be logged.
+
+
+"
+4,Handler,5,void setFormatter(Formatter newFormatter),True,,"
+
+setFormatter
+public void setFormatter(Formatter newFormatter)
+                  throws SecurityException
+Set a Formatter.  This Formatter will be used
+ to format LogRecords for this Handler.
+ 
+ Some Handlers may not use Formatters, in
+ which case the Formatter will be remembered, but not used.
+ 
+
+Parameters:
+newFormatter - the Formatter to use (may not be null)
+Throws:
+SecurityException - if a security manager exists and if
+             the caller does not have LoggingPermission(""control"").
+
+
+"
+5,Level,1,String getName(),True,,"
+
+getName
+public String getName()
+Return the non-localized string name of the Level.
+
+Returns:
+non-localized name
+
+
+"
+5,Level,2,int intValue(),True,,"
+
+intValue
+public final int intValue()
+Get the integer value for this level.  This integer value
+ can be used for efficient ordering comparisons between
+ Level objects.
+
+Returns:
+the integer value for this level.
+
+
+"
+5,Level,3,boolean equals(Object ox),True,,"
+
+equals
+public boolean equals(Object ox)
+Compare two objects for value equality.
+
+Overrides:
+equals in class Object
+Parameters:
+ox - the reference object with which to compare.
+Returns:
+true if and only if the two objects have the same level value.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+5,Level,4,int hashCode(),True,,"
+
+hashCode
+public int hashCode()
+Generate a hashcode.
+
+Overrides:
+hashCode in class Object
+Returns:
+a hashcode based on the level value
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+5,Level,5,String toString(),True,,"
+
+toString
+public final String toString()
+Returns a string representation of this Level.
+
+Overrides:
+toString in class Object
+Returns:
+the non-localized name of the Level, for example ""INFO"".
+
+
+"
+6,Logger,1,"void log(Level level, String msg)",True,,"
+
+log
+public void log(Level level,
+                String msg)
+Log a message, with no arguments.
+ 
+ If the logger is currently enabled for the given message
+ level then the given message is forwarded to all the
+ registered output Handler objects.
+ 
+
+Parameters:
+level - One of the message level identifiers, e.g., SEVERE
+msg - The string message (or a key in the message catalog)
+
+
+"
+6,Logger,2,"void log(Level level, String msg, Object param)",True,,"
+
+log
+public void log(Level level,
+                String msg,
+                Object param1)
+Log a message, with one object parameter.
+ 
+ If the logger is currently enabled for the given message
+ level then a corresponding LogRecord is created and forwarded
+ to all the registered output Handler objects.
+ 
+
+Parameters:
+level - One of the message level identifiers, e.g., SEVERE
+msg - The string message (or a key in the message catalog)
+param1 - parameter to the message
+
+
+"
+6,Logger,3,"void log(Level level, String msg, Object[] params)",True,,"
+
+log
+public void log(Level level,
+                String msg,
+                Object[] params)
+Log a message, with an array of object arguments.
+ 
+ If the logger is currently enabled for the given message
+ level then a corresponding LogRecord is created and forwarded
+ to all the registered output Handler objects.
+ 
+
+Parameters:
+level - One of the message level identifiers, e.g., SEVERE
+msg - The string message (or a key in the message catalog)
+params - array of parameters to the message
+
+
+"
+6,Logger,4,"void log(Level level, String msg, Throwable thrown)",True,,"
+
+log
+public void log(Level level,
+                String msg,
+                Throwable thrown)
+Log a message, with associated Throwable information.
+ 
+ If the logger is currently enabled for the given message
+ level then the given arguments are stored in a LogRecord
+ which is forwarded to all registered output handlers.
+ 
+ Note that the thrown argument is stored in the LogRecord thrown
+ property, rather than the LogRecord parameters property.  Thus it is
+ processed specially by output Formatters and is not treated
+ as a formatting parameter to the LogRecord message property.
+ 
+
+Parameters:
+level - One of the message level identifiers, e.g., SEVERE
+msg - The string message (or a key in the message catalog)
+thrown - Throwable associated with log message.
+
+
+"
+6,Logger,5,void setLevel(Level newLevel),True,,"
+
+setLevel
+public void setLevel(Level newLevel)
+              throws SecurityException
+Set the log level specifying which message levels will be
+ logged by this logger.  Message levels lower than this
+ value will be discarded.  The level value Level.OFF
+ can be used to turn off logging.
+ 
+ If the new level is null, it means that this node should
+ inherit its level from its nearest ancestor with a specific
+ (non-null) level value.
+
+Parameters:
+newLevel - the new value for the log level (may be null)
+Throws:
+SecurityException - if a security manager exists,
+          this logger is not anonymous, and the caller
+          does not have LoggingPermission(""control"").
+
+
+"
+7,LoggingPermission,1,String getName(),False,,NULL
+7,LoggingPermission,2,boolean implies(Permission permission),False,,NULL
+7,LoggingPermission,3,void checkGuard(Object object),False,,NULL
+7,LoggingPermission,4,int hashCode(),False,,NULL
+7,LoggingPermission,5,String getActions(),False,,NULL
+8,LogManager,1,Logger getLogger(String name),True,,"
+
+getLogger
+public Logger getLogger(String name)
+Method to find a named logger.
+ 
+ Note that since untrusted code may create loggers with
+ arbitrary names this method should not be relied on to
+ find Loggers for security sensitive logging.
+ It is also important to note that the Logger associated with the
+ String name may be garbage collected at any time if there
+ is no strong reference to the Logger. The caller of this method
+ must check the return value for null in order to properly handle
+ the case where the Logger has been garbage collected.
+ 
+
+Parameters:
+name - name of the logger
+Returns:
+matching logger or null if none is found
+
+
+"
+8,LogManager,2,Enumeration<String> getLoggerNames(),True,,"
+
+getLoggerNames
+public Enumeration<String> getLoggerNames()
+Get an enumeration of known logger names.
+ 
+ Note:  Loggers may be added dynamically as new classes are loaded.
+ This method only reports on the loggers that are currently registered.
+ It is also important to note that this method only returns the name
+ of a Logger, not a strong reference to the Logger itself.
+ The returned String does nothing to prevent the Logger from being
+ garbage collected. In particular, if the returned name is passed
+ to LogManager.getLogger(), then the caller must check the
+ return value from LogManager.getLogger() for null to properly
+ handle the case where the Logger has been garbage collected in the
+ time since its name was returned by this method.
+ 
+
+Returns:
+enumeration of logger name strings
+
+
+"
+8,LogManager,3,void readConfiguration(),True,,"
+
+readConfiguration
+public void readConfiguration()
+                       throws IOException,
+                              SecurityException
+Reinitialize the logging properties and reread the logging configuration.
+ 
+ The same rules are used for locating the configuration properties
+ as are used at startup.  So normally the logging properties will
+ be re-read from the same file that was used at startup.
+ 
+ Any log level definitions in the new configuration file will be
+ applied using Logger.setLevel(), if the target Logger exists.
+ 
+ A PropertyChangeEvent will be fired after the properties are read.
+
+Throws:
+SecurityException - if a security manager exists and if
+             the caller does not have LoggingPermission(""control"").
+IOException - if there are IO problems reading the configuration.
+
+
+"
+8,LogManager,4,void reset(),True,,"
+
+reset
+public void reset()
+           throws SecurityException
+Reset the logging configuration.
+ 
+ For all named loggers, the reset operation removes and closes
+ all Handlers and (except for the root logger) sets the level
+ to null.  The root logger's level is set to Level.INFO.
+
+Throws:
+SecurityException - if a security manager exists and if
+             the caller does not have LoggingPermission(""control"").
+
+
+"
+8,LogManager,5,void addLogger(Logger logger),False,,NULL
+9,LogRecord,1,Level getLevel(),True,,"
+
+getLevel
+public Level getLevel()
+Get the logging message level, for example Level.SEVERE.
+
+Returns:
+the logging message level
+
+
+"
+9,LogRecord,2,String getLoggerName(),True,,"
+
+getLoggerName
+public String getLoggerName()
+Get the source Logger's name.
+
+Returns:
+source logger name (may be null)
+
+
+"
+9,LogRecord,3,long getMillis(),True,,"
+
+getMillis
+public long getMillis()
+Get event time in milliseconds since 1970.
+
+Returns:
+event time in millis since 1970
+
+
+"
+9,LogRecord,4,String getMessage(),True,,"
+
+getMessage
+public String getMessage()
+Get the ""raw"" log message, before localization or formatting.
+ 
+ May be null, which is equivalent to the empty string """".
+ 
+ This message may be either the final text or a localization key.
+ 
+ During formatting, if the source logger has a localization
+ ResourceBundle and if that ResourceBundle has an entry for
+ this message string, then the message string is replaced
+ with the localized value.
+
+Returns:
+the raw message string
+
+
+"
+9,LogRecord,5,Throwable getThrown(),True,,"
+
+getThrown
+public Throwable getThrown()
+Get any throwable associated with the log record.
+ 
+ If the event involved an exception, this will be the
+ exception object. Otherwise null.
+
+Returns:
+a throwable
+
+
+"
+10,MemoryHandler,1,void push():,True,,"
+
+push
+public void push()
+Push any buffered output to the target Handler.
+ 
+ The buffer is then cleared.
+
+"
+10,MemoryHandler,2,void flush():,True,,"
+
+flush
+public void flush()
+Causes a flush on the target Handler.
+ 
+ Note that the current contents of the MemoryHandler
+ buffer are not written out.  That requires a ""push"".
+
+Specified by:
+flush in class Handler
+
+
+"
+10,MemoryHandler,3,int getPushLevel():,False,,NULL
+10,MemoryHandler,4,void setPushLevel(Level newLevel):,True,,"
+
+setPushLevel
+public void setPushLevel(Level newLevel)
+                  throws SecurityException
+Set the pushLevel.  After a LogRecord is copied
+ into our internal buffer, if its level is greater than or equal to
+ the pushLevel, then push will be called.
+
+Parameters:
+newLevel - the new value of the pushLevel
+Throws:
+SecurityException - if a security manager exists and if
+             the caller does not have LoggingPermission(""control"").
+
+
+"
+10,MemoryHandler,5,boolean isLoggable(LogRecord record):,True,,"
+
+isLoggable
+public boolean isLoggable(LogRecord record)
+Check if this Handler would actually log a given
+ LogRecord into its internal buffer.
+ 
+ This method checks if the LogRecord has an appropriate level and
+ whether it satisfies any Filter.  However it does not
+ check whether the LogRecord would result in a ""push"" of the
+ buffer contents. It will return false if the LogRecord is null.
+ 
+
+Overrides:
+isLoggable in class Handler
+Parameters:
+record - a LogRecord
+Returns:
+true if the LogRecord would be logged.
+
+
+"
+11,SimpleFormatter,1,String format(LogRecord record),True,,"
+
+format
+public String format(LogRecord record)
+Format the given LogRecord.
+ 
+ The formatting can be customized by specifying the
+ format string
+ in the 
+java.util.logging.SimpleFormatter.format property.
+ The given LogRecord will be formatted as if by calling:
+ 
+    String.format(format, date, source, logger, level, message, thrown);
+ 
+ where the arguments are:
+
+format - the java.util.Formatter format string specified in the
+     java.util.logging.SimpleFormatter.format property
+     or the default format.
+date - a Date object representing
+     event time of the log record.
+source - a string representing the caller, if available;
+     otherwise, the logger's name.
+logger - the logger's name.
+level - the log level.
+message - the formatted log message
+     returned from the Formatter.formatMessage(LogRecord)
+     method.  It uses java.text
+     formatting and does not use the java.util.Formatter
+     format argument.
+thrown - a string representing
+     the throwable
+     associated with the log record and its backtrace
+     beginning with a newline character, if any;
+     otherwise, an empty string.
+
+Some example formats:
+
+ java.util.logging.SimpleFormatter.format=""%4$s: %5$s [%1$tc]%n""
+This prints 1 line with the log level (4$),
+     the log message (5$) and the timestamp (1$) in
+     a square bracket.
+     
+     WARNING: warning message [Tue Mar 22 13:11:31 PDT 2011]
+     
+ java.util.logging.SimpleFormatter.format=""%1$tc %2$s%n%4$s: %5$s%6$s%n""
+This prints 2 lines where the first line includes
+     the timestamp (1$) and the source (2$);
+     the second line includes the log level (4$) and
+     the log message (5$) followed with the throwable
+     and its backtrace (6$), if any:
+     
+     Tue Mar 22 13:11:31 PDT 2011 MyClass fatal
+     SEVERE: several message with an exception
+     java.lang.IllegalArgumentException: invalid argument
+             at MyClass.mash(MyClass.java:9)
+             at MyClass.crunch(MyClass.java:6)
+             at MyClass.main(MyClass.java:3)
+     
+ java.util.logging.SimpleFormatter.format=""%1$tb %1$td, %1$tY %1$tl:%1$tM:%1$tS %1$Tp %2$s%n%4$s: %5$s%n""
+This prints 2 lines similar to the example above
+         with a different date/time formatting and does not print
+         the throwable and its backtrace:
+     
+     Mar 22, 2011 1:11:31 PM MyClass fatal
+     SEVERE: several message with an exception
+     
+
+This method can also be overridden in a subclass.
+ It is recommended to use the Formatter.formatMessage(java.util.logging.LogRecord)
+ convenience method to localize and format the message field.
+
+Specified by:
+format in class Formatter
+Parameters:
+record - the log record to be formatted.
+Returns:
+a formatted log record
+
+
+"
+11,SimpleFormatter,2,void setDateFormat(String newFormat),False,,NULL
+11,SimpleFormatter,3,"void setLevelNameMapping(Map<Level, String> mapping)",False,,NULL
+11,SimpleFormatter,4,void setFormat(String newFormat),False,,NULL
+11,SimpleFormatter,5,void setLocale(Locale newLocale),False,,NULL
+12,SocketHandler,1,void close(),True,,"
+
+close
+public void close()
+           throws SecurityException
+Close this output stream.
+
+Overrides:
+close in class StreamHandler
+Throws:
+SecurityException - if a security manager exists and if
+             the caller does not have LoggingPermission(""control"").
+
+
+"
+12,SocketHandler,2,void flush(),False,,NULL
+12,SocketHandler,3,void publish(LogRecord record),True,,"
+
+publish
+public void publish(LogRecord record)
+Format and publish a LogRecord.
+
+Overrides:
+publish in class StreamHandler
+Parameters:
+record - description of the log event. A null record is
+                 silently ignored and is not published
+
+
+"
+12,SocketHandler,4,void setEncoding(String encoding),False,,NULL
+12,SocketHandler,5,void setSocket(Socket socket),False,,NULL
+13,StreamHandler,1,void setOutputStream(OutputStream out),True,,"
+
+setOutputStream
+protected void setOutputStream(OutputStream out)
+                        throws SecurityException
+Change the output stream.
+ 
+ If there is a current output stream then the Formatter's
+ tail string is written and the stream is flushed and closed.
+ Then the output stream is replaced with the new output stream.
+
+Parameters:
+out - New output stream.  May not be null.
+Throws:
+SecurityException - if a security manager exists and if
+             the caller does not have LoggingPermission(""control"").
+
+
+"
+13,StreamHandler,2,void setEncoding(String encoding),True,,"
+
+setEncoding
+public void setEncoding(String encoding)
+                 throws SecurityException,
+                        UnsupportedEncodingException
+Set (or change) the character encoding used by this Handler.
+ 
+ The encoding should be set before any LogRecords are written
+ to the Handler.
+
+Overrides:
+setEncoding in class Handler
+Parameters:
+encoding - The name of a supported character encoding.
+        May be null, to indicate the default platform encoding.
+Throws:
+SecurityException - if a security manager exists and if
+             the caller does not have LoggingPermission(""control"").
+UnsupportedEncodingException - if the named encoding is
+          not supported.
+
+
+"
+13,StreamHandler,3,void setFormatter(Formatter newFormatter),False,,NULL
+13,StreamHandler,4,void setLevel(Level newLevel),False,,NULL
+13,StreamHandler,5,void flush(),True,,"
+
+flush
+public void flush()
+Flush any buffered messages.
+
+Specified by:
+flush in class Handler
+
+
+"
+14,XMLFormatter,1,String getHead(Handler h),True,,"
+
+getHead
+public String getHead(Handler h)
+Return the header string for a set of XML formatted records.
+
+Overrides:
+getHead in class Formatter
+Parameters:
+h - The target handler (can be null)
+Returns:
+a valid XML string
+
+
+"
+14,XMLFormatter,2,String getTail(Handler h),True,,"
+
+getTail
+public String getTail(Handler h)
+Return the tail string for a set of XML formatted records.
+
+Overrides:
+getTail in class Formatter
+Parameters:
+h - The target handler (can be null)
+Returns:
+a valid XML string
+
+
+"
+14,XMLFormatter,3,String format(LogRecord record),True,,"
+
+format
+public String format(LogRecord record)
+Format the given message to XML.
+ 
+ This method can be overridden in a subclass.
+ It is recommended to use the Formatter.formatMessage(java.util.logging.LogRecord)
+ convenience method to localize and format the message field.
+
+Specified by:
+format in class Formatter
+Parameters:
+record - the log record to be formatted.
+Returns:
+a formatted log record
+
+
+"
+14,XMLFormatter,4,String formatMessage(LogRecord record),False,,NULL

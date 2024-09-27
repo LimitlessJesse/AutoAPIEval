@@ -1,0 +1,996 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Files,1,"Path createDirectory(Path dir, FileAttribute<?>... attrs)",True,Creates a new directory.,"
+
+createDirectory
+public static Path createDirectory(Path dir,
+                                   FileAttribute<?>... attrs)
+                            throws IOException
+Creates a new directory. The check for the existence of the file and the
+ creation of the directory if it does not exist are a single operation
+ that is atomic with respect to all other filesystem activities that might
+ affect the directory. The createDirectories
+ method should be used where it is required to create all nonexistent
+ parent directories first.
+
+  The attrs parameter is optional file-attributes to set atomically when creating the directory. Each
+ attribute is identified by its name. If more
+ than one attribute of the same name is included in the array then all but
+ the last occurrence is ignored.
+
+Parameters:
+dir - the directory to create
+attrs - an optional list of file attributes to set atomically when
+          creating the directory
+Returns:
+the directory
+Throws:
+UnsupportedOperationException - if the array contains an attribute that cannot be set atomically
+          when creating the directory
+FileAlreadyExistsException - if a directory could not otherwise be created because a file of
+          that name already exists (optional specific exception)
+IOException - if an I/O error occurs or the parent directory does not exist
+SecurityException - In the case of the default provider, and a security manager is
+          installed, the checkWrite
+          method is invoked to check write access to the new directory.
+
+
+"
+0,Files,2,"Path createFile(Path path, FileAttribute<?>... attrs)",True,"Creates a new and empty file, failing if the file already exists.","
+
+createFile
+public static Path createFile(Path path,
+                              FileAttribute<?>... attrs)
+                       throws IOException
+Creates a new and empty file, failing if the file already exists. The
+ check for the existence of the file and the creation of the new file if
+ it does not exist are a single operation that is atomic with respect to
+ all other filesystem activities that might affect the directory.
+
+  The attrs parameter is optional file-attributes to set atomically when creating the file. Each attribute
+ is identified by its name. If more than one
+ attribute of the same name is included in the array then all but the last
+ occurrence is ignored.
+
+Parameters:
+path - the path to the file to create
+attrs - an optional list of file attributes to set atomically when
+          creating the file
+Returns:
+the file
+Throws:
+UnsupportedOperationException - if the array contains an attribute that cannot be set atomically
+          when creating the file
+FileAlreadyExistsException - if a file of that name already exists
+          (optional specific exception)
+IOException - if an I/O error occurs or the parent directory does not exist
+SecurityException - In the case of the default provider, and a security manager is
+          installed, the checkWrite
+          method is invoked to check write access to the new file.
+
+
+"
+0,Files,3,"Path copy(Path source, Path target, CopyOption... options)",True,Copy a file to a target file.,"
+
+copy
+public static Path copy(Path source,
+                        Path target,
+                        CopyOption... options)
+                 throws IOException
+Copy a file to a target file.
+
+  This method copies a file to the target file with the options parameter specifying how the copy is performed. By default, the
+ copy fails if the target file already exists or is a symbolic link,
+ except if the source and target are the same file, in
+ which case the method completes without copying the file. File attributes
+ are not required to be copied to the target file. If symbolic links are
+ supported, and the file is a symbolic link, then the final target of the
+ link is copied. If the file is a directory then it creates an empty
+ directory in the target location (entries in the directory are not
+ copied). This method can be used with the walkFileTree method to copy a directory and all entries in the directory,
+ or an entire file-tree where required.
+
+  The options parameter may include any of the following:
+
+ 
+ Option Description 
+
+ REPLACE_EXISTING 
+ If the target file exists, then the target file is replaced if it
+     is not a non-empty directory. If the target file exists and is a
+     symbolic link, then the symbolic link itself, not the target of
+     the link, is replaced. 
+
+
+ COPY_ATTRIBUTES 
+ Attempts to copy the file attributes associated with this file to
+     the target file. The exact file attributes that are copied is platform
+     and file system dependent and therefore unspecified. Minimally, the
+     last-modified-time is
+     copied to the target file if supported by both the source and target
+     file stores. Copying of file timestamps may result in precision
+     loss. 
+
+
+ NOFOLLOW_LINKS 
+ Symbolic links are not followed. If the file is a symbolic link,
+     then the symbolic link itself, not the target of the link, is copied.
+     It is implementation specific if file attributes can be copied to the
+     new link. In other words, the COPY_ATTRIBUTES option may be
+     ignored when copying a symbolic link. 
+
+
+ An implementation of this interface may support additional
+ implementation specific options.
+
+  Copying a file is not an atomic operation. If an IOException
+ is thrown, then it is possible that the target file is incomplete or some
+ of its file attributes have not been copied from the source file. When
+ the REPLACE_EXISTING option is specified and the target file
+ exists, then the target file is replaced. The check for the existence of
+ the file and the creation of the new file may not be atomic with respect
+ to other file system activities.
+
+  Usage Example:
+ Suppose we want to copy a file into a directory, giving it the same file
+ name as the source file:
+ 
+     Path source = ...
+     Path newdir = ...
+     Files.copy(source, newdir.resolve(source.getFileName());
+ 
+
+Parameters:
+source - the path to the file to copy
+target - the path to the target file (may be associated with a different
+          provider to the source path)
+options - options specifying how the copy should be done
+Returns:
+the path to the target file
+Throws:
+UnsupportedOperationException - if the array contains a copy option that is not supported
+FileAlreadyExistsException - if the target file exists but cannot be replaced because the
+          REPLACE_EXISTING option is not specified (optional
+          specific exception)
+DirectoryNotEmptyException - the REPLACE_EXISTING option is specified but the file
+          cannot be replaced because it is a non-empty directory
+          (optional specific exception)
+IOException - if an I/O error occurs
+SecurityException - In the case of the default provider, and a security manager is
+          installed, the checkRead
+          method is invoked to check read access to the source file, the
+          checkWrite is invoked
+          to check write access to the target file. If a symbolic link is
+          copied the security manager is invoked to check LinkPermission(""symbolic"").
+
+
+"
+0,Files,4,"Path move(Path source, Path target, CopyOption... options)",True,Move or rename a file to a target file.,"
+
+move
+public static Path move(Path source,
+                        Path target,
+                        CopyOption... options)
+                 throws IOException
+Move or rename a file to a target file.
+
+  By default, this method attempts to move the file to the target
+ file, failing if the target file exists except if the source and
+ target are the same file, in which case this method
+ has no effect. If the file is a symbolic link then the symbolic link
+ itself, not the target of the link, is moved. This method may be
+ invoked to move an empty directory. In some implementations a directory
+ has entries for special files or links that are created when the
+ directory is created. In such implementations a directory is considered
+ empty when only the special entries exist. When invoked to move a
+ directory that is not empty then the directory is moved if it does not
+ require moving the entries in the directory.  For example, renaming a
+ directory on the same FileStore will usually not require moving
+ the entries in the directory. When moving a directory requires that its
+ entries be moved then this method fails (by throwing an IOException). To move a file tree may involve copying rather
+ than moving directories and this can be done using the copy method in conjunction with the Files.walkFileTree utility method.
+
+  The options parameter may include any of the following:
+
+ 
+ Option Description 
+
+ REPLACE_EXISTING 
+ If the target file exists, then the target file is replaced if it
+     is not a non-empty directory. If the target file exists and is a
+     symbolic link, then the symbolic link itself, not the target of
+     the link, is replaced. 
+
+
+ ATOMIC_MOVE 
+ The move is performed as an atomic file system operation and all
+     other options are ignored. If the target file exists then it is
+     implementation specific if the existing file is replaced or this method
+     fails by throwing an IOException. If the move cannot be
+     performed as an atomic file system operation then AtomicMoveNotSupportedException is thrown. This can arise, for
+     example, when the target location is on a different FileStore
+     and would require that the file be copied, or target location is
+     associated with a different provider to this object. 
+
+ An implementation of this interface may support additional
+ implementation specific options.
+
+  Moving a file will copy the last-modified-time to the target
+ file if supported by both source and target file stores. Copying of file
+ timestamps may result in precision loss. An implementation may also
+ attempt to copy other file attributes but is not required to fail if the
+ file attributes cannot be copied. When the move is performed as
+ a non-atomic operation, and an IOException is thrown, then the
+ state of the files is not defined. The original file and the target file
+ may both exist, the target file may be incomplete or some of its file
+ attributes may not been copied from the original file.
+
+  Usage Examples:
+ Suppose we want to rename a file to ""newname"", keeping the file in the
+ same directory:
+ 
+     Path source = ...
+     Files.move(source, source.resolveSibling(""newname""));
+ 
+ Alternatively, suppose we want to move a file to new directory, keeping
+ the same file name, and replacing any existing file of that name in the
+ directory:
+ 
+     Path source = ...
+     Path newdir = ...
+     Files.move(source, newdir.resolve(source.getFileName()), REPLACE_EXISTING);
+ 
+
+Parameters:
+source - the path to the file to move
+target - the path to the target file (may be associated with a different
+          provider to the source path)
+options - options specifying how the move should be done
+Returns:
+the path to the target file
+Throws:
+UnsupportedOperationException - if the array contains a copy option that is not supported
+FileAlreadyExistsException - if the target file exists but cannot be replaced because the
+          REPLACE_EXISTING option is not specified (optional
+          specific exception)
+DirectoryNotEmptyException - the REPLACE_EXISTING option is specified but the file
+          cannot be replaced because it is a non-empty directory
+          (optional specific exception)
+AtomicMoveNotSupportedException - if the options array contains the ATOMIC_MOVE option but
+          the file cannot be moved as an atomic file system operation.
+IOException - if an I/O error occurs
+SecurityException - In the case of the default provider, and a security manager is
+          installed, the checkWrite
+          method is invoked to check write access to both the source and
+          target file.
+
+
+"
+0,Files,5,boolean delete(Path path),False,,NULL
+0,Files,6,"boolean exists(Path path, LinkOption... options)",True,Tests whether a file exists.,"
+
+exists
+public static boolean exists(Path path,
+                             LinkOption... options)
+Tests whether a file exists.
+
+  The options parameter may be used to indicate how symbolic links
+ are handled for the case that the file is a symbolic link. By default,
+ symbolic links are followed. If the option NOFOLLOW_LINKS is present then symbolic links are not followed.
+
+  Note that the result of this method is immediately outdated. If this
+ method indicates the file exists then there is no guarantee that a
+ subsequence access will succeed. Care should be taken when using this
+ method in security sensitive applications.
+
+Parameters:
+path - the path to the file to test
+options - options indicating how symbolic links are handled
+ .
+Returns:
+true if the file exists; false if the file does
+          not exist or its existence cannot be determined.
+Throws:
+SecurityException - In the case of the default provider, the SecurityManager.checkRead(String) is invoked to check
+          read access to the file.
+See Also:
+notExists(java.nio.file.Path, java.nio.file.LinkOption...)
+
+
+"
+0,Files,7,"boolean isDirectory(Path path, LinkOption... options)",True,Tests whether a file is a directory.,"
+
+isDirectory
+public static boolean isDirectory(Path path,
+                                  LinkOption... options)
+Tests whether a file is a directory.
+
+  The options array may be used to indicate how symbolic links
+ are handled for the case that the file is a symbolic link. By default,
+ symbolic links are followed and the file attribute of the final target
+ of the link is read. If the option NOFOLLOW_LINKS is present then symbolic links are not followed.
+
+  Where it is required to distinguish an I/O exception from the case
+ that the file is not a directory then the file attributes can be
+ read with the readAttributes method and the file type tested with the BasicFileAttributes.isDirectory() method.
+
+Parameters:
+path - the path to the file to test
+options - options indicating how symbolic links are handled
+Returns:
+true if the file is a directory; false if
+          the file does not exist, is not a directory, or it cannot
+          be determined if the file is a directory or not.
+Throws:
+SecurityException - In the case of the default provider, and a security manager is
+          installed, its checkRead
+          method denies read access to the file.
+
+
+"
+0,Files,8,"boolean isRegularFile(Path path, LinkOption... options)",True,Tests whether a file is a regular file with opaque content.,"
+
+isRegularFile
+public static boolean isRegularFile(Path path,
+                                    LinkOption... options)
+Tests whether a file is a regular file with opaque content.
+
+  The options array may be used to indicate how symbolic links
+ are handled for the case that the file is a symbolic link. By default,
+ symbolic links are followed and the file attribute of the final target
+ of the link is read. If the option NOFOLLOW_LINKS is present then symbolic links are not followed.
+
+  Where it is required to distinguish an I/O exception from the case
+ that the file is not a regular file then the file attributes can be
+ read with the readAttributes method and the file type tested with the BasicFileAttributes.isRegularFile() method.
+
+Parameters:
+path - the path to the file
+options - options indicating how symbolic links are handled
+Returns:
+true if the file is a regular file; false if
+          the file does not exist, is not a regular file, or it
+          cannot be determined if the file is a regular file or not.
+Throws:
+SecurityException - In the case of the default provider, and a security manager is
+          installed, its checkRead
+          method denies read access to the file.
+
+
+"
+0,Files,9,boolean isSymbolicLink(Path path),True,Tests whether a file is a symbolic link.,"
+
+isSymbolicLink
+public static boolean isSymbolicLink(Path path)
+Tests whether a file is a symbolic link.
+
+  Where it is required to distinguish an I/O exception from the case
+ that the file is not a symbolic link then the file attributes can be
+ read with the readAttributes method and the file type tested with the BasicFileAttributes.isSymbolicLink() method.
+
+Parameters:
+path - The path to the file
+Returns:
+true if the file is a symbolic link; false if
+          the file does not exist, is not a symbolic link, or it cannot
+          be determined if the file is a symbolic link or not.
+Throws:
+SecurityException - In the case of the default provider, and a security manager is
+          installed, its checkRead
+          method denies read access to the file.
+
+
+"
+0,Files,10,boolean isHidden(Path path),True,Tells whether or not a file is considered hidden.,"
+
+isHidden
+public static boolean isHidden(Path path)
+                        throws IOException
+Tells whether or not a file is considered hidden. The exact
+ definition of hidden is platform or provider dependent. On UNIX for
+ example a file is considered to be hidden if its name begins with a
+ period character ('.'). On Windows a file is considered hidden if it
+ isn't a directory and the DOS hidden
+ attribute is set.
+
+  Depending on the implementation this method may require to access
+ the file system to determine if the file is considered hidden.
+
+Parameters:
+path - the path to the file to test
+Returns:
+true if the file is considered hidden
+Throws:
+IOException - if an I/O error occurs
+SecurityException - In the case of the default provider, and a security manager is
+          installed, the checkRead
+          method is invoked to check read access to the file.
+
+
+"
+0,Files,11,"FileTime getLastModifiedTime(Path path, LinkOption... options)",True,Returns a file's last modified time.,"
+
+getLastModifiedTime
+public static FileTime getLastModifiedTime(Path path,
+                                           LinkOption... options)
+                                    throws IOException
+Returns a file's last modified time.
+
+  The options array may be used to indicate how symbolic links
+ are handled for the case that the file is a symbolic link. By default,
+ symbolic links are followed and the file attribute of the final target
+ of the link is read. If the option NOFOLLOW_LINKS is present then symbolic links are not followed.
+
+Parameters:
+path - the path to the file
+options - options indicating how symbolic links are handled
+Returns:
+a FileTime representing the time the file was last
+          modified, or an implementation specific default when a time
+          stamp to indicate the time of last modification is not supported
+          by the file system
+Throws:
+IOException - if an I/O error occurs
+SecurityException - In the case of the default provider, and a security manager is
+          installed, its checkRead
+          method denies read access to the file.
+See Also:
+BasicFileAttributes.lastModifiedTime()
+
+
+"
+0,Files,12,"FileTime getLastAccessTime(Path path, LinkOption... options)",False,,NULL
+0,Files,13,"FileTime getCreationTime(Path path, LinkOption... options)",False,,NULL
+0,Files,14,"FileAttributeView readAttributes(Path path, Class<? extends FileAttributeView> type, LinkOption... options)",False,,NULL
+0,Files,15,"void setAttribute(Path path, String attribute, Object value, LinkOption... options)",False,,NULL
+0,Files,16,"Object getAttribute(Path path, String attribute, LinkOption... options)",True,Reads the value of a file attribute.,"
+
+getAttribute
+public static Object getAttribute(Path path,
+                                  String attribute,
+                                  LinkOption... options)
+                           throws IOException
+Reads the value of a file attribute.
+
+  The attribute parameter identifies the attribute to be read
+ and takes the form:
+ 
+ [view-name:]attribute-name
+
+ where square brackets [...] delineate an optional component and the
+ character ':' stands for itself.
+
+  view-name is the name of a FileAttributeView that identifies a set of file attributes. If not
+ specified then it defaults to ""basic"", the name of the file
+ attribute view that identifies the basic set of file attributes common to
+ many file systems. attribute-name is the name of the attribute.
+
+  The options array may be used to indicate how symbolic links
+ are handled for the case that the file is a symbolic link. By default,
+ symbolic links are followed and the file attribute of the final target
+ of the link is read. If the option NOFOLLOW_LINKS is present then symbolic links are not followed.
+
+  Usage Example:
+ Suppose we require the user ID of the file owner on a system that
+ supports a ""unix"" view:
+ 
+    Path path = ...
+    int uid = (Integer)Files.getAttribute(path, ""unix:uid"");
+ 
+
+Parameters:
+path - the path to the file
+attribute - the attribute to read
+options - options indicating how symbolic links are handled
+Returns:
+the attribute value
+Throws:
+UnsupportedOperationException - if the attribute view is not available
+IllegalArgumentException - if the attribute name is not specified or is not recognized
+IOException - if an I/O error occurs
+SecurityException - In the case of the default provider, and a security manager is
+          installed, its checkRead
+          method denies read access to the file. If this method is invoked
+          to read security sensitive attributes then the security manager
+          may be invoked to check for additional permissions.
+
+
+"
+0,Files,17,"Stream<Path> walk(Path start, FileVisitOption... options)",True,Return a Stream that is lazily populated with Path by walking the file tree rooted at a given starting file.,"
+
+walk
+public static Stream<Path> walk(Path start,
+                                FileVisitOption... options)
+                         throws IOException
+Return a Stream that is lazily populated with Path by walking the file tree rooted at a given starting file.  The
+ file tree is traversed depth-first, the elements in the stream
+ are Path objects that are obtained as if by resolving the relative path against start.
+
+  This method works as if invoking it were equivalent to evaluating the
+ expression:
+ 
+ walk(start, Integer.MAX_VALUE, options)
+ 
+ In other words, it visits all levels of the file tree.
+
+  The returned stream encapsulates one or more DirectoryStreams.
+ If timely disposal of file system resources is required, the
+ try-with-resources construct should be used to ensure that the
+ stream's close method is invoked after the stream
+ operations are completed.  Operating on a closed stream will result in an
+ IllegalStateException.
+
+Parameters:
+start - the starting file
+options - options to configure the traversal
+Returns:
+the Stream of Path
+Throws:
+SecurityException - If the security manager denies access to the starting file.
+          In the case of the default provider, the checkRead method is invoked
+          to check read access to the directory.
+IOException - if an I/O error is thrown when accessing the starting file.
+Since:
+1.8
+See Also:
+walk(Path, int, FileVisitOption...)
+
+
+"
+0,Files,18,"Stream<Path> find(Path start, int maxDepth, BiPredicate<? super Path,BasicFileAttributes> matcher, FileVisitOption... options)",False,,NULL
+0,Files,19,Path getPath(URI uri),False,,NULL
+0,Files,20,URI toUri(Path path),False,,NULL
+0,Files,21,Path getTempDirectory(),False,,NULL
+0,Files,22,"Path createTempFile(String prefix, String suffix, FileAttribute<?>... attrs)",True,"Creates an empty file in the default temporary-file directory, using the given prefix and suffix to generate its name.","
+
+createTempFile
+public static Path createTempFile(String prefix,
+                                  String suffix,
+                                  FileAttribute<?>... attrs)
+                           throws IOException
+Creates an empty file in the default temporary-file directory, using
+ the given prefix and suffix to generate its name. The resulting Path is associated with the default FileSystem.
+
+  This method works in exactly the manner specified by the
+ createTempFile(Path,String,String,FileAttribute[]) method for
+ the case that the dir parameter is the temporary-file directory.
+
+Parameters:
+prefix - the prefix string to be used in generating the file's name;
+          may be null
+suffix - the suffix string to be used in generating the file's name;
+          may be null, in which case "".tmp"" is used
+attrs - an optional list of file attributes to set atomically when
+          creating the file
+Returns:
+the path to the newly created file that did not exist before
+          this method was invoked
+Throws:
+IllegalArgumentException - if the prefix or suffix parameters cannot be used to generate
+          a candidate file name
+UnsupportedOperationException - if the array contains an attribute that cannot be set atomically
+          when creating the directory
+IOException - if an I/O error occurs or the temporary-file directory does not
+          exist
+SecurityException - In the case of the default provider, and a security manager is
+          installed, the checkWrite
+          method is invoked to check write access to the file.
+
+
+"
+0,Files,23,"Path createTempDirectory(String prefix, FileAttribute<?>... attrs)",True,"Creates a new directory in the default temporary-file directory, using the given prefix to generate its name.","
+
+createTempDirectory
+public static Path createTempDirectory(String prefix,
+                                       FileAttribute<?>... attrs)
+                                throws IOException
+Creates a new directory in the default temporary-file directory, using
+ the given prefix to generate its name. The resulting Path is
+ associated with the default FileSystem.
+
+  This method works in exactly the manner specified by createTempDirectory(Path,String,FileAttribute[]) method for the case
+ that the dir parameter is the temporary-file directory.
+
+Parameters:
+prefix - the prefix string to be used in generating the directory's name;
+          may be null
+attrs - an optional list of file attributes to set atomically when
+          creating the directory
+Returns:
+the path to the newly created directory that did not exist before
+          this method was invoked
+Throws:
+IllegalArgumentException - if the prefix cannot be used to generate a candidate directory name
+UnsupportedOperationException - if the array contains an attribute that cannot be set atomically
+          when creating the directory
+IOException - if an I/O error occurs or the temporary-file directory does not
+          exist
+SecurityException - In the case of the default provider, and a security manager is
+          installed, the checkWrite
+          method is invoked to check write access when creating the
+          directory.
+
+
+"
+0,Files,24,"Path createLink(Path existing, Path link)",True,Creates a new link (directory entry) for an existing file (optional operation).,"
+
+createLink
+public static Path createLink(Path link,
+                              Path existing)
+                       throws IOException
+Creates a new link (directory entry) for an existing file (optional
+ operation).
+
+  The link parameter locates the directory entry to create.
+ The existing parameter is the path to an existing file. This
+ method creates a new directory entry for the file so that it can be
+ accessed using link as the path. On some file systems this is
+ known as creating a ""hard link"". Whether the file attributes are
+ maintained for the file or for each directory entry is file system
+ specific and therefore not specified. Typically, a file system requires
+ that all links (directory entries) for a file be on the same file system.
+ Furthermore, on some platforms, the Java virtual machine may require to
+ be started with implementation specific privileges to create hard links
+ or to create links to directories.
+
+Parameters:
+link - the link (directory entry) to create
+existing - a path to an existing file
+Returns:
+the path to the link (directory entry)
+Throws:
+UnsupportedOperationException - if the implementation does not support adding an existing file
+          to a directory
+FileAlreadyExistsException - if the entry could not otherwise be created because a file of
+          that name already exists (optional specific exception)
+IOException - if an I/O error occurs
+SecurityException - In the case of the default provider, and a security manager
+          is installed, it denies LinkPermission(""hard"")
+          or its checkWrite
+          method denies write access to either the link or the
+          existing file.
+
+
+"
+0,Files,25,Path readSymbolicLink(Path link),True,Reads the target of a symbolic link (optional operation).,"
+
+readSymbolicLink
+public static Path readSymbolicLink(Path link)
+                             throws IOException
+Reads the target of a symbolic link (optional operation).
+
+  If the file system supports symbolic
+ links then this method is used to read the target of the link, failing
+ if the file is not a symbolic link. The target of the link need not exist.
+ The returned Path object will be associated with the same file
+ system as link.
+
+Parameters:
+link - the path to the symbolic link
+Returns:
+a Path object representing the target of the link
+Throws:
+UnsupportedOperationException - if the implementation does not support symbolic links
+NotLinkException - if the target could otherwise not be read because the file
+          is not a symbolic link (optional specific exception)
+IOException - if an I/O error occurs
+SecurityException - In the case of the default provider, and a security manager
+          is installed, it checks that FilePermission has been
+          granted with the ""readlink"" action to read the link.
+
+
+"
+0,Files,26,"Path resolve(Path path, String first, String... more)",False,,NULL
+0,Files,27,"Path relativize(Path path, Path relativeTo)",False,,NULL
+0,Files,28,Path normalize(Path path),False,,NULL
+0,Files,29,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,30,Path toAbsolutePath(Path path),False,,NULL
+0,Files,31,Path toUri(Path path),False,,NULL
+0,Files,32,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,33,Path toAbsolutePath(Path path),False,,NULL
+0,Files,34,Path toUri(Path path),False,,NULL
+0,Files,35,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,36,Path toAbsolutePath(Path path),False,,NULL
+0,Files,37,Path toUri(Path path),False,,NULL
+0,Files,38,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,39,Path toAbsolutePath(Path path),False,,NULL
+0,Files,40,Path toUri(Path path),False,,NULL
+0,Files,41,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,42,Path toAbsolutePath(Path path),False,,NULL
+0,Files,43,Path toUri(Path path),False,,NULL
+0,Files,44,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,45,Path toAbsolutePath(Path path),False,,NULL
+0,Files,46,Path toUri(Path path),False,,NULL
+0,Files,47,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,48,Path toAbsolutePath(Path path),False,,NULL
+0,Files,49,Path toUri(Path path),False,,NULL
+0,Files,50,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,51,Path toAbsolutePath(Path path),False,,NULL
+0,Files,52,Path toUri(Path path),False,,NULL
+0,Files,53,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,54,Path toAbsolutePath(Path path),False,,NULL
+0,Files,55,Path toUri(Path path),False,,NULL
+0,Files,56,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,57,Path toAbsolutePath(Path path),False,,NULL
+0,Files,58,Path toUri(Path path),False,,NULL
+0,Files,59,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,60,Path toAbsolutePath(Path path),False,,NULL
+0,Files,61,Path toUri(Path path),False,,NULL
+0,Files,62,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,63,Path toAbsolutePath(Path path),False,,NULL
+0,Files,64,Path toUri(Path path),False,,NULL
+0,Files,65,"Path toRealPath(Path path, LinkOption... options)",False,,NULL
+0,Files,66,Path toAbsolutePath(Path path),False,,NULL
+0,Files,67,Path toUri(Path path),False,,NULL
+1,FileStore,1,long getTotalSpace(),True,"Returns the size, in bytes, of the file store.","
+
+getTotalSpace
+public abstract long getTotalSpace()
+                            throws IOException
+Returns the size, in bytes, of the file store.
+
+Returns:
+the size of the file store, in bytes
+Throws:
+IOException - if an I/O error occurs
+
+
+"
+1,FileStore,2,long getUsableSpace(),True,Returns the number of bytes available to this Java virtual machine on the file store.,"
+
+getUsableSpace
+public abstract long getUsableSpace()
+                             throws IOException
+Returns the number of bytes available to this Java virtual machine on the
+ file store.
+
+  The returned number of available bytes is a hint, but not a
+ guarantee, that it is possible to use most or any of these bytes.  The
+ number of usable bytes is most likely to be accurate immediately
+ after the space attributes are obtained. It is likely to be made inaccurate
+ by any external I/O operations including those made on the system outside
+ of this Java virtual machine.
+
+Returns:
+the number of bytes available
+Throws:
+IOException - if an I/O error occurs
+
+
+"
+1,FileStore,3,long getUnallocatedSpace(),True,Returns the number of unallocated bytes in the file store.,"
+
+getUnallocatedSpace
+public abstract long getUnallocatedSpace()
+                                  throws IOException
+Returns the number of unallocated bytes in the file store.
+
+  The returned number of unallocated bytes is a hint, but not a
+ guarantee, that it is possible to use most or any of these bytes.  The
+ number of unallocated bytes is most likely to be accurate immediately
+ after the space attributes are obtained. It is likely to be
+ made inaccurate by any external I/O operations including those made on
+ the system outside of this virtual machine.
+
+Returns:
+the number of unallocated bytes
+Throws:
+IOException - if an I/O error occurs
+
+
+"
+1,FileStore,4,boolean isReadOnly(),True,Tells whether this file store is read-only.,"
+
+isReadOnly
+public abstract boolean isReadOnly()
+Tells whether this file store is read-only. A file store is read-only if
+ it does not support write operations or other changes to files. Any
+ attempt to create a file, open an existing file for writing etc. causes
+ an IOException to be thrown.
+
+Returns:
+true if, and only if, this file store is read-only
+
+
+"
+1,FileStore,5,String name(),True,Returns the name of this file store.,"
+
+name
+public abstract String name()
+Returns the name of this file store. The format of the name is highly
+ implementation specific. It will typically be the name of the storage
+ pool or volume.
+
+  The string returned by this method may differ from the string
+ returned by the toString method.
+
+Returns:
+the name of this file store
+
+
+"
+2,FileSystem,1,FileSystem getFileSystem(),False,,NULL
+2,FileSystem,2,"Path getPath(String first, String... more)",True,"Converts a path string, or a sequence of strings that when joined form a path string, to a Path.","
+
+getPath
+public abstract Path getPath(String first,
+                             String... more)
+Converts a path string, or a sequence of strings that when joined form
+ a path string, to a Path. If more does not specify any
+ elements then the value of the first parameter is the path string
+ to convert. If more specifies one or more elements then each
+ non-empty string, including first, is considered to be a sequence
+ of name elements (see Path) and is joined to form a path string.
+ The details as to how the Strings are joined is provider specific but
+ typically they will be joined using the name-separator as the separator. For example, if the name separator is
+ ""/"" and getPath(""/foo"",""bar"",""gus"") is invoked, then the
+ path string ""/foo/bar/gus"" is converted to a Path.
+ A Path representing an empty path is returned if first
+ is the empty string and more does not contain any non-empty
+ strings.
+
+  The parsing and conversion to a path object is inherently
+ implementation dependent. In the simplest case, the path string is rejected,
+ and InvalidPathException thrown, if the path string contains
+ characters that cannot be converted to characters that are legal
+ to the file store. For example, on UNIX systems, the NUL (\u0000)
+ character is not allowed to be present in a path. An implementation may
+ choose to reject path strings that contain names that are longer than those
+ allowed by any file store, and where an implementation supports a complex
+ path syntax, it may choose to reject path strings that are badly
+ formed.
+
+  In the case of the default provider, path strings are parsed based
+ on the definition of paths at the platform or virtual file system level.
+ For example, an operating system may not allow specific characters to be
+ present in a file name, but a specific underlying file store may impose
+ different or additional restrictions on the set of legal
+ characters.
+
+  This method throws InvalidPathException when the path string
+ cannot be converted to a path. Where possible, and where applicable,
+ the exception is created with an index value indicating the first position in the path parameter
+ that caused the path string to be rejected.
+
+Parameters:
+first - the path string or initial part of the path string
+more - additional strings to be joined to form the path string
+Returns:
+the resulting Path
+Throws:
+InvalidPathException - If the path string cannot be converted
+
+
+"
+2,FileSystem,3,FileStore getFileStore(Path path),False,,NULL
+2,FileSystem,4,Iterable<Path> getRootDirectories(),True,Returns an object to iterate over the paths of the root directories.,"
+
+getRootDirectories
+public abstract Iterable<Path> getRootDirectories()
+Returns an object to iterate over the paths of the root directories.
+
+  A file system provides access to a file store that may be composed
+ of a number of distinct file hierarchies, each with its own top-level
+ root directory. Unless denied by the security manager, each element in
+ the returned iterator corresponds to the root directory of a distinct
+ file hierarchy. The order of the elements is not defined. The file
+ hierarchies may change during the lifetime of the Java virtual machine.
+ For example, in some implementations, the insertion of removable media
+ may result in the creation of a new file hierarchy with its own
+ top-level directory.
+
+  When a security manager is installed, it is invoked to check access
+ to the each root directory. If denied, the root directory is not returned
+ by the iterator. In the case of the default provider, the SecurityManager.checkRead(String) method is invoked to check read access
+ to each root directory. It is system dependent if the permission checks
+ are done when the iterator is obtained or during iteration.
+
+Returns:
+An object to iterate over the root directories
+
+
+"
+2,FileSystem,5,"Map<String, String> readAttributes(Path path, String... attributes)",False,,NULL
+3,FileSystems,1,FileSystem getFileSystem(),False,,NULL
+3,FileSystems,2,FileSystemProvider getFileSystemProvider(),False,,NULL
+3,FileSystems,3,PathMatcher newPathMatcher(String syntaxAndPattern),False,,NULL
+3,FileSystems,4,"FileSystem newFileSystem(URI uri, Map<String,?> env)",True,Constructs a new file system that is identified by a URI,"
+
+newFileSystem
+public static FileSystem newFileSystem(URI uri,
+                                       Map<String,?> env)
+                                throws IOException
+Constructs a new file system that is identified by a URI
+ This method iterates over the installed providers to locate the provider that is identified by the URI
+ scheme of the given URI. URI schemes are compared
+ without regard to case. The exact form of the URI is highly provider
+ dependent. If found, the provider's newFileSystem(URI,Map) method is invoked to construct the new file system.
+
+  Once a file system is closed it is
+ provider-dependent if the provider allows a new file system to be created
+ with the same URI as a file system it previously created.
+
+  Usage Example:
+ Suppose there is a provider identified by the scheme ""memory""
+ installed:
+ 
+   Map<String,String> env = new HashMap<>();
+   env.put(""capacity"", ""16G"");
+   env.put(""blockSize"", ""4k"");
+   FileSystem fs = FileSystems.newFileSystem(URI.create(""memory:///?name=logfs""), env);
+ 
+
+Parameters:
+uri - the URI identifying the file system
+env - a map of provider specific properties to configure the file system;
+          may be empty
+Returns:
+a new file system
+Throws:
+IllegalArgumentException - if the pre-conditions for the uri parameter are not met,
+          or the env parameter does not contain properties required
+          by the provider, or a property value is invalid
+FileSystemAlreadyExistsException - if the file system has already been created
+ProviderNotFoundException - if a provider supporting the URI scheme is not installed
+IOException - if an I/O error occurs creating the file system
+SecurityException - if a security manager is installed and it denies an unspecified
+          permission required by the file system provider implementation
+
+
+"
+3,FileSystems,5,"FileSystem newFileSystem(URI uri, Map<String,?> env, ClassLoader loader)",True,Constructs a new file system that is identified by a URI,"
+
+newFileSystem
+public static FileSystem newFileSystem(URI uri,
+                                       Map<String,?> env,
+                                       ClassLoader loader)
+                                throws IOException
+Constructs a new file system that is identified by a URI
+ This method first attempts to locate an installed provider in exactly
+ the same manner as the newFileSystem(URI,Map)
+ method. If none of the installed providers support the URI scheme then an
+ attempt is made to locate the provider using the given class loader. If a
+ provider supporting the URI scheme is located then its newFileSystem(URI,Map) is
+ invoked to construct the new file system.
+
+Parameters:
+uri - the URI identifying the file system
+env - a map of provider specific properties to configure the file system;
+          may be empty
+loader - the class loader to locate the provider or null to only
+          attempt to locate an installed provider
+Returns:
+a new file system
+Throws:
+IllegalArgumentException - if the pre-conditions for the uri parameter are not met,
+          or the env parameter does not contain properties required
+          by the provider, or a property value is invalid
+FileSystemAlreadyExistsException - if the URI scheme identifies an installed provider and the file
+          system has already been created
+ProviderNotFoundException - if a provider supporting the URI scheme is not found
+ServiceConfigurationError - when an error occurs while loading a service provider
+IOException - an I/O error occurs creating the file system
+SecurityException - if a security manager is installed and it denies an unspecified
+          permission required by the file system provider implementation
+
+
+"
+4,LinkPermission,1,boolean implies(Permission p),False,,NULL
+4,LinkPermission,2,boolean equals(Object obj),False,,NULL
+4,LinkPermission,3,int hashCode(),False,,NULL
+4,LinkPermission,4,String getActions(),False,,NULL
+4,LinkPermission,5,String toString(),False,,NULL
+5,Paths,1,"Paths.get(String first, String... more)",False,,NULL
+5,Paths,2,Paths.get(URI uri),False,,NULL
+5,Paths,3,Paths.get(File file),False,,NULL
+5,Paths,4,"Paths.get(URI uri, String... more)",False,,NULL
+5,Paths,5,"Paths.get(String first, String... more)",False,,NULL
+6,SimpleFileVisitor,1,"FileVisitResult visitFile(Path file, BasicFileAttributes attrs)",False,,NULL
+6,SimpleFileVisitor,2,"FileVisitResult visitFileFailed(Path file, IOException exc)",False,,NULL
+6,SimpleFileVisitor,3,"FileVisitResult postVisitDirectory(Path dir, IOException exc)",False,,NULL
+6,SimpleFileVisitor,4,"FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)",False,,NULL
+6,SimpleFileVisitor,5,"FileVisitResult visitFile(Path file, ReadOnlyFileAttributeView attrs)",False,,NULL
+7,StandardWatchEventKinds,1,StandardWatchEventKinds.ENTRY_CREATE,False,,NULL
+7,StandardWatchEventKinds,2,StandardWatchEventKinds.ENTRY_DELETE,False,,NULL
+7,StandardWatchEventKinds,3,StandardWatchEventKinds.ENTRY_MODIFY,False,,NULL
+7,StandardWatchEventKinds,4,StandardWatchEventKinds.OVERFLOW,False,,NULL
+7,StandardWatchEventKinds,5,StandardWatchEventKinds.ENTRY_MODIFY,False,,NULL

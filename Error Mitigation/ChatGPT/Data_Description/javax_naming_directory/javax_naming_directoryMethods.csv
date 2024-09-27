@@ -1,0 +1,2003 @@
+ClassName,Method,Return Type,Description,Full Description
+BasicAttribute,"add(int ix, Object attrVal)",void,Adds an attribute value to the ordered list of attribute values.,"
+
+add
+public void add(int ix,
+                Object attrVal)
+Description copied from interface: Attribute
+Adds an attribute value to the ordered list of attribute values.
+ This method adds attrVal to the list of attribute values at
+ index ix.
+ Values located at indices at or greater than ix are
+ shifted down towards the end of the list (and their indices incremented
+ by one).
+ If the attribute values are unordered and already have attrVal,
+ IllegalStateException is thrown.
+
+Specified by:
+add in interface Attribute
+Parameters:
+ix - The index in the ordered list of attribute values to add the new value.
+ 0 <= ix <= size().
+attrVal - The possibly null attribute value to add; if null, null is
+ the value added.
+
+
+"
+BasicAttribute,add(Object attrVal),boolean,Adds a new value to this attribute.,"
+
+add
+public boolean add(Object attrVal)
+Adds a new value to this attribute.
+
+ By default, Object.equals() is used when comparing attrVal
+ with this attribute's values except when attrVal is an array.
+ For an array, each element of the array is checked using
+ Object.equals().
+ A subclass may use schema information to determine equality.
+
+Specified by:
+add in interface Attribute
+Parameters:
+attrVal - The new possibly null value to add. If null, null
+  is added as an attribute value.
+Returns:
+true if a value was added; false otherwise.
+
+
+"
+BasicAttribute,clear(),void,Removes all values from this attribute.,"
+
+clear
+public void clear()
+Description copied from interface: Attribute
+Removes all values from this attribute.
+
+Specified by:
+clear in interface Attribute
+
+
+"
+BasicAttribute,clone(),Object,Creates and returns a copy of this object.,"
+
+clone
+public Object clone()
+Description copied from class: Object
+Creates and returns a copy of this object.  The precise meaning
+ of ""copy"" may depend on the class of the object. The general
+ intent is that, for any object x, the expression:
+ 
+
+ x.clone() != x
+ will be true, and that the expression:
+ 
+
+ x.clone().getClass() == x.getClass()
+ will be true, but these are not absolute requirements.
+ While it is typically the case that:
+ 
+
+ x.clone().equals(x)
+ will be true, this is not an absolute requirement.
+ 
+ By convention, the returned object should be obtained by calling
+ super.clone.  If a class and all of its superclasses (except
+ Object) obey this convention, it will be the case that
+ x.clone().getClass() == x.getClass().
+ 
+ By convention, the object returned by this method should be independent
+ of this object (which is being cloned).  To achieve this independence,
+ it may be necessary to modify one or more fields of the object returned
+ by super.clone before returning it.  Typically, this means
+ copying any mutable objects that comprise the internal ""deep structure""
+ of the object being cloned and replacing the references to these
+ objects with references to the copies.  If a class contains only
+ primitive fields or references to immutable objects, then it is usually
+ the case that no fields in the object returned by super.clone
+ need to be modified.
+ 
+ The method clone for class Object performs a
+ specific cloning operation. First, if the class of this object does
+ not implement the interface Cloneable, then a
+ CloneNotSupportedException is thrown. Note that all arrays
+ are considered to implement the interface Cloneable and that
+ the return type of the clone method of an array type T[]
+ is T[] where T is any reference or primitive type.
+ Otherwise, this method creates a new instance of the class of this
+ object and initializes all its fields with exactly the contents of
+ the corresponding fields of this object, as if by assignment; the
+ contents of the fields are not themselves cloned. Thus, this method
+ performs a ""shallow copy"" of this object, not a ""deep copy"" operation.
+ 
+ The class Object does not itself implement the interface
+ Cloneable, so calling the clone method on an object
+ whose class is Object will result in throwing an
+ exception at run time.
+
+Specified by:
+clone in interface Attribute
+Overrides:
+clone in class Object
+Returns:
+a clone of this instance.
+See Also:
+Cloneable
+
+
+"
+BasicAttribute,contains(Object attrVal),boolean,Determines whether a value is in this attribute.,"
+
+contains
+public boolean contains(Object attrVal)
+Determines whether a value is in this attribute.
+
+ By default,
+ Object.equals() is used when comparing attrVal
+ with this attribute's values except when attrVal is an array.
+ For an array, each element of the array is checked using
+ Object.equals().
+ A subclass may use schema information to determine equality.
+
+Specified by:
+contains in interface Attribute
+Parameters:
+attrVal - The possibly null value to check. If null, check
+  whether the attribute has an attribute value whose value is null.
+Returns:
+true if attrVal is one of this attribute's values; false otherwise.
+See Also:
+Object.equals(java.lang.Object), 
+equals(java.lang.Object)
+
+
+"
+BasicAttribute,equals(Object obj),boolean,Determines whether obj is equal to this attribute.,"
+
+equals
+public boolean equals(Object obj)
+Determines whether obj is equal to this attribute.
+ Two attributes are equal if their attribute-ids, syntaxes
+ and values are equal.
+ If the attribute values are unordered, the order that the values were added
+ are irrelevant. If the attribute values are ordered, then the
+ order the values must match.
+ If obj is null or not an Attribute, false is returned.
+
+ By default Object.equals() is used when comparing the attribute
+ id and its values except when a value is an array. For an array,
+ each element of the array is checked using Object.equals().
+ A subclass may override this to make
+ use of schema syntax information and matching rules,
+ which define what it means for two attributes to be equal.
+ How and whether a subclass makes
+ use of the schema information is determined by the subclass.
+ If a subclass overrides equals(), it should also override
+ hashCode()
+ such that two attributes that are equal have the same hash code.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - The possibly null object to check.
+Returns:
+true if obj is equal to this attribute; false otherwise.
+See Also:
+hashCode(), 
+contains(java.lang.Object)
+
+
+"
+BasicAttribute,get(),Object,Retrieves one of this attribute's values.,"
+
+get
+public Object get()
+           throws NamingException
+Retrieves one of this attribute's values.
+
+ By default, the value returned is one of those passed to the
+ constructor and/or manipulated using the add/replace/remove methods.
+ A subclass may override this to retrieve the value dynamically
+ from the directory.
+
+Specified by:
+get in interface Attribute
+Returns:
+A possibly null object representing one of
+        the attribute's value. It is null if the attribute's value
+        is null.
+Throws:
+NamingException - If a naming exception was encountered while retrieving
+         the value.
+
+
+"
+BasicAttribute,get(int ix),Object,Retrieves the attribute value from the ordered list of attribute values.,"
+
+get
+public Object get(int ix)
+           throws NamingException
+Description copied from interface: Attribute
+Retrieves the attribute value from the ordered list of attribute values.
+ This method returns the value at the ix index of the list of
+ attribute values.
+ If the attribute values are unordered,
+ this method returns the value that happens to be at that index.
+
+Specified by:
+get in interface Attribute
+Parameters:
+ix - The index of the value in the ordered list of attribute values.
+ 0 <= ix < size().
+Returns:
+The possibly null attribute value at index ix;
+   null if the attribute value is null.
+Throws:
+NamingException - If a naming exception was encountered while
+ retrieving the value.
+
+
+"
+BasicAttribute,getAll(),NamingEnumeration<?>,Retrieves an enumeration of this attribute's values.,"
+
+getAll
+public NamingEnumeration<?> getAll()
+                            throws NamingException
+Retrieves an enumeration of this attribute's values.
+
+ By default, the values returned are those passed to the
+ constructor and/or manipulated using the add/replace/remove methods.
+ A subclass may override this to retrieve the values dynamically
+ from the directory.
+
+Specified by:
+getAll in interface Attribute
+Returns:
+A non-null enumeration of the attribute's values.
+ Each element of the enumeration is a possibly null Object. The object's
+ class is the class of the attribute value. The element is null
+ if the attribute's value is null.
+ If the attribute has zero values, an empty enumeration
+ is returned.
+Throws:
+NamingException - If a naming exception was encountered while retrieving
+         the values.
+See Also:
+Attribute.isOrdered()
+
+
+"
+BasicAttribute,getAttributeDefinition(),DirContext,Retrieves this attribute's schema definition.,"
+
+getAttributeDefinition
+public DirContext getAttributeDefinition()
+                                  throws NamingException
+Retrieves this attribute's schema definition.
+
+ This method by default throws OperationNotSupportedException. A subclass
+ should override this method if it supports schema.
+
+Specified by:
+getAttributeDefinition in interface Attribute
+Returns:
+This attribute's schema definition. Null if the implementation
+     supports schemas but this particular attribute does not have
+     any schema information.
+Throws:
+OperationNotSupportedException - If getting the schema
+         is not supported.
+NamingException - If a naming exception occurs while getting
+         the schema.
+
+
+"
+BasicAttribute,getAttributeSyntaxDefinition(),DirContext,Retrieves the syntax definition associated with this attribute.,"
+
+getAttributeSyntaxDefinition
+public DirContext getAttributeSyntaxDefinition()
+                                        throws NamingException
+Retrieves the syntax definition associated with this attribute.
+
+ This method by default throws OperationNotSupportedException. A subclass
+ should override this method if it supports schema.
+
+Specified by:
+getAttributeSyntaxDefinition in interface Attribute
+Returns:
+The attribute's syntax definition. Null if the implementation
+    supports schemas but this particular attribute does not have
+    any schema information.
+Throws:
+OperationNotSupportedException - If getting the schema
+         is not supported.
+NamingException - If a naming exception occurs while getting
+         the schema.
+
+
+"
+BasicAttribute,getID(),String,Retrieves the id of this attribute.,"
+
+getID
+public String getID()
+Description copied from interface: Attribute
+Retrieves the id of this attribute.
+
+Specified by:
+getID in interface Attribute
+Returns:
+The id of this attribute. It cannot be null.
+
+
+"
+BasicAttribute,hashCode(),int,Calculates the hash code of this attribute.,"
+
+hashCode
+public int hashCode()
+Calculates the hash code of this attribute.
+
+ The hash code is computed by adding the hash code of
+ the attribute's id and that of all of its values except for
+ values that are arrays.
+ For an array, the hash code of each element of the array is summed.
+ If a subclass overrides hashCode(), it should override
+ equals()
+ as well so that two attributes that are equal have the same hash code.
+
+Overrides:
+hashCode in class Object
+Returns:
+an int representing the hash code of this attribute.
+See Also:
+equals(java.lang.Object)
+
+
+"
+BasicAttribute,isOrdered(),boolean,Determines whether this attribute's values are ordered.,"
+
+isOrdered
+public boolean isOrdered()
+Description copied from interface: Attribute
+Determines whether this attribute's values are ordered.
+ If an attribute's values are ordered, duplicate values are allowed.
+ If an attribute's values are unordered, they are presented
+ in any order and there are no duplicate values.
+
+Specified by:
+isOrdered in interface Attribute
+Returns:
+true if this attribute's values are ordered; false otherwise.
+See Also:
+Attribute.get(int), 
+Attribute.remove(int), 
+Attribute.add(int, java.lang.Object), 
+Attribute.set(int, java.lang.Object)
+
+
+"
+BasicAttribute,remove(int ix),Object,Removes an attribute value from the ordered list of attribute values.,"
+
+remove
+public Object remove(int ix)
+Description copied from interface: Attribute
+Removes an attribute value from the ordered list of attribute values.
+ This method removes the value at the ix index of the list of
+ attribute values.
+ If the attribute values are unordered,
+ this method removes the value that happens to be at that index.
+ Values located at indices greater than ix are shifted up towards
+ the front of the list (and their indices decremented by one).
+
+Specified by:
+remove in interface Attribute
+Parameters:
+ix - The index of the value to remove.
+ 0 <= ix < size().
+Returns:
+The possibly null attribute value at index ix that was removed;
+   null if the attribute value is null.
+
+
+"
+BasicAttribute,remove(Object attrval),boolean,Removes a specified value from this attribute.,"
+
+remove
+public boolean remove(Object attrval)
+Removes a specified value from this attribute.
+
+ By default, Object.equals() is used when comparing attrVal
+ with this attribute's values except when attrVal is an array.
+ For an array, each element of the array is checked using
+ Object.equals().
+ A subclass may use schema information to determine equality.
+
+Specified by:
+remove in interface Attribute
+Parameters:
+attrval - The possibly null value to remove from this attribute.
+ If null, remove the attribute value that is null.
+Returns:
+true if the value was removed; false otherwise.
+
+
+"
+BasicAttribute,"set(int ix, Object attrVal)",Object,Sets an attribute value in the ordered list of attribute values.,"
+
+set
+public Object set(int ix,
+                  Object attrVal)
+Description copied from interface: Attribute
+Sets an attribute value in the ordered list of attribute values.
+ This method sets the value at the ix index of the list of
+ attribute values to be attrVal. The old value is removed.
+ If the attribute values are unordered,
+ this method sets the value that happens to be at that index
+ to attrVal, unless attrVal is already one of the values.
+ In that case, IllegalStateException is thrown.
+
+Specified by:
+set in interface Attribute
+Parameters:
+ix - The index of the value in the ordered list of attribute values.
+ 0 <= ix < size().
+attrVal - The possibly null attribute value to use.
+ If null, 'null' replaces the old value.
+Returns:
+The possibly null attribute value at index ix that was replaced.
+   Null if the attribute value was null.
+
+
+"
+BasicAttribute,size(),int,Retrieves the number of values in this attribute.,"
+
+size
+public int size()
+Description copied from interface: Attribute
+Retrieves the number of values in this attribute.
+
+Specified by:
+size in interface Attribute
+Returns:
+The nonnegative number of values in this attribute.
+
+
+"
+BasicAttribute,toString(),String,Generates the string representation of this attribute.,"
+
+toString
+public String toString()
+Generates the string representation of this attribute.
+ The string consists of the attribute's id and its values.
+ This string is meant for debugging and not meant to be
+ interpreted programmatically.
+
+Overrides:
+toString in class Object
+Returns:
+The non-null string representation of this attribute.
+
+
+"
+BasicAttributes,clone(),Object,Creates and returns a copy of this object.,"
+
+clone
+public Object clone()
+Description copied from class: Object
+Creates and returns a copy of this object.  The precise meaning
+ of ""copy"" may depend on the class of the object. The general
+ intent is that, for any object x, the expression:
+ 
+
+ x.clone() != x
+ will be true, and that the expression:
+ 
+
+ x.clone().getClass() == x.getClass()
+ will be true, but these are not absolute requirements.
+ While it is typically the case that:
+ 
+
+ x.clone().equals(x)
+ will be true, this is not an absolute requirement.
+ 
+ By convention, the returned object should be obtained by calling
+ super.clone.  If a class and all of its superclasses (except
+ Object) obey this convention, it will be the case that
+ x.clone().getClass() == x.getClass().
+ 
+ By convention, the object returned by this method should be independent
+ of this object (which is being cloned).  To achieve this independence,
+ it may be necessary to modify one or more fields of the object returned
+ by super.clone before returning it.  Typically, this means
+ copying any mutable objects that comprise the internal ""deep structure""
+ of the object being cloned and replacing the references to these
+ objects with references to the copies.  If a class contains only
+ primitive fields or references to immutable objects, then it is usually
+ the case that no fields in the object returned by super.clone
+ need to be modified.
+ 
+ The method clone for class Object performs a
+ specific cloning operation. First, if the class of this object does
+ not implement the interface Cloneable, then a
+ CloneNotSupportedException is thrown. Note that all arrays
+ are considered to implement the interface Cloneable and that
+ the return type of the clone method of an array type T[]
+ is T[] where T is any reference or primitive type.
+ Otherwise, this method creates a new instance of the class of this
+ object and initializes all its fields with exactly the contents of
+ the corresponding fields of this object, as if by assignment; the
+ contents of the fields are not themselves cloned. Thus, this method
+ performs a ""shallow copy"" of this object, not a ""deep copy"" operation.
+ 
+ The class Object does not itself implement the interface
+ Cloneable, so calling the clone method on an object
+ whose class is Object will result in throwing an
+ exception at run time.
+
+Specified by:
+clone in interface Attributes
+Overrides:
+clone in class Object
+Returns:
+a clone of this instance.
+See Also:
+Cloneable
+
+
+"
+BasicAttributes,equals(Object obj),boolean,"Determines whether this BasicAttributes is equal to another Attributes Two Attributes are equal if they are both instances of Attributes, treat the case of attribute IDs the same way, and contain the same attributes.","
+
+equals
+public boolean equals(Object obj)
+Determines whether this BasicAttributes is equal to another
+ Attributes
+ Two Attributes are equal if they are both instances of
+ Attributes,
+ treat the case of attribute IDs the same way, and contain the
+ same attributes. Each Attribute in this BasicAttributes
+ is checked for equality using Object.equals(), which may have
+ be overridden by implementations of Attribute).
+ If a subclass overrides equals(),
+ it should override hashCode()
+ as well so that two Attributes instances that are equal
+ have the same hash code.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - the possibly null object to compare against.
+Returns:
+true If obj is equal to this BasicAttributes.
+See Also:
+hashCode()
+
+
+"
+BasicAttributes,get(String attrID),Attribute,Retrieves the attribute with the given attribute id from the attribute set.,"
+
+get
+public Attribute get(String attrID)
+Description copied from interface: Attributes
+Retrieves the attribute with the given attribute id from the
+ attribute set.
+
+Specified by:
+get in interface Attributes
+Parameters:
+attrID - The non-null id of the attribute to retrieve.
+           If this attribute set ignores the character
+           case of its attribute ids, the case of attrID
+           is ignored.
+Returns:
+The attribute identified by attrID; null if not found.
+See Also:
+Attributes.put(java.lang.String, java.lang.Object), 
+Attributes.remove(java.lang.String)
+
+
+"
+BasicAttributes,getAll(),NamingEnumeration<Attribute>,Retrieves an enumeration of the attributes in the attribute set.,"
+
+getAll
+public NamingEnumeration<Attribute> getAll()
+Description copied from interface: Attributes
+Retrieves an enumeration of the attributes in the attribute set.
+ The effects of updates to this attribute set on this enumeration
+ are undefined.
+
+Specified by:
+getAll in interface Attributes
+Returns:
+A non-null enumeration of the attributes in this attribute set.
+         Each element of the enumeration is of class Attribute.
+         If attribute set has zero attributes, an empty enumeration
+         is returned.
+
+
+"
+BasicAttributes,getIDs(),NamingEnumeration<String>,Retrieves an enumeration of the ids of the attributes in the attribute set.,"
+
+getIDs
+public NamingEnumeration<String> getIDs()
+Description copied from interface: Attributes
+Retrieves an enumeration of the ids of the attributes in the
+ attribute set.
+ The effects of updates to this attribute set on this enumeration
+ are undefined.
+
+Specified by:
+getIDs in interface Attributes
+Returns:
+A non-null enumeration of the attributes' ids in
+         this attribute set. Each element of the enumeration is
+         of class String.
+         If attribute set has zero attributes, an empty enumeration
+         is returned.
+
+
+"
+BasicAttributes,hashCode(),int,Calculates the hash code of this BasicAttributes.,"
+
+hashCode
+public int hashCode()
+Calculates the hash code of this BasicAttributes.
+
+ The hash code is computed by adding the hash code of
+ the attributes of this object. If this BasicAttributes
+ ignores case of its attribute IDs, one is added to the hash code.
+ If a subclass overrides hashCode(),
+ it should override equals()
+ as well so that two Attributes instances that are equal
+ have the same hash code.
+
+Overrides:
+hashCode in class Object
+Returns:
+an int representing the hash code of this BasicAttributes instance.
+See Also:
+equals(java.lang.Object)
+
+
+"
+BasicAttributes,isCaseIgnored(),boolean,Determines whether the attribute set ignores the case of attribute identifiers when retrieving or adding attributes.,"
+
+isCaseIgnored
+public boolean isCaseIgnored()
+Description copied from interface: Attributes
+Determines whether the attribute set ignores the case of
+ attribute identifiers when retrieving or adding attributes.
+
+Specified by:
+isCaseIgnored in interface Attributes
+Returns:
+true if case is ignored; false otherwise.
+
+
+"
+BasicAttributes,put(Attribute attr),Attribute,Adds a new attribute to the attribute set.,"
+
+put
+public Attribute put(Attribute attr)
+Description copied from interface: Attributes
+Adds a new attribute to the attribute set.
+
+Specified by:
+put in interface Attributes
+Parameters:
+attr - The non-null attribute to add.
+                 If the attribute set ignores the character
+                 case of its attribute ids, the case of
+                 attr's identifier is ignored.
+Returns:
+The Attribute with the same ID as attr that was previous
+         in this attribute set;
+         null if no such attribute existed.
+See Also:
+Attributes.remove(java.lang.String)
+
+
+"
+BasicAttributes,"put(String attrID, Object val)",Attribute,Adds a new attribute to the attribute set.,"
+
+put
+public Attribute put(String attrID,
+                     Object val)
+Description copied from interface: Attributes
+Adds a new attribute to the attribute set.
+
+Specified by:
+put in interface Attributes
+Parameters:
+attrID - non-null The id of the attribute to add.
+           If the attribute set ignores the character
+           case of its attribute ids, the case of attrID
+           is ignored.
+val - The possibly null value of the attribute to add.
+                 If null, the attribute does not have any values.
+Returns:
+The Attribute with attrID that was previous in this attribute set;
+         null if no such attribute existed.
+See Also:
+Attributes.remove(java.lang.String)
+
+
+"
+BasicAttributes,remove(String attrID),Attribute,Removes the attribute with the attribute id 'attrID' from the attribute set.,"
+
+remove
+public Attribute remove(String attrID)
+Description copied from interface: Attributes
+Removes the attribute with the attribute id 'attrID' from
+ the attribute set. If the attribute does not exist, ignore.
+
+Specified by:
+remove in interface Attributes
+Parameters:
+attrID - The non-null id of the attribute to remove.
+                 If the attribute set ignores the character
+                 case of its attribute ids, the case of
+                 attrID is ignored.
+Returns:
+The Attribute with the same ID as attrID that was previous
+         in the attribute set;
+         null if no such attribute existed.
+
+
+"
+BasicAttributes,size(),int,Retrieves the number of attributes in the attribute set.,"
+
+size
+public int size()
+Description copied from interface: Attributes
+Retrieves the number of attributes in the attribute set.
+
+Specified by:
+size in interface Attributes
+Returns:
+The nonnegative number of attributes in this attribute set.
+
+
+"
+BasicAttributes,toString(),String,Generates the string representation of this attribute set.,"
+
+toString
+public String toString()
+Generates the string representation of this attribute set.
+ The string consists of each attribute identifier and the contents
+ of each attribute. The contents of this string is useful
+ for debugging and is not meant to be interpreted programmatically.
+
+Overrides:
+toString in class Object
+Returns:
+A non-null string listing the contents of this attribute set.
+
+
+"
+InitialDirContext,"bind(Name name, Object obj, Attributes attrs)",void,"Binds a name to an object, along with associated attributes.","
+
+bind
+public void bind(Name name,
+                 Object obj,
+                 Attributes attrs)
+          throws NamingException
+Description copied from interface: DirContext
+Binds a name to an object, along with associated attributes.
+ If attrs is null, the resulting binding will have
+ the attributes associated with obj if obj is a
+ DirContext, and no attributes otherwise.
+ If attrs is non-null, the resulting binding will have
+ attrs as its attributes; any attributes associated with
+ obj are ignored.
+
+Specified by:
+bind in interface DirContext
+Parameters:
+name - the name to bind; may not be empty
+obj - the object to bind; possibly null
+attrs - the attributes to associate with the binding
+Throws:
+NameAlreadyBoundException - if name is already bound
+InvalidAttributesException - if some ""mandatory"" attributes
+          of the binding are not supplied
+NamingException - if a naming exception is encountered
+See Also:
+Context.bind(Name, Object), 
+DirContext.rebind(Name, Object, Attributes)
+
+
+"
+InitialDirContext,"bind(String name, Object obj, Attributes attrs)",void,"Binds a name to an object, along with associated attributes.","
+
+bind
+public void bind(String name,
+                 Object obj,
+                 Attributes attrs)
+          throws NamingException
+Description copied from interface: DirContext
+Binds a name to an object, along with associated attributes.
+ See DirContext.bind(Name, Object, Attributes) for details.
+
+Specified by:
+bind in interface DirContext
+Parameters:
+name - the name to bind; may not be empty
+obj - the object to bind; possibly null
+attrs - the attributes to associate with the binding
+Throws:
+NameAlreadyBoundException - if name is already bound
+InvalidAttributesException - if some ""mandatory"" attributes
+          of the binding are not supplied
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,"createSubcontext(Name name, Attributes attrs)",DirContext,"Creates and binds a new context, along with associated attributes.","
+
+createSubcontext
+public DirContext createSubcontext(Name name,
+                                   Attributes attrs)
+                            throws NamingException
+Description copied from interface: DirContext
+Creates and binds a new context, along with associated attributes.
+ This method creates a new subcontext with the given name, binds it in
+ the target context (that named by all but terminal atomic
+ component of the name), and associates the supplied attributes
+ with the newly created object.
+ All intermediate and target contexts must already exist.
+ If attrs is null, this method is equivalent to
+ Context.createSubcontext().
+
+Specified by:
+createSubcontext in interface DirContext
+Parameters:
+name - the name of the context to create; may not be empty
+attrs - the attributes to associate with the newly created context
+Returns:
+the newly created context
+Throws:
+NameAlreadyBoundException - if the name is already bound
+InvalidAttributesException - if attrs does not
+          contain all the mandatory attributes required for creation
+NamingException - if a naming exception is encountered
+See Also:
+Context.createSubcontext(Name)
+
+
+"
+InitialDirContext,"createSubcontext(String name, Attributes attrs)",DirContext,"Creates and binds a new context, along with associated attributes.","
+
+createSubcontext
+public DirContext createSubcontext(String name,
+                                   Attributes attrs)
+                            throws NamingException
+Description copied from interface: DirContext
+Creates and binds a new context, along with associated attributes.
+ See DirContext.createSubcontext(Name, Attributes) for details.
+
+Specified by:
+createSubcontext in interface DirContext
+Parameters:
+name - the name of the context to create; may not be empty
+attrs - the attributes to associate with the newly created context
+Returns:
+the newly created context
+Throws:
+NameAlreadyBoundException - if the name is already bound
+InvalidAttributesException - if attrs does not
+          contain all the mandatory attributes required for creation
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,getAttributes(Name name),Attributes,Retrieves all of the attributes associated with a named object.,"
+
+getAttributes
+public Attributes getAttributes(Name name)
+                         throws NamingException
+Description copied from interface: DirContext
+Retrieves all of the attributes associated with a named object.
+ See the class description regarding attribute models, attribute
+ type names, and operational attributes.
+
+Specified by:
+getAttributes in interface DirContext
+Parameters:
+name - the name of the object from which to retrieve attributes
+Returns:
+the set of attributes associated with name.
+          Returns an empty attribute set if name has no attributes;
+          never null.
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+DirContext.getAttributes(String), 
+DirContext.getAttributes(Name, String[])
+
+
+"
+InitialDirContext,"getAttributes(Name name, String[] attrIds)",Attributes,Retrieves selected attributes associated with a named object.,"
+
+getAttributes
+public Attributes getAttributes(Name name,
+                                String[] attrIds)
+                         throws NamingException
+Description copied from interface: DirContext
+Retrieves selected attributes associated with a named object.
+ See the class description regarding attribute models, attribute
+ type names, and operational attributes.
+
+  If the object does not have an attribute
+ specified, the directory will ignore the nonexistent attribute
+ and return those requested attributes that the object does have.
+
+  A directory might return more attributes than was requested
+ (see Attribute Type Names in the class description),
+ but is not allowed to return arbitrary, unrelated attributes.
+
+  See also Operational Attributes in the class
+ description.
+
+Specified by:
+getAttributes in interface DirContext
+Parameters:
+name - the name of the object from which to retrieve attributes
+attrIds - the identifiers of the attributes to retrieve.
+          null indicates that all attributes should be retrieved;
+          an empty array indicates that none should be retrieved.
+Returns:
+the requested attributes; never null
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,getAttributes(String name),Attributes,Retrieves all of the attributes associated with a named object.,"
+
+getAttributes
+public Attributes getAttributes(String name)
+                         throws NamingException
+Description copied from interface: DirContext
+Retrieves all of the attributes associated with a named object.
+ See DirContext.getAttributes(Name) for details.
+
+Specified by:
+getAttributes in interface DirContext
+Parameters:
+name - the name of the object from which to retrieve attributes
+Returns:
+the set of attributes associated with name
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,"getAttributes(String name, String[] attrIds)",Attributes,Retrieves selected attributes associated with a named object.,"
+
+getAttributes
+public Attributes getAttributes(String name,
+                                String[] attrIds)
+                         throws NamingException
+Description copied from interface: DirContext
+Retrieves selected attributes associated with a named object.
+ See DirContext.getAttributes(Name, String[]) for details.
+
+Specified by:
+getAttributes in interface DirContext
+Parameters:
+name - The name of the object from which to retrieve attributes
+attrIds - the identifiers of the attributes to retrieve.
+          null indicates that all attributes should be retrieved;
+          an empty array indicates that none should be retrieved.
+Returns:
+the requested attributes; never null
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,getSchema(Name name),DirContext,Retrieves the schema associated with the named object.,"
+
+getSchema
+public DirContext getSchema(Name name)
+                     throws NamingException
+Description copied from interface: DirContext
+Retrieves the schema associated with the named object.
+ The schema describes rules regarding the structure of the namespace
+ and the attributes stored within it.  The schema
+ specifies what types of objects can be added to the directory and where
+ they can be added; what mandatory and optional attributes an object
+ can have. The range of support for schemas is directory-specific.
+
+  This method returns the root of the schema information tree
+ that is applicable to the named object. Several named objects
+ (or even an entire directory) might share the same schema.
+
+  Issues such as structure and contents of the schema tree,
+ permission to modify to the contents of the schema
+ tree, and the effect of such modifications on the directory
+ are dependent on the underlying directory.
+
+Specified by:
+getSchema in interface DirContext
+Parameters:
+name - the name of the object whose schema is to be retrieved
+Returns:
+the schema associated with the context; never null
+Throws:
+OperationNotSupportedException - if schema not supported
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,getSchema(String name),DirContext,Retrieves the schema associated with the named object.,"
+
+getSchema
+public DirContext getSchema(String name)
+                     throws NamingException
+Description copied from interface: DirContext
+Retrieves the schema associated with the named object.
+ See DirContext.getSchema(Name) for details.
+
+Specified by:
+getSchema in interface DirContext
+Parameters:
+name - the name of the object whose schema is to be retrieved
+Returns:
+the schema associated with the context; never null
+Throws:
+OperationNotSupportedException - if schema not supported
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,getSchemaClassDefinition(Name name),DirContext,Retrieves a context containing the schema objects of the named object's class definitions.,"
+
+getSchemaClassDefinition
+public DirContext getSchemaClassDefinition(Name name)
+                                    throws NamingException
+Description copied from interface: DirContext
+Retrieves a context containing the schema objects of the
+ named object's class definitions.
+
+ One category of information found in directory schemas is
+ class definitions.  An ""object class"" definition
+ specifies the object's type and what attributes (mandatory
+ and optional) the object must/can have. Note that the term
+ ""object class"" being referred to here is in the directory sense
+ rather than in the Java sense.
+ For example, if the named object is a directory object of
+ ""Person"" class, getSchemaClassDefinition() would return a
+ DirContext representing the (directory's) object class
+ definition of ""Person"".
+
+ The information that can be retrieved from an object class definition
+ is directory-dependent.
+
+ Prior to JNDI 1.2, this method
+ returned a single schema object representing the class definition of
+ the named object.
+ Since JNDI 1.2, this method returns a DirContext containing
+ all of the named object's class definitions.
+
+Specified by:
+getSchemaClassDefinition in interface DirContext
+Parameters:
+name - the name of the object whose object class
+          definition is to be retrieved
+Returns:
+the DirContext containing the named
+          object's class definitions; never null
+Throws:
+OperationNotSupportedException - if schema not supported
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,getSchemaClassDefinition(String name),DirContext,Retrieves a context containing the schema objects of the named object's class definitions.,"
+
+getSchemaClassDefinition
+public DirContext getSchemaClassDefinition(String name)
+                                    throws NamingException
+Description copied from interface: DirContext
+Retrieves a context containing the schema objects of the
+ named object's class definitions.
+ See DirContext.getSchemaClassDefinition(Name) for details.
+
+Specified by:
+getSchemaClassDefinition in interface DirContext
+Parameters:
+name - the name of the object whose object class
+          definition is to be retrieved
+Returns:
+the DirContext containing the named
+          object's class definitions; never null
+Throws:
+OperationNotSupportedException - if schema not supported
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,"modifyAttributes(Name name, int mod_op, Attributes attrs)",void,Modifies the attributes associated with a named object.,"
+
+modifyAttributes
+public void modifyAttributes(Name name,
+                             int mod_op,
+                             Attributes attrs)
+                      throws NamingException
+Description copied from interface: DirContext
+Modifies the attributes associated with a named object.
+ The order of the modifications is not specified.  Where
+ possible, the modifications are performed atomically.
+
+Specified by:
+modifyAttributes in interface DirContext
+Parameters:
+name - the name of the object whose attributes will be updated
+mod_op - the modification operation, one of:
+                  ADD_ATTRIBUTE,
+                  REPLACE_ATTRIBUTE,
+                  REMOVE_ATTRIBUTE.
+attrs - the attributes to be used for the modification; may not be null
+Throws:
+AttributeModificationException - if the modification cannot
+          be completed successfully
+NamingException - if a naming exception is encountered
+See Also:
+DirContext.modifyAttributes(Name, ModificationItem[])
+
+
+"
+InitialDirContext,"modifyAttributes(Name name, ModificationItem[] mods)",void,Modifies the attributes associated with a named object using an ordered list of modifications.,"
+
+modifyAttributes
+public void modifyAttributes(Name name,
+                             ModificationItem[] mods)
+                      throws NamingException
+Description copied from interface: DirContext
+Modifies the attributes associated with a named object using
+ an ordered list of modifications.
+ The modifications are performed
+ in the order specified.  Each modification specifies a
+ modification operation code and an attribute on which to
+ operate.  Where possible, the modifications are
+ performed atomically.
+
+Specified by:
+modifyAttributes in interface DirContext
+Parameters:
+name - the name of the object whose attributes will be updated
+mods - an ordered sequence of modifications to be performed;
+          may not be null
+Throws:
+AttributeModificationException - if the modifications
+          cannot be completed successfully
+NamingException - if a naming exception is encountered
+See Also:
+DirContext.modifyAttributes(Name, int, Attributes), 
+ModificationItem
+
+
+"
+InitialDirContext,"modifyAttributes(String name, int mod_op, Attributes attrs)",void,Modifies the attributes associated with a named object.,"
+
+modifyAttributes
+public void modifyAttributes(String name,
+                             int mod_op,
+                             Attributes attrs)
+                      throws NamingException
+Description copied from interface: DirContext
+Modifies the attributes associated with a named object.
+ See DirContext.modifyAttributes(Name, int, Attributes) for details.
+
+Specified by:
+modifyAttributes in interface DirContext
+Parameters:
+name - the name of the object whose attributes will be updated
+mod_op - the modification operation, one of:
+                  ADD_ATTRIBUTE,
+                  REPLACE_ATTRIBUTE,
+                  REMOVE_ATTRIBUTE.
+attrs - the attributes to be used for the modification; may not be null
+Throws:
+AttributeModificationException - if the modification cannot
+          be completed successfully
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,"modifyAttributes(String name, ModificationItem[] mods)",void,Modifies the attributes associated with a named object using an ordered list of modifications.,"
+
+modifyAttributes
+public void modifyAttributes(String name,
+                             ModificationItem[] mods)
+                      throws NamingException
+Description copied from interface: DirContext
+Modifies the attributes associated with a named object using
+ an ordered list of modifications.
+ See DirContext.modifyAttributes(Name, ModificationItem[]) for details.
+
+Specified by:
+modifyAttributes in interface DirContext
+Parameters:
+name - the name of the object whose attributes will be updated
+mods - an ordered sequence of modifications to be performed;
+          may not be null
+Throws:
+AttributeModificationException - if the modifications
+          cannot be completed successfully
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,"rebind(Name name, Object obj, Attributes attrs)",void,"Binds a name to an object, along with associated attributes, overwriting any existing binding.","
+
+rebind
+public void rebind(Name name,
+                   Object obj,
+                   Attributes attrs)
+            throws NamingException
+Description copied from interface: DirContext
+Binds a name to an object, along with associated attributes,
+ overwriting any existing binding.
+ If attrs is null and obj is a DirContext,
+ the attributes from obj are used.
+ If attrs is null and obj is not a DirContext,
+ any existing attributes associated with the object already bound
+ in the directory remain unchanged.
+ If attrs is non-null, any existing attributes associated with
+ the object already bound in the directory are removed and attrs
+ is associated with the named object.  If obj is a
+ DirContext and attrs is non-null, the attributes
+ of obj are ignored.
+
+Specified by:
+rebind in interface DirContext
+Parameters:
+name - the name to bind; may not be empty
+obj - the object to bind; possibly null
+attrs - the attributes to associate with the binding
+Throws:
+InvalidAttributesException - if some ""mandatory"" attributes
+          of the binding are not supplied
+NamingException - if a naming exception is encountered
+See Also:
+Context.bind(Name, Object), 
+DirContext.bind(Name, Object, Attributes)
+
+
+"
+InitialDirContext,"rebind(String name, Object obj, Attributes attrs)",void,"Binds a name to an object, along with associated attributes, overwriting any existing binding.","
+
+rebind
+public void rebind(String name,
+                   Object obj,
+                   Attributes attrs)
+            throws NamingException
+Description copied from interface: DirContext
+Binds a name to an object, along with associated attributes,
+ overwriting any existing binding.
+ See DirContext.rebind(Name, Object, Attributes) for details.
+
+Specified by:
+rebind in interface DirContext
+Parameters:
+name - the name to bind; may not be empty
+obj - the object to bind; possibly null
+attrs - the attributes to associate with the binding
+Throws:
+InvalidAttributesException - if some ""mandatory"" attributes
+          of the binding are not supplied
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,"search(Name name, Attributes matchingAttributes)",NamingEnumeration<SearchResult>,Searches in a single context for objects that contain a specified set of attributes.,"
+
+search
+public NamingEnumeration<SearchResult> search(Name name,
+                                              Attributes matchingAttributes)
+                                       throws NamingException
+Description copied from interface: DirContext
+Searches in a single context for objects that contain a
+ specified set of attributes.
+ This method returns all the attributes of such objects.
+ It is equivalent to supplying null as
+ the atributesToReturn parameter to the method
+ search(Name, Attributes, String[]).
+ 
+ See DirContext.search(Name, Attributes, String[]) for a full description.
+
+Specified by:
+search in interface DirContext
+Parameters:
+name - the name of the context to search
+matchingAttributes - the attributes to search for
+Returns:
+an enumeration of SearchResult objects
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+DirContext.search(Name, Attributes, String[])
+
+
+"
+InitialDirContext,"search(Name name, Attributes matchingAttributes, String[] attributesToReturn)",NamingEnumeration<SearchResult>,"Searches in a single context for objects that contain a specified set of attributes, and retrieves selected attributes.","
+
+search
+public NamingEnumeration<SearchResult> search(Name name,
+                                              Attributes matchingAttributes,
+                                              String[] attributesToReturn)
+                                       throws NamingException
+Description copied from interface: DirContext
+Searches in a single context for objects that contain a
+ specified set of attributes, and retrieves selected attributes.
+ The search is performed using the default
+ SearchControls settings.
+ 
+ For an object to be selected, each attribute in
+ matchingAttributes must match some attribute of the
+ object.  If matchingAttributes is empty or
+ null, all objects in the target context are returned.
+
+ An attribute A1 in
+ matchingAttributes is considered to match an
+ attribute A2 of an object if
+ A1 and A2 have the same
+ identifier, and each value of A1 is equal
+ to some value of A2.  This implies that the
+ order of values is not significant, and that
+ A2 may contain ""extra"" values not found in
+ A1 without affecting the comparison.  It
+ also implies that if A1 has no values, then
+ testing for a match is equivalent to testing for the presence
+ of an attribute A2 with the same
+ identifier.
+
+ The precise definition of ""equality"" used in comparing attribute values
+ is defined by the underlying directory service.  It might use the
+ Object.equals method, for example, or might use a schema
+ to specify a different equality operation.
+ For matching based on operations other than equality (such as
+ substring comparison) use the version of the search
+ method that takes a filter argument.
+ 
+ When changes are made to this DirContext,
+ the effect on enumerations returned by prior calls to this method
+ is undefined.
+
+ If the object does not have the attribute
+ specified, the directory will ignore the nonexistent attribute
+ and return the requested attributes that the object does have.
+
+ A directory might return more attributes than was requested
+ (see Attribute Type Names in the class description),
+ but is not allowed to return arbitrary, unrelated attributes.
+
+ See also Operational Attributes in the class
+ description.
+
+Specified by:
+search in interface DirContext
+Parameters:
+name - the name of the context to search
+matchingAttributes - the attributes to search for.  If empty or null,
+          all objects in the target context are returned.
+attributesToReturn - the attributes to return.  null indicates that
+          all attributes are to be returned;
+          an empty array indicates that none are to be returned.
+Returns:
+a non-null enumeration of SearchResult objects.
+          Each SearchResult contains the attributes
+          identified by attributesToReturn
+          and the name of the corresponding object, named relative
+          to the context named by name.
+Throws:
+NamingException - if a naming exception is encountered
+See Also:
+SearchControls, 
+SearchResult, 
+DirContext.search(Name, String, Object[], SearchControls)
+
+
+"
+InitialDirContext,"search(Name name, String filterExpr, Object[] filterArgs, SearchControls cons)",NamingEnumeration<SearchResult>,Searches in the named context or object for entries that satisfy the given search filter.,"
+
+search
+public NamingEnumeration<SearchResult> search(Name name,
+                                              String filterExpr,
+                                              Object[] filterArgs,
+                                              SearchControls cons)
+                                       throws NamingException
+Description copied from interface: DirContext
+Searches in the named context or object for entries that satisfy the
+ given search filter.  Performs the search as specified by
+ the search controls.
+
+ The interpretation of filterExpr is based on RFC
+ 2254.  It may additionally contain variables of the form
+ {i} -- where i is an integer -- that
+ refer to objects in the filterArgs array.  The
+ interpretation of filterExpr is otherwise
+ identical to that of the filter parameter of the
+ method search(Name, String, SearchControls).
+
+ When a variable {i} appears in a search filter, it
+ indicates that the filter argument filterArgs[i]
+ is to be used in that place.  Such variables may be used
+ wherever an attr, value, or
+ matchingrule production appears in the filter grammar
+ of RFC 2254, section 4.  When a string-valued filter argument
+ is substituted for a variable, the filter is interpreted as if
+ the string were given in place of the variable, with any
+ characters having special significance within filters (such as
+ '*') having been escaped according to the rules of
+ RFC 2254.
+
+ For directories that do not use a string representation for
+ some or all of their attributes, the filter argument
+ corresponding to an attribute value may be of a type other than
+ String.  Directories that support unstructured binary-valued
+ attributes, for example, should accept byte arrays as filter
+ arguments.  The interpretation (if any) of filter arguments of
+ any other type is determined by the service provider for that
+ directory, which maps the filter operations onto operations with
+ corresponding semantics in the underlying directory.
+
+ This method returns an enumeration of the results.
+ Each element in the enumeration contains the name of the object
+ and other information about the object (see SearchResult).
+ The name is either relative to the target context of the search
+ (which is named by the name parameter), or
+ it is a URL string. If the target context is included in
+ the enumeration (as is possible when
+ cons specifies a search scope of
+ SearchControls.OBJECT_SCOPE or
+ SearchControls.SUBSTREE_SCOPE),
+ its name is the empty string.
+
+ The SearchResult may also contain attributes of the matching
+ object if the cons argument specifies that attributes be
+ returned.
+
+ If the object does not have a requested attribute, that
+ nonexistent attribute will be ignored.  Those requested
+ attributes that the object does have will be returned.
+
+ A directory might return more attributes than were requested
+ (see Attribute Type Names in the class description)
+ but is not allowed to return arbitrary, unrelated attributes.
+
+ If a search filter with invalid variable substitutions is provided
+ to this method, the result is undefined.
+ When changes are made to this DirContext,
+ the effect on enumerations returned by prior calls to this method
+ is undefined.
+
+ See also Operational Attributes in the class
+ description.
+
+Specified by:
+search in interface DirContext
+Parameters:
+name - the name of the context or object to search
+filterExpr - the filter expression to use for the search.
+          The expression may contain variables of the
+          form ""{i}"" where i
+          is a nonnegative integer.  May not be null.
+filterArgs - the array of arguments to substitute for the variables
+          in filterExpr.  The value of
+          filterArgs[i] will replace each
+          occurrence of ""{i}"".
+          If null, equivalent to an empty array.
+cons - the search controls that control the search.  If null,
+          the default search controls are used (equivalent
+          to (new SearchControls())).
+Returns:
+an enumeration of SearchResults of the objects
+          that satisfy the filter; never null
+Throws:
+InvalidSearchControlsException - if cons contains
+          invalid settings
+InvalidSearchFilterException - if filterExpr with
+          filterArgs represents an invalid search filter
+NamingException - if a naming exception is encountered
+See Also:
+DirContext.search(Name, Attributes, String[]), 
+MessageFormat
+
+
+"
+InitialDirContext,"search(Name name, String filter, SearchControls cons)",NamingEnumeration<SearchResult>,Searches in the named context or object for entries that satisfy the given search filter.,"
+
+search
+public NamingEnumeration<SearchResult> search(Name name,
+                                              String filter,
+                                              SearchControls cons)
+                                       throws NamingException
+Description copied from interface: DirContext
+Searches in the named context or object for entries that satisfy the
+ given search filter.  Performs the search as specified by
+ the search controls.
+ 
+ The format and interpretation of filter follows RFC 2254
+ with the
+ following interpretations for attr and value
+ mentioned in the RFC.
+ 
+attr is the attribute's identifier.
+ 
+value is the string representation the attribute's value.
+ The translation of this string representation into the attribute's value
+ is directory-specific.
+ 
+ For the assertion ""someCount=127"", for example, attr
+ is ""someCount"" and value is ""127"".
+ The provider determines, based on the attribute ID (""someCount"")
+ (and possibly its schema), that the attribute's value is an integer.
+ It then parses the string ""127"" appropriately.
+
+ Any non-ASCII characters in the filter string should be
+ represented by the appropriate Java (Unicode) characters, and
+ not encoded as UTF-8 octets.  Alternately, the
+ ""backslash-hexcode"" notation described in RFC 2254 may be used.
+
+ If the directory does not support a string representation of
+ some or all of its attributes, the form of search that
+ accepts filter arguments in the form of Objects can be used instead.
+ The service provider for such a directory would then translate
+ the filter arguments to its service-specific representation
+ for filter evaluation.
+ See search(Name, String, Object[], SearchControls).
+ 
+ RFC 2254 defines certain operators for the filter, including substring
+ matches, equality, approximate match, greater than, less than.  These
+ operators are mapped to operators with corresponding semantics in the
+ underlying directory. For example, for the equals operator, suppose
+ the directory has a matching rule defining ""equality"" of the
+ attributes in the filter. This rule would be used for checking
+ equality of the attributes specified in the filter with the attributes
+ of objects in the directory. Similarly, if the directory has a
+ matching rule for ordering, this rule would be used for
+ making ""greater than"" and ""less than"" comparisons.
+
+ Not all of the operators defined in RFC 2254 are applicable to all
+ attributes.  When an operator is not applicable, the exception
+ InvalidSearchFilterException is thrown.
+ 
+ The result is returned in an enumeration of SearchResults.
+ Each SearchResult contains the name of the object
+ and other information about the object (see SearchResult).
+ The name is either relative to the target context of the search
+ (which is named by the name parameter), or
+ it is a URL string. If the target context is included in
+ the enumeration (as is possible when
+ cons specifies a search scope of
+ SearchControls.OBJECT_SCOPE or
+ SearchControls.SUBSTREE_SCOPE), its name is the empty
+ string. The SearchResult may also contain attributes of the
+ matching object if the cons argument specified that attributes
+ be returned.
+
+ If the object does not have a requested attribute, that
+ nonexistent attribute will be ignored.  Those requested
+ attributes that the object does have will be returned.
+
+ A directory might return more attributes than were requested
+ (see Attribute Type Names in the class description)
+ but is not allowed to return arbitrary, unrelated attributes.
+
+ See also Operational Attributes in the class
+ description.
+
+Specified by:
+search in interface DirContext
+Parameters:
+name - the name of the context or object to search
+filter - the filter expression to use for the search; may not be null
+cons - the search controls that control the search.  If null,
+          the default search controls are used (equivalent
+          to (new SearchControls())).
+Returns:
+an enumeration of SearchResults of
+          the objects that satisfy the filter; never null
+Throws:
+InvalidSearchFilterException - if the search filter specified is
+          not supported or understood by the underlying directory
+InvalidSearchControlsException - if the search controls
+          contain invalid settings
+NamingException - if a naming exception is encountered
+See Also:
+DirContext.search(Name, String, Object[], SearchControls), 
+SearchControls, 
+SearchResult
+
+
+"
+InitialDirContext,"search(String name, Attributes matchingAttributes)",NamingEnumeration<SearchResult>,Searches in a single context for objects that contain a specified set of attributes.,"
+
+search
+public NamingEnumeration<SearchResult> search(String name,
+                                              Attributes matchingAttributes)
+                                       throws NamingException
+Description copied from interface: DirContext
+Searches in a single context for objects that contain a
+ specified set of attributes.
+ See DirContext.search(Name, Attributes) for details.
+
+Specified by:
+search in interface DirContext
+Parameters:
+name - the name of the context to search
+matchingAttributes - the attributes to search for
+Returns:
+an enumeration of SearchResult objects
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,"search(String name, Attributes matchingAttributes, String[] attributesToReturn)",NamingEnumeration<SearchResult>,"Searches in a single context for objects that contain a specified set of attributes, and retrieves selected attributes.","
+
+search
+public NamingEnumeration<SearchResult> search(String name,
+                                              Attributes matchingAttributes,
+                                              String[] attributesToReturn)
+                                       throws NamingException
+Description copied from interface: DirContext
+Searches in a single context for objects that contain a
+ specified set of attributes, and retrieves selected attributes.
+ See DirContext.search(Name, Attributes, String[]) for details.
+
+Specified by:
+search in interface DirContext
+Parameters:
+name - the name of the context to search
+matchingAttributes - the attributes to search for
+attributesToReturn - the attributes to return
+Returns:
+a non-null enumeration of SearchResult objects
+Throws:
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,"search(String name, String filterExpr, Object[] filterArgs, SearchControls cons)",NamingEnumeration<SearchResult>,Searches in the named context or object for entries that satisfy the given search filter.,"
+
+search
+public NamingEnumeration<SearchResult> search(String name,
+                                              String filterExpr,
+                                              Object[] filterArgs,
+                                              SearchControls cons)
+                                       throws NamingException
+Description copied from interface: DirContext
+Searches in the named context or object for entries that satisfy the
+ given search filter.  Performs the search as specified by
+ the search controls.
+ See DirContext.search(Name, String, Object[], SearchControls) for details.
+
+Specified by:
+search in interface DirContext
+Parameters:
+name - the name of the context or object to search
+filterExpr - the filter expression to use for the search.
+          The expression may contain variables of the
+          form ""{i}"" where i
+          is a nonnegative integer.  May not be null.
+filterArgs - the array of arguments to substitute for the variables
+          in filterExpr.  The value of
+          filterArgs[i] will replace each
+          occurrence of ""{i}"".
+          If null, equivalent to an empty array.
+cons - the search controls that control the search.  If null,
+          the default search controls are used (equivalent
+          to (new SearchControls())).
+Returns:
+an enumeration of SearchResults of the objects
+          that satisfy the filter; never null
+Throws:
+InvalidSearchControlsException - if cons contains
+          invalid settings
+InvalidSearchFilterException - if filterExpr with
+          filterArgs represents an invalid search filter
+NamingException - if a naming exception is encountered
+
+
+"
+InitialDirContext,"search(String name, String filter, SearchControls cons)",NamingEnumeration<SearchResult>,Searches in the named context or object for entries that satisfy the given search filter.,"
+
+search
+public NamingEnumeration<SearchResult> search(String name,
+                                              String filter,
+                                              SearchControls cons)
+                                       throws NamingException
+Description copied from interface: DirContext
+Searches in the named context or object for entries that satisfy the
+ given search filter.  Performs the search as specified by
+ the search controls.
+ See DirContext.search(Name, String, SearchControls) for details.
+
+Specified by:
+search in interface DirContext
+Parameters:
+name - the name of the context or object to search
+filter - the filter expression to use for the search; may not be null
+cons - the search controls that control the search.  If null,
+          the default search controls are used (equivalent
+          to (new SearchControls())).
+Returns:
+an enumeration of SearchResults for
+          the objects that satisfy the filter.
+Throws:
+InvalidSearchFilterException - if the search filter specified is
+          not supported or understood by the underlying directory
+InvalidSearchControlsException - if the search controls
+          contain invalid settings
+NamingException - if a naming exception is encountered
+
+
+"
+ModificationItem,getAttribute(),Attribute,Retrieves the attribute associated with this modification item.,"
+
+getAttribute
+public Attribute getAttribute()
+Retrieves the attribute associated with this modification item.
+
+Returns:
+The non-null attribute to use for the modification.
+
+
+"
+ModificationItem,getModificationOp(),int,Retrieves the modification code of this modification item.,"
+
+getModificationOp
+public int getModificationOp()
+Retrieves the modification code of this modification item.
+
+Returns:
+The modification code.  It is one of:
+         DirContext.ADD_ATTRIBUTE
+         DirContext.REPLACE_ATTRIBUTE
+         DirContext.REMOVE_ATTRIBUTE
+
+
+"
+ModificationItem,toString(),String,"Generates the string representation of this modification item, which consists of the modification operation and its related attribute.","
+
+toString
+public String toString()
+Generates the string representation of this modification item,
+ which consists of the modification operation and its related attribute.
+ The string representation is meant for debugging and not to be
+ interpreted programmatically.
+
+Overrides:
+toString in class Object
+Returns:
+The non-null string representation of this modification item.
+
+
+"
+SearchControls,getCountLimit(),long,Retrieves the maximum number of entries that will be returned as a result of the search.,"
+
+getCountLimit
+public long getCountLimit()
+Retrieves the maximum number of entries that will be returned
+ as a result of the search.
+
+ 0 indicates that all entries will be returned.
+
+Returns:
+The maximum number of entries that will be returned.
+See Also:
+setCountLimit(long)
+
+
+"
+SearchControls,getDerefLinkFlag(),boolean,Determines whether links will be dereferenced during the search.,"
+
+getDerefLinkFlag
+public boolean getDerefLinkFlag()
+Determines whether links will be dereferenced during the search.
+
+Returns:
+true if links will be dereferenced; false otherwise.
+See Also:
+setDerefLinkFlag(boolean)
+
+
+"
+SearchControls,getReturningAttributes(),String[],Retrieves the attributes that will be returned as part of the search.,"
+
+getReturningAttributes
+public String[] getReturningAttributes()
+Retrieves the attributes that will be returned as part of the search.
+
+ A value of null indicates that all attributes will be returned.
+ An empty array indicates that no attributes are to be returned.
+
+Returns:
+An array of attribute ids identifying the attributes that
+ will be returned. Can be null.
+See Also:
+setReturningAttributes(java.lang.String[])
+
+
+"
+SearchControls,getReturningObjFlag(),boolean,Determines whether objects will be returned as part of the result.,"
+
+getReturningObjFlag
+public boolean getReturningObjFlag()
+Determines whether objects will be returned as part of the result.
+
+Returns:
+true if objects will be returned; false otherwise.
+See Also:
+setReturningObjFlag(boolean)
+
+
+"
+SearchControls,getSearchScope(),int,Retrieves the search scope of these SearchControls.,"
+
+getSearchScope
+public int getSearchScope()
+Retrieves the search scope of these SearchControls.
+
+ One of OBJECT_SCOPE, ONELEVEL_SCOPE, SUBTREE_SCOPE.
+
+Returns:
+The search scope of this SearchControls.
+See Also:
+setSearchScope(int)
+
+
+"
+SearchControls,getTimeLimit(),int,Retrieves the time limit of these SearchControls in milliseconds.,"
+
+getTimeLimit
+public int getTimeLimit()
+Retrieves the time limit of these SearchControls in milliseconds.
+
+ If the value is 0, this means to wait indefinitely.
+
+Returns:
+The time limit of these SearchControls in milliseconds.
+See Also:
+setTimeLimit(int)
+
+
+"
+SearchControls,setCountLimit(long limit),void,Sets the maximum number of entries to be returned as a result of the search.,"
+
+setCountLimit
+public void setCountLimit(long limit)
+Sets the maximum number of entries to be returned
+ as a result of the search.
+
+ 0 indicates no limit:  all entries will be returned.
+
+Parameters:
+limit - The maximum number of entries that will be returned.
+See Also:
+getCountLimit()
+
+
+"
+SearchControls,setDerefLinkFlag(boolean on),void,Enables/disables link dereferencing during the search.,"
+
+setDerefLinkFlag
+public void setDerefLinkFlag(boolean on)
+Enables/disables link dereferencing during the search.
+
+Parameters:
+on - if true links will be dereferenced; if false, not followed.
+See Also:
+getDerefLinkFlag()
+
+
+"
+SearchControls,setReturningAttributes(String[] attrs),void,Specifies the attributes that will be returned as part of the search.,"
+
+setReturningAttributes
+public void setReturningAttributes(String[] attrs)
+Specifies the attributes that will be returned as part of the search.
+
+ null indicates that all attributes will be returned.
+ An empty array indicates no attributes are returned.
+
+Parameters:
+attrs - An array of attribute ids identifying the attributes that
+              will be returned. Can be null.
+See Also:
+getReturningAttributes()
+
+
+"
+SearchControls,setReturningObjFlag(boolean on),void,Enables/disables returning objects returned as part of the result.,"
+
+setReturningObjFlag
+public void setReturningObjFlag(boolean on)
+Enables/disables returning objects returned as part of the result.
+
+ If disabled, only the name and class of the object is returned.
+ If enabled, the object will be returned.
+
+Parameters:
+on - if true, objects will be returned; if false,
+                  objects will not be returned.
+See Also:
+getReturningObjFlag()
+
+
+"
+SearchControls,setSearchScope(int scope),void,"Sets the search scope to one of: OBJECT_SCOPE, ONELEVEL_SCOPE, SUBTREE_SCOPE.","
+
+setSearchScope
+public void setSearchScope(int scope)
+Sets the search scope to one of:
+ OBJECT_SCOPE, ONELEVEL_SCOPE, SUBTREE_SCOPE.
+
+Parameters:
+scope - The search scope of this SearchControls.
+See Also:
+getSearchScope()
+
+
+"
+SearchControls,setTimeLimit(int ms),void,Sets the time limit of these SearchControls in milliseconds.,"
+
+setTimeLimit
+public void setTimeLimit(int ms)
+Sets the time limit of these SearchControls in milliseconds.
+
+ If the value is 0, this means to wait indefinitely.
+
+Parameters:
+ms - The time limit of these SearchControls in milliseconds.
+See Also:
+getTimeLimit()
+
+
+"
+SearchResult,getAttributes(),Attributes,Retrieves the attributes in this search result.,"
+
+getAttributes
+public Attributes getAttributes()
+Retrieves the attributes in this search result.
+
+Returns:
+The non-null attributes in this search result. Can be empty.
+See Also:
+setAttributes(javax.naming.directory.Attributes)
+
+
+"
+SearchResult,setAttributes(Attributes attrs),void,Sets the attributes of this search result to attrs.,"
+
+setAttributes
+public void setAttributes(Attributes attrs)
+Sets the attributes of this search result to attrs.
+
+Parameters:
+attrs - The non-null attributes to use. Can be empty.
+See Also:
+getAttributes()
+
+
+"
+SearchResult,toString(),String,Generates the string representation of this SearchResult.,"
+
+toString
+public String toString()
+Generates the string representation of this SearchResult.
+ The string representation consists of the string representation
+ of the binding and the string representation of
+ this search result's attributes, separated by ':'.
+ The contents of this string is useful
+ for debugging and is not meant to be interpreted programmatically.
+
+Overrides:
+toString in class Binding
+Returns:
+The string representation of this SearchResult. Cannot be null.
+
+
+"

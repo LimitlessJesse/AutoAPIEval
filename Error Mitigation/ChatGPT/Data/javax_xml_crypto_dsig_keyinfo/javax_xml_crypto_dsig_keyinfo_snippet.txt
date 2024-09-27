@@ -1,0 +1,82 @@
+Sample: 0 KeyInfoFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
+import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+import javax.xml.crypto.dsig.XMLStructure;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyInfoFactory keyInfoFactory = KeyInfoFactory.getInstance();
+        List<XMLStructure> content = new ArrayList<>();
+        // Add XMLStructures representing key information types to the content list
+        
+        try {
+            KeyInfo keyInfo = keyInfoFactory.newKeyInfo(content);
+            // Use the created KeyInfo object
+        } catch (NullPointerException | IllegalArgumentException | ClassCastException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 KeyInfoFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
+import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+import javax.xml.crypto.dsig.XMLStructure;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyInfoFactory keyInfoFactory = KeyInfoFactory.getInstance("DOM");
+        
+        List<XMLStructure> content = new ArrayList<>();
+        // Add XMLStructures representing key information types to the content list
+        
+        String id = "keyInfo123";
+        
+        KeyInfo keyInfo = keyInfoFactory.newKeyInfo(content, id);
+        System.out.println("KeyInfo created: " + keyInfo);
+    }
+}
+```
+================================================================
+
+Sample: 2 KeyInfoFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.MarshalException;
+import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
+import javax.xml.crypto.dsig.XMLStructure;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyInfoFactory keyInfoFactory = KeyInfoFactory.getInstance();
+        XMLStructure xmlStructure = null; // Initialize with your mechanism-specific XMLStructure
+        
+        try {
+            KeyInfo keyInfo = keyInfoFactory.unmarshalKeyInfo(xmlStructure);
+            // Use the unmarshalled KeyInfo object as needed
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        } catch (MarshalException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

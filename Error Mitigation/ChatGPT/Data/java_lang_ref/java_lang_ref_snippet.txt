@@ -1,0 +1,98 @@
+Sample: 0 PhantomReference_1
+----------------------------------------------------------------
+`T get()`: This method returns the reference object's referent, which is always inaccessible for phantom references, thus always returning null.
+
+Code snippet:
+```java
+import java.lang.ref.PhantomReference;
+
+public class Main {
+    public static void main(String[] args) {
+        Object obj = new Object();
+        PhantomReference<Object> phantomRef = new PhantomReference<>(obj, null);
+        
+        System.out.println(phantomRef.get());
+    }
+}
+```
+================================================================
+
+Sample: 1 Reference_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
+
+public class Main {
+    public static void main(String[] args) {
+        Object obj = new Object();
+        Reference<Object> ref = new WeakReference<>(obj);
+        
+        System.out.println("Is enqueued: " + ref.isEnqueued());
+    }
+}
+```
+================================================================
+
+Sample: 2 Reference_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.ref.Reference;
+
+public class Main {
+    public static void main(String[] args) {
+        Reference<Object> reference = new Reference<>(new Object());
+        reference.clear();
+    }
+}
+```
+================================================================
+
+Sample: 3 Reference_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
+
+public class Main {
+    public static void main(String[] args) {
+        Object obj = new Object();
+        ReferenceQueue<Object> queue = new ReferenceQueue<>();
+        Reference<Object> ref = new WeakReference<>(obj, queue);
+        
+        boolean enqueued = ref.enqueue();
+        System.out.println("Is enqueued: " + enqueued);
+    }
+}
+```
+================================================================
+
+Sample: 4 SoftReference_1
+----------------------------------------------------------------
+`T get()`: This method returns the reference object's referent. If the reference object has been cleared, it returns null.
+
+Code snippet:
+```java
+import java.lang.ref.SoftReference;
+
+public class Main {
+    public static void main(String[] args) {
+        String str = "Hello";
+        SoftReference<String> softRef = new SoftReference<>(str);
+        
+        System.out.println("Soft reference before garbage collection: " + softRef.get());
+        
+        str = null; // Clearing the strong reference
+        
+        System.gc(); // Requesting garbage collection
+        
+        System.out.println("Soft reference after garbage collection: " + softRef.get());
+    }
+}
+```
+================================================================
+

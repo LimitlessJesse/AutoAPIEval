@@ -1,0 +1,370 @@
+Sample: 0 LockInfo_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.LockInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        LockInfo lockInfo = new LockInfo("java.lang.Object", 123);
+        String className = lockInfo.getClassName();
+        System.out.println("Class Name: " + className);
+    }
+}
+```
+================================================================
+
+Sample: 1 LockInfo_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.LockInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        Object lock = new Object();
+        LockInfo lockInfo = new LockInfo(lock);
+        int identityHashCode = lockInfo.getIdentityHashCode();
+        System.out.println("Identity Hash Code: " + identityHashCode);
+    }
+}
+```
+================================================================
+
+Sample: 2 LockInfo_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.LockInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        LockInfo lock = new LockInfo(new Object(), 123);
+        System.out.println(lock.toString());
+    }
+}
+```
+================================================================
+
+Sample: 3 ManagementFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+
+public class Main {
+    public static void main(String[] args) {
+        MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
+        System.out.println(memoryBean);
+    }
+}
+```
+================================================================
+
+Sample: 4 ManagementFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadMXBean threadBean = ManagementFactory.getThreadMXBean();
+        System.out.println(threadBean.getThreadCount());
+    }
+}
+```
+================================================================
+
+Sample: 5 ManagementFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+
+public class Main {
+    public static void main(String[] args) {
+        OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
+        System.out.println("Operating System Name: " + osBean.getName());
+        System.out.println("Operating System Version: " + osBean.getVersion());
+        System.out.println("Operating System Arch: " + osBean.getArch());
+    }
+}
+```
+================================================================
+
+Sample: 6 ManagementFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+
+public class Main {
+    public static void main(String[] args) {
+        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+        System.out.println("Name: " + runtimeMXBean.getName());
+        System.out.println("Class Path: " + runtimeMXBean.getClassPath());
+        System.out.println("Library Path: " + runtimeMXBean.getLibraryPath());
+        System.out.println("VM Version: " + runtimeMXBean.getVmVersion());
+    }
+}
+```
+================================================================
+
+Sample: 7 ManagementFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.ClassLoadingMXBean;
+import java.lang.management.ManagementFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        ClassLoadingMXBean classLoadingMXBean = ManagementFactory.getClassLoadingMXBean();
+        System.out.println("Loaded Class Count: " + classLoadingMXBean.getLoadedClassCount());
+        System.out.println("Total Loaded Class Count: " + classLoadingMXBean.getTotalLoadedClassCount());
+        System.out.println("Unloaded Class Count: " + classLoadingMXBean.getUnloadedClassCount());
+    }
+}
+```
+================================================================
+
+Sample: 8 MemoryNotificationInfo_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.MemoryNotificationInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        MemoryNotificationInfo info = new MemoryNotificationInfo() {
+            @Override
+            public String getPoolName() {
+                return "ExampleMemoryPool";
+            }
+        };
+        
+        System.out.println("Memory pool name: " + info.getPoolName());
+    }
+}
+```
+================================================================
+
+Sample: 9 MemoryNotificationInfo_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.MemoryNotificationInfo;
+import java.lang.management.MemoryUsage;
+
+public class Main {
+    public static void main(String[] args) {
+        MemoryNotificationInfo notificationInfo = new MemoryNotificationInfo("poolName", new MemoryUsage(100, 200, 300, 400), 123456789);
+        MemoryUsage memoryUsage = notificationInfo.getUsage();
+        System.out.println("Init: " + memoryUsage.getInit());
+        System.out.println("Used: " + memoryUsage.getUsed());
+        System.out.println("Committed: " + memoryUsage.getCommitted());
+        System.out.println("Max: " + memoryUsage.getMax());
+    }
+}
+```
+================================================================
+
+Sample: 10 MemoryUsage_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.MemoryUsage;
+
+public class Main {
+    public static void main(String[] args) {
+        MemoryUsage memoryUsage = new MemoryUsage(100, 50, 200, 20);
+        long initialMemory = memoryUsage.getInit();
+        System.out.println("Initial memory size: " + initialMemory);
+    }
+}
+```
+================================================================
+
+Sample: 11 MemoryUsage_2
+----------------------------------------------------------------
+`long getUsed()`: This method returns the amount of used memory in bytes.
+
+Code snippet:
+```java
+import java.lang.management.MemoryUsage;
+
+public class Main {
+    public static void main(String[] args) {
+        MemoryUsage memoryUsage = new MemoryUsage(100, 50, 30, 10);
+        long usedMemory = memoryUsage.getUsed();
+        System.out.println("Used memory: " + usedMemory + " bytes");
+    }
+}
+```
+================================================================
+
+Sample: 12 MemoryUsage_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.MemoryUsage;
+
+public class Main {
+    public static void main(String[] args) {
+        MemoryUsage memoryUsage = new MemoryUsage(100, 200, 300, 400);
+        long committedMemory = memoryUsage.getCommitted();
+        System.out.println("Committed Memory: " + committedMemory + " bytes");
+    }
+}
+```
+================================================================
+
+Sample: 13 MemoryUsage_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.MemoryUsage;
+
+public class Main {
+    public static void main(String[] args) {
+        MemoryUsage memoryUsage = new MemoryUsage(1024, 2048, 512, 256);
+        long maxMemory = memoryUsage.getMax();
+        System.out.println("Maximum memory: " + maxMemory + " bytes");
+    }
+}
+```
+================================================================
+
+Sample: 14 MemoryUsage_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.MemoryUsage;
+
+public class Main {
+    public static void main(String[] args) {
+        MemoryUsage memoryUsage = new MemoryUsage(100, 50, 20, 10);
+        System.out.println(memoryUsage.toString());
+    }
+}
+```
+================================================================
+
+Sample: 15 MonitorInfo_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.MonitorInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        MonitorInfo monitorInfo = new MonitorInfo();
+        int lockedStackDepth = monitorInfo.getLockedStackDepth();
+        System.out.println("Locked stack depth: " + lockedStackDepth);
+    }
+}
+```
+================================================================
+
+Sample: 16 ThreadInfo_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.ThreadInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadInfo threadInfo = new ThreadInfo();
+        long threadId = threadInfo.getThreadId();
+        System.out.println("Thread ID: " + threadId);
+    }
+}
+```
+================================================================
+
+Sample: 17 ThreadInfo_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.ThreadInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadInfo threadInfo = new ThreadInfo();
+        String threadName = threadInfo.getThreadName();
+        System.out.println("Thread Name: " + threadName);
+    }
+}
+```
+================================================================
+
+Sample: 18 ThreadInfo_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.ThreadInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadInfo threadInfo = new ThreadInfo();
+        Thread.State state = threadInfo.getThreadState();
+        System.out.println("Thread state: " + state);
+    }
+}
+```
+================================================================
+
+Sample: 19 ThreadInfo_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        long[] threadIds = threadMXBean.getAllThreadIds();
+        
+        for (long threadId : threadIds) {
+            ThreadInfo threadInfo = threadMXBean.getThreadInfo(threadId);
+            StackTraceElement[] stackTrace = threadInfo.getStackTrace();
+            
+            System.out.println("Thread ID: " + threadId);
+            for (StackTraceElement element : stackTrace) {
+                System.out.println(element.toString());
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 ThreadInfo_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.management.LockInfo;
+import java.lang.management.ThreadInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadInfo threadInfo = new ThreadInfo(); // Assuming you have a ThreadInfo object
+        LockInfo lockInfo = threadInfo.getLockInfo();
+        
+        if(lockInfo != null) {
+            System.out.println("LockInfo: " + lockInfo.toString());
+        } else {
+            System.out.println("Thread is not blocked waiting for any object.");
+        }
+    }
+}
+```
+================================================================
+

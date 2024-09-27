@@ -1,0 +1,591 @@
+Sample: 0 AttributeListImpl_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributeListImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributeListImpl attributeList = new AttributeListImpl();
+        String name = attributeList.getName(0);
+        System.out.println("Name at index 0: " + name);
+    }
+}
+```
+================================================================
+
+Sample: 1 AttributeListImpl_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributeListImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributeListImpl attributeList = new AttributeListImpl();
+        String type = attributeList.getType(0);
+        System.out.println("Type of attribute at index 0: " + type);
+    }
+}
+```
+================================================================
+
+Sample: 2 AttributeListImpl_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributeListImpl;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        String attributeName = "example";
+        String type = getType(attributeName);
+        System.out.println("Type of attribute '" + attributeName + "' is: " + type);
+    }
+
+    public static String getType(String name) {
+        AttributeListImpl attList = new AttributeListImpl();
+        attList.addAttribute(name, "value");
+
+        return attList.getType(name);
+    }
+
+}
+```
+================================================================
+
+Sample: 3 AttributeListImpl_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributeListImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributeListImpl attributes = new AttributeListImpl();
+        attributes.addAttribute("name", "John Doe");
+        attributes.addAttribute("age", "30");
+        
+        for (int i = 0; i < attributes.getLength(); i++) {
+            String value = attributes.getValue(i);
+            System.out.println(value);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 AttributeListImpl_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributeListImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributeListImpl attributeList = new AttributeListImpl();
+        attributeList.add("name1", "value1");
+        attributeList.add("name2", "value2");
+        
+        String value = attributeList.getValue("name1");
+        System.out.println("Value for name1: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 5 AttributesImpl_1
+----------------------------------------------------------------
+void clear(): This method removes all attributes from the AttributesImpl object.
+
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributesImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributesImpl attributes = new AttributesImpl();
+        
+        // Add some attributes
+        attributes.addAttribute("", "name1", "name1", "CDATA", "value1");
+        attributes.addAttribute("", "name2", "name2", "CDATA", "value2");
+        
+        System.out.println("Attributes before clearing: " + attributes.getLength());
+        
+        // Clear all attributes
+        attributes.clear();
+        
+        System.out.println("Attributes after clearing: " + attributes.getLength());
+    }
+}
+```
+================================================================
+
+Sample: 6 AttributesImpl_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributesImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributesImpl attributes = new AttributesImpl();
+        attributes.addAttribute("", "name", "name", "CDATA", "John");
+        attributes.addAttribute("", "age", "age", "CDATA", "30");
+        int index = attributes.getIndex("name");
+        System.out.println("Index of 'name' attribute: " + index);
+    }
+}
+```
+================================================================
+
+Sample: 7 AttributesImpl_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributesImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributesImpl attributes = new AttributesImpl();
+        attributes.addAttribute("", "name1", "name1", "CDATA", "value1");
+        System.out.println(attributes.getLocalName(0));
+    }
+}
+```
+================================================================
+
+Sample: 8 AttributesImpl_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributesImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributesImpl attributes = new AttributesImpl();
+        attributes.addAttribute("", "name", "name", "CDATA", "John");
+        
+        String qName = attributes.getQName(0);
+        System.out.println("QName at index 0: " + qName);
+    }
+}
+```
+================================================================
+
+Sample: 9 AttributesImpl_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.AttributesImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        AttributesImpl attributes = new AttributesImpl();
+        attributes.addAttribute("", "name", "name", "CDATA", "John Doe");
+        
+        // Get the type of the attribute at index 0
+        String type = attributes.getType(0);
+        System.out.println("Type of attribute at index 0: " + type);
+    }
+}
+```
+================================================================
+
+Sample: 10 DefaultHandler_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+public class MyHandler extends DefaultHandler {
+    
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+        System.out.println("Start Element: uri=" + uri + ", localName=" + localName + ", qName=" + qName);
+        
+        for (int i = 0; i < attributes.getLength(); i++) {
+            String attrName = attributes.getLocalName(i);
+            String attrValue = attributes.getValue(i);
+            System.out.println("Attribute: " + attrName + "=" + attrValue);
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultHandler handler = new MyHandler();
+        
+        // We can now use this handler to parse XML
+    }
+}
+```
+================================================================
+
+Sample: 11 DefaultHandler_2
+----------------------------------------------------------------
+void endElement(String uri, String localName, String qName): This method is called when an end element tag is encountered while parsing an XML document.
+
+Code snippet:
+```java
+import org.xml.sax.helpers.DefaultHandler;
+
+public class Main extends DefaultHandler {
+
+    @Override
+    public void endElement(String uri, String localName, String qName) {
+        // Add your implementation here
+    }
+
+    public static void main(String[] args) {
+        // Add your XML parsing logic here
+    }
+}
+```
+================================================================
+
+Sample: 12 DefaultHandler_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.DefaultHandler;
+
+public class Main extends DefaultHandler {
+    
+    public void characters(char[] ch, int start, int length) {
+        String data = new String(ch, start, length);
+        System.out.println("Parsed Data: " + data);
+    }
+    
+    public static void main(String[] args) {
+        Main handler = new Main();
+        char[] data = {'H', 'e', 'l', 'l', 'o'};
+        handler.characters(data, 0, data.length);
+    }
+}
+```
+================================================================
+
+Sample: 13 DefaultHandler_4
+----------------------------------------------------------------
+`void startDocument()`: This method is called at the beginning of a document.
+
+Code snippet:
+```java
+import org.xml.sax.helpers.DefaultHandler;
+
+public class Main extends DefaultHandler {
+    @Override
+    public void startDocument() {
+        System.out.println("Document processing started.");
+    }
+
+    public static void main(String[] args) {
+        // Create an instance of Main and call startDocument
+        Main main = new Main();
+        main.startDocument();
+    }
+}
+```
+================================================================
+
+Sample: 14 DefaultHandler_5
+----------------------------------------------------------------
+`void endDocument()`: This method signals the end of the document being parsed.
+
+Code snippet:
+```java
+import org.xml.sax.helpers.DefaultHandler;
+
+public class MyHandler extends DefaultHandler {
+
+    @Override
+    public void endDocument() {
+        System.out.println("End of document");
+    }
+
+    public static void main(String[] args) {
+        // Create an instance of MyHandler and use it to parse an XML document
+    }
+}
+```
+================================================================
+
+Sample: 15 NamespaceSupport_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.NamespaceSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        NamespaceSupport ns = new NamespaceSupport();
+        ns.pushContext();
+        ns.declarePrefix("prefix", "http://example.com");
+        String uri = ns.getURI("prefix");
+        System.out.println("URI for prefix: " + uri);
+    }
+}
+```
+================================================================
+
+Sample: 16 NamespaceSupport_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.NamespaceSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        NamespaceSupport ns = new NamespaceSupport();
+        
+        // Add some prefixes
+        ns.declarePrefix("xml", "http://www.w3.org/XML/1998/namespace");
+        ns.declarePrefix("xlink", "http://www.w3.org/1999/xlink");
+        
+        // Get all prefixes
+        Enumeration prefixes = ns.getPrefixes();
+        while (prefixes.hasMoreElements()) {
+            String prefix = (String) prefixes.nextElement();
+            System.out.println("Prefix: " + prefix);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 NamespaceSupport_4
+----------------------------------------------------------------
+`void pushContext()`: This method pushes a new context on the context stack. 
+
+Code snippet:
+```java
+import org.xml.sax.helpers.NamespaceSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        NamespaceSupport ns = new NamespaceSupport();
+        ns.pushContext();
+    }
+}
+```
+================================================================
+
+Sample: 18 NamespaceSupport_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.NamespaceSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        NamespaceSupport namespaceSupport = new NamespaceSupport();
+        namespaceSupport.popContext();
+    }
+}
+```
+================================================================
+
+Sample: 19 ParserAdapter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.ParserAdapter;
+import org.xml.sax.SAXException;
+
+public class Main {
+    public static void main(String[] args) {
+        ParserAdapter adapter = new ParserAdapter();
+        adapter.startDocument();
+    }
+}
+```
+================================================================
+
+Sample: 20 ParserAdapter_2
+----------------------------------------------------------------
+void endDocument() method from org.xml.sax.helpers.ParserAdapter:
+
+Code snippet:
+```java
+import org.xml.sax.helpers.ParserAdapter;
+
+public class Main {
+    public static void main(String[] args) {
+        // Instantiate a ParserAdapter
+        ParserAdapter parserAdapter = new ParserAdapter();
+
+        // Call the endDocument method
+        parserAdapter.endDocument();
+    }
+}
+```
+================================================================
+
+Sample: 21 ParserAdapter_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.ParserAdapter;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a char array
+        char[] arr = {'a', 'b', 'c', 'd', 'e'};
+
+        // Call void characters method from ParserAdapter
+        ParserAdapter parserAdapter = new ParserAdapter();
+        parserAdapter.characters(arr, 1, 3);
+    }
+}
+```
+================================================================
+
+Sample: 22 XMLFilterImpl_1
+----------------------------------------------------------------
+`void startDocument()`: This method is called at the start of a document. 
+
+Code snippet:
+```java
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.XMLFilterImpl;
+
+public class Main extends XMLFilterImpl {
+    public static void main(String[] args) {
+        
+    }
+
+    @Override
+    public void startDocument() throws SAXException {
+        System.out.println("Start of the document");
+    }
+}
+```
+================================================================
+
+Sample: 23 XMLFilterImpl_2
+----------------------------------------------------------------
+void endDocument():
+This method signals the end of a document. It can be overridden in a subclass to perform additional actions after parsing a document.
+
+Code snippet:
+```java
+import org.xml.sax.helpers.XMLFilterImpl;
+
+public class Main extends XMLFilterImpl {
+    
+    @Override
+    public void endDocument() {
+        System.out.println("End of document reached");
+    }
+    
+    public static void main(String[] args) {
+        Main customXMLFilter = new Main();
+        customXMLFilter.endDocument();
+    }
+}
+```
+================================================================
+
+Sample: 24 XMLFilterImpl_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.helpers.XMLFilterImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLFilterImpl xmlFilter = new XMLFilterImpl();
+        xmlFilter.startPrefixMapping("prefix", "http://example.com");
+    }
+}
+```
+================================================================
+
+Sample: 25 XMLFilterImpl_4
+----------------------------------------------------------------
+`void endPrefixMapping(String prefix)`: This method signals the end of the prefix mapping associated with a given prefix.
+
+Code snippet:
+```java
+import org.xml.sax.helpers.XMLFilterImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLFilterImpl xmlFilter = new XMLFilterImpl();
+        xmlFilter.endPrefixMapping("prefix");
+    }
+}
+```
+================================================================
+
+Sample: 26 XMLFilterImpl_5
+----------------------------------------------------------------
+`void startElement(String uri, String localName, String qName, Attributes attributes)`: This method is called at the start of an element in the XML document.
+
+Code snippet:
+```java
+import org.xml.sax.Attributes;
+import org.xml.sax.helpers.XMLFilterImpl;
+
+public class Main extends XMLFilterImpl {
+    
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
+        System.out.println("Start Element: " + qName);
+        for (int i = 0; i < attributes.getLength(); i++) {
+            System.out.println("Attribute: " + attributes.getQName(i) + " = " + attributes.getValue(i));
+        }
+    }
+
+    public static void main(String[] args) {
+        // Code to test the startElement method
+    }
+}
+```
+================================================================
+
+Sample: 27 XMLReaderFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            XMLReader reader = XMLReaderFactory.createXMLReader();
+            System.out.println("XMLReader created successfully: " + reader.getClass().getName());
+        } catch (Exception e) {
+            System.out.println("Error creating XMLReader: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 28 XMLReaderFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.XMLReader;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            XMLReader xmlReader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
+            System.out.println("XMLReader created successfully: " + xmlReader.getClass().getName());
+        } catch (SAXException e) {
+            System.out.println("Error creating XMLReader: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,9 @@
+import java.awt.color.ICC_Profile;
+
+public class ICC_Profile_1 {
+    public static void main(String[] args) {
+        ICC_Profile profile = ICC_Profile.getInstance(someProfileData);
+        int majorVersion = profile.getMajorVersion();
+        System.out.println("Major Version: " + majorVersion);
+    }
+}

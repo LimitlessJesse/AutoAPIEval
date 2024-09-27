@@ -61,12 +61,6 @@ for row in methodReader:
   
   methodRecord[row['ClassName']][methodName].append(retType + " " + paraStr)
 
-
-# print("MethodRecord============================")
-# for key in methodRecord.keys():
-#   print(key)
-# print("MethodRecord============================")
-
 # End of creating method dictionary
 
 print("Loading model")
@@ -114,11 +108,10 @@ i = 0
 for seq in sequences:
   pattern = r'\d+\. \`(.*?)\`:'
   matches = re.findall(pattern, seq[0]["generated_text"])
-  # print(f"\n{classNameList[i]}\n")
+  
   if matches:
     j = 1
     for match in matches:
-      # print(match)
 
       exist = False
 
@@ -150,8 +143,6 @@ for seq in sequences:
       except Exception as e:
         print("Something went wrong, probably generated incorrect output: ", e)
 
-      
-      # exist = f'{match} {classNameList[i]}' in methodRecord or f'static {match} {classNameList[i]}' in methodRecord
       writer.writerow([i, classNameList[i], j, match, exist])
       j += 1
 

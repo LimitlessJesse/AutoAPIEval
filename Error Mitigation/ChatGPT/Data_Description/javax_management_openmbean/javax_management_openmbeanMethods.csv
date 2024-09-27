@@ -1,0 +1,2455 @@
+ClassName,Method,Return Type,Description,Full Description
+ArrayType,equals(Object obj),boolean,Compares the specified obj parameter with this ArrayType instance for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified obj parameter with this
+ ArrayType instance for equality.
+ 
+ Two ArrayType instances are equal if and only if they
+ describe array instances which have the same dimension, elements'
+ open type and primitive array flag.
+
+Specified by:
+equals in class OpenType<T>
+Parameters:
+obj - the object to be compared for equality with this
+            ArrayType instance; if obj
+            is null or is not an instance of the
+            class ArrayType this method returns
+            false.
+Returns:
+true if the specified object is equal to
+         this ArrayType instance.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+ArrayType,getArrayType(OpenType<E> elementType),static <E> ArrayType<E[]>,Create an ArrayType instance in a type-safe manner.,"
+
+getArrayType
+public static <E> ArrayType<E[]> getArrayType(OpenType<E> elementType)
+                                       throws OpenDataException
+Create an ArrayType instance in a type-safe manner.
+ 
+ Multidimensional arrays can be built up by calling this method as many
+ times as necessary.
+ 
+ Calling this method twice with the same parameters may return the same
+ object or two equal but not identical objects.
+ 
+ As an example, the following piece of code:
+ 
+ ArrayType<String[]> t1 = ArrayType.getArrayType(SimpleType.STRING);
+ ArrayType<String[][]> t2 = ArrayType.getArrayType(t1);
+ ArrayType<String[][][]> t3 = ArrayType.getArrayType(t2);
+ System.out.println(""array class name       = "" + t3.getClassName());
+ System.out.println(""element class name     = "" + t3.getElementOpenType().getClassName());
+ System.out.println(""array type name        = "" + t3.getTypeName());
+ System.out.println(""array type description = "" + t3.getDescription());
+ 
+ would produce the following output:
+ 
+ array class name       = [[[Ljava.lang.String;
+ element class name     = java.lang.String
+ array type name        = [[[Ljava.lang.String;
+ array type description = 3-dimension array of java.lang.String
+ 
+
+Parameters:
+elementType - the open type of element values contained
+                      in the arrays described by this ArrayType
+                      instance; must be an instance of either
+                      SimpleType, CompositeType,
+                      TabularType or another ArrayType
+                      with a SimpleType, CompositeType
+                      or TabularType as its elementType.
+Throws:
+OpenDataException - if elementType's className is not
+                           one of the allowed Java class names for open
+                           data.
+Since:
+1.6
+
+
+"
+ArrayType,getDimension(),int,Returns the dimension of arrays described by this ArrayType instance.,"
+
+getDimension
+public int getDimension()
+Returns the dimension of arrays described by this ArrayType instance.
+
+Returns:
+the dimension.
+
+
+"
+ArrayType,getElementOpenType(),OpenType<?>,Returns the open type of element values contained in the arrays described by this ArrayType instance.,"
+
+getElementOpenType
+public OpenType<?> getElementOpenType()
+Returns the open type of element values contained in the arrays described by this ArrayType instance.
+
+Returns:
+the element type.
+
+
+"
+ArrayType,getPrimitiveArrayType(Class<T> arrayClass),static <T> ArrayType<T>,Create an ArrayType instance in a type-safe manner.,"
+
+getPrimitiveArrayType
+public static <T> ArrayType<T> getPrimitiveArrayType(Class<T> arrayClass)
+Create an ArrayType instance in a type-safe manner.
+ 
+ Calling this method twice with the same parameters may return the
+ same object or two equal but not identical objects.
+ 
+ As an example, the following piece of code:
+ 
+ ArrayType<int[][][]> t = ArrayType.getPrimitiveArrayType(int[][][].class);
+ System.out.println(""array class name       = "" + t.getClassName());
+ System.out.println(""element class name     = "" + t.getElementOpenType().getClassName());
+ System.out.println(""array type name        = "" + t.getTypeName());
+ System.out.println(""array type description = "" + t.getDescription());
+ 
+ would produce the following output:
+ 
+ array class name       = [[[I
+ element class name     = java.lang.Integer
+ array type name        = [[[I
+ array type description = 3-dimension array of int
+ 
+
+Parameters:
+arrayClass - a primitive array class such as int[].class,
+                   boolean[][].class, etc. The getElementOpenType() method of the returned
+                   ArrayType returns the SimpleType
+                   corresponding to the wrapper type of the primitive
+                   type of the array.
+Throws:
+IllegalArgumentException - if arrayClass is not
+                                  a primitive array.
+Since:
+1.6
+
+
+"
+ArrayType,hashCode(),int,Returns the hash code value for this ArrayType instance.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this ArrayType instance.
+ 
+ The hash code of an ArrayType instance is the sum of the
+ hash codes of all the elements of information used in equals
+ comparisons (i.e. dimension, elements' open type and primitive array flag).
+ The hashcode for a primitive value is the hashcode of the corresponding boxed
+ object (e.g. the hashcode for true is Boolean.TRUE.hashCode()).
+ This ensures that  t1.equals(t2)  implies that
+  t1.hashCode()==t2.hashCode()  for any two
+ ArrayType instances t1 and t2,
+ as required by the general contract of the method
+ Object.hashCode().
+ 
+ As ArrayType instances are immutable, the hash
+ code for this instance is calculated once, on the first call
+ to hashCode, and then the same value is returned
+ for subsequent calls.
+
+Specified by:
+hashCode in class OpenType<T>
+Returns:
+the hash code value for this ArrayType instance
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+ArrayType,isPrimitiveArray(),boolean,"Returns true if the open data values this open type describes are primitive arrays, false otherwise.","
+
+isPrimitiveArray
+public boolean isPrimitiveArray()
+Returns true if the open data values this open
+ type describes are primitive arrays, false otherwise.
+
+Returns:
+true if this is a primitive array type.
+Since:
+1.6
+
+
+"
+ArrayType,isValue(Object obj),boolean,Tests whether obj is a value for this ArrayType instance.,"
+
+isValue
+public boolean isValue(Object obj)
+Tests whether obj is a value for this ArrayType
+ instance.
+ 
+ This method returns true if and only if obj
+ is not null, obj is an array and any one of the following
+ is true:
+
+ 
+if this ArrayType instance describes an array of
+ SimpleType elements or their corresponding primitive types,
+ obj's class name is the same as the className field defined
+ for this ArrayType instance (i.e. the class name returned
+ by the getClassName method, which
+ includes the dimension information), 
+if this ArrayType instance describes an array of
+ classes implementing the TabularData interface or the
+ CompositeData interface, obj is assignable to
+ such a declared array, and each element contained in {obj
+ is either null or a valid value for the element's open type specified
+ by this ArrayType instance.
+
+
+Specified by:
+isValue in class OpenType<T>
+Parameters:
+obj - the object to be tested.
+Returns:
+true if obj is a value for this
+ ArrayType instance.
+
+
+"
+ArrayType,toString(),String,Returns a string representation of this ArrayType instance.,"
+
+toString
+public String toString()
+Returns a string representation of this ArrayType instance.
+ 
+ The string representation consists of the name of this class (i.e.
+ javax.management.openmbean.ArrayType), the type name,
+ the dimension, the elements' open type and the primitive array flag
+ defined for this instance.
+ 
+ As ArrayType instances are immutable, the
+ string representation for this instance is calculated
+ once, on the first call to toString, and
+ then the same value is returned for subsequent calls.
+
+Specified by:
+toString in class OpenType<T>
+Returns:
+a string representation of this ArrayType instance
+
+
+"
+CompositeDataInvocationHandler,getCompositeData(),CompositeData,Return the CompositeData that was supplied to the constructor.,"
+
+getCompositeData
+public CompositeData getCompositeData()
+Return the CompositeData that was supplied to the
+       constructor.
+
+Returns:
+the CompositeData that this handler is backed
+       by.  This is never null.
+
+
+"
+CompositeDataInvocationHandler,"invoke(Object proxy, Method method, Object[] args)",Object,Processes a method invocation on a proxy instance and returns the result.,"
+
+invoke
+public Object invoke(Object proxy,
+                     Method method,
+                     Object[] args)
+              throws Throwable
+Description copied from interface: InvocationHandler
+Processes a method invocation on a proxy instance and returns
+ the result.  This method will be invoked on an invocation handler
+ when a method is invoked on a proxy instance that it is
+ associated with.
+
+Specified by:
+invoke in interface InvocationHandler
+Parameters:
+proxy - the proxy instance that the method was invoked on
+method - the Method instance corresponding to
+ the interface method invoked on the proxy instance.  The declaring
+ class of the Method object will be the interface that
+ the method was declared in, which may be a superinterface of the
+ proxy interface that the proxy class inherits the method through.
+args - an array of objects containing the values of the
+ arguments passed in the method invocation on the proxy instance,
+ or null if interface method takes no arguments.
+ Arguments of primitive types are wrapped in instances of the
+ appropriate primitive wrapper class, such as
+ java.lang.Integer or java.lang.Boolean.
+Returns:
+the value to return from the method invocation on the
+ proxy instance.  If the declared return type of the interface
+ method is a primitive type, then the value returned by
+ this method must be an instance of the corresponding primitive
+ wrapper class; otherwise, it must be a type assignable to the
+ declared return type.  If the value returned by this method is
+ null and the interface method's return type is
+ primitive, then a NullPointerException will be
+ thrown by the method invocation on the proxy instance.  If the
+ value returned by this method is otherwise not compatible with
+ the interface method's declared return type as described above,
+ a ClassCastException will be thrown by the method
+ invocation on the proxy instance.
+Throws:
+Throwable - the exception to throw from the method
+ invocation on the proxy instance.  The exception's type must be
+ assignable either to any of the exception types declared in the
+ throws clause of the interface method or to the
+ unchecked exception types java.lang.RuntimeException
+ or java.lang.Error.  If a checked exception is
+ thrown by this method that is not assignable to any of the
+ exception types declared in the throws clause of
+ the interface method, then an
+ UndeclaredThrowableException containing the
+ exception that was thrown by this method will be thrown by the
+ method invocation on the proxy instance.
+See Also:
+UndeclaredThrowableException
+
+
+"
+CompositeDataSupport,containsKey(String key),boolean,Returns true if and only if this CompositeData instance contains an item whose name is key.,"
+
+containsKey
+public boolean containsKey(String key)
+Returns true if and only if this CompositeData instance contains
+ an item whose name is key.
+ If key is a null or empty String, this method simply returns false.
+
+Specified by:
+containsKey in interface CompositeData
+Parameters:
+key - the key to be tested.
+Returns:
+true if this CompositeData contains the key.
+
+
+"
+CompositeDataSupport,containsValue(Object value),boolean,Returns true if and only if this CompositeData instance contains an item whose value is value.,"
+
+containsValue
+public boolean containsValue(Object value)
+Returns true if and only if this CompositeData instance
+ contains an item
+ whose value is value.
+
+Specified by:
+containsValue in interface CompositeData
+Parameters:
+value - the value to be tested.
+Returns:
+true if this CompositeData contains the value.
+
+
+"
+CompositeDataSupport,equals(Object obj),boolean,Compares the specified obj parameter with this CompositeDataSupport instance for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified obj parameter with this
+ CompositeDataSupport instance for equality.
+ 
+ Returns true if and only if all of the following statements are true:
+ 
+obj is non null,
+obj also implements the CompositeData interface,
+their composite types are equal
+their contents, i.e. (name, value) pairs are equal. If a value contained in
+ the content is an array, the value comparison is done as if by calling
+ the deepEquals method
+ for arrays of object reference types or the appropriate overloading of
+ Arrays.equals(e1,e2) for arrays of primitive types
+
+
+ This ensures that this equals method works properly for
+ obj parameters which are different implementations of the
+ CompositeData interface, with the restrictions mentioned in the
+ equals
+ method of the java.util.Collection interface.
+
+Specified by:
+equals in interface CompositeData
+Overrides:
+equals in class Object
+Parameters:
+obj - the object to be compared for equality with this
+ CompositeDataSupport instance.
+Returns:
+true if the specified object is equal to this
+ CompositeDataSupport instance.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+CompositeDataSupport,get(String key),Object,Returns the value of the item whose name is key.,"
+
+get
+public Object get(String key)
+Returns the value of the item whose name is key.
+
+Specified by:
+get in interface CompositeData
+Parameters:
+key - the name of the item.
+Returns:
+the value associated with this key.
+Throws:
+IllegalArgumentException - if key is a null or empty String.
+InvalidKeyException - if key is not an existing item name for
+ this CompositeData instance.
+
+
+"
+CompositeDataSupport,getAll(String[] keys),Object[],"Returns an array of the values of the items whose names are specified by keys, in the same order as keys.","
+
+getAll
+public Object[] getAll(String[] keys)
+Returns an array of the values of the items whose names are specified by
+ keys, in the same order as keys.
+
+Specified by:
+getAll in interface CompositeData
+Parameters:
+keys - the names of the items.
+Returns:
+the values corresponding to the keys.
+Throws:
+IllegalArgumentException - if an element in keys is a null
+ or empty String.
+InvalidKeyException - if an element in keys is not an existing
+ item name for this CompositeData instance.
+
+
+"
+CompositeDataSupport,getCompositeType(),CompositeType,Returns the composite type of this composite data instance.,"
+
+getCompositeType
+public CompositeType getCompositeType()
+Returns the composite type  of this composite data instance.
+
+Specified by:
+getCompositeType in interface CompositeData
+Returns:
+the type of this CompositeData.
+
+
+"
+CompositeDataSupport,hashCode(),int,Returns the hash code value for this CompositeDataSupport instance.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this CompositeDataSupport instance.
+ 
+ The hash code of a CompositeDataSupport instance is the sum of the hash codes
+ of all elements of information used in equals comparisons
+ (ie: its composite type and all the item values).
+ 
+ This ensures that  t1.equals(t2)  implies that  t1.hashCode()==t2.hashCode() 
+ for any two CompositeDataSupport instances t1 and t2,
+ as required by the general contract of the method
+ Object.hashCode().
+ 
+ Each item value's hash code is added to the returned hash code.
+ If an item value is an array,
+ its hash code is obtained as if by calling the
+ deepHashCode method
+ for arrays of object reference types or the appropriate overloading
+ of Arrays.hashCode(e) for arrays of primitive types.
+
+Specified by:
+hashCode in interface CompositeData
+Overrides:
+hashCode in class Object
+Returns:
+the hash code value for this CompositeDataSupport instance
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+CompositeDataSupport,toString(),String,Returns a string representation of this CompositeDataSupport instance.,"
+
+toString
+public String toString()
+Returns a string representation of this CompositeDataSupport instance.
+ 
+ The string representation consists of the name of this class (ie javax.management.openmbean.CompositeDataSupport),
+ the string representation of the composite type of this instance, and the string representation of the contents
+ (ie list the itemName=itemValue mappings).
+
+Specified by:
+toString in interface CompositeData
+Overrides:
+toString in class Object
+Returns:
+a string representation of this CompositeDataSupport instance
+
+
+"
+CompositeDataSupport,values(),Collection<?>,Returns an unmodifiable Collection view of the item values contained in this CompositeData instance.,"
+
+values
+public Collection<?> values()
+Returns an unmodifiable Collection view of the item values contained in this
+ CompositeData instance.
+ The returned collection's iterator will return the values in the ascending
+ lexicographic order of the corresponding
+ item names.
+
+Specified by:
+values in interface CompositeData
+Returns:
+the values.
+
+
+"
+CompositeType,containsKey(String itemName),boolean,Returns true if this CompositeType instance defines an item whose name is itemName.,"
+
+containsKey
+public boolean containsKey(String itemName)
+Returns true if this CompositeType instance defines an item
+ whose name is itemName.
+
+Parameters:
+itemName - the name of the item.
+Returns:
+true if an item of this name is present.
+
+
+"
+CompositeType,equals(Object obj),boolean,Compares the specified obj parameter with this CompositeType instance for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified obj parameter with this CompositeType instance for equality.
+ 
+ Two CompositeType instances are equal if and only if all of the following statements are true:
+ 
+their type names are equal
+their items' names and types are equal
+
+ 
+
+Specified by:
+equals in class OpenType<CompositeData>
+Parameters:
+obj - the object to be compared for equality with this CompositeType instance;
+              if obj is null, equals returns false.
+Returns:
+true if the specified object is equal to this CompositeType instance.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+CompositeType,getDescription(String itemName),String,"Returns the description of the item whose name is itemName, or null if this CompositeType instance does not define any item whose name is itemName.","
+
+getDescription
+public String getDescription(String itemName)
+Returns the description of the item whose name is itemName,
+ or null if this CompositeType instance does not define any item
+ whose name is itemName.
+
+Parameters:
+itemName - the name of the item.
+Returns:
+the description.
+
+
+"
+CompositeType,getType(String itemName),OpenType<?>,"Returns the open type of the item whose name is itemName, or null if this CompositeType instance does not define any item whose name is itemName.","
+
+getType
+public OpenType<?> getType(String itemName)
+Returns the open type of the item whose name is itemName,
+ or null if this CompositeType instance does not define any item
+ whose name is itemName.
+
+Parameters:
+itemName - the name of the time.
+Returns:
+the type.
+
+
+"
+CompositeType,hashCode(),int,Returns the hash code value for this CompositeType instance.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this CompositeType instance.
+ 
+ The hash code of a CompositeType instance is the sum of the hash codes
+ of all elements of information used in equals comparisons
+ (ie: name, items names, items types).
+ This ensures that  t1.equals(t2)  implies that  t1.hashCode()==t2.hashCode() 
+ for any two CompositeType instances t1 and t2,
+ as required by the general contract of the method
+ Object.hashCode().
+ 
+ As CompositeType instances are immutable, the hash code for this instance is calculated once,
+ on the first call to hashCode, and then the same value is returned for subsequent calls.
+
+Specified by:
+hashCode in class OpenType<CompositeData>
+Returns:
+the hash code value for this CompositeType instance
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+CompositeType,isValue(Object obj),boolean,Tests whether obj is a value which could be described by this CompositeType instance.,"
+
+isValue
+public boolean isValue(Object obj)
+Tests whether obj is a value which could be
+ described by this CompositeType instance.
+
+ If obj is null or is not an instance of
+ javax.management.openmbean.CompositeData,
+ isValue returns false.
+If obj is an instance of
+ javax.management.openmbean.CompositeData, then let
+ ct be its CompositeType as returned by CompositeData.getCompositeType().  The result is true if
+ this is assignable from ct.  This
+ means that:
+
+this.getTypeName() equals
+ ct.getTypeName(), and
+ there are no item names present in this that are
+ not also present in ct, and
+ for every item in this, its type is assignable from
+ the type of the corresponding item in ct.
+ 
+A TabularType is assignable from another TabularType if they have the same typeName and index name list, and the
+ row type of the first is
+ assignable from the row type of the second.
+
+ An ArrayType is assignable from another ArrayType if they have the same dimension; and both are primitive arrays or neither is;
+ and the element
+ type of the first is assignable from the element type of the
+ second.
+
+ In every other case, an OpenType is assignable from
+ another OpenType only if they are equal.
+These rules mean that extra items can be added to a CompositeData without making it invalid for a CompositeType
+ that does not have those items.
+
+Specified by:
+isValue in class OpenType<CompositeData>
+Parameters:
+obj - the value whose open type is to be tested for compatibility
+ with this CompositeType instance.
+Returns:
+true if obj is a value for this
+ composite type, false otherwise.
+
+
+"
+CompositeType,keySet(),Set<String>,Returns an unmodifiable Set view of all the item names defined by this CompositeType instance.,"
+
+keySet
+public Set<String> keySet()
+Returns an unmodifiable Set view of all the item names defined by this CompositeType instance.
+ The set's iterator will return the item names in ascending order.
+
+Returns:
+a Set of String.
+
+
+"
+CompositeType,toString(),String,Returns a string representation of this CompositeType instance.,"
+
+toString
+public String toString()
+Returns a string representation of this CompositeType instance.
+ 
+ The string representation consists of
+ the name of this class (ie javax.management.openmbean.CompositeType), the type name for this instance,
+ and the list of the items names and types string representation of this instance.
+ 
+ As CompositeType instances are immutable, the string representation for this instance is calculated once,
+ on the first call to toString, and then the same value is returned for subsequent calls.
+
+Specified by:
+toString in class OpenType<CompositeData>
+Returns:
+a string representation of this CompositeType instance
+
+
+"
+OpenMBeanAttributeInfoSupport,equals(Object obj),boolean,Compares the specified obj parameter with this OpenMBeanAttributeInfoSupport instance for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified obj parameter with this OpenMBeanAttributeInfoSupport instance for equality.
+ 
+ Returns true if and only if all of the following statements are true:
+ 
+obj is non null,
+obj also implements the OpenMBeanAttributeInfo interface,
+their names are equal
+their open types are equal
+their access properties (isReadable, isWritable and isIs) are equal
+their default, min, max and legal values are equal.
+
+ This ensures that this equals method works properly for
+ obj parameters which are different implementations of
+ the OpenMBeanAttributeInfo interface.
+
+ If obj also implements DescriptorRead, then its
+ getDescriptor() method must
+ also return the same value as for this object.
+
+Specified by:
+equals in interface OpenMBeanAttributeInfo
+Specified by:
+equals in interface OpenMBeanParameterInfo
+Overrides:
+equals in class MBeanAttributeInfo
+Parameters:
+obj - the object to be compared for equality with this
+ OpenMBeanAttributeInfoSupport instance.
+Returns:
+true if the specified object is equal to this
+ OpenMBeanAttributeInfoSupport instance.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+OpenMBeanAttributeInfoSupport,getDefaultValue(),Object,"Returns the default value for the attribute described by this OpenMBeanAttributeInfoSupport instance, if specified, or null otherwise.","
+
+getDefaultValue
+public Object getDefaultValue()
+Returns the default value for the attribute described by this
+ OpenMBeanAttributeInfoSupport instance, if specified,
+ or null otherwise.
+
+Specified by:
+getDefaultValue in interface OpenMBeanParameterInfo
+Returns:
+the default value.
+
+
+"
+OpenMBeanAttributeInfoSupport,getLegalValues(),Set<?>,"Returns an unmodifiable Set of legal values for the attribute described by this OpenMBeanAttributeInfoSupport instance, if specified, or null otherwise.","
+
+getLegalValues
+public Set<?> getLegalValues()
+Returns an unmodifiable Set of legal values for the attribute
+ described by this OpenMBeanAttributeInfoSupport
+ instance, if specified, or null otherwise.
+
+Specified by:
+getLegalValues in interface OpenMBeanParameterInfo
+Returns:
+the set of legal values.
+
+
+"
+OpenMBeanAttributeInfoSupport,getMaxValue(),Comparable<?>,"Returns the maximal value for the attribute described by this OpenMBeanAttributeInfoSupport instance, if specified, or null otherwise.","
+
+getMaxValue
+public Comparable<?> getMaxValue()
+Returns the maximal value for the attribute described by this
+ OpenMBeanAttributeInfoSupport instance, if specified,
+ or null otherwise.
+
+Specified by:
+getMaxValue in interface OpenMBeanParameterInfo
+Returns:
+the maximum value.
+
+
+"
+OpenMBeanAttributeInfoSupport,getMinValue(),Comparable<?>,"Returns the minimal value for the attribute described by this OpenMBeanAttributeInfoSupport instance, if specified, or null otherwise.","
+
+getMinValue
+public Comparable<?> getMinValue()
+Returns the minimal value for the attribute described by this
+ OpenMBeanAttributeInfoSupport instance, if specified,
+ or null otherwise.
+
+Specified by:
+getMinValue in interface OpenMBeanParameterInfo
+Returns:
+the minimum value.
+
+
+"
+OpenMBeanAttributeInfoSupport,getOpenType(),OpenType<?>,Returns the open type for the values of the attribute described by this OpenMBeanAttributeInfoSupport instance.,"
+
+getOpenType
+public OpenType<?> getOpenType()
+Returns the open type for the values of the attribute described
+ by this OpenMBeanAttributeInfoSupport instance.
+
+Specified by:
+getOpenType in interface OpenMBeanParameterInfo
+Returns:
+the open type.
+
+
+"
+OpenMBeanAttributeInfoSupport,hasDefaultValue(),boolean,"Returns true if this OpenMBeanAttributeInfoSupport instance specifies a non-null default value for the described attribute, false otherwise.","
+
+hasDefaultValue
+public boolean hasDefaultValue()
+Returns true if this OpenMBeanAttributeInfoSupport instance specifies a non-null
+ default value for the described attribute, false
+ otherwise.
+
+Specified by:
+hasDefaultValue in interface OpenMBeanParameterInfo
+Returns:
+true if there is a default value.
+
+
+"
+OpenMBeanAttributeInfoSupport,hashCode(),int,Returns the hash code value for this OpenMBeanAttributeInfoSupport instance.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this OpenMBeanAttributeInfoSupport instance.
+The hash code of an OpenMBeanAttributeInfoSupport
+ instance is the sum of the hash codes of all elements of
+ information used in equals comparisons (ie: its name,
+ its open type, its default, min, max and legal
+ values, and its Descriptor).
+
+ This ensures that t1.equals(t2) implies that t1.hashCode()==t2.hashCode() for any two OpenMBeanAttributeInfoSupport instances t1 and t2, as required by the general contract of the method Object.hashCode().
+
+ However, note that another instance of a class implementing
+ the OpenMBeanAttributeInfo interface may be equal to
+ this OpenMBeanAttributeInfoSupport instance as defined
+ by equals(java.lang.Object), but may have a different
+ hash code if it is calculated differently.
+
+ As OpenMBeanAttributeInfoSupport instances are
+ immutable, the hash code for this instance is calculated once,
+ on the first call to hashCode, and then the same value
+ is returned for subsequent calls.
+
+Specified by:
+hashCode in interface OpenMBeanAttributeInfo
+Specified by:
+hashCode in interface OpenMBeanParameterInfo
+Overrides:
+hashCode in class MBeanAttributeInfo
+Returns:
+the hash code value for this OpenMBeanAttributeInfoSupport instance
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+OpenMBeanAttributeInfoSupport,hasLegalValues(),boolean,"Returns true if this OpenMBeanAttributeInfoSupport instance specifies a non-null set of legal values for the described attribute, false otherwise.","
+
+hasLegalValues
+public boolean hasLegalValues()
+Returns true if this OpenMBeanAttributeInfoSupport instance specifies a non-null
+ set of legal values for the described attribute, false
+ otherwise.
+
+Specified by:
+hasLegalValues in interface OpenMBeanParameterInfo
+Returns:
+true if there is a set of legal values.
+
+
+"
+OpenMBeanAttributeInfoSupport,hasMaxValue(),boolean,"Returns true if this OpenMBeanAttributeInfoSupport instance specifies a non-null maximal value for the described attribute, false otherwise.","
+
+hasMaxValue
+public boolean hasMaxValue()
+Returns true if this OpenMBeanAttributeInfoSupport instance specifies a non-null
+ maximal value for the described attribute, false
+ otherwise.
+
+Specified by:
+hasMaxValue in interface OpenMBeanParameterInfo
+Returns:
+true if there is a maximum value.
+
+
+"
+OpenMBeanAttributeInfoSupport,hasMinValue(),boolean,"Returns true if this OpenMBeanAttributeInfoSupport instance specifies a non-null minimal value for the described attribute, false otherwise.","
+
+hasMinValue
+public boolean hasMinValue()
+Returns true if this OpenMBeanAttributeInfoSupport instance specifies a non-null
+ minimal value for the described attribute, false
+ otherwise.
+
+Specified by:
+hasMinValue in interface OpenMBeanParameterInfo
+Returns:
+true if there is a minimum value.
+
+
+"
+OpenMBeanAttributeInfoSupport,isValue(Object obj),boolean,Tests whether obj is a valid value for the attribute described by this OpenMBeanAttributeInfoSupport instance.,"
+
+isValue
+public boolean isValue(Object obj)
+Tests whether obj is a valid value for the attribute
+ described by this OpenMBeanAttributeInfoSupport
+ instance.
+
+Specified by:
+isValue in interface OpenMBeanParameterInfo
+Parameters:
+obj - the object to be tested.
+Returns:
+true if obj is a valid value for
+ the parameter described by this OpenMBeanAttributeInfoSupport instance, false
+ otherwise.
+
+
+"
+OpenMBeanAttributeInfoSupport,toString(),String,Returns a string representation of this OpenMBeanAttributeInfoSupport instance.,"
+
+toString
+public String toString()
+Returns a string representation of this
+ OpenMBeanAttributeInfoSupport instance.
+ 
+ The string representation consists of the name of this class (i.e.
+ javax.management.openmbean.OpenMBeanAttributeInfoSupport),
+ the string representation of the name and open type of the
+ described parameter, the string representation of its
+ default, min, max and legal values and the string
+ representation of its descriptor.
+
+ As OpenMBeanAttributeInfoSupport instances are
+ immutable, the string representation for this instance is
+ calculated once, on the first call to toString, and
+ then the same value is returned for subsequent calls.
+
+Specified by:
+toString in interface OpenMBeanAttributeInfo
+Specified by:
+toString in interface OpenMBeanParameterInfo
+Overrides:
+toString in class MBeanAttributeInfo
+Returns:
+a string representation of this
+ OpenMBeanAttributeInfoSupport instance.
+
+
+"
+OpenMBeanConstructorInfoSupport,equals(Object obj),boolean,Compares the specified obj parameter with this OpenMBeanConstructorInfoSupport instance for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified obj parameter with this
+ OpenMBeanConstructorInfoSupport instance for
+ equality.
+Returns true if and only if all of the following
+ statements are true:
+
+ 
+obj is non null,
+obj also implements the OpenMBeanConstructorInfo interface,
+their names are equal
+their signatures are equal.
+
+
+ This ensures that this equals method works properly for
+ obj parameters which are different implementations of
+ the OpenMBeanConstructorInfo interface.
+
+Specified by:
+equals in interface OpenMBeanConstructorInfo
+Overrides:
+equals in class MBeanConstructorInfo
+Parameters:
+obj - the object to be compared for equality with this
+ OpenMBeanConstructorInfoSupport instance;
+Returns:
+true if the specified object is equal to this
+ OpenMBeanConstructorInfoSupport instance.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+OpenMBeanConstructorInfoSupport,hashCode(),int,Returns the hash code value for this OpenMBeanConstructorInfoSupport instance.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this OpenMBeanConstructorInfoSupport instance.
+The hash code of an OpenMBeanConstructorInfoSupport
+ instance is the sum of the hash codes of all elements of
+ information used in equals comparisons (ie: its name
+ and signature, where the signature hashCode is calculated by a
+ call to java.util.Arrays.asList(this.getSignature).hashCode()).
+This ensures that t1.equals(t2) implies that t1.hashCode()==t2.hashCode() for any two OpenMBeanConstructorInfoSupport instances t1 and
+ t2, as required by the general contract of the method
+ Object.hashCode().
+However, note that another instance of a class implementing
+ the OpenMBeanConstructorInfo interface may be equal to
+ this OpenMBeanConstructorInfoSupport instance as
+ defined by equals(java.lang.Object), but may have a
+ different hash code if it is calculated differently.
+As OpenMBeanConstructorInfoSupport instances are
+ immutable, the hash code for this instance is calculated once,
+ on the first call to hashCode, and then the same value
+ is returned for subsequent calls.
+
+Specified by:
+hashCode in interface OpenMBeanConstructorInfo
+Overrides:
+hashCode in class MBeanConstructorInfo
+Returns:
+the hash code value for this OpenMBeanConstructorInfoSupport instance
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+OpenMBeanConstructorInfoSupport,toString(),String,Returns a string representation of this OpenMBeanConstructorInfoSupport instance.,"
+
+toString
+public String toString()
+Returns a string representation of this OpenMBeanConstructorInfoSupport instance.
+The string representation consists of the name of this class
+ (ie javax.management.openmbean.OpenMBeanConstructorInfoSupport),
+ the name and signature of the described constructor and the
+ string representation of its descriptor.
+As OpenMBeanConstructorInfoSupport instances are
+ immutable, the string representation for this instance is
+ calculated once, on the first call to toString, and
+ then the same value is returned for subsequent calls.
+
+Specified by:
+toString in interface OpenMBeanConstructorInfo
+Overrides:
+toString in class MBeanConstructorInfo
+Returns:
+a string representation of this OpenMBeanConstructorInfoSupport instance
+
+
+"
+OpenMBeanInfoSupport,equals(Object obj),boolean,Compares the specified obj parameter with this OpenMBeanInfoSupport instance for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified obj parameter with this
+ OpenMBeanInfoSupport instance for equality.
+Returns true if and only if all of the following
+ statements are true:
+
+ 
+obj is non null,
+obj also implements the OpenMBeanInfo
+ interface,
+their class names are equal
+their infos on attributes, constructors, operations and
+ notifications are equal
+
+
+ This ensures that this equals method works properly for
+ obj parameters which are different implementations of
+ the OpenMBeanInfo interface.
+
+Specified by:
+equals in interface OpenMBeanInfo
+Overrides:
+equals in class MBeanInfo
+Parameters:
+obj - the object to be compared for equality with this
+ OpenMBeanInfoSupport instance;
+Returns:
+true if the specified object is equal to this
+ OpenMBeanInfoSupport instance.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+OpenMBeanInfoSupport,hashCode(),int,Returns the hash code value for this OpenMBeanInfoSupport instance.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this OpenMBeanInfoSupport instance.
+The hash code of an OpenMBeanInfoSupport instance is
+ the sum of the hash codes of all elements of information used
+ in equals comparisons (ie: its class name, and its
+ infos on attributes, constructors, operations and
+ notifications, where the hashCode of each of these arrays is
+ calculated by a call to new
+ java.util.HashSet(java.util.Arrays.asList(this.getSignature)).hashCode()).
+This ensures that t1.equals(t2) implies that t1.hashCode()==t2.hashCode() for any two OpenMBeanInfoSupport instances t1 and t2, as
+ required by the general contract of the method Object.hashCode().
+However, note that another instance of a class implementing
+ the OpenMBeanInfo interface may be equal to this OpenMBeanInfoSupport instance as defined by equals(java.lang.Object), but may have a different hash code
+ if it is calculated differently.
+As OpenMBeanInfoSupport instances are immutable, the
+ hash code for this instance is calculated once, on the first
+ call to hashCode, and then the same value is returned
+ for subsequent calls.
+
+Specified by:
+hashCode in interface OpenMBeanInfo
+Overrides:
+hashCode in class MBeanInfo
+Returns:
+the hash code value for this OpenMBeanInfoSupport instance
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+OpenMBeanInfoSupport,toString(),String,Returns a string representation of this OpenMBeanInfoSupport instance.,"
+
+toString
+public String toString()
+Returns a string representation of this OpenMBeanInfoSupport instance.
+The string representation consists of the name of this class
+ (ie javax.management.openmbean.OpenMBeanInfoSupport),
+ the MBean class name, the string representation of infos on
+ attributes, constructors, operations and notifications of the
+ described MBean and the string representation of the descriptor.
+As OpenMBeanInfoSupport instances are immutable, the
+ string representation for this instance is calculated once, on
+ the first call to toString, and then the same value is
+ returned for subsequent calls.
+
+Specified by:
+toString in interface OpenMBeanInfo
+Overrides:
+toString in class MBeanInfo
+Returns:
+a string representation of this OpenMBeanInfoSupport instance
+
+
+"
+OpenMBeanOperationInfoSupport,equals(Object obj),boolean,Compares the specified obj parameter with this OpenMBeanOperationInfoSupport instance for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified obj parameter with this
+ OpenMBeanOperationInfoSupport instance for
+ equality.
+Returns true if and only if all of the following
+ statements are true:
+
+ 
+obj is non null,
+obj also implements the OpenMBeanOperationInfo interface,
+their names are equal
+their signatures are equal
+their return open types are equal
+their impacts are equal
+
+
+ This ensures that this equals method works properly for
+ obj parameters which are different implementations of
+ the OpenMBeanOperationInfo interface.
+
+Specified by:
+equals in interface OpenMBeanOperationInfo
+Overrides:
+equals in class MBeanOperationInfo
+Parameters:
+obj - the object to be compared for equality with this
+ OpenMBeanOperationInfoSupport instance;
+Returns:
+true if the specified object is equal to this
+ OpenMBeanOperationInfoSupport instance.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+OpenMBeanOperationInfoSupport,getReturnOpenType(),OpenType<?>,Returns the open type of the values returned by the operation described by this OpenMBeanOperationInfo instance.,"
+
+getReturnOpenType
+public OpenType<?> getReturnOpenType()
+Returns the open type of the values returned by the
+ operation described by this OpenMBeanOperationInfo
+ instance.
+
+Specified by:
+getReturnOpenType in interface OpenMBeanOperationInfo
+Returns:
+the return type.
+
+
+"
+OpenMBeanOperationInfoSupport,hashCode(),int,Returns the hash code value for this OpenMBeanOperationInfoSupport instance.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this OpenMBeanOperationInfoSupport instance.
+The hash code of an OpenMBeanOperationInfoSupport
+ instance is the sum of the hash codes of all elements of
+ information used in equals comparisons (ie: its name,
+ return open type, impact and signature, where the signature
+ hashCode is calculated by a call to java.util.Arrays.asList(this.getSignature).hashCode()).
+This ensures that t1.equals(t2)  implies that t1.hashCode()==t2.hashCode()  for any two OpenMBeanOperationInfoSupport instances t1 and t2, as required by the general contract of the method Object.hashCode().
+However, note that another instance of a class implementing
+ the OpenMBeanOperationInfo interface may be equal to
+ this OpenMBeanOperationInfoSupport instance as defined
+ by equals(java.lang.Object), but may have a different
+ hash code if it is calculated differently.
+As OpenMBeanOperationInfoSupport instances are
+ immutable, the hash code for this instance is calculated once,
+ on the first call to hashCode, and then the same value
+ is returned for subsequent calls.
+
+Specified by:
+hashCode in interface OpenMBeanOperationInfo
+Overrides:
+hashCode in class MBeanOperationInfo
+Returns:
+the hash code value for this OpenMBeanOperationInfoSupport instance
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+OpenMBeanOperationInfoSupport,toString(),String,Returns a string representation of this OpenMBeanOperationInfoSupport instance.,"
+
+toString
+public String toString()
+Returns a string representation of this OpenMBeanOperationInfoSupport instance.
+The string representation consists of the name of this class
+ (ie javax.management.openmbean.OpenMBeanOperationInfoSupport), and
+ the name, signature, return open type and impact of the
+ described operation and the string representation of its descriptor.
+As OpenMBeanOperationInfoSupport instances are
+ immutable, the string representation for this instance is
+ calculated once, on the first call to toString, and
+ then the same value is returned for subsequent calls.
+
+Specified by:
+toString in interface OpenMBeanOperationInfo
+Overrides:
+toString in class MBeanOperationInfo
+Returns:
+a string representation of this OpenMBeanOperationInfoSupport instance
+
+
+"
+OpenMBeanParameterInfoSupport,equals(Object obj),boolean,Compares the specified obj parameter with this OpenMBeanParameterInfoSupport instance for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified obj parameter with this OpenMBeanParameterInfoSupport instance for equality.
+Returns true if and only if all of the following
+ statements are true:
+
+ 
+obj is non null,
+obj also implements the OpenMBeanParameterInfo
+ interface,
+their names are equal
+their open types are equal
+their default, min, max and legal values are equal.
+
+ This ensures that this equals method works properly for
+ obj parameters which are different implementations of
+ the OpenMBeanParameterInfo interface.
+
+ If obj also implements DescriptorRead, then its
+ getDescriptor() method must
+ also return the same value as for this object.
+
+Specified by:
+equals in interface OpenMBeanParameterInfo
+Overrides:
+equals in class MBeanParameterInfo
+Parameters:
+obj - the object to be compared for equality with this
+ OpenMBeanParameterInfoSupport instance.
+Returns:
+true if the specified object is equal to this
+ OpenMBeanParameterInfoSupport instance.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+OpenMBeanParameterInfoSupport,getDefaultValue(),Object,"Returns the default value for the parameter described by this OpenMBeanParameterInfoSupport instance, if specified, or null otherwise.","
+
+getDefaultValue
+public Object getDefaultValue()
+Returns the default value for the parameter described by this
+ OpenMBeanParameterInfoSupport instance, if specified,
+ or null otherwise.
+
+Specified by:
+getDefaultValue in interface OpenMBeanParameterInfo
+Returns:
+the default value.
+
+
+"
+OpenMBeanParameterInfoSupport,getLegalValues(),Set<?>,"Returns an unmodifiable Set of legal values for the parameter described by this OpenMBeanParameterInfoSupport instance, if specified, or null otherwise.","
+
+getLegalValues
+public Set<?> getLegalValues()
+Returns an unmodifiable Set of legal values for the parameter
+ described by this OpenMBeanParameterInfoSupport
+ instance, if specified, or null otherwise.
+
+Specified by:
+getLegalValues in interface OpenMBeanParameterInfo
+Returns:
+the set of legal values.
+
+
+"
+OpenMBeanParameterInfoSupport,getMaxValue(),Comparable<?>,"Returns the maximal value for the parameter described by this OpenMBeanParameterInfoSupport instance, if specified, or null otherwise.","
+
+getMaxValue
+public Comparable<?> getMaxValue()
+Returns the maximal value for the parameter described by this
+ OpenMBeanParameterInfoSupport instance, if specified,
+ or null otherwise.
+
+Specified by:
+getMaxValue in interface OpenMBeanParameterInfo
+Returns:
+the maximum value.
+
+
+"
+OpenMBeanParameterInfoSupport,getMinValue(),Comparable<?>,"Returns the minimal value for the parameter described by this OpenMBeanParameterInfoSupport instance, if specified, or null otherwise.","
+
+getMinValue
+public Comparable<?> getMinValue()
+Returns the minimal value for the parameter described by this
+ OpenMBeanParameterInfoSupport instance, if specified,
+ or null otherwise.
+
+Specified by:
+getMinValue in interface OpenMBeanParameterInfo
+Returns:
+the minimum value.
+
+
+"
+OpenMBeanParameterInfoSupport,getOpenType(),OpenType<?>,Returns the open type for the values of the parameter described by this OpenMBeanParameterInfoSupport instance.,"
+
+getOpenType
+public OpenType<?> getOpenType()
+Returns the open type for the values of the parameter described
+ by this OpenMBeanParameterInfoSupport instance.
+
+Specified by:
+getOpenType in interface OpenMBeanParameterInfo
+Returns:
+the open type.
+
+
+"
+OpenMBeanParameterInfoSupport,hasDefaultValue(),boolean,"Returns true if this OpenMBeanParameterInfoSupport instance specifies a non-null default value for the described parameter, false otherwise.","
+
+hasDefaultValue
+public boolean hasDefaultValue()
+Returns true if this OpenMBeanParameterInfoSupport instance specifies a non-null
+ default value for the described parameter, false
+ otherwise.
+
+Specified by:
+hasDefaultValue in interface OpenMBeanParameterInfo
+Returns:
+true if there is a default value.
+
+
+"
+OpenMBeanParameterInfoSupport,hashCode(),int,Returns the hash code value for this OpenMBeanParameterInfoSupport instance.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this OpenMBeanParameterInfoSupport instance.
+The hash code of an OpenMBeanParameterInfoSupport
+ instance is the sum of the hash codes of all elements of
+ information used in equals comparisons (ie: its name,
+ its open type, its default, min, max and legal
+ values, and its Descriptor).
+
+ This ensures that t1.equals(t2) implies that t1.hashCode()==t2.hashCode() for any two OpenMBeanParameterInfoSupport instances t1 and t2, as required by the general contract of the method Object.hashCode().
+
+ However, note that another instance of a class implementing
+ the OpenMBeanParameterInfo interface may be equal to
+ this OpenMBeanParameterInfoSupport instance as defined
+ by equals(java.lang.Object), but may have a different
+ hash code if it is calculated differently.
+
+ As OpenMBeanParameterInfoSupport instances are
+ immutable, the hash code for this instance is calculated once,
+ on the first call to hashCode, and then the same value
+ is returned for subsequent calls.
+
+Specified by:
+hashCode in interface OpenMBeanParameterInfo
+Overrides:
+hashCode in class MBeanParameterInfo
+Returns:
+the hash code value for this OpenMBeanParameterInfoSupport instance
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+OpenMBeanParameterInfoSupport,hasLegalValues(),boolean,"Returns true if this OpenMBeanParameterInfoSupport instance specifies a non-null set of legal values for the described parameter, false otherwise.","
+
+hasLegalValues
+public boolean hasLegalValues()
+Returns true if this OpenMBeanParameterInfoSupport instance specifies a non-null
+ set of legal values for the described parameter, false
+ otherwise.
+
+Specified by:
+hasLegalValues in interface OpenMBeanParameterInfo
+Returns:
+true if there is a set of legal values.
+
+
+"
+OpenMBeanParameterInfoSupport,hasMaxValue(),boolean,"Returns true if this OpenMBeanParameterInfoSupport instance specifies a non-null maximal value for the described parameter, false otherwise.","
+
+hasMaxValue
+public boolean hasMaxValue()
+Returns true if this OpenMBeanParameterInfoSupport instance specifies a non-null
+ maximal value for the described parameter, false
+ otherwise.
+
+Specified by:
+hasMaxValue in interface OpenMBeanParameterInfo
+Returns:
+true if there is a maximum value.
+
+
+"
+OpenMBeanParameterInfoSupport,hasMinValue(),boolean,"Returns true if this OpenMBeanParameterInfoSupport instance specifies a non-null minimal value for the described parameter, false otherwise.","
+
+hasMinValue
+public boolean hasMinValue()
+Returns true if this OpenMBeanParameterInfoSupport instance specifies a non-null
+ minimal value for the described parameter, false
+ otherwise.
+
+Specified by:
+hasMinValue in interface OpenMBeanParameterInfo
+Returns:
+true if there is a minimum value.
+
+
+"
+OpenMBeanParameterInfoSupport,isValue(Object obj),boolean,Tests whether obj is a valid value for the parameter described by this OpenMBeanParameterInfo instance.,"
+
+isValue
+public boolean isValue(Object obj)
+Tests whether obj is a valid value for the parameter
+ described by this OpenMBeanParameterInfo instance.
+
+Specified by:
+isValue in interface OpenMBeanParameterInfo
+Parameters:
+obj - the object to be tested.
+Returns:
+true if obj is a valid value
+ for the parameter described by this
+ OpenMBeanParameterInfo instance,
+ false otherwise.
+
+
+"
+OpenMBeanParameterInfoSupport,toString(),String,Returns a string representation of this OpenMBeanParameterInfoSupport instance.,"
+
+toString
+public String toString()
+Returns a string representation of this
+ OpenMBeanParameterInfoSupport instance.
+ 
+ The string representation consists of the name of this class (i.e.
+ javax.management.openmbean.OpenMBeanParameterInfoSupport),
+ the string representation of the name and open type of the described
+ parameter, the string representation of its default, min, max and legal
+ values and the string representation of its descriptor.
+ 
+ As OpenMBeanParameterInfoSupport instances are immutable,
+ the string representation for this instance is calculated once,
+ on the first call to toString, and then the same value
+ is returned for subsequent calls.
+
+Specified by:
+toString in interface OpenMBeanParameterInfo
+Overrides:
+toString in class MBeanParameterInfo
+Returns:
+a string representation of this
+ OpenMBeanParameterInfoSupport instance.
+
+
+"
+OpenType,equals(Object obj),abstract boolean,Compares the specified obj parameter with this open type instance for equality.,"
+
+equals
+public abstract boolean equals(Object obj)
+Compares the specified obj parameter with this
+ open type instance for equality.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - the object to compare to.
+Returns:
+true if this object and obj are equal.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+OpenType,getClassName(),String,Returns the fully qualified Java class name of the open data values this open type describes.,"
+
+getClassName
+public String getClassName()
+Returns the fully qualified Java class name of the open data values
+ this open type describes.
+ The only possible Java class names for open data values are listed in
+ ALLOWED_CLASSNAMES_LIST.
+ A multidimensional array of any one of these classes or their
+ corresponding primitive types is also an allowed class,
+ in which case the class name follows the rules defined by the method
+ getName() of java.lang.Class.
+ For example, a 3-dimensional array of Strings has for class name
+ ""[[[Ljava.lang.String;"" (without the quotes),
+ a 3-dimensional array of Integers has for class name
+ ""[[[Ljava.lang.Integer;"" (without the quotes),
+ and a 3-dimensional array of int has for class name
+ ""[[[I"" (without the quotes)
+
+Returns:
+the class name.
+
+
+"
+OpenType,getDescription(),String,Returns the text description of this OpenType instance.,"
+
+getDescription
+public String getDescription()
+Returns the text description of this OpenType instance.
+
+Returns:
+the description.
+
+
+"
+OpenType,getTypeName(),String,Returns the name of this OpenType instance.,"
+
+getTypeName
+public String getTypeName()
+Returns the name of this OpenType instance.
+
+Returns:
+the type name.
+
+
+"
+OpenType,hashCode(),abstract int,Returns a hash code value for the object.,"
+
+hashCode
+public abstract int hashCode()
+Description copied from class: Object
+Returns a hash code value for the object. This method is
+ supported for the benefit of hash tables such as those provided by
+ HashMap.
+ 
+ The general contract of hashCode is:
+ 
+Whenever it is invoked on the same object more than once during
+     an execution of a Java application, the hashCode method
+     must consistently return the same integer, provided no information
+     used in equals comparisons on the object is modified.
+     This integer need not remain consistent from one execution of an
+     application to another execution of the same application.
+ If two objects are equal according to the equals(Object)
+     method, then calling the hashCode method on each of
+     the two objects must produce the same integer result.
+ It is not required that if two objects are unequal
+     according to the Object.equals(java.lang.Object)
+     method, then calling the hashCode method on each of the
+     two objects must produce distinct integer results.  However, the
+     programmer should be aware that producing distinct integer results
+     for unequal objects may improve the performance of hash tables.
+ 
+
+ As much as is reasonably practical, the hashCode method defined by
+ class Object does return distinct integers for distinct
+ objects. (This is typically implemented by converting the internal
+ address of the object into an integer, but this implementation
+ technique is not required by the
+ Java™ programming language.)
+
+Overrides:
+hashCode in class Object
+Returns:
+a hash code value for this object.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+OpenType,isArray(),boolean,"Returns true if the open data values this open type describes are arrays, false otherwise.","
+
+isArray
+public boolean isArray()
+Returns true if the open data values this open
+ type describes are arrays, false otherwise.
+
+Returns:
+true if this is an array type.
+
+
+"
+OpenType,isValue(Object obj),abstract boolean,Tests whether obj is a value for this open type.,"
+
+isValue
+public abstract boolean isValue(Object obj)
+Tests whether obj is a value for this open type.
+
+Parameters:
+obj - the object to be tested for validity.
+Returns:
+true if obj is a value for this
+ open type, false otherwise.
+
+
+"
+OpenType,toString(),abstract String,Returns a string representation of this open type instance.,"
+
+toString
+public abstract String toString()
+Returns a string representation of this open type instance.
+
+Overrides:
+toString in class Object
+Returns:
+the string representation.
+
+
+"
+SimpleType,equals(Object obj),boolean,Compares the specified obj parameter with this SimpleType instance for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified obj parameter with this SimpleType instance for equality.
+ 
+ Two SimpleType instances are equal if and only if their
+ getClassName methods return the same value.
+
+Specified by:
+equals in class OpenType<T>
+Parameters:
+obj - the object to be compared for equality with this SimpleType instance;
+              if obj is null or is not an instance of the class SimpleType,
+              equals returns false.
+Returns:
+true if the specified object is equal to this SimpleType instance.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+SimpleType,hashCode(),int,Returns the hash code value for this SimpleType instance.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this SimpleType instance.
+ The hash code of a SimpleType instance is the the hash code of
+ the string value returned by the getClassName method.
+ 
+ As SimpleType instances are immutable, the hash code for this instance is calculated once,
+ on the first call to hashCode, and then the same value is returned for subsequent calls.
+
+Specified by:
+hashCode in class OpenType<T>
+Returns:
+the hash code value for this SimpleType instance
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+SimpleType,isValue(Object obj),boolean,Tests whether obj is a value for this SimpleType instance.,"
+
+isValue
+public boolean isValue(Object obj)
+Tests whether obj is a value for this
+ SimpleType instance.   This method returns
+ true if and only if obj is not null and
+ obj's class name is the same as the className field
+ defined for this SimpleType instance (ie the class
+ name returned by the getClassName method).
+
+Specified by:
+isValue in class OpenType<T>
+Parameters:
+obj - the object to be tested.
+Returns:
+true if obj is a value for this
+ SimpleType instance.
+
+
+"
+SimpleType,readResolve(),Object,Replace an object read from an ObjectInputStream with the unique instance for that value.,"
+
+readResolve
+public Object readResolve()
+                   throws ObjectStreamException
+Replace an object read from an ObjectInputStream with the unique instance for that
+ value.
+
+Returns:
+the replacement object.
+Throws:
+ObjectStreamException - if the read object cannot be
+ resolved.
+
+
+"
+SimpleType,toString(),String,Returns a string representation of this SimpleType instance.,"
+
+toString
+public String toString()
+Returns a string representation of this SimpleType instance.
+ 
+ The string representation consists of
+ the name of this class (ie javax.management.openmbean.SimpleType) and the type name
+ for this instance (which is the java class name of the values this SimpleType instance represents).
+ 
+ As SimpleType instances are immutable, the string representation for this instance is calculated once,
+ on the first call to toString, and then the same value is returned for subsequent calls.
+
+Specified by:
+toString in class OpenType<T>
+Returns:
+a string representation of this SimpleType instance
+
+
+"
+TabularDataSupport,calculateIndex(CompositeData value),Object[],Calculates the index that would be used in this TabularData instance to refer to the specified composite data value parameter if it were added to this instance.,"
+
+calculateIndex
+public Object[] calculateIndex(CompositeData value)
+Calculates the index that would be used in this TabularData instance to refer to the specified
+ composite data value parameter if it were added to this instance.
+ This method checks for the type validity of the specified value,
+ but does not check if the calculated index is already used to refer to a value in this TabularData instance.
+
+Specified by:
+calculateIndex in interface TabularData
+Parameters:
+value - the composite data value whose index in this
+                                    TabularData instance is to be calculated;
+                                    must be of the same composite type as this instance's row type;
+                                    must not be null.
+Returns:
+the index that the specified value would have in this TabularData instance.
+Throws:
+NullPointerException - if value is null.
+InvalidOpenTypeException - if value does not conform to this TabularData instance's
+                                    row type definition.
+
+
+"
+TabularDataSupport,clear(),void,Removes all rows from this TabularDataSupport instance.,"
+
+clear
+public void clear()
+Removes all rows from this TabularDataSupport instance.
+
+Specified by:
+clear in interface Map<Object,Object>
+Specified by:
+clear in interface TabularData
+
+
+"
+TabularDataSupport,clone(),Object,"Returns a clone of this TabularDataSupport instance: the clone is obtained by calling super.clone(), and then cloning the underlying map.","
+
+clone
+public Object clone()
+Returns a clone of this TabularDataSupport instance:
+ the clone is obtained by calling super.clone(), and then cloning the underlying map.
+ Only a shallow clone of the underlying map is made, i.e. no cloning of the indexes and row values is made as they are immutable.
+
+Overrides:
+clone in class Object
+Returns:
+a clone of this instance.
+See Also:
+Cloneable
+
+
+"
+TabularDataSupport,containsKey(Object key),boolean,Returns true if and only if this TabularData instance contains a CompositeData value (ie a row) whose index is the specified key.,"
+
+containsKey
+public boolean containsKey(Object key)
+Returns true if and only if this TabularData instance contains a CompositeData value
+ (ie a row) whose index is the specified key. If key cannot be cast to a one dimension array
+ of Object instances, this method simply returns false; otherwise it returns the the result of the call to
+ this.containsKey((Object[]) key).
+
+Specified by:
+containsKey in interface Map<Object,Object>
+Parameters:
+key - the index value whose presence in this TabularData instance is to be tested.
+Returns:
+true if this TabularData indexes a row value with the specified key.
+
+
+"
+TabularDataSupport,containsKey(Object[] key),boolean,Returns true if and only if this TabularData instance contains a CompositeData value (ie a row) whose index is the specified key.,"
+
+containsKey
+public boolean containsKey(Object[] key)
+Returns true if and only if this TabularData instance contains a CompositeData value
+ (ie a row) whose index is the specified key. If key is null or does not conform to
+ this TabularData instance's TabularType definition, this method simply returns false.
+
+Specified by:
+containsKey in interface TabularData
+Parameters:
+key - the index value whose presence in this TabularData instance is to be tested.
+Returns:
+true if this TabularData indexes a row value with the specified key.
+
+
+"
+TabularDataSupport,containsValue(CompositeData value),boolean,Returns true if and only if this TabularData instance contains the specified CompositeData value.,"
+
+containsValue
+public boolean containsValue(CompositeData value)
+Returns true if and only if this TabularData instance contains the specified
+ CompositeData value. If value is null or does not conform to
+ this TabularData instance's row type definition, this method simply returns false.
+
+Specified by:
+containsValue in interface TabularData
+Parameters:
+value - the row value whose presence in this TabularData instance is to be tested.
+Returns:
+true if this TabularData instance contains the specified row value.
+
+
+"
+TabularDataSupport,containsValue(Object value),boolean,Returns true if and only if this TabularData instance contains the specified value.,"
+
+containsValue
+public boolean containsValue(Object value)
+Returns true if and only if this TabularData instance contains the specified
+ value.
+
+Specified by:
+containsValue in interface Map<Object,Object>
+Parameters:
+value - the row value whose presence in this TabularData instance is to be tested.
+Returns:
+true if this TabularData instance contains the specified row value.
+
+
+"
+TabularDataSupport,entrySet(),"Set<Map.Entry<Object,Object>>",Returns a collection view of the index to row mappings contained in this TabularDataSupport instance.,"
+
+entrySet
+public Set<Map.Entry<Object,Object>> entrySet()
+Returns a collection view of the index to row mappings
+ contained in this TabularDataSupport instance.
+ Each element in the returned collection is
+ a Map.Entry<List<?>,CompositeData> but
+ is declared as a Map.Entry<Object,Object>
+ for compatibility reasons. Each of the map entry
+ keys is an unmodifiable List<?>.
+ The collection is backed by the underlying map of this
+ TabularDataSupport instance, so changes to the
+ TabularDataSupport instance are reflected in
+ the collection, and vice-versa.
+ The collection supports element removal, which removes
+ the corresponding mapping from the map, via the
+ Iterator.remove(), Collection.remove(java.lang.Object),
+ Collection.removeAll(java.util.Collection<?>), Collection.retainAll(java.util.Collection<?>),
+ and Collection.clear() operations. It does not support
+ the Collection.add(E) or Collection.addAll(java.util.Collection<? extends E>)
+ operations.
+ 
+IMPORTANT NOTICE: Do not use the setValue method of the
+ Map.Entry elements contained in the returned collection view.
+ Doing so would corrupt the index to row mappings contained in this
+ TabularDataSupport instance.
+
+Specified by:
+entrySet in interface Map<Object,Object>
+Returns:
+a collection view (Set<Map.Entry<List<?>,CompositeData>>)
+ of the mappings contained in this map.
+See Also:
+Map.Entry
+
+
+"
+TabularDataSupport,equals(Object obj),boolean,Compares the specified obj parameter with this TabularDataSupport instance for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified obj parameter with this TabularDataSupport instance for equality.
+ 
+ Returns true if and only if all of the following statements are true:
+ 
+obj is non null,
+obj also implements the TabularData interface,
+their tabular types are equal
+their contents (ie all CompositeData values) are equal.
+
+ This ensures that this equals method works properly for obj parameters which are
+ different implementations of the TabularData interface.
+  
+
+Specified by:
+equals in interface Map<Object,Object>
+Specified by:
+equals in interface TabularData
+Overrides:
+equals in class Object
+Parameters:
+obj - the object to be compared for equality with this TabularDataSupport instance;
+Returns:
+true if the specified object is equal to this TabularDataSupport instance.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+TabularDataSupport,get(Object key),Object,This method simply calls get((Object[]) key).,"
+
+get
+public Object get(Object key)
+This method simply calls get((Object[]) key).
+
+Specified by:
+get in interface Map<Object,Object>
+Parameters:
+key - the key whose associated value is to be returned
+Returns:
+the value to which the specified key is mapped, or
+         null if this map contains no mapping for the key
+Throws:
+NullPointerException - if the key is null
+ClassCastException - if the key is not of the type Object[]
+InvalidKeyException - if the key does not conform to this TabularData instance's
+                               TabularType definition
+
+
+"
+TabularDataSupport,get(Object[] key),CompositeData,"Returns the CompositeData value whose index is key, or null if there is no value mapping to key, in this TabularData instance.","
+
+get
+public CompositeData get(Object[] key)
+Returns the CompositeData value whose index is
+ key, or null if there is no value mapping
+ to key, in this TabularData instance.
+
+Specified by:
+get in interface TabularData
+Parameters:
+key - the index of the value to get in this
+ TabularData instance; * must be valid with this
+ TabularData instance's row type definition; * must not
+ be null.
+Returns:
+the value corresponding to key.
+Throws:
+NullPointerException - if the key is null
+InvalidKeyException - if the key does not conform to this TabularData instance's
+                               TabularType type definition.
+
+
+"
+TabularDataSupport,getTabularType(),TabularType,Returns the tabular type describing this TabularData instance.,"
+
+getTabularType
+public TabularType getTabularType()
+Returns the tabular type describing this TabularData instance.
+
+Specified by:
+getTabularType in interface TabularData
+Returns:
+the tabular type.
+
+
+"
+TabularDataSupport,hashCode(),int,Returns the hash code value for this TabularDataSupport instance.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this TabularDataSupport instance.
+ 
+ The hash code of a TabularDataSupport instance is the sum of the hash codes
+ of all elements of information used in equals comparisons
+ (ie: its tabular type and its content, where the content is defined as all the CompositeData values).
+ 
+ This ensures that  t1.equals(t2)  implies that  t1.hashCode()==t2.hashCode() 
+ for any two TabularDataSupport instances t1 and t2,
+ as required by the general contract of the method
+ Object.hashCode().
+ 
+ However, note that another instance of a class implementing the TabularData interface
+ may be equal to this TabularDataSupport instance as defined by equals(java.lang.Object),
+ but may have a different hash code if it is calculated differently.
+
+Specified by:
+hashCode in interface Map<Object,Object>
+Specified by:
+hashCode in interface TabularData
+Overrides:
+hashCode in class Object
+Returns:
+the hash code value for this TabularDataSupport instance
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+TabularDataSupport,isEmpty(),boolean,Returns true if this TabularDataSupport instance contains no rows.,"
+
+isEmpty
+public boolean isEmpty()
+Returns true if this TabularDataSupport instance contains no rows.
+
+Specified by:
+isEmpty in interface Map<Object,Object>
+Specified by:
+isEmpty in interface TabularData
+Returns:
+true if this TabularDataSupport instance contains no rows.
+
+
+"
+TabularDataSupport,keySet(),Set<Object>,Returns a set view of the keys contained in the underlying map of this TabularDataSupport instance used to index the rows.,"
+
+keySet
+public Set<Object> keySet()
+Returns a set view of the keys contained in the underlying map of this
+ TabularDataSupport instance used to index the rows.
+ Each key contained in this Set is an unmodifiable List<?>
+ so the returned set view is a Set<List<?>> but is declared as a
+ Set<Object> for compatibility reasons.
+ The set is backed by the underlying map of this
+ TabularDataSupport instance, so changes to the
+ TabularDataSupport instance are reflected in the
+ set, and vice-versa.
+
+ The set supports element removal, which removes the corresponding
+ row from this TabularDataSupport instance, via the
+ Iterator.remove(), Set.remove(java.lang.Object), Set.removeAll(java.util.Collection<?>),
+ Set.retainAll(java.util.Collection<?>), and Set.clear() operations. It does
+  not support the Set.add(E) or Set.addAll(java.util.Collection<? extends E>) operations.
+
+Specified by:
+keySet in interface Map<Object,Object>
+Specified by:
+keySet in interface TabularData
+Returns:
+a set view (Set<List<?>>) of the keys used to index
+ the rows of this TabularDataSupport instance.
+
+
+"
+TabularDataSupport,put(CompositeData value),void,Adds value to this TabularData instance.,"
+
+put
+public void put(CompositeData value)
+Description copied from interface: TabularData
+Adds value to this TabularData instance.
+ The composite type of value must be the same as this
+ instance's row type (ie the composite type returned by
+ this.getTabularType().getRowType()), and there must not already be an existing
+ value in this TabularData instance whose index is the
+ same as the one calculated for the value to be
+ added. The index for value is calculated according
+ to this TabularData instance's TabularType
+ definition (see TabularType.getIndexNames()).
+
+Specified by:
+put in interface TabularData
+Parameters:
+value - the composite data value to be added as a new row to this TabularData instance;
+                                    must be of the same composite type as this instance's row type;
+                                    must not be null.
+
+
+"
+TabularDataSupport,"put(Object key, Object value)",Object,This method simply calls put((CompositeData) value) and therefore ignores its key parameter which can be null.,"
+
+put
+public Object put(Object key,
+                  Object value)
+This method simply calls put((CompositeData) value) and
+ therefore ignores its key parameter which can be null.
+
+Specified by:
+put in interface Map<Object,Object>
+Parameters:
+key - an ignored parameter.
+value - the CompositeData to put.
+Returns:
+the value which is put
+Throws:
+NullPointerException - if the value is null
+ClassCastException - if the value is not of
+ the type CompositeData
+InvalidOpenTypeException - if the value does
+ not conform to this TabularData instance's
+ TabularType definition
+KeyAlreadyExistsException - if the key for the
+ value parameter, calculated according to this
+ TabularData instance's TabularType definition
+ already maps to an existing value
+
+
+"
+TabularDataSupport,putAll(CompositeData[] values),void,Add all the elements in values to this TabularData instance.,"
+
+putAll
+public void putAll(CompositeData[] values)
+Add all the elements in values to this
+ TabularData instance.  If any element in
+ values does not satisfy the constraints defined in
+ put, or if any two
+ elements in values have the same index calculated
+ according to this TabularData instance's
+ TabularType definition, then an exception describing
+ the failure is thrown and no element of values is
+ added, thus leaving this TabularData instance
+ unchanged.
+
+Specified by:
+putAll in interface TabularData
+Parameters:
+values - the array of composite data values to be added as
+ new rows to this TabularData instance; if
+ values is null or empty, this method
+ returns without doing anything.
+Throws:
+NullPointerException - if an element of values
+ is null
+InvalidOpenTypeException - if an element of
+ values does not conform to this
+ TabularData instance's row type definition (ie its
+ TabularType definition)
+KeyAlreadyExistsException - if the index for an element
+ of values, calculated according to this
+ TabularData instance's TabularType definition
+ already maps to an existing value in this instance, or two
+ elements of values have the same index
+
+
+"
+TabularDataSupport,"putAll(Map<?,?> t)",void,Add all the values contained in the specified map t to this TabularData instance.,"
+
+putAll
+public void putAll(Map<?,?> t)
+Add all the values contained in the specified map t
+ to this TabularData instance.  This method converts
+ the collection of values contained in this map into an array of
+ CompositeData values, if possible, and then call the
+ method putAll(CompositeData[]). Note that the keys
+ used in the specified map t are ignored. This method
+ allows, for example to add the content of another
+ TabularData instance with the same row type (but
+ possibly different index names) into this instance.
+
+Specified by:
+putAll in interface Map<Object,Object>
+Parameters:
+t - the map whose values are to be added as new rows to
+ this TabularData instance; if t is
+ null or empty, this method returns without doing
+ anything.
+Throws:
+NullPointerException - if a value in t is
+ null.
+ClassCastException - if a value in t is not an
+ instance of CompositeData.
+InvalidOpenTypeException - if a value in t
+ does not conform to this TabularData instance's row
+ type definition.
+KeyAlreadyExistsException - if the index for a value in
+ t, calculated according to this
+ TabularData instance's TabularType definition
+ already maps to an existing value in this instance, or two
+ values in t have the same index.
+
+
+"
+TabularDataSupport,remove(Object key),Object,This method simply calls remove((Object[]) key).,"
+
+remove
+public Object remove(Object key)
+This method simply calls remove((Object[]) key).
+
+Specified by:
+remove in interface Map<Object,Object>
+Parameters:
+key - an Object[] representing the key to remove.
+Returns:
+previous value associated with specified key, or null
+         if there was no mapping for key.
+Throws:
+NullPointerException - if the key is null
+ClassCastException - if the key is not of the type Object[]
+InvalidKeyException - if the key does not conform to this TabularData instance's
+                               TabularType definition
+
+
+"
+TabularDataSupport,remove(Object[] key),CompositeData,"Removes the CompositeData value whose index is key from this TabularData instance, and returns the removed value, or returns null if there is no value whose index is key.","
+
+remove
+public CompositeData remove(Object[] key)
+Removes the CompositeData value whose index is key from this TabularData instance,
+ and returns the removed value, or returns null if there is no value whose index is key.
+
+Specified by:
+remove in interface TabularData
+Parameters:
+key - the index of the value to get in this TabularData instance;
+              must be valid with this TabularData instance's row type definition;
+              must not be null.
+Returns:
+previous value associated with specified key, or null
+         if there was no mapping for key.
+Throws:
+NullPointerException - if the key is null
+InvalidKeyException - if the key does not conform to this TabularData instance's
+                               TabularType definition
+
+
+"
+TabularDataSupport,size(),int,Returns the number of rows in this TabularDataSupport instance.,"
+
+size
+public int size()
+Returns the number of rows in this TabularDataSupport instance.
+
+Specified by:
+size in interface Map<Object,Object>
+Specified by:
+size in interface TabularData
+Returns:
+the number of rows in this TabularDataSupport instance.
+
+
+"
+TabularDataSupport,toString(),String,Returns a string representation of this TabularDataSupport instance.,"
+
+toString
+public String toString()
+Returns a string representation of this TabularDataSupport instance.
+ 
+ The string representation consists of the name of this class (ie javax.management.openmbean.TabularDataSupport),
+ the string representation of the tabular type of this instance, and the string representation of the contents
+ (ie list the key=value mappings as returned by a call to
+ dataMap.toString()).
+
+Specified by:
+toString in interface TabularData
+Overrides:
+toString in class Object
+Returns:
+a string representation of this TabularDataSupport instance
+
+
+"
+TabularDataSupport,values(),Collection<Object>,Returns a collection view of the rows contained in this TabularDataSupport instance.,"
+
+values
+public Collection<Object> values()
+Returns a collection view of the rows contained in this
+ TabularDataSupport instance. The returned Collection
+ is a Collection<CompositeData> but is declared as a
+ Collection<Object> for compatibility reasons.
+ The returned collection can be used to iterate over the values.
+ The collection is backed by the underlying map, so changes to the
+ TabularDataSupport instance are reflected in the collection,
+ and vice-versa.
+
+ The collection supports element removal, which removes the corresponding
+ index to row mapping from this TabularDataSupport instance, via
+ the Iterator.remove(), Collection.remove(java.lang.Object),
+ Collection.removeAll(java.util.Collection<?>), Collection.retainAll(java.util.Collection<?>),
+ and Collection.clear() operations. It does not support
+ the Collection.add(E) or Collection.addAll(java.util.Collection<? extends E>) operations.
+
+Specified by:
+values in interface Map<Object,Object>
+Specified by:
+values in interface TabularData
+Returns:
+a collection view (Collection<CompositeData>) of
+ the values contained in this TabularDataSupport instance.
+
+
+"
+TabularType,equals(Object obj),boolean,Compares the specified obj parameter with this TabularType instance for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified obj parameter with this TabularType instance for equality.
+ 
+ Two TabularType instances are equal if and only if all of the following statements are true:
+ 
+their type names are equal
+their row types are equal
+they use the same index names, in the same order
+
+ 
+
+Specified by:
+equals in class OpenType<TabularData>
+Parameters:
+obj - the object to be compared for equality with this TabularType instance;
+              if obj is null, equals returns false.
+Returns:
+true if the specified object is equal to this TabularType instance.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+TabularType,getIndexNames(),List<String>,"Returns, in the same order as was given to this instance's constructor, an unmodifiable List of the names of the items the values of which are used to uniquely index each row element of tabular data values described by this TabularType instance.","
+
+getIndexNames
+public List<String> getIndexNames()
+Returns, in the same order as was given to this instance's
+ constructor, an unmodifiable List of the names of the items the
+ values of which are used to uniquely index each row element of
+ tabular data values described by this TabularType
+ instance.
+
+Returns:
+a List of String representing the names of the index
+ items.
+
+
+"
+TabularType,getRowType(),CompositeType,Returns the type of the row elements of tabular data values described by this TabularType instance.,"
+
+getRowType
+public CompositeType getRowType()
+Returns the type of the row elements of tabular data values
+ described by this TabularType instance.
+
+Returns:
+the type of each row.
+
+
+"
+TabularType,hashCode(),int,Returns the hash code value for this TabularType instance.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this TabularType instance.
+ 
+ The hash code of a TabularType instance is the sum of the hash codes
+ of all elements of information used in equals comparisons
+ (ie: name, row type, index names).
+ This ensures that  t1.equals(t2)  implies that  t1.hashCode()==t2.hashCode() 
+ for any two TabularType instances t1 and t2,
+ as required by the general contract of the method
+ Object.hashCode().
+ 
+ As TabularType instances are immutable, the hash code for this instance is calculated once,
+ on the first call to hashCode, and then the same value is returned for subsequent calls.
+
+Specified by:
+hashCode in class OpenType<TabularData>
+Returns:
+the hash code value for this TabularType instance
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+TabularType,isValue(Object obj),boolean,Tests whether obj is a value which could be described by this TabularType instance.,"
+
+isValue
+public boolean isValue(Object obj)
+Tests whether obj is a value which could be
+ described by this TabularType instance.
+
+ If obj is null or is not an instance of
+ javax.management.openmbean.TabularData,
+ isValue returns false.
+If obj is an instance of
+ javax.management.openmbean.TabularData, say td, the result is true if this TabularType is
+ assignable from td.getTabularType(), as defined in CompositeType.isValue.
+
+Specified by:
+isValue in class OpenType<TabularData>
+Parameters:
+obj - the value whose open type is to be tested for
+ compatibility with this TabularType instance.
+Returns:
+true if obj is a value for this
+ tabular type, false otherwise.
+
+
+"
+TabularType,toString(),String,Returns a string representation of this TabularType instance.,"
+
+toString
+public String toString()
+Returns a string representation of this TabularType instance.
+ 
+ The string representation consists of the name of this class (ie javax.management.openmbean.TabularType),
+ the type name for this instance, the row type string representation of this instance,
+ and the index names of this instance.
+ 
+ As TabularType instances are immutable, the string representation for this instance is calculated once,
+ on the first call to toString, and then the same value is returned for subsequent calls.
+
+Specified by:
+toString in class OpenType<TabularData>
+Returns:
+a string representation of this TabularType instance
+
+
+"

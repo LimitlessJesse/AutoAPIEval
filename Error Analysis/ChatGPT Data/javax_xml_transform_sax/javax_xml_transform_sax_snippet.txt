@@ -1,0 +1,172 @@
+Sample: 0 SAXResult_1
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import javax.xml.transform.sax.SAXResult;
+import org.xml.sax.ContentHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        SAXResult result = new SAXResult();
+        ContentHandler handler = new ContentHandler() {
+            // Override methods from ContentHandler interface
+        };
+        result.setHandler(handler);
+    }
+}
+```
+================================================================
+
+Sample: 1 SAXResult_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.transform.sax.SAXResult;
+import org.xml.sax.ContentHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        SAXResult saxResult = new SAXResult();
+        ContentHandler contentHandler = saxResult.getHandler();
+        // Now you can use the contentHandler for handling SAX events
+    }
+}
+```
+================================================================
+
+Sample: 2 SAXResult_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.transform.sax.SAXResult;
+import org.xml.sax.ext.LexicalHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a new SAXResult object
+        SAXResult saxResult = new SAXResult();
+        
+        // Create a new LexicalHandler object
+        LexicalHandler lexicalHandler = new CustomLexicalHandler();
+        
+        // Set the LexicalHandler for the SAXResult
+        saxResult.setLexicalHandler(lexicalHandler);
+    }
+}
+
+class CustomLexicalHandler implements LexicalHandler {
+    // Implement the methods of the LexicalHandler interface
+    // For example:
+    @Override
+    public void startDTD(String name, String publicId, String systemId) {
+        // Implementation
+    }
+    
+    @Override
+    public void endDTD() {
+        // Implementation
+    }
+    
+    // Implement other methods as needed
+}
+```
+================================================================
+
+Sample: 3 SAXResult_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.transform.sax.SAXResult;
+import org.xml.sax.ext.LexicalHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        SAXResult saxResult = new SAXResult();
+        LexicalHandler lexicalHandler = saxResult.getLexicalHandler();
+        // Now you can use the lexicalHandler object for further operations
+    }
+}
+```
+================================================================
+
+Sample: 4 SAXTransformerFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        TransformerFactory factory = TransformerFactory.newInstance();
+        if (factory.getFeature(SAXTransformerFactory.FEATURE)) {
+            SAXTransformerFactory saxFactory = (SAXTransformerFactory) factory;
+            TransformerHandler handler = saxFactory.newTransformerHandler();
+            System.out.println("TransformerHandler created successfully.");
+        } else {
+            System.out.println("SAXTransformerFactory is not supported.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 SAXTransformerFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.sax.SAXTransformerFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        SAXTransformerFactory transformerFactory = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+        try {
+            TemplatesHandler templatesHandler = transformerFactory.newTemplatesHandler();
+            System.out.println("TemplatesHandler created successfully");
+        } catch (TransformerConfigurationException e) {
+            System.out.println("Error creating TemplatesHandler: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 SAXTransformerFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerHandler;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.stream.StreamSource;
+import org.xml.sax.SAXException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a SAXTransformerFactory instance
+            SAXTransformerFactory factory = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+
+            // Create a StreamSource for the input source
+            StreamSource source = new StreamSource("input.xml");
+
+            // Create a new TransformerHandler using newTransformerHandler method
+            TransformerHandler handler = factory.newTransformerHandler(source);
+
+            // Proceed with handling the transformation
+            // handler.startDocument();
+            // handler.startElement("", "", "root", null);
+            // handler.endElement("", "", "root");
+            // handler.endDocument();
+        } catch (TransformerConfigurationException | SAXException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

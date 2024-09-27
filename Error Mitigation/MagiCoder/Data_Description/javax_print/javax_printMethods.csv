@@ -1,0 +1,747 @@
+ClassName,Method,Return Type,Description,Full Description
+DocFlavor,equals(Object obj),boolean,Determines if this doc flavor object is equal to the given object.,"
+
+equals
+public boolean equals(Object obj)
+Determines if this doc flavor object is equal to the given object.
+ The two are equal if the given object is not null, is an instance
+ of DocFlavor, has a MIME type equivalent to this doc
+ flavor object's MIME type (that is, the MIME types have the same media
+ type, media subtype, and parameters), and has the same representation
+ class name as this doc flavor object. Thus, if two doc flavor objects'
+ MIME types are the same except for comments, they are considered equal.
+ However, two doc flavor objects with MIME types of ""text/plain"" and
+ ""text/plain; charset=US-ASCII"" are not considered equal, even though
+ they represent the same media type (because the default character
+ set for plain text is US-ASCII).
+
+Overrides:
+equals in class Object
+Parameters:
+obj - Object to test.
+Returns:
+True if this doc flavor object equals obj, false
+          otherwise.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+DocFlavor,getMediaSubtype(),String,Returns this doc flavor object's media subtype (from the MIME type).,"
+
+getMediaSubtype
+public String getMediaSubtype()
+Returns this doc flavor object's media subtype (from the MIME type).
+
+Returns:
+the media sub-type
+
+
+"
+DocFlavor,getMediaType(),String,Returns this doc flavor object's media type (from the MIME type).,"
+
+getMediaType
+public String getMediaType()
+Returns this doc flavor object's media type (from the MIME type).
+
+Returns:
+the media type
+
+
+"
+DocFlavor,getMimeType(),String,Returns this doc flavor object's MIME type string based on the canonical form.,"
+
+getMimeType
+public String getMimeType()
+Returns this doc flavor object's MIME type string based on the
+ canonical form. Each parameter value is enclosed in quotes.
+
+Returns:
+the mime type
+
+
+"
+DocFlavor,getParameter(String paramName),String,Returns a String representing a MIME parameter.,"
+
+getParameter
+public String getParameter(String paramName)
+Returns a String representing a MIME
+ parameter.
+ Mime types may include parameters which are usually optional.
+ The charset for text types is a commonly useful example.
+ This convenience method will return the value of the specified
+ parameter if one was specified in the mime type for this flavor.
+ 
+
+Parameters:
+paramName - the name of the paramater. This name is internally
+ converted to the canonical lower case format before performing
+ the match.
+Returns:
+String representing a mime parameter, or
+ null if that parameter is not in the mime type string.
+Throws:
+NullPointerException - if paramName is null.
+
+
+"
+DocFlavor,getRepresentationClassName(),String,Returns the name of this doc flavor object's representation class.,"
+
+getRepresentationClassName
+public String getRepresentationClassName()
+Returns the name of this doc flavor object's representation class.
+
+Returns:
+the name of the representation class.
+
+
+"
+DocFlavor,hashCode(),int,Returns a hash code for this doc flavor object.,"
+
+hashCode
+public int hashCode()
+Returns a hash code for this doc flavor object.
+
+Overrides:
+hashCode in class Object
+Returns:
+a hash code value for this object.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+DocFlavor,toString(),String,Converts this DocFlavor to a string.,"
+
+toString
+public String toString()
+Converts this DocFlavor to a string.
+
+Overrides:
+toString in class Object
+Returns:
+MIME type string based on the canonical form. Each parameter
+          value is enclosed in quotes.
+          A ""class="" parameter is appended to the
+          MIME type string to indicate the representation class name.
+
+
+"
+PrintServiceLookup,getDefaultPrintService(),abstract PrintService,Not called directly by applications.,"
+
+getDefaultPrintService
+public abstract PrintService getDefaultPrintService()
+Not called directly by applications.
+ Implemented by a service provider, and called by the print lookup
+ service
+
+Returns:
+the default PrintService for this lookup service.
+ If there is no default, returns null.
+
+
+"
+PrintServiceLookup,"getMultiDocPrintServices(DocFlavor[] flavors, AttributeSet attributes)",abstract MultiDocPrintService[],Not called directly by applications.,"
+
+getMultiDocPrintServices
+public abstract MultiDocPrintService[] getMultiDocPrintServices(DocFlavor[] flavors,
+                                                                AttributeSet attributes)
+Not called directly by applications.
+ 
+ Implemented by a service provider, used by the static methods
+ of this class.
+ 
+ Locates MultiDoc print services which can be positively confirmed
+ to support the combination of attributes and DocFlavors specified.
+ 
+
+Parameters:
+flavors - of documents required. If null or empty it is ignored.
+attributes - required to be supported. If null this
+ constraint is not used.
+Returns:
+array of matching PrintServices. If no services match, the
+ array is zero-length.
+
+
+"
+PrintServiceLookup,getPrintServices(),abstract PrintService[],Not called directly by applications.,"
+
+getPrintServices
+public abstract PrintService[] getPrintServices()
+Not called directly by applications.
+ Implemented by a service provider, used by the static methods
+ of this class.
+
+Returns:
+array of all PrintServices known to this lookup service
+ class. If none are found, the array is zero-length.
+
+
+"
+PrintServiceLookup,"getPrintServices(DocFlavor flavor, AttributeSet attributes)",abstract PrintService[],Locates services that can be positively confirmed to support the combination of attributes and DocFlavors specified.,"
+
+getPrintServices
+public abstract PrintService[] getPrintServices(DocFlavor flavor,
+                                                AttributeSet attributes)
+Locates services that can be positively confirmed to support
+ the combination of attributes and DocFlavors specified.
+ This method is not called directly by applications.
+ 
+ Implemented by a service provider, used by the static methods
+ of this class.
+ 
+ The results should be the same as obtaining all the PrintServices
+ and querying each one individually on its support for the
+ specified attributes and flavors, but the process can be more
+ efficient by taking advantage of the capabilities of lookup services
+ for the print services.
+
+Parameters:
+flavor - of document required.  If null it is ignored.
+attributes - required to be supported. If null this
+ constraint is not used.
+Returns:
+array of matching PrintServices. If no services match, the
+ array is zero-length.
+
+
+"
+PrintServiceLookup,lookupDefaultPrintService(),static PrintService,Locates the default print service for this environment.,"
+
+lookupDefaultPrintService
+public static final PrintService lookupDefaultPrintService()
+Locates the default print service for this environment.
+ This may return null.
+ If multiple lookup services each specify a default, the
+ chosen service is not precisely defined, but a
+ platform native service, rather than an installed service,
+ is usually returned as the default.  If there is no clearly
+ identifiable
+ platform native default print service, the default is the first
+ to be located in an implementation-dependent manner.
+ 
+ This may include making use of any preferences API that is available
+ as part of the Java or native platform.
+ This algorithm may be overridden by a user setting the property
+ javax.print.defaultPrinter.
+ A service specified must be discovered to be valid and currently
+ available to be returned as the default.
+
+Returns:
+the default PrintService.
+
+
+"
+PrintServiceLookup,"lookupMultiDocPrintServices(DocFlavor[] flavors, AttributeSet attributes)",static MultiDocPrintService[],Locates MultiDoc print Services capable of printing MultiDocs containing all the specified doc flavors.,"
+
+lookupMultiDocPrintServices
+public static final MultiDocPrintService[] lookupMultiDocPrintServices(DocFlavor[] flavors,
+                                                                       AttributeSet attributes)
+Locates MultiDoc print Services capable of printing MultiDocs
+ containing all the specified doc flavors.
+  This method is useful to help locate a service that can print
+ a MultiDoc in which the elements may be different
+ flavors. An application could perform this itself by multiple lookups
+ on each DocFlavor in turn and collating the results,
+ but the lookup service may be able to do this more efficiently.
+
+Parameters:
+flavors - the flavors to print. If null or empty this
+        constraint is not used.
+ Otherwise return only multidoc print services that can print all
+ specified doc flavors.
+attributes - attributes that the print service must
+ support.  If null this constraint is not used.
+Returns:
+array of matching MultiDocPrintService objects.
+ If no services match, the array is zero-length.
+
+
+"
+PrintServiceLookup,"lookupPrintServices(DocFlavor flavor, AttributeSet attributes)",static PrintService[],Locates print services capable of printing the specified DocFlavor.,"
+
+lookupPrintServices
+public static final PrintService[] lookupPrintServices(DocFlavor flavor,
+                                                       AttributeSet attributes)
+Locates print services capable of printing the specified
+ DocFlavor.
+
+Parameters:
+flavor - the flavor to print. If null, this constraint is not
+        used.
+attributes - attributes that the print service must support.
+ If null this constraint is not used.
+Returns:
+array of matching PrintService objects
+ representing print services that support the specified flavor
+ attributes.  If no services match, the array is zero-length.
+
+
+"
+PrintServiceLookup,registerService(PrintService service),static boolean,Allows an application to directly register an instance of a class which implements a print service.,"
+
+registerService
+public static boolean registerService(PrintService service)
+Allows an application to directly register an instance of a
+ class which implements a print service.
+ The lookup operations for this service will be
+ performed by the PrintServiceLookup class using the attribute
+ values and classes reported by the service.
+ This may be less efficient than a lookup
+ service tuned for that service.
+ Therefore registering a PrintServiceLookup instance
+ instead is recommended.
+ The method returns true if this service is not previously
+ registered and is now successfully registered.
+ This method should not be called with StreamPrintService instances.
+ They will always fail to register and the method will return false.
+
+Parameters:
+service - an implementation of a print service.
+Returns:
+true if the service is newly
+         registered; false otherwise.
+
+
+"
+PrintServiceLookup,registerServiceProvider(PrintServiceLookup sp),static boolean,Allows an application to explicitly register a class that implements lookup services.,"
+
+registerServiceProvider
+public static boolean registerServiceProvider(PrintServiceLookup sp)
+Allows an application to explicitly register a class that
+ implements lookup services. The registration will not persist
+ across VM invocations.
+ This is useful if an application needs to make a new service
+ available that is not part of the installation.
+ If the lookup service is already registered, or cannot be registered,
+ the method returns false.
+ 
+
+Parameters:
+sp - an implementation of a lookup service.
+Returns:
+true if the new lookup service is newly
+         registered; false otherwise.
+
+
+"
+ServiceUI,"printDialog(GraphicsConfiguration gc, int x, int y, PrintService[] services, PrintService defaultService, DocFlavor flavor, PrintRequestAttributeSet attributes)",static PrintService,Presents a dialog to the user for selecting a print service (printer).,"
+
+printDialog
+public static PrintService printDialog(GraphicsConfiguration gc,
+                                       int x,
+                                       int y,
+                                       PrintService[] services,
+                                       PrintService defaultService,
+                                       DocFlavor flavor,
+                                       PrintRequestAttributeSet attributes)
+                                throws HeadlessException
+Presents a dialog to the user for selecting a print service (printer).
+ It is displayed at the location specified by the application and
+ is modal.
+ If the specification is invalid or would make the dialog not visible it
+ will be displayed at a location determined by the implementation.
+ The dialog blocks its calling thread and is application modal.
+ 
+ The dialog may include a tab panel with custom UI lazily obtained from
+ the PrintService's ServiceUIFactory when the PrintService is browsed.
+ The dialog will attempt to locate a MAIN_UIROLE first as a JComponent,
+ then as a Panel. If there is no ServiceUIFactory or no matching role
+ the custom tab will be empty or not visible.
+ 
+ The dialog returns the print service selected by the user if the user
+ OK's the dialog and null if the user cancels the dialog.
+ 
+ An application must pass in an array of print services to browse.
+ The array must be non-null and non-empty.
+ Typically an application will pass in only PrintServices capable
+ of printing a particular document flavor.
+ 
+ An application may pass in a PrintService to be initially displayed.
+ A non-null parameter must be included in the array of browsable
+ services.
+ If this parameter is null a service is chosen by the implementation.
+ 
+ An application may optionally pass in the flavor to be printed.
+ If this is non-null choices presented to the user can be better
+ validated against those supported by the services.
+ An application must pass in a PrintRequestAttributeSet for returning
+ user choices.
+ On calling the PrintRequestAttributeSet may be empty, or may contain
+ application-specified values.
+ 
+ These are used to set the initial settings for the initially
+ displayed print service. Values which are not supported by the print
+ service are ignored. As the user browses print services, attributes
+ and values are copied to the new display. If a user browses a
+ print service which does not support a particular attribute-value, the
+ default for that service is used as the new value to be copied.
+ 
+ If the user cancels the dialog, the returned attributes will not reflect
+ any changes made by the user.
+
+ A typical basic usage of this method may be :
+ 
+ PrintService[] services = PrintServiceLookup.lookupPrintServices(
+                            DocFlavor.INPUT_STREAM.JPEG, null);
+ PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
+ if (services.length > 0) {
+    PrintService service =  ServiceUI.printDialog(null, 50, 50,
+                                               services, services[0],
+                                               null,
+                                               attributes);
+    if (service != null) {
+     ... print ...
+    }
+ }
+ 
+
+
+Parameters:
+gc - used to select screen. null means primary or default screen.
+x - location of dialog including border in screen coordinates
+y - location of dialog including border in screen coordinates
+services - to be browsable, must be non-null.
+defaultService - - initial PrintService to display.
+flavor - - the flavor to be printed, or null.
+attributes - on input is the initial application supplied
+ preferences. This cannot be null but may be empty.
+ On output the attributes reflect changes made by the user.
+Returns:
+print service selected by the user, or null if the user
+ cancelled the dialog.
+Throws:
+HeadlessException - if GraphicsEnvironment.isHeadless()
+ returns true.
+IllegalArgumentException - if services is null or empty,
+ or attributes is null, or the initial PrintService is not in the
+ list of browsable services.
+
+
+"
+ServiceUIFactory,"getUI(int role, String ui)",abstract Object,Get a UI object which may be cast to the requested UI type by the application and used in its user interface.,"
+
+getUI
+public abstract Object getUI(int role,
+                             String ui)
+Get a UI object which may be cast to the requested UI type
+ by the application and used in its user interface.
+ 
+
+Parameters:
+role - requested. Must be one of the standard roles or
+ a private role supported by this factory.
+ui - type in which the role is requested.
+Returns:
+the UI role or null if the requested UI role is not available
+ from this factory
+Throws:
+IllegalArgumentException - if the role or ui is neither
+ one of the standard ones, nor a private one
+ supported by the factory.
+
+
+"
+ServiceUIFactory,getUIClassNamesForRole(int role),abstract String[],Given a UI role obtained from this factory obtain the UI types available from this factory which implement this role.,"
+
+getUIClassNamesForRole
+public abstract String[] getUIClassNamesForRole(int role)
+Given a UI role obtained from this factory obtain the UI
+ types available from this factory which implement this role.
+ The returned Strings should refer to the static variables defined
+ in this class so that applications can use equality of reference
+ (""=="").
+
+Parameters:
+role - to be looked up.
+Returns:
+the UI types supported by this class for the specified role,
+ null if no UIs are available for the role.
+Throws:
+IllegalArgumentException - is the role is a non-standard
+ role not supported by this factory.
+
+
+"
+SimpleDoc,getAttributes(),DocAttributeSet,Obtains the set of printing attributes for this doc object.,"
+
+getAttributes
+public DocAttributeSet getAttributes()
+Obtains the set of printing attributes for this doc object. If the
+ returned attribute set includes an instance of a particular attribute
+ X, the printer must use that attribute value for this doc,
+ overriding any value of attribute X in the job's attribute set.
+ If the returned attribute set does not include an instance
+ of a particular attribute X or if null is returned, the printer
+ must consult the job's attribute set to obtain the value for
+ attribute X, and if not found there, the printer must use an
+ implementation-dependent default value. The returned attribute set is
+ unmodifiable.
+
+Specified by:
+getAttributes in interface Doc
+Returns:
+Unmodifiable set of printing attributes for this doc, or null
+          to obtain all attribute values from the job's attribute
+          set.
+
+
+"
+SimpleDoc,getDocFlavor(),DocFlavor,Determines the doc flavor in which this doc object will supply its piece of print data.,"
+
+getDocFlavor
+public DocFlavor getDocFlavor()
+Determines the doc flavor in which this doc object will supply its
+ piece of print data.
+
+Specified by:
+getDocFlavor in interface Doc
+Returns:
+Doc flavor.
+
+
+"
+SimpleDoc,getPrintData(),Object,Obtains the print data representation object that contains this doc object's piece of print data in the format corresponding to the supported doc flavor.,"
+
+getPrintData
+public Object getPrintData()
+                    throws IOException
+Description copied from interface: Doc
+Obtains the print data representation object that contains this doc
+ object's piece of print data in the format corresponding to the
+ supported doc flavor.
+ The getPrintData() method returns an instance of
+ the representation class whose name is given by getDocFlavor().getRepresentationClassName(), and the return value can be cast
+ from class Object to that representation class.
+
+Specified by:
+getPrintData in interface Doc
+Returns:
+Print data representation object.
+Throws:
+IOException - Thrown if the representation class is a stream and there was an I/O
+     error while constructing the stream.
+
+
+"
+SimpleDoc,getReaderForText(),Reader,Obtains a reader for extracting character print data from this doc.,"
+
+getReaderForText
+public Reader getReaderForText()
+                        throws IOException
+Obtains a reader for extracting character print data from this doc.
+ The Doc implementation is required to support this
+ method if the DocFlavor has one of the following print
+ data representation classes, and return null
+ otherwise:
+ 
+ char[]
+ java.lang.String
+ java.io.Reader
+
+ The doc's print data representation object is used to construct and
+ return a Reader for reading the print data as a stream
+ of characters from the print data representation object.
+ However, if the print data representation object is itself a
+ Reader then the print data representation object is
+ simply returned.
+ 
+
+Specified by:
+getReaderForText in interface Doc
+Returns:
+a Reader for reading the print data
+          characters from this doc.
+          If a reader cannot be provided because this doc does not meet
+          the criteria stated above, null is returned.
+Throws:
+IOException - if there was an I/O error while creating
+             the reader.
+
+
+"
+SimpleDoc,getStreamForBytes(),InputStream,Obtains an input stream for extracting byte print data from this doc.,"
+
+getStreamForBytes
+public InputStream getStreamForBytes()
+                              throws IOException
+Obtains an input stream for extracting byte print data from
+ this doc.
+ The Doc implementation is required to support this
+ method if the DocFlavor has one of the following print
+ data representation classes; otherwise this method
+ returns null:
+ 
+ byte[]
+ java.io.InputStream
+
+ The doc's print data representation object is obtained.  Then, an
+ input stream for reading the print data
+ from the print data representation object as a stream of bytes is
+ created and returned.
+ However, if the print data representation object is itself an
+ input stream then the print data representation object is simply
+ returned.
+ 
+
+Specified by:
+getStreamForBytes in interface Doc
+Returns:
+an InputStream for reading the print data
+          bytes from this doc.  If an input stream cannot be
+          provided because this doc does not meet
+          the criteria stated above, null is returned.
+Throws:
+IOException - if there was an I/O error while creating the input stream.
+
+
+"
+StreamPrintService,dispose(),void,Disposes this StreamPrintService.,"
+
+dispose
+public void dispose()
+Disposes this StreamPrintService.
+ If a stream service cannot be re-used, it must be disposed
+ to indicate this. Typically the client will call this method.
+ Services which write data which cannot meaningfully be appended to
+ may also dispose the stream. This does not close the stream. It
+ just marks it as not for further use by this service.
+
+"
+StreamPrintService,getOutputFormat(),abstract String,Returns the document format emitted by this print service.,"
+
+getOutputFormat
+public abstract String getOutputFormat()
+Returns the document format emitted by this print service.
+ Must be in mimetype format, compatible with the mime type
+ components of DocFlavors @see DocFlavor.
+
+Returns:
+mime type identifying the output format.
+
+
+"
+StreamPrintService,getOutputStream(),OutputStream,Gets the output stream.,"
+
+getOutputStream
+public OutputStream getOutputStream()
+Gets the output stream.
+
+Returns:
+the stream to which this service will send formatted print data.
+
+
+"
+StreamPrintService,isDisposed(),boolean,Returns a boolean indicating whether or not this StreamPrintService has been disposed.,"
+
+isDisposed
+public boolean isDisposed()
+Returns a boolean indicating whether or not
+ this StreamPrintService has been disposed.
+ If this object has been disposed, will return true.
+ Used by services and client applications to recognize streams
+ to which no further data should be written.
+
+Returns:
+if this StreamPrintService has been disposed
+
+
+"
+StreamPrintServiceFactory,getOutputFormat(),abstract String,Queries the factory for the document format that is emitted by printers obtained from this factory.,"
+
+getOutputFormat
+public abstract String getOutputFormat()
+Queries the factory for the document format that is emitted
+ by printers obtained from this factory.
+
+Returns:
+the output format described as a mime type.
+
+
+"
+StreamPrintServiceFactory,getPrintService(OutputStream out),abstract StreamPrintService,Returns a StreamPrintService that can print to the specified output stream.,"
+
+getPrintService
+public abstract StreamPrintService getPrintService(OutputStream out)
+Returns a StreamPrintService that can print to
+ the specified output stream.
+ The output stream is created and managed by the application.
+ It is the application's responsibility to close the stream and
+ to ensure that this Printer is not reused.
+ The application should not close this stream until any print job
+ created from the printer is complete. Doing so earlier may generate
+ a PrinterException and an event indicating that the
+ job failed.
+ 
+ Whereas a PrintService connected to a physical printer
+ can be reused,
+ a StreamPrintService connected to a stream cannot.
+ The underlying StreamPrintService may be disposed by
+ the print system with
+ the dispose method
+ before returning from the
+ print
+ method of DocPrintJob so that the print system knows
+ this printer is no longer usable.
+ This is equivalent to a physical printer going offline - permanently.
+ Applications may supply a null print stream to create a queryable
+ service. It is not valid to create a PrintJob for such a stream.
+ Implementations which allocate resources on construction should examine
+ the stream and may wish to only allocate resources if the stream is
+ non-null.
+ 
+
+Parameters:
+out - destination stream for generated output.
+Returns:
+a PrintService which will generate the format specified by the
+ DocFlavor supported by this Factory.
+
+
+"
+StreamPrintServiceFactory,getSupportedDocFlavors(),abstract DocFlavor[],Queries the factory for the document flavors that can be accepted by printers obtained from this factory.,"
+
+getSupportedDocFlavors
+public abstract DocFlavor[] getSupportedDocFlavors()
+Queries the factory for the document flavors that can be accepted
+ by printers obtained from this factory.
+
+Returns:
+array of supported doc flavors.
+
+
+"
+StreamPrintServiceFactory,"lookupStreamPrintServiceFactories(DocFlavor flavor, String outputMimeType)",static StreamPrintServiceFactory[],Locates factories for print services that can be used with a print job to output a stream of data in the format specified by outputMimeType.,"
+
+lookupStreamPrintServiceFactories
+public static StreamPrintServiceFactory[] lookupStreamPrintServiceFactories(DocFlavor flavor,
+                                                                            String outputMimeType)
+Locates factories for print services that can be used with
+ a print job to output a stream of data in the
+ format specified by outputMimeType.
+ 
+ The outputMimeType parameter describes the document type that
+ you want to create, whereas the flavor parameter describes the
+ format in which the input data will be provided by the application
+ to the StreamPrintService.
+ 
+ Although null is an acceptable value to use in the lookup of stream
+ printing services, it's typical to search for a particular
+ desired format, such as Postscript(TM).
+ 
+
+Parameters:
+flavor - of the input document type - null means match all
+ types.
+outputMimeType - representing the required output format, used to
+ identify suitable stream printer factories. A value of null means
+ match all formats.
+Returns:
+- matching factories for stream print service instance,
+           empty if no suitable factories could be located.
+
+
+"

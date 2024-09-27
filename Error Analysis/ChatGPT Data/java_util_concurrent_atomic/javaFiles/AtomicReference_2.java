@@ -1,0 +1,10 @@
+import java.util.concurrent.atomic.AtomicReference;
+
+public class AtomicReference_2 {
+    public static void main(String[] args) {
+        AtomicReference<String> atomicReference = new AtomicReference<>("Initial Value");
+        
+        String value = atomicReference.get();
+        System.out.println("Current Value: " + value);
+    }
+}

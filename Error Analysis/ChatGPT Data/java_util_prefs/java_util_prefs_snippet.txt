@@ -1,0 +1,317 @@
+Sample: 0 AbstractPreferences_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.AbstractPreferences;
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences prefs = Preferences.userRoot().node("exampleNode");
+        String[] children = new String[0];
+        
+        try {
+            children = (String[]) prefs.childrenNames();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        for (String child : children) {
+            System.out.println(child);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 AbstractPreferences_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.AbstractPreferences;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractPreferences preferences = new AbstractPreferences() {
+            @Override
+            protected void sync() throws BackingStoreException {
+                // Your implementation here
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 2 AbstractPreferences_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.AbstractPreferences;
+
+public class Main {
+    public static void main(String[] args) {
+        // This method flushes all preferences changes to the persistent backing store.
+        AbstractPreferences preferences = new AbstractPreferences() {
+            @Override
+            protected void flush() {
+                // Implementation of flush method
+                System.out.println("Flushing preferences to persistent backing store...");
+            }
+        };
+
+        // Calling the flush method
+        preferences.flush();
+    }
+}
+```
+================================================================
+
+Sample: 3 AbstractPreferences_4
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import java.util.prefs.AbstractPreferences;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractPreferences preferences = new AbstractPreferences() {
+            @Override
+            protected boolean isUserNode() {
+                return false;
+            }
+
+            @Override
+            protected <T> T lock() {
+                return null;
+            }
+
+            @Override
+            protected void unlock() {
+                
+            }
+
+            @Override
+            protected void sync() throws BackingStoreException {
+                
+            }
+
+            @Override
+            protected void flush() throws BackingStoreException {
+                
+            }
+
+            @Override
+            protected void putSpi(String key, String value) {
+                
+            }
+
+            @Override
+            protected String getSpi(String key) {
+                return null;
+            }
+
+            @Override
+            protected void removeSpi(String key) {
+                
+            }
+
+            @Override
+            protected void removeNodeSpi() throws BackingStoreException {
+                
+            }
+
+            @Override
+            protected String[] keysSpi() throws BackingStoreException {
+                return new String[0];
+            }
+
+            @Override
+            protected String[] childrenNamesSpi() throws BackingStoreException {
+                return new String[0];
+            }
+
+            @Override
+            protected AbstractPreferences childSpi(String name) {
+                return null;
+            }
+        };
+        
+        System.out.println("isUserNode: " + preferences.isUserNode());
+    }
+}
+```
+================================================================
+
+Sample: 4 AbstractPreferences_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.AbstractPreferences;
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractPreferences preferences = (AbstractPreferences) Preferences.userRoot();
+        byte[] byteArray = { 1, 2, 3, 4, 5 };
+        preferences.putByteArray("key", byteArray);
+    }
+}
+```
+================================================================
+
+Sample: 5 NodeChangeEvent_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.NodeChangeEvent;
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        NodeChangeEvent nodeChangeEvent = new NodeChangeEvent(Preferences.userRoot(), Preferences.userRoot().parent());
+        Preferences parentPreferences = nodeChangeEvent.getParent();
+        System.out.println("Parent Preferences: " + parentPreferences);
+    }
+}
+```
+================================================================
+
+Sample: 6 PreferenceChangeEvent_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.PreferenceChangeEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        PreferenceChangeEvent event = new PreferenceChangeEvent(null, "keyName", "value");
+        String key = event.getKey();
+        System.out.println("Key: " + key);
+    }
+}
+```
+================================================================
+
+Sample: 7 PreferenceChangeEvent_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences prefs = Preferences.userNodeForPackage(Main.class);
+        
+        prefs.put("key", "value");
+        
+        System.out.println("Current value: " + prefs.get("key", "default"));
+        
+        prefs.addNodeChangeListener(event -> {
+            System.out.println("Node changed: " + event.getNode().name());
+        });
+        
+        prefs.put("key", "new value");
+    }
+}
+```
+================================================================
+
+Sample: 8 Preferences_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences preferences = Preferences.userNodeForPackage(Main.class);
+        preferences.put("key1", "value1");
+        String retrievedValue = preferences.get("key1", "default");
+        System.out.println(retrievedValue);
+    }
+}
+```
+================================================================
+
+Sample: 9 Preferences_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences prefs = Preferences.userRoot().node("/com/example");
+        String value = prefs.get("key", "default");
+        System.out.println(value);
+    }
+}
+```
+================================================================
+
+Sample: 10 Preferences_3
+----------------------------------------------------------------
+`void remove(String key)`: This method removes the preference node associated with the specified key.
+
+Code snippet:
+```java
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences prefs = Preferences.userRoot().node("com.example");
+        
+        // Set a preference value
+        prefs.put("key1", "value1");
+
+        // Check if the preference exists and remove it
+        if (prefs.get("key1", null) != null) {
+            prefs.remove("key1");
+            System.out.println("Preference with key 'key1' has been removed.");
+        } else {
+            System.out.println("Preference with key 'key1' does not exist.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 Preferences_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences prefs = Preferences.userRoot().node("com.example.myapp");
+        prefs.clear();
+        System.out.println("Preferences cleared successfully.");
+    }
+}
+```
+================================================================
+
+Sample: 12 Preferences_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.prefs.Preferences;
+
+public class Main {
+    public static void main(String[] args) {
+        Preferences preferences = Preferences.userRoot().node("com.example.myapp");
+        
+        String[] keys = preferences.keys();
+        
+        for (String key : keys) {
+            System.out.println(key + ": " + preferences.get(key, null));
+        }
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,353 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,AbstractUndoableEdit,1,void die(),True,,"
+
+die
+public void die()
+Sets alive to false. Note that this
+ is a one way operation; dead edits cannot be resurrected.
+ Sending undo or redo to
+ a dead edit results in an exception being thrown.
+
+ Typically an edit is killed when it is consolidated by
+ another edit's addEdit or replaceEdit
+ method, or when it is dequeued from an UndoManager.
+
+Specified by:
+die in interface UndoableEdit
+See Also:
+CompoundEdit.die()
+
+
+"
+0,AbstractUndoableEdit,2,boolean canRedo(),True,,"
+
+canRedo
+public boolean canRedo()
+Returns true if this edit is alive
+ and hasBeenDone is false.
+
+Specified by:
+canRedo in interface UndoableEdit
+Returns:
+true if this edit is alive
+   and hasBeenDone is false
+See Also:
+die(), 
+undo(), 
+redo()
+
+
+"
+0,AbstractUndoableEdit,3,boolean canUndo(),True,,"
+
+canUndo
+public boolean canUndo()
+Returns true if this edit is alive
+ and hasBeenDone is true.
+
+Specified by:
+canUndo in interface UndoableEdit
+Returns:
+true if this edit is alive
+    and hasBeenDone is true
+See Also:
+die(), 
+undo(), 
+redo()
+
+
+"
+0,AbstractUndoableEdit,4,void redo(),True,,"
+
+redo
+public void redo()
+          throws CannotRedoException
+Throws CannotRedoException if canRedo
+ returns false. Sets hasBeenDone to true.
+ Subclasses should override to redo the operation represented by
+ this edit. Override should begin with a call to super.
+
+Specified by:
+redo in interface UndoableEdit
+Throws:
+CannotRedoException - if canRedo
+     returns false
+See Also:
+canRedo()
+
+
+"
+0,AbstractUndoableEdit,5,void undo(),True,,"
+
+undo
+public void undo()
+          throws CannotUndoException
+Throws CannotUndoException if canUndo
+ returns false. Sets hasBeenDone
+ to false. Subclasses should override to undo the
+ operation represented by this edit. Override should begin with
+ a call to super.
+
+Specified by:
+undo in interface UndoableEdit
+Throws:
+CannotUndoException - if canUndo
+    returns false
+See Also:
+canUndo()
+
+
+"
+1,CompoundEdit,1,void end(),True,,"
+
+end
+public void end()
+Sets inProgress to false.
+
+See Also:
+canUndo(), 
+canRedo()
+
+
+"
+1,CompoundEdit,2,void die(),True,,"
+
+die
+public void die()
+Sends die to each subedit,
+ in the reverse of the order that they were added.
+
+Specified by:
+die in interface UndoableEdit
+Overrides:
+die in class AbstractUndoableEdit
+See Also:
+die()
+
+
+"
+1,CompoundEdit,3,boolean isInProgress(),True,,"
+
+isInProgress
+public boolean isInProgress()
+Returns true if this edit is in progress--that is, it has not
+ received end. This generally means that edits are still being
+ added to it.
+
+See Also:
+end()
+
+
+"
+1,CompoundEdit,4,void undo(),True,,"
+
+undo
+public void undo()
+          throws CannotUndoException
+Sends undo to all contained
+ UndoableEdits in the reverse of
+ the order in which they were added.
+
+Specified by:
+undo in interface UndoableEdit
+Overrides:
+undo in class AbstractUndoableEdit
+Throws:
+CannotUndoException - if canUndo
+    returns false
+See Also:
+AbstractUndoableEdit.canUndo()
+
+
+"
+1,CompoundEdit,5,void redo(),True,,"
+
+redo
+public void redo()
+          throws CannotRedoException
+Sends redo to all contained
+ UndoableEdits in the order in
+ which they were added.
+
+Specified by:
+redo in interface UndoableEdit
+Overrides:
+redo in class AbstractUndoableEdit
+Throws:
+CannotRedoException - if canRedo
+     returns false
+See Also:
+AbstractUndoableEdit.canRedo()
+
+
+"
+2,StateEdit,1,void end(),True,,"
+
+end
+public void end()
+Gets the post-edit state of the StateEditable object and
+ ends the edit.
+
+"
+2,StateEdit,2,boolean canRedo(),False,,NULL
+2,StateEdit,3,boolean canUndo(),False,,NULL
+2,StateEdit,4,void die(),False,,NULL
+2,StateEdit,5,void undo(),True,,"
+
+undo
+public void undo()
+Tells the edited object to apply the state prior to the edit
+
+Specified by:
+undo in interface UndoableEdit
+Overrides:
+undo in class AbstractUndoableEdit
+See Also:
+AbstractUndoableEdit.canUndo()
+
+
+"
+3,UndoableEditSupport,1,void addUndoableEditListener(UndoableEditListener l),True,,"
+
+addUndoableEditListener
+public void addUndoableEditListener(UndoableEditListener l)
+Registers an UndoableEditListener.
+ The listener is notified whenever an edit occurs which can be undone.
+
+Parameters:
+l - an UndoableEditListener object
+See Also:
+removeUndoableEditListener(javax.swing.event.UndoableEditListener)
+
+
+"
+3,UndoableEditSupport,2,void removeUndoableEditListener(UndoableEditListener l),True,,"
+
+removeUndoableEditListener
+public void removeUndoableEditListener(UndoableEditListener l)
+Removes an UndoableEditListener.
+
+Parameters:
+l - the UndoableEditListener object to be removed
+See Also:
+addUndoableEditListener(javax.swing.event.UndoableEditListener)
+
+
+"
+3,UndoableEditSupport,3,void postEdit(UndoableEdit e),True,,"
+
+postEdit
+public void postEdit(UndoableEdit e)
+DEADLOCK WARNING: Calling this method may call
+ undoableEditHappened in all listeners.
+ It is unwise to call this method from one of its listeners.
+
+"
+3,UndoableEditSupport,4,void end(),False,,NULL
+3,UndoableEditSupport,5,boolean isInProgress(),False,,NULL
+4,UndoManager,1,void undo(),True,,"
+
+undo
+public void undo()
+          throws CannotUndoException
+Undoes the appropriate edits.  If end has been
+ invoked this calls through to the superclass, otherwise
+ this invokes undo on all edits between the
+ index of the next edit and the last significant edit, updating
+ the index of the next edit appropriately.
+
+Specified by:
+undo in interface UndoableEdit
+Overrides:
+undo in class CompoundEdit
+Throws:
+CannotUndoException - if one of the edits throws
+         CannotUndoException or there are no edits
+         to be undone
+See Also:
+CompoundEdit.end(), 
+canUndo(), 
+editToBeUndone()
+
+
+"
+4,UndoManager,2,void redo(),True,,"
+
+redo
+public void redo()
+          throws CannotRedoException
+Redoes the appropriate edits.  If end has been
+ invoked this calls through to the superclass.  Otherwise
+ this invokes redo on all edits between the
+ index of the next edit and the next significant edit, updating
+ the index of the next edit appropriately.
+
+Specified by:
+redo in interface UndoableEdit
+Overrides:
+redo in class CompoundEdit
+Throws:
+CannotRedoException - if one of the edits throws
+         CannotRedoException or there are no edits
+         to be redone
+See Also:
+CompoundEdit.end(), 
+canRedo(), 
+editToBeRedone()
+
+
+"
+4,UndoManager,3,boolean canUndo(),True,,"
+
+canUndo
+public boolean canUndo()
+Returns true if edits may be undone.  If end has
+ been invoked, this returns the value from super.  Otherwise
+ this returns true if there are any edits to be undone
+ (editToBeUndone returns non-null).
+
+Specified by:
+canUndo in interface UndoableEdit
+Overrides:
+canUndo in class CompoundEdit
+Returns:
+true if there are edits to be undone
+See Also:
+CompoundEdit.canUndo(), 
+editToBeUndone()
+
+
+"
+4,UndoManager,4,boolean canRedo(),True,,"
+
+canRedo
+public boolean canRedo()
+Returns true if edits may be redone.  If end has
+ been invoked, this returns the value from super.  Otherwise,
+ this returns true if there are any edits to be redone
+ (editToBeRedone returns non-null).
+
+Specified by:
+canRedo in interface UndoableEdit
+Overrides:
+canRedo in class CompoundEdit
+Returns:
+true if there are edits to be redone
+See Also:
+CompoundEdit.canRedo(), 
+editToBeRedone()
+
+
+"
+4,UndoManager,5,void discardAllEdits(),True,,"
+
+discardAllEdits
+public void discardAllEdits()
+Empties the undo manager sending each edit a die message
+ in the process.
+
+See Also:
+AbstractUndoableEdit.die()
+
+
+"

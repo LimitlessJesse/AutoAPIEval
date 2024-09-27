@@ -1,0 +1,84 @@
+Sample: 0 IIORegistry
+----------------------------------------------------------------
+1. `void registerServiceProvider(Class<?> providerClass)`: This method registers the given service provider class with this registry.
+2. `void deregisterServiceProvider(Class<?> providerClass)`: This method deregisters the given service provider class from this registry.
+3. `boolean registerApplicationClasspathSpis()`: This method searches for and registers all available service providers from the application class path.
+4. `Iterator<Category> getCategories()`: This method returns an iterator over all categories currently registered with this registry.
+5. `Iterator<ServiceRegistry.Filter> getServiceProviders(Class<?> providerClass, boolean inOrder)`: This method returns an iterator over all service providers for the given class.
+================================================================
+
+Sample: 1 IIOServiceProvider
+----------------------------------------------------------------
+1. `boolean canDecodeInput(Object input)`: This method checks whether the provider can decode the input object.
+2. `String getDescription(Locale locale)`: This method returns a brief, human-readable description of this service provider.
+3. `ImageReader createReaderInstance(Object extension)`: This method creates a new instance of the ImageReader implementation associated with this service provider.
+4. `ImageWriter createWriterInstance(Object extension)`: This method creates a new instance of the ImageWriter implementation associated with this service provider.
+5. `Iterator<ImageReader> createReaderIterator()`: This method returns an Iterator that contains all the ImageReader objects associated with this service provider.
+================================================================
+
+Sample: 2 ImageInputStreamSpi
+----------------------------------------------------------------
+1. `boolean canDecodeInput(Object source)`: This method determines whether this particular ImageInputStreamSpi can decode the specified input source.
+2. `ImageInputStream createInputStreamInstance(Object input)` : This method creates a new ImageInputStream by reading from the specified input source.
+3. `String getDescription(ImageInputStream input)`: This method returns a descriptive string that identifies the format of the input source.
+4. `String[] getInputTypes()`: This method returns an array of Strings containing the fully qualified names of the classes or interfaces for the input types supported by this ImageInputStreamSpi.
+5. `boolean needsCacheFile(): This method indicates whether a cache file is needed in order to read from the input source.
+================================================================
+
+Sample: 3 ImageOutputStreamSpi
+----------------------------------------------------------------
+1. `Class<? extends ImageOutputStream> createOutputStreamInstance()`: This method returns the class of the ImageOutputStream implementation that this SPI can generate.
+2. `String getDescription(Locale locale)`: This method returns a brief, human-readable description of the provider.
+3. `ImageOutputStream createOutputStreamInstance(Object output)` : This method creates a new instance of ImageOutputStream using the specified output object.
+4. `String getDescription()` : This method returns a brief, human-readable description of the provider.
+5. `boolean canUseCacheFile()` : This method returns whether this ImageOutputStreamSpi can write to a disk file.
+================================================================
+
+Sample: 4 ImageReaderSpi
+----------------------------------------------------------------
+1. `boolean canDecodeInput(Object source)`: This method checks whether the ImageReaderSpi can read the given input source.
+2. `ImageReader createReaderInstance()`: This method creates a new instance of the ImageReader associated with this ImageReaderSpi.
+3. `String[] getFileSuffixes()`: This method returns an array of strings listing the common file suffixes recognized by this ImageReaderSpi.
+4. `String getDescription(Locale locale)`: This method returns a brief, human-readable description of the ImageReaderSpi in the specified locale.
+5. `String[] MIMETypes()`: This method returns an array of strings listing the common MIME types recognized by this ImageReaderSpi.
+================================================================
+
+Sample: 5 ImageReaderWriterSpi
+----------------------------------------------------------------
+1. `String getDescription()`: This method returns a brief, human-readable description of the ImageReaderWriterSpi.
+
+2. `String getVendorName()`: This method returns the name of the vendor that provides the implementation of the ImageReaderWriterSpi.
+
+3. `String getFormatNames()`: This method returns an array of Strings listing the fully qualified names of the image formats supported by the ImageReaderWriterSpi.
+
+4. `String[] getFileSuffixes()`: This method returns an array of Strings listing the common file suffixes associated with the image format supported by the ImageReaderWriterSpi.
+
+5. `String[] getMIMETypes()`: This method returns an array of Strings listing the MIME types associated with the image format supported by the ImageReaderWriterSpi.
+================================================================
+
+Sample: 6 ImageTranscoderSpi
+----------------------------------------------------------------
+1. `Transcoder createTranscoderInstance()`: This method returns a new instance of a Transcoder.
+2. `String getDescription()`: This method returns a description of the Transcoder provided by this service provider.
+3. `String getVendorName()`: This method returns the vendor name of the Transcoder provided by this service provider.
+4. `String getVersion()`: This method returns the version of the Transcoder provided by this service provider.
+================================================================
+
+Sample: 7 ImageWriterSpi
+----------------------------------------------------------------
+1. `Class<?>[] getInputTypes()`: Returns an array of Class objects listing the input types supported by this ImageWriter.
+2. `String getDescription(Locale locale)`: Returns a brief, human-readable description of this service provider and its associated rendering destination.
+3. `boolean canEncodeImage(ImageTypeSpecifier type)`: Returns true if an ImageTypeSpecifier of the given type can be encoded by this writer.
+4. `ImageWriter createWriterInstance(Object extension)`: Creates a new instance of the ImageWriter implementation associated with this service provider.
+5. `ImageWriteParam getDefaultWriteParam()`: Returns an instance of ImageWriteParam that may be used to encode images.
+================================================================
+
+Sample: 8 ServiceRegistry
+----------------------------------------------------------------
+1. `void setOrdering(Class<?> category, Class<?> spiClass)`: Sets the ordering of the provided service provider class within its category.
+2. `List<?> getCategories()`: Returns a list of the categories of service providers.
+3. `Iterator<?> lookupProviders(Class<T> service)`: Returns an iterator for the providers of a given service.
+4. `Iterator<?> lookupProviders(Class<T> service, ClassLoader loader)`: Returns an iterator for the providers of a given service, using the specified class loader.
+5. `ImageReader getImageReader(ImageReaderSpi origin, ImageReader reader)`: Returns an image reader object created from the provided reader, using the specified service provider information.
+================================================================
+

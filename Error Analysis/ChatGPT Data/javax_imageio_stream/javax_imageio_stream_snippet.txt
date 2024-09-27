@@ -1,0 +1,533 @@
+Sample: 0 FileCacheImageInputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.stream.FileCacheImageInputStream;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        File file = new File("image.jpg");
+        try (FileCacheImageInputStream input = new FileCacheImageInputStream(file)) {
+            int data;
+            while ((data = input.read()) != -1) {
+                System.out.print(data + " ");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 FileCacheImageInputStream_3
+----------------------------------------------------------------
+`int read(byte[] b, int off, int len)`: This method reads up to len bytes of data from the input stream into an array of bytes. An attempt is made to read len bytes, but a smaller number may be read.
+
+Code snippet:
+```java
+import javax.imageio.stream.FileCacheImageInputStream;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileCacheImageInputStream stream = new FileCacheImageInputStream(new File("image.jpg"));
+            byte[] data = new byte[10];
+            int bytesRead = stream.read(data, 0, data.length);
+            System.out.println("Bytes read: " + bytesRead);
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 FileCacheImageInputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.stream.FileCacheImageInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        File file = new File("image.jpg");
+        try (FileInputStream fis = new FileInputStream(file);
+             FileCacheImageInputStream cacheStream = new FileCacheImageInputStream(fis, null)) {
+
+            boolean cached = cacheStream.isCached();
+            System.out.println("Is Cached: " + cached);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 FileCacheImageInputStream_5
+----------------------------------------------------------------
+`void close()`: This method closes the input stream.
+
+Code snippet:
+```java
+import javax.imageio.stream.FileCacheImageInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        FileCacheImageInputStream imageInputStream = null;
+        
+        try {
+            // Open the input stream
+            imageInputStream = new FileCacheImageInputStream(new File("image.jpg"));
+            
+            // Process the input stream
+            
+            // Close the input stream
+            imageInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 FileCacheImageOutputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.stream.FileCacheImageOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        FileCacheImageOutputStream output = new FileCacheImageOutputStream("output.txt");
+        
+        try {
+            output.write(65); // Writing ASCII value of 'A'
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                output.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 FileCacheImageOutputStream_5
+----------------------------------------------------------------
+`void write(byte[] b, int off, int len)`: This method writes len bytes from the specified byte array starting at offset off to the output stream.
+
+Code snippet:
+```java
+import javax.imageio.stream.FileCacheImageOutputStream;
+import javax.imageio.stream.ImageOutputStream;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a File object to write to
+            File file = new File("output.jpg");
+            
+            // Create a FileCacheImageOutputStream for the file
+            ImageOutputStream imageOutputStream = new FileCacheImageOutputStream(file);
+            
+            // Define a byte array to be written
+            byte[] data = {72, 101, 108, 108, 111}; // "Hello" in ASCII
+            
+            // Write the byte array data starting at offset 0 with length 5 to the output stream
+            ((FileCacheImageOutputStream) imageOutputStream).write(data, 0, 5);
+            
+            // Close the stream
+            imageOutputStream.close();
+            
+            System.out.println("Data written successfully.");
+        } catch (IOException e) {
+            System.err.println("Error writing data: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 FileImageInputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.stream.FileImageInputStream;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileImageInputStream imageInputStream = new FileImageInputStream(new File("image.jpg"));
+            int value = imageInputStream.read();
+            System.out.println("Read value: " + value);
+            imageInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 FileImageOutputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.stream.FileImageOutputStream;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] data = {65, 66, 67, 68, 69}; // Example byte array
+        
+        try {
+            FileImageOutputStream output = new FileImageOutputStream(new File("output.txt"));
+            output.write(data, 1, 3); // Write bytes from index 1 to 3
+            output.close();
+            
+            System.out.println("Bytes written successfully.");
+        } catch (IOException e) {
+            System.err.println("Error writing bytes: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 FileImageOutputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.stream.FileImageOutputStream;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        File file = new File("example.jpg");
+        try (FileImageOutputStream outputStream = new FileImageOutputStream(file)) {
+            int b = 65; // Example byte value
+            outputStream.write(b);
+            System.out.println("Byte " + b + " has been written to the file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 ImageInputStreamImpl_1
+----------------------------------------------------------------
+`int read()`: This method reads the next byte of data from the input stream. The return value is the next byte of data, or -1 if the end of the stream is reached.
+
+Code snippet:
+```java
+import javax.imageio.stream.ImageInputStreamImpl;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageInputStreamImpl input = new ImageInputStreamImpl();
+        
+        try {
+            int data = input.read();
+            System.out.println("Read data: " + data);
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading from the stream.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 ImageInputStreamImpl_2
+----------------------------------------------------------------
+`int read(byte[] b)`: This method reads up to `b.length` bytes of data from the input stream into an array of bytes. It returns the total number of bytes read into the buffer or -1 if there is no more data because the end of the stream has been reached.
+
+Code snippet:
+```java
+import javax.imageio.stream.ImageInputStreamImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageInputStreamImpl stream = new ImageInputStreamImpl();
+        byte[] byteArray = new byte[10]; // Initialize byte array with desired size
+        
+        try {
+            int bytesRead = stream.read(byteArray);
+            System.out.println("Total bytes read: " + bytesRead);
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 ImageInputStreamImpl_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.stream.ImageInputStreamImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageInputStreamImpl stream = new ImageInputStreamImpl();
+        try {
+            long value = stream.readLong();
+            System.out.println("Long value: " + value);
+        } catch (Exception e) {
+            System.out.println("Error reading long value: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 ImageInputStreamImpl_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.stream.ImageInputStreamImpl;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ImageInputStreamImpl imageInputStream = new ImageInputStreamImpl(new File("image.jpg"));
+            int unsignedShort = imageInputStream.readUnsignedShort();
+            System.out.println("Unsigned Short Value: " + unsignedShort);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 ImageInputStreamImpl_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.stream.ImageInputStreamImpl;
+import javax.imageio.stream.ImageInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageInputStreamImpl stream = new ImageInputStreamImpl();
+        stream.setByteOrder(ByteOrder.LITTLE_ENDIAN);
+    }
+}
+```
+================================================================
+
+Sample: 14 ImageOutputStreamImpl_3
+----------------------------------------------------------------
+`void write(int b)`: This method writes the specified byte to the output stream.
+
+Code snippet:
+```java
+import javax.imageio.stream.ImageOutputStreamImpl;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageOutputStreamImpl outputStream = new ImageOutputStreamImpl();
+        try {
+            outputStream.write(65); // Writing byte value 65
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 ImageOutputStreamImpl_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.stream.ImageOutputStreamImpl;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageOutputStreamImpl outputStream = new ImageOutputStreamImpl();
+        byte[] data = { 65, 66, 67, 68, 69 }; // Sample byte array
+        int off = 1; // Offset position
+        int len = 3; // Length of bytes to write
+        
+        try {
+            outputStream.write(data, off, len);
+            System.out.println("Bytes were successfully written.");
+        } catch (IOException e) {
+            System.err.println("Error writing bytes: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 ImageOutputStreamImpl_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.imageio.stream.ImageOutputStreamImpl;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        ImageOutputStreamImpl stream = new ImageOutputStreamImpl();
+        try {
+            long bits = 1234567890L;
+            int numBits = 32;
+            stream.writeBits(bits, numBits);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 MemoryCacheImageInputStream_1
+----------------------------------------------------------------
+```java
+import javax.imageio.stream.MemoryCacheImageInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] data = { 72, 101, 108, 108, 111 }; // "Hello" in bytes
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
+            MemoryCacheImageInputStream imageInputStream = new MemoryCacheImageInputStream(inputStream);
+            int value = imageInputStream.read();
+            System.out.println("Value read from MemoryCacheImageInputStream: " + value);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 MemoryCacheImageInputStream_3
+----------------------------------------------------------------
+`int read(byte[] b, int off, int len)`: This method reads up to `len` bytes of data from the input stream into an array of bytes starting at the specified offset.
+
+Code snippet:
+```java
+import javax.imageio.stream.MemoryCacheImageInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] data = {65, 66, 67, 68, 69}; // Sample byte array
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
+        MemoryCacheImageInputStream imageInputStream = new MemoryCacheImageInputStream(inputStream);
+
+        byte[] buffer = new byte[3]; // Buffer to read data into
+        int bytesRead;
+        try {
+            bytesRead = imageInputStream.read(buffer, 0, buffer.length);
+            System.out.println("Bytes read: " + bytesRead);
+            // Print the bytes read from the input stream
+            for (int i = 0; i < bytesRead; i++) {
+                System.out.println("Byte " + i + ": " + buffer[i]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 19 MemoryCacheImageOutputStream_1
+----------------------------------------------------------------
+`void write(int b)`: This method writes a byte to the stream. 
+
+Code snippet:
+```java
+import javax.imageio.stream.MemoryCacheImageOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MemoryCacheImageOutputStream output = new MemoryCacheImageOutputStream(new ByteArrayOutputStream());
+            output.write(65); // Writing ASCII value of 'A' to the output stream
+            System.out.println("Byte 'A' has been written to the stream.");
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 MemoryCacheImageOutputStream_2
+----------------------------------------------------------------
+void write(byte[] b, int off, int len): This method writes len bytes from the specified byte array starting at offset off to the output stream.
+
+Code snippet:
+```java
+import javax.imageio.stream.MemoryCacheImageOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            MemoryCacheImageOutputStream imageOutputStream = new MemoryCacheImageOutputStream(byteArrayOutputStream);
+            
+            byte[] data = {65, 66, 67, 68, 69}; // Sample byte array
+            
+            imageOutputStream.write(data, 1, 3); // Writing 3 bytes starting from index 1
+            
+            byte[] result = byteArrayOutputStream.toByteArray();
+            
+            for (byte b : result) {
+                System.out.println(b);
+            }
+            
+            imageOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,572 @@
+ClassName,Method,Return Type,Description,Full Description
+DefaultLoaderRepository,loadClass(String className),static Class<?>,Deprecated.,"
+
+loadClass
+public static Class<?> loadClass(String className)
+                          throws ClassNotFoundException
+Deprecated. 
+Go through the list of class loaders and try to load the requested
+ class.
+ The method will stop as soon as the class is found. If the class
+ is not found the method will throw a ClassNotFoundException
+ exception.
+
+Parameters:
+className - The name of the class to be loaded.
+Returns:
+the loaded class.
+Throws:
+ClassNotFoundException - The specified class could not be
+            found.
+
+
+"
+DefaultLoaderRepository,"loadClassWithout(ClassLoader loader, String className)",static Class<?>,Deprecated.,"
+
+loadClassWithout
+public static Class<?> loadClassWithout(ClassLoader loader,
+                                        String className)
+                                 throws ClassNotFoundException
+Deprecated. 
+Go through the list of class loaders but exclude the given
+ class loader, then try to load
+ the requested class.
+ The method will stop as soon as the class is found. If the class
+ is not found the method will throw a ClassNotFoundException
+ exception.
+
+Parameters:
+className - The name of the class to be loaded.
+loader - The class loader to be excluded.
+Returns:
+the loaded class.
+Throws:
+ClassNotFoundException - The specified class could not be
+    found.
+
+
+"
+MLet,addURL(String url),void,Appends the specified URL to the list of URLs to search for classes and resources.,"
+
+addURL
+public void addURL(String url)
+            throws ServiceNotFoundException
+Appends the specified URL to the list of URLs to search for classes and
+ resources.
+
+Specified by:
+addURL in interface MLetMBean
+Parameters:
+url - the URL to add.
+Throws:
+ServiceNotFoundException - The specified URL is malformed.
+
+
+"
+MLet,addURL(URL url),void,Appends the specified URL to the list of URLs to search for classes and resources.,"
+
+addURL
+public void addURL(URL url)
+Appends the specified URL to the list of URLs to search for classes and
+ resources.
+
+Specified by:
+addURL in interface MLetMBean
+Overrides:
+addURL in class URLClassLoader
+Parameters:
+url - the URL to be added to the search path of URLs
+
+
+"
+MLet,"check(String version, URL codebase, String jarfile, MLetContent mlet)",protected URL,This method is to be overridden when extending this service to support caching and versioning.,"
+
+check
+protected URL check(String version,
+                    URL codebase,
+                    String jarfile,
+                    MLetContent mlet)
+             throws Exception
+This method is to be overridden when extending this service to
+ support caching and versioning.  It is called from getMBeansFromURL when the version,
+ codebase, and jarfile have been extracted from the MLet file,
+ and can be used to verify that it is all right to load the
+ given MBean, or to replace the given URL with a different one.
+The default implementation of this method returns
+ codebase unchanged.
+
+Parameters:
+version - The version number of the .jar
+ file stored locally.
+codebase - The base URL of the remote .jar file.
+jarfile - The name of the .jar file to be loaded.
+mlet - The MLetContent instance that
+ represents the MLET tag.
+Returns:
+the codebase to use for the loaded MBean.  The returned
+ value should not be null.
+Throws:
+Exception - if the MBean is not to be loaded for some
+ reason.  The exception will be added to the set returned by
+ getMBeansFromURL.
+
+
+"
+MLet,findClass(String name),protected Class<?>,This is the main method for class loaders that is being redefined.,"
+
+findClass
+protected Class<?> findClass(String name)
+                      throws ClassNotFoundException
+This is the main method for class loaders that is being redefined.
+
+Overrides:
+findClass in class URLClassLoader
+Parameters:
+name - The name of the class.
+Returns:
+The resulting Class object.
+Throws:
+ClassNotFoundException - The specified class could not be
+            found.
+
+
+"
+MLet,findLibrary(String libname),protected String,Returns the absolute path name of a native library.,"
+
+findLibrary
+protected String findLibrary(String libname)
+Returns the absolute path name of a native library. The VM
+ invokes this method to locate the native libraries that belong
+ to classes loaded with this class loader. Libraries are
+ searched in the JAR files using first just the native library
+ name and if not found the native library name together with
+ the architecture-specific path name
+ (OSName/OSArch/OSVersion/lib/nativelibname), i.e.
+ 
+ the library stat on Solaris SPARC 5.7 will be searched in the JAR file as:
+ 
+libstat.so
+ SunOS/sparc/5.7/lib/libstat.so
+ 
+ the library stat on Windows NT 4.0 will be searched in the JAR file as:
+ 
+stat.dll
+ WindowsNT/x86/4.0/lib/stat.dll
+ 
+More specifically, let nativelibname be the result of
+ System.mapLibraryName(libname).  Then the following names are
+ searched in the JAR files, in order:
+nativelibname
+<os.name>/<os.arch>/<os.version>/lib/nativelibname
+ where <X> means System.getProperty(X) with any
+ spaces in the result removed, and / stands for the
+ file separator character (File.separator).
+ 
+ If this method returns null, i.e. the libraries
+ were not found in any of the JAR files loaded with this class
+ loader, the VM searches the library along the path specified
+ as the java.library.path property.
+
+Overrides:
+findLibrary in class ClassLoader
+Parameters:
+libname - The library name.
+Returns:
+The absolute path of the native library.
+See Also:
+System.loadLibrary(String), 
+System.mapLibraryName(String)
+
+
+"
+MLet,getLibraryDirectory(),String,Gets the current directory used by the library loader for storing native libraries before they are loaded into memory.,"
+
+getLibraryDirectory
+public String getLibraryDirectory()
+Gets the current directory used by the library loader for
+ storing native libraries before they are loaded into memory.
+
+Specified by:
+getLibraryDirectory in interface MLetMBean
+Returns:
+The current directory used by the library loader.
+Throws:
+UnsupportedOperationException - if this implementation
+ does not support storing native libraries in this way.
+See Also:
+setLibraryDirectory(java.lang.String)
+
+
+"
+MLet,getMBeansFromURL(String url),Set<Object>,Loads a text file containing MLET tags that define the MBeans to be added to the MBean server.,"
+
+getMBeansFromURL
+public Set<Object> getMBeansFromURL(String url)
+                             throws ServiceNotFoundException
+Loads a text file containing MLET tags that define the MBeans to
+ be added to the MBean server. The location of the text file is specified by
+ a URL. The MBeans specified in the MLET file will be instantiated and
+ registered in the MBean server.
+
+Specified by:
+getMBeansFromURL in interface MLetMBean
+Parameters:
+url - The URL of the text file to be loaded as String object.
+Returns:
+A set containing one entry per MLET tag in the m-let
+ text file loaded.  Each entry specifies either the
+ ObjectInstance for the created MBean, or a throwable object
+ (that is, an error or an exception) if the MBean could not be
+ created.
+Throws:
+ServiceNotFoundException - One of the following
+ errors has occurred: The m-let text file does not contain an
+ MLET tag, the m-let text file is not found, a mandatory
+ attribute of the MLET tag is not specified, the url is
+ malformed.
+IllegalStateException - MLet MBean is not registered
+ with an MBeanServer.
+
+
+"
+MLet,getMBeansFromURL(URL url),Set<Object>,Loads a text file containing MLET tags that define the MBeans to be added to the MBean server.,"
+
+getMBeansFromURL
+public Set<Object> getMBeansFromURL(URL url)
+                             throws ServiceNotFoundException
+Loads a text file containing MLET tags that define the MBeans to
+ be added to the MBean server. The location of the text file is specified by
+ a URL. The MBeans specified in the MLET file will be instantiated and
+ registered in the MBean server.
+
+Specified by:
+getMBeansFromURL in interface MLetMBean
+Parameters:
+url - The URL of the text file to be loaded as URL object.
+Returns:
+A set containing one entry per MLET tag in the m-let text file loaded.
+ Each entry specifies either the ObjectInstance for the created MBean, or a throwable object
+ (that is, an error or an exception) if the MBean could not be created.
+Throws:
+ServiceNotFoundException - One of the following errors has occurred: The m-let text file does
+ not contain an MLET tag, the m-let text file is not found, a mandatory
+ attribute of the MLET tag is not specified, the value of url is
+ null.
+IllegalStateException - MLet MBean is not registered with an MBeanServer.
+
+
+"
+MLet,getURLs(),URL[],Returns the search path of URLs for loading classes and resources.,"
+
+getURLs
+public URL[] getURLs()
+Returns the search path of URLs for loading classes and resources.
+ This includes the original list of URLs specified to the constructor,
+ along with any URLs subsequently appended by the addURL() method.
+
+Specified by:
+getURLs in interface MLetMBean
+Overrides:
+getURLs in class URLClassLoader
+Returns:
+the search path of URLs for loading classes and resources.
+
+
+"
+MLet,"loadClass(String name, ClassLoaderRepository clr)",Class<?>,"Load a class, using the given ClassLoaderRepository if the class is not found in this MLet's URLs.","
+
+loadClass
+public Class<?> loadClass(String name,
+                          ClassLoaderRepository clr)
+                   throws ClassNotFoundException
+Load a class, using the given ClassLoaderRepository if
+ the class is not found in this MLet's URLs.  The given
+ ClassLoaderRepository can be null, in which case a ClassNotFoundException occurs immediately if the class is not
+ found in this MLet's URLs.
+
+Parameters:
+name - The name of the class we want to load.
+clr - The ClassLoaderRepository that will be used to search
+             for the given class, if it is not found in this
+             ClassLoader.  May be null.
+Returns:
+The resulting Class object.
+Throws:
+ClassNotFoundException - The specified class could not be
+            found in this ClassLoader nor in the given
+            ClassLoaderRepository.
+
+
+"
+MLet,postDeregister(),void,Allows the m-let to perform any operations needed after having been unregistered in the MBean server.,"
+
+postDeregister
+public void postDeregister()
+Allows the m-let to perform any operations needed after having been
+ unregistered in the MBean server.
+
+Specified by:
+postDeregister in interface MBeanRegistration
+
+
+"
+MLet,postRegister(Boolean registrationDone),void,Allows the m-let to perform any operations needed after having been registered in the MBean server or after the registration has failed.,"
+
+postRegister
+public void postRegister(Boolean registrationDone)
+Allows the m-let to perform any operations needed after having been
+ registered in the MBean server or after the registration has failed.
+
+Specified by:
+postRegister in interface MBeanRegistration
+Parameters:
+registrationDone - Indicates whether or not the m-let has
+ been successfully registered in the MBean server. The value
+ false means that either the registration phase has failed.
+
+
+"
+MLet,preDeregister(),void,Allows the m-let to perform any operations it needs before being unregistered by the MBean server.,"
+
+preDeregister
+public void preDeregister()
+                   throws Exception
+Allows the m-let to perform any operations it needs before being unregistered
+ by the MBean server.
+
+Specified by:
+preDeregister in interface MBeanRegistration
+Throws:
+Exception - This exception should be caught
+ by the MBean server and re-thrown as an
+ MBeanRegistrationException.
+
+
+"
+MLet,"preRegister(MBeanServer server, ObjectName name)",ObjectName,Allows the m-let to perform any operations it needs before being registered in the MBean server.,"
+
+preRegister
+public ObjectName preRegister(MBeanServer server,
+                              ObjectName name)
+                       throws Exception
+Allows the m-let to perform any operations it needs before
+ being registered in the MBean server. If the ObjectName is
+ null, the m-let provides a default name for its registration
+ <defaultDomain>:type=MLet
+
+Specified by:
+preRegister in interface MBeanRegistration
+Parameters:
+server - The MBean server in which the m-let will be registered.
+name - The object name of the m-let.
+Returns:
+The name of the m-let registered.
+Throws:
+Exception - This exception should be caught by the MBean server and re-thrown
+as an MBeanRegistrationException.
+
+
+"
+MLet,readExternal(ObjectInput in),void,Restore this MLet's contents from the given ObjectInput.,"
+
+readExternal
+public void readExternal(ObjectInput in)
+                  throws IOException,
+                         ClassNotFoundException,
+                         UnsupportedOperationException
+Restore this MLet's contents from the given ObjectInput.
+ Not all implementations support this method.  Those that do not
+ throw UnsupportedOperationException.  A subclass may
+ override this method to support it or to change the format of
+ the read data.
+The format of the read data is not specified, but if an
+ implementation supports readExternal(java.io.ObjectInput) it must also
+ support writeExternal(java.io.ObjectOutput) in such a way that what is
+ written by the latter can be read by the former.
+
+Specified by:
+readExternal in interface Externalizable
+Parameters:
+in - The object input stream to read from.
+Throws:
+IOException - if a problem occurred while reading.
+ClassNotFoundException - if the class for the object
+ being restored cannot be found.
+UnsupportedOperationException - if this
+ implementation does not support this operation.
+
+
+"
+MLet,setLibraryDirectory(String libdir),void,Sets the directory used by the library loader for storing native libraries before they are loaded into memory.,"
+
+setLibraryDirectory
+public void setLibraryDirectory(String libdir)
+Sets the directory used by the library loader for storing
+ native libraries before they are loaded into memory.
+
+Specified by:
+setLibraryDirectory in interface MLetMBean
+Parameters:
+libdir - The directory used by the library loader.
+Throws:
+UnsupportedOperationException - if this implementation
+ does not support storing native libraries in this way.
+See Also:
+getLibraryDirectory()
+
+
+"
+MLet,writeExternal(ObjectOutput out),void,Save this MLet's contents to the given ObjectOutput.,"
+
+writeExternal
+public void writeExternal(ObjectOutput out)
+                   throws IOException,
+                          UnsupportedOperationException
+Save this MLet's contents to the given ObjectOutput.
+ Not all implementations support this method.  Those that do not
+ throw UnsupportedOperationException.  A subclass may
+ override this method to support it or to change the format of
+ the written data.
+The format of the written data is not specified, but if
+ an implementation supports writeExternal(java.io.ObjectOutput) it must
+ also support readExternal(java.io.ObjectInput) in such a way that what is
+ written by the former can be read by the latter.
+
+Specified by:
+writeExternal in interface Externalizable
+Parameters:
+out - The object output stream to write to.
+Throws:
+IOException - If a problem occurred while writing.
+UnsupportedOperationException - If this
+ implementation does not support this operation.
+
+
+"
+MLetContent,getAttributes(),"Map<String,String>",Gets the attributes of the MLET tag.,"
+
+getAttributes
+public Map<String,String> getAttributes()
+Gets the attributes of the MLET tag.  The keys in
+ the returned map are the attribute names in lowercase, for
+ example codebase.  The values are the associated
+ attribute values.
+
+Returns:
+A map of the attributes of the MLET tag
+ and their values.
+
+
+"
+MLetContent,getCode(),String,Gets the value of the CODE attribute of the MLET tag.,"
+
+getCode
+public String getCode()
+Gets the value of the CODE
+ attribute of the MLET tag.
+
+Returns:
+The value of the CODE
+ attribute of the MLET tag.
+
+
+"
+MLetContent,getCodeBase(),URL,Gets the code base URL.,"
+
+getCodeBase
+public URL getCodeBase()
+Gets the code base URL.
+
+Returns:
+The code base URL.
+
+
+"
+MLetContent,getDocumentBase(),URL,Gets the MLet text file's base URL.,"
+
+getDocumentBase
+public URL getDocumentBase()
+Gets the MLet text file's base URL.
+
+Returns:
+The MLet text file's base URL.
+
+
+"
+MLetContent,getJarFiles(),String,Gets the list of .jar files specified by the ARCHIVE attribute of the MLET tag.,"
+
+getJarFiles
+public String getJarFiles()
+Gets the list of .jar files specified by the ARCHIVE
+ attribute of the MLET tag.
+
+Returns:
+A comma-separated list of .jar file names.
+
+
+"
+MLetContent,getName(),String,Gets the value of the NAME attribute of the MLET tag.,"
+
+getName
+public String getName()
+Gets the value of the NAME
+ attribute of the MLET tag.
+
+Returns:
+The value of the NAME
+ attribute of the MLET tag.
+
+
+"
+MLetContent,getParameterTypes(),List<String>,Gets the list of values of the TYPE attribute in each nested <PARAM> tag within the MLET tag.,"
+
+getParameterTypes
+public List<String> getParameterTypes()
+Gets the list of values of the TYPE attribute in
+ each nested <PARAM> tag within the MLET
+ tag.
+
+Returns:
+the list of types.
+
+
+"
+MLetContent,getParameterValues(),List<String>,Gets the list of values of the VALUE attribute in each nested <PARAM> tag within the MLET tag.,"
+
+getParameterValues
+public List<String> getParameterValues()
+Gets the list of values of the VALUE attribute in
+ each nested <PARAM> tag within the MLET
+ tag.
+
+Returns:
+the list of values.
+
+
+"
+MLetContent,getSerializedObject(),String,Gets the value of the OBJECT attribute of the MLET tag.,"
+
+getSerializedObject
+public String getSerializedObject()
+Gets the value of the OBJECT
+ attribute of the MLET tag.
+
+Returns:
+The value of the OBJECT
+ attribute of the MLET tag.
+
+
+"
+MLetContent,getVersion(),String,Gets the value of the VERSION attribute of the MLET tag.,"
+
+getVersion
+public String getVersion()
+Gets the value of the VERSION
+ attribute of the MLET tag.
+
+Returns:
+The value of the VERSION
+ attribute of the MLET tag.
+
+
+"

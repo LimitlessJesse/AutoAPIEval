@@ -1,0 +1,755 @@
+ClassName,Method,Return Type,Description,Full Description
+JMXConnectionNotification,getConnectionId(),String,The connection ID to which this notification pertains.,"
+
+getConnectionId
+public String getConnectionId()
+The connection ID to which this notification pertains.
+
+Returns:
+the connection ID.
+
+
+"
+JMXConnectorFactory,connect(JMXServiceURL serviceURL),static JMXConnector,Creates a connection to the connector server at the given address.,"
+
+connect
+public static JMXConnector connect(JMXServiceURL serviceURL)
+                            throws IOException
+Creates a connection to the connector server at the given
+ address.
+This method is equivalent to connect(serviceURL, null).
+
+Parameters:
+serviceURL - the address of the connector server to
+ connect to.
+Returns:
+a JMXConnector whose connect method has been called.
+Throws:
+NullPointerException - if serviceURL is null.
+IOException - if the connector client or the
+ connection cannot be made because of a communication problem.
+SecurityException - if the connection cannot be made
+ for security reasons.
+
+
+"
+JMXConnectorFactory,"connect(JMXServiceURL serviceURL, Map<String,?> environment)",static JMXConnector,Creates a connection to the connector server at the given address.,"
+
+connect
+public static JMXConnector connect(JMXServiceURL serviceURL,
+                                   Map<String,?> environment)
+                            throws IOException
+Creates a connection to the connector server at the given
+ address.
+This method is equivalent to:
+
+ JMXConnector conn = JMXConnectorFactory.newJMXConnector(serviceURL,
+                                                         environment);
+ conn.connect(environment);
+ 
+
+Parameters:
+serviceURL - the address of the connector server to connect to.
+environment - a set of attributes to determine how the
+ connection is made.  This parameter can be null.  Keys in this
+ map must be Strings.  The appropriate type of each associated
+ value depends on the attribute.  The contents of
+ environment are not changed by this call.
+Returns:
+a JMXConnector representing the newly-made
+ connection.  Each successful call to this method produces a
+ different object.
+Throws:
+NullPointerException - if serviceURL is null.
+IOException - if the connector client or the
+ connection cannot be made because of a communication problem.
+SecurityException - if the connection cannot be made
+ for security reasons.
+
+
+"
+JMXConnectorFactory,"newJMXConnector(JMXServiceURL serviceURL, Map<String,?> environment)",static JMXConnector,Creates a connector client for the connector server at the given address.,"
+
+newJMXConnector
+public static JMXConnector newJMXConnector(JMXServiceURL serviceURL,
+                                           Map<String,?> environment)
+                                    throws IOException
+Creates a connector client for the connector server at the
+ given address.  The resultant client is not connected until its
+ connect method is called.
+
+Parameters:
+serviceURL - the address of the connector server to connect to.
+environment - a set of attributes to determine how the
+ connection is made.  This parameter can be null.  Keys in this
+ map must be Strings.  The appropriate type of each associated
+ value depends on the attribute.  The contents of
+ environment are not changed by this call.
+Returns:
+a JMXConnector representing the new
+ connector client.  Each successful call to this method produces
+ a different object.
+Throws:
+NullPointerException - if serviceURL is null.
+IOException - if the connector client cannot be made
+ because of a communication problem.
+MalformedURLException - if there is no provider for the
+ protocol in serviceURL.
+JMXProviderException - if there is a provider for the
+ protocol in serviceURL but it cannot be used for
+ some reason.
+
+
+"
+JMXConnectorServer,"connectionClosed(String connectionId, String message, Object userData)",protected void,Called by a subclass when a client connection is closed normally.,"
+
+connectionClosed
+protected void connectionClosed(String connectionId,
+                                String message,
+                                Object userData)
+Called by a subclass when a client connection is closed
+ normally.  Removes connectionId from the list returned
+ by getConnectionIds(), then emits a JMXConnectionNotification with type JMXConnectionNotification.CLOSED.
+
+Parameters:
+connectionId - the ID of the closed connection.
+message - the message for the emitted JMXConnectionNotification.  Can be null.  See Notification.getMessage().
+userData - the userData for the emitted
+ JMXConnectionNotification.  Can be null.  See Notification.getUserData().
+Throws:
+NullPointerException - if connectionId
+ is null.
+
+
+"
+JMXConnectorServer,"connectionFailed(String connectionId, String message, Object userData)",protected void,Called by a subclass when a client connection fails.,"
+
+connectionFailed
+protected void connectionFailed(String connectionId,
+                                String message,
+                                Object userData)
+Called by a subclass when a client connection fails.
+ Removes connectionId from the list returned by
+ getConnectionIds(), then emits a JMXConnectionNotification with type JMXConnectionNotification.FAILED.
+
+Parameters:
+connectionId - the ID of the failed connection.
+message - the message for the emitted JMXConnectionNotification.  Can be null.  See Notification.getMessage().
+userData - the userData for the emitted
+ JMXConnectionNotification.  Can be null.  See Notification.getUserData().
+Throws:
+NullPointerException - if connectionId is
+ null.
+
+
+"
+JMXConnectorServer,"connectionOpened(String connectionId, String message, Object userData)",protected void,Called by a subclass when a new client connection is opened.,"
+
+connectionOpened
+protected void connectionOpened(String connectionId,
+                                String message,
+                                Object userData)
+Called by a subclass when a new client connection is opened.
+ Adds connectionId to the list returned by getConnectionIds(), then emits a JMXConnectionNotification with type JMXConnectionNotification.OPENED.
+
+Parameters:
+connectionId - the ID of the new connection.  This must be
+ different from the ID of any connection previously opened by
+ this connector server.
+message - the message for the emitted JMXConnectionNotification.  Can be null.  See Notification.getMessage().
+userData - the userData for the emitted
+ JMXConnectionNotification.  Can be null.  See Notification.getUserData().
+Throws:
+NullPointerException - if connectionId is
+ null.
+
+
+"
+JMXConnectorServer,getConnectionIds(),String[],The list of IDs for currently-open connections to this connector server.,"
+
+getConnectionIds
+public String[] getConnectionIds()
+Description copied from interface: JMXConnectorServerMBean
+The list of IDs for currently-open connections to this
+ connector server.
+
+Specified by:
+getConnectionIds in interface JMXConnectorServerMBean
+Returns:
+a new string array containing the list of IDs.  If
+ there are no currently-open connections, this array will be
+ empty.
+
+
+"
+JMXConnectorServer,getMBeanServer(),MBeanServer,Returns the MBean server that this connector server is attached to.,"
+
+getMBeanServer
+public MBeanServer getMBeanServer()
+Returns the MBean server that this connector server is
+ attached to.
+
+Returns:
+the MBean server that this connector server is attached
+ to, or null if it is not yet attached to an MBean server.
+
+
+"
+JMXConnectorServer,getNotificationInfo(),MBeanNotificationInfo[],Returns an array indicating the notifications that this MBean sends.,"
+
+getNotificationInfo
+public MBeanNotificationInfo[] getNotificationInfo()
+Returns an array indicating the notifications that this MBean
+ sends. The implementation in JMXConnectorServer
+ returns an array with one element, indicating that it can emit
+ notifications of class JMXConnectionNotification with
+ the types defined in that class.  A subclass that can emit other
+ notifications should return an array that contains this element
+ plus descriptions of the other notifications.
+
+Specified by:
+getNotificationInfo in interface NotificationBroadcaster
+Overrides:
+getNotificationInfo in class NotificationBroadcasterSupport
+Returns:
+the array of possible notifications.
+
+
+"
+JMXConnectorServer,postDeregister(),void,Allows the MBean to perform any operations needed after having been unregistered in the MBean server.,"
+
+postDeregister
+public void postDeregister()
+Description copied from interface: MBeanRegistration
+Allows the MBean to perform any operations needed after having been
+ unregistered in the MBean server.
+ If the implementation of this method throws a RuntimeException
+ or an Error, the MBean Server will rethrow those inside
+ a RuntimeMBeanException or RuntimeErrorException,
+ respectively. However, throwing an exception in postDeregister
+ will not change the state of the MBean:
+ the MBean was already successfully deregistered and will remain so. 
+This might be confusing for the code calling
+ unregisterMBean(), as it might assume that MBean deregistration
+ has failed. Therefore it is recommended that implementations of
+ postDeregister do not throw Runtime Exceptions or Errors if it
+ can be avoided.
+
+Specified by:
+postDeregister in interface MBeanRegistration
+
+
+"
+JMXConnectorServer,postRegister(Boolean registrationDone),void,Allows the MBean to perform any operations needed after having been registered in the MBean server or after the registration has failed.,"
+
+postRegister
+public void postRegister(Boolean registrationDone)
+Description copied from interface: MBeanRegistration
+Allows the MBean to perform any operations needed after having been
+ registered in the MBean server or after the registration has failed.
+ If the implementation of this method throws a RuntimeException
+ or an Error, the MBean Server will rethrow those inside
+ a RuntimeMBeanException or RuntimeErrorException,
+ respectively. However, throwing an exception in postRegister
+ will not change the state of the MBean:
+ if the MBean was already registered (registrationDone is
+ true), the MBean will remain registered. 
+This might be confusing for the code calling createMBean()
+ or registerMBean(), as such code might assume that MBean
+ registration has failed when such an exception is raised.
+ Therefore it is recommended that implementations of
+ postRegister do not throw Runtime Exceptions or Errors if it
+ can be avoided.
+
+Specified by:
+postRegister in interface MBeanRegistration
+Parameters:
+registrationDone - Indicates whether or not the MBean has
+ been successfully registered in the MBean server. The value
+ false means that the registration phase has failed.
+
+
+"
+JMXConnectorServer,preDeregister(),void,Called by an MBean server when this connector server is unregistered from that MBean server.,"
+
+preDeregister
+public void preDeregister()
+                   throws Exception
+Called by an MBean server when this connector server is
+ unregistered from that MBean server.  If this connector server
+ was attached to that MBean server by being registered in it,
+ and if the connector server is still active,
+ then unregistering it will call the stop method.
+ If the stop method throws an exception, the
+ unregistration attempt will fail.  It is recommended to call
+ the stop method explicitly before unregistering
+ the MBean.
+
+Specified by:
+preDeregister in interface MBeanRegistration
+Throws:
+IOException - if thrown by the stop method.
+Exception - This exception will be caught by
+ the MBean server and re-thrown as an MBeanRegistrationException.
+
+
+"
+JMXConnectorServer,"preRegister(MBeanServer mbs, ObjectName name)",ObjectName,Called by an MBean server when this connector server is registered in that MBean server.,"
+
+preRegister
+public ObjectName preRegister(MBeanServer mbs,
+                              ObjectName name)
+Called by an MBean server when this connector server is
+ registered in that MBean server.  This connector server becomes
+ attached to the MBean server and its getMBeanServer()
+ method will return mbs.
+If this connector server is already attached to an MBean
+ server, this method has no effect.  The MBean server it is
+ attached to is not necessarily the one it is being registered
+ in.
+
+Specified by:
+preRegister in interface MBeanRegistration
+Parameters:
+mbs - the MBean server in which this connection server is
+ being registered.
+name - The object name of the MBean.
+Returns:
+The name under which the MBean is to be registered.
+Throws:
+NullPointerException - if mbs or
+ name is null.
+
+
+"
+JMXConnectorServer,setMBeanServerForwarder(MBeanServerForwarder mbsf),void,Inserts an object that intercepts requests for the MBean server that arrive through this connector server.,"
+
+setMBeanServerForwarder
+public void setMBeanServerForwarder(MBeanServerForwarder mbsf)
+Description copied from interface: JMXConnectorServerMBean
+Inserts an object that intercepts requests for the MBean server
+ that arrive through this connector server.  This object will be
+ supplied as the MBeanServer for any new connection
+ created by this connector server.  Existing connections are
+ unaffected.
+This method can be called more than once with different
+ MBeanServerForwarder objects.  The result is a chain
+ of forwarders.  The last forwarder added is the first in the chain.
+ In more detail:
+
+If this connector server is already associated with an
+ MBeanServer object, then that object is given to
+ mbsf.setMBeanServer.  If doing so produces an exception, this
+ method throws the same exception without any other effect.
+If this connector is not already associated with an
+ MBeanServer object, or if the
+ mbsf.setMBeanServer call just mentioned succeeds,
+ then mbsf becomes this connector server's
+ MBeanServer.
+
+
+Specified by:
+setMBeanServerForwarder in interface JMXConnectorServerMBean
+Parameters:
+mbsf - the new MBeanServerForwarder.
+
+
+"
+JMXConnectorServer,"toJMXConnector(Map<String,?> env)",JMXConnector,Returns a client stub for this connector server.,"
+
+toJMXConnector
+public JMXConnector toJMXConnector(Map<String,?> env)
+                            throws IOException
+Returns a client stub for this connector server.  A client
+ stub is a serializable object whose connect method can be used to make
+ one new connection to this connector server.
+A given connector need not support the generation of client
+ stubs.  However, the connectors specified by the JMX Remote API do
+ (JMXMP Connector and RMI Connector).
+The default implementation of this method uses JMXConnectorServerMBean.getAddress() and JMXConnectorFactory to generate the
+ stub, with code equivalent to the following:
+
+ JMXServiceURL addr = getAddress();
+ return JMXConnectorFactory.newJMXConnector(addr, env);
+ 
+A connector server for which this is inappropriate must
+ override this method so that it either implements the
+ appropriate logic or throws UnsupportedOperationException.
+
+Specified by:
+toJMXConnector in interface JMXConnectorServerMBean
+Parameters:
+env - client connection parameters of the same sort that
+ could be provided to JMXConnector.connect(Map).  Can be null, which is equivalent
+ to an empty map.
+Returns:
+a client stub that can be used to make a new connection
+ to this connector server.
+Throws:
+UnsupportedOperationException - if this connector
+ server does not support the generation of client stubs.
+IllegalStateException - if the JMXConnectorServer is
+ not started (see JMXConnectorServerMBean.isActive()).
+IOException - if a communications problem means that a
+ stub cannot be created.
+
+
+"
+JMXConnectorServerFactory,"newJMXConnectorServer(JMXServiceURL serviceURL, Map<String,?> environment, MBeanServer mbeanServer)",static JMXConnectorServer,Creates a connector server at the given address.,"
+
+newJMXConnectorServer
+public static JMXConnectorServer newJMXConnectorServer(JMXServiceURL serviceURL,
+                                                       Map<String,?> environment,
+                                                       MBeanServer mbeanServer)
+                                                throws IOException
+Creates a connector server at the given address.  The
+ resultant server is not started until its start method is called.
+
+Parameters:
+serviceURL - the address of the new connector server.  The
+ actual address of the new connector server, as returned by its
+ getAddress method, will
+ not necessarily be exactly the same.  For example, it might
+ include a port number if the original address did not.
+environment - a set of attributes to control the new
+ connector server's behavior.  This parameter can be null.
+ Keys in this map must be Strings.  The appropriate type of each
+ associated value depends on the attribute.  The contents of
+ environment are not changed by this call.
+mbeanServer - the MBean server that this connector server
+ is attached to.  Null if this connector server will be attached
+ to an MBean server by being registered in it.
+Returns:
+a JMXConnectorServer representing the new
+ connector server.  Each successful call to this method produces
+ a different object.
+Throws:
+NullPointerException - if serviceURL is null.
+IOException - if the connector server cannot be made
+ because of a communication problem.
+MalformedURLException - if there is no provider for the
+ protocol in serviceURL.
+JMXProviderException - if there is a provider for the
+ protocol in serviceURL but it cannot be used for
+ some reason.
+
+
+"
+JMXPrincipal,equals(Object o),boolean,Compares the specified Object with this JMXPrincipal for equality.,"
+
+equals
+public boolean equals(Object o)
+Compares the specified Object with this JMXPrincipal
+ for equality.  Returns true if the given object is also a
+ JMXPrincipal and the two JMXPrincipals
+ have the same name.
+
+ 
+
+Specified by:
+equals in interface Principal
+Overrides:
+equals in class Object
+Parameters:
+o - Object to be compared for equality with this
+ JMXPrincipal.
+Returns:
+true if the specified Object is equal to this
+ JMXPrincipal.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+JMXPrincipal,getName(),String,Returns the name of this principal.,"
+
+getName
+public String getName()
+Returns the name of this principal.
+
+ 
+
+Specified by:
+getName in interface Principal
+Returns:
+the name of this JMXPrincipal.
+
+
+"
+JMXPrincipal,hashCode(),int,Returns a hash code for this JMXPrincipal.,"
+
+hashCode
+public int hashCode()
+Returns a hash code for this JMXPrincipal.
+
+ 
+
+Specified by:
+hashCode in interface Principal
+Overrides:
+hashCode in class Object
+Returns:
+a hash code for this JMXPrincipal.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+JMXPrincipal,toString(),String,Returns a string representation of this JMXPrincipal.,"
+
+toString
+public String toString()
+Returns a string representation of this JMXPrincipal.
+
+ 
+
+Specified by:
+toString in interface Principal
+Overrides:
+toString in class Object
+Returns:
+a string representation of this JMXPrincipal.
+
+
+"
+JMXServiceURL,equals(Object obj),boolean,Indicates whether some other object is equal to this one.,"
+
+equals
+public boolean equals(Object obj)
+Indicates whether some other object is equal to this one.
+ This method returns true if and only if obj is an
+ instance of JMXServiceURL whose getProtocol(), getHost(), getPort(), and
+ getURLPath() methods return the same values as for
+ this object.  The values for getProtocol() and getHost() can differ in case without affecting equality.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - the reference object with which to compare.
+Returns:
+true if this object is the same as the
+ obj argument; false otherwise.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+JMXServiceURL,getHost(),String,The host part of the Service URL.,"
+
+getHost
+public String getHost()
+The host part of the Service URL.  If the Service URL was
+ constructed with the constructor that takes a URL string
+ parameter, the result is the substring specifying the host in
+ that URL.  If the Service URL was constructed with a
+ constructor that takes a separate host parameter, the result is
+ the string that was specified.  If that string was null, the
+ result is
+ InetAddress.getLocalHost().getHostName().
+In either case, if the host was specified using the
+ [...] syntax for numeric IPv6 addresses, the
+ square brackets are not included in the return value here.
+
+Returns:
+the host part of the Service URL.  This is never null.
+
+
+"
+JMXServiceURL,getPort(),int,The port of the Service URL.,"
+
+getPort
+public int getPort()
+The port of the Service URL.  If no port was
+ specified, the returned value is 0.
+
+Returns:
+the port of the Service URL, or 0 if none.
+
+
+"
+JMXServiceURL,getProtocol(),String,The protocol part of the Service URL.,"
+
+getProtocol
+public String getProtocol()
+The protocol part of the Service URL.
+
+Returns:
+the protocol part of the Service URL.  This is never null.
+
+
+"
+JMXServiceURL,getURLPath(),String,The URL Path part of the Service URL.,"
+
+getURLPath
+public String getURLPath()
+The URL Path part of the Service URL.  This is an empty
+ string, or a string beginning with a slash (/), or
+ a string beginning with a semicolon (;).
+
+Returns:
+the URL Path part of the Service URL.  This is never
+ null.
+
+
+"
+JMXServiceURL,hashCode(),int,Returns a hash code value for the object.,"
+
+hashCode
+public int hashCode()
+Description copied from class: Object
+Returns a hash code value for the object. This method is
+ supported for the benefit of hash tables such as those provided by
+ HashMap.
+ 
+ The general contract of hashCode is:
+ 
+Whenever it is invoked on the same object more than once during
+     an execution of a Java application, the hashCode method
+     must consistently return the same integer, provided no information
+     used in equals comparisons on the object is modified.
+     This integer need not remain consistent from one execution of an
+     application to another execution of the same application.
+ If two objects are equal according to the equals(Object)
+     method, then calling the hashCode method on each of
+     the two objects must produce the same integer result.
+ It is not required that if two objects are unequal
+     according to the Object.equals(java.lang.Object)
+     method, then calling the hashCode method on each of the
+     two objects must produce distinct integer results.  However, the
+     programmer should be aware that producing distinct integer results
+     for unequal objects may improve the performance of hash tables.
+ 
+
+ As much as is reasonably practical, the hashCode method defined by
+ class Object does return distinct integers for distinct
+ objects. (This is typically implemented by converting the internal
+ address of the object into an integer, but this implementation
+ technique is not required by the
+ Java™ programming language.)
+
+Overrides:
+hashCode in class Object
+Returns:
+a hash code value for this object.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+JMXServiceURL,toString(),String,The string representation of this Service URL.,"
+
+toString
+public String toString()
+The string representation of this Service URL.  If the value
+ returned by this method is supplied to the
+ JMXServiceURL constructor, the resultant object is
+ equal to this one.
+The host part of the returned string
+ is the value returned by getHost().  If that value
+ specifies a numeric IPv6 address, it is surrounded by square
+ brackets [].
+The port part of the returned string
+ is the value returned by getPort() in its shortest
+ decimal form.  If the value is zero, it is omitted.
+
+Overrides:
+toString in class Object
+Returns:
+the string representation of this Service URL.
+
+
+"
+NotificationResult,getEarliestSequenceNumber(),long,Returns the sequence number of the earliest notification still in the buffer.,"
+
+getEarliestSequenceNumber
+public long getEarliestSequenceNumber()
+Returns the sequence number of the earliest notification still
+ in the buffer.
+
+Returns:
+the sequence number of the earliest notification still
+ in the buffer.
+
+
+"
+NotificationResult,getNextSequenceNumber(),long,Returns the sequence number of the next notification available for querying.,"
+
+getNextSequenceNumber
+public long getNextSequenceNumber()
+Returns the sequence number of the next notification available
+ for querying.
+
+Returns:
+the sequence number of the next notification available
+ for querying.
+
+
+"
+NotificationResult,getTargetedNotifications(),TargetedNotification[],"Returns the notifications resulting from the query, and the listeners they correspond to.","
+
+getTargetedNotifications
+public TargetedNotification[] getTargetedNotifications()
+Returns the notifications resulting from the query, and the
+ listeners they correspond to.
+
+Returns:
+the notifications resulting from the query, and the
+ listeners they correspond to.  This array can be empty.
+
+
+"
+NotificationResult,toString(),String,Returns a string representation of the object.,"
+
+toString
+public String toString()
+Returns a string representation of the object.  The result
+ should be a concise but informative representation that is easy
+ for a person to read.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of the object.
+
+
+"
+TargetedNotification,getListenerID(),Integer,The ID of the listener to which the notification is targeted.,"
+
+getListenerID
+public Integer getListenerID()
+The ID of the listener to which the notification is
+    targeted.
+
+Returns:
+The listener ID.
+
+
+"
+TargetedNotification,getNotification(),Notification,The emitted notification.,"
+
+getNotification
+public Notification getNotification()
+The emitted notification.
+
+Returns:
+The notification.
+
+
+"
+TargetedNotification,toString(),String,Returns a textual representation of this Targeted Notification.,"
+
+toString
+public String toString()
+Returns a textual representation of this Targeted Notification.
+
+Overrides:
+toString in class Object
+Returns:
+a String representation of this Targeted Notification.
+
+
+"

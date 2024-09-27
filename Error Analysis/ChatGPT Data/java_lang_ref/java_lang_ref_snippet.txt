@@ -1,0 +1,123 @@
+Sample: 0 Reference_2
+----------------------------------------------------------------
+`void clear()`: This method clears all references to objects that have been cleared by the garbage collector.
+
+Code snippet:
+```java
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
+
+public class Main {
+    public static void main(String[] args) {
+        ReferenceQueue<String> referenceQueue = new ReferenceQueue<>();
+        WeakReference<String> weakReference = new WeakReference<>("Hello", referenceQueue);
+        
+        System.out.println("Before clearing: " + weakReference.get());
+        
+        weakReference.clear();
+        
+        System.out.println("After clearing: " + weakReference.get());
+    }
+}
+```
+================================================================
+
+Sample: 1 Reference_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.ref.Reference;
+
+public class Main {
+    public static void main(String[] args) {
+        Reference<Object> reference = new Reference<>();
+        boolean enqueued = reference.isEnqueued();
+        System.out.println("Is Enqueued: " + enqueued);
+    }
+}
+```
+================================================================
+
+Sample: 2 ReferenceQueue_1
+----------------------------------------------------------------
+`Reference<? extends T> poll()`: This method retrieves and removes the next reference object in the queue, blocking until one becomes available.
+
+Code snippet:
+```java
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ReferenceQueue<String> referenceQueue = new ReferenceQueue<>();
+        String str = new String("Hello");
+        Reference<String> reference = new java.lang.ref.WeakReference<>(str, referenceQueue);
+        
+        System.out.println("Reference before polling: " + reference.get());
+        Reference<? extends String> polledRef = referenceQueue.poll();
+        System.out.println("Polled reference: " + polledRef.get());
+    }
+}
+```
+================================================================
+
+Sample: 3 ReferenceQueue_2
+----------------------------------------------------------------
+Reference<? extends T> remove(): This method removes and returns the reference object that got enqueued, blocking until one becomes available.
+
+Code snippet:
+```java
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ReferenceQueue<String> referenceQueue = new ReferenceQueue<>();
+        String str = new String("Hello");
+        Reference<String> reference = new java.lang.ref.WeakReference<>(str, referenceQueue);
+
+        // Enqueuing the reference
+        System.out.println("Enqueuing the reference...");
+        str = null;
+        System.gc();
+
+        try {
+            // Removing the reference when it gets enqueued
+            System.out.println("Trying to remove the reference...");
+            Reference<? extends String> removedReference = referenceQueue.remove();
+
+            if (removedReference != null) {
+                System.out.println("Reference removed: " + removedReference.get());
+            } else {
+                System.out.println("No reference available to remove.");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+```
+================================================================
+
+Sample: 4 SoftReference_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.ref.SoftReference;
+
+public class Main {
+    public static void main(String[] args) {
+        String str = new String("Hello");
+        SoftReference<String> softRef = new SoftReference<>(str);
+        
+        // Get the value from SoftReference
+        String value = softRef.get();
+        
+        System.out.println(value);
+    }
+}
+```
+================================================================
+

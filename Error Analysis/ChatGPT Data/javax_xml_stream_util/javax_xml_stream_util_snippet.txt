@@ -1,0 +1,113 @@
+Sample: 0 StreamReaderDelegate_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.util.StreamReaderDelegate;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) throws XMLStreamException {
+        String xml = "<root>Hello World</root>";
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        StreamReaderDelegate reader = new StreamReaderDelegate();
+        reader.setInput(factory.createXMLStreamReader(new StringReader(xml)));
+        String elementText = reader.getElementText();
+        System.out.println(elementText);
+    }
+}
+```
+================================================================
+
+Sample: 1 StreamReaderDelegate_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.util.StreamReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        // Sample XML content
+        String xmlContent = "<root><child>Hello</child></root>";
+
+        // Create a StreamReaderDelegate
+        StreamReaderDelegate reader = new StreamReaderDelegate() {
+            @Override
+            public String getNamespaceURI(String prefix) {
+                return "http://example.com/" + prefix;
+            }
+        };
+
+        // Set the XML content for the reader
+        reader.setInput(new StringReader(xmlContent));
+
+        // Use the getNamespaceURI method
+        String namespaceURI = reader.getNamespaceURI("prefix");
+
+        System.out.println("Namespace URI: " + namespaceURI);
+    }
+}
+```
+================================================================
+
+Sample: 2 StreamReaderDelegate_4
+----------------------------------------------------------------
+`Location getLocation()`: This method returns the current location of the cursor. 
+
+Code snippet:
+```java
+import javax.xml.stream.Location;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.util.StreamReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        String xml = "<root><element>Content</element></root>";
+
+        try {
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+            XMLStreamReader reader = factory.createXMLStreamReader(new java.io.StringReader(xml));
+            StreamReaderDelegate delegate = new StreamReaderDelegate(reader) {};
+
+            while (delegate.hasNext()) {
+                int event = delegate.next();
+                if (event == XMLStreamReader.START_ELEMENT) {
+                    Location location = delegate.getLocation();
+                    System.out.println("Element Location: line " + location.getLineNumber() + ", column " + location.getColumnNumber());
+                }
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 StreamReaderDelegate_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.util.StreamReaderDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLStreamReader reader = null; // Initialize XMLStreamReader object
+
+        StreamReaderDelegate delegate = new StreamReaderDelegate(reader) {
+            @Override
+            public boolean hasNext() {
+                return super.hasNext(); // Call hasNext() method from the superclass
+            }
+        };
+
+        // Use delegate.hasNext() in your code logic
+    }
+}
+```
+================================================================
+

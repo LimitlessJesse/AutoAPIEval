@@ -1,0 +1,156 @@
+Sample: 0 TransformService_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.TransformParameterSpec;
+import javax.xml.crypto.dsig.TransformService;
+
+public class Main {
+    public static void main(String[] args) {
+        TransformService service = new TransformService();
+        TransformParameterSpec params = new TransformParameterSpec();
+        service.init(params);
+    }
+}
+```
+================================================================
+
+Sample: 1 TransformService_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.TransformService;
+import javax.xml.crypto.dsig.XMLStructure;
+import javax.xml.crypto.dsig.XMLCryptoContext;
+
+public class Main {
+    public static void main(String[] args) {
+        TransformService transformService = null; // initialize your TransformService object
+        XMLStructure parent = null; // initialize your XMLStructure object
+        XMLCryptoContext context = null; // initialize your XMLCryptoContext object
+        
+        transformService.marshalParams(parent, context);
+    }
+}
+```
+================================================================
+
+Sample: 2 XMLSignatureFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.XMLSignature;
+import javax.xml.crypto.dsig.XMLSignatureFactory;
+import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
+import javax.xml.crypto.dsig.spec.SignatureMethodParameterSpec;
+import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import javax.xml.crypto.dsig.spec.XPathFilterParameterSpec;
+import java.security.Key;
+import java.util.Collections;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+
+        // Create SignedInfo
+        // Note: SignedInfo creation requires other specifications like CanonicalizationMethod, SignatureMethod, and References
+        SignedInfo si = fac.newSignedInfo(
+                fac.newCanonicalizationMethod(C14NMethodParameterSpec.INCLUSIVE, (TransformParameterSpec) null),
+                fac.newSignatureMethod("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256", (SignatureMethodParameterSpec) null),
+                Collections.singletonList(fac.newReference("#reference-1",
+                        fac.newDigestMethod("http://www.w3.org/2001/04/xmlenc#sha256", null),
+                        Collections.singletonList(fac.newTransform("http://www.w3.org/2000/09/xmldsig#enveloped-signature", (TransformParameterSpec) null)),
+                        null, null))
+        );
+
+        // Create KeyInfo 
+        // Note: KeyInfo creation requires information about the key being used for signature
+        KeyInfo ki = fac.newKeyInfo(Collections.singletonList(fac.newKeyValue((Key) null)));
+
+        // Generate XMLSignature using SignedInfo and KeyInfo
+        XMLSignature signature = fac.newXMLSignature(si, ki);
+
+        // The XMLSignature object can now be used for signing or verifying XML documents
+    }
+}
+``` 
+
+This code snippet demonstrates how to create an instance of XMLSignature using the newXMLSignature method from javax.xml.crypto.dsig.XMLSignatureFactory. It includes the necessary imports and provides an example setup for SignedInfo and KeyInfo needed for the XMLSignature creation.
+================================================================
+
+Sample: 3 XMLSignatureFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.DigestMethod;
+import javax.xml.crypto.dsig.XMLSignatureFactory;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        String uri = "http://example.com";
+        DigestMethod dm = null; // initialize with appropriate DigestMethod
+        List transforms = null; // initialize with appropriate List of transforms
+        String type = "http://www.w3.org/2000/09/xmldsig#Reference";
+        String id = "reference-1";
+
+        XMLSignatureFactory factory = XMLSignatureFactory.getInstance();
+        factory.newReference(uri, dm, transforms, type, id);
+    }
+}
+```
+================================================================
+
+Sample: 4 XMLSignatureFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.CanonicalizationMethod;
+import javax.xml.crypto.dsig.SignatureMethod;
+import javax.xml.crypto.dsig.SignedInfo;
+import javax.xml.crypto.dsig.XMLSignatureFactory;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assume cm, sm, and references are properly initialized
+        CanonicalizationMethod cm = null; // Initialize CanonicalizationMethod object
+        SignatureMethod sm = null; // Initialize SignatureMethod object
+        List references = null; // Initialize List object
+
+        // Create XMLSignatureFactory object
+        XMLSignatureFactory xmlSignatureFactory = XMLSignatureFactory.getInstance();
+
+        // Call newSignedInfo method
+        SignedInfo signedInfo = xmlSignatureFactory.newSignedInfo(cm, sm, references);
+
+        // Print signedInfo object
+        System.out.println(signedInfo);
+    }
+}
+```
+================================================================
+
+Sample: 5 XMLSignatureFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.XMLObject;
+import javax.xml.crypto.dsig.XMLSignatureFactory;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List content = new ArrayList();
+        String id = "exampleId";
+        String mimeType = "text/plain";
+        String encoding = "UTF-8";
+
+        XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+        XMLObject xmlObject = fac.newXMLObject(content, id, mimeType, encoding);
+    }
+}
+```
+================================================================
+

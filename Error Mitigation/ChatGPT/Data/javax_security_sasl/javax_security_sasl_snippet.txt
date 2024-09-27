@@ -1,0 +1,155 @@
+Sample: 0 AuthorizeCallback_1
+----------------------------------------------------------------
+`String getAuthenticationID()`: This method returns the authentication id to check.
+
+Code snippet:
+```java
+import javax.security.sasl.AuthorizeCallback;
+
+public class Main {
+    public static void main(String[] args) {
+        AuthorizeCallback callback = new AuthorizeCallback("test", "test");
+        String authenticationID = callback.getAuthenticationID();
+        System.out.println("Authentication ID: " + authenticationID);
+    }
+}
+```
+================================================================
+
+Sample: 1 AuthorizeCallback_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.sasl.AuthorizeCallback;
+
+public class Main {
+    public static void main(String[] args) {
+        AuthorizeCallback callback = new AuthorizeCallback("authenticationId", "authorizationId");
+        String authorizationId = callback.getAuthorizationID();
+        System.out.println("Authorization ID: " + authorizationId);
+    }
+}
+```
+================================================================
+
+Sample: 2 AuthorizeCallback_3
+----------------------------------------------------------------
+`boolean isAuthorized()`: This method determines whether the authentication id is allowed to act on behalf of the authorization id.
+
+Code snippet:
+```java
+import javax.security.sasl.AuthorizeCallback;
+
+public class Main {
+    public static void main(String[] args) {
+        AuthorizeCallback callback = new AuthorizeCallback("authenticationId", "authorizationId");
+        boolean authorized = callback.isAuthorized();
+        System.out.println("Is authorized: " + authorized);
+    }
+}
+```
+================================================================
+
+Sample: 3 AuthorizeCallback_4
+----------------------------------------------------------------
+`void setAuthorized(boolean ok)`: This method sets whether the authorization is allowed.
+
+Code snippet:
+```java
+import javax.security.sasl.AuthorizeCallback;
+
+public class Main {
+    public static void main(String[] args) {
+        AuthorizeCallback authorizeCallback = new AuthorizeCallback("authenticationID", "authorizationID");
+        authorizeCallback.setAuthorized(true);
+        System.out.println("Authorization set to: " + authorizeCallback.isAuthorized());
+    }
+}
+```
+================================================================
+
+Sample: 4 AuthorizeCallback_5
+----------------------------------------------------------------
+`void setAuthorizedID(String id)`: This method sets the id of the authorized entity. Called by handler only when the id is different from getAuthorizationID(). For example, the id might need to be canonicalized for the environment in which it will be used.
+
+Code snippet:
+```java
+import javax.security.sasl.AuthorizeCallback;
+
+public class Main {
+    public static void main(String[] args) {
+        AuthorizeCallback authorizeCallback = new AuthorizeCallback("test", "test");
+        authorizeCallback.setAuthorizedID("authorizedId");
+        System.out.println("Authorized ID set successfully: " + authorizeCallback.getAuthorizedID());
+    }
+}
+```
+================================================================
+
+Sample: 5 Sasl_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.sasl.Sasl;
+import javax.security.sasl.SaslClient;
+import javax.security.sasl.SaslException;
+import javax.security.auth.callback.CallbackHandler;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        String[] mechanisms = {"DIGEST-MD5"};
+        String authorizationId = "user";
+        String protocol = "ldap";
+        String serverName = "example.com";
+        Map<String, ?> props = null;
+        CallbackHandler cbh = null;
+
+        try {
+            SaslClient saslClient = Sasl.createSaslClient(mechanisms, authorizationId, protocol, serverName, props, cbh);
+            if (saslClient != null) {
+                System.out.println("SaslClient created successfully");
+            } else {
+                System.out.println("Failed to create SaslClient");
+            }
+        } catch (SaslException e) {
+            System.out.println("Error creating SaslClient: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 Sasl_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.sasl.Sasl;
+import javax.security.sasl.SaslException;
+import javax.security.sasl.SaslServer;
+import javax.security.sasl.CallbackHandler;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String mechanism = "DIGEST-MD5";
+            String protocol = "ldap";
+            String serverName = "example.com";
+            Map<String, ?> props = null;
+            CallbackHandler cbh = null;
+
+            SaslServer saslServer = Sasl.createSaslServer(mechanism, protocol, serverName, props, cbh);
+            if (saslServer != null) {
+                System.out.println("SaslServer created successfully");
+            } else {
+                System.out.println("Failed to create SaslServer");
+            }
+        } catch (SaslException e) {
+            System.out.println("Error creating SaslServer: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+

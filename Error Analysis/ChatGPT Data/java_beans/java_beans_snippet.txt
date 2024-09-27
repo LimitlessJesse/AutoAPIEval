@@ -1,0 +1,1104 @@
+Sample: 0 DefaultPersistenceDelegate_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.DefaultPersistenceDelegate;
+import java.beans.Encoder;
+import java.beans.Expression;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultPersistenceDelegate persistenceDelegate = new DefaultPersistenceDelegate() {
+            protected Expression instantiate(Object oldInstance, Encoder out) {
+                // Custom logic for instantiating a new object based on oldInstance
+                // Return the Expression object
+                return super.instantiate(oldInstance, out);
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 1 DefaultPersistenceDelegate_5
+----------------------------------------------------------------
+```java
+import java.beans.DefaultPersistenceDelegate;
+import java.beans.Encoder;
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultPersistenceDelegate delegate = new DefaultPersistenceDelegate();
+        Class<?> type = Object.class;
+        Object oldInstance = "old";
+        Object newInstance = "new";
+        Encoder out = new Encoder();
+        
+        delegate.initialize(type, oldInstance, newInstance, out);
+        
+        System.out.println(out);
+    }
+}
+```
+================================================================
+
+Sample: 2 Encoder_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.Encoder;
+import java.beans.PersistenceDelegate;
+
+public class Main {
+    public static void main(String[] args) {
+        // Instantiate Encoder
+        Encoder encoder = new Encoder();
+
+        // Define type and delegate
+        Class<?> type = String.class;
+        PersistenceDelegate delegate = new PersistenceDelegate() {
+            @Override
+            protected Expression instantiate(Object oldInstance, Encoder out) {
+                // Custom instantiation logic
+                return new Expression(oldInstance, String.class, "new", new Object[]{((String) oldInstance).toUpperCase()});
+            }
+        };
+
+        // Set persistence delegate for the specified type
+        encoder.setPersistenceDelegate(type, delegate);
+
+        // Encoder usage example
+        String original = "hello";
+        encoder.writeStatement(new Expression(original, type, "new", new Object[]{original}));
+    }
+}
+```
+================================================================
+
+Sample: 3 Encoder_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PersistenceDelegate;
+import java.beans.Encoder;
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        PersistenceDelegate pd = Encoder.getPersistenceDelegate(ArrayList.class);
+        System.out.println("PersistenceDelegate for ArrayList: " + pd);
+    }
+}
+```
+================================================================
+
+Sample: 4 Encoder_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.ExceptionListener;
+import java.beans.Encoder;
+
+public class Main {
+    public static void main(String[] args) {
+        Encoder encoder = new Encoder();
+        
+        // Create an ExceptionListener
+        ExceptionListener listener = exception -> {
+            System.err.println("Exception: " + exception.getMessage());
+        };
+        
+        // Set the ExceptionListener to the Encoder
+        encoder.setExceptionListener(listener);
+        
+        // Now when an exception occurs during encoding, it will be handled by the listener
+    }
+}
+```
+================================================================
+
+Sample: 5 Encoder_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.Encoder;
+import java.beans.ExceptionListener;
+
+public class Main {
+    public static void main(String[] args) {
+        Encoder encoder = new Encoder();
+        ExceptionListener exceptionListener = encoder.getExceptionListener();
+        System.out.println("ExceptionListener: " + exceptionListener);
+    }
+}
+```
+================================================================
+
+Sample: 6 Encoder_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.Encoder;
+
+public class Main {
+    public static void main(String[] args) {
+        Encoder encoder = new Encoder();
+        Object obj = new Object();
+        
+        Object result = encoder.get(obj);
+        System.out.println(result);
+    }
+}
+```
+================================================================
+
+Sample: 7 Expression_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.Expression;
+
+public class Main {
+    public static void main(String[] args) {
+        String text = "Hello World";
+        Expression expression = new Expression(text, "substring", new Object[]{6});
+        Object result = expression.getValue();
+        System.out.println(result); // Output: World
+    }
+}
+```
+================================================================
+
+Sample: 8 Expression_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.Expression;
+
+public class Main {
+    public static void main(String[] args) {
+        Expression expression = new Expression(new Object(), "setValue", new Object[]{10});
+        try {
+            expression.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 Expression_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.Expression;
+
+public class Main {
+    public static void main(String[] args) {
+        Expression expression = new Expression(new Object(), "toString", new Object[0]);
+        try {
+            expression.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 FeatureDescriptor_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.FeatureDescriptor;
+
+public class Main {
+    public static void main(String[] args) {
+        FeatureDescriptor descriptor = new FeatureDescriptor();
+        String name = descriptor.getName();
+        System.out.println("Name: " + name);
+    }
+}
+```
+================================================================
+
+Sample: 11 FeatureDescriptor_2
+----------------------------------------------------------------
+void setName(String name)`: This method sets the name of the FeatureDescriptor to the specified name.
+
+Code snippet:
+```java
+import java.beans.FeatureDescriptor;
+
+public class Main {
+    public static void main(String[] args) {
+        FeatureDescriptor descriptor = new FeatureDescriptor();
+        descriptor.setName("MyFeature");
+        System.out.println(descriptor.getName());
+    }
+}
+```
+================================================================
+
+Sample: 12 FeatureDescriptor_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.FeatureDescriptor;
+
+public class Main {
+    public static void main(String[] args) {
+        FeatureDescriptor fd = new FeatureDescriptor();
+        fd.setDisplayName("MyDisplayName");
+        System.out.println("Display Name: " + fd.getDisplayName());
+    }
+}
+```
+================================================================
+
+Sample: 13 FeatureDescriptor_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.FeatureDescriptor;
+
+public class Main {
+    public static void main(String[] args) {
+        FeatureDescriptor feature = new FeatureDescriptor();
+        System.out.println(feature.isExpert());
+    }
+}
+```
+================================================================
+
+Sample: 14 IndexedPropertyChangeEvent_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.IndexedPropertyChangeEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        IndexedPropertyChangeEvent event = new IndexedPropertyChangeEvent(this, "propertyName", true, 0, "oldValue", "newValue");
+        int index = event.getIndex();
+        System.out.println("Index: " + index);
+    }
+}
+```
+================================================================
+
+Sample: 15 Introspector_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            BeanInfo beanInfo = Introspector.getBeanInfo(Student.class);
+            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+            for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+                System.out.println(propertyDescriptor.getName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class Student {
+        private String name;
+        private int age;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 PropertyChangeEvent_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyChangeEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        PropertyChangeEvent event = new PropertyChangeEvent(this, "propertyName", null, "new value");
+
+        String propertyName = event.getPropertyName();
+        System.out.println("Property Name: " + propertyName);
+    }
+}
+```
+================================================================
+
+Sample: 17 PropertyChangeEvent_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyChangeEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a PropertyChangeEvent
+        PropertyChangeEvent event = new PropertyChangeEvent(this, "propertyName", "oldValue", "newValue");
+        
+        // Access the old value using getOldValue()
+        Object oldValue = event.getOldValue();
+        
+        // Print the old value
+        System.out.println("Old value: " + oldValue);
+    }
+}
+```
+================================================================
+
+Sample: 18 PropertyChangeEvent_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyChangeEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        PropertyChangeEvent event = new PropertyChangeEvent(new Object(), "propertyName", "oldValue", "newValue");
+        Object newValue = event.getNewValue();
+        System.out.println("New Value: " + newValue);
+    }
+}
+```
+================================================================
+
+Sample: 19 PropertyChangeEvent_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyChangeEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        PropertyChangeEvent event = new PropertyChangeEvent(new Object(), "propName", null, "propValue");
+        event.setPropagationId("propagationId");
+        System.out.println("Propagation Id: " + event.getPropagationId());
+    }
+}
+```
+================================================================
+
+Sample: 20 PropertyChangeListenerProxy_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyChangeListenerProxy;
+import java.beans.PropertyChangeEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        PropertyChangeListenerProxy proxy = new PropertyChangeListenerProxy("propertyName", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                // Implement your code here
+            }
+        });
+        // Example usage
+        proxy.propertyChange(new PropertyChangeEvent(this, "propertyName", null, "New value"));
+    }
+}
+```
+================================================================
+
+Sample: 21 PropertyChangeSupport_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+        PropertyChangeListener listener = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                // Implement the logic for property change event
+            }
+        };
+
+        support.addPropertyChangeListener(listener);
+    }
+}
+```
+================================================================
+
+Sample: 22 PropertyChangeSupport_2
+----------------------------------------------------------------
+`void removePropertyChangeListener(PropertyChangeListener listener)`: This method removes a PropertyChangeListener from the internal list of listeners.
+
+Code snippet:
+```java
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        PropertyChangeSupport support = new PropertyChangeSupport(new Object());
+        
+        PropertyChangeListener listener = evt -> System.out.println("Property changed: " + evt.getPropertyName());
+        
+        support.addPropertyChangeListener(listener);
+        
+        // Perform some actions
+        
+        support.removePropertyChangeListener(listener);
+    }
+}
+```
+================================================================
+
+Sample: 23 PropertyChangeSupport_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        PropertyChangeSupport support = new PropertyChangeSupport(new Object());
+        
+        PropertyChangeListener[] listeners = support.getPropertyChangeListeners();
+        
+        for(PropertyChangeListener listener : listeners) {
+            System.out.println(listener.toString());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 24 PropertyChangeSupport_4
+----------------------------------------------------------------
+`void firePropertyChange(String propertyName, Object oldValue, Object newValue)`: This method notifies all listeners that have registered interest for notification on this property change event.
+
+Code snippet:
+```java
+import java.beans.PropertyChangeSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        PropertyChangeSupport pcs = new PropertyChangeSupport(new Object());
+        pcs.firePropertyChange("sampleProperty", null, "newValue");
+    }
+}
+```
+================================================================
+
+Sample: 25 PropertyChangeSupport_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyChangeSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        PropertyChangeSupport pcs = new PropertyChangeSupport(new Object());
+        pcs.fireIndexedPropertyChange("propertyName", 0, "oldValue", "newValue");
+    }
+}
+```
+================================================================
+
+Sample: 26 PropertyDescriptor_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        // Create a sample class with a property
+        class Sample {
+            private String name;
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+        }
+
+        // Use PropertyDescriptor to get the property type
+        PropertyDescriptor propertyDescriptor = new PropertyDescriptor("name", Sample.class);
+        Class<?> propertyType = propertyDescriptor.getPropertyType();
+
+        // Output the property type
+        System.out.println("Property Type: " + propertyType.getName());
+    }
+}
+```
+================================================================
+
+Sample: 27 PropertyDescriptor_3
+----------------------------------------------------------------
+`Method getReadMethod()`: This method returns the method that should be used to read the property value. 
+
+Code snippet:
+```java
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PropertyDescriptor pd = new PropertyDescriptor("name", Person.class);
+            Method readMethod = pd.getReadMethod();
+            System.out.println("Read method: " + readMethod.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class Person {
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 28 PropertyDescriptor_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyDescriptor;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            PropertyDescriptor propertyDescriptor = new PropertyDescriptor("propertyName", MyClass.class);
+            System.out.println("Write Method: " + propertyDescriptor.getWriteMethod());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class MyClass {
+    private String propertyName;
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+    }
+}
+```
+================================================================
+
+Sample: 29 PropertyEditorManager_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyEditorManager;
+import java.beans.PropertyEditorSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        PropertyEditorManager.registerEditor(String.class, CustomStringPropertyEditor.class);
+        
+        PropertyEditorSupport editor = PropertyEditorManager.findEditor(String.class);
+        System.out.println("Registered editor for String class: " + editor);
+    }
+}
+
+class CustomStringPropertyEditor extends PropertyEditorSupport {
+    // Custom implementation of String property editor
+}
+```
+================================================================
+
+Sample: 30 PropertyEditorManager_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyEditorManager;
+
+public class Main {
+    public static void main(String[] args) {
+        Class<?> targetType = String.class; // Example target type
+        PropertyEditorManager.findEditor(targetType);
+    }
+}
+```
+================================================================
+
+Sample: 31 PropertyEditorManager_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyEditorManager;
+
+public class Main {
+    public static void main(String[] args) {
+        String[] searchPath = PropertyEditorManager.getEditorSearchPath();
+        
+        System.out.println("Editor search path:");
+        for (String path : searchPath) {
+            System.out.println(path);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 32 SimpleBeanInfo_1
+----------------------------------------------------------------
+```java
+import java.beans.PropertyDescriptor;
+import java.beans.SimpleBeanInfo;
+
+public class MyBeanInfo extends SimpleBeanInfo {
+
+    @Override
+    public PropertyDescriptor[] getPropertyDescriptors() {
+        // Implement this method to return an array of PropertyDescriptors
+        return new PropertyDescriptor[0];
+    }
+
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Instantiate the SimpleBeanInfo subclass
+        MyBeanInfo beanInfo = new MyBeanInfo();
+        
+        // Get the property descriptors using getPropertyDescriptors() method
+        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        
+        // Use the property descriptors as needed
+        System.out.println("Property Descriptors: " + propertyDescriptors.length);
+    }
+}
+```
+================================================================
+
+Sample: 33 SimpleBeanInfo_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.EventSetDescriptor;
+import java.beans.SimpleBeanInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of SimpleBeanInfo
+        SimpleBeanInfo beanInfo = new SimpleBeanInfo();
+        
+        // Get the EventSetDescriptors from the SimpleBeanInfo object
+        EventSetDescriptor[] eventSetDescriptors = beanInfo.getEventSetDescriptors();
+        
+        // Print out the EventSetDescriptors
+        for(EventSetDescriptor descriptor : eventSetDescriptors) {
+            System.out.println(descriptor);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 34 SimpleBeanInfo_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.MethodDescriptor;
+import java.beans.SimpleBeanInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of SimpleBeanInfo to work with
+        SimpleBeanInfo beanInfo = new SimpleBeanInfo();
+
+        // Get the MethodDescriptors associated with the beanInfo
+        MethodDescriptor[] methodDescriptors = beanInfo.getMethodDescriptors();
+
+        // Print out the MethodDescriptors
+        for (MethodDescriptor methodDescriptor : methodDescriptors) {
+            System.out.println(methodDescriptor.getName());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 35 SimpleBeanInfo_4
+----------------------------------------------------------------
+```java
+import java.beans.BeanInfo;
+import java.beans.SimpleBeanInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public BeanInfo[] getAdditionalBeanInfo() {
+        // Implement your logic here
+        return null;
+    }
+}
+```
+================================================================
+
+Sample: 36 SimpleBeanInfo_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.BeanDescriptor;
+import java.beans.SimpleBeanInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleBeanInfo info = new SimpleBeanInfo() {
+            @Override
+            public BeanDescriptor getBeanDescriptor() {
+                BeanDescriptor bd = new BeanDescriptor(Main.class);
+                bd.setDisplayName("Custom Bean Descriptor");
+                return bd;
+            }
+        };
+        
+        BeanDescriptor beanDescriptor = info.getBeanDescriptor();
+        System.out.println("Bean Display Name: " + beanDescriptor.getDisplayName());
+    }
+}
+```
+================================================================
+
+Sample: 37 VetoableChangeListenerProxy_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyChangeEvent;
+import java.beans.VetoableChangeListener;
+import java.beans.PropertyVetoException;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void vetoableChange(PropertyChangeEvent evt) {
+        // Implement the vetoable change logic here
+    }
+}
+```
+================================================================
+
+Sample: 38 VetoableChangeSupport_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
+import java.beans.VetoableChangeSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a VetoableChangeSupport instance
+        VetoableChangeSupport vetoableChangeSupport = new VetoableChangeSupport(this);
+
+        // Adding a VetoableChangeListener
+        VetoableChangeListener listener = new VetoableChangeListener() {
+            @Override
+            public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
+                // Vetoable change logic goes here
+                // For example, vetoing the change based on certain conditions
+                if ("value".equals(evt.getPropertyName())) {
+                    if ((int) evt.getNewValue() < 0) {
+                        throw new PropertyVetoException("Value cannot be negative", evt);
+                    }
+                }
+            }
+        };
+
+        vetoableChangeSupport.addVetoableChangeListener(listener);
+
+        // Now the listener is added and can veto changes
+    }
+}
+```
+================================================================
+
+Sample: 39 VetoableChangeSupport_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.VetoableChangeSupport;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyVetoException;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a VetoableChangeSupport instance
+        VetoableChangeSupport vcs = new VetoableChangeSupport();
+
+        // Create a VetoableChangeListener
+        VetoableChangeListener listener = new VetoableChangeListener() {
+            @Override
+            public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
+                // Perform some validation on the property change
+                if (evt.getNewValue() instanceof String) {
+                    // Veto the change if the new value is a string
+                    throw new PropertyVetoException("Cannot set property to a String value", evt);
+                }
+            }
+        };
+
+        // Add the listener to the VetoableChangeSupport
+        vcs.addVetoableChangeListener(listener);
+
+        // Remove the listener from the VetoableChangeSupport
+        vcs.removeVetoableChangeListener(listener);
+    }
+}
+```
+================================================================
+
+Sample: 40 VetoableChangeSupport_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.VetoableChangeSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        VetoableChangeSupport vetoableChangeSupport = new VetoableChangeSupport();
+        // Assume we have added some VetoableChangeListeners to vetoableChangeSupport object
+        VetoableChangeListener[] listeners = vetoableChangeSupport.getVetoableChangeListeners();
+        // Use the listeners array as needed
+    }
+}
+```
+================================================================
+
+Sample: 41 VetoableChangeSupport_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        VetoableChangeSupport vetoSupport = new VetoableChangeSupport(this);
+
+        try {
+            vetoSupport.fireVetoableChange("propertyName", oldValue, newValue);
+        } catch (PropertyVetoException e) {
+            System.out.println("Property change vetoed: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 42 VetoableChangeSupport_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.VetoableChangeSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        VetoableChangeSupport vetoableChangeSupport = new VetoableChangeSupport();
+        boolean hasListeners = vetoableChangeSupport.hasListeners("propertyName");
+        System.out.println("Has listeners for propertyName: " + hasListeners);
+    }
+}
+```
+================================================================
+
+Sample: 43 XMLDecoder_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.XMLDecoder;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (XMLDecoder xmlDecoder = new XMLDecoder(new BufferedInputStream(new FileInputStream("data.xml")))) {
+            Object object = xmlDecoder.readObject();
+            System.out.println("Object read from XML: " + object.toString());
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 44 XMLDecoder_2
+----------------------------------------------------------------
+void close(): This method releases resources associated with this XMLDecoder.
+
+Code snippet:
+```java
+import java.beans.XMLDecoder;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLDecoder decoder = new XMLDecoder(System.in);
+        // Use the decoder object
+        
+        decoder.close(); // Release associated resources
+    }
+}
+```
+================================================================
+
+Sample: 45 XMLDecoder_3
+----------------------------------------------------------------
+`void setExceptionListener(ExceptionListener listener)`: This method sets the ExceptionListener to be used for handling exceptions during the decoding process.
+
+Code snippet:
+```java
+import java.beans.ExceptionListener;
+import java.beans.XMLDecoder;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLDecoder decoder = new XMLDecoder(); // Create a new XMLDecoder
+        ExceptionListener listener = new MyExceptionListener();
+        decoder.setExceptionListener(listener); // Set the ExceptionListener
+    }
+
+    static class MyExceptionListener implements ExceptionListener {
+        @Override
+        public void exceptionThrown(Exception e) {
+            System.out.println("Exception thrown: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 46 XMLDecoder_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.XMLDecoder;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        XMLDecoder xmlDecoder = new XMLDecoder();
+        xmlDecoder.setOwner(new Object());
+    }
+}
+```
+================================================================
+
+Sample: 47 XMLEncoder_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.XMLEncoder;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLEncoder encoder = new XMLEncoder(System.out);
+        encoder.setOwner(new Object());
+        encoder.close();
+    }
+}
+```
+================================================================
+
+Sample: 48 XMLEncoder_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.XMLEncoder;
+import java.beans.Expression;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLEncoder encoder = new XMLEncoder(System.out);
+        Expression expression = new Expression("1 + 2", Integer.class);
+        encoder.writeExpression(expression);
+        encoder.close();
+    }
+}
+```
+================================================================
+
+Sample: 49 XMLEncoder_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.XMLEncoder;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create an XMLEncoder object
+            XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream("output.xml")));
+
+            // Object to be written
+            Object objectToWrite = new Object();
+
+            // Write the object using writeObject method
+            encoder.writeObject(objectToWrite);
+
+            // Close the encoder
+            encoder.close();
+
+            System.out.println("Object successfully written to output.xml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

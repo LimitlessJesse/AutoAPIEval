@@ -1,0 +1,223 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,IIORegistry,1,void registerServiceProvider(Object provider),False,,NULL
+0,IIORegistry,2,void deregisterServiceProvider(Object provider),False,,NULL
+0,IIORegistry,3,"Iterator<ServiceRegistry.Filter> getServiceProviders(Class<?> providerClass, boolean returnInstances)",False,,NULL
+0,IIORegistry,4,"Iterator<ServiceRegistry.Filter> getServiceProviders(Class<?> providerClass, ServiceRegistry.Filter filter, boolean returnInstances)",False,,NULL
+0,IIORegistry,5,"void setOrdering(Class<?> category, Object firstProvider, Object secondProvider)",False,,NULL
+2,ImageInputStreamSpi,1,String getDescription(),False,,NULL
+2,ImageInputStreamSpi,2,ImageInputStream createInputStreamInstance(Object input),True,,"
+
+createInputStreamInstance
+public ImageInputStream createInputStreamInstance(Object input)
+                                           throws IOException
+Returns an instance of the ImageInputStream
+ implementation associated with this service provider.  A cache
+ file will be created in the system-dependent default
+ temporary-file directory, if needed.
+
+Parameters:
+input - an object of the class type returned by
+ getInputClass.
+Returns:
+an ImageInputStream instance.
+Throws:
+IllegalArgumentException - if input is
+ not an instance of the correct class or is null.
+IOException - if a cache file is needed but cannot be
+ created.
+See Also:
+getInputClass()
+
+
+"
+2,ImageInputStreamSpi,3,boolean canUseCacheFile(),True,,"
+
+canUseCacheFile
+public boolean canUseCacheFile()
+Returns true if the ImageInputStream
+ implementation associated with this service provider can
+ optionally make use of a cache file for improved performance
+ and/or memory footrprint.  If false, the value of
+ the useCache argument to
+ createInputStreamInstance will be ignored.
+
+  The default implementation returns false.
+
+Returns:
+true if a cache file can be used by the
+ input streams created by this service provider.
+
+
+"
+2,ImageInputStreamSpi,4,boolean needsCacheFile(),True,,"
+
+needsCacheFile
+public boolean needsCacheFile()
+Returns true if the ImageInputStream
+ implementation associated with this service provider requires
+ the use of a cache File.  If true,
+ the value of the useCache argument to
+ createInputStreamInstance will be ignored.
+
+  The default implementation returns false.
+
+Returns:
+true if a cache file is needed by the
+ input streams created by this service provider.
+
+
+"
+2,ImageInputStreamSpi,5,boolean isOwnProviderFor(ImageInputStream stream),False,,NULL
+3,ImageOutputStreamSpi,1,String getDescription(),False,,NULL
+3,ImageOutputStreamSpi,2,String[] getFileSuffixes(),False,,NULL
+3,ImageOutputStreamSpi,3,String[] getMIMETypes(),False,,NULL
+3,ImageOutputStreamSpi,4,boolean canUseCache(),False,,NULL
+3,ImageOutputStreamSpi,5,ImageOutputStream createOutputStreamInstance(Object output),True,,"
+
+createOutputStreamInstance
+public ImageOutputStream createOutputStreamInstance(Object output)
+                                             throws IOException
+Returns an instance of the ImageOutputStream
+ implementation associated with this service provider.  A cache
+ file will be created in the system-dependent default
+ temporary-file directory, if needed.
+
+Parameters:
+output - an object of the class type returned by
+ getOutputClass.
+Returns:
+an ImageOutputStream instance.
+Throws:
+IllegalArgumentException - if output is
+ not an instance of the correct class or is null.
+IOException - if a cache file is needed but cannot be
+ created.
+See Also:
+getOutputClass()
+
+
+"
+5,ImageReaderWriterSpi,1,String getDescription(),False,,NULL
+5,ImageReaderWriterSpi,2,String getVendorName(),False,,NULL
+5,ImageReaderWriterSpi,3,String getVersion(),False,,NULL
+5,ImageReaderWriterSpi,4,String[] getFileSuffixes(),True,,"
+
+getFileSuffixes
+public String[] getFileSuffixes()
+Returns an array of Strings containing a list of
+ file suffixes associated with the formats that are generally
+ usable by the ImageReader or
+ ImageWriter implementation associated with this
+ service provider.  For example, a single
+ ImageReader might be able to process files with
+ '.pbm' and '.pnm' suffixes, or both '.jpg' and '.jpeg'
+ suffixes.  If there are no known file suffixes,
+ null will be returned.
+
+  Returning a particular suffix does not guarantee that files
+ with that suffix can be processed; it merely indicates that it
+ may be worthwhile attempting to decode or encode such files
+ using this service provider.
+
+Returns:
+an array of Strings or length at least 1
+ containing common file suffixes associated with this reader or
+ writer, or null.
+
+
+"
+5,ImageReaderWriterSpi,5,String[] getMIMETypes(),True,,"
+
+getMIMETypes
+public String[] getMIMETypes()
+Returns an array of Strings containing a list of
+ MIME types associated with the formats that are generally
+ usable by the ImageReader or
+ ImageWriter implementation associated with this
+ service provider.
+
+  Ideally, only a single MIME type would be required in order
+ to describe a particular format.  However, for several reasons
+ it is necessary to associate a list of types with each service
+ provider.  First, many common image file formats do not have
+ standard MIME types, so a list of commonly used unofficial
+ names will be required, such as image/x-pbm and
+ image/x-portable-bitmap.  Some file formats have
+ official MIME types but may sometimes be referred to using
+ their previous unofficial designations, such as
+ image/x-png instead of the official
+ image/png.  Finally, a single service provider may
+ be capable of parsing multiple distinct types from the MIME
+ point of view, for example image/x-xbitmap and
+ image/x-xpixmap.
+
+  Returning a particular MIME type does not guarantee that
+ files claiming to be of that type can be processed; it merely
+ indicates that it may be worthwhile attempting to decode or
+ encode such files using this service provider.
+
+Returns:
+an array of Strings or length at least 1
+ containing MIME types associated with this reader or writer, or
+ null.
+
+
+"
+6,ImageTranscoderSpi,1,ImageTranscoder createTranscoderInstance(),True,,"
+
+createTranscoderInstance
+public abstract ImageTranscoder createTranscoderInstance()
+Returns an instance of the ImageTranscoder
+ implementation associated with this service provider.
+
+Returns:
+an ImageTranscoder instance.
+
+
+"
+6,ImageTranscoderSpi,2,String getDescription(),False,,NULL
+6,ImageTranscoderSpi,3,String getVendorName(),False,,NULL
+6,ImageTranscoderSpi,4,String getVersion(),False,,NULL
+6,ImageTranscoderSpi,5,"boolean canTranscodeImage(ImageType sourceType, ImageType targetType)",False,,NULL
+8,ServiceRegistry,1,void registerServiceProvider(Object provider),True,,"
+
+registerServiceProvider
+public void registerServiceProvider(Object provider)
+Adds a service provider object to the registry.  The provider
+ is associated within each category present in the registry
+ whose Class it implements.
+
+  If provider implements the
+ RegisterableService interface, its
+ onRegistration method will be called once for each
+ category it is registered under.  Its
+ onDeregistration method will be called each time
+ it is deregistered from a category or when the registry is
+ finalized.
+
+Parameters:
+provider - the service provider object to be registered.
+Throws:
+IllegalArgumentException - if
+ provider is null.
+
+
+"
+8,ServiceRegistry,2,void deregisterServiceProvider(Object provider),True,,"
+
+deregisterServiceProvider
+public void deregisterServiceProvider(Object provider)
+Removes a service provider object from all categories that
+ contain it.
+
+Parameters:
+provider - the service provider object to be deregistered.
+Throws:
+IllegalArgumentException - if provider is
+ null.
+
+
+"
+8,ServiceRegistry,3,"Iterator<T> getServiceProviders(Class<T> providerClass, boolean returnFirst)",False,,NULL
+8,ServiceRegistry,4,Iterator<T> lookupProviders(Class<T> providerClass),False,,NULL
+8,ServiceRegistry,5,T getServiceProviderByClass(Class<T> providerClass),False,,NULL

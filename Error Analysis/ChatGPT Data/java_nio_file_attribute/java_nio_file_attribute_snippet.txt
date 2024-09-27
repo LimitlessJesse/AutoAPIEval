@@ -1,0 +1,264 @@
+Sample: 0 AclEntry_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.AclEntryPermission;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry aclEntry = ...; // Initialize AclEntry object
+        Set<AclEntryPermission> permissions = aclEntry.permissions();
+        System.out.println("Permissions: " + permissions);
+    }
+}
+```
+================================================================
+
+Sample: 1 AclEntry_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.UserPrincipal;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry aclEntry = ...; // Initialize AclEntry object
+        UserPrincipal userPrincipal = aclEntry.principal();
+        System.out.println("User Principal: " + userPrincipal.getName());
+    }
+}
+```
+================================================================
+
+Sample: 2 AclEntry_Builder_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.AclEntryPermission;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry.Builder builder = AclEntry.newBuilder();
+        Set<AclEntryPermission> permissions = new HashSet<>();
+        permissions.add(AclEntryPermission.READ_DATA);
+        permissions.add(AclEntryPermission.WRITE_DATA);
+        
+        builder.setPermissions(permissions);
+        
+        AclEntry aclEntry = builder.build();
+        
+        System.out.println("AclEntry permissions: " + aclEntry.permissions());
+    }
+}
+```
+================================================================
+
+Sample: 3 AclEntry_Builder_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.AclEntryType;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry.Builder builder = AclEntry.newBuilder();
+        AclEntry entry = builder.setType(AclEntryType.ALLOW).build();
+        System.out.println("AclEntry type: " + entry.type());
+    }
+}
+```
+================================================================
+
+Sample: 4 AclEntry_Builder_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.AclEntry;
+import java.nio.file.attribute.AclEntryFlag;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        AclEntry.Builder builder = AclEntry.newBuilder();
+        Set<AclEntryFlag> flags = new HashSet<>();
+        flags.add(AclEntryFlag.FILE_INHERIT);
+        flags.add(AclEntryFlag.DIRECTORY_INHERIT);
+        
+        builder.setFlags(flags);
+        
+        AclEntry aclEntry = builder.build();
+        
+        System.out.println("AclEntry flags set: " + aclEntry.flags());
+    }
+}
+```
+================================================================
+
+Sample: 5 FileTime_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.FileTime;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        FileTime fileTime = FileTime.fromMillis(System.currentTimeMillis());
+        long time = fileTime.to(TimeUnit.DAYS);
+        System.out.println("File time in days: " + time);
+    }
+}
+```
+================================================================
+
+Sample: 6 FileTime_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.FileTime;
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        long currentTimeMillis = System.currentTimeMillis();
+        FileTime fileTime = FileTime.fromMillis(currentTimeMillis);
+        System.out.println("File time created from current time in millis: " + fileTime.toString());
+    }
+}
+```
+================================================================
+
+Sample: 7 FileTime_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
+
+public class Main {
+    public static void main(String[] args) {
+        Instant instant = Instant.now();
+        FileTime fileTime = FileTime.from(instant);
+        System.out.println(fileTime.toString());
+    }
+}
+```
+================================================================
+
+Sample: 8 FileTime_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.FileTime;
+
+public class Main {
+    public static void main(String[] args) {
+        FileTime fileTime1 = FileTime.fromMillis(System.currentTimeMillis());
+        FileTime fileTime2 = FileTime.fromMillis(System.currentTimeMillis() - 1000000);
+
+        int comparisonResult = fileTime1.compareTo(fileTime2);
+        if (comparisonResult < 0) {
+            System.out.println("fileTime1 is earlier than fileTime2");
+        } else if (comparisonResult > 0) {
+            System.out.println("fileTime1 is later than fileTime2");
+        } else {
+            System.out.println("fileTime1 is equal to fileTime2");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 FileTime_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
+
+public class Main {
+    public static void main(String[] args) {
+        FileTime fileTime = FileTime.fromMillis(System.currentTimeMillis());
+        Instant instant = fileTime.toInstant(); 
+        System.out.println("Instant: " + instant);
+    }
+}
+```
+================================================================
+
+Sample: 10 PosixFilePermissions_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.PosixFilePermissions;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        String perms = "rwxr-x---";
+        Set<PosixFilePermission> permissions = PosixFilePermissions.fromString(perms);
+        
+        System.out.println("Permissions: " + permissions);
+    }
+}
+```
+================================================================
+
+Sample: 11 PosixFilePermissions_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        Set<PosixFilePermission> permissions = new HashSet<>();
+        permissions.add(PosixFilePermission.OWNER_READ);
+        permissions.add(PosixFilePermission.OWNER_WRITE);
+        
+        String permissionString = PosixFilePermissions.toString(permissions);
+        System.out.println(permissionString);
+    }
+}
+```
+================================================================
+
+Sample: 12 UserPrincipalLookupService_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.FileSystems;
+import java.nio.file.attribute.UserPrincipal;
+import java.nio.file.attribute.UserPrincipalLookupService;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        String username = "john_doe"; // Example username
+        try {
+            UserPrincipalLookupService lookupService = FileSystems.getDefault().getUserPrincipalLookupService();
+            UserPrincipal userPrincipal = lookupService.lookupPrincipalByName(username);
+            System.out.println("UserPrincipal for username '" + username + "': " + userPrincipal.toString());
+        } catch (UserPrincipalNotFoundException e) {
+            System.out.println("UserPrincipal not found for username: " + username);
+        } catch (IOException e) {
+            System.out.println("IOException occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,137 @@
+Sample: 0 FileSystemProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.FileSystems;
+import java.nio.file.spi.FileSystemProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        FileSystemProvider provider = FileSystems.getDefault().provider();
+        String scheme = provider.getScheme();
+        System.out.println("Default file system provider scheme: " + scheme);
+    }
+}
+```
+================================================================
+
+Sample: 1 FileSystemProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Path path = Path.of("exampleFileSystem");
+        Map<String, Object> env = new HashMap<>();
+        
+        try {
+            FileSystem newFileSystem = FileSystems.newFileSystem(path, env);
+            System.out.println("New file system created: " + newFileSystem.toString());
+        } catch (IOException e) {
+            System.out.println("Error creating new file system: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 FileSystemProvider_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.FileSystem;
+import java.nio.file.spi.FileSystemProvider;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        URI uri = URI.create("file:///path/to/directory");
+        Map<String, Object> env = new HashMap<>();
+        FileSystemProvider provider = FileSystems.getDefault().provider();
+        
+        try {
+            FileSystem fs = provider.newFileSystem(uri, env);
+            Path path = fs.getPath("/test.txt");
+            System.out.println("New file system created successfully.");
+        } catch (IOException e) {
+            System.out.println("Error creating new file system: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 FileSystemProvider_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.spi.FileSystemProvider;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        FileSystemProvider provider = FileSystemProvider.installedProviders().get(0);
+        Path path = Path.of("example.txt");
+        Set<OpenOption> options = Set.of();
+        FileAttribute<?>[] attrs = new FileAttribute<?>[0];
+
+        try {
+            FileChannel fileChannel = provider.newFileChannel(path, options, attrs);
+            System.out.println("FileChannel created successfully for: " + path.toString());
+            fileChannel.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 FileSystemProvider_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.channels.AsynchronousFileChannel;
+import java.nio.file.spi.FileSystemProvider;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+
+public class Main {
+    public static void main(String[] args) {
+        FileSystemProvider provider = FileSystemProvider.provider();
+        Path path = Path.of("example.txt");
+        Set<OpenOption> options = Set.of();
+        ExecutorService executor = null;
+        FileAttribute<?>[] attrs = new FileAttribute<?>[0];
+        
+        try {
+            AsynchronousFileChannel channel = provider.newAsynchronousFileChannel(path, options, executor, attrs);
+            System.out.println("AsynchronousFileChannel created successfully");
+        } catch (Exception e) {
+            System.out.println("Error creating AsynchronousFileChannel: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
