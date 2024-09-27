@@ -1,0 +1,1066 @@
+ClassName,Method,Return Type,Description,Full Description
+AbstractUndoableEdit,addEdit(UndoableEdit anEdit),boolean,This default implementation returns false.,"
+
+addEdit
+public boolean addEdit(UndoableEdit anEdit)
+This default implementation returns false.
+
+Specified by:
+addEdit in interface UndoableEdit
+Parameters:
+anEdit - the edit to be added
+Returns:
+false
+See Also:
+UndoableEdit.addEdit(javax.swing.undo.UndoableEdit)
+
+
+"
+AbstractUndoableEdit,canRedo(),boolean,Returns true if this edit is alive and hasBeenDone is false.,"
+
+canRedo
+public boolean canRedo()
+Returns true if this edit is alive
+ and hasBeenDone is false.
+
+Specified by:
+canRedo in interface UndoableEdit
+Returns:
+true if this edit is alive
+   and hasBeenDone is false
+See Also:
+die(), 
+undo(), 
+redo()
+
+
+"
+AbstractUndoableEdit,canUndo(),boolean,Returns true if this edit is alive and hasBeenDone is true.,"
+
+canUndo
+public boolean canUndo()
+Returns true if this edit is alive
+ and hasBeenDone is true.
+
+Specified by:
+canUndo in interface UndoableEdit
+Returns:
+true if this edit is alive
+    and hasBeenDone is true
+See Also:
+die(), 
+undo(), 
+redo()
+
+
+"
+AbstractUndoableEdit,die(),void,Sets alive to false.,"
+
+die
+public void die()
+Sets alive to false. Note that this
+ is a one way operation; dead edits cannot be resurrected.
+ Sending undo or redo to
+ a dead edit results in an exception being thrown.
+
+ Typically an edit is killed when it is consolidated by
+ another edit's addEdit or replaceEdit
+ method, or when it is dequeued from an UndoManager.
+
+Specified by:
+die in interface UndoableEdit
+See Also:
+CompoundEdit.die()
+
+
+"
+AbstractUndoableEdit,getPresentationName(),String,"This default implementation returns """".","
+
+getPresentationName
+public String getPresentationName()
+This default implementation returns """". Used by
+ getUndoPresentationName and
+ getRedoPresentationName to
+ construct the strings they return. Subclasses should override to
+ return an appropriate description of the operation this edit
+ represents.
+
+Specified by:
+getPresentationName in interface UndoableEdit
+Returns:
+the empty string """"
+See Also:
+getUndoPresentationName(), 
+getRedoPresentationName()
+
+
+"
+AbstractUndoableEdit,getRedoPresentationName(),String,"Retreives the value from the defaults table with key AbstractUndoableEdit.redoText and returns that value followed by a space, followed by getPresentationName.","
+
+getRedoPresentationName
+public String getRedoPresentationName()
+Retreives the value from the defaults table with key
+ AbstractUndoableEdit.redoText and returns
+ that value followed by a space, followed by
+ getPresentationName.
+ If getPresentationName returns """",
+ then the defaults value is returned alone.
+
+Specified by:
+getRedoPresentationName in interface UndoableEdit
+Returns:
+the value from the defaults table with key
+    AbstractUndoableEdit.redoText, followed
+    by a space, followed by getPresentationName
+    unless getPresentationName is """" in which
+    case, the defaults value is returned alone.
+See Also:
+getPresentationName()
+
+
+"
+AbstractUndoableEdit,getUndoPresentationName(),String,"Retreives the value from the defaults table with key AbstractUndoableEdit.undoText and returns that value followed by a space, followed by getPresentationName.","
+
+getUndoPresentationName
+public String getUndoPresentationName()
+Retreives the value from the defaults table with key
+ AbstractUndoableEdit.undoText and returns
+ that value followed by a space, followed by
+ getPresentationName.
+ If getPresentationName returns """",
+ then the defaults value is returned alone.
+
+Specified by:
+getUndoPresentationName in interface UndoableEdit
+Returns:
+the value from the defaults table with key
+    AbstractUndoableEdit.undoText, followed
+    by a space, followed by getPresentationName
+    unless getPresentationName is """" in which
+    case, the defaults value is returned alone.
+See Also:
+getPresentationName()
+
+
+"
+AbstractUndoableEdit,isSignificant(),boolean,This default implementation returns true.,"
+
+isSignificant
+public boolean isSignificant()
+This default implementation returns true.
+
+Specified by:
+isSignificant in interface UndoableEdit
+Returns:
+true
+See Also:
+UndoableEdit.isSignificant()
+
+
+"
+AbstractUndoableEdit,redo(),void,Throws CannotRedoException if canRedo returns false.,"
+
+redo
+public void redo()
+          throws CannotRedoException
+Throws CannotRedoException if canRedo
+ returns false. Sets hasBeenDone to true.
+ Subclasses should override to redo the operation represented by
+ this edit. Override should begin with a call to super.
+
+Specified by:
+redo in interface UndoableEdit
+Throws:
+CannotRedoException - if canRedo
+     returns false
+See Also:
+canRedo()
+
+
+"
+AbstractUndoableEdit,replaceEdit(UndoableEdit anEdit),boolean,This default implementation returns false.,"
+
+replaceEdit
+public boolean replaceEdit(UndoableEdit anEdit)
+This default implementation returns false.
+
+Specified by:
+replaceEdit in interface UndoableEdit
+Parameters:
+anEdit - the edit to replace
+Returns:
+false
+See Also:
+UndoableEdit.replaceEdit(javax.swing.undo.UndoableEdit)
+
+
+"
+AbstractUndoableEdit,toString(),String,Returns a string that displays and identifies this object's properties.,"
+
+toString
+public String toString()
+Returns a string that displays and identifies this
+ object's properties.
+
+Overrides:
+toString in class Object
+Returns:
+a String representation of this object
+
+
+"
+AbstractUndoableEdit,undo(),void,Throws CannotUndoException if canUndo returns false.,"
+
+undo
+public void undo()
+          throws CannotUndoException
+Throws CannotUndoException if canUndo
+ returns false. Sets hasBeenDone
+ to false. Subclasses should override to undo the
+ operation represented by this edit. Override should begin with
+ a call to super.
+
+Specified by:
+undo in interface UndoableEdit
+Throws:
+CannotUndoException - if canUndo
+    returns false
+See Also:
+canUndo()
+
+
+"
+CompoundEdit,addEdit(UndoableEdit anEdit),boolean,"If this edit is inProgress, accepts anEdit and returns true.","
+
+addEdit
+public boolean addEdit(UndoableEdit anEdit)
+If this edit is inProgress,
+ accepts anEdit and returns true.
+
+ The last edit added to this CompoundEdit
+ is given a chance to addEdit(anEdit).
+ If it refuses (returns false), anEdit is
+ given a chance to replaceEdit the last edit.
+ If anEdit returns false here,
+ it is added to edits.
+
+Specified by:
+addEdit in interface UndoableEdit
+Overrides:
+addEdit in class AbstractUndoableEdit
+Parameters:
+anEdit - the edit to be added
+Returns:
+true if the edit is inProgress;
+  otherwise returns false
+See Also:
+UndoableEdit.addEdit(javax.swing.undo.UndoableEdit)
+
+
+"
+CompoundEdit,canRedo(),boolean,Returns false if isInProgress or if super returns false.,"
+
+canRedo
+public boolean canRedo()
+Returns false if isInProgress or if super
+ returns false.
+
+Specified by:
+canRedo in interface UndoableEdit
+Overrides:
+canRedo in class AbstractUndoableEdit
+Returns:
+true if this edit is alive
+   and hasBeenDone is false
+See Also:
+isInProgress()
+
+
+"
+CompoundEdit,canUndo(),boolean,Returns false if isInProgress or if super returns false.,"
+
+canUndo
+public boolean canUndo()
+Returns false if isInProgress or if super
+ returns false.
+
+Specified by:
+canUndo in interface UndoableEdit
+Overrides:
+canUndo in class AbstractUndoableEdit
+Returns:
+true if this edit is alive
+    and hasBeenDone is true
+See Also:
+isInProgress()
+
+
+"
+CompoundEdit,die(),void,"Sends die to each subedit, in the reverse of the order that they were added.","
+
+die
+public void die()
+Sends die to each subedit,
+ in the reverse of the order that they were added.
+
+Specified by:
+die in interface UndoableEdit
+Overrides:
+die in class AbstractUndoableEdit
+See Also:
+die()
+
+
+"
+CompoundEdit,end(),void,Sets inProgress to false.,"
+
+end
+public void end()
+Sets inProgress to false.
+
+See Also:
+canUndo(), 
+canRedo()
+
+
+"
+CompoundEdit,getPresentationName(),String,Returns getPresentationName from the last UndoableEdit added to edits.,"
+
+getPresentationName
+public String getPresentationName()
+Returns getPresentationName from the
+ last UndoableEdit added to
+ edits. If edits is empty,
+ calls super.
+
+Specified by:
+getPresentationName in interface UndoableEdit
+Overrides:
+getPresentationName in class AbstractUndoableEdit
+Returns:
+the empty string """"
+See Also:
+AbstractUndoableEdit.getUndoPresentationName(), 
+AbstractUndoableEdit.getRedoPresentationName()
+
+
+"
+CompoundEdit,getRedoPresentationName(),String,Returns getRedoPresentationName from the last UndoableEdit added to edits.,"
+
+getRedoPresentationName
+public String getRedoPresentationName()
+Returns getRedoPresentationName
+ from the last UndoableEdit
+ added to edits.
+ If edits is empty, calls super.
+
+Specified by:
+getRedoPresentationName in interface UndoableEdit
+Overrides:
+getRedoPresentationName in class AbstractUndoableEdit
+Returns:
+the value from the defaults table with key
+    AbstractUndoableEdit.redoText, followed
+    by a space, followed by getPresentationName
+    unless getPresentationName is """" in which
+    case, the defaults value is returned alone.
+See Also:
+AbstractUndoableEdit.getPresentationName()
+
+
+"
+CompoundEdit,getUndoPresentationName(),String,Returns getUndoPresentationName from the last UndoableEdit added to edits.,"
+
+getUndoPresentationName
+public String getUndoPresentationName()
+Returns getUndoPresentationName
+ from the last UndoableEdit
+ added to edits.
+ If edits is empty, calls super.
+
+Specified by:
+getUndoPresentationName in interface UndoableEdit
+Overrides:
+getUndoPresentationName in class AbstractUndoableEdit
+Returns:
+the value from the defaults table with key
+    AbstractUndoableEdit.undoText, followed
+    by a space, followed by getPresentationName
+    unless getPresentationName is """" in which
+    case, the defaults value is returned alone.
+See Also:
+AbstractUndoableEdit.getPresentationName()
+
+
+"
+CompoundEdit,isInProgress(),boolean,"Returns true if this edit is in progress--that is, it has not received end.","
+
+isInProgress
+public boolean isInProgress()
+Returns true if this edit is in progress--that is, it has not
+ received end. This generally means that edits are still being
+ added to it.
+
+See Also:
+end()
+
+
+"
+CompoundEdit,isSignificant(),boolean,Returns true if any of the UndoableEdits in edits do.,"
+
+isSignificant
+public boolean isSignificant()
+Returns true if any of the UndoableEdits
+ in edits do.
+ Returns false if they all return false.
+
+Specified by:
+isSignificant in interface UndoableEdit
+Overrides:
+isSignificant in class AbstractUndoableEdit
+Returns:
+true
+See Also:
+UndoableEdit.isSignificant()
+
+
+"
+CompoundEdit,lastEdit(),protected UndoableEdit,"Returns the last UndoableEdit in edits, or null if edits is empty.","
+
+lastEdit
+protected UndoableEdit lastEdit()
+Returns the last UndoableEdit in
+ edits, or null
+ if edits is empty.
+
+"
+CompoundEdit,redo(),void,Sends redo to all contained UndoableEdits in the order in which they were added.,"
+
+redo
+public void redo()
+          throws CannotRedoException
+Sends redo to all contained
+ UndoableEdits in the order in
+ which they were added.
+
+Specified by:
+redo in interface UndoableEdit
+Overrides:
+redo in class AbstractUndoableEdit
+Throws:
+CannotRedoException - if canRedo
+     returns false
+See Also:
+AbstractUndoableEdit.canRedo()
+
+
+"
+CompoundEdit,toString(),String,Returns a string that displays and identifies this object's properties.,"
+
+toString
+public String toString()
+Returns a string that displays and identifies this
+ object's properties.
+
+Overrides:
+toString in class AbstractUndoableEdit
+Returns:
+a String representation of this object
+
+
+"
+CompoundEdit,undo(),void,Sends undo to all contained UndoableEdits in the reverse of the order in which they were added.,"
+
+undo
+public void undo()
+          throws CannotUndoException
+Sends undo to all contained
+ UndoableEdits in the reverse of
+ the order in which they were added.
+
+Specified by:
+undo in interface UndoableEdit
+Overrides:
+undo in class AbstractUndoableEdit
+Throws:
+CannotUndoException - if canUndo
+    returns false
+See Also:
+AbstractUndoableEdit.canUndo()
+
+
+"
+StateEdit,end(),void,Gets the post-edit state of the StateEditable object and ends the edit.,"
+
+end
+public void end()
+Gets the post-edit state of the StateEditable object and
+ ends the edit.
+
+"
+StateEdit,getPresentationName(),String,Gets the presentation name for this edit,"
+
+getPresentationName
+public String getPresentationName()
+Gets the presentation name for this edit
+
+Specified by:
+getPresentationName in interface UndoableEdit
+Overrides:
+getPresentationName in class AbstractUndoableEdit
+Returns:
+the empty string """"
+See Also:
+AbstractUndoableEdit.getUndoPresentationName(), 
+AbstractUndoableEdit.getRedoPresentationName()
+
+
+"
+StateEdit,"init(StateEditable anObject, String name)",protected void,NULL,"
+
+init
+protected void init(StateEditable anObject,
+                    String name)
+
+"
+StateEdit,redo(),void,Tells the edited object to apply the state after the edit,"
+
+redo
+public void redo()
+Tells the edited object to apply the state after the edit
+
+Specified by:
+redo in interface UndoableEdit
+Overrides:
+redo in class AbstractUndoableEdit
+See Also:
+AbstractUndoableEdit.canRedo()
+
+
+"
+StateEdit,removeRedundantState(),protected void,Remove redundant key/values in state hashtables.,"
+
+removeRedundantState
+protected void removeRedundantState()
+Remove redundant key/values in state hashtables.
+
+"
+StateEdit,undo(),void,Tells the edited object to apply the state prior to the edit,"
+
+undo
+public void undo()
+Tells the edited object to apply the state prior to the edit
+
+Specified by:
+undo in interface UndoableEdit
+Overrides:
+undo in class AbstractUndoableEdit
+See Also:
+AbstractUndoableEdit.canUndo()
+
+
+"
+UndoableEditSupport,_postEdit(UndoableEdit e),protected void,Called only from postEdit and endUpdate.,"
+
+_postEdit
+protected void _postEdit(UndoableEdit e)
+Called only from postEdit and endUpdate. Calls
+ undoableEditHappened in all listeners. No synchronization
+ is performed here, since the two calling methods are synchronized.
+
+"
+UndoableEditSupport,addUndoableEditListener(UndoableEditListener l),void,Registers an UndoableEditListener.,"
+
+addUndoableEditListener
+public void addUndoableEditListener(UndoableEditListener l)
+Registers an UndoableEditListener.
+ The listener is notified whenever an edit occurs which can be undone.
+
+Parameters:
+l - an UndoableEditListener object
+See Also:
+removeUndoableEditListener(javax.swing.event.UndoableEditListener)
+
+
+"
+UndoableEditSupport,beginUpdate(),void,NULL,"
+
+beginUpdate
+public void beginUpdate()
+
+"
+UndoableEditSupport,createCompoundEdit(),protected CompoundEdit,Called only from beginUpdate.,"
+
+createCompoundEdit
+protected CompoundEdit createCompoundEdit()
+Called only from beginUpdate.
+ Exposed here for subclasses' use.
+
+"
+UndoableEditSupport,endUpdate(),void,DEADLOCK WARNING: Calling this method may call undoableEditHappened in all listeners.,"
+
+endUpdate
+public void endUpdate()
+DEADLOCK WARNING: Calling this method may call
+ undoableEditHappened in all listeners.
+ It is unwise to call this method from one of its listeners.
+
+"
+UndoableEditSupport,getUndoableEditListeners(),UndoableEditListener[],Returns an array of all the UndoableEditListeners added to this UndoableEditSupport with addUndoableEditListener().,"
+
+getUndoableEditListeners
+public UndoableEditListener[] getUndoableEditListeners()
+Returns an array of all the UndoableEditListeners added
+ to this UndoableEditSupport with addUndoableEditListener().
+
+Returns:
+all of the UndoableEditListeners added or an empty
+         array if no listeners have been added
+Since:
+1.4
+
+
+"
+UndoableEditSupport,getUpdateLevel(),int,Returns the update level value.,"
+
+getUpdateLevel
+public int getUpdateLevel()
+Returns the update level value.
+
+Returns:
+an integer representing the update level
+
+
+"
+UndoableEditSupport,postEdit(UndoableEdit e),void,DEADLOCK WARNING: Calling this method may call undoableEditHappened in all listeners.,"
+
+postEdit
+public void postEdit(UndoableEdit e)
+DEADLOCK WARNING: Calling this method may call
+ undoableEditHappened in all listeners.
+ It is unwise to call this method from one of its listeners.
+
+"
+UndoableEditSupport,removeUndoableEditListener(UndoableEditListener l),void,Removes an UndoableEditListener.,"
+
+removeUndoableEditListener
+public void removeUndoableEditListener(UndoableEditListener l)
+Removes an UndoableEditListener.
+
+Parameters:
+l - the UndoableEditListener object to be removed
+See Also:
+addUndoableEditListener(javax.swing.event.UndoableEditListener)
+
+
+"
+UndoableEditSupport,toString(),String,Returns a string that displays and identifies this object's properties.,"
+
+toString
+public String toString()
+Returns a string that displays and identifies this
+ object's properties.
+
+Overrides:
+toString in class Object
+Returns:
+a String representation of this object
+
+
+"
+UndoManager,addEdit(UndoableEdit anEdit),boolean,"Adds an UndoableEdit to this UndoManager, if it's possible.","
+
+addEdit
+public boolean addEdit(UndoableEdit anEdit)
+Adds an UndoableEdit to this
+ UndoManager, if it's possible.  This removes all
+ edits from the index of the next edit to the end of the edits
+ list.  If end has been invoked the edit is not added
+ and false is returned.  If end hasn't
+ been invoked this returns true.
+
+Specified by:
+addEdit in interface UndoableEdit
+Overrides:
+addEdit in class CompoundEdit
+Parameters:
+anEdit - the edit to be added
+Returns:
+true if anEdit can be incorporated into this
+              edit
+See Also:
+CompoundEdit.end(), 
+CompoundEdit.addEdit(javax.swing.undo.UndoableEdit)
+
+
+"
+UndoManager,canRedo(),boolean,Returns true if edits may be redone.,"
+
+canRedo
+public boolean canRedo()
+Returns true if edits may be redone.  If end has
+ been invoked, this returns the value from super.  Otherwise,
+ this returns true if there are any edits to be redone
+ (editToBeRedone returns non-null).
+
+Specified by:
+canRedo in interface UndoableEdit
+Overrides:
+canRedo in class CompoundEdit
+Returns:
+true if there are edits to be redone
+See Also:
+CompoundEdit.canRedo(), 
+editToBeRedone()
+
+
+"
+UndoManager,canUndo(),boolean,Returns true if edits may be undone.,"
+
+canUndo
+public boolean canUndo()
+Returns true if edits may be undone.  If end has
+ been invoked, this returns the value from super.  Otherwise
+ this returns true if there are any edits to be undone
+ (editToBeUndone returns non-null).
+
+Specified by:
+canUndo in interface UndoableEdit
+Overrides:
+canUndo in class CompoundEdit
+Returns:
+true if there are edits to be undone
+See Also:
+CompoundEdit.canUndo(), 
+editToBeUndone()
+
+
+"
+UndoManager,canUndoOrRedo(),boolean,Returns true if it is possible to invoke undo or redo.,"
+
+canUndoOrRedo
+public boolean canUndoOrRedo()
+Returns true if it is possible to invoke undo or
+ redo.
+
+Returns:
+true if invoking canUndoOrRedo is valid
+See Also:
+undoOrRedo()
+
+
+"
+UndoManager,discardAllEdits(),void,Empties the undo manager sending each edit a die message in the process.,"
+
+discardAllEdits
+public void discardAllEdits()
+Empties the undo manager sending each edit a die message
+ in the process.
+
+See Also:
+AbstractUndoableEdit.die()
+
+
+"
+UndoManager,editToBeRedone(),protected UndoableEdit,Returns the the next significant edit to be redone if redo is invoked.,"
+
+editToBeRedone
+protected UndoableEdit editToBeRedone()
+Returns the the next significant edit to be redone if redo
+ is invoked. This returns null if there are no edits
+ to be redone.
+
+Returns:
+the next significant edit to be redone
+
+
+"
+UndoManager,editToBeUndone(),protected UndoableEdit,Returns the the next significant edit to be undone if undo is invoked.,"
+
+editToBeUndone
+protected UndoableEdit editToBeUndone()
+Returns the the next significant edit to be undone if undo
+ is invoked. This returns null if there are no edits
+ to be undone.
+
+Returns:
+the next significant edit to be undone
+
+
+"
+UndoManager,end(),void,Turns this UndoManager into a normal CompoundEdit.,"
+
+end
+public void end()
+Turns this UndoManager into a normal
+ CompoundEdit.  This removes all edits that have
+ been undone.
+
+Overrides:
+end in class CompoundEdit
+See Also:
+CompoundEdit.end()
+
+
+"
+UndoManager,getLimit(),int,Returns the maximum number of edits this UndoManager holds.,"
+
+getLimit
+public int getLimit()
+Returns the maximum number of edits this UndoManager
+ holds. A value less than 0 indicates the number of edits is not
+ limited.
+
+Returns:
+the maximum number of edits this UndoManager holds
+See Also:
+addEdit(javax.swing.undo.UndoableEdit), 
+setLimit(int)
+
+
+"
+UndoManager,getRedoPresentationName(),String,Returns a description of the redoable form of this edit.,"
+
+getRedoPresentationName
+public String getRedoPresentationName()
+Returns a description of the redoable form of this edit.
+ If end has been invoked this calls into super.
+ Otherwise if there are edits to be redone, this returns
+ the value from the next significant edit that will be redone.
+ If there are no edits to be redone and end has not
+ been invoked this returns the value from the UIManager
+ property ""AbstractUndoableEdit.redoText"".
+
+Specified by:
+getRedoPresentationName in interface UndoableEdit
+Overrides:
+getRedoPresentationName in class CompoundEdit
+Returns:
+a description of the redoable form of this edit
+See Also:
+redo(), 
+CompoundEdit.getRedoPresentationName()
+
+
+"
+UndoManager,getUndoOrRedoPresentationName(),String,Convenience method that returns either getUndoPresentationName or getRedoPresentationName.,"
+
+getUndoOrRedoPresentationName
+public String getUndoOrRedoPresentationName()
+Convenience method that returns either
+ getUndoPresentationName or
+ getRedoPresentationName.  If the index of the next
+ edit equals the size of the edits list,
+ getUndoPresentationName is returned, otherwise
+ getRedoPresentationName is returned.
+
+Returns:
+undo or redo name
+
+
+"
+UndoManager,getUndoPresentationName(),String,Returns a description of the undoable form of this edit.,"
+
+getUndoPresentationName
+public String getUndoPresentationName()
+Returns a description of the undoable form of this edit.
+ If end has been invoked this calls into super.
+ Otherwise if there are edits to be undone, this returns
+ the value from the next significant edit that will be undone.
+ If there are no edits to be undone and end has not
+ been invoked this returns the value from the UIManager
+ property ""AbstractUndoableEdit.undoText"".
+
+Specified by:
+getUndoPresentationName in interface UndoableEdit
+Overrides:
+getUndoPresentationName in class CompoundEdit
+Returns:
+a description of the undoable form of this edit
+See Also:
+undo(), 
+CompoundEdit.getUndoPresentationName()
+
+
+"
+UndoManager,redo(),void,Redoes the appropriate edits.,"
+
+redo
+public void redo()
+          throws CannotRedoException
+Redoes the appropriate edits.  If end has been
+ invoked this calls through to the superclass.  Otherwise
+ this invokes redo on all edits between the
+ index of the next edit and the next significant edit, updating
+ the index of the next edit appropriately.
+
+Specified by:
+redo in interface UndoableEdit
+Overrides:
+redo in class CompoundEdit
+Throws:
+CannotRedoException - if one of the edits throws
+         CannotRedoException or there are no edits
+         to be redone
+See Also:
+CompoundEdit.end(), 
+canRedo(), 
+editToBeRedone()
+
+
+"
+UndoManager,redoTo(UndoableEdit edit),protected void,"Redoes all changes from the index of the next edit to edit, updating the index of the next edit appropriately.","
+
+redoTo
+protected void redoTo(UndoableEdit edit)
+               throws CannotRedoException
+Redoes all changes from the index of the next edit to
+ edit, updating the index of the next edit appropriately.
+
+Throws:
+CannotRedoException - if one of the edits throws
+         CannotRedoException
+
+
+"
+UndoManager,setLimit(int l),void,Sets the maximum number of edits this UndoManager holds.,"
+
+setLimit
+public void setLimit(int l)
+Sets the maximum number of edits this UndoManager
+ holds. A value less than 0 indicates the number of edits is not
+ limited. If edits need to be discarded to shrink the limit,
+ die will be invoked on them in the reverse
+ order they were added.  The default is 100.
+
+Parameters:
+l - the new limit
+Throws:
+RuntimeException - if this UndoManager is not in progress
+                          (end has been invoked)
+See Also:
+CompoundEdit.isInProgress(), 
+end(), 
+addEdit(javax.swing.undo.UndoableEdit), 
+getLimit()
+
+
+"
+UndoManager,toString(),String,Returns a string that displays and identifies this object's properties.,"
+
+toString
+public String toString()
+Returns a string that displays and identifies this
+ object's properties.
+
+Overrides:
+toString in class CompoundEdit
+Returns:
+a String representation of this object
+
+
+"
+UndoManager,"trimEdits(int from, int to)",protected void,Removes edits in the specified range.,"
+
+trimEdits
+protected void trimEdits(int from,
+                         int to)
+Removes edits in the specified range.
+ All edits in the given range (inclusive, and in reverse order)
+ will have die invoked on them and are removed from
+ the list of edits. This has no effect if
+ from > to.
+
+Parameters:
+from - the minimum index to remove
+to - the maximum index to remove
+
+
+"
+UndoManager,trimForLimit(),protected void,"Reduces the number of queued edits to a range of size limit, centered on the index of the next edit.","
+
+trimForLimit
+protected void trimForLimit()
+Reduces the number of queued edits to a range of size limit,
+ centered on the index of the next edit.
+
+"
+UndoManager,undo(),void,Undoes the appropriate edits.,"
+
+undo
+public void undo()
+          throws CannotUndoException
+Undoes the appropriate edits.  If end has been
+ invoked this calls through to the superclass, otherwise
+ this invokes undo on all edits between the
+ index of the next edit and the last significant edit, updating
+ the index of the next edit appropriately.
+
+Specified by:
+undo in interface UndoableEdit
+Overrides:
+undo in class CompoundEdit
+Throws:
+CannotUndoException - if one of the edits throws
+         CannotUndoException or there are no edits
+         to be undone
+See Also:
+CompoundEdit.end(), 
+canUndo(), 
+editToBeUndone()
+
+
+"
+UndoManager,undoableEditHappened(UndoableEditEvent e),void,An UndoableEditListener method.,"
+
+undoableEditHappened
+public void undoableEditHappened(UndoableEditEvent e)
+An UndoableEditListener method. This invokes
+ addEdit with e.getEdit().
+
+Specified by:
+undoableEditHappened in interface UndoableEditListener
+Parameters:
+e - the UndoableEditEvent the
+        UndoableEditEvent will be added from
+See Also:
+addEdit(javax.swing.undo.UndoableEdit)
+
+
+"
+UndoManager,undoOrRedo(),void,Convenience method that invokes one of undo or redo.,"
+
+undoOrRedo
+public void undoOrRedo()
+                throws CannotRedoException,
+                       CannotUndoException
+Convenience method that invokes one of undo or
+ redo. If any edits have been undone (the index of
+ the next edit is less than the length of the edits list) this
+ invokes redo, otherwise it invokes undo.
+
+Throws:
+CannotUndoException - if one of the edits throws
+         CannotUndoException
+CannotRedoException - if one of the edits throws
+         CannotRedoException
+See Also:
+canUndoOrRedo(), 
+getUndoOrRedoPresentationName()
+
+
+"
+UndoManager,undoTo(UndoableEdit edit),protected void,"Undoes all changes from the index of the next edit to edit, updating the index of the next edit appropriately.","
+
+undoTo
+protected void undoTo(UndoableEdit edit)
+               throws CannotUndoException
+Undoes all changes from the index of the next edit to
+ edit, updating the index of the next edit appropriately.
+
+Throws:
+CannotUndoException - if one of the edits throws
+         CannotUndoException
+
+
+"

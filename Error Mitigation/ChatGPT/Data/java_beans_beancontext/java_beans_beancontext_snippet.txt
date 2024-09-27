@@ -1,0 +1,308 @@
+Sample: 0 BeanContextChildSupport_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextChildSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextChildSupport support = new BeanContextChildSupport();
+        BeanContextChild peer = support.getBeanContextChildPeer();
+        System.out.println(peer);
+    }
+}
+```
+================================================================
+
+Sample: 1 BeanContextChildSupport_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextChildSupport;
+import java.beans.beancontext.BeanContext;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextChildSupport support = new BeanContextChildSupport();
+        BeanContext context = support.getBeanContext();
+        System.out.println("Nesting BeanContext: " + context);
+    }
+}
+```
+================================================================
+
+Sample: 2 BeanContextChildSupport_3
+----------------------------------------------------------------
+`boolean validatePendingSetBeanContext(BeanContext bc)`: This method is called from setBeanContext to validate the pending change in the nesting BeanContext property value. Returning false will cause setBeanContext to throw PropertyVetoException.
+
+Code snippet:
+```java
+import java.beans.beancontext.BeanContext;
+import java.beans.beancontext.BeanContextChildSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextChildSupport support = new BeanContextChildSupport();
+        BeanContext newValue = new BeanContext(); // Example new BeanContext value
+        
+        boolean result = support.validatePendingSetBeanContext(newValue);
+        System.out.println("Validation result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 3 BeanContextChildSupport_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextChildSupport;
+import java.beans.beancontext.BeanContext;
+import java.beans.PropertyVetoException;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextChildSupport support = new BeanContextChildSupport();
+        BeanContext beanContext = new BeanContext(); // Assuming BeanContext is a valid class
+        try {
+            support.setBeanContext(beanContext);
+        } catch (PropertyVetoException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 BeanContextChildSupport_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextChildSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextChildSupport support = new BeanContextChildSupport();
+        support.firePropertyChange("propertyName", "oldValue", "newValue");
+    }
+}
+```
+================================================================
+
+Sample: 5 BeanContextEvent_3
+----------------------------------------------------------------
+`void setPropagatedFrom(BeanContext bc)`: This method sets the BeanContext from which this event was propagated.
+
+Code snippet:
+```java
+import java.beans.beancontext.BeanContext;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContext context = new BeanContext(); // Instantiate a BeanContext object
+        BeanContextEvent event = new BeanContextEvent(); // Instantiate a BeanContextEvent object
+        event.setPropagatedFrom(context); // Set the BeanContext from which the event was propagated
+    }
+}
+```
+================================================================
+
+Sample: 6 BeanContextEvent_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextEvent event = new BeanContextEvent(null);
+        boolean propagated = event.isPropagated();
+        System.out.println("Is Propagated: " + propagated);
+    }
+}
+```
+================================================================
+
+Sample: 7 BeanContextEvent_5
+----------------------------------------------------------------
+`void setPropagatedFrom(BeanContext bc)`: This method sets the BeanContext from which this event was propagated.
+
+Code snippet:
+```java
+import java.beans.beancontext.BeanContext;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContext context = new BeanContext(); // Create a BeanContext object
+        BeanContextEvent event = new BeanContextEvent(); // Create a BeanContextEvent object
+        event.setPropagatedFrom(context); // Set the BeanContext from which the event was propagated
+    }
+}
+```
+================================================================
+
+Sample: 8 BeanContextMembershipEvent_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextMembershipEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextMembershipEvent event = new BeanContextMembershipEvent();
+        int size = event.size();
+        System.out.println("Number of children affected: " + size);
+    }
+}
+```
+================================================================
+
+Sample: 9 BeanContextMembershipEvent_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextMembershipEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextMembershipEvent event = new BeanContextMembershipEvent(null, null);
+        Object child = new Object(); // specify the child object to check
+        boolean isAffected = event.contains(child);
+        System.out.println("Is the child affected by the event? " + isAffected);
+    }
+}
+```
+================================================================
+
+Sample: 10 BeanContextMembershipEvent_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextMembershipEvent;
+import java.util.Iterator;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextMembershipEvent event = new BeanContextMembershipEvent();
+        Iterator iterator = event.iterator();
+        while(iterator.hasNext()){
+            Object child = iterator.next();
+            System.out.println(child);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 BeanContextServiceAvailableEvent_2
+----------------------------------------------------------------
+`Class getServiceClass()`: This method gets the service class that is the subject of this notification.
+
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextServiceAvailableEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextServiceAvailableEvent event = new BeanContextServiceAvailableEvent(null, null);
+        Class serviceClass = event.getServiceClass();
+        System.out.println("Service Class: " + serviceClass);
+    }
+}
+```
+================================================================
+
+Sample: 12 BeanContextServiceRevokedEvent_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextServiceRevokedEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextServiceRevokedEvent event = new BeanContextServiceRevokedEvent(null, null);
+        Class serviceClass = event.getServiceClass();
+        System.out.println("Service Class: " + serviceClass);
+    }
+}
+```
+================================================================
+
+Sample: 13 BeanContextServiceRevokedEvent_5
+----------------------------------------------------------------
+`boolean isCurrentServiceInvalidNow()`: This method reports if the current service is being forcibly revoked, in which case the references are now invalidated and unusable.
+
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextServiceRevokedEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextServiceRevokedEvent event = new BeanContextServiceRevokedEvent(null);
+        boolean isInvalid = event.isCurrentServiceInvalidNow();
+        System.out.println("Is current service invalid now? " + isInvalid);
+    }
+}
+```
+================================================================
+
+Sample: 14 BeanContextSupport_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextMembershipListener;
+import java.beans.beancontext.BeanContextSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextSupport support = new BeanContextSupport();
+        BeanContextMembershipListener listener = new BeanContextMembershipListener() {
+            @Override
+            public void childrenAdded(BeanContextMembershipEvent bcme) {
+                // Implementation of childrenAdded method
+            }
+
+            @Override
+            public void childrenRemoved(BeanContextMembershipEvent bcme) {
+                // Implementation of childrenRemoved method
+            }
+        };
+        
+        support.removeBeanContextMembershipListener(listener);
+    }
+}
+```
+================================================================
+
+Sample: 15 BeanContextSupport_BCSIterator_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextSupport.BCSIterator iterator = new BeanContextSupport.BCSIterator();
+        boolean hasMoreElements = iterator.hasNext();
+        System.out.println("Has more elements: " + hasMoreElements);
+    }
+}
+```
+================================================================
+
+Sample: 16 BeanContextSupport_BCSIterator_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.beans.beancontext.BeanContextSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        BeanContextSupport.BCSIterator iterator = new BeanContextSupport.BCSIterator();
+        Object nextElement = iterator.next();
+        System.out.println("Next element: " + nextElement);
+    }
+}
+```
+================================================================
+

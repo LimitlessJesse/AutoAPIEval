@@ -1,0 +1,306 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,RMIConnectionImpl,1,void close(),True,,"
+
+close
+public void close()
+           throws IOException
+Description copied from interface: RMIConnection
+Closes this connection.  On return from this method, the RMI
+ object implementing this interface is unexported, so further
+ remote calls to it will fail.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Specified by:
+close in interface RMIConnection
+Throws:
+IOException - if the connection could not be closed,
+ or the Remote object could not be unexported, or there was a
+ communication failure when transmitting the remote close
+ request.
+
+
+"
+0,RMIConnectionImpl,2,"Object invoke(String objectName, String operationName, Object[] params, String[] signature)",False,,NULL
+0,RMIConnectionImpl,3,"Object getAttribute(String objectName, String attribute)",False,,NULL
+0,RMIConnectionImpl,4,"void setAttribute(String objectName, Attribute attribute)",False,,NULL
+0,RMIConnectionImpl,5,String getDefaultDomain(),False,,NULL
+1,RMIConnectionImpl_Stub,1,void close(),True,,"
+
+close
+public void close()
+           throws IOException
+Description copied from interface: RMIConnection
+Closes this connection.  On return from this method, the RMI
+ object implementing this interface is unexported, so further
+ remote calls to it will fail.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Specified by:
+close in interface RMIConnection
+Throws:
+IOException - if the connection could not be closed,
+ or the Remote object could not be unexported, or there was a
+ communication failure when transmitting the remote close
+ request.
+
+
+"
+1,RMIConnectionImpl_Stub,2,"Object invoke(String objectName, String operationName, Object[] params, String[] signature)",False,,NULL
+1,RMIConnectionImpl_Stub,3,"Object getAttribute(String objectName, String attribute)",False,,NULL
+1,RMIConnectionImpl_Stub,4,"void setAttribute(String objectName, Attribute attribute)",False,,NULL
+1,RMIConnectionImpl_Stub,5,String getConnectionId(),True,,"
+
+getConnectionId
+public String getConnectionId()
+                       throws IOException
+Description copied from interface: RMIConnection
+Returns the connection ID.  This string is different for
+ every open connection to a given RMI connector server.
+
+Specified by:
+getConnectionId in interface RMIConnection
+Returns:
+the connection ID
+Throws:
+IOException - if a general communication exception occurred.
+See Also:
+RMIConnector.connect
+
+
+"
+2,RMIConnector,1,void connect(),True,,"
+
+connect
+public void connect()
+             throws IOException
+Description copied from interface: JMXConnector
+Establishes the connection to the connector server.  This
+ method is equivalent to connect(null).
+
+Specified by:
+connect in interface JMXConnector
+Throws:
+IOException - if the connection could not be made because of a
+   communication problem, or in the case of the iiop protocol,
+   that RMI/IIOP is not supported
+
+
+"
+2,RMIConnector,2,void close(),True,,"
+
+close
+public void close()
+           throws IOException
+Description copied from interface: JMXConnector
+Closes the client connection to its server.  Any ongoing or new
+ request using the MBeanServerConnection returned by JMXConnector.getMBeanServerConnection() will get an
+ IOException.
+If close has already been called successfully
+ on this object, calling it again has no effect.  If
+ close has never been called, or if it was called
+ but produced an exception, an attempt will be made to close the
+ connection.  This attempt can succeed, in which case
+ close will return normally, or it can generate an
+ exception.
+Closing a connection is a potentially slow operation.  For
+ example, if the server has crashed, the close operation might
+ have to wait for a network protocol timeout.  Callers that do
+ not want to block in a close operation should do it in a
+ separate thread.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Specified by:
+close in interface JMXConnector
+Throws:
+IOException - if the connection cannot be closed
+ cleanly.  If this exception is thrown, it is not known whether
+ the server end of the connection has been cleanly closed.
+
+
+"
+2,RMIConnector,3,"ObjectInstance createMBean(String className, ObjectName name)",False,,NULL
+2,RMIConnector,4,"void setAttributes(ObjectName name, AttributeList attributes)",False,,NULL
+2,RMIConnector,5,"Object getAttribute(ObjectName name, String attribute)",False,,NULL
+3,RMIConnectorServer,1,void start(),True,,"
+
+start
+public void start()
+           throws IOException
+Activates the connector server, that is starts listening for
+ client connections.  Calling this method when the connector
+ server is already active has no effect.  Calling this method
+ when the connector server has been stopped will generate an
+ IOException.
+The behavior of this method when called for the first time
+ depends on the parameters that were supplied at construction,
+ as described below.
+First, an object of a subclass of RMIServerImpl is
+ required, to export the connector server through RMI:
+
+If an RMIServerImpl was supplied to the
+ constructor, it is used.
+
+ Otherwise, if the protocol part of the
+ JMXServiceURL supplied to the constructor was
+ iiop, an object of type RMIIIOPServerImpl
+ is created.
+
+ Otherwise, if the JMXServiceURL
+ was null, or its protocol part was rmi, an object
+ of type RMIJRMPServerImpl is created.
+
+ Otherwise, the implementation can create an
+ implementation-specific RMIServerImpl or it can throw
+ MalformedURLException.
+
+ 
+If the given address includes a JNDI directory URL as
+ specified in the package documentation for javax.management.remote.rmi, then this
+ RMIConnectorServer will bootstrap by binding the
+ RMIServerImpl to the given address.
+If the URL path part of the JMXServiceURL was
+ empty or a single slash (/), then the RMI object
+ will not be bound to a directory.  Instead, a reference to it
+ will be encoded in the URL path of the RMIConnectorServer
+ address (returned by getAddress()).  The encodings for
+ rmi and iiop are described in the
+ package documentation for javax.management.remote.rmi.
+The behavior when the URL path is neither empty nor a JNDI
+ directory URL, or when the protocol is neither rmi
+ nor iiop, is implementation defined, and may
+ include throwing MalformedURLException when the
+ connector server is created or when it is started.
+
+Throws:
+IllegalStateException - if the connector server has
+ not been attached to an MBean server.
+IOException - if the connector server cannot be
+ started, or in the case of the iiop protocol, that
+ RMI/IIOP is not supported.
+
+
+"
+3,RMIConnectorServer,2,void stop(),True,,"
+
+stop
+public void stop()
+          throws IOException
+Deactivates the connector server, that is, stops listening for
+ client connections.  Calling this method will also close all
+ client connections that were made by this server.  After this
+ method returns, whether normally or with an exception, the
+ connector server will not create any new client
+ connections.
+Once a connector server has been stopped, it cannot be started
+ again.
+Calling this method when the connector server has already
+ been stopped has no effect.  Calling this method when the
+ connector server has not yet been started will disable the
+ connector server object permanently.
+If closing a client connection produces an exception, that
+ exception is not thrown from this method.  A JMXConnectionNotification is emitted from this MBean with the
+ connection ID of the connection that could not be closed.
+Closing a connector server is a potentially slow operation.
+ For example, if a client machine with an open connection has
+ crashed, the close operation might have to wait for a network
+ protocol timeout.  Callers that do not want to block in a close
+ operation should do it in a separate thread.
+This method calls the method close on the connector server's RMIServerImpl
+ object.
+If the RMIServerImpl was bound to a JNDI
+ directory by the start method, it is unbound
+ from the directory by this method.
+
+Throws:
+IOException - if the server cannot be closed cleanly,
+ or if the RMIServerImpl cannot be unbound from the
+ directory.  When this exception is thrown, the server has
+ already attempted to close all client connections, if
+ appropriate; to call RMIServerImpl.close(); and to
+ unbind the RMIServerImpl from its directory, if
+ appropriate.  All client connections are closed except possibly
+ those that generated exceptions when the server attempted to
+ close them.
+
+
+"
+3,RMIConnectorServer,3,String getAddress(),False,,NULL
+3,RMIConnectorServer,4,int getPort(),False,,NULL
+3,RMIConnectorServer,5,void setMBeanServerForwarder(MBeanServerForwarder mbsf),True,,"
+
+setMBeanServerForwarder
+public void setMBeanServerForwarder(MBeanServerForwarder mbsf)
+Description copied from interface: JMXConnectorServerMBean
+Inserts an object that intercepts requests for the MBean server
+ that arrive through this connector server.  This object will be
+ supplied as the MBeanServer for any new connection
+ created by this connector server.  Existing connections are
+ unaffected.
+This method can be called more than once with different
+ MBeanServerForwarder objects.  The result is a chain
+ of forwarders.  The last forwarder added is the first in the chain.
+ In more detail:
+
+If this connector server is already associated with an
+ MBeanServer object, then that object is given to
+ mbsf.setMBeanServer.  If doing so produces an exception, this
+ method throws the same exception without any other effect.
+If this connector is not already associated with an
+ MBeanServer object, or if the
+ mbsf.setMBeanServer call just mentioned succeeds,
+ then mbsf becomes this connector server's
+ MBeanServer.
+
+
+Specified by:
+setMBeanServerForwarder in interface JMXConnectorServerMBean
+Overrides:
+setMBeanServerForwarder in class JMXConnectorServer
+Parameters:
+mbsf - the new MBeanServerForwarder.
+
+
+"
+4,RMIIIOPServerImpl,1,void start(),False,,NULL
+4,RMIIIOPServerImpl,2,void stop(),False,,NULL
+4,RMIIIOPServerImpl,3,String getProtocol(),True,,"
+
+getProtocol
+protected String getProtocol()
+Description copied from class: RMIServerImpl
+Returns the protocol string for this object.  The string is
+ rmi for RMI/JRMP and iiop for RMI/IIOP.
+
+Specified by:
+getProtocol in class RMIServerImpl
+Returns:
+the protocol string for this object.
+
+
+"
+4,RMIIIOPServerImpl,4,int getPort(),False,,NULL
+4,RMIIIOPServerImpl,5,String getAddress(),False,,NULL
+5,RMIJRMPServerImpl,1,void start(),False,,NULL
+5,RMIJRMPServerImpl,2,void stop(),False,,NULL
+5,RMIJRMPServerImpl,3,String getAddress(),False,,NULL
+5,RMIJRMPServerImpl,4,int getPort(),False,,NULL
+5,RMIJRMPServerImpl,5,boolean isActive(),False,,NULL
+6,RMIServerImpl,1,void start(),False,,NULL
+6,RMIServerImpl,2,void stop(),False,,NULL
+6,RMIServerImpl,3,void setMBeanServer(javax.management.MBeanServer mbs),False,,NULL
+6,RMIServerImpl,4,javax.management.MBeanServer getMBeanServer(),False,,NULL
+6,RMIServerImpl,5,void setRegistry(javax.management.remote.rmi.RMIConnectorServer.RMIConnectorServerRegistry registry),False,,NULL
+7,RMIServerImpl_Stub,1,void close(),False,,NULL
+7,RMIServerImpl_Stub,2,"Object invoke(ObjectName name, String operationName, Object[] params, String[] signature)",False,,NULL
+7,RMIServerImpl_Stub,3,"void setAttribute(ObjectName name, Attribute attribute)",False,,NULL
+7,RMIServerImpl_Stub,4,"AttributeList getAttributes(ObjectName name, String[] attributes)",False,,NULL
+7,RMIServerImpl_Stub,5,"void addNotificationListener(ObjectName name, NotificationListener listener, NotificationFilter filter, Object handback)",False,,NULL

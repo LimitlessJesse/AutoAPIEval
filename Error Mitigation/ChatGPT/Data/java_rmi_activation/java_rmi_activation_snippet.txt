@@ -1,0 +1,286 @@
+Sample: 0 Activatable_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.activation.ActivationDesc;
+import java.rmi.activation.Activatable;
+import java.rmi.activation.UnknownGroupException;
+import java.rmi.activation.ActivationException;
+import java.rmi.RemoteException;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationDesc desc = new ActivationDesc("yourClassName", "yourLocation", null, null);
+        try {
+            Remote remoteObject = Activatable.register(desc);
+            // Use the remote object as needed
+        } catch (UnknownGroupException e) {
+            e.printStackTrace();
+        } catch (ActivationException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (UnsupportedOperationException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 Activatable_2
+----------------------------------------------------------------
+`void unregister(ActivationID id)`: Revokes previous registration for the activation descriptor associated with id. An object can no longer be activated via that id.
+
+Code snippet:
+```java
+import java.rmi.activation.ActivationID;
+import java.rmi.activation.ActivationException;
+import java.rmi.activation.UnknownObjectException;
+import java.rmi.RemoteException;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationID id = new ActivationID(); // Create an ActivationID object
+        
+        try {
+            Activatable.unregister(id); // Call the unregister method with the ActivationID object
+        } catch (UnknownObjectException e) {
+            e.printStackTrace();
+        } catch (ActivationException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (UnsupportedOperationException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 ActivationDesc_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.activation.ActivationDesc;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationDesc activationDesc = new ActivationDesc();
+        String className = activationDesc.getClassName();
+        System.out.println("Class Name: " + className);
+    }
+}
+```
+================================================================
+
+Sample: 3 ActivationDesc_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.activation.ActivationDesc;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationDesc activationDesc = new ActivationDesc();
+        String codeLocation = activationDesc.getLocation();
+        System.out.println("Code location: " + codeLocation);
+    }
+}
+```
+================================================================
+
+Sample: 4 ActivationGroup_1
+----------------------------------------------------------------
+`void activeObject(ActivationID id, Remote obj)`: This method is called when an object is exported. The group must inform its ActivationMonitor that the object is active if it hasn't already done so.
+
+Code snippet:
+```java
+import java.rmi.activation.ActivationException;
+import java.rmi.activation.ActivationID;
+import java.rmi.activation.UnknownObjectException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public class Main {
+    public static void main(String[] args) {
+        // Implementing the activeObject method
+        public void activeObject(ActivationID id, Remote obj) throws ActivationException, UnknownObjectException, RemoteException {
+            // Add your implementation here
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 ActivationGroup_5
+----------------------------------------------------------------
+`void activeObject(ActivationID id, MarshalledObject<? extends Remote> mobj)`: This method is used to activate an object in the ActivationGroup.
+
+Code snippet:
+```java
+import java.rmi.activation.ActivationException;
+import java.rmi.activation.ActivationID;
+import java.rmi.activation.ActivationGroup;
+import java.rmi.activation.UnknownObjectException;
+import java.rmi.RemoteException;
+import java.rmi.MarshalledObject;
+import java.rmi.Remote;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationGroup activationGroup = new ActivationGroup();
+        ActivationID id = new ActivationID();
+        MarshalledObject<? extends Remote> mobj = new MarshalledObject<>();
+        
+        try {
+            activationGroup.activeObject(id, mobj);
+        } catch (ActivationException | UnknownObjectException | RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 ActivationGroupDesc_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.activation.ActivationGroupDesc;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationGroupDesc.CommandEnvironment commandEnvironment = new ActivationGroupDesc.CommandEnvironment();
+        System.out.println(commandEnvironment);
+    }
+}
+```
+================================================================
+
+Sample: 7 ActivationGroupDesc_CommandEnvironment_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.activation.ActivationGroupDesc.CommandEnvironment;
+
+public class Main {
+    public static void main(String[] args) {
+        CommandEnvironment commandEnv = new CommandEnvironment();
+        String commandPath = commandEnv.getCommandPath();
+        System.out.println("Command Path: " + commandPath);
+    }
+}
+```
+================================================================
+
+Sample: 8 ActivationGroupDesc_CommandEnvironment_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.activation.ActivationGroupDesc;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationGroupDesc.CommandEnvironment commandEnv = new ActivationGroupDesc.CommandEnvironment();
+        String[] commandOptions = commandEnv.getCommandOptions();
+        for (String option : commandOptions) {
+            System.out.println(option);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 ActivationGroupID_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.activation.ActivationGroupID;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationGroupID id1 = new ActivationGroupID();
+        ActivationGroupID id2 = new ActivationGroupID();
+        
+        boolean result = id1.equals(id2);
+        System.out.println("Are the ActivationGroupIDs equal? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 10 ActivationGroupID_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.activation.ActivationGroupID;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationGroupID groupID = new ActivationGroupID();
+        int hashCode = groupID.hashCode();
+        System.out.println("Hash code for the group's identifier: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 11 ActivationID_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.activation.ActivationException;
+import java.rmi.activation.ActivationID;
+import java.rmi.activation.UnknownObjectException;
+import java.rmi.RemoteException;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationID activationID = new ActivationID();
+        try {
+            Remote remoteObject = activationID.activate(true);
+            // Use the active remote object
+        } catch (ActivationException | UnknownObjectException | RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 ActivationID_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.activation.ActivationID;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationID id1 = new ActivationID(12345);
+        ActivationID id2 = new ActivationID(12345);
+        
+        boolean result = id1.equals(id2);
+        System.out.println("Are the Activation IDs equal? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 13 ActivationID_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.activation.ActivationID;
+
+public class Main {
+    public static void main(String[] args) {
+        ActivationID activationID = new ActivationID();
+        int hashCode = activationID.hashCode();
+        System.out.println("Hash code for activation id: " + hashCode);
+    }
+}
+```
+================================================================
+

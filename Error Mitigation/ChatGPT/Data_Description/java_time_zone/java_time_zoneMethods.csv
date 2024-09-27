@@ -1,0 +1,1119 @@
+ClassName,Method,Return Type,Description,Full Description
+ZoneOffsetTransition,compareTo(ZoneOffsetTransition transition),int,Compares this transition to another based on the transition instant.,"
+
+compareTo
+public int compareTo(ZoneOffsetTransition transition)
+Compares this transition to another based on the transition instant.
+ 
+ This compares the instants of each transition.
+ The offsets are ignored, making this order inconsistent with equals.
+
+Specified by:
+compareTo in interface Comparable<ZoneOffsetTransition>
+Parameters:
+transition - the transition to compare to, not null
+Returns:
+the comparator value, negative if less, positive if greater
+
+
+"
+ZoneOffsetTransition,equals(Object other),boolean,Checks if this object equals another.,"
+
+equals
+public boolean equals(Object other)
+Checks if this object equals another.
+ 
+ The entire state of the object is compared.
+
+Overrides:
+equals in class Object
+Parameters:
+other - the other object to compare to, null returns false
+Returns:
+true if equal
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+ZoneOffsetTransition,getDateTimeAfter(),LocalDateTime,"Gets the local transition date-time, as would be expressed with the 'after' offset.","
+
+getDateTimeAfter
+public LocalDateTime getDateTimeAfter()
+Gets the local transition date-time, as would be expressed with the 'after' offset.
+ 
+ This is the first date-time after the discontinuity, when the new offset applies.
+ 
+ The combination of the 'before' date-time and offset represents the same instant
+ as the 'after' date-time and offset.
+
+Returns:
+the transition date-time expressed with the after offset, not null
+
+
+"
+ZoneOffsetTransition,getDateTimeBefore(),LocalDateTime,"Gets the local transition date-time, as would be expressed with the 'before' offset.","
+
+getDateTimeBefore
+public LocalDateTime getDateTimeBefore()
+Gets the local transition date-time, as would be expressed with the 'before' offset.
+ 
+ This is the date-time where the discontinuity begins expressed with the 'before' offset.
+ At this instant, the 'after' offset is actually used, therefore the combination of this
+ date-time and the 'before' offset will never occur.
+ 
+ The combination of the 'before' date-time and offset represents the same instant
+ as the 'after' date-time and offset.
+
+Returns:
+the transition date-time expressed with the before offset, not null
+
+
+"
+ZoneOffsetTransition,getDuration(),Duration,Gets the duration of the transition.,"
+
+getDuration
+public Duration getDuration()
+Gets the duration of the transition.
+ 
+ In most cases, the transition duration is one hour, however this is not always the case.
+ The duration will be positive for a gap and negative for an overlap.
+ Time-zones are second-based, so the nanosecond part of the duration will be zero.
+
+Returns:
+the duration of the transition, positive for gaps, negative for overlaps
+
+
+"
+ZoneOffsetTransition,getInstant(),Instant,Gets the transition instant.,"
+
+getInstant
+public Instant getInstant()
+Gets the transition instant.
+ 
+ This is the instant of the discontinuity, which is defined as the first
+ instant that the 'after' offset applies.
+ 
+ The methods getInstant(), getDateTimeBefore() and getDateTimeAfter()
+ all represent the same instant.
+
+Returns:
+the transition instant, not null
+
+
+"
+ZoneOffsetTransition,getOffsetAfter(),ZoneOffset,Gets the offset after the transition.,"
+
+getOffsetAfter
+public ZoneOffset getOffsetAfter()
+Gets the offset after the transition.
+ 
+ This is the offset in use on and after the instant of the transition.
+
+Returns:
+the offset after the transition, not null
+
+
+"
+ZoneOffsetTransition,getOffsetBefore(),ZoneOffset,Gets the offset before the transition.,"
+
+getOffsetBefore
+public ZoneOffset getOffsetBefore()
+Gets the offset before the transition.
+ 
+ This is the offset in use before the instant of the transition.
+
+Returns:
+the offset before the transition, not null
+
+
+"
+ZoneOffsetTransition,hashCode(),int,Returns a suitable hash code.,"
+
+hashCode
+public int hashCode()
+Returns a suitable hash code.
+
+Overrides:
+hashCode in class Object
+Returns:
+the hash code
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+ZoneOffsetTransition,isGap(),boolean,Does this transition represent a gap in the local time-line.,"
+
+isGap
+public boolean isGap()
+Does this transition represent a gap in the local time-line.
+ 
+ Gaps occur where there are local date-times that simply do not exist.
+ An example would be when the offset changes from +01:00 to +02:00.
+ This might be described as 'the clocks will move forward one hour tonight at 1am'.
+
+Returns:
+true if this transition is a gap, false if it is an overlap
+
+
+"
+ZoneOffsetTransition,isOverlap(),boolean,Does this transition represent an overlap in the local time-line.,"
+
+isOverlap
+public boolean isOverlap()
+Does this transition represent an overlap in the local time-line.
+ 
+ Overlaps occur where there are local date-times that exist twice.
+ An example would be when the offset changes from +02:00 to +01:00.
+ This might be described as 'the clocks will move back one hour tonight at 2am'.
+
+Returns:
+true if this transition is an overlap, false if it is a gap
+
+
+"
+ZoneOffsetTransition,isValidOffset(ZoneOffset offset),boolean,Checks if the specified offset is valid during this transition.,"
+
+isValidOffset
+public boolean isValidOffset(ZoneOffset offset)
+Checks if the specified offset is valid during this transition.
+ 
+ This checks to see if the given offset will be valid at some point in the transition.
+ A gap will always return false.
+ An overlap will return true if the offset is either the before or after offset.
+
+Parameters:
+offset - the offset to check, null returns false
+Returns:
+true if the offset is valid during the transition
+
+
+"
+ZoneOffsetTransition,"of(LocalDateTime transition, ZoneOffset offsetBefore, ZoneOffset offsetAfter)",static ZoneOffsetTransition,Obtains an instance defining a transition between two offsets.,"
+
+of
+public static ZoneOffsetTransition of(LocalDateTime transition,
+                                      ZoneOffset offsetBefore,
+                                      ZoneOffset offsetAfter)
+Obtains an instance defining a transition between two offsets.
+ 
+ Applications should normally obtain an instance from ZoneRules.
+ This factory is only intended for use when creating ZoneRules.
+
+Parameters:
+transition - the transition date-time at the transition, which never
+  actually occurs, expressed local to the before offset, not null
+offsetBefore - the offset before the transition, not null
+offsetAfter - the offset at and after the transition, not null
+Returns:
+the transition, not null
+Throws:
+IllegalArgumentException - if offsetBefore and offsetAfter
+         are equal, or transition.getNano() returns non-zero value
+
+
+"
+ZoneOffsetTransition,toEpochSecond(),long,Gets the transition instant as an epoch second.,"
+
+toEpochSecond
+public long toEpochSecond()
+Gets the transition instant as an epoch second.
+
+Returns:
+the transition epoch second
+
+
+"
+ZoneOffsetTransition,toString(),String,Returns a string describing this object.,"
+
+toString
+public String toString()
+Returns a string describing this object.
+
+Overrides:
+toString in class Object
+Returns:
+a string for debugging, not null
+
+
+"
+ZoneOffsetTransitionRule,createTransition(int year),ZoneOffsetTransition,Creates a transition instance for the specified year.,"
+
+createTransition
+public ZoneOffsetTransition createTransition(int year)
+Creates a transition instance for the specified year.
+ 
+ Calculations are performed using the ISO-8601 chronology.
+
+Parameters:
+year - the year to create a transition for, not null
+Returns:
+the transition instance, not null
+
+
+"
+ZoneOffsetTransitionRule,equals(Object otherRule),boolean,Checks if this object equals another.,"
+
+equals
+public boolean equals(Object otherRule)
+Checks if this object equals another.
+ 
+ The entire state of the object is compared.
+
+Overrides:
+equals in class Object
+Parameters:
+otherRule - the other object to compare to, null returns false
+Returns:
+true if equal
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+ZoneOffsetTransitionRule,getDayOfMonthIndicator(),int,Gets the indicator of the day-of-month of the transition.,"
+
+getDayOfMonthIndicator
+public int getDayOfMonthIndicator()
+Gets the indicator of the day-of-month of the transition.
+ 
+ If the rule defines an exact date then the day is the month of that date.
+ 
+ If the rule defines a week where the transition might occur, then the day
+ defines either the start of the end of the transition week.
+ 
+ If the value is positive, then it represents a normal day-of-month, and is the
+ earliest possible date that the transition can be.
+ The date may refer to 29th February which should be treated as 1st March in non-leap years.
+ 
+ If the value is negative, then it represents the number of days back from the
+ end of the month where -1 is the last day of the month.
+ In this case, the day identified is the latest possible date that the transition can be.
+
+Returns:
+the day-of-month indicator, from -28 to 31 excluding 0
+
+
+"
+ZoneOffsetTransitionRule,getDayOfWeek(),DayOfWeek,Gets the day-of-week of the transition.,"
+
+getDayOfWeek
+public DayOfWeek getDayOfWeek()
+Gets the day-of-week of the transition.
+ 
+ If the rule defines an exact date then this returns null.
+ 
+ If the rule defines a week where the cutover might occur, then this method
+ returns the day-of-week that the month-day will be adjusted to.
+ If the day is positive then the adjustment is later.
+ If the day is negative then the adjustment is earlier.
+
+Returns:
+the day-of-week that the transition occurs, null if the rule defines an exact date
+
+
+"
+ZoneOffsetTransitionRule,getLocalTime(),LocalTime,Gets the local time of day of the transition which must be checked with isMidnightEndOfDay().,"
+
+getLocalTime
+public LocalTime getLocalTime()
+Gets the local time of day of the transition which must be checked with
+ isMidnightEndOfDay().
+ 
+ The time is converted into an instant using the time definition.
+
+Returns:
+the local time of day of the transition, not null
+
+
+"
+ZoneOffsetTransitionRule,getMonth(),Month,Gets the month of the transition.,"
+
+getMonth
+public Month getMonth()
+Gets the month of the transition.
+ 
+ If the rule defines an exact date then the month is the month of that date.
+ 
+ If the rule defines a week where the transition might occur, then the month
+ if the month of either the earliest or latest possible date of the cutover.
+
+Returns:
+the month of the transition, not null
+
+
+"
+ZoneOffsetTransitionRule,getOffsetAfter(),ZoneOffset,Gets the offset after the transition.,"
+
+getOffsetAfter
+public ZoneOffset getOffsetAfter()
+Gets the offset after the transition.
+
+Returns:
+the offset after, not null
+
+
+"
+ZoneOffsetTransitionRule,getOffsetBefore(),ZoneOffset,Gets the offset before the transition.,"
+
+getOffsetBefore
+public ZoneOffset getOffsetBefore()
+Gets the offset before the transition.
+
+Returns:
+the offset before, not null
+
+
+"
+ZoneOffsetTransitionRule,getStandardOffset(),ZoneOffset,Gets the standard offset in force at the transition.,"
+
+getStandardOffset
+public ZoneOffset getStandardOffset()
+Gets the standard offset in force at the transition.
+
+Returns:
+the standard offset, not null
+
+
+"
+ZoneOffsetTransitionRule,getTimeDefinition(),ZoneOffsetTransitionRule.TimeDefinition,"Gets the time definition, specifying how to convert the time to an instant.","
+
+getTimeDefinition
+public ZoneOffsetTransitionRule.TimeDefinition getTimeDefinition()
+Gets the time definition, specifying how to convert the time to an instant.
+ 
+ The local time can be converted to an instant using the standard offset,
+ the wall offset or UTC.
+
+Returns:
+the time definition, not null
+
+
+"
+ZoneOffsetTransitionRule,hashCode(),int,Returns a suitable hash code.,"
+
+hashCode
+public int hashCode()
+Returns a suitable hash code.
+
+Overrides:
+hashCode in class Object
+Returns:
+the hash code
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+ZoneOffsetTransitionRule,isMidnightEndOfDay(),boolean,Is the transition local time midnight at the end of day.,"
+
+isMidnightEndOfDay
+public boolean isMidnightEndOfDay()
+Is the transition local time midnight at the end of day.
+ 
+ The transition may be represented as occurring at 24:00.
+
+Returns:
+whether a local time of midnight is at the start or end of the day
+
+
+"
+ZoneOffsetTransitionRule,"of(Month month, int dayOfMonthIndicator, DayOfWeek dayOfWeek, LocalTime time, boolean timeEndOfDay, ZoneOffsetTransitionRule.TimeDefinition timeDefnition, ZoneOffset standardOffset, ZoneOffset offsetBefore, ZoneOffset offsetAfter)",static ZoneOffsetTransitionRule,Obtains an instance defining the yearly rule to create transitions between two offsets.,"
+
+of
+public static ZoneOffsetTransitionRule of(Month month,
+                                          int dayOfMonthIndicator,
+                                          DayOfWeek dayOfWeek,
+                                          LocalTime time,
+                                          boolean timeEndOfDay,
+                                          ZoneOffsetTransitionRule.TimeDefinition timeDefnition,
+                                          ZoneOffset standardOffset,
+                                          ZoneOffset offsetBefore,
+                                          ZoneOffset offsetAfter)
+Obtains an instance defining the yearly rule to create transitions between two offsets.
+ 
+ Applications should normally obtain an instance from ZoneRules.
+ This factory is only intended for use when creating ZoneRules.
+
+Parameters:
+month - the month of the month-day of the first day of the cutover week, not null
+dayOfMonthIndicator - the day of the month-day of the cutover week, positive if the week is that
+  day or later, negative if the week is that day or earlier, counting from the last day of the month,
+  from -28 to 31 excluding 0
+dayOfWeek - the required day-of-week, null if the month-day should not be changed
+time - the cutover time in the 'before' offset, not null
+timeEndOfDay - whether the time is midnight at the end of day
+timeDefnition - how to interpret the cutover
+standardOffset - the standard offset in force at the cutover, not null
+offsetBefore - the offset before the cutover, not null
+offsetAfter - the offset after the cutover, not null
+Returns:
+the rule, not null
+Throws:
+IllegalArgumentException - if the day of month indicator is invalid
+IllegalArgumentException - if the end of day flag is true when the time is not midnight
+
+
+"
+ZoneOffsetTransitionRule,toString(),String,Returns a string describing this object.,"
+
+toString
+public String toString()
+Returns a string describing this object.
+
+Overrides:
+toString in class Object
+Returns:
+a string for debugging, not null
+
+
+"
+ZoneRules,equals(Object otherRules),boolean,Checks if this set of rules equals another.,"
+
+equals
+public boolean equals(Object otherRules)
+Checks if this set of rules equals another.
+ 
+ Two rule sets are equal if they will always result in the same output
+ for any given input instant or local date-time.
+ Rules from two different groups may return false even if they are in fact the same.
+ 
+ This definition should result in implementations comparing their entire state.
+
+Overrides:
+equals in class Object
+Parameters:
+otherRules - the other rules, null returns false
+Returns:
+true if this rules is the same as that specified
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+ZoneRules,getDaylightSavings(Instant instant),Duration,Gets the amount of daylight savings in use for the specified instant in this zone.,"
+
+getDaylightSavings
+public Duration getDaylightSavings(Instant instant)
+Gets the amount of daylight savings in use for the specified instant in this zone.
+ 
+ This provides access to historic information on how the amount of daylight
+ savings has changed over time.
+ This is the difference between the standard offset and the actual offset.
+ Typically the amount is zero during winter and one hour during summer.
+ Time-zones are second-based, so the nanosecond part of the duration will be zero.
+ 
+ This default implementation calculates the duration from the
+ actual and
+ standard offsets.
+
+Parameters:
+instant - the instant to find the daylight savings for, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the difference between the standard and actual offset, not null
+
+
+"
+ZoneRules,getOffset(Instant instant),ZoneOffset,Gets the offset applicable at the specified instant in these rules.,"
+
+getOffset
+public ZoneOffset getOffset(Instant instant)
+Gets the offset applicable at the specified instant in these rules.
+ 
+ The mapping from an instant to an offset is simple, there is only
+ one valid offset for each instant.
+ This method returns that offset.
+
+Parameters:
+instant - the instant to find the offset for, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the offset, not null
+
+
+"
+ZoneRules,getOffset(LocalDateTime localDateTime),ZoneOffset,Gets a suitable offset for the specified local date-time in these rules.,"
+
+getOffset
+public ZoneOffset getOffset(LocalDateTime localDateTime)
+Gets a suitable offset for the specified local date-time in these rules.
+ 
+ The mapping from a local date-time to an offset is not straightforward.
+ There are three cases:
+ 
+Normal, with one valid offset. For the vast majority of the year, the normal
+  case applies, where there is a single valid offset for the local date-time.
+Gap, with zero valid offsets. This is when clocks jump forward typically
+  due to the spring daylight savings change from ""winter"" to ""summer"".
+  In a gap there are local date-time values with no valid offset.
+Overlap, with two valid offsets. This is when clocks are set back typically
+  due to the autumn daylight savings change from ""summer"" to ""winter"".
+  In an overlap there are local date-time values with two valid offsets.
+
+ Thus, for any given local date-time there can be zero, one or two valid offsets.
+ This method returns the single offset in the Normal case, and in the Gap or Overlap
+ case it returns the offset before the transition.
+ 
+ Since, in the case of Gap and Overlap, the offset returned is a ""best"" value, rather
+ than the ""correct"" value, it should be treated with care. Applications that care
+ about the correct offset should use a combination of this method,
+ getValidOffsets(LocalDateTime) and getTransition(LocalDateTime).
+
+Parameters:
+localDateTime - the local date-time to query, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the best available offset for the local date-time, not null
+
+
+"
+ZoneRules,getStandardOffset(Instant instant),ZoneOffset,Gets the standard offset for the specified instant in this zone.,"
+
+getStandardOffset
+public ZoneOffset getStandardOffset(Instant instant)
+Gets the standard offset for the specified instant in this zone.
+ 
+ This provides access to historic information on how the standard offset
+ has changed over time.
+ The standard offset is the offset before any daylight saving time is applied.
+ This is typically the offset applicable during winter.
+
+Parameters:
+instant - the instant to find the offset information for, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the standard offset, not null
+
+
+"
+ZoneRules,getTransition(LocalDateTime localDateTime),ZoneOffsetTransition,Gets the offset transition applicable at the specified local date-time in these rules.,"
+
+getTransition
+public ZoneOffsetTransition getTransition(LocalDateTime localDateTime)
+Gets the offset transition applicable at the specified local date-time in these rules.
+ 
+ The mapping from a local date-time to an offset is not straightforward.
+ There are three cases:
+ 
+Normal, with one valid offset. For the vast majority of the year, the normal
+  case applies, where there is a single valid offset for the local date-time.
+Gap, with zero valid offsets. This is when clocks jump forward typically
+  due to the spring daylight savings change from ""winter"" to ""summer"".
+  In a gap there are local date-time values with no valid offset.
+Overlap, with two valid offsets. This is when clocks are set back typically
+  due to the autumn daylight savings change from ""summer"" to ""winter"".
+  In an overlap there are local date-time values with two valid offsets.
+
+ A transition is used to model the cases of a Gap or Overlap.
+ The Normal case will return null.
+ 
+ There are various ways to handle the conversion from a LocalDateTime.
+ One technique, using this method, would be:
+ 
+  ZoneOffsetTransition trans = rules.getTransition(localDT);
+  if (trans == null) {
+    // Gap or Overlap: determine what to do from transition
+  } else {
+    // Normal case: only one valid offset
+    zoneOffset = rule.getOffset(localDT);
+  }
+ 
+
+Parameters:
+localDateTime - the local date-time to query for offset transition, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the offset transition, null if the local date-time is not in transition
+
+
+"
+ZoneRules,getTransitionRules(),List<ZoneOffsetTransitionRule>,Gets the list of transition rules for years beyond those defined in the transition list.,"
+
+getTransitionRules
+public List<ZoneOffsetTransitionRule> getTransitionRules()
+Gets the list of transition rules for years beyond those defined in the transition list.
+ 
+ The complete set of transitions for this rules instance is defined by this method
+ and getTransitions(). This method returns instances of ZoneOffsetTransitionRule
+ that define an algorithm for when transitions will occur.
+ 
+ For any given ZoneRules, this list contains the transition rules for years
+ beyond those years that have been fully defined. These rules typically refer to future
+ daylight saving time rule changes.
+ 
+ If the zone defines daylight savings into the future, then the list will normally
+ be of size two and hold information about entering and exiting daylight savings.
+ If the zone does not have daylight savings, or information about future changes
+ is uncertain, then the list will be empty.
+ 
+ The list will be empty for fixed offset rules and for any time-zone where there is no
+ daylight saving time. The list will also be empty if the transition rules are unknown.
+
+Returns:
+an immutable list of transition rules, not null
+
+
+"
+ZoneRules,getTransitions(),List<ZoneOffsetTransition>,Gets the complete list of fully defined transitions.,"
+
+getTransitions
+public List<ZoneOffsetTransition> getTransitions()
+Gets the complete list of fully defined transitions.
+ 
+ The complete set of transitions for this rules instance is defined by this method
+ and getTransitionRules(). This method returns those transitions that have
+ been fully defined. These are typically historical, but may be in the future.
+ 
+ The list will be empty for fixed offset rules and for any time-zone where there has
+ only ever been a single offset. The list will also be empty if the transition rules are unknown.
+
+Returns:
+an immutable list of fully defined transitions, not null
+
+
+"
+ZoneRules,getValidOffsets(LocalDateTime localDateTime),List<ZoneOffset>,Gets the offset applicable at the specified local date-time in these rules.,"
+
+getValidOffsets
+public List<ZoneOffset> getValidOffsets(LocalDateTime localDateTime)
+Gets the offset applicable at the specified local date-time in these rules.
+ 
+ The mapping from a local date-time to an offset is not straightforward.
+ There are three cases:
+ 
+Normal, with one valid offset. For the vast majority of the year, the normal
+  case applies, where there is a single valid offset for the local date-time.
+Gap, with zero valid offsets. This is when clocks jump forward typically
+  due to the spring daylight savings change from ""winter"" to ""summer"".
+  In a gap there are local date-time values with no valid offset.
+Overlap, with two valid offsets. This is when clocks are set back typically
+  due to the autumn daylight savings change from ""summer"" to ""winter"".
+  In an overlap there are local date-time values with two valid offsets.
+
+ Thus, for any given local date-time there can be zero, one or two valid offsets.
+ This method returns that list of valid offsets, which is a list of size 0, 1 or 2.
+ In the case where there are two offsets, the earlier offset is returned at index 0
+ and the later offset at index 1.
+ 
+ There are various ways to handle the conversion from a LocalDateTime.
+ One technique, using this method, would be:
+ 
+  List<ZoneOffset> validOffsets = rules.getOffset(localDT);
+  if (validOffsets.size() == 1) {
+    // Normal case: only one valid offset
+    zoneOffset = validOffsets.get(0);
+  } else {
+    // Gap or Overlap: determine what to do from transition (which will be non-null)
+    ZoneOffsetTransition trans = rules.getTransition(localDT);
+  }
+ 
+
+ In theory, it is possible for there to be more than two valid offsets.
+ This would happen if clocks to be put back more than once in quick succession.
+ This has never happened in the history of time-zones and thus has no special handling.
+ However, if it were to happen, then the list would return more than 2 entries.
+
+Parameters:
+localDateTime - the local date-time to query for valid offsets, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the list of valid offsets, may be immutable, not null
+
+
+"
+ZoneRules,hashCode(),int,Returns a suitable hash code given the definition of #equals.,"
+
+hashCode
+public int hashCode()
+Returns a suitable hash code given the definition of #equals.
+
+Overrides:
+hashCode in class Object
+Returns:
+the hash code
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+ZoneRules,isDaylightSavings(Instant instant),boolean,Checks if the specified instant is in daylight savings.,"
+
+isDaylightSavings
+public boolean isDaylightSavings(Instant instant)
+Checks if the specified instant is in daylight savings.
+ 
+ This checks if the standard offset and the actual offset are the same
+ for the specified instant.
+ If they are not, it is assumed that daylight savings is in operation.
+ 
+ This default implementation compares the actual
+ and standard offsets.
+
+Parameters:
+instant - the instant to find the offset information for, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the standard offset, not null
+
+
+"
+ZoneRules,isFixedOffset(),boolean,"Checks of the zone rules are fixed, such that the offset never varies.","
+
+isFixedOffset
+public boolean isFixedOffset()
+Checks of the zone rules are fixed, such that the offset never varies.
+
+Returns:
+true if the time-zone is fixed and the offset never changes
+
+
+"
+ZoneRules,"isValidOffset(LocalDateTime localDateTime, ZoneOffset offset)",boolean,Checks if the offset date-time is valid for these rules.,"
+
+isValidOffset
+public boolean isValidOffset(LocalDateTime localDateTime,
+                             ZoneOffset offset)
+Checks if the offset date-time is valid for these rules.
+ 
+ To be valid, the local date-time must not be in a gap and the offset
+ must match one of the valid offsets.
+ 
+ This default implementation checks if getValidOffsets(java.time.LocalDateTime)
+ contains the specified offset.
+
+Parameters:
+localDateTime - the date-time to check, not null, but null
+  may be ignored if the rules have a single offset for all instants
+offset - the offset to check, null returns false
+Returns:
+true if the offset date-time is valid for these rules
+
+
+"
+ZoneRules,nextTransition(Instant instant),ZoneOffsetTransition,Gets the next transition after the specified instant.,"
+
+nextTransition
+public ZoneOffsetTransition nextTransition(Instant instant)
+Gets the next transition after the specified instant.
+ 
+ This returns details of the next transition after the specified instant.
+ For example, if the instant represents a point where ""Summer"" daylight savings time
+ applies, then the method will return the transition to the next ""Winter"" time.
+
+Parameters:
+instant - the instant to get the next transition after, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the next transition after the specified instant, null if this is after the last transition
+
+
+"
+ZoneRules,of(ZoneOffset offset),static ZoneRules,Obtains an instance of ZoneRules that has fixed zone rules.,"
+
+of
+public static ZoneRules of(ZoneOffset offset)
+Obtains an instance of ZoneRules that has fixed zone rules.
+
+Parameters:
+offset - the offset this fixed zone rules is based on, not null
+Returns:
+the zone rules, not null
+See Also:
+isFixedOffset()
+
+
+"
+ZoneRules,"of(ZoneOffset baseStandardOffset, ZoneOffset baseWallOffset, List<ZoneOffsetTransition> standardOffsetTransitionList, List<ZoneOffsetTransition> transitionList, List<ZoneOffsetTransitionRule> lastRules)",static ZoneRules,Obtains an instance of a ZoneRules.,"
+
+of
+public static ZoneRules of(ZoneOffset baseStandardOffset,
+                           ZoneOffset baseWallOffset,
+                           List<ZoneOffsetTransition> standardOffsetTransitionList,
+                           List<ZoneOffsetTransition> transitionList,
+                           List<ZoneOffsetTransitionRule> lastRules)
+Obtains an instance of a ZoneRules.
+
+Parameters:
+baseStandardOffset - the standard offset to use before legal rules were set, not null
+baseWallOffset - the wall offset to use before legal rules were set, not null
+standardOffsetTransitionList - the list of changes to the standard offset, not null
+transitionList - the list of transitions, not null
+lastRules - the recurring last rules, size 16 or less, not null
+Returns:
+the zone rules, not null
+
+
+"
+ZoneRules,previousTransition(Instant instant),ZoneOffsetTransition,Gets the previous transition before the specified instant.,"
+
+previousTransition
+public ZoneOffsetTransition previousTransition(Instant instant)
+Gets the previous transition before the specified instant.
+ 
+ This returns details of the previous transition after the specified instant.
+ For example, if the instant represents a point where ""summer"" daylight saving time
+ applies, then the method will return the transition from the previous ""winter"" time.
+
+Parameters:
+instant - the instant to get the previous transition after, not null, but null
+  may be ignored if the rules have a single offset for all instants
+Returns:
+the previous transition after the specified instant, null if this is before the first transition
+
+
+"
+ZoneRules,toString(),String,Returns a string describing this object.,"
+
+toString
+public String toString()
+Returns a string describing this object.
+
+Overrides:
+toString in class Object
+Returns:
+a string for debugging, not null
+
+
+"
+ZoneRulesProvider,getAvailableZoneIds(),static Set<String>,Gets the set of available zone IDs.,"
+
+getAvailableZoneIds
+public static Set<String> getAvailableZoneIds()
+Gets the set of available zone IDs.
+ 
+ These IDs are the string form of a ZoneId.
+
+Returns:
+a modifiable copy of the set of zone IDs, not null
+
+
+"
+ZoneRulesProvider,"getRules(String zoneId, boolean forCaching)",static ZoneRules,Gets the rules for the zone ID.,"
+
+getRules
+public static ZoneRules getRules(String zoneId,
+                                 boolean forCaching)
+Gets the rules for the zone ID.
+ 
+ This returns the latest available rules for the zone ID.
+ 
+ This method relies on time-zone data provider files that are configured.
+ These are loaded using a ServiceLoader.
+ 
+ The caching flag is designed to allow provider implementations to
+ prevent the rules being cached in ZoneId.
+ Under normal circumstances, the caching of zone rules is highly desirable
+ as it will provide greater performance. However, there is a use case where
+ the caching would not be desirable, see provideRules(java.lang.String, boolean).
+
+Parameters:
+zoneId - the zone ID as defined by ZoneId, not null
+forCaching - whether the rules are being queried for caching,
+ true if the returned rules will be cached by ZoneId,
+ false if they will be returned to the user without being cached in ZoneId
+Returns:
+the rules, null if forCaching is true and this
+ is a dynamic provider that wants to prevent caching in ZoneId,
+ otherwise not null
+Throws:
+ZoneRulesException - if rules cannot be obtained for the zone ID
+
+
+"
+ZoneRulesProvider,getVersions(String zoneId),"static NavigableMap<String,ZoneRules>",Gets the history of rules for the zone ID.,"
+
+getVersions
+public static NavigableMap<String,ZoneRules> getVersions(String zoneId)
+Gets the history of rules for the zone ID.
+ 
+ Time-zones are defined by governments and change frequently.
+ This method allows applications to find the history of changes to the
+ rules for a single zone ID. The map is keyed by a string, which is the
+ version string associated with the rules.
+ 
+ The exact meaning and format of the version is provider specific.
+ The version must follow lexicographical order, thus the returned map will
+ be order from the oldest known rules to the newest available rules.
+ The default 'TZDB' group uses version numbering consisting of the year
+ followed by a letter, such as '2009e' or '2012f'.
+ 
+ Implementations must provide a result for each valid zone ID, however
+ they do not have to provide a history of rules.
+ Thus the map will always contain one element, and will only contain more
+ than one element if historical rule information is available.
+
+Parameters:
+zoneId - the zone ID as defined by ZoneId, not null
+Returns:
+a modifiable copy of the history of the rules for the ID, sorted
+  from oldest to newest, not null
+Throws:
+ZoneRulesException - if history cannot be obtained for the zone ID
+
+
+"
+ZoneRulesProvider,provideRefresh(),protected boolean,SPI method to refresh the rules from the underlying data provider.,"
+
+provideRefresh
+protected boolean provideRefresh()
+SPI method to refresh the rules from the underlying data provider.
+ 
+ This method provides the opportunity for a provider to dynamically
+ recheck the underlying data provider to find the latest rules.
+ This could be used to load new rules without stopping the JVM.
+ Dynamic behavior is entirely optional and most providers do not support it.
+ 
+ This implementation returns false.
+
+Returns:
+true if the rules were updated
+Throws:
+ZoneRulesException - if an error occurs during the refresh
+
+
+"
+ZoneRulesProvider,"provideRules(String zoneId, boolean forCaching)",protected abstract ZoneRules,SPI method to get the rules for the zone ID.,"
+
+provideRules
+protected abstract ZoneRules provideRules(String zoneId,
+                                          boolean forCaching)
+SPI method to get the rules for the zone ID.
+ 
+ This loads the rules for the specified zone ID.
+ The provider implementation must validate that the zone ID is valid and
+ available, throwing a ZoneRulesException if it is not.
+ The result of the method in the valid case depends on the caching flag.
+ 
+ If the provider implementation is not dynamic, then the result of the
+ method must be the non-null set of rules selected by the ID.
+ 
+ If the provider implementation is dynamic, then the flag gives the option
+ of preventing the returned rules from being cached in ZoneId.
+ When the flag is true, the provider is permitted to return null, where
+ null will prevent the rules from being cached in ZoneId.
+ When the flag is false, the provider must return non-null rules.
+
+Parameters:
+zoneId - the zone ID as defined by ZoneId, not null
+forCaching - whether the rules are being queried for caching,
+ true if the returned rules will be cached by ZoneId,
+ false if they will be returned to the user without being cached in ZoneId
+Returns:
+the rules, null if forCaching is true and this
+ is a dynamic provider that wants to prevent caching in ZoneId,
+ otherwise not null
+Throws:
+ZoneRulesException - if rules cannot be obtained for the zone ID
+
+
+"
+ZoneRulesProvider,provideVersions(String zoneId),"protected abstract NavigableMap<String,ZoneRules>",SPI method to get the history of rules for the zone ID.,"
+
+provideVersions
+protected abstract NavigableMap<String,ZoneRules> provideVersions(String zoneId)
+SPI method to get the history of rules for the zone ID.
+ 
+ This returns a map of historical rules keyed by a version string.
+ The exact meaning and format of the version is provider specific.
+ The version must follow lexicographical order, thus the returned map will
+ be order from the oldest known rules to the newest available rules.
+ The default 'TZDB' group uses version numbering consisting of the year
+ followed by a letter, such as '2009e' or '2012f'.
+ 
+ Implementations must provide a result for each valid zone ID, however
+ they do not have to provide a history of rules.
+ Thus the map will contain at least one element, and will only contain
+ more than one element if historical rule information is available.
+ 
+ The returned versions remain available and valid for the lifetime of the application.
+ A dynamic provider may increase the set of versions as more data becomes available.
+
+Parameters:
+zoneId - the zone ID as defined by ZoneId, not null
+Returns:
+a modifiable copy of the history of the rules for the ID, sorted
+  from oldest to newest, not null
+Throws:
+ZoneRulesException - if history cannot be obtained for the zone ID
+
+
+"
+ZoneRulesProvider,provideZoneIds(),protected abstract Set<String>,SPI method to get the available zone IDs.,"
+
+provideZoneIds
+protected abstract Set<String> provideZoneIds()
+SPI method to get the available zone IDs.
+ 
+ This obtains the IDs that this ZoneRulesProvider provides.
+ A provider should provide data for at least one zone ID.
+ 
+ The returned zone IDs remain available and valid for the lifetime of the application.
+ A dynamic provider may increase the set of IDs as more data becomes available.
+
+Returns:
+the set of zone IDs being provided, not null
+Throws:
+ZoneRulesException - if a problem occurs while providing the IDs
+
+
+"
+ZoneRulesProvider,refresh(),static boolean,Refreshes the rules from the underlying data provider.,"
+
+refresh
+public static boolean refresh()
+Refreshes the rules from the underlying data provider.
+ 
+ This method allows an application to request that the providers check
+ for any updates to the provided rules.
+ After calling this method, the offset stored in any ZonedDateTime
+ may be invalid for the zone ID.
+ 
+ Dynamic update of rules is a complex problem and most applications
+ should not use this method or dynamic rules.
+ To achieve dynamic rules, a provider implementation will have to be written
+ as per the specification of this class.
+ In addition, instances of ZoneRules must not be cached in the
+ application as they will become stale. However, the boolean flag on
+ provideRules(String, boolean) allows provider implementations
+ to control the caching of ZoneId, potentially ensuring that
+ all objects in the system see the new rules.
+ Note that there is likely to be a cost in performance of a dynamic rules
+ provider. Note also that no dynamic rules provider is in this specification.
+
+Returns:
+true if the rules were updated
+Throws:
+ZoneRulesException - if an error occurs during the refresh
+
+
+"
+ZoneRulesProvider,registerProvider(ZoneRulesProvider provider),static void,Registers a zone rules provider.,"
+
+registerProvider
+public static void registerProvider(ZoneRulesProvider provider)
+Registers a zone rules provider.
+ 
+ This adds a new provider to those currently available.
+ A provider supplies rules for one or more zone IDs.
+ A provider cannot be registered if it supplies a zone ID that has already been
+ registered. See the notes on time-zone IDs in ZoneId, especially
+ the section on using the concept of a ""group"" to make IDs unique.
+ 
+ To ensure the integrity of time-zones already created, there is no way
+ to deregister providers.
+
+Parameters:
+provider - the provider to register, not null
+Throws:
+ZoneRulesException - if a zone ID is already registered
+
+
+"

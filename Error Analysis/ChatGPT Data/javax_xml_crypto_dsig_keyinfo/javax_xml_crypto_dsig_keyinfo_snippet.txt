@@ -1,0 +1,88 @@
+Sample: 0 KeyInfoFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.Key;
+import java.security.PublicKey;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(2048);
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        Key publicKey = keyPair.getPublic();
+
+        KeyInfoFactory keyInfoFactory = KeyInfoFactory.getInstance();
+        KeyValue keyValue = keyInfoFactory.newKeyValue((PublicKey) publicKey);
+
+        System.out.println("KeyValue created successfully: " + keyValue.toString());
+    }
+}
+```
+================================================================
+
+Sample: 1 KeyInfoFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
+import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+import java.util.Collections;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyInfoFactory keyInfoFactory = KeyInfoFactory.getInstance();
+        KeyInfo keyInfo = keyInfoFactory.newKeyInfo(Collections.emptyList());
+        System.out.println("New KeyInfo created: " + keyInfo);
+    }
+}
+```
+================================================================
+
+Sample: 2 KeyInfoFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
+import javax.xml.crypto.dsig.keyinfo.PGPData;
+import java.security.Provider;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyInfoFactory factory = KeyInfoFactory.getInstance("DOM", (Provider) null);
+        byte[] keyId = new byte[16]; // Example keyId
+
+        try {
+            PGPData pgpData = factory.newPGPData(keyId);
+            System.out.println("PGPData created successfully");
+        } catch (Exception e) {
+            System.out.println("Error creating PGPData: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 KeyInfoFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
+import javax.xml.crypto.dsig.keyinfo.X509Data;
+import java.util.Collections;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyInfoFactory keyInfoFactory = KeyInfoFactory.getInstance();
+        List content = Collections.emptyList();
+        X509Data x509Data = keyInfoFactory.newX509Data(content);
+    }
+}
+```
+================================================================
+

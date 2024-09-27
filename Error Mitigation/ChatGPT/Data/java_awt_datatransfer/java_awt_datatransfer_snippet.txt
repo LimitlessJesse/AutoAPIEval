@@ -1,0 +1,296 @@
+Sample: 0 Clipboard_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.Transferable;
+
+public class Main {
+    public static void main(String[] args) {
+        Clipboard clipboard = new Clipboard("exampleClipboard");
+        Transferable contents = new Transferable() {
+            @Override
+            public Object getTransferData(DataFlavor flavor) {
+                return null;
+            }
+
+            @Override
+            public DataFlavor[] getTransferDataFlavors() {
+                return new DataFlavor[0];
+            }
+
+            @Override
+            public boolean isDataFlavorSupported(DataFlavor flavor) {
+                return false;
+            }
+        };
+        ClipboardOwner owner = new ClipboardOwner() {
+            @Override
+            public void lostOwnership(Clipboard clipboard, Transferable contents) {
+                System.out.println("Lost ownership of clipboard contents");
+            }
+        };
+        
+        try {
+            clipboard.setContents(contents, owner);
+            System.out.println("Clipboard contents set successfully");
+        } catch (IllegalStateException e) {
+            System.out.println("Clipboard is currently unavailable");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 Clipboard_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.Transferable;
+
+public class Main {
+    public static void main(String[] args) {
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        Transferable contents = clipboard.getContents(null);
+        if (contents != null) {
+            System.out.println("Contents of clipboard: " + contents);
+        } else {
+            System.out.println("Clipboard is empty");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 Clipboard_3
+----------------------------------------------------------------
+`void addFlavorListener(FlavorListener listener)`: This method registers the specified FlavorListener to receive FlavorEvents from this clipboard.
+
+Code snippet:
+```java
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.FlavorListener;
+
+public class Main {
+    public static void main(String[] args) {
+        Clipboard clipboard = new Clipboard("exampleClipboard");
+        FlavorListener flavorListener = new FlavorListener() {
+            @Override
+            public void flavorsChanged(FlavorEvent e) {
+                System.out.println("Flavors changed event received: " + e);
+            }
+        };
+        clipboard.addFlavorListener(flavorListener);
+    }
+}
+```
+================================================================
+
+Sample: 3 Clipboard_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.FlavorListener;
+
+public class Main {
+    public static void main(String[] args) {
+        Clipboard clipboard = new Clipboard("exampleClipboard");
+        FlavorListener flavorListener = new FlavorListener() {
+            @Override
+            public void flavorsChanged(FlavorEvent e) {
+                // Implement your logic here
+            }
+        };
+        
+        clipboard.removeFlavorListener(flavorListener);
+    }
+}
+```
+================================================================
+
+Sample: 4 Clipboard_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        Clipboard clipboard = new Clipboard("example");
+        DataFlavor flavor = DataFlavor.stringFlavor;
+        boolean isAvailable = clipboard.isDataFlavorAvailable(flavor);
+        System.out.println("Is Data Flavor Available: " + isAvailable);
+    }
+}
+```
+================================================================
+
+Sample: 5 DataFlavor_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DataFlavor dataFlavor = new DataFlavor(String.class, "String");
+        Class<?> representationClass = dataFlavor.getRepresentationClass();
+        System.out.println("Representation Class: " + representationClass.getName());
+    }
+}
+```
+================================================================
+
+Sample: 6 DataFlavor_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DataFlavor flavor = new DataFlavor(String.class, "text/plain");
+        String mimeType = flavor.getMimeType();
+        System.out.println("MIME Type: " + mimeType);
+    }
+}
+```
+================================================================
+
+Sample: 7 DataFlavor_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DataFlavor flavor = new DataFlavor(String.class, "text/plain");
+        String mimeType = "text/plain";
+        boolean isEqual = flavor.isMimeTypeEqual(mimeType);
+        System.out.println("Is MIME type equal: " + isEqual);
+    }
+}
+```
+================================================================
+
+Sample: 8 DataFlavor_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DataFlavor dataFlavor = new DataFlavor(String.class, "String");
+        boolean isSerialized = dataFlavor.isFlavorSerializedObjectType();
+        System.out.println("Is flavor serialized object? " + isSerialized);
+    }
+}
+```
+================================================================
+
+Sample: 9 DataFlavor_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DataFlavor dataFlavor = new DataFlavor(String.class, "text/plain");
+        boolean isSerializedObject = dataFlavor.isMimeTypeSerializedObject();
+        System.out.println("Is Serialized Object: " + isSerializedObject);
+    }
+}
+```
+================================================================
+
+Sample: 10 StringSelection_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+
+public class Main {
+    public static void main(String[] args) {
+        StringSelection selection = new StringSelection("Hello");
+        DataFlavor flavor = DataFlavor.stringFlavor;
+        boolean isSupported = selection.isDataFlavorSupported(flavor);
+        System.out.println("Is flavor supported: " + isSupported);
+    }
+}
+```
+================================================================
+
+Sample: 11 StringSelection_5
+----------------------------------------------------------------
+`Object getTransferData(DataFlavor flavor)`: This method returns the Transferable's data in the requested DataFlavor if possible. If the desired flavor is DataFlavor.stringFlavor, or an equivalent flavor, the String representing the selection is returned. If the desired flavor is DataFlavor.plainTextFlavor, or an equivalent flavor, a Reader is returned.
+
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.io.IOException;
+import java.io.Reader;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+
+public class Main {
+    public static void main(String[] args) {
+        StringSelection selection = new StringSelection("Hello World");
+        
+        try {
+            Object data = selection.getTransferData(DataFlavor.stringFlavor);
+            System.out.println("Data: " + data);
+        } catch (UnsupportedFlavorException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 SystemFlavorMap_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.SystemFlavorMap;
+
+public class Main {
+    public static void main(String[] args) {
+        SystemFlavorMap flavorMap = (SystemFlavorMap) SystemFlavorMap.getDefaultFlavorMap();
+        String nativeKey = "text/plain";
+        DataFlavor dataFlavor = DataFlavor.stringFlavor;
+        
+        flavorMap.addFlavorForUnencodedNative(nativeKey, dataFlavor);
+    }
+}
+```
+================================================================
+
+Sample: 13 SystemFlavorMap_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.SystemFlavorMap;
+
+public class Main {
+    public static void main(String[] args) {
+        SystemFlavorMap flavorMap = (SystemFlavorMap) SystemFlavorMap.getDefaultFlavorMap();
+        DataFlavor flavor = DataFlavor.stringFlavor;
+        String nativeValue = "text/plain";
+        
+        flavorMap.addUnencodedNativeForFlavor(flavor, nativeValue);
+    }
+}
+```
+================================================================
+

@@ -88,7 +88,6 @@ for prompt in prompts:
 
   print(f"Generating prompt: {i}")
   reply = chat.choices[0].message.content
-  # print(reply)
 
   pattern = r'\`\`\`java\n(.*?)\`\`\`'
   matches = re.findall(pattern, reply, re.DOTALL)

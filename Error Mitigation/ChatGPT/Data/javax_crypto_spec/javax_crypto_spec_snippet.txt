@@ -1,0 +1,664 @@
+Sample: 0 DESedeKeySpec_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.DESedeKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] keyBytes = {0x01, 0x23, 0x45, 0x67, (byte)0x89, (byte)0xab, (byte)0xcd, (byte)0xef, 0x10, 0x32, 0x54, 0x76, (byte)0x98, (byte)0xba, (byte)0xdc, (byte)0xfe};
+        
+        DESedeKeySpec desKeySpec = new DESedeKeySpec(keyBytes);
+        byte[] desKey = desKeySpec.getKey();
+        
+        System.out.println("DES-EDE Key: " + bytesToHex(desKey));
+    }
+    
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+    
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+}
+```
+================================================================
+
+Sample: 1 DESKeySpec_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.DESKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] keyMaterial = new byte[]{0x01, 0x23, 0x45, 0x67, (byte)0x89, (byte)0xab, (byte)0xcd, (byte)0xef};
+            DESKeySpec desKey = new DESKeySpec(keyMaterial);
+            byte[] key = desKey.getKey();
+            System.out.println("DES Key Material: " + new String(key));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 DHGenParameterSpec_1
+----------------------------------------------------------------
+`int getPrimeSize()`: This method returns the size in bits of the prime modulus.
+
+Code snippet:
+```java
+import javax.crypto.spec.DHGenParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        DHGenParameterSpec dhGenParameterSpec = new DHGenParameterSpec(1024, 160);
+        int primeSize = dhGenParameterSpec.getPrimeSize();
+        System.out.println("Prime size: " + primeSize);
+    }
+}
+```
+================================================================
+
+Sample: 3 DHGenParameterSpec_5
+----------------------------------------------------------------
+`int getExponentSize()`: This method returns the size in bits of the random exponent (private value).
+
+Code snippet:
+```java
+import javax.crypto.spec.DHGenParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        DHGenParameterSpec dhGenParameterSpec = new DHGenParameterSpec(1024, 160);
+        int exponentSize = dhGenParameterSpec.getExponentSize();
+        System.out.println("Exponent Size: " + exponentSize);
+    }
+}
+```
+================================================================
+
+Sample: 4 DHParameterSpec_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.DHParameterSpec;
+import java.math.BigInteger;
+
+public class Main {
+    public static void main(String[] args) {
+        DHParameterSpec dhParamSpec = new DHParameterSpec(BigInteger.valueOf(5), BigInteger.valueOf(3));
+        BigInteger primeModulus = dhParamSpec.getP();
+        System.out.println("Prime modulus p: " + primeModulus);
+    }
+}
+```
+================================================================
+
+Sample: 5 DHParameterSpec_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.DHParameterSpec;
+import java.math.BigInteger;
+
+public class Main {
+    public static void main(String[] args) {
+        DHParameterSpec dhParamSpec = new DHParameterSpec(BigInteger.valueOf(5), BigInteger.valueOf(2));
+        BigInteger baseGenerator = dhParamSpec.getG();
+        System.out.println("Base generator g: " + baseGenerator);
+    }
+}
+```
+================================================================
+
+Sample: 6 DHParameterSpec_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.DHParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        DHParameterSpec dhParamSpec = new DHParameterSpec(1024, 160);
+        int l = dhParamSpec.getL();
+        System.out.println("Size of random exponent (private value): " + l);
+    }
+}
+```
+================================================================
+
+Sample: 7 DHPrivateKeySpec_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.DHPrivateKeySpec;
+import java.math.BigInteger;
+
+public class Main {
+    public static void main(String[] args) {
+        BigInteger privateValue = new BigInteger("1234567890"); // Example private value
+        DHPrivateKeySpec privateKeySpec = new DHPrivateKeySpec(privateValue);
+        BigInteger x = privateKeySpec.getX();
+        System.out.println("Private value x: " + x);
+    }
+}
+```
+================================================================
+
+Sample: 8 DHPublicKeySpec_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.DHPublicKeySpec;
+import java.math.BigInteger;
+
+public class Main {
+    public static void main(String[] args) {
+        BigInteger y = new BigInteger("1234567890"); // Example value for y
+        DHPublicKeySpec dhPublicKeySpec = new DHPublicKeySpec(y);
+        BigInteger publicKeyY = dhPublicKeySpec.getY();
+        System.out.println("Public value y: " + publicKeyY);
+    }
+}
+```
+================================================================
+
+Sample: 9 DHPublicKeySpec_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.DHPublicKeySpec;
+import java.math.BigInteger;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a DHPublicKeySpec object
+        DHPublicKeySpec dhPublicKeySpec = new DHPublicKeySpec(new BigInteger("1234567890"), new BigInteger("9876543210"), new BigInteger("12345"));
+
+        // Get the prime modulus p using getP() method
+        BigInteger primeModulus = dhPublicKeySpec.getP();
+
+        // Print the prime modulus p
+        System.out.println("Prime modulus p: " + primeModulus);
+    }
+}
+```
+================================================================
+
+Sample: 10 DHPublicKeySpec_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.DHPublicKeySpec;
+import java.math.BigInteger;
+
+public class Main {
+    public static void main(String[] args) {
+        DHPublicKeySpec dhPublicKeySpec = new DHPublicKeySpec(new BigInteger("1234567890"), new BigInteger("9876543210"), new BigInteger("12345"));
+        BigInteger baseGenerator = dhPublicKeySpec.getG();
+        System.out.println("Base generator g: " + baseGenerator);
+    }
+}
+```
+================================================================
+
+Sample: 11 GCMParameterSpec_1
+----------------------------------------------------------------
+`int getTLen()`: This method returns the authentication tag length.
+
+Code snippet:
+```java
+import javax.crypto.spec.GCMParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        GCMParameterSpec spec = new GCMParameterSpec(128, new byte[12]);
+        int tagLength = spec.getTLen();
+        System.out.println("Authentication tag length: " + tagLength);
+    }
+}
+```
+================================================================
+
+Sample: 12 GCMParameterSpec_2
+----------------------------------------------------------------
+`byte[] getIV()`: This method returns the Initialization Vector (IV).
+
+Code snippet:
+```java
+import javax.crypto.spec.GCMParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] iv = new byte[12]; // IV length is typically 12 bytes
+        GCMParameterSpec gcmParamSpec = new GCMParameterSpec(128, iv);
+        
+        byte[] returnedIV = gcmParamSpec.getIV();
+        System.out.println("Returned IV: " + returnedIV);
+    }
+}
+```
+================================================================
+
+Sample: 13 IvParameterSpec_1
+----------------------------------------------------------------
+`byte[] getIV()`: This method returns the initialization vector (IV).
+
+Code snippet:
+```java
+import javax.crypto.spec.IvParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] iv = new byte[16]; // Example initialization vector
+        IvParameterSpec ivSpec = new IvParameterSpec(iv);
+        
+        byte[] returnedIV = ivSpec.getIV();
+        System.out.println("Returned IV: " + returnedIV);
+    }
+}
+```
+================================================================
+
+Sample: 14 OAEPParameterSpec_1
+----------------------------------------------------------------
+`String getDigestAlgorithm()`: This method returns the message digest algorithm name.
+
+Code snippet:
+```java
+import javax.crypto.spec.OAEPParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        OAEPParameterSpec oaepParamSpec = new OAEPParameterSpec("SHA-256", "MGF1", null, null);
+        String digestAlgorithm = oaepParamSpec.getDigestAlgorithm();
+        System.out.println("Message digest algorithm: " + digestAlgorithm);
+    }
+}
+```
+================================================================
+
+Sample: 15 OAEPParameterSpec_2
+----------------------------------------------------------------
+`String getMGFAlgorithm()`: This method returns the mask generation function algorithm name.
+
+Code snippet:
+```java
+import javax.crypto.spec.OAEPParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        OAEPParameterSpec oaepParamSpec = new OAEPParameterSpec("SHA-256", "MGF1", null, null);
+        String mgfAlgorithm = oaepParamSpec.getMGFAlgorithm();
+        System.out.println("Mask Generation Function Algorithm: " + mgfAlgorithm);
+    }
+}
+```
+================================================================
+
+Sample: 16 OAEPParameterSpec_3
+----------------------------------------------------------------
+`PSource getPSource()`: This method returns the source of encoding input P.
+
+Code snippet:
+```java
+import javax.crypto.spec.OAEPParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        OAEPParameterSpec oaepParamSpec = new OAEPParameterSpec("SHA-256", "MGF1", new MGF1ParameterSpec("SHA-256"), PSource.PSpecified.DEFAULT);
+        PSource pSource = oaepParamSpec.getPSource();
+        System.out.println("PSource: " + pSource);
+    }
+}
+```
+================================================================
+
+Sample: 17 PBEKeySpec_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.PBEKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] password = "myPassword".toCharArray();
+        
+        PBEKeySpec keySpec = new PBEKeySpec(password);
+        char[] retrievedPassword = keySpec.getPassword();
+        
+        System.out.println(retrievedPassword);
+    }
+}
+```
+================================================================
+
+Sample: 18 PBEKeySpec_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.PBEKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] password = "password123".toCharArray();
+        byte[] salt = new byte[]{0, 1, 2, 3, 4};
+        
+        PBEKeySpec pbeKeySpec = new PBEKeySpec(password, salt, 1000, 256);
+        
+        byte[] retrievedSalt = pbeKeySpec.getSalt();
+        
+        System.out.println("Retrieved salt: " + new String(retrievedSalt));
+    }
+}
+```
+================================================================
+
+Sample: 19 PBEKeySpec_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.PBEKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        PBEKeySpec keySpec = new PBEKeySpec("password".toCharArray());
+        int iterationCount = keySpec.getIterationCount();
+        System.out.println("Iteration Count: " + iterationCount);
+    }
+}
+```
+================================================================
+
+Sample: 20 PBEKeySpec_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.PBEKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        PBEKeySpec keySpec = new PBEKeySpec("password".toCharArray());
+        int keyLength = keySpec.getKeyLength();
+        System.out.println("Key Length: " + keyLength);
+    }
+}
+```
+================================================================
+
+Sample: 21 PBEParameterSpec_1
+----------------------------------------------------------------
+`int getIterationCount()`: This method returns the iteration count.
+
+Code snippet:
+```java
+import javax.crypto.spec.PBEParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        PBEParameterSpec pbeParamSpec = new PBEParameterSpec(new byte[]{1, 2, 3}, 1000);
+        int iterationCount = pbeParamSpec.getIterationCount();
+        System.out.println("Iteration Count: " + iterationCount);
+    }
+}
+```
+================================================================
+
+Sample: 22 PBEParameterSpec_2
+----------------------------------------------------------------
+`byte[] getSalt()`: This method returns the salt used in password-based encryption.
+
+Code snippet:
+```java
+import javax.crypto.spec.PBEParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] salt = new byte[8]; // Example salt array
+        PBEParameterSpec pbeParamSpec = new PBEParameterSpec(salt, 1000); // Creating PBEParameterSpec object
+        byte[] retrievedSalt = pbeParamSpec.getSalt(); // Getting the salt
+        System.out.println("Retrieved salt: " + new String(retrievedSalt));
+    }
+}
+```
+================================================================
+
+Sample: 23 PSource_1
+----------------------------------------------------------------
+`String getAlgorithm()`: This method returns the PSource algorithm name.
+
+Code snippet:
+```java
+import javax.crypto.spec.PSource;
+
+public class Main {
+    public static void main(String[] args) {
+        PSource pSource = new PSource();
+        String algorithm = pSource.getAlgorithm();
+        System.out.println("PSource algorithm name: " + algorithm);
+    }
+}
+```
+================================================================
+
+Sample: 24 PSource_PSpecified_1
+----------------------------------------------------------------
+`byte[] getValue()`: This method returns the value of encoding input P.
+
+Code snippet:
+```java
+import javax.crypto.spec.PSource.PSpecified;
+
+public class Main {
+    public static void main(String[] args) {
+        PSpecified pSpecified = new PSpecified(new byte[]{1, 2, 3});
+        byte[] value = pSpecified.getValue();
+        System.out.println("Value of encoding input P: " + new String(value));
+    }
+}
+```
+================================================================
+
+Sample: 25 RC2ParameterSpec_1
+----------------------------------------------------------------
+`int getEffectiveKeyBits()`: This method returns the effective key size in bits.
+
+Code snippet:
+```java
+import javax.crypto.spec.RC2ParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        RC2ParameterSpec rc2ParamSpec = new RC2ParameterSpec(128, 0);
+        int effectiveKeyBits = rc2ParamSpec.getEffectiveKeyBits();
+        System.out.println("Effective Key Bits: " + effectiveKeyBits);
+    }
+}
+```
+================================================================
+
+Sample: 26 RC2ParameterSpec_2
+----------------------------------------------------------------
+`byte[] getIV()`: This method returns the IV or null if this parameter set does not contain an IV.
+
+Code snippet:
+```java
+import javax.crypto.spec.RC2ParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        RC2ParameterSpec rc2ParamSpec = new RC2ParameterSpec(128, new byte[]{1, 2, 3, 4, 5});
+        byte[] iv = rc2ParamSpec.getIV();
+        
+        if (iv != null) {
+            System.out.println("IV: " + new String(iv));
+        } else {
+            System.out.println("IV is null");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 27 RC5ParameterSpec_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.RC5ParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        RC5ParameterSpec rc5ParamSpec = new RC5ParameterSpec(16, 32, 12);
+        int rounds = rc5ParamSpec.getRounds();
+        System.out.println("Number of rounds: " + rounds);
+    }
+}
+```
+================================================================
+
+Sample: 28 RC5ParameterSpec_2
+----------------------------------------------------------------
+`int getWordSize()`: This method returns the word size in bits.
+
+Code snippet:
+```java
+import javax.crypto.spec.RC5ParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        RC5ParameterSpec rc5ParamSpec = new RC5ParameterSpec(16, 32, 8);
+        int wordSize = rc5ParamSpec.getWordSize();
+        System.out.println("Word size: " + wordSize);
+    }
+}
+```
+================================================================
+
+Sample: 29 RC5ParameterSpec_3
+----------------------------------------------------------------
+`byte[] getIV()`: This method returns the IV or null if this parameter set does not contain an IV.
+
+Code snippet:
+```java
+import javax.crypto.spec.RC5ParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] iv = new byte[16]; // Example IV array
+        RC5ParameterSpec rc5ParamSpec = new RC5ParameterSpec(32, 16, 8, iv);
+        
+        byte[] retrievedIV = rc5ParamSpec.getIV();
+        if (retrievedIV != null) {
+            System.out.println("Retrieved IV: " + new String(retrievedIV));
+        } else {
+            System.out.println("IV is null in this parameter set.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 30 SecretKeySpec_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.SecretKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] keyBytes = {0x00, 0x01, 0x02, 0x03, 0x04};
+        SecretKeySpec secretKey = new SecretKeySpec(keyBytes, "AES");
+        
+        byte[] encodedKey = secretKey.getEncoded();
+        
+        System.out.println("Encoded key:");
+        for (byte b : encodedKey) {
+            System.out.print(b + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 31 SecretKeySpec_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.SecretKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] key = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
+        String algorithm = "AES";
+        
+        SecretKeySpec secretKey = new SecretKeySpec(key, algorithm);
+        String keyAlgorithm = secretKey.getAlgorithm();
+        
+        System.out.println("Key Algorithm: " + keyAlgorithm);
+    }
+}
+```
+================================================================
+
+Sample: 32 SecretKeySpec_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.SecretKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] key = {1, 2, 3, 4, 5};
+        SecretKeySpec secretKey = new SecretKeySpec(key, "AES");
+        String format = secretKey.getFormat();
+        System.out.println("Format: " + format);
+    }
+}
+```
+================================================================
+
+Sample: 33 SecretKeySpec_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.crypto.spec.SecretKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        SecretKeySpec key = new SecretKeySpec(new byte[]{1, 2, 3}, "AES");
+        int hashCode = key.hashCode();
+        System.out.println("Hash code value: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 34 SecretKeySpec_5
+----------------------------------------------------------------
+`boolean equals(Object obj)`: This method tests for equality between the specified object and this object. Two SecretKeySpec objects are considered equal if they are both SecretKey instances which have the same case-insensitive algorithm name and key encoding.
+
+Code snippet:
+```java
+import javax.crypto.spec.SecretKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        SecretKeySpec key1 = new SecretKeySpec(new byte[]{1, 2, 3}, "AES");
+        SecretKeySpec key2 = new SecretKeySpec(new byte[]{1, 2, 3}, "AES");
+
+        boolean result = key1.equals(key2);
+        System.out.println("Are key1 and key2 equal? " + result);
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,1952 @@
+Sample: 0 AreaAveragingScaleFilter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.AreaAveragingScaleFilter;
+import java.awt.image.ColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of AreaAveragingScaleFilter
+        AreaAveragingScaleFilter filter = new AreaAveragingScaleFilter();
+        
+        // Set the pixels using setPixels method
+        int x = 0;
+        int y = 0;
+        int w = 100;
+        int h = 100;
+        ColorModel model = null; // You need to initialize the ColorModel
+        int[] pixels = new int[w * h];
+        int off = 0;
+        int scansize = w;
+        
+        filter.setPixels(x, y, w, h, model, pixels, off, scansize);
+        
+        // Add any additional code as needed
+    }
+}
+```
+================================================================
+
+Sample: 1 BandCombineOp_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.geom.Point2D;
+
+public class Main {
+    public static void main(String[] args) {
+        Point2D srcPt = new Point2D.Double(2.0, 3.0);
+        Point2D destPt = new Point2D.Double(5.0, 7.0);
+
+        Point2D result = getPoint2D(srcPt, destPt);
+
+        System.out.println("Result: (" + result.getX() + ", " + result.getY() + ")");
+    }
+
+    public static Point2D getPoint2D(Point2D srcPt, Point2D destPt) {
+        double newX = srcPt.getX() + destPt.getX();
+        double newY = srcPt.getY() + destPt.getY();
+
+        return new Point2D.Double(newX, newY);
+    }
+}
+```
+================================================================
+
+Sample: 2 BufferedImage_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.BufferedImage;
+
+public class Main {
+    public static void main(String[] args) {
+        BufferedImage image = new BufferedImage(100, 50, BufferedImage.TYPE_INT_ARGB);
+        int width = image.getWidth();
+        System.out.println("Image width: " + width);
+    }
+}
+```
+================================================================
+
+Sample: 3 BufferedImage_2
+----------------------------------------------------------------
+`int getHeight()`: This method returns the height of the BufferedImage.
+
+Code snippet:
+```java
+import java.awt.image.BufferedImage;
+
+public class Main {
+    public static void main(String[] args) {
+        BufferedImage img = new BufferedImage(100, 200, BufferedImage.TYPE_INT_ARGB);
+        int height = img.getHeight();
+        System.out.println("Image height: " + height);
+    }
+}
+```
+================================================================
+
+Sample: 4 BufferedImage_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.BufferedImage;
+
+public class Main {
+    public static void main(String[] args) {
+        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        
+        // Set RGB value at location (50, 50) to red
+        setRGB(50, 50, 0xFFFF0000, image);
+        
+        // Display the image or perform additional operations
+    }
+    
+    public static void setRGB(int x, int y, int rgb, BufferedImage image) {
+        image.setRGB(x, y, rgb);
+    }
+}
+```
+================================================================
+
+Sample: 5 BufferedImage_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.BufferedImage;
+
+public class Main {
+    public static void main(String[] args) {
+        // Sample BufferedImage creation
+        BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
+
+        // Get RGB value at coordinates (5, 5)
+        int rgb = getRGB(image, 5, 5);
+        System.out.println("RGB value at (5, 5): " + rgb);
+    }
+
+    public static int getRGB(BufferedImage image, int x, int y) {
+        return image.getRGB(x, y);
+    }
+}
+```
+================================================================
+
+Sample: 6 BufferedImage_5
+----------------------------------------------------------------
+`BufferedImage getSubimage(int x, int y, int w, int h)`: This method returns a subimage defined by the specified rectangular area.
+
+Code snippet:
+```java
+import java.awt.image.BufferedImage;
+
+public class Main {
+    public static void main(String[] args) {
+        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+        BufferedImage subimage = image.getSubimage(10, 10, 30, 30); // Get a subimage starting at (10, 10) with width 30 and height 30
+        
+        // Print the width and height of the subimage
+        System.out.println("Subimage width: " + subimage.getWidth());
+        System.out.println("Subimage height: " + subimage.getHeight());
+    }
+}
+```
+================================================================
+
+Sample: 7 BufferStrategy_1
+----------------------------------------------------------------
+`void show()`: This method displays the next buffer in the strategy, or flips the buffer on the screen.
+
+Code snippet:
+```java
+import java.awt.*;
+import java.awt.image.BufferStrategy;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a window
+        Frame frame = new Frame("BufferStrategy Example");
+
+        // Set the size of the window
+        frame.setSize(400, 300);
+        
+        // Make the window visible
+        frame.setVisible(true);
+
+        // Create a BufferStrategy
+        frame.createBufferStrategy(2);
+        BufferStrategy bufferStrategy = frame.getBufferStrategy();
+
+        // Show the buffer
+        bufferStrategy.show();
+    }
+}
+```
+================================================================
+
+Sample: 8 BufferStrategy_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.image.BufferStrategy;
+
+import javax.swing.JFrame;
+
+public class Main {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("BufferStrategy Example");
+        Canvas canvas = new Canvas();
+        canvas.setPreferredSize(new Dimension(800, 600));
+        
+        frame.add(canvas);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        
+        canvas.createBufferStrategy(3);
+        BufferStrategy bufferStrategy = canvas.getBufferStrategy();
+        
+        // Now you can use bufferStrategy.getDrawGraphics() to draw on the canvas
+        
+        // Example:
+        // Graphics g = bufferStrategy.getDrawGraphics();
+        // g.setColor(Color.RED);
+        // g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        // g.dispose();
+        
+    }
+}
+```
+================================================================
+
+Sample: 9 BufferStrategy_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.BufferStrategy;
+
+public class Main {
+    public static void main(String[] args) {
+        BufferStrategy bufferStrategy = // initialize BufferStrategy object
+        boolean contentLost = bufferStrategy.contentsLost();
+        System.out.println("Buffer strategy content lost: " + contentLost);
+    }
+}
+```
+================================================================
+
+Sample: 10 BufferStrategy_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.BufferStrategy;
+
+public class Main {
+    public static void main(String[] args) {
+        BufferStrategy bs = null; // Initialize BufferStrategy
+        boolean restored = bs.contentsRestored();
+        System.out.println("Contents Restored: " + restored);
+    }
+}
+```
+================================================================
+
+Sample: 11 BufferStrategy_5
+----------------------------------------------------------------
+`void dispose()`: This method releases system resources used by this BufferStrategy and discards its content.
+
+Code snippet:
+```java
+import java.awt.image.BufferStrategy;
+import java.awt.Canvas;
+import java.awt.Graphics;
+import java.awt.Color;
+import javax.swing.JFrame;
+
+public class Main {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("BufferStrategy Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        Canvas canvas = new Canvas();
+        canvas.setSize(400, 400);
+        frame.add(canvas);
+        frame.pack();
+        frame.setVisible(true);
+        
+        canvas.createBufferStrategy(2);
+        BufferStrategy bufferStrategy = canvas.getBufferStrategy();
+        
+        Graphics graphics = bufferStrategy.getDrawGraphics();
+        graphics.setColor(Color.RED);
+        graphics.fillRect(0, 0, 400, 400);
+        
+        bufferStrategy.show();
+        
+        bufferStrategy.dispose();
+    }
+}
+```
+================================================================
+
+Sample: 12 ByteLookupTable_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ByteLookupTable;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[][] data = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        ByteLookupTable table = new ByteLookupTable(0, data);
+        byte[][] result = table.getTable();
+        
+        for (byte[] row : result) {
+            for (byte value : row) {
+                System.out.print(value + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 ColorConvertOp_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorConvertOp;
+import java.awt.image.ColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        BufferedImage src = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+        BufferedImage dest = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+
+        ColorConvertOp op = new ColorConvertOp(src.getColorModel().getColorSpace(), dest.getColorModel().getColorSpace(), null);
+        op.filter(src, dest);
+
+        // Display or further process the filtered BufferedImage 'dest'
+    }
+}
+```
+================================================================
+
+Sample: 14 ColorModel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        ColorModel colorModel = ColorModel.getRGBdefault();
+        int pixelSize = colorModel.getPixelSize();
+        System.out.println("Pixel size: " + pixelSize);
+    }
+}
+```
+================================================================
+
+Sample: 15 ColorModel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        ColorModel colorModel = ColorModel.getRGB(...);
+        // Complete the method call with appropriate parameters
+    }
+}
+```
+================================================================
+
+Sample: 16 ColorModel_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        ColorModel colorModel = ColorModel.getRGBdefault();
+        
+        int pixel = 0xFF00FF; // Sample pixel value
+        
+        // Get the alpha component from the pixel
+        int alpha = colorModel.getAlpha(pixel);
+        
+        System.out.println("Alpha value: " + alpha);
+    }
+}
+```
+================================================================
+
+Sample: 17 ColorModel_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        ColorModel colorModel = ColorModel.getRGBdefault();
+        int pixel = 0xFF00FF; // Example pixel value
+        int red = colorModel.getRed(pixel);
+        System.out.println("Red value: " + red);
+    }
+}
+```
+================================================================
+
+Sample: 18 ColorModel_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ColorModel;
+import java.awt.Color;
+
+public class Main {
+    public static void main(String[] args) {
+        ColorModel colorModel = ColorModel.getRGBdefault();
+        int pixel = Color.RED.getRGB(); // Example pixel with RED color
+        int greenComponent = colorModel.getGreen(pixel);
+        System.out.println("Green component value: " + greenComponent);
+    }
+}
+```
+================================================================
+
+Sample: 19 ComponentColorModel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ComponentColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        ComponentColorModel colorModel = new ComponentColorModel(null, false, false, 0, 0);
+        int rgb = 16711680; // Example RGB value
+        int red = colorModel.getRed(rgb);
+        System.out.println("Red value: " + red);
+    }
+}
+```
+================================================================
+
+Sample: 20 ComponentColorModel_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ComponentColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        ComponentColorModel colorModel = new ComponentColorModel(null, null, null, false, false, 0, 0);
+        int rgb = 255; // Example RGB value
+        int greenValue = colorModel.getGreen(rgb);
+        System.out.println("Green value: " + greenValue);
+    }
+}
+```
+================================================================
+
+Sample: 21 ComponentColorModel_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ComponentColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        ComponentColorModel colorModel = new ComponentColorModel();
+        int rgb = -16777216; // Black color in RGB
+        int blue = colorModel.getBlue(rgb);
+        System.out.println("Blue value: " + blue);
+    }
+}
+```
+================================================================
+
+Sample: 22 ComponentColorModel_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ComponentColorModel;
+import java.awt.image.WritableRaster;
+
+public class Main {
+    public static void main(String[] args) {
+        ComponentColorModel colorModel = new ComponentColorModel(null, null, false, false, ComponentColorModel.OPAQUE, DataBuffer.TYPE_BYTE);
+        WritableRaster raster = colorModel.createCompatibleWritableRaster(100, 100);
+        System.out.println(raster.getWidth());
+        System.out.println(raster.getHeight());
+    }
+}
+```
+================================================================
+
+Sample: 23 ComponentSampleModel_3
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import java.awt.image.ComponentSampleModel;
+
+public class Main {
+    public static void main(String[] args) {
+        ComponentSampleModel sampleModel = new ComponentSampleModel(0, 10, 5, 3, 15, new int[]{0, 1, 2});
+        int numDataElements = sampleModel.getNumDataElements();
+        System.out.println("Number of data elements: " + numDataElements);
+    }
+}
+```
+================================================================
+
+Sample: 24 ComponentSampleModel_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ComponentSampleModel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating an instance of ComponentSampleModel
+        ComponentSampleModel sampleModel = new ComponentSampleModel(0, 0, 0, 0, 0, new int[]{}, new int[]{});
+
+        // Using getOffset method to get the offset
+        int x = 2;
+        int y = 5;
+        int offset = sampleModel.getOffset(x, y);
+
+        System.out.println("Offset for x=" + x + ", y=" + y + " is: " + offset);
+    }
+}
+```
+================================================================
+
+Sample: 25 ConvolveOp_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.BufferedImage;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a sample BufferedImage
+        BufferedImage src = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+        
+        // Create the kernel matrix for blurring
+        float[] matrix = {
+            0.1f, 0.1f, 0.1f,
+            0.1f, 0.2f, 0.1f,
+            0.1f, 0.1f, 0.1f
+        };
+        Kernel kernel = new Kernel(3, 3, matrix);
+        
+        // Apply the ConvolveOp filter
+        ConvolveOp op = new ConvolveOp(kernel);
+        BufferedImage dest = op.filter(src, null);
+        
+        // Display the filtered image or do other operations
+    }
+}
+```
+================================================================
+
+Sample: 26 ConvolveOp_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ConvolveOp;
+
+public class Main {
+    public static void main(String[] args) {
+        BufferedImage src = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        ColorModel cm = src.getColorModel();
+
+        ConvolveOp op = new ConvolveOp(null, ConvolveOp.EDGE_NO_OP, null);
+        BufferedImage dest = op.createCompatibleDestImage(src, cm);
+
+        System.out.println("Compatible destination image created successfully.");
+    }
+}
+```
+================================================================
+
+Sample: 27 ConvolveOp_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.RenderingHints;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
+
+public class Main {
+    public static void main(String[] args) {
+        float[] matrix = {
+            1/9f, 1/9f, 1/9f,
+            1/9f, 1/9f, 1/9f,
+            1/9f, 1/9f, 1/9f
+        };
+        
+        Kernel kernel = new Kernel(3, 3, matrix);
+        ConvolveOp convolveOp = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, new RenderingHints(null));
+        
+        RenderingHints hints = convolveOp.getRenderingHints();
+        System.out.println("RenderingHints: " + hints);
+    }
+}
+```
+================================================================
+
+Sample: 28 ConvolveOp_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.geom.Point2D;
+import java.awt.image.ConvolveOp;
+
+public class Main {
+    public static void main(String[] args) {
+        Point2D srcPt = new Point2D.Double(10.0, 20.0);
+        Point2D dstPt = new Point2D.Double();
+        
+        ConvolveOp op = new ConvolveOp(null); // Create ConvolveOp object with null kernel for demonstration
+        
+        Point2D result = op.getPoint2D(srcPt, dstPt);
+        
+        System.out.println("Resulting Point: (" + result.getX() + ", " + result.getY() + ")");
+    }
+}
+```
+================================================================
+
+Sample: 29 CropImageFilter_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ColorModel;
+import java.awt.image.CropImageFilter;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of CropImageFilter
+        CropImageFilter filter = new CropImageFilter(0, 0, 100, 100);
+
+        // Define ColorModel, pixels array, off, and scansize
+        ColorModel model = ColorModel.getRGBdefault();
+        int[] pixels = new int[10000];
+        int off = 0;
+        int scansize = 100;
+
+        // Set pixels using setPixels method
+        filter.setPixels(0, 0, 100, 100, model, pixels, off, scansize);
+        
+        // Additional code can be added here to manipulate the pixels array
+    }
+}
+```
+================================================================
+
+Sample: 30 DataBuffer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        DataBuffer dataBuffer = new DataBuffer();
+        int size = dataBuffer.getSize();
+        System.out.println("Size of DataBuffer: " + size);
+    }
+}
+```
+================================================================
+
+Sample: 31 DataBuffer_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        // Initialize a DataBuffer
+        int[] dataArray = {1, 2, 3, 4, 5};
+        DataBuffer dataBuffer = new DataBufferInt(dataArray, dataArray.length);
+
+        // Get element at index
+        int index = 2;
+        int element = dataBuffer.getElem(index);
+        System.out.println("Element at index " + index + ": " + element);
+    }
+}
+```
+================================================================
+
+Sample: 32 DataBuffer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        DataBuffer dataBuffer = new DataBuffer(...); // initialize DataBuffer object
+        int bankIndex = 0; // specify bank index
+        int elementIndex = 2; // specify element index
+        int element = dataBuffer.getElem(bankIndex, elementIndex); // get element from specified bank and index
+        System.out.println("Element at bank " + bankIndex + " and index " + elementIndex + " is: " + element);
+    }
+}
+```
+================================================================
+
+Sample: 33 DataBuffer_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        // Instantiate DataBuffer instance
+        DataBuffer buffer = new DataBuffer();
+
+        // Set element at index 0 with value 10
+        buffer.setElem(0, 10);
+
+        // Print the value at index 0
+        System.out.println(buffer.getElem(0));
+    }
+}
+```
+================================================================
+
+Sample: 34 DataBuffer_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        DataBuffer dataBuffer = new DataBuffer();
+        int bank = 0;
+        int i = 1;
+        int val = 10;
+        
+        dataBuffer.setElem(bank, i, val);
+    }
+}
+```
+================================================================
+
+Sample: 35 DataBufferByte_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferByte;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an example DataBufferByte object
+        byte[] data = {1, 2, 3, 4, 5};
+        DataBufferByte dataBuffer = new DataBufferByte(data, data.length);
+
+        // Access the data using getData() method
+        byte[] retrievedData = dataBuffer.getData();
+        for (byte value : retrievedData) {
+            System.out.print(value + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 36 DataBufferDouble_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferDouble;
+
+public class Main {
+    public static void main(String[] args) {
+        double[] data = {1.0, 2.0, 3.0, 4.0, 5.0};
+        DataBufferDouble dataBuffer = new DataBufferDouble(data, data.length);
+        double[] retrievedData = dataBuffer.getData();
+        
+        for (double d : retrievedData) {
+            System.out.println(d);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 37 DataBufferFloat_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferFloat;
+
+public class Main {
+    public static void main(String[] args) {
+        float[] data = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
+        DataBufferFloat dataBuffer = new DataBufferFloat(data, data.length);
+        float[] retrievedData = dataBuffer.getData();
+        
+        for (float value : retrievedData) {
+            System.out.println(value);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 38 DataBufferFloat_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferFloat;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a float array with values
+        float[] data = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
+        
+        // Create a DataBufferFloat object with the float array
+        DataBufferFloat dataBufferFloat = new DataBufferFloat(data, data.length);
+        
+        // Get the element at index 2
+        float element = dataBufferFloat.getElemFloat(2);
+        
+        System.out.println("Element at index 2: " + element);
+    }
+}
+```
+================================================================
+
+Sample: 39 DataBufferFloat_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferFloat;
+
+public class Main {
+    public static void main(String[] args) {
+        DataBufferFloat dataBuffer = new DataBufferFloat(10);
+        dataBuffer.setElemFloat(5, 3.14f);
+    }
+}
+```
+================================================================
+
+Sample: 40 DataBufferInt_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferInt;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming you have a DataBufferInt object named dataBufferInt
+        int[] data = dataBufferInt.getData();
+        
+        // Now you can use the 'data' array for further processing
+    }
+}
+```
+================================================================
+
+Sample: 41 DataBufferInt_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferInt;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] dataArray = {1, 2, 3, 4, 5};
+        DataBufferInt dataBuffer = new DataBufferInt(dataArray, 5);
+
+        int element = dataBuffer.getElem(2);
+        System.out.println("Element at index 2: " + element);
+    }
+}
+```
+================================================================
+
+Sample: 42 DataBufferInt_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferInt;
+
+public class Main {
+    public static void main(String[] args) {
+        DataBufferInt dataBuffer = new DataBufferInt(10);
+        dataBuffer.setElem(5, 100); // sets element at index 5 to value 100
+    }
+}
+```
+================================================================
+
+Sample: 43 DataBufferShort_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferShort;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a DataBufferShort object
+        DataBufferShort dataBufferShort = new DataBufferShort(10);
+        
+        // Get the short array from the specified bank
+        short[] data = dataBufferShort.getData(0);
+        
+        // Print the data
+        for (short value : data) {
+            System.out.println(value);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 44 DataBufferShort_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferShort;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a DataBufferShort object
+        short[] data = {1, 2, 3, 4, 5};
+        DataBufferShort bufferShort = new DataBufferShort(data, data.length);
+
+        // Use getData() to retrieve the data as a short array
+        short[] retrievedData = bufferShort.getData();
+        
+        // Display the retrieved data
+        for (short value : retrievedData) {
+            System.out.print(value + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 45 DataBufferUShort_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferUShort;
+
+public class Main {
+    public static void main(String[] args) {
+        DataBufferUShort dataBuffer = new DataBufferUShort(10);
+        short[] data = dataBuffer.getData();
+        for (short value : data) {
+            System.out.print(value + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 46 DataBufferUShort_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferUShort;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a DataBufferUShort object
+        DataBufferUShort buffer = new DataBufferUShort(10);
+
+        // Get the element at index 5 from bank 0
+        int element = buffer.getElem(0, 5);
+        System.out.println("Element at index 5 in bank 0: " + element);
+    }
+}
+```
+================================================================
+
+Sample: 47 DataBufferUShort_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferUShort;
+
+public class Main {
+    public static void main(String[] args) {
+        DataBufferUShort dataBuffer = new DataBufferUShort(10);
+        dataBuffer.setElem(0, 5);
+    }
+}
+```
+================================================================
+
+Sample: 48 DataBufferUShort_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBufferUShort;
+
+public class Main {
+    public static void main(String[] args) {
+        DataBufferUShort dataBuffer = new DataBufferUShort(10);
+        int element = dataBuffer.getElem(5);
+        System.out.println("Element at index 5: " + element);
+    }
+}
+```
+================================================================
+
+Sample: 49 DirectColorModel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DirectColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        DirectColorModel dcm = new DirectColorModel(32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+        int pixel = 0xFFAABBCC; // Sample pixel value
+        int red = dcm.getRed(pixel);
+        System.out.println("Red value: " + red);
+    }
+}
+```
+================================================================
+
+Sample: 50 DirectColorModel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DirectColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a DirectColorModel object
+        DirectColorModel dcm = new DirectColorModel(24, 0x00FF0000, 0x0000FF00, 0x000000FF);
+
+        // Get the green component value from a pixel
+        int pixel = 0xFF00FF;
+        int green = dcm.getGreen(pixel);
+
+        System.out.println("Green component value: " + green);
+    }
+}
+```
+================================================================
+
+Sample: 51 DirectColorModel_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DirectColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        DirectColorModel colorModel = new DirectColorModel(24, 0xFF0000, 0xFF00, 0xFF);
+        int pixel = 0xFF112233; // Example pixel value
+        int blue = colorModel.getBlue(pixel);
+        System.out.println("Blue component of the pixel: " + blue);
+    }
+}
+```
+================================================================
+
+Sample: 52 DirectColorModel_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DirectColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        DirectColorModel dcm = new DirectColorModel(32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+        int pixel = 0xFF336699; // Sample pixel value
+        int alpha = dcm.getAlpha(pixel);
+        System.out.println("Alpha value of pixel: " + alpha);
+    }
+}
+```
+================================================================
+
+Sample: 53 FilteredImageSource_5
+----------------------------------------------------------------
+`void startProduction(ImageConsumer ic)`: This method starts production of pixels from the source and sends them to the ImageConsumer provided.
+
+Code snippet:
+```java
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageConsumer;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an ImageConsumer object
+        ImageConsumer ic = new ImageConsumer() {
+            @Override
+            public void setDimensions(int width, int height) {
+                // Implementation here
+            }
+
+            @Override
+            public void setProperties(java.util.Hashtable<?, ?> props) {
+                // Implementation here
+            }
+
+            @Override
+            public void setColorModel(java.awt.image.ColorModel model) {
+                // Implementation here
+            }
+
+            @Override
+            public void setHints(int hints) {
+                // Implementation here
+            }
+
+            @Override
+            public void setPixels(int x, int y, int w, int h, java.awt.image.ColorModel model, byte[] pixels, int off, int scansize) {
+                // Implementation here
+            }
+
+            @Override
+            public void setPixels(int x, int y, int w, int h, java.awt.image.ColorModel model, int[] pixels, int off, int scansize) {
+                // Implementation here
+            }
+
+            @Override
+            public void imageComplete(int status) {
+                // Implementation here
+            }
+        };
+
+        // Create a FilteredImageSource object
+        FilteredImageSource filteredImageSource = new FilteredImageSource(null, ic);
+
+        // Start production of pixels from the source
+        filteredImageSource.startProduction(ic);
+    }
+}
+```
+================================================================
+
+Sample: 54 ImageFilter_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ImageFilter;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of ImageFilter
+        ImageFilter filter = new ImageFilter();
+        
+        // Set the dimensions using setDimensions(int width, int height)
+        filter.setDimensions(800, 600);
+    }
+}
+```
+================================================================
+
+Sample: 55 ImageFilter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ColorModel;
+import java.awt.image.ImageFilter;
+
+public class Main {
+    public static void main(String[] args) {
+        ColorModel model = new ColorModel(); // Create a ColorModel object
+        ImageFilter filter = new ImageFilter(); // Create an ImageFilter object
+        
+        filter.setColorModel(model); // Set the ColorModel for the ImageFilter
+    }
+}
+```
+================================================================
+
+Sample: 56 ImageFilter_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ImageFilter;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of ImageFilter
+        ImageFilter imageFilter = new ImageFilter();
+
+        // Set the hints for the image filter
+        imageFilter.setHints(1);
+    }
+}
+```
+================================================================
+
+Sample: 57 ImageFilter_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ColorModel;
+import java.awt.image.ImageFilter;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of ImageFilter
+        ImageFilter imageFilter = new ImageFilter();
+        
+        // Set pixels with specified parameters
+        int x = 0;
+        int y = 0;
+        int w = 100;
+        int h = 100;
+        ColorModel model = ColorModel.getRGBdefault();
+        int[] pixels = new int[w * h];
+        int offset = 0;
+        int scansize = w;
+        imageFilter.setPixels(x, y, w, h, model, pixels, offset, scansize);
+    }
+}
+```
+================================================================
+
+Sample: 58 IndexColorModel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.IndexColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        IndexColorModel colorModel = new IndexColorModel(8, 3, new byte[]{0, 85, 170}, new byte[]{0, 85, 170}, new byte[]{0, 85, 170});
+        int pixel = colorModel.getRGB(1);
+        int red = colorModel.getRed(pixel);
+        System.out.println("Red value: " + red);
+    }
+}
+```
+================================================================
+
+Sample: 59 IndexColorModel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.IndexColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Sample pixel value
+        int pixel = 0x00FF00; // Green color (RGB: 0, 255, 0)
+        
+        IndexColorModel colorModel = new IndexColorModel(8, 4, new byte[]{0, (byte)255, 0, (byte)255},
+                new byte[]{0, 1, 2, 3}, new byte[]{0, 1, 2, 3}, IndexColorModel.OPAQUE);
+        
+        int greenValue = colorModel.getGreen(pixel);
+        
+        System.out.println("Green value extracted from the pixel: " + greenValue);
+    }
+}
+```
+================================================================
+
+Sample: 60 IndexColorModel_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.IndexColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        IndexColorModel colorModel = new IndexColorModel(8, 256, new byte[256], new byte[256], new byte[256]);
+        int pixel = 100; // Example pixel value
+        int blue = colorModel.getBlue(pixel);
+        System.out.println("Blue value of the pixel: " + blue);
+    }
+}
+```
+================================================================
+
+Sample: 61 IndexColorModel_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.IndexColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        IndexColorModel colorModel = new IndexColorModel(8, 256, new byte[256], new byte[256], new byte[256]);
+        int pixel = colorModel.getRGB(10);
+        int alpha = colorModel.getAlpha(pixel);
+        System.out.println("Alpha value: " + alpha);
+    }
+}
+```
+================================================================
+
+Sample: 62 IndexColorModel_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.IndexColorModel;
+
+public class Main {
+    public static void main(String[] args) {
+        IndexColorModel colorModel = new IndexColorModel(8, 256, new byte[256], new byte[256], new byte[256]);
+        
+        int transparentPixel = colorModel.getTransparentPixel();
+        System.out.println("Transparent pixel value: " + transparentPixel);
+    }
+}
+```
+================================================================
+
+Sample: 63 Kernel_1
+----------------------------------------------------------------
+`int getXOrigin()`: This method returns the X origin of this `Kernel`.
+
+Code snippet:
+```java
+import java.awt.image.Kernel;
+
+public class Main {
+    public static void main(String[] args) {
+        float[] data = {1, 2, 1, 2, 4, 2, 1, 2, 1};
+        Kernel kernel = new Kernel(3, 3, data);
+
+        int xOrigin = kernel.getXOrigin();
+        System.out.println("X origin: " + xOrigin);
+    }
+}
+```
+================================================================
+
+Sample: 64 Kernel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.Kernel;
+
+public class Main {
+    public static void main(String[] args) {
+        Kernel kernel = new Kernel(3, 3, new float[]{0, 0, 0, 0, 1, 0, 0, 0, 0});
+        int yOrigin = kernel.getYOrigin();
+        System.out.println("Y Origin: " + yOrigin);
+    }
+}
+```
+================================================================
+
+Sample: 65 Kernel_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.Kernel;
+
+public class Main {
+    public static void main(String[] args) {
+        float[] data = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f};
+        Kernel kernel = new Kernel(3, 3, data);
+        
+        int width = kernel.getWidth();
+        System.out.println("Kernel width: " + width);
+    }
+}
+```
+================================================================
+
+Sample: 66 Kernel_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.Kernel;
+
+public class Main {
+    public static void main(String[] args) {
+        Kernel kernel = new Kernel(3, 3, new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1});
+        int height = kernel.getHeight();
+        System.out.println("Kernel height: " + height);
+    }
+}
+```
+================================================================
+
+Sample: 67 Kernel_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.Kernel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a Kernel object
+        float[] data = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f};
+        Kernel kernel = new Kernel(3, 3, data);
+
+        // Retrieve the kernel data
+        float[] retrievedData = kernel.getKernelData(data);
+
+        // Print the retrieved kernel data
+        for (float value : retrievedData) {
+            System.out.print(value + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 68 LookupOp_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.BufferedImage;
+import java.awt.image.LookupOp;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create your source BufferedImage
+        BufferedImage src = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+
+        // Create your destination BufferedImage
+        BufferedImage dest = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+
+        // Create a LookupOp object
+        LookupOp op = new LookupOp(null, null);
+
+        // Apply the filter
+        op.filter(src, dest);
+    }
+}
+```
+================================================================
+
+Sample: 69 LookupTable_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.LookupTable;
+
+public class Main {
+    public static void main(String[] args) {
+        LookupTable lt = new LookupTable(0, 3) {
+            @Override
+            public int[] lookupPixel(int[] src, int[] dest) {
+                return new int[0];
+            }
+
+            @Override
+            public int getOffset() {
+                return 3; // example value, you can change this accordingly
+            }
+        };
+
+        System.out.println("Offset: " + lt.getOffset());
+    }
+}
+```
+================================================================
+
+Sample: 70 LookupTable_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.LookupTable;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create sample source and destination arrays
+        int[] src = {100, 200, 150, 50};
+        int[] dest = new int[4];
+        
+        // Create a LookupTable instance using LookupTable's subclass to demonstrate the usage of lookupPixel method
+        LookupTable lookupTable = new LookupTable(0, 4) {
+            @Override
+            public int[] lookupPixel(int[] src, int[] dest) {
+                for (int i = 0; i < src.length; i++) {
+                    dest[i] = src[i] * 2; // Multiply each pixel value by 2 as an example
+                }
+                return dest;
+            }
+        };
+
+        // Apply lookupPixel method to the source array
+        int[] result = lookupTable.lookupPixel(src, dest);
+        
+        // Print the result array
+        for (int value : result) {
+            System.out.println(value);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 71 MemoryImageSource_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.MemoryImageSource;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] pixels = {0xFF000000, 0xFFFFFFFF}; // Example pixel values
+        MemoryImageSource imageSource = new MemoryImageSource(2, 1, pixels, 0, 2);
+        imageSource.newPixels();
+    }
+}
+```
+================================================================
+
+Sample: 72 MemoryImageSource_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.MemoryImageSource;
+
+public class Main {
+    public static void main(String[] args) {
+        int x = 0;
+        int y = 0;
+        int w = 100;
+        int h = 100;
+
+        // Create a new MemoryImageSource
+        MemoryImageSource imageSource = new MemoryImageSource(w, h, new int[h * w], 0, w);
+
+        // Update pixels in the specified area
+        imageSource.newPixels(x, y, w, h);
+
+        // Additional code to handle the updated pixels
+    }
+}
+```
+================================================================
+
+Sample: 73 MultiPixelPackedSampleModel_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.MultiPixelPackedSampleModel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a MultiPixelPackedSampleModel object
+        MultiPixelPackedSampleModel sampleModel = new MultiPixelPackedSampleModel(0, 100, 200, 1, 0);
+
+        // Get the scanline stride using getScanlineStride() method
+        int scanlineStride = sampleModel.getScanlineStride();
+        
+        System.out.println("Scanline Stride: " + scanlineStride);
+    }
+}
+```
+================================================================
+
+Sample: 74 PixelGrabber_1
+----------------------------------------------------------------
+`int getWidth()`: This method returns the width of the image.
+Code snippet:
+```java
+import java.awt.Image;
+import java.awt.image.PixelGrabber;
+
+public class Main {
+    public static void main(String[] args) {
+        Image image = // Your image object here
+        PixelGrabber grabber = new PixelGrabber(image, 0, 0, -1, -1, false);
+        try {
+            grabber.grabPixels();
+            int width = grabber.getWidth();
+            System.out.println("Width of the image: " + width);
+        } catch (InterruptedException e) {
+            System.out.println("Pixel grab interrupted.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 75 PixelGrabber_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.Image;
+import java.awt.image.PixelGrabber;
+
+public class Main {
+    public static void main(String[] args) {
+        Image image = // initialize your image here
+        int width = image.getWidth(null);
+        int height = image.getHeight(null);
+        int[] pixels = new int[width * height];
+        PixelGrabber pixelGrabber = new PixelGrabber(image, 0, 0, width, height, pixels, 0, width);
+        try {
+            pixelGrabber.grabPixels();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        System.out.println("Image width: " + width);
+        System.out.println("Image height: " + height);
+    }
+}
+```
+================================================================
+
+Sample: 76 PixelGrabber_5
+----------------------------------------------------------------
+`int getStatus()`: This method returns the status of the pixel grab operation. 
+
+Code snippet:
+```java
+import java.awt.Image;
+import java.awt.image.PixelGrabber;
+
+public class Main {
+    public static void main(String[] args) {
+        Image image = getImage(); // Assume getImage() method is implemented elsewhere
+        PixelGrabber pixelGrabber = new PixelGrabber(image, 0, 0, 100, 100, true);
+
+        try {
+            pixelGrabber.grabPixels();
+            int status = pixelGrabber.getStatus();
+            System.out.println("PixelGrabber status: " + status);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static Image getImage() {
+        // Implement code to get an Image object
+        return null;
+    }
+}
+```
+================================================================
+
+Sample: 77 Raster_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.Raster;
+
+public class Main {
+    public static void main(String[] args) {
+        int width = 0;
+        Raster raster = null; // Initialize Raster object
+        if (raster != null) {
+            width = raster.getWidth();
+        }
+        System.out.println("Width: " + width);
+    }
+}
+```
+================================================================
+
+Sample: 78 Raster_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.Raster;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a sample Raster object
+        Raster raster = null; // initialize your Raster object here
+
+        // Get the height of the Raster object
+        int height = raster.getHeight();
+        System.out.println("Height of the raster: " + height);
+    }
+}
+```
+================================================================
+
+Sample: 79 Raster_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.Raster;
+
+public class Main {
+    public static void main(String[] args) {
+        Raster raster = // Get the Raster object
+        int x = 0; // x coordinate
+        int y = 0; // y coordinate
+        int[] iArray = new int[1]; // Array to store pixel values
+        
+        iArray = raster.getPixel(x, y, iArray);
+        System.out.println("Pixel value at (" + x + "," + y + "): " + iArray[0]);
+    }
+}
+```
+================================================================
+
+Sample: 80 Raster_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.Raster;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a Raster object
+        Raster raster = null; // Initialize with actual Raster object
+        
+        // Call getSample method
+        int x = 0; // Sample x coordinate
+        int y = 0; // Sample y coordinate
+        int b = 0; // Band number
+        int sampleValue = raster.getSample(x, y, b);
+        
+        System.out.println("Sample value at (" + x + ", " + y + ") in band " + b + ": " + sampleValue);
+    }
+}
+```
+================================================================
+
+Sample: 81 RGBImageFilter_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.RGBImageFilter;
+
+public class Main {
+    public static void main(String[] args) {
+        RGBImageFilter filter = new RGBImageFilter() {
+            @Override
+            public int filterRGB(int x, int y, int rgb) {
+                // Add your custom logic here
+                return rgb;
+            }
+        };
+
+        // Example usage
+        int x = 0;
+        int y = 0;
+        int rgb = 0xFF0000; // Red color
+        int result = filter.filterRGB(x, y, rgb);
+        System.out.println("Result: " + result); // Output: Result: 16711680
+    }
+}
+```
+================================================================
+
+Sample: 82 SampleModel_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.DataBuffer;
+import java.awt.image.PixelInterleavedSampleModel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a sample model
+        DataBuffer dataBuffer = new DataBufferByte(new byte[10], 10);
+        SampleModel sampleModel = new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE, 2, 5, 1, 2, new int[]{0, 1});
+
+        // Get the data type
+        int dataType = sampleModel.getDataType();
+        System.out.println("Data type: " + dataType);
+    }
+}
+```
+================================================================
+
+Sample: 83 SampleModel_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ComponentSampleModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.SampleModel;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] bandOffsets = {0, 1, 2};
+        SampleModel sampleModel = new ComponentSampleModel(DataBuffer.TYPE_BYTE, 3, 1, 3, 3, bandOffsets);
+        int[] sampleSize = sampleModel.getSampleSize();
+        for (int size : sampleSize) {
+            System.out.println("Sample size: " + size);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 84 SampleModel_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.SampleModel;
+
+public class Main {
+    public static void main(String[] args) {
+        SampleModel sampleModel = new SampleModel() {
+            @Override
+            public int getNumBands() {
+                // Get the number of bands
+                return 3;
+            }
+
+            // Other abstract methods of SampleModel can be implemented here
+        };
+
+        int numBands = sampleModel.getNumBands();
+        System.out.println("Number of bands: " + numBands);
+    }
+}
+```
+================================================================
+
+Sample: 85 SampleModel_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.SampleModel;
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating a SampleModel
+        SampleModel sampleModel = SampleModel.createCompatibleSampleModel(w, h);
+        
+        // Example usage
+        System.out.println("Sample model created: " + sampleModel.toString());
+    }
+}
+```
+================================================================
+
+Sample: 86 VolatileImage_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.Graphics2D;
+import java.awt.image.VolatileImage;
+
+public class Main {
+    public static void main(String[] args) {
+        VolatileImage volatileImage = new VolatileImage(100, 100);
+        
+        // Get a Graphics2D object from VolatileImage
+        Graphics2D g = volatileImage.createGraphics();
+        
+        // Use Graphics2D object to draw on VolatileImage
+        g.drawString("Hello, Graphics2D!", 10, 30);
+        
+        // Dispose the Graphics2D object
+        g.dispose();
+    }
+}
+```
+================================================================
+
+Sample: 87 VolatileImage_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.VolatileImage;
+
+public class Main {
+    public static void main(String[] args) {
+        VolatileImage image = new VolatileImage(100, 100);
+        ImageCapabilities capabilities = image.getCapabilities();
+        System.out.println("Is Accelerated: " + capabilities.isTrue(VolatileImage.ImageCapAccelerated));
+        System.out.println("Is Rastered: " + capabilities.isTrue(VolatileImage.ImageCapRaster));
+    }
+}
+```
+================================================================
+
+Sample: 88 VolatileImage_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.VolatileImage;
+
+public class Main {
+    public static void main(String[] args) {
+        VolatileImage image = null; // Create a VolatileImage object
+        int width = image.getWidth(); // Get the width of the VolatileImage
+        System.out.println("Image width: " + width);
+    }
+}
+```
+================================================================
+
+Sample: 89 VolatileImage_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.VolatileImage;
+
+public class Main {
+    public static void main(String[] args) {
+        VolatileImage image = new VolatileImage();
+        int height = image.getHeight();
+        System.out.println("Image height: " + height);
+    }
+}
+```
+================================================================
+
+Sample: 90 WritableRaster_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.WritableRaster;
+
+public class Main {
+    public static void main(String[] args) {
+        WritableRaster raster = WritableRaster.createWritableRaster();
+        int x = 0;
+        int y = 0;
+        Object data = new Object(); // Replace this with your actual data object
+        raster.setDataElements(x, y, data);
+    }
+}
+```
+================================================================
+
+Sample: 91 WritableRaster_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.WritableRaster;
+
+public class Main {
+    public static void main(String[] args) {
+        WritableRaster raster = null; // Initialize your WritableRaster object
+        
+        int x = 0; // Specify x coordinate
+        int y = 0; // Specify y coordinate
+        int[] iArray = {255, 255, 255}; // Specify the RGB values
+        
+        raster.setPixel(x, y, iArray);
+    }
+}
+```
+================================================================
+

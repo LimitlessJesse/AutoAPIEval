@@ -1,0 +1,366 @@
+Sample: 0 Attributes_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.Set;
+import java.util.Map;
+import java.util.jar.Attributes;
+
+public class Main {
+    public static void main(String[] args) {
+        Attributes attributes = new Attributes();
+        
+        // Add some entries to the Attributes
+        attributes.put("key1", "value1");
+        attributes.put("key2", "value2");
+        
+        // Get the entry set
+        Set<Map.Entry<Object, Object>> entrySet = attributes.entrySet();
+        
+        // Display the entries
+        for (Map.Entry<Object, Object> entry : entrySet) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 Attributes_5
+----------------------------------------------------------------
+`void clear()`: This method removes all attributes from this Attributes object.
+
+Code snippet:
+```java
+import java.util.jar.Attributes;
+
+public class Main {
+    public static void main(String[] args) {
+        Attributes attributes = new Attributes();
+        attributes.putValue("key1", "value1");
+        attributes.putValue("key2", "value2");
+        
+        System.out.println("Before clearing: " + attributes);
+        attributes.clear();
+        System.out.println("After clearing: " + attributes);
+    }
+}
+```
+================================================================
+
+Sample: 2 Attributes_Name_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.jar.Attributes;
+
+public class Main {
+    public static void main(String[] args) {
+        Attributes.Name name = new Attributes.Name("ExampleName");
+        System.out.println(name.toString());
+    }
+}
+```
+================================================================
+
+Sample: 3 Attributes_Name_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.jar.Attributes;
+
+public class Main {
+    public static void main(String[] args) {
+        Attributes.Name name = new Attributes.Name("example");
+        int hashCode = name.hashCode();
+        System.out.println("Hash code of Attributes.Name: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 4 Attributes_Name_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.jar.Attributes;
+
+public class Main {
+    public static void main(String[] args) {
+        Attributes.Name first = new Attributes.Name("First");
+        Attributes.Name second = new Attributes.Name("Second");
+
+        System.out.println(first.equals(second)); // false
+        System.out.println(first.equals(new Attributes.Name("First"))); // true
+    }
+}
+```
+================================================================
+
+Sample: 5 JarEntry_5
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.security.cert.Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JarFile jarFile = new JarFile("example.jar");
+            Enumeration<JarEntry> entries = jarFile.entries();
+            
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                Certificate[] certificates = entry.getCertificates();
+                
+                if (certificates != null) {
+                    for (Certificate cert : certificates) {
+                        System.out.println(cert);
+                    }
+                } else {
+                    System.out.println("No certificates found for entry: " + entry.getName());
+                }
+            }
+            
+            jarFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 JarFile_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.Enumeration;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JarFile jarFile = new JarFile("path/to/your/jar/file.jar");
+            Enumeration<JarEntry> entries = jarFile.entries();
+            
+            while(entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                System.out.println(entry.getName());
+            }
+            
+            jarFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 JarFile_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.jar.JarFile;
+import java.util.jar.JarEntry;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JarFile jarFile = new JarFile("example.jar");
+            JarEntry entry = jarFile.getJarEntry("ExampleClass.class");
+            
+            if (entry != null) {
+                System.out.println("Found JarEntry: " + entry.getName());
+            } else {
+                System.out.println("JarEntry not found");
+            }
+            
+            jarFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 JarFile_3
+----------------------------------------------------------------
+`Manifest getManifest()`: This method retrieves the manifest of the JAR file.
+
+Code snippet:
+```java
+import java.util.jar.JarFile;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JarFile jarFile = new JarFile("example.jar");
+            Manifest manifest = jarFile.getManifest();
+            System.out.println("Manifest of the JAR file:");
+            System.out.println(manifest);
+            jarFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 JarInputStream_1
+----------------------------------------------------------------
+`JarEntry getNextJarEntry()`: This method returns the next entry in this JAR file, or null if there are no more entries.
+
+Code snippet:
+```java
+import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (JarInputStream jarFile = new JarInputStream(new FileInputStream("example.jar"))) {
+
+            JarEntry entry = null;
+            while ((entry = jarFile.getNextJarEntry()) != null) {
+                System.out.println("Entry Name: " + entry.getName());
+                System.out.println("Entry Size: " + entry.getSize());
+                System.out.println("Is Directory: " + entry.isDirectory());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 JarInputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.jar.JarInputStream;
+import java.util.jar.Manifest;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fis = new FileInputStream("sample.jar");
+            JarInputStream jis = new JarInputStream(fis);
+            Manifest manifest = jis.getManifest();
+
+            System.out.println("Main Attributes:");
+            System.out.println(manifest.getMainAttributes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 JarOutputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.jar.JarEntry;
+import java.util.jar.JarOutputStream;
+import java.util.zip.ZipEntry;
+
+public class Main {
+    public static void main(String[] args) {
+        try (JarOutputStream jarOut = new JarOutputStream(new FileOutputStream("output.jar"))) {
+            ZipEntry entry = new ZipEntry("file.txt");
+            jarOut.putNextEntry(entry);
+            byte[] data = "Hello, this is a test file.".getBytes();
+            jarOut.write(data, 0, data.length);
+            jarOut.closeEntry();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 Manifest_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+
+public class Main {
+    public static void main(String[] args) {
+        Manifest manifest = new Manifest();
+        Attributes mainAttributes = manifest.getMainAttributes();
+        
+        System.out.println("Main Attributes:");
+        for(Object key : mainAttributes.keySet()){
+            System.out.println(key + ": " + mainAttributes.getValue(key));
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 Manifest_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+
+public class Main {
+    public static void main(String[] args) {
+        Manifest manifest = new Manifest();
+        Attributes attributes = manifest.getMainAttributes();
+        String value = attributes.getValue("Manifest-Version");
+        System.out.println("Manifest-Version: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 14 Manifest_4
+----------------------------------------------------------------
+`void clear()`: This method removes all elements from the list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println("List before clearing: " + list);
+        
+        list.clear();
+        
+        System.out.println("List after clearing: " + list);
+    }
+}
+```
+================================================================
+

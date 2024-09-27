@@ -7,7 +7,7 @@ import re
 import sys
 import openai
 
-openai.api_key = 'OUR_CHATGPT_KEY'
+openai.api_key = 'YOUR_CHATGPT_KEY'
 
 MAGICODER_PROMPT = """
 @@ Instruction
@@ -66,12 +66,6 @@ for row in methodReader:
   
   methodRecord[row['ClassName']][methodName].append(retType + " " + paraStr)
 
-
-# print("MethodRecord============================")
-# for key in methodRecord.keys():
-#   print(key)
-# print("MethodRecord============================")
-
 # End of creating method dictionary
 
 snippet_number = 5
@@ -110,11 +104,10 @@ for prompt in prompts:
 
   pattern = r'\d+\. \`(.*?)\`'
   matches = re.findall(pattern, reply)
-  # print(f"\n{classNameList[i]}\n")
+
   if matches:
     j = 1
     for match in matches:
-      # print(match)
 
       exist = False
 
@@ -146,8 +139,6 @@ for prompt in prompts:
       except Exception as e:
         print("Something went wrong, probably generated incorrect output: ", e)
 
-      
-      # exist = f'{match} {classNameList[i]}' in methodRecord or f'static {match} {classNameList[i]}' in methodRecord
       writer.writerow([i, classNameList[i], j, match, exist])
       j += 1
 

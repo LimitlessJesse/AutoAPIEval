@@ -1,0 +1,1457 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Cipher,1,"void init(int opmode, Key key)",True,,"
+
+init
+public final void init(int opmode,
+                       Key key)
+                throws InvalidKeyException
+Initializes this cipher with a key.
+
+ The cipher is initialized for one of the following four operations:
+ encryption, decryption, key wrapping or key unwrapping, depending
+ on the value of opmode.
+
+ If this cipher requires any algorithm parameters that cannot be
+ derived from the given key, the underlying cipher
+ implementation is supposed to generate the required parameters itself
+ (using provider-specific default or random values) if it is being
+ initialized for encryption or key wrapping, and raise an
+ InvalidKeyException if it is being
+ initialized for decryption or key unwrapping.
+ The generated parameters can be retrieved using
+ getParameters or
+ getIV (if the parameter is an IV).
+
+ If this cipher requires algorithm parameters that cannot be
+ derived from the input parameters, and there are no reasonable
+ provider-specific default values, initialization will
+ necessarily fail.
+
+ If this cipher (including its underlying feedback or padding scheme)
+ requires any random bytes (e.g., for parameter generation), it will get
+ them using the SecureRandom
+ implementation of the highest-priority
+ installed provider as the source of randomness.
+ (If none of the installed providers supply an implementation of
+ SecureRandom, a system-provided source of randomness will be used.)
+
+ Note that when a Cipher object is initialized, it loses all
+ previously-acquired state. In other words, initializing a Cipher is
+ equivalent to creating a new instance of that Cipher and initializing
+ it.
+
+Parameters:
+opmode - the operation mode of this cipher (this is one of
+ the following:
+ ENCRYPT_MODE, DECRYPT_MODE,
+ WRAP_MODE or UNWRAP_MODE)
+key - the key
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ initializing this cipher, or requires
+ algorithm parameters that cannot be
+ determined from the given key, or if the given key has a keysize that
+ exceeds the maximum allowable keysize (as determined from the
+ configured jurisdiction policy files).
+UnsupportedOperationException - if (@code opmode} is
+ WRAP_MODE or UNWRAP_MODE but the mode is not implemented
+ by the underlying CipherSpi.
+
+
+"
+0,Cipher,2,byte[] doFinal(),True,,"
+
+doFinal
+public final byte[] doFinal()
+                     throws IllegalBlockSizeException,
+                            BadPaddingException
+Finishes a multiple-part encryption or decryption operation, depending
+ on how this cipher was initialized.
+
+ Input data that may have been buffered during a previous
+ update operation is processed, with padding (if requested)
+ being applied.
+ If an AEAD mode such as GCM/CCM is being used, the authentication
+ tag is appended in the case of encryption, or verified in the
+ case of decryption.
+ The result is stored in a new buffer.
+
+ Upon finishing, this method resets this cipher object to the state
+ it was in when previously initialized via a call to init.
+ That is, the object is reset and available to encrypt or decrypt
+ (depending on the operation mode that was specified in the call to
+ init) more data.
+
+ Note: if any exception is thrown, this cipher object may need to
+ be reset before it can be used again.
+
+Returns:
+the new buffer with the result
+Throws:
+IllegalStateException - if this cipher is in a wrong state
+ (e.g., has not been initialized)
+IllegalBlockSizeException - if this cipher is a block cipher,
+ no padding has been requested (only in encryption mode), and the total
+ input length of the data processed by this cipher is not a multiple of
+ block size; or if this encryption algorithm is unable to
+ process the input data provided.
+BadPaddingException - if this cipher is in decryption mode,
+ and (un)padding has been requested, but the decrypted data is not
+ bounded by the appropriate padding bytes
+AEADBadTagException - if this cipher is decrypting in an
+ AEAD mode (such as GCM/CCM), and the received authentication tag
+ does not match the calculated value
+
+
+"
+0,Cipher,3,"int update(byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset)",True,,"
+
+update
+public final int update(byte[] input,
+                        int inputOffset,
+                        int inputLen,
+                        byte[] output,
+                        int outputOffset)
+                 throws ShortBufferException
+Continues a multiple-part encryption or decryption operation
+ (depending on how this cipher was initialized), processing another data
+ part.
+
+ The first inputLen bytes in the input
+ buffer, starting at inputOffset inclusive, are processed,
+ and the result is stored in the output buffer, starting at
+ outputOffset inclusive.
+
+ If the output buffer is too small to hold the result,
+ a ShortBufferException is thrown. In this case, repeat this
+ call with a larger output buffer. Use
+ getOutputSize to determine how big
+ the output buffer should be.
+
+ If inputLen is zero, this method returns
+ a length of zero.
+
+ Note: this method should be copy-safe, which means the
+ input and output buffers can reference
+ the same byte array and no unprocessed input data is overwritten
+ when the result is copied into the output buffer.
+
+Parameters:
+input - the input buffer
+inputOffset - the offset in input where the input
+ starts
+inputLen - the input length
+output - the buffer for the result
+outputOffset - the offset in output where the result
+ is stored
+Returns:
+the number of bytes stored in output
+Throws:
+IllegalStateException - if this cipher is in a wrong state
+ (e.g., has not been initialized)
+ShortBufferException - if the given output buffer is too small
+ to hold the result
+
+
+"
+0,Cipher,4,void updateAAD(byte[] src),True,,"
+
+updateAAD
+public final void updateAAD(byte[] src)
+Continues a multi-part update of the Additional Authentication
+ Data (AAD).
+ 
+ Calls to this method provide AAD to the cipher when operating in
+ modes such as AEAD (GCM/CCM).  If this cipher is operating in
+ either GCM or CCM mode, all AAD must be supplied before beginning
+ operations on the ciphertext (via the update and
+ doFinal methods).
+
+Parameters:
+src - the buffer containing the Additional Authentication Data
+Throws:
+IllegalArgumentException - if the src
+ byte array is null
+IllegalStateException - if this cipher is in a wrong state
+ (e.g., has not been initialized), does not accept AAD, or if
+ operating in either GCM or CCM mode and one of the update
+ methods has already been called for the active
+ encryption/decryption operation
+UnsupportedOperationException - if the corresponding method
+ in the CipherSpi has not been overridden by an
+ implementation
+Since:
+1.7
+
+
+"
+0,Cipher,5,AlgorithmParameters getParameters(),True,,"
+
+getParameters
+public final AlgorithmParameters getParameters()
+Returns the parameters used with this cipher.
+
+ The returned parameters may be the same that were used to initialize
+ this cipher, or may contain a combination of default and random
+ parameter values used by the underlying cipher implementation if this
+ cipher requires algorithm parameters but was not initialized with any.
+
+Returns:
+the parameters used with this cipher, or null if this cipher
+ does not use any parameters.
+
+
+"
+1,CipherInputStream,1,int read(),True,,"
+
+read
+public int read()
+         throws IOException
+Reads the next byte of data from this input stream. The value
+ byte is returned as an int in the range
+ 0 to 255. If no byte is available
+ because the end of the stream has been reached, the value
+ -1 is returned. This method blocks until input data
+ is available, the end of the stream is detected, or an exception
+ is thrown.
+ 
+
+Overrides:
+read in class FilterInputStream
+Returns:
+the next byte of data, or -1 if the end of the
+          stream is reached.
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+FilterInputStream.in
+
+
+"
+1,CipherInputStream,2,int read(byte[] b),True,,"
+
+read
+public int read(byte[] b)
+         throws IOException
+Reads up to b.length bytes of data from this input
+ stream into an array of bytes.
+ 
+ The read method of InputStream calls
+ the read method of three arguments with the arguments
+ b, 0, and b.length.
+
+Overrides:
+read in class FilterInputStream
+Parameters:
+b - the buffer into which the data is read.
+Returns:
+the total number of bytes read into the buffer, or
+             -1 is there is no more data because the end of
+             the stream has been reached.
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+InputStream.read(byte[], int, int)
+
+
+"
+1,CipherInputStream,3,"int read(byte[] b, int off, int len)",True,,"
+
+read
+public int read(byte[] b,
+                int off,
+                int len)
+         throws IOException
+Reads up to len bytes of data from this input stream
+ into an array of bytes. This method blocks until some input is
+ available. If the first argument is null, up to
+ len bytes are read and discarded.
+
+Overrides:
+read in class FilterInputStream
+Parameters:
+b - the buffer into which the data is read.
+off - the start offset in the destination array
+                   buf
+len - the maximum number of bytes read.
+Returns:
+the total number of bytes read into the buffer, or
+             -1 if there is no more data because the end of
+             the stream has been reached.
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+InputStream.read()
+
+
+"
+1,CipherInputStream,4,long skip(long n),True,,"
+
+skip
+public long skip(long n)
+          throws IOException
+Skips n bytes of input from the bytes that can be read
+ from this input stream without blocking.
+
+ Fewer bytes than requested might be skipped.
+ The actual number of bytes skipped is equal to n or
+ the result of a call to
+ available,
+ whichever is smaller.
+ If n is less than zero, no bytes are skipped.
+
+ The actual number of bytes skipped is returned.
+
+Overrides:
+skip in class FilterInputStream
+Parameters:
+n - the number of bytes to be skipped.
+Returns:
+the actual number of bytes skipped.
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+
+
+"
+1,CipherInputStream,5,void close(),True,,"
+
+close
+public void close()
+           throws IOException
+Closes this input stream and releases any system resources
+ associated with the stream.
+ 
+ The close method of CipherInputStream
+ calls the close method of its underlying input
+ stream.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Overrides:
+close in class FilterInputStream
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+FilterInputStream.in
+
+
+"
+2,CipherOutputStream,1,void write(int b),True,,"
+
+write
+public void write(int b)
+           throws IOException
+Writes the specified byte to this output stream.
+
+Overrides:
+write in class FilterOutputStream
+Parameters:
+b - the byte.
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+
+
+"
+2,CipherOutputStream,2,void write(byte[] b),True,,"
+
+write
+public void write(byte[] b)
+           throws IOException
+Writes b.length bytes from the specified byte array
+ to this output stream.
+ 
+ The write method of
+ CipherOutputStream calls the write
+ method of three arguments with the three arguments
+ b, 0, and b.length.
+
+Overrides:
+write in class FilterOutputStream
+Parameters:
+b - the data.
+Throws:
+NullPointerException - if b is null.
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+write(byte[], int, int)
+
+
+"
+2,CipherOutputStream,3,"void write(byte[] b, int off, int len)",True,,"
+
+write
+public void write(byte[] b,
+                  int off,
+                  int len)
+           throws IOException
+Writes len bytes from the specified byte array
+ starting at offset off to this output stream.
+
+Overrides:
+write in class FilterOutputStream
+Parameters:
+b - the data.
+off - the start offset in the data.
+len - the number of bytes to write.
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+FilterOutputStream.write(int)
+
+
+"
+2,CipherOutputStream,4,void flush(),True,,"
+
+flush
+public void flush()
+           throws IOException
+Flushes this output stream by forcing any buffered output bytes
+ that have already been processed by the encapsulated cipher object
+ to be written out.
+
+ Any bytes buffered by the encapsulated cipher
+ and waiting to be processed by it will not be written out. For example,
+ if the encapsulated cipher is a block cipher, and the total number of
+ bytes written using one of the write methods is less than
+ the cipher's block size, no bytes will be written out.
+
+Specified by:
+flush in interface Flushable
+Overrides:
+flush in class FilterOutputStream
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+FilterOutputStream.out
+
+
+"
+2,CipherOutputStream,5,void close(),True,,"
+
+close
+public void close()
+           throws IOException
+Closes this output stream and releases any system resources
+ associated with this stream.
+ 
+ This method invokes the doFinal method of the encapsulated
+ cipher object, which causes any bytes buffered by the encapsulated
+ cipher to be processed. The result is written out by calling the
+ flush method of this output stream.
+ 
+ This method resets the encapsulated cipher object to its initial state
+ and calls the close method of the underlying output
+ stream.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Overrides:
+close in class FilterOutputStream
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+FilterOutputStream.flush(), 
+FilterOutputStream.out
+
+
+"
+3,CipherSpi,1,"void engineInit(int opmode, Key key)",False,,NULL
+3,CipherSpi,2,"byte[] engineUpdate(byte[] input, int inputOffset, int inputLen)",True,,"
+
+engineUpdate
+protected abstract byte[] engineUpdate(byte[] input,
+                                       int inputOffset,
+                                       int inputLen)
+Continues a multiple-part encryption or decryption operation
+ (depending on how this cipher was initialized), processing another data
+ part.
+
+ The first inputLen bytes in the input
+ buffer, starting at inputOffset inclusive, are processed,
+ and the result is stored in a new buffer.
+
+Parameters:
+input - the input buffer
+inputOffset - the offset in input where the input
+ starts
+inputLen - the input length
+Returns:
+the new buffer with the result, or null if the underlying
+ cipher is a block cipher and the input data is too short to result in a
+ new block.
+
+
+"
+3,CipherSpi,3,"int engineDoFinal(byte[] output, int outputOffset)",False,,NULL
+3,CipherSpi,4,int engineGetBlockSize(),True,,"
+
+engineGetBlockSize
+protected abstract int engineGetBlockSize()
+Returns the block size (in bytes).
+
+Returns:
+the block size (in bytes), or 0 if the underlying algorithm is
+ not a block cipher
+
+
+"
+3,CipherSpi,5,int engineGetOutputSize(int inputLen),True,,"
+
+engineGetOutputSize
+protected abstract int engineGetOutputSize(int inputLen)
+Returns the length in bytes that an output buffer would
+ need to be in order to hold the result of the next update
+ or doFinal operation, given the input length
+ inputLen (in bytes).
+
+ This call takes into account any unprocessed (buffered) data from a
+ previous update call, padding, and AEAD tagging.
+
+ The actual output length of the next update or
+ doFinal call may be smaller than the length returned by
+ this method.
+
+Parameters:
+inputLen - the input length (in bytes)
+Returns:
+the required output buffer size (in bytes)
+
+
+"
+4,EncryptedPrivateKeyInfo,1,byte[] getEncryptedData(),True,,"
+
+getEncryptedData
+public byte[] getEncryptedData()
+Returns the encrypted data.
+
+Returns:
+the encrypted data. Returns a new array
+ each time this method is called.
+
+
+"
+4,EncryptedPrivateKeyInfo,2,String getAlgName(),True,,"
+
+getAlgName
+public String getAlgName()
+Returns the encryption algorithm.
+ Note: Standard name is returned instead of the specified one
+ in the constructor when such mapping is available.
+ See Appendix A in the
+ 
+ Java Cryptography Architecture Reference Guide
+ for information about standard Cipher algorithm names.
+
+Returns:
+the encryption algorithm name.
+
+
+"
+4,EncryptedPrivateKeyInfo,3,AlgorithmParameters getAlgParameters(),True,,"
+
+getAlgParameters
+public AlgorithmParameters getAlgParameters()
+Returns the algorithm parameters used by the encryption algorithm.
+
+Returns:
+the algorithm parameters.
+
+
+"
+4,EncryptedPrivateKeyInfo,4,byte[] getEncoded(),True,,"
+
+getEncoded
+public byte[] getEncoded()
+                  throws IOException
+Returns the ASN.1 encoding of this object.
+
+Returns:
+the ASN.1 encoding. Returns a new array
+ each time this method is called.
+Throws:
+IOException - if error occurs when constructing its
+ ASN.1 encoding.
+
+
+"
+4,EncryptedPrivateKeyInfo,5,PrivateKey decryptPrivateKey(Key key),False,,NULL
+5,ExemptionMechanism,1,String getName(),True,,"
+
+getName
+public final String getName()
+Returns the exemption mechanism name of this
+ ExemptionMechanism object.
+
+ This is the same name that was specified in one of the
+ getInstance calls that created this
+ ExemptionMechanism object.
+
+Returns:
+the exemption mechanism name of this
+ ExemptionMechanism object.
+
+
+"
+5,ExemptionMechanism,2,byte[] getOutput(),False,,NULL
+5,ExemptionMechanism,3,int getOutputSize(int inputLen),True,,"
+
+getOutputSize
+public final int getOutputSize(int inputLen)
+                        throws IllegalStateException
+Returns the length in bytes that an output buffer would need to be in
+ order to hold the result of the next
+ genExemptionBlob
+ operation, given the input length inputLen (in bytes).
+
+ The actual output length of the next
+ genExemptionBlob
+ call may be smaller than the length returned by this method.
+
+Parameters:
+inputLen - the input length (in bytes)
+Returns:
+the required output buffer size (in bytes)
+Throws:
+IllegalStateException - if this exemption mechanism is in a
+ wrong state (e.g., has not yet been initialized)
+
+
+"
+5,ExemptionMechanism,4,void init(Key key),True,,"
+
+init
+public final void init(Key key)
+                throws InvalidKeyException,
+                       ExemptionMechanismException
+Initializes this exemption mechanism with a key.
+
+ If this exemption mechanism requires any algorithm parameters
+ that cannot be derived from the given key, the
+ underlying exemption mechanism implementation is supposed to
+ generate the required parameters itself (using provider-specific
+ default values); in the case that algorithm parameters must be
+ specified by the caller, an InvalidKeyException is raised.
+
+Parameters:
+key - the key for this exemption mechanism
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ this exemption mechanism.
+ExemptionMechanismException - if problem(s) encountered in the
+ process of initializing.
+
+
+"
+5,ExemptionMechanism,5,"void init(Key key, AlgorithmParameterSpec params)",True,,"
+
+init
+public final void init(Key key,
+                       AlgorithmParameterSpec params)
+                throws InvalidKeyException,
+                       InvalidAlgorithmParameterException,
+                       ExemptionMechanismException
+Initializes this exemption mechanism with a key and a set of algorithm
+ parameters.
+
+ If this exemption mechanism requires any algorithm parameters
+ and params is null, the underlying exemption
+ mechanism implementation is supposed to generate the required
+ parameters itself (using provider-specific default values); in the case
+ that algorithm parameters must be specified by the caller, an
+ InvalidAlgorithmParameterException is raised.
+
+Parameters:
+key - the key for this exemption mechanism
+params - the algorithm parameters
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ this exemption mechanism.
+InvalidAlgorithmParameterException - if the given algorithm
+ parameters are inappropriate for this exemption mechanism.
+ExemptionMechanismException - if problem(s) encountered in the
+ process of initializing.
+
+
+"
+6,ExemptionMechanismSpi,1,"void engineInit(int opmode, Key key, AlgorithmParameters params)",False,,NULL
+6,ExemptionMechanismSpi,2,byte[] engineGenExemptionBlob(),True,,"
+
+engineGenExemptionBlob
+protected abstract byte[] engineGenExemptionBlob()
+                                          throws ExemptionMechanismException
+Generates the exemption mechanism key blob.
+
+Returns:
+the new buffer with the result key blob.
+Throws:
+ExemptionMechanismException - if problem(s) encountered in the
+ process of generating.
+
+
+"
+6,ExemptionMechanismSpi,3,"int engineGenExemptionBlob(byte[] output, int outputOffset)",True,,"
+
+engineGenExemptionBlob
+protected abstract int engineGenExemptionBlob(byte[] output,
+                                              int outputOffset)
+                                       throws ShortBufferException,
+                                              ExemptionMechanismException
+Generates the exemption mechanism key blob, and stores the result in
+ the output buffer, starting at outputOffset
+ inclusive.
+
+ If the output buffer is too small to hold the result,
+ a ShortBufferException is thrown. In this case, repeat this
+ call with a larger output buffer. Use
+ engineGetOutputSize to determine
+ how big the output buffer should be.
+
+Parameters:
+output - the buffer for the result
+outputOffset - the offset in output where the result
+ is stored
+Returns:
+the number of bytes stored in output
+Throws:
+ShortBufferException - if the given output buffer is too small
+ to hold the result.
+ExemptionMechanismException - if problem(s) encountered in the
+ process of generating.
+
+
+"
+6,ExemptionMechanismSpi,4,"void engineInit(Key key, AlgorithmParameters params)",True,,"
+
+engineInit
+protected abstract void engineInit(Key key,
+                                   AlgorithmParameters params)
+                            throws InvalidKeyException,
+                                   InvalidAlgorithmParameterException,
+                                   ExemptionMechanismException
+Initializes this exemption mechanism with a key and a set of algorithm
+ parameters.
+
+ If this exemption mechanism requires any algorithm parameters
+ and params is null, the underlying exemption mechanism
+ implementation is supposed to generate the required parameters
+ itself (using provider-specific default values); in the case that
+ algorithm parameters must be specified by the caller, an
+ InvalidAlgorithmParameterException is raised.
+
+Parameters:
+key - the key for this exemption mechanism
+params - the algorithm parameters
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ this exemption mechanism.
+InvalidAlgorithmParameterException - if the given algorithm
+ parameters are inappropriate for this exemption mechanism.
+ExemptionMechanismException - if problem(s) encountered in the
+ process of initializing.
+
+
+"
+6,ExemptionMechanismSpi,5,"void engineInit(Key key, AlgorithmParameterSpec params)",True,,"
+
+engineInit
+protected abstract void engineInit(Key key,
+                                   AlgorithmParameterSpec params)
+                            throws InvalidKeyException,
+                                   InvalidAlgorithmParameterException,
+                                   ExemptionMechanismException
+Initializes this exemption mechanism with a key and a set of algorithm
+ parameters.
+
+ If this exemption mechanism requires any algorithm parameters and
+ params is null, the underlying exemption mechanism
+ implementation is supposed to generate the required parameters
+ itself (using provider-specific default values); in the case that
+ algorithm parameters must be specified by the caller, an
+ InvalidAlgorithmParameterException is raised.
+
+Parameters:
+key - the key for this exemption mechanism
+params - the algorithm parameters
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ this exemption mechanism.
+InvalidAlgorithmParameterException - if the given algorithm
+ parameters are inappropriate for this exemption mechanism.
+ExemptionMechanismException - if problem(s) encountered in the
+ process of initializing.
+
+
+"
+7,KeyAgreement,1,void init(Key key),True,,"
+
+init
+public final void init(Key key)
+                throws InvalidKeyException
+Initializes this key agreement with the given key, which is required to
+ contain all the algorithm parameters required for this key agreement.
+
+  If this key agreement requires any random bytes, it will get
+ them using the
+ SecureRandom
+ implementation of the highest-priority
+ installed provider as the source of randomness.
+ (If none of the installed providers supply an implementation of
+ SecureRandom, a system-provided source of randomness will be used.)
+
+Parameters:
+key - the party's private information. For example, in the case
+ of the Diffie-Hellman key agreement, this would be the party's own
+ Diffie-Hellman private key.
+Throws:
+InvalidKeyException - if the given key is
+ inappropriate for this key agreement, e.g., is of the wrong type or
+ has an incompatible algorithm type.
+
+
+"
+7,KeyAgreement,2,"void doPhase(Key key, boolean lastPhase)",False,,NULL
+7,KeyAgreement,3,byte[] generateSecret(),True,,"
+
+generateSecret
+public final byte[] generateSecret()
+                            throws IllegalStateException
+Generates the shared secret and returns it in a new buffer.
+
+ This method resets this KeyAgreement object, so that it
+ can be reused for further key agreements. Unless this key agreement is
+ reinitialized with one of the init methods, the same
+ private information and algorithm parameters will be used for
+ subsequent key agreements.
+
+Returns:
+the new buffer with the shared secret
+Throws:
+IllegalStateException - if this key agreement has not been
+ completed yet
+
+
+"
+7,KeyAgreement,4,String getAlgorithm(),True,,"
+
+getAlgorithm
+public final String getAlgorithm()
+Returns the algorithm name of this KeyAgreement object.
+
+ This is the same name that was specified in one of the
+ getInstance calls that created this
+ KeyAgreement object.
+
+Returns:
+the algorithm name of this KeyAgreement object.
+
+
+"
+7,KeyAgreement,5,"Key doPhase(Key key, boolean lastPhase)",True,,"
+
+doPhase
+public final Key doPhase(Key key,
+                         boolean lastPhase)
+                  throws InvalidKeyException,
+                         IllegalStateException
+Executes the next phase of this key agreement with the given
+ key that was received from one of the other parties involved in this key
+ agreement.
+
+Parameters:
+key - the key for this phase. For example, in the case of
+ Diffie-Hellman between 2 parties, this would be the other party's
+ Diffie-Hellman public key.
+lastPhase - flag which indicates whether or not this is the last
+ phase of this key agreement.
+Returns:
+the (intermediate) key resulting from this phase, or null
+ if this phase does not yield a key
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ this phase.
+IllegalStateException - if this key agreement has not been
+ initialized.
+
+
+"
+8,KeyAgreementSpi,1,"void engineInit(Key key, SecureRandom random)",True,,"
+
+engineInit
+protected abstract void engineInit(Key key,
+                                   SecureRandom random)
+                            throws InvalidKeyException
+Initializes this key agreement with the given key and source of
+ randomness. The given key is required to contain all the algorithm
+ parameters required for this key agreement.
+
+  If the key agreement algorithm requires random bytes, it gets them
+ from the given source of randomness, random.
+ However, if the underlying
+ algorithm implementation does not require any random bytes,
+ random is ignored.
+
+Parameters:
+key - the party's private information. For example, in the case
+ of the Diffie-Hellman key agreement, this would be the party's own
+ Diffie-Hellman private key.
+random - the source of randomness
+Throws:
+InvalidKeyException - if the given key is
+ inappropriate for this key agreement, e.g., is of the wrong type or
+ has an incompatible algorithm type.
+
+
+"
+8,KeyAgreementSpi,2,"void engineInit(Key key, AlgorithmParameterSpec params, SecureRandom random)",True,,"
+
+engineInit
+protected abstract void engineInit(Key key,
+                                   AlgorithmParameterSpec params,
+                                   SecureRandom random)
+                            throws InvalidKeyException,
+                                   InvalidAlgorithmParameterException
+Initializes this key agreement with the given key, set of
+ algorithm parameters, and source of randomness.
+
+Parameters:
+key - the party's private information. For example, in the case
+ of the Diffie-Hellman key agreement, this would be the party's own
+ Diffie-Hellman private key.
+params - the key agreement parameters
+random - the source of randomness
+Throws:
+InvalidKeyException - if the given key is
+ inappropriate for this key agreement, e.g., is of the wrong type or
+ has an incompatible algorithm type.
+InvalidAlgorithmParameterException - if the given parameters
+ are inappropriate for this key agreement.
+
+
+"
+8,KeyAgreementSpi,3,byte[] engineGenerateSecret(),True,,"
+
+engineGenerateSecret
+protected abstract byte[] engineGenerateSecret()
+                                        throws IllegalStateException
+Generates the shared secret and returns it in a new buffer.
+
+ This method resets this KeyAgreementSpi object,
+ so that it
+ can be reused for further key agreements. Unless this key agreement is
+ reinitialized with one of the engineInit methods, the same
+ private information and algorithm parameters will be used for
+ subsequent key agreements.
+
+Returns:
+the new buffer with the shared secret
+Throws:
+IllegalStateException - if this key agreement has not been
+ completed yet
+
+
+"
+8,KeyAgreementSpi,4,"int engineGenerateSecret(byte[] sharedSecret, int offset)",True,,"
+
+engineGenerateSecret
+protected abstract int engineGenerateSecret(byte[] sharedSecret,
+                                            int offset)
+                                     throws IllegalStateException,
+                                            ShortBufferException
+Generates the shared secret, and places it into the buffer
+ sharedSecret, beginning at offset inclusive.
+
+ If the sharedSecret buffer is too small to hold the
+ result, a ShortBufferException is thrown.
+ In this case, this call should be repeated with a larger output buffer.
+
+ This method resets this KeyAgreementSpi object,
+ so that it
+ can be reused for further key agreements. Unless this key agreement is
+ reinitialized with one of the engineInit methods, the same
+ private information and algorithm parameters will be used for
+ subsequent key agreements.
+
+Parameters:
+sharedSecret - the buffer for the shared secret
+offset - the offset in sharedSecret where the
+ shared secret will be stored
+Returns:
+the number of bytes placed into sharedSecret
+Throws:
+IllegalStateException - if this key agreement has not been
+ completed yet
+ShortBufferException - if the given output buffer is too small
+ to hold the secret
+
+
+"
+8,KeyAgreementSpi,5,SecretKey engineGenerateSecret(String algorithm),True,,"
+
+engineGenerateSecret
+protected abstract SecretKey engineGenerateSecret(String algorithm)
+                                           throws IllegalStateException,
+                                                  NoSuchAlgorithmException,
+                                                  InvalidKeyException
+Creates the shared secret and returns it as a secret key object
+ of the requested algorithm type.
+
+ This method resets this KeyAgreementSpi object,
+ so that it
+ can be reused for further key agreements. Unless this key agreement is
+ reinitialized with one of the engineInit methods, the same
+ private information and algorithm parameters will be used for
+ subsequent key agreements.
+
+Parameters:
+algorithm - the requested secret key algorithm
+Returns:
+the shared secret key
+Throws:
+IllegalStateException - if this key agreement has not been
+ completed yet
+NoSuchAlgorithmException - if the requested secret key
+ algorithm is not available
+InvalidKeyException - if the shared secret key material cannot
+ be used to generate a secret key of the requested algorithm type (e.g.,
+ the key material is too short)
+
+
+"
+9,KeyGenerator,1,KeyGenerator getInstance(String algorithm),True,,"
+
+getInstance
+public static final KeyGenerator getInstance(String algorithm)
+                                      throws NoSuchAlgorithmException
+Returns a KeyGenerator object that generates secret keys
+ for the specified algorithm.
+
+  This method traverses the list of registered security Providers,
+ starting with the most preferred Provider.
+ A new KeyGenerator object encapsulating the
+ KeyGeneratorSpi implementation from the first
+ Provider that supports the specified algorithm is returned.
+
+  Note that the list of registered providers may be retrieved via
+ the Security.getProviders() method.
+
+Parameters:
+algorithm - the standard name of the requested key algorithm.
+ See the KeyGenerator section in the 
+ Java Cryptography Architecture Standard Algorithm Name Documentation
+ for information about standard algorithm names.
+Returns:
+the new KeyGenerator object.
+Throws:
+NullPointerException - if the specified algorithm is null.
+NoSuchAlgorithmException - if no Provider supports a
+          KeyGeneratorSpi implementation for the
+          specified algorithm.
+See Also:
+Provider
+
+
+"
+9,KeyGenerator,2,void init(int keysize),True,,"
+
+init
+public final void init(int keysize)
+Initializes this key generator for a certain keysize.
+
+  If this key generator requires any random bytes, it will get them
+ using the
+ SecureRandom
+ implementation of the highest-priority installed
+ provider as the source of randomness.
+ (If none of the installed providers supply an implementation of
+ SecureRandom, a system-provided source of randomness will be used.)
+
+Parameters:
+keysize - the keysize. This is an algorithm-specific metric,
+ specified in number of bits.
+Throws:
+InvalidParameterException - if the keysize is wrong or not
+ supported.
+
+
+"
+9,KeyGenerator,3,SecretKey generateKey(),True,,"
+
+generateKey
+public final SecretKey generateKey()
+Generates a secret key.
+
+Returns:
+the new key
+
+
+"
+9,KeyGenerator,4,void init(AlgorithmParameterSpec params),True,,"
+
+init
+public final void init(AlgorithmParameterSpec params)
+                throws InvalidAlgorithmParameterException
+Initializes this key generator with the specified parameter set.
+
+  If this key generator requires any random bytes, it will get them
+ using the
+ SecureRandom
+ implementation of the highest-priority installed
+ provider as the source of randomness.
+ (If none of the installed providers supply an implementation of
+ SecureRandom, a system-provided source of randomness will be used.)
+
+Parameters:
+params - the key generation parameters
+Throws:
+InvalidAlgorithmParameterException - if the given parameters
+ are inappropriate for this key generator
+
+
+"
+9,KeyGenerator,5,"void init(AlgorithmParameterSpec params, SecureRandom random)",True,,"
+
+init
+public final void init(AlgorithmParameterSpec params,
+                       SecureRandom random)
+                throws InvalidAlgorithmParameterException
+Initializes this key generator with the specified parameter
+ set and a user-provided source of randomness.
+
+Parameters:
+params - the key generation parameters
+random - the source of randomness for this key generator
+Throws:
+InvalidAlgorithmParameterException - if params is
+ inappropriate for this key generator
+
+
+"
+10,KeyGeneratorSpi,1,Key generateKey(),False,,NULL
+10,KeyGeneratorSpi,2,"void init(int keysize, SecureRandom random)",False,,NULL
+10,KeyGeneratorSpi,3,"void init(AlgorithmParameterSpec params, SecureRandom random)",False,,NULL
+10,KeyGeneratorSpi,4,void init(SecureRandom random),False,,NULL
+10,KeyGeneratorSpi,5,KeyGeneratorSpi clone(),False,,NULL
+11,Mac,1,void init(Key key),True,,"
+
+init
+public final void init(Key key)
+                throws InvalidKeyException
+Initializes this Mac object with the given key.
+
+Parameters:
+key - the key.
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ initializing this MAC.
+
+
+"
+11,Mac,2,void update(byte[] input),True,,"
+
+update
+public final void update(byte[] input)
+                  throws IllegalStateException
+Processes the given array of bytes.
+
+Parameters:
+input - the array of bytes to be processed.
+Throws:
+IllegalStateException - if this Mac has not been
+ initialized.
+
+
+"
+11,Mac,3,void reset(),True,,"
+
+reset
+public final void reset()
+Resets this Mac object.
+
+ A call to this method resets this Mac object to the
+ state it was in when previously initialized via a call to
+ init(Key) or
+ init(Key, AlgorithmParameterSpec).
+ That is, the object is reset and available to generate another MAC from
+ the same key, if desired, via new calls to update and
+ doFinal.
+ (In order to reuse this Mac object with a different key,
+ it must be reinitialized via a call to init(Key) or
+ init(Key, AlgorithmParameterSpec).
+
+"
+11,Mac,4,byte[] doFinal(),True,,"
+
+doFinal
+public final byte[] doFinal()
+                     throws IllegalStateException
+Finishes the MAC operation.
+
+ A call to this method resets this Mac object to the
+ state it was in when previously initialized via a call to
+ init(Key) or
+ init(Key, AlgorithmParameterSpec).
+ That is, the object is reset and available to generate another MAC from
+ the same key, if desired, via new calls to update and
+ doFinal.
+ (In order to reuse this Mac object with a different key,
+ it must be reinitialized via a call to init(Key) or
+ init(Key, AlgorithmParameterSpec).
+
+Returns:
+the MAC result.
+Throws:
+IllegalStateException - if this Mac has not been
+ initialized.
+
+
+"
+11,Mac,5,int getMacLength(),True,,"
+
+getMacLength
+public final int getMacLength()
+Returns the length of the MAC in bytes.
+
+Returns:
+the MAC length in bytes.
+
+
+"
+12,MacSpi,1,"void engineInit(Key key, AlgorithmParameterSpec params)",True,,"
+
+engineInit
+protected abstract void engineInit(Key key,
+                                   AlgorithmParameterSpec params)
+                            throws InvalidKeyException,
+                                   InvalidAlgorithmParameterException
+Initializes the MAC with the given (secret) key and algorithm
+ parameters.
+
+Parameters:
+key - the (secret) key.
+params - the algorithm parameters.
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ initializing this MAC.
+InvalidAlgorithmParameterException - if the given algorithm
+ parameters are inappropriate for this MAC.
+
+
+"
+12,MacSpi,2,void engineUpdate(byte input),True,,"
+
+engineUpdate
+protected abstract void engineUpdate(byte input)
+Processes the given byte.
+
+Parameters:
+input - the input byte to be processed.
+
+
+"
+12,MacSpi,3,void engineReset(),True,,"
+
+engineReset
+protected abstract void engineReset()
+Resets the MAC for further use, maintaining the secret key that the
+ MAC was initialized with.
+
+"
+12,MacSpi,4,byte[] engineDoFinal(),True,,"
+
+engineDoFinal
+protected abstract byte[] engineDoFinal()
+Completes the MAC computation and resets the MAC for further use,
+ maintaining the secret key that the MAC was initialized with.
+
+Returns:
+the MAC result.
+
+
+"
+12,MacSpi,5,int engineGetMacLength(),True,,"
+
+engineGetMacLength
+protected abstract int engineGetMacLength()
+Returns the length of the MAC in bytes.
+
+Returns:
+the MAC length in bytes.
+
+
+"
+13,NullCipher,1,"void init(int opmode, Key key)",False,,NULL
+13,NullCipher,2,byte[] doFinal(),False,,NULL
+13,NullCipher,3,"int update(byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset)",False,,NULL
+13,NullCipher,4,int getBlockSize(),False,,NULL
+13,NullCipher,5,String getAlgorithm(),False,,NULL
+14,SealedObject,1,"SealedObject(byte[] sealedData, String algorithm)",False,,NULL
+14,SealedObject,2,Object getObject(Key key),True,,"
+
+getObject
+public final Object getObject(Key key)
+                       throws IOException,
+                              ClassNotFoundException,
+                              NoSuchAlgorithmException,
+                              InvalidKeyException
+Retrieves the original (encapsulated) object.
+
+ This method creates a cipher for the algorithm that had been used in
+ the sealing operation.
+ If the default provider package provides an implementation of that
+ algorithm, an instance of Cipher containing that implementation is used.
+ If the algorithm is not available in the default package, other
+ packages are searched.
+ The Cipher object is initialized for decryption, using the given
+ key and the parameters (if any) that had been used in the
+ sealing operation.
+
+ The encapsulated object is unsealed and de-serialized, before it is
+ returned.
+
+Parameters:
+key - the key used to unseal the object.
+Returns:
+the original object.
+Throws:
+IOException - if an error occurs during de-serialiazation.
+ClassNotFoundException - if an error occurs during
+ de-serialiazation.
+NoSuchAlgorithmException - if the algorithm to unseal the
+ object is not available.
+InvalidKeyException - if the given key cannot be used to unseal
+ the object (e.g., it has the wrong algorithm).
+NullPointerException - if key is null.
+
+
+"
+14,SealedObject,3,String getAlgorithm(),True,,"
+
+getAlgorithm
+public final String getAlgorithm()
+Returns the algorithm that was used to seal this object.
+
+Returns:
+the algorithm that was used to seal this object.
+
+
+"
+14,SealedObject,4,byte[] getEncoded(),False,,NULL
+14,SealedObject,5,boolean equals(Object obj),False,,NULL
+15,SecretKeyFactory,1,SecretKey generateSecret(SecretKeySpec keySpec),False,,NULL
+15,SecretKeyFactory,2,String getAlgorithm(),True,,"
+
+getAlgorithm
+public final String getAlgorithm()
+Returns the algorithm name of this SecretKeyFactory object.
+
+ This is the same name that was specified in one of the
+ getInstance calls that created this
+ SecretKeyFactory object.
+
+Returns:
+the algorithm name of this SecretKeyFactory
+ object.
+
+
+"
+15,SecretKeyFactory,3,SecretKey translateKey(SecretKey key),True,,"
+
+translateKey
+public final SecretKey translateKey(SecretKey key)
+                             throws InvalidKeyException
+Translates a key object, whose provider may be unknown or potentially
+ untrusted, into a corresponding key object of this secret-key factory.
+
+Parameters:
+key - the key whose provider is unknown or untrusted
+Returns:
+the translated key
+Throws:
+InvalidKeyException - if the given key cannot be processed
+ by this secret-key factory.
+
+
+"
+15,SecretKeyFactory,4,int getKeyLength(SecretKey key),False,,NULL
+15,SecretKeyFactory,5,SecretKey generateSecret(KeySpec keySpec),True,,"
+
+generateSecret
+public final SecretKey generateSecret(KeySpec keySpec)
+                               throws InvalidKeySpecException
+Generates a SecretKey object from the provided key
+ specification (key material).
+
+Parameters:
+keySpec - the specification (key material) of the secret key
+Returns:
+the secret key
+Throws:
+InvalidKeySpecException - if the given key specification
+ is inappropriate for this secret-key factory to produce a secret key.
+
+
+"
+16,SecretKeyFactorySpi,1,SecretKey engineGenerateSecret(KeySpec keySpec),True,,"
+
+engineGenerateSecret
+protected abstract SecretKey engineGenerateSecret(KeySpec keySpec)
+                                           throws InvalidKeySpecException
+Generates a SecretKey object from the
+ provided key specification (key material).
+
+Parameters:
+keySpec - the specification (key material) of the secret key
+Returns:
+the secret key
+Throws:
+InvalidKeySpecException - if the given key specification
+ is inappropriate for this secret-key factory to produce a secret key.
+
+
+"
+16,SecretKeyFactorySpi,2,"KeySpec engineGetKeySpec(SecretKey key, Class keySpec)",False,,NULL
+16,SecretKeyFactorySpi,3,SecretKey engineTranslateKey(SecretKey key),True,,"
+
+engineTranslateKey
+protected abstract SecretKey engineTranslateKey(SecretKey key)
+                                         throws InvalidKeyException
+Translates a key object, whose provider may be unknown or
+ potentially untrusted, into a corresponding key object of this
+ secret-key factory.
+
+Parameters:
+key - the key whose provider is unknown or untrusted
+Returns:
+the translated key
+Throws:
+InvalidKeyException - if the given key cannot be processed
+ by this secret-key factory.
+
+
+"
+16,SecretKeyFactorySpi,4,"void engineInit(Key key, AlgorithmParameterSpec params)",False,,NULL
+16,SecretKeyFactorySpi,5,SecretKey engineGenerateSecret(String algorithm),False,,NULL

@@ -1,0 +1,266 @@
+Sample: 0 ChannelBinding_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.ChannelBinding;
+
+public class Main {
+    public static void main(String[] args) {
+        ChannelBinding cb1 = new ChannelBinding();
+        ChannelBinding cb2 = new ChannelBinding();
+        
+        boolean result = cb1.equals(cb2);
+        System.out.println("Are the two ChannelBindings equal? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 1 GSSManager_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.GSSException;
+import org.ietf.jgss.GSSManager;
+import org.ietf.jgss.GSSName;
+import org.ietf.jgss.Oid;
+
+public class Main {
+    public static void main(String[] args) {
+        GSSManager manager = GSSManager.getInstance();
+        try {
+            GSSName gssName = manager.createName("exampleName", Oid.getDefault());
+            System.out.println("GSSName created: " + gssName.toString());
+        } catch (GSSException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 GSSManager_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.GSSManager;
+import org.ietf.jgss.GSSName;
+import org.ietf.jgss.GSSCredential;
+import org.ietf.jgss.Oid;
+import org.ietf.jgss.GSSException;
+
+public class Main {
+    public static void main(String[] args) {
+        GSSManager manager = GSSManager.getInstance();
+        GSSName desiredName = null; // specify the desired GSSName
+        int lifetime = GSSCredential.INDEFINITE_LIFETIME; // specify the desired lifetime
+        Oid[] mechanism = null; // specify the desired mechanism
+        int usage = GSSCredential.INITIATE_AND_ACCEPT; // specify the desired usage
+        
+        try {
+            GSSCredential credential = manager.createCredential(desiredName, lifetime, mechanism, usage);
+            // make use of the created GSSCredential object
+        } catch (GSSException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 GSSManager_3
+----------------------------------------------------------------
+`GSSContext createContext(GSSName peer, Oid mech, GSSCredential myCred, int lifetime)`: This method is used to create a context on the initiator's side.
+
+Code snippet:
+```java
+import org.ietf.jgss.*;
+
+public class Main {
+    public static void main(String[] args) {
+        GSSManager manager = GSSManager.getInstance();
+        
+        try {
+            GSSName peer = manager.createName("peerName", null);
+            Oid mech = null; // Use null to request the default mechanism
+            GSSCredential myCred = null; // Use null to act as the default initiator principal
+            int lifetime = GSSContext.DEFAULT_LIFETIME; // Use GSSContext.DEFAULT_LIFETIME for default lifetime
+            
+            GSSContext context = manager.createContext(peer, mech, myCred, lifetime);
+            
+            // Use the context for further operations
+            
+        } catch (GSSException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 GSSManager_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.GSSManager;
+import org.ietf.jgss.Oid;
+
+public class Main {
+    public static void main(String[] args) {
+        GSSManager gssManager = GSSManager.getInstance();
+        Oid[] mechanisms = gssManager.getMechs();
+        
+        if (mechanisms != null) {
+            for (Oid mechanism : mechanisms) {
+                System.out.println(mechanism.toString());
+            }
+        } else {
+            System.out.println("No mechanisms available");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 MessageProp_1
+----------------------------------------------------------------
+`void setQOP(int qop)`: This method sets the QOP value.
+
+Code snippet:
+```java
+import org.ietf.jgss.MessageProp;
+
+public class Main {
+    public static void main(String[] args) {
+        MessageProp messageProp = new MessageProp();
+        int qop = 1;
+        messageProp.setQOP(qop);
+    }
+}
+```
+================================================================
+
+Sample: 6 MessageProp_2
+----------------------------------------------------------------
+`int getQOP()`: This method retrieves the QOP value.
+
+Code snippet:
+```java
+import org.ietf.jgss.MessageProp;
+
+public class Main {
+    public static void main(String[] args) {
+        MessageProp messageProp = new MessageProp();
+        int qop = messageProp.getQOP();
+        System.out.println("QOP value: " + qop);
+    }
+}
+```
+================================================================
+
+Sample: 7 MessageProp_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.MessageProp;
+
+public class Main {
+    public static void main(String[] args) {
+        MessageProp messageProp = new MessageProp();
+        messageProp.setPrivacy(true);
+        System.out.println("Privacy state set to: " + messageProp.getPrivacy());
+    }
+}
+```
+================================================================
+
+Sample: 8 MessageProp_4
+----------------------------------------------------------------
+`boolean getPrivacy()`: This method retrieves the privacy state.
+
+Code snippet:
+```java
+import org.ietf.jgss.MessageProp;
+
+public class Main {
+    public static void main(String[] args) {
+        MessageProp messageProp = new MessageProp();
+        boolean privacyState = messageProp.getPrivacy();
+        System.out.println("Privacy state: " + privacyState);
+    }
+}
+```
+================================================================
+
+Sample: 9 Oid_1
+----------------------------------------------------------------
+`boolean equals(Object other)`: This method tests if two Oid objects represent the same Object identifier value.
+
+Code snippet:
+```java
+import org.ietf.jgss.Oid;
+
+public class Main {
+    public static void main(String[] args) {
+        Oid oid1 = new Oid("1.2.3.4");
+        Oid oid2 = new Oid("1.2.3.4");
+
+        boolean result = oid1.equals(oid2);
+        System.out.println("Are the Oid objects equal? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 10 Oid_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.Oid;
+
+public class Main {
+    public static void main(String[] args) {
+        Oid oid = new Oid();
+        int hashCode = oid.hashCode();
+        System.out.println("Hashcode value for Oid: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 11 Oid_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.Oid;
+
+public class Main {
+    public static void main(String[] args) {
+        Oid oid = new Oid(new int[]{1, 2, 3, 4, 5});
+        System.out.println(oid.toString());
+    }
+}
+```
+================================================================
+
+Sample: 12 Oid_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.ietf.jgss.GSSException;
+import org.ietf.jgss.Oid;
+
+public class Main {
+    public static void main(String[] args) {
+        Oid oid = null; // Initialize Oid object with your desired OID value
+        try {
+            byte[] derEncoding = oid.getDER();
+            // Use the DER encoding as needed
+        } catch (GSSException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

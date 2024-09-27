@@ -1,0 +1,1153 @@
+ClassName,Method,Return Type,Description,Full Description
+Invoker,inject(WebServiceContext webServiceContext),abstract void,JAX-WS runtimes calls this method to ask container to inject WebServiceContext on the endpoint instance.,"
+
+inject
+public abstract void inject(WebServiceContext webServiceContext)
+                     throws IllegalAccessException,
+                            IllegalArgumentException,
+                            InvocationTargetException
+JAX-WS runtimes calls this method to ask container to inject
+ WebServiceContext on the endpoint instance. The
+ WebServiceContext object uses thread-local information
+ to return the correct information during the actual endpoint invocation
+ regardless of how many threads are concurrently being used to serve
+ requests.
+
+Parameters:
+webServiceContext - a holder for MessageContext
+Throws:
+IllegalAccessException - if the injection done
+         by reflection API throws this exception
+IllegalArgumentException - if the injection done
+         by reflection API throws this exception
+InvocationTargetException - if the injection done
+         by reflection API throws this exception
+
+
+"
+Invoker,"invoke(Method m, Object... args)",abstract Object,JAX-WS runtime calls this method to do the actual web service invocation on endpoint instance.,"
+
+invoke
+public abstract Object invoke(Method m,
+                              Object... args)
+                       throws IllegalAccessException,
+                              IllegalArgumentException,
+                              InvocationTargetException
+JAX-WS runtime calls this method to do the actual web service
+ invocation on endpoint instance. The injected
+ WebServiceContext.getMessageContext() gives the correct
+ information for this invocation.
+
+Parameters:
+m - Method to be invoked on the service
+args - Method arguments
+Returns:
+return value of the method
+Throws:
+IllegalAccessException - if the invocation done
+         by reflection API throws this exception
+IllegalArgumentException - if the invocation done
+         by reflection API throws this exception
+InvocationTargetException - if the invocation done
+         by reflection API throws this exception
+See Also:
+Method.invoke(java.lang.Object, java.lang.Object...)
+
+
+"
+Provider,"createAndPublishEndpoint(String address, Object implementor)",abstract Endpoint,Creates and publishes an endpoint object with the specified address and implementation object.,"
+
+createAndPublishEndpoint
+public abstract Endpoint createAndPublishEndpoint(String address,
+                                                  Object implementor)
+Creates and publishes an endpoint object with the specified
+ address and implementation object.
+
+Parameters:
+address - A URI specifying the address and transport/protocol
+        to use. A http: URI MUST result in the SOAP 1.1/HTTP
+        binding being used. Implementations may support other
+        URI schemes.
+implementor - A service implementation object to which
+        incoming requests will be dispatched. The corresponding
+        class MUST be annotated with all the necessary Web service
+        annotations.
+Returns:
+The newly created endpoint.
+
+
+"
+Provider,"createAndPublishEndpoint(String address, Object implementor, WebServiceFeature... features)",Endpoint,"Creates and publishes an endpoint object with the specified address, implementation object and web service features.","
+
+createAndPublishEndpoint
+public Endpoint createAndPublishEndpoint(String address,
+                                         Object implementor,
+                                         WebServiceFeature... features)
+Creates and publishes an endpoint object with the specified
+ address, implementation object and web service features.
+ Provider implementations must override the
+ default implementation.
+
+Parameters:
+address - A URI specifying the address and transport/protocol
+        to use. A http: URI MUST result in the SOAP 1.1/HTTP
+        binding being used. Implementations may support other
+        URI schemes.
+implementor - A service implementation object to which
+        incoming requests will be dispatched. The corresponding
+        class MUST be annotated with all the necessary Web service
+        annotations.
+features - A list of WebServiceFeatures to configure on the
+        endpoint.  Supported features not in the features
+         parameter will have their default values.
+Returns:
+The newly created endpoint.
+Since:
+JAX-WS 2.2
+
+
+"
+Provider,"createEndpoint(String bindingId, Class<?> implementorClass, Invoker invoker, WebServiceFeature... features)",Endpoint,"Creates an endpoint object with the provided binding, implementation class, invoker and web service features.","
+
+createEndpoint
+public Endpoint createEndpoint(String bindingId,
+                               Class<?> implementorClass,
+                               Invoker invoker,
+                               WebServiceFeature... features)
+Creates an endpoint object with the provided binding, implementation
+ class, invoker and web service features. Containers typically use
+ this to create Endpoint objects. Provider
+ implementations must override the default implementation.
+
+Parameters:
+bindingId - A URI specifying the desired binding (e.g. SOAP/HTTP).
+        Can be null.
+implementorClass - A service implementation class that
+        MUST be annotated with all the necessary Web service
+        annotations.
+invoker - that does the actual invocation on the service instance.
+features - A list of WebServiceFeatures to configure on the
+        endpoint.  Supported features not in the features
+         parameter will have their default values.
+Returns:
+The newly created endpoint.
+Since:
+JAX-WS 2.2
+
+
+"
+Provider,"createEndpoint(String bindingId, Object implementor)",abstract Endpoint,Creates an endpoint object with the provided binding and implementation object.,"
+
+createEndpoint
+public abstract Endpoint createEndpoint(String bindingId,
+                                        Object implementor)
+Creates an endpoint object with the provided binding and implementation
+ object.
+
+Parameters:
+bindingId - A URI specifying the desired binding (e.g. SOAP/HTTP)
+implementor - A service implementation object to which
+        incoming requests will be dispatched. The corresponding
+        class MUST be annotated with all the necessary Web service
+        annotations.
+Returns:
+The newly created endpoint.
+
+
+"
+Provider,"createEndpoint(String bindingId, Object implementor, WebServiceFeature... features)",Endpoint,"Creates an endpoint object with the provided binding, implementation object and web service features.","
+
+createEndpoint
+public Endpoint createEndpoint(String bindingId,
+                               Object implementor,
+                               WebServiceFeature... features)
+Creates an endpoint object with the provided binding, implementation
+ object and web service features. Provider implementations
+ must override the default implementation.
+
+Parameters:
+bindingId - A URI specifying the desired binding (e.g. SOAP/HTTP)
+implementor - A service implementation object to which
+        incoming requests will be dispatched. The corresponding
+        class MUST be annotated with all the necessary Web service
+        annotations.
+features - A list of WebServiceFeatures to configure on the
+        endpoint.  Supported features not in the features
+         parameter will have their default values.
+Returns:
+The newly created endpoint.
+Since:
+JAX-WS 2.2
+
+
+"
+Provider,"createServiceDelegate(URL wsdlDocumentLocation, QName serviceName, Class<? extends Service> serviceClass)",abstract ServiceDelegate,Creates a service delegate object.,"
+
+createServiceDelegate
+public abstract ServiceDelegate createServiceDelegate(URL wsdlDocumentLocation,
+                                                      QName serviceName,
+                                                      Class<? extends Service> serviceClass)
+Creates a service delegate object.
+ 
+
+Parameters:
+wsdlDocumentLocation - A URL pointing to the WSDL document
+        for the service, or null if there isn't one.
+serviceName - The qualified name of the service.
+serviceClass - The service class, which MUST be either
+        javax.xml.ws.Service or a subclass thereof.
+Returns:
+The newly created service delegate.
+
+
+"
+Provider,"createServiceDelegate(URL wsdlDocumentLocation, QName serviceName, Class<? extends Service> serviceClass, WebServiceFeature... features)",ServiceDelegate,Creates a service delegate object.,"
+
+createServiceDelegate
+public ServiceDelegate createServiceDelegate(URL wsdlDocumentLocation,
+                                             QName serviceName,
+                                             Class<? extends Service> serviceClass,
+                                             WebServiceFeature... features)
+Creates a service delegate object.
+ 
+
+Parameters:
+wsdlDocumentLocation - A URL pointing to the WSDL document
+        for the service, or null if there isn't one.
+serviceName - The qualified name of the service.
+serviceClass - The service class, which MUST be either
+        javax.xml.ws.Service or a subclass thereof.
+features - Web Service features that must be configured on
+        the service. If the provider doesn't understand a feature,
+        it must throw a WebServiceException.
+Returns:
+The newly created service delegate.
+Since:
+JAX-WS 2.2
+
+
+"
+Provider,"createW3CEndpointReference(String address, QName serviceName, QName portName, List<Element> metadata, String wsdlDocumentLocation, List<Element> referenceParameters)",abstract W3CEndpointReference,Factory method to create a W3CEndpointReference.,"
+
+createW3CEndpointReference
+public abstract W3CEndpointReference createW3CEndpointReference(String address,
+                                                                QName serviceName,
+                                                                QName portName,
+                                                                List<Element> metadata,
+                                                                String wsdlDocumentLocation,
+                                                                List<Element> referenceParameters)
+Factory method to create a W3CEndpointReference.
+
+ 
+ This method can be used to create a W3CEndpointReference
+ for any endpoint by specifying the address property along
+ with any other desired properties.  This method
+ can also be used to create a W3CEndpointReference for
+ an endpoint that is published by the same Java EE application.
+ To do so the address property can be provided or this
+ method can automatically determine the address of
+ an endpoint that is published by the same Java EE application and is
+ identified by the serviceName and
+ portName propeties.  If the address is
+ null and the serviceName and
+ portName do not identify an endpoint published by the
+ same Java EE application, a
+ javax.lang.IllegalStateException MUST be thrown.
+
+Parameters:
+address - Specifies the address of the target endpoint
+serviceName - Qualified name of the service in the WSDL.
+portName - Qualified name of the endpoint in the WSDL.
+metadata - A list of elements that should be added to the
+ W3CEndpointReference instances wsa:metadata
+ element.
+wsdlDocumentLocation - URL for the WSDL document location for
+ the service.
+referenceParameters - Reference parameters to be associated
+ with the returned EndpointReference instance.
+Returns:
+the W3CEndpointReference created from
+          serviceName, portName,
+          metadata, wsdlDocumentLocation
+          and referenceParameters. This method
+          never returns null.
+Throws:
+IllegalStateException - 
+If the address, serviceName and
+            portName are all null.
+        If the serviceName service is null and the
+            portName is NOT null.
+        If the address property is null and
+            the serviceName and portName do not
+            specify a valid endpoint published by the same Java EE
+            application.
+        If the serviceNameis NOT null
+             and is not present in the specified WSDL.
+        If the portName port is not null and it
+             is not present in serviceName service in the WSDL.
+        If the wsdlDocumentLocation is NOT null
+            and does not represent a valid WSDL.
+     
+WebServiceException - If an error occurs while creating the
+                             W3CEndpointReference.
+Since:
+JAX-WS 2.1
+
+
+"
+Provider,"createW3CEndpointReference(String address, QName interfaceName, QName serviceName, QName portName, List<Element> metadata, String wsdlDocumentLocation, List<Element> referenceParameters, List<Element> elements, Map<QName,String> attributes)",W3CEndpointReference,Factory method to create a W3CEndpointReference.,"
+
+createW3CEndpointReference
+public W3CEndpointReference createW3CEndpointReference(String address,
+                                                       QName interfaceName,
+                                                       QName serviceName,
+                                                       QName portName,
+                                                       List<Element> metadata,
+                                                       String wsdlDocumentLocation,
+                                                       List<Element> referenceParameters,
+                                                       List<Element> elements,
+                                                       Map<QName,String> attributes)
+Factory method to create a W3CEndpointReference.
+ Using this method, a W3CEndpointReference instance
+ can be created with extension elements, and attributes.
+ Provider implementations must override the default
+ implementation.
+
+ 
+ This method can be used to create a W3CEndpointReference
+ for any endpoint by specifying the address property along
+ with any other desired properties.  This method
+ can also be used to create a W3CEndpointReference for
+ an endpoint that is published by the same Java EE application.
+ To do so the address property can be provided or this
+ method can automatically determine the address of
+ an endpoint that is published by the same Java EE application and is
+ identified by the serviceName and
+ portName propeties.  If the address is
+ null and the serviceName and
+ portName do not identify an endpoint published by the
+ same Java EE application, a
+ javax.lang.IllegalStateException MUST be thrown.
+
+Parameters:
+address - Specifies the address of the target endpoint
+interfaceName - the wsam:InterfaceName element in the
+ wsa:Metadata element.
+serviceName - Qualified name of the service in the WSDL.
+portName - Qualified name of the endpoint in the WSDL.
+metadata - A list of elements that should be added to the
+ W3CEndpointReference instances wsa:metadata
+ element.
+wsdlDocumentLocation - URL for the WSDL document location for
+ the service.
+referenceParameters - Reference parameters to be associated
+ with the returned EndpointReference instance.
+elements - extension elements to be associated
+ with the returned EndpointReference instance.
+attributes - extension attributes to be associated
+ with the returned EndpointReference instance.
+Returns:
+the W3CEndpointReference created from
+          serviceName, portName,
+          metadata, wsdlDocumentLocation
+          and referenceParameters. This method
+          never returns null.
+Throws:
+IllegalStateException - 
+If the address, serviceName and
+            portName are all null.
+        If the serviceName service is null and the
+            portName is NOT null.
+        If the address property is null and
+            the serviceName and portName do not
+            specify a valid endpoint published by the same Java EE
+            application.
+        If the serviceNameis NOT null
+             and is not present in the specified WSDL.
+        If the portName port is not null and it
+             is not present in serviceName service in the WSDL.
+        If the wsdlDocumentLocation is NOT null
+            and does not represent a valid WSDL.
+        If the wsdlDocumentLocation is NOT null but
+            wsdli:wsdlLocation's namespace name cannot be got from the available
+            metadata.
+     
+WebServiceException - If an error occurs while creating the
+                             W3CEndpointReference.
+Since:
+JAX-WS 2.2
+
+
+"
+Provider,"getPort(EndpointReference endpointReference, Class<T> serviceEndpointInterface, WebServiceFeature... features)",abstract <T> T,The getPort method returns a proxy.,"
+
+getPort
+public abstract <T> T getPort(EndpointReference endpointReference,
+                              Class<T> serviceEndpointInterface,
+                              WebServiceFeature... features)
+The getPort method returns a proxy.  If there
+ are any reference parameters in the
+ endpointReference, then those reference
+ parameters MUST appear as SOAP headers, indicating them to be
+ reference parameters, on all messages sent to the endpoint.
+ The parameter  serviceEndpointInterface specifies
+ the service endpoint interface that is supported by the
+ returned proxy.
+ The parameter endpointReference specifies the
+ endpoint that will be invoked by the returned proxy.
+ In the implementation of this method, the JAX-WS
+ runtime system takes the responsibility of selecting a protocol
+ binding (and a port) and configuring the proxy accordingly from
+ the WSDL metadata of the
+ serviceEndpointInterface and the EndpointReference.
+ For this method
+ to successfully return a proxy, WSDL metadata MUST be available and the
+ endpointReference MUST contain an implementation understood
+ serviceName metadata.
+
+Parameters:
+endpointReference - the EndpointReference that will
+ be invoked by the returned proxy.
+serviceEndpointInterface - Service endpoint interface
+features - A list of WebServiceFeatures to configure on the
+                proxy.  Supported features not in the features
+                 parameter will have their default values.
+Returns:
+Object Proxy instance that supports the
+                  specified service endpoint interface
+Throws:
+WebServiceException - 
+If there is an error during creation
+                      of the proxy
+                  If there is any missing WSDL metadata
+                      as required by this method}
+                  If this
+                      endpointReference
+                      is illegal
+                  If an illegal
+                      serviceEndpointInterface
+                      is specified
+                  If a feature is enabled that is not compatible with
+                      this port or is unsupported.
+                   
+Since:
+JAX-WS 2.1
+See Also:
+WebServiceFeature
+
+
+"
+Provider,provider(),static Provider,Creates a new provider object.,"
+
+provider
+public static Provider provider()
+Creates a new provider object.
+ 
+ The algorithm used to locate the provider subclass to use consists
+ of the following steps:
+ 
+
+
+   If a resource with the name of
+   META-INF/services/javax.xml.ws.spi.Provider
+   exists, then its first line, if present, is used as the UTF-8 encoded
+   name of the implementation class.
+ 
+
+   If the $java.home/lib/jaxws.properties file exists and it is readable by
+   the java.util.Properties.load(InputStream) method and it contains
+   an entry whose key is javax.xml.ws.spi.Provider, then the value of
+   that entry is used as the name of the implementation class.
+ 
+
+   If a system property with the name javax.xml.ws.spi.Provider
+   is defined, then its value is used as the name of the implementation class.
+ 
+
+   Finally, a default implementation class name is used.
+ 
+
+
+"
+Provider,readEndpointReference(Source eprInfoset),abstract EndpointReference,read an EndpointReference from the infoset contained in eprInfoset.,"
+
+readEndpointReference
+public abstract EndpointReference readEndpointReference(Source eprInfoset)
+read an EndpointReference from the infoset contained in
+ eprInfoset.
+
+Parameters:
+eprInfoset - infoset for EndpointReference
+Returns:
+the EndpointReference unmarshalled from
+ eprInfoset.  This method never returns null.
+Throws:
+WebServiceException - If there is an error creating the
+ EndpointReference from the specified eprInfoset.
+NullPointerException - If the null
+eprInfoset value is given.
+Since:
+JAX-WS 2.1
+
+
+"
+ServiceDelegate,"addPort(QName portName, String bindingId, String endpointAddress)",abstract void,Creates a new port for the service.,"
+
+addPort
+public abstract void addPort(QName portName,
+                             String bindingId,
+                             String endpointAddress)
+Creates a new port for the service. Ports created in this way contain
+ no WSDL port type information and can only be used for creating
+ Dispatchinstances.
+
+Parameters:
+portName - Qualified name for the target service endpoint
+bindingId - A URI identifier of a binding.
+endpointAddress - Address of the target service endpoint as a URI
+Throws:
+WebServiceException - If any error in the creation of
+ the port
+See Also:
+SOAPBinding.SOAP11HTTP_BINDING, 
+SOAPBinding.SOAP12HTTP_BINDING, 
+HTTPBinding.HTTP_BINDING
+
+
+"
+ServiceDelegate,"createDispatch(EndpointReference endpointReference, Class<T> type, Service.Mode mode, WebServiceFeature... features)",abstract <T> Dispatch<T>,Creates a Dispatch instance for use with objects of the user's choosing.,"
+
+createDispatch
+public abstract <T> Dispatch<T> createDispatch(EndpointReference endpointReference,
+                                               Class<T> type,
+                                               Service.Mode mode,
+                                               WebServiceFeature... features)
+Creates a Dispatch instance for use with objects of
+ the user's choosing. If there
+ are any reference parameters in the
+ endpointReference, then those reference
+ parameters MUST appear as SOAP headers, indicating them to be
+ reference parameters, on all messages sent to the endpoint.
+ The endpointReference's address MUST be used
+ for invocations on the endpoint.
+ In the implementation of this method, the JAX-WS
+ runtime system takes the responsibility of selecting a protocol
+ binding (and a port) and configuring the dispatch accordingly from
+ the WSDL associated with this Service instance or
+ from the metadata from the endpointReference.
+ If this Service instance has a WSDL and
+ the endpointReference
+ also has a WSDL in its metadata, then the WSDL from this instance MUST be used.
+ If this Service instance does not have a WSDL and
+ the endpointReference does have a WSDL, then the
+ WSDL from the endpointReference MAY be used.
+ An implementation MUST be able to retrieve the portName from the
+ endpointReference metadata.
+ 
+ This method behaves the same as calling
+ 
+ dispatch = service.createDispatch(portName, type, mode, features);
+ 
+ where the portName is retrieved from the
+ WSDL or EndpointReference metadata.
+
+Parameters:
+endpointReference - The EndpointReference
+ for the target service endpoint that will be invoked by the
+ returned Dispatch object.
+type - The class of object used to messages or message
+ payloads. Implementations are required to support
+ javax.xml.transform.Source and javax.xml.soap.SOAPMessage.
+mode - Controls whether the created dispatch instance is message
+ or payload oriented, i.e. whether the user will work with complete
+ protocol messages or message payloads. E.g. when using the SOAP
+ protocol, this parameter controls whether the user will work with
+ SOAP messages or the contents of a SOAP body. Mode MUST be MESSAGE
+ when type is SOAPMessage.
+features - An array of WebServiceFeatures to configure on the
+                proxy.  Supported features not in the features
+                 parameter will have their default values.
+Returns:
+Dispatch instance
+Throws:
+WebServiceException - 
+If there is any missing WSDL metadata
+                      as required by this method.
+                    If the endpointReference metadata does
+                      not match the serviceName or portName
+                      of a WSDL associated
+                      with this Service instance.
+                    If the portName cannot be determined
+                    from the EndpointReference metadata.
+                    If any error in the creation of
+                     the Dispatch object.
+                    If a feature is enabled that is not
+                    compatible with this port or is unsupported.
+                  
+Since:
+JAX-WS 2.1
+See Also:
+Source, 
+SOAPMessage, 
+WebServiceFeature
+
+
+"
+ServiceDelegate,"createDispatch(EndpointReference endpointReference, JAXBContext context, Service.Mode mode, WebServiceFeature... features)",abstract Dispatch<Object>,Creates a Dispatch instance for use with JAXB generated objects.,"
+
+createDispatch
+public abstract Dispatch<Object> createDispatch(EndpointReference endpointReference,
+                                                JAXBContext context,
+                                                Service.Mode mode,
+                                                WebServiceFeature... features)
+Creates a Dispatch instance for use with JAXB
+ generated objects. If there
+ are any reference parameters in the
+ endpointReference, then those reference
+ parameters MUST appear as SOAP headers, indicating them to be
+ reference parameters, on all messages sent to the endpoint.
+ The endpointReference's address MUST be used
+ for invocations on the endpoint.
+ In the implementation of this method, the JAX-WS
+ runtime system takes the responsibility of selecting a protocol
+ binding (and a port) and configuring the dispatch accordingly from
+ the WSDL associated with this Service instance or
+ from the metadata from the endpointReference.
+ If this Service instance has a WSDL and
+ the endpointReference
+ also has a WSDL in its metadata, then the WSDL from this instance
+ MUST be used.
+ If this Service instance does not have a WSDL and
+ the endpointReference does have a WSDL, then the
+ WSDL from the endpointReference MAY be used.
+ An implementation MUST be able to retrieve the portName from the
+ endpointReference metadata.
+ 
+ This method behavies the same as calling
+ 
+ dispatch = service.createDispatch(portName, context, mode, features);
+ 
+ where the portName is retrieved from the
+ WSDL or endpointReference metadata.
+
+Parameters:
+endpointReference - The EndpointReference
+ for the target service endpoint that will be invoked by the
+ returned Dispatch object.
+context - The JAXB context used to marshall and unmarshall
+ messages or message payloads.
+mode - Controls whether the created dispatch instance is message
+ or payload oriented, i.e. whether the user will work with complete
+ protocol messages or message payloads. E.g. when using the SOAP
+ protocol, this parameter controls whether the user will work with
+ SOAP messages or the contents of a SOAP body.
+features - An array of WebServiceFeatures to configure on the
+                proxy.  Supported features not in the features
+                 parameter will have their default values.
+Returns:
+Dispatch instance
+Throws:
+WebServiceException - 
+If there is any missing WSDL metadata
+                      as required by this method.
+                    If the endpointReference metadata does
+                    not match the serviceName or portName
+                    of a WSDL associated
+                    with this Service instance.
+                    If the portName cannot be determined
+                    from the EndpointReference metadata.
+                    If any error in the creation of
+                    the Dispatch object.
+                    if a feature is enabled that is not
+                    compatible with this port or is unsupported.
+                  
+Since:
+JAX-WS 2.1
+See Also:
+JAXBContext, 
+WebServiceFeature
+
+
+"
+ServiceDelegate,"createDispatch(QName portName, Class<T> type, Service.Mode mode)",abstract <T> Dispatch<T>,Creates a Dispatch instance for use with objects of the user's choosing.,"
+
+createDispatch
+public abstract <T> Dispatch<T> createDispatch(QName portName,
+                                               Class<T> type,
+                                               Service.Mode mode)
+Creates a Dispatch instance for use with objects of
+ the user's choosing.
+
+Parameters:
+portName - Qualified name for the target service endpoint
+type - The class of object used for messages or message
+ payloads. Implementations are required to support
+ javax.xml.transform.Source and javax.xml.soap.SOAPMessage.
+mode - Controls whether the created dispatch instance is message
+ or payload oriented, i.e. whether the user will work with complete
+ protocol messages or message payloads. E.g. when using the SOAP
+ protocol, this parameter controls whether the user will work with
+ SOAP messages or the contents of a SOAP body. Mode MUST be MESSAGE
+ when type is SOAPMessage.
+Returns:
+Dispatch instance
+Throws:
+WebServiceException - If any error in the creation of
+                  the Dispatch object
+See Also:
+Source, 
+SOAPMessage
+
+
+"
+ServiceDelegate,"createDispatch(QName portName, Class<T> type, Service.Mode mode, WebServiceFeature... features)",abstract <T> Dispatch<T>,Creates a Dispatch instance for use with objects of the user's choosing.,"
+
+createDispatch
+public abstract <T> Dispatch<T> createDispatch(QName portName,
+                                               Class<T> type,
+                                               Service.Mode mode,
+                                               WebServiceFeature... features)
+Creates a Dispatch instance for use with objects of
+ the user's choosing.
+
+Parameters:
+portName - Qualified name for the target service endpoint
+type - The class of object used for messages or message
+ payloads. Implementations are required to support
+ javax.xml.transform.Source and javax.xml.soap.SOAPMessage.
+mode - Controls whether the created dispatch instance is message
+ or payload oriented, i.e. whether the user will work with complete
+ protocol messages or message payloads. E.g. when using the SOAP
+ protocol, this parameter controls whether the user will work with
+ SOAP messages or the contents of a SOAP body. Mode MUST be MESSAGE
+ when type is SOAPMessage.
+features - A list of WebServiceFeatures to configure on the
+                proxy.  Supported features not in the features
+                 parameter will have their default values.
+Returns:
+Dispatch instance
+Throws:
+WebServiceException - If any error in the creation of
+                  the Dispatch object or if a
+                  feature is enabled that is not compatible with
+                  this port or is unsupported.
+Since:
+JAX-WS 2.1
+See Also:
+Source, 
+SOAPMessage, 
+WebServiceFeature
+
+
+"
+ServiceDelegate,"createDispatch(QName portName, JAXBContext context, Service.Mode mode)",abstract Dispatch<Object>,Creates a Dispatch instance for use with JAXB generated objects.,"
+
+createDispatch
+public abstract Dispatch<Object> createDispatch(QName portName,
+                                                JAXBContext context,
+                                                Service.Mode mode)
+Creates a Dispatch instance for use with JAXB
+ generated objects.
+
+Parameters:
+portName - Qualified name for the target service endpoint
+context - The JAXB context used to marshall and unmarshall
+ messages or message payloads.
+mode - Controls whether the created dispatch instance is message
+ or payload oriented, i.e. whether the user will work with complete
+ protocol messages or message payloads. E.g. when using the SOAP
+ protocol, this parameter controls whether the user will work with
+ SOAP messages or the contents of a SOAP body.
+Returns:
+Dispatch instance
+Throws:
+WebServiceException - If any error in the creation of
+                  the Dispatch object
+See Also:
+JAXBContext
+
+
+"
+ServiceDelegate,"createDispatch(QName portName, JAXBContext context, Service.Mode mode, WebServiceFeature... features)",abstract Dispatch<Object>,Creates a Dispatch instance for use with JAXB generated objects.,"
+
+createDispatch
+public abstract Dispatch<Object> createDispatch(QName portName,
+                                                JAXBContext context,
+                                                Service.Mode mode,
+                                                WebServiceFeature... features)
+Creates a Dispatch instance for use with JAXB
+ generated objects.
+
+Parameters:
+portName - Qualified name for the target service endpoint
+context - The JAXB context used to marshall and unmarshall
+ messages or message payloads.
+mode - Controls whether the created dispatch instance is message
+ or payload oriented, i.e. whether the user will work with complete
+ protocol messages or message payloads. E.g. when using the SOAP
+ protocol, this parameter controls whether the user will work with
+ SOAP messages or the contents of a SOAP body.
+features - A list of WebServiceFeatures to configure on the
+                proxy.  Supported features not in the features
+                 parameter will have their default values.
+Returns:
+Dispatch instance
+Throws:
+WebServiceException - If any error in the creation of
+                  the Dispatch object or if a
+                  feature is enabled that is not compatible with
+                  this port or is unsupported.
+Since:
+JAX-WS 2.1
+See Also:
+JAXBContext, 
+WebServiceFeature
+
+
+"
+ServiceDelegate,getExecutor(),abstract Executor,Returns the executor for this Serviceinstance.,"
+
+getExecutor
+public abstract Executor getExecutor()
+Returns the executor for this Serviceinstance.
+
+ The executor is used for all asynchronous invocations that
+ require callbacks.
+
+Returns:
+The java.util.concurrent.Executor to be
+         used to invoke a callback.
+See Also:
+Executor
+
+
+"
+ServiceDelegate,getHandlerResolver(),abstract HandlerResolver,Returns the configured handler resolver.,"
+
+getHandlerResolver
+public abstract HandlerResolver getHandlerResolver()
+Returns the configured handler resolver.
+
+Returns:
+HandlerResolver The HandlerResolver being
+         used by this Service instance, or null
+         if there isn't one.
+
+
+"
+ServiceDelegate,getPort(Class<T> serviceEndpointInterface),abstract <T> T,The getPort method returns a proxy.,"
+
+getPort
+public abstract <T> T getPort(Class<T> serviceEndpointInterface)
+The getPort method returns a proxy. The parameter
+ serviceEndpointInterface specifies the service
+ endpoint interface that is supported by the returned proxy.
+ In the implementation of this method, the JAX-WS
+ runtime system takes the responsibility of selecting a protocol
+ binding (and a port) and configuring the proxy accordingly.
+ The returned proxy should not be reconfigured by the client.
+
+Parameters:
+serviceEndpointInterface - Service endpoint interface
+Returns:
+Object instance that supports the
+                  specified service endpoint interface
+Throws:
+WebServiceException - 
+If there is an error during creation
+                      of the proxy
+                  If there is any missing WSDL metadata
+                      as required by this method
+                  If an illegal
+                      serviceEndpointInterface
+                      is specified
+                  
+
+
+"
+ServiceDelegate,"getPort(Class<T> serviceEndpointInterface, WebServiceFeature... features)",abstract <T> T,The getPort method returns a proxy.,"
+
+getPort
+public abstract <T> T getPort(Class<T> serviceEndpointInterface,
+                              WebServiceFeature... features)
+The getPort method returns a proxy. The parameter
+ serviceEndpointInterface specifies the service
+ endpoint interface that is supported by the returned proxy.
+ In the implementation of this method, the JAX-WS
+ runtime system takes the responsibility of selecting a protocol
+ binding (and a port) and configuring the proxy accordingly.
+ The returned proxy should not be reconfigured by the client.
+
+Parameters:
+serviceEndpointInterface - Service endpoint interface
+features - An array of WebServiceFeatures to configure on the
+                proxy.  Supported features not in the features
+                 parameter will have their default values.
+Returns:
+Object instance that supports the
+                  specified service endpoint interface
+Throws:
+WebServiceException - 
+If there is an error during creation
+                      of the proxy
+                  If there is any missing WSDL metadata
+                      as required by this method
+                  If an illegal
+                      serviceEndpointInterface
+                      is specified
+                  If a feature is enabled that is not compatible
+                      with this port or is unsupported.
+                  
+Since:
+JAX-WS 2.1
+See Also:
+WebServiceFeature
+
+
+"
+ServiceDelegate,"getPort(EndpointReference endpointReference, Class<T> serviceEndpointInterface, WebServiceFeature... features)",abstract <T> T,The getPort method returns a proxy.,"
+
+getPort
+public abstract <T> T getPort(EndpointReference endpointReference,
+                              Class<T> serviceEndpointInterface,
+                              WebServiceFeature... features)
+The getPort method returns a proxy.
+ The parameter endpointReference specifies the
+ endpoint that will be invoked by the returned proxy.  If there
+ are any reference parameters in the
+ endpointReference, then those reference
+ parameters MUST appear as SOAP headers, indicating them to be
+ reference parameters, on all messages sent to the endpoint.
+ The endpointReference's address MUST be used
+ for invocations on the endpoint.
+ The parameter serviceEndpointInterface specifies
+ the service endpoint interface that is supported by the
+ returned proxy.
+ In the implementation of this method, the JAX-WS
+ runtime system takes the responsibility of selecting a protocol
+ binding (and a port) and configuring the proxy accordingly from
+ the WSDL associated with this Service instance or
+ from the metadata from the endpointReference.
+ If this Service instance has a WSDL and
+ the endpointReference metadata
+ also has a WSDL, then the WSDL from this instance MUST be used.
+ If this Service instance does not have a WSDL and
+ the endpointReference does have a WSDL, then the
+ WSDL from the endpointReference MAY be used.
+ The returned proxy should not be reconfigured by the client.
+ If this Service instance has a known proxy
+ port that matches the information contained in
+ the WSDL,
+ then that proxy is returned, otherwise a WebServiceException
+ is thrown.
+ 
+ Calling this method has the same behavior as the following
+ 
+ port = service.getPort(portName, serviceEndpointInterface);
+ 
+ where the portName is retrieved from the
+ metadata of the endpointReference or from the
+ serviceEndpointInterface and the WSDL
+ associated with this Service instance.
+
+Parameters:
+endpointReference - The EndpointReference
+ for the target service endpoint that will be invoked by the
+ returned proxy.
+serviceEndpointInterface - Service endpoint interface.
+features - A list of WebServiceFeatures to configure on the
+                proxy.  Supported features not in the features
+                 parameter will have their default values.
+Returns:
+Object Proxy instance that supports the
+                  specified service endpoint interface.
+Throws:
+WebServiceException - 
+If there is an error during creation
+                      of the proxy.
+                  If there is any missing WSDL metadata
+                      as required by this method.
+                  If the endpointReference metadata does
+                      not match the serviceName of this
+                      Service instance.
+                  If a portName cannot be extracted
+                      from the WSDL or endpointReference metadata.
+                  If an invalid
+                      endpointReference
+                      is specified.
+                  If an invalid
+                      serviceEndpointInterface
+                      is specified.
+                  If a feature is enabled that is not compatible
+                      with this port or is unsupported.
+                  
+Since:
+JAX-WS 2.1
+
+
+"
+ServiceDelegate,"getPort(QName portName, Class<T> serviceEndpointInterface)",abstract <T> T,The getPort method returns a proxy.,"
+
+getPort
+public abstract <T> T getPort(QName portName,
+                              Class<T> serviceEndpointInterface)
+The getPort method returns a proxy. A service client
+ uses this proxy to invoke operations on the target
+ service endpoint. The serviceEndpointInterface
+ specifies the service endpoint interface that is supported by
+ the created dynamic proxy instance.
+
+Parameters:
+portName - Qualified name of the service endpoint in
+                  the WSDL service description
+serviceEndpointInterface - Service endpoint interface
+                  supported by the dynamic proxy
+Returns:
+Object Proxy instance that
+                supports the specified service endpoint
+                interface
+Throws:
+WebServiceException - This exception is thrown in the
+                  following cases:
+                  
+If there is an error in creation of
+                      the proxy
+                  If there is any missing WSDL metadata
+                      as required by this method
+                  If an illegal
+                      serviceEndpointInterface
+                      or portName is specified
+                  
+See Also:
+Proxy, 
+InvocationHandler
+
+
+"
+ServiceDelegate,"getPort(QName portName, Class<T> serviceEndpointInterface, WebServiceFeature... features)",abstract <T> T,The getPort method returns a proxy.,"
+
+getPort
+public abstract <T> T getPort(QName portName,
+                              Class<T> serviceEndpointInterface,
+                              WebServiceFeature... features)
+The getPort method returns a proxy. A service client
+ uses this proxy to invoke operations on the target
+ service endpoint. The serviceEndpointInterface
+ specifies the service endpoint interface that is supported by
+ the created dynamic proxy instance.
+
+Parameters:
+portName - Qualified name of the service endpoint in
+                  the WSDL service description
+serviceEndpointInterface - Service endpoint interface
+                  supported by the dynamic proxy or instance
+features - A list of WebServiceFeatures to configure on the
+                proxy.  Supported features not in the features
+                 parameter will have their default values.
+Returns:
+Object Proxy instance that
+                supports the specified service endpoint
+                interface
+Throws:
+WebServiceException - This exception is thrown in the
+                  following cases:
+                  
+If there is an error in creation of
+                      the proxy
+                  If there is any missing WSDL metadata
+                      as required by this method
+                  If an illegal
+                      serviceEndpointInterface
+                      or portName is specified
+                  If a feature is enabled that is not compatible
+                      with this port or is unsupported.
+                  
+Since:
+JAX-WS 2.1
+See Also:
+Proxy, 
+InvocationHandler, 
+WebServiceFeature
+
+
+"
+ServiceDelegate,getPorts(),abstract Iterator<QName>,Returns an Iterator for the list of QNames of service endpoints grouped by this service,"
+
+getPorts
+public abstract Iterator<QName> getPorts()
+Returns an Iterator for the list of
+ QNames of service endpoints grouped by this
+ service
+
+Returns:
+Returns java.util.Iterator with elements
+         of type javax.xml.namespace.QName
+Throws:
+WebServiceException - If this Service class does not
+         have access to the required WSDL metadata
+
+
+"
+ServiceDelegate,getServiceName(),abstract QName,Gets the name of this service.,"
+
+getServiceName
+public abstract QName getServiceName()
+Gets the name of this service.
+
+Returns:
+Qualified name of this service
+
+
+"
+ServiceDelegate,getWSDLDocumentLocation(),abstract URL,Gets the location of the WSDL document for this Service.,"
+
+getWSDLDocumentLocation
+public abstract URL getWSDLDocumentLocation()
+Gets the location of the WSDL document for this Service.
+
+Returns:
+URL for the location of the WSDL document for
+         this service
+
+
+"
+ServiceDelegate,setExecutor(Executor executor),abstract void,Sets the executor for this Service instance.,"
+
+setExecutor
+public abstract void setExecutor(Executor executor)
+Sets the executor for this Service instance.
+
+ The executor is used for all asynchronous invocations that
+ require callbacks.
+
+Parameters:
+executor - The java.util.concurrent.Executor
+        to be used to invoke a callback.
+Throws:
+SecurityException - If the instance does not support
+         setting an executor for security reasons (e.g. the
+         necessary permissions are missing).
+See Also:
+Executor
+
+
+"
+ServiceDelegate,setHandlerResolver(HandlerResolver handlerResolver),abstract void,Sets the HandlerResolver for this Service instance.,"
+
+setHandlerResolver
+public abstract void setHandlerResolver(HandlerResolver handlerResolver)
+Sets the HandlerResolver for this Service
+ instance.
+ 
+ The handler resolver, if present, will be called once for each
+ proxy or dispatch instance that is created, and the handler chain
+ returned by the resolver will be set on the instance.
+
+Parameters:
+handlerResolver - The HandlerResolver to use
+        for all subsequently created proxy/dispatch objects.
+See Also:
+HandlerResolver
+
+
+"

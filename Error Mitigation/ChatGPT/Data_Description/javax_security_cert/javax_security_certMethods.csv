@@ -1,0 +1,448 @@
+ClassName,Method,Return Type,Description,Full Description
+Certificate,equals(Object other),boolean,Compares this certificate for equality with the specified object.,"
+
+equals
+public boolean equals(Object other)
+Compares this certificate for equality with the specified
+ object. If the other object is an
+ instanceof Certificate, then
+ its encoded form is retrieved and compared with the
+ encoded form of this certificate.
+
+Overrides:
+equals in class Object
+Parameters:
+other - the object to test for equality with this certificate.
+Returns:
+true if the encoded forms of the two certificates
+         match, false otherwise.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+Certificate,getEncoded(),abstract byte[],Returns the encoded form of this certificate.,"
+
+getEncoded
+public abstract byte[] getEncoded()
+                           throws CertificateEncodingException
+Returns the encoded form of this certificate. It is
+ assumed that each certificate type would have only a single
+ form of encoding; for example, X.509 certificates would
+ be encoded as ASN.1 DER.
+
+Returns:
+encoded form of this certificate
+Throws:
+CertificateEncodingException - on internal certificate
+            encoding failure
+
+
+"
+Certificate,getPublicKey(),abstract PublicKey,Gets the public key from this certificate.,"
+
+getPublicKey
+public abstract PublicKey getPublicKey()
+Gets the public key from this certificate.
+
+Returns:
+the public key.
+
+
+"
+Certificate,hashCode(),int,Returns a hashcode value for this certificate from its encoded form.,"
+
+hashCode
+public int hashCode()
+Returns a hashcode value for this certificate from its
+ encoded form.
+
+Overrides:
+hashCode in class Object
+Returns:
+the hashcode value.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+Certificate,toString(),abstract String,Returns a string representation of this certificate.,"
+
+toString
+public abstract String toString()
+Returns a string representation of this certificate.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of this certificate.
+
+
+"
+Certificate,verify(PublicKey key),abstract void,Verifies that this certificate was signed using the private key that corresponds to the specified public key.,"
+
+verify
+public abstract void verify(PublicKey key)
+                     throws CertificateException,
+                            NoSuchAlgorithmException,
+                            InvalidKeyException,
+                            NoSuchProviderException,
+                            SignatureException
+Verifies that this certificate was signed using the
+ private key that corresponds to the specified public key.
+
+Parameters:
+key - the PublicKey used to carry out the verification.
+Throws:
+NoSuchAlgorithmException - on unsupported signature
+ algorithms.
+InvalidKeyException - on incorrect key.
+NoSuchProviderException - if there's no default provider.
+SignatureException - on signature errors.
+CertificateException - on encoding errors.
+
+
+"
+Certificate,"verify(PublicKey key, String sigProvider)",abstract void,Verifies that this certificate was signed using the private key that corresponds to the specified public key.,"
+
+verify
+public abstract void verify(PublicKey key,
+                            String sigProvider)
+                     throws CertificateException,
+                            NoSuchAlgorithmException,
+                            InvalidKeyException,
+                            NoSuchProviderException,
+                            SignatureException
+Verifies that this certificate was signed using the
+ private key that corresponds to the specified public key.
+ This method uses the signature verification engine
+ supplied by the specified provider.
+
+Parameters:
+key - the PublicKey used to carry out the verification.
+sigProvider - the name of the signature provider.
+Throws:
+NoSuchAlgorithmException - on unsupported signature algorithms.
+InvalidKeyException - on incorrect key.
+NoSuchProviderException - on incorrect provider.
+SignatureException - on signature errors.
+CertificateException - on encoding errors.
+
+
+"
+X509Certificate,checkValidity(),abstract void,Checks that the certificate is currently valid.,"
+
+checkValidity
+public abstract void checkValidity()
+                            throws CertificateExpiredException,
+                                   CertificateNotYetValidException
+Checks that the certificate is currently valid. It is if
+ the current date and time are within the validity period given in the
+ certificate.
+ 
+ The validity period consists of two date/time values:
+ the first and last dates (and times) on which the certificate
+ is valid. It is defined in
+ ASN.1 as:
+ 
+ validity             Validity
+
+ Validity ::= SEQUENCE {
+     notBefore      CertificateValidityDate,
+     notAfter       CertificateValidityDate }
+
+ CertificateValidityDate ::= CHOICE {
+     utcTime        UTCTime,
+     generalTime    GeneralizedTime }
+ 
+
+Throws:
+CertificateExpiredException - if the certificate has expired.
+CertificateNotYetValidException - if the certificate is not
+            yet valid.
+
+
+"
+X509Certificate,checkValidity(Date date),abstract void,Checks that the specified date is within the certificate's validity period.,"
+
+checkValidity
+public abstract void checkValidity(Date date)
+                            throws CertificateExpiredException,
+                                   CertificateNotYetValidException
+Checks that the specified date is within the certificate's
+ validity period. In other words, this determines whether the
+ certificate would be valid at the specified date/time.
+
+Parameters:
+date - the Date to check against to see if this certificate
+        is valid at that date/time.
+Throws:
+CertificateExpiredException - if the certificate has expired
+            with respect to the date supplied.
+CertificateNotYetValidException - if the certificate is not
+            yet valid with respect to the date supplied.
+See Also:
+checkValidity()
+
+
+"
+X509Certificate,getInstance(byte[] certData),static X509Certificate,"Instantiates an X509Certificate object, and initializes it with the specified byte array.","
+
+getInstance
+public static final X509Certificate getInstance(byte[] certData)
+                                         throws CertificateException
+Instantiates an X509Certificate object, and initializes it with
+ the specified byte array.
+ The implementation (X509Certificate is an abstract class) is
+ provided by the class specified as the value of the
+ cert.provider.x509v1 security property.
+
+ Note: All X509Certificate
+ subclasses must provide a constructor of the form:
+ 
+ public <subClass>(InputStream inStream) ...
+ 
+
+Parameters:
+certData - a byte array containing the DER-encoded
+        certificate.
+Returns:
+an X509Certificate object initialized with the data
+         from certData.
+Throws:
+CertificateException - if a class initialization
+            or certificate parsing error occurs.
+
+
+"
+X509Certificate,getInstance(InputStream inStream),static X509Certificate,"Instantiates an X509Certificate object, and initializes it with the data read from the input stream inStream.","
+
+getInstance
+public static final X509Certificate getInstance(InputStream inStream)
+                                         throws CertificateException
+Instantiates an X509Certificate object, and initializes it with
+ the data read from the input stream inStream.
+ The implementation (X509Certificate is an abstract class) is
+ provided by the class specified as the value of the
+ cert.provider.x509v1 security property.
+
+ Note: Only one DER-encoded
+ certificate is expected to be in the input stream.
+ Also, all X509Certificate
+ subclasses must provide a constructor of the form:
+ 
+ public <subClass>(InputStream inStream) ...
+ 
+
+Parameters:
+inStream - an input stream with the data to be read to
+        initialize the certificate.
+Returns:
+an X509Certificate object initialized with the data
+         from the input stream.
+Throws:
+CertificateException - if a class initialization
+            or certificate parsing error occurs.
+
+
+"
+X509Certificate,getIssuerDN(),abstract Principal,Gets the issuer (issuer distinguished name) value from the certificate.,"
+
+getIssuerDN
+public abstract Principal getIssuerDN()
+Gets the issuer (issuer distinguished name) value from
+ the certificate. The issuer name identifies the entity that signed (and
+ issued) the certificate.
+
+ The issuer name field contains an
+ X.500 distinguished name (DN).
+ The ASN.1 definition for this is:
+ 
+ issuer    Name
+
+ Name ::= CHOICE { RDNSequence }
+ RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+ RelativeDistinguishedName ::=
+     SET OF AttributeValueAssertion
+
+ AttributeValueAssertion ::= SEQUENCE {
+                               AttributeType,
+                               AttributeValue }
+ AttributeType ::= OBJECT IDENTIFIER
+ AttributeValue ::= ANY
+ 
+ The Name describes a hierarchical name composed of
+ attributes, such as country name, and corresponding values, such as US.
+ The type of the AttributeValue component is determined by
+ the AttributeType; in general it will be a
+ directoryString. A directoryString is usually
+ one of PrintableString,
+ TeletexString or UniversalString.
+
+Returns:
+a Principal whose name is the issuer distinguished name.
+
+
+"
+X509Certificate,getNotAfter(),abstract Date,Gets the notAfter date from the validity period of the certificate.,"
+
+getNotAfter
+public abstract Date getNotAfter()
+Gets the notAfter date from the validity period of
+ the certificate. See getNotBefore
+ for relevant ASN.1 definitions.
+
+Returns:
+the end date of the validity period.
+See Also:
+checkValidity()
+
+
+"
+X509Certificate,getNotBefore(),abstract Date,Gets the notBefore date from the validity period of the certificate.,"
+
+getNotBefore
+public abstract Date getNotBefore()
+Gets the notBefore date from the validity period of
+ the certificate.
+ The relevant ASN.1 definitions are:
+ 
+ validity             Validity
+
+ Validity ::= SEQUENCE {
+     notBefore      CertificateValidityDate,
+     notAfter       CertificateValidityDate }
+
+ CertificateValidityDate ::= CHOICE {
+     utcTime        UTCTime,
+     generalTime    GeneralizedTime }
+ 
+
+Returns:
+the start date of the validity period.
+See Also:
+checkValidity()
+
+
+"
+X509Certificate,getSerialNumber(),abstract BigInteger,Gets the serialNumber value from the certificate.,"
+
+getSerialNumber
+public abstract BigInteger getSerialNumber()
+Gets the serialNumber value from the certificate.
+ The serial number is an integer assigned by the certification
+ authority to each certificate. It must be unique for each
+ certificate issued by a given CA (i.e., the issuer name and
+ serial number identify a unique certificate).
+ The ASN.1 definition for this is:
+ 
+ serialNumber     CertificateSerialNumber
+
+ CertificateSerialNumber  ::=  INTEGER
+ 
+
+Returns:
+the serial number.
+
+
+"
+X509Certificate,getSigAlgName(),abstract String,Gets the signature algorithm name for the certificate signature algorithm.,"
+
+getSigAlgName
+public abstract String getSigAlgName()
+Gets the signature algorithm name for the certificate
+ signature algorithm. An example is the string ""SHA-1/DSA"".
+ The ASN.1 definition for this is:
+ 
+ signatureAlgorithm   AlgorithmIdentifier
+
+ AlgorithmIdentifier  ::=  SEQUENCE  {
+     algorithm               OBJECT IDENTIFIER,
+     parameters              ANY DEFINED BY algorithm OPTIONAL  }
+                             -- contains a value of the type
+                             -- registered for use with the
+                             -- algorithm object identifier value
+ 
+The algorithm name is determined from the algorithm
+ OID string.
+
+Returns:
+the signature algorithm name.
+
+
+"
+X509Certificate,getSigAlgOID(),abstract String,Gets the signature algorithm OID string from the certificate.,"
+
+getSigAlgOID
+public abstract String getSigAlgOID()
+Gets the signature algorithm OID string from the certificate.
+ An OID is represented by a set of positive whole numbers separated
+ by periods.
+ For example, the string ""1.2.840.10040.4.3"" identifies the SHA-1
+ with DSA signature algorithm, as per the PKIX part I.
+
+ See getSigAlgName for
+ relevant ASN.1 definitions.
+
+Returns:
+the signature algorithm OID string.
+
+
+"
+X509Certificate,getSigAlgParams(),abstract byte[],Gets the DER-encoded signature algorithm parameters from this certificate's signature algorithm.,"
+
+getSigAlgParams
+public abstract byte[] getSigAlgParams()
+Gets the DER-encoded signature algorithm parameters from this
+ certificate's signature algorithm. In most cases, the signature
+ algorithm parameters are null; the parameters are usually
+ supplied with the certificate's public key.
+
+ See getSigAlgName for
+ relevant ASN.1 definitions.
+
+Returns:
+the DER-encoded signature algorithm parameters, or
+         null if no parameters are present.
+
+
+"
+X509Certificate,getSubjectDN(),abstract Principal,Gets the subject (subject distinguished name) value from the certificate.,"
+
+getSubjectDN
+public abstract Principal getSubjectDN()
+Gets the subject (subject distinguished name) value
+ from the certificate.
+ The ASN.1 definition for this is:
+ 
+ subject    Name
+ 
+See getIssuerDN for Name
+ and other relevant definitions.
+
+Returns:
+a Principal whose name is the subject name.
+See Also:
+getIssuerDN()
+
+
+"
+X509Certificate,getVersion(),abstract int,Gets the version (version number) value from the certificate.,"
+
+getVersion
+public abstract int getVersion()
+Gets the version (version number) value from the
+ certificate. The ASN.1 definition for this is:
+ 
+ version         [0]  EXPLICIT Version DEFAULT v1
+
+ Version  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
+ 
+
+Returns:
+the version number from the ASN.1 encoding, i.e. 0, 1 or 2.
+
+
+"

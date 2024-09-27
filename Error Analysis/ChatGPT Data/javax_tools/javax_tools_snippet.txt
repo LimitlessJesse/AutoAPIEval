@@ -1,0 +1,212 @@
+Sample: 0 ForwardingFileObject_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.tools.ForwardingFileObject;
+
+public class Main {
+    public static void main(String[] args) {
+        ForwardingFileObject fileObject = new ForwardingFileObject() {
+            @Override
+            public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+                // Add your implementation here
+                return null;
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 1 ForwardingFileObject_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.tools.ForwardingFileObject;
+import javax.tools.JavaFileObject;
+import java.io.OutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void useOpenOutputStream(ForwardingFileObject file) {
+        try {
+            JavaFileObject underlyingFile = file.getWrappedObject();
+            OutputStream outputStream = file.openOutputStream();
+            
+            // Use the outputStream for writing to the file
+            
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 ForwardingFileObject_3
+----------------------------------------------------------------
+`openWriter(String name)`: This method opens a new Writer for the given file object for writing and returns the Writer object.
+
+Code snippet:
+```java
+import javax.tools.ForwardingFileObject;
+import java.io.Writer;
+
+public class Main {
+    public static void main(String[] args) {
+        ForwardingFileObject forwardingFileObject = new ForwardingFileObject() {
+            @Override
+            public Writer openWriter(String name) {
+                // Implementation to open a new Writer for the given file object
+                return null;
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 3 ForwardingFileObject_5
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import javax.tools.ForwardingFileObject;
+import javax.tools.JavaFileObject;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming you have a ForwardingFileObject object called forwardingFileObject
+        ForwardingFileObject<JavaFileObject> fileObject = new ForwardingFileObject<JavaFileObject>(forwardingFileObject) {
+            @Override
+            public Reader openReader(boolean ignoreEncodingErrors) {
+                // Implementation of openReader method
+                // Return a Reader object
+                return null;
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 4 ForwardingJavaFileManager_1
+----------------------------------------------------------------
+void close() - This method closes the file manager, releasing any resources that were held. It delegates the close call to the file manager that was wrapped by this ForwardingJavaFileManager.
+
+Code snippet:
+```java
+import javax.tools.ForwardingJavaFileManager;
+import javax.tools.JavaFileManager;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    static class CustomJavaFileManager extends ForwardingJavaFileManager<JavaFileManager> {
+        
+        public CustomJavaFileManager(JavaFileManager fileManager) {
+            super(fileManager);
+        }
+        
+        @Override
+        public void close() {
+            // Custom implementation when closing the file manager
+            super.close();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 ForwardingJavaFileManager_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.tools.FileObject;
+import javax.tools.ForwardingJavaFileManager;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public boolean isSameFile(FileObject a, FileObject b) {
+        // Implement logic to compare if files 'a' and 'b' are the same
+        return a.toUri().equals(b.toUri());
+    }
+}
+```
+================================================================
+
+Sample: 6 SimpleJavaFileObject_1
+----------------------------------------------------------------
+```java
+import javax.tools.SimpleJavaFileObject;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleJavaFileObject fileObject = new SimpleJavaFileObject(java.net.URI.create("String"), SimpleJavaFileObject.Kind.SOURCE) {
+            @Override
+            public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+                return "public class HelloWorld {}";
+            }
+        };
+        
+        System.out.println(fileObject.getCharContent(false));
+    }
+}
+```
+================================================================
+
+Sample: 7 SimpleJavaFileObject_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.tools.JavaFileObject;
+
+public class Main {
+    public static void main(String[] args) {
+        JavaFileObject.Kind kind = JavaFileObject.Kind.SOURCE;
+        System.out.println("Kind: " + kind.toString());
+    }
+}
+```
+================================================================
+
+Sample: 8 SimpleJavaFileObject_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.tools.JavaFileObject;
+
+public class Main {
+    public static void main(String[] args) {
+        JavaFileObject.Kind kind = JavaFileObject.Kind.SOURCE;
+        System.out.println("File kind: " + kind.name());
+    }
+}
+```
+================================================================
+
+Sample: 9 ToolProvider_2
+----------------------------------------------------------------
+```java
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        System.out.println("JavaCompiler retrieved successfully: " + compiler);
+    }
+}
+```
+================================================================
+

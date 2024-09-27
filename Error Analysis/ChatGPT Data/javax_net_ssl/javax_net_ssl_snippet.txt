@@ -1,0 +1,1369 @@
+Sample: 0 ExtendedSSLSession_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.ExtendedSSLSession;
+
+public class Main {
+    public static void main(String[] args) {
+        ExtendedSSLSession sslSession = ... // obtain ExtendedSSLSession object
+        String[] supportedAlgorithms = sslSession.getLocalSupportedSignatureAlgorithms();
+        for(String algorithm : supportedAlgorithms) {
+            System.out.println(algorithm);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 ExtendedSSLSession_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.ExtendedSSLSession;
+
+public class Main {
+    public static void main(String[] args) {
+        ExtendedSSLSession session = new ExtendedSSLSession() {
+            @Override
+            public String[] getPeerSupportedSignatureAlgorithms() {
+                // Add implementation here
+                return new String[0];
+            }
+        };
+
+        String[] supportedAlgorithms = session.getPeerSupportedSignatureAlgorithms();
+        for (String algorithm : supportedAlgorithms) {
+            System.out.println(algorithm);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 HandshakeCompletedEvent_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.HandshakeCompletedEvent;
+import javax.net.ssl.SSLSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLSocket sslSocket = null; // Initialize your SSLSocket object
+        
+        // Register an event listener to get notified when a handshake is completed
+        sslSocket.addHandshakeCompletedListener((HandshakeCompletedEvent event) -> {
+            // Get the socket associated with the event
+            SSLSocket socket = event.getSocket();
+            
+            // Additional code logic can be added here
+            
+            // Example: Print out the cipher suite used in the handshake
+            System.out.println("Cipher suite: " + socket.getSession().getCipherSuite());
+        });
+    }
+}
+```
+================================================================
+
+Sample: 3 HandshakeCompletedEvent_2
+----------------------------------------------------------------
+```java
+import javax.net.ssl.HandshakeCompletedEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming handshakeCompletedEvent is initialized somehow
+        HandshakeCompletedEvent handshakeCompletedEvent = new HandshakeCompletedEvent(null, null);
+        
+        String cipherSuite = handshakeCompletedEvent.getCipherSuite();
+        System.out.println("Cipher Suite: " + cipherSuite);
+    }
+}
+```
+================================================================
+
+Sample: 4 HandshakeCompletedEvent_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.HandshakeCompletedEvent;
+import java.security.cert.Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        HandshakeCompletedEvent event = null; // Assume event is initialized
+        Certificate[] certificates = event.getLocalCertificates();
+        
+        if(certificates != null) {
+            for(Certificate cert : certificates) {
+                System.out.println(cert);
+            }
+        } else {
+            System.out.println("No local certificates found.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 HandshakeCompletedEvent_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.HandshakeCompletedEvent;
+import java.security.cert.Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        HandshakeCompletedEvent event = new HandshakeCompletedEvent(null, null);
+        Certificate[] certificates = event.getPeerCertificates();
+        System.out.println("Peer certificates:");
+        for (Certificate certificate : certificates) {
+            System.out.println(certificate);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 HttpsURLConnection_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://www.example.com");
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            connection.connect();
+            String cipherSuite = connection.getCipherSuite();
+            System.out.println("Cipher Suite: " + cipherSuite);
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 HttpsURLConnection_4
+----------------------------------------------------------------
+`void setHostnameVerifier(HostnameVerifier v)`: This method sets the HostnameVerifier for this HttpsURLConnection.
+
+Code snippet:
+```java
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an HttpsURLConnection
+        HttpsURLConnection connection = null;
+
+        // Set a custom HostnameVerifier
+        HostnameVerifier verifier = (hostname, session) -> {
+            // Add custom logic to validate the hostname
+            return true; // Return true for demo purposes
+        };
+
+        // Set the custom HostnameVerifier to the connection
+        connection.setHostnameVerifier(verifier);
+    }
+}
+```
+================================================================
+
+Sample: 8 HttpsURLConnection_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocketFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        HttpsURLConnection connection = null;
+        SSLSocketFactory sslSocketFactory = null;
+
+        // Set the SSLSocketFactory for the HttpsURLConnection
+        connection.setSSLSocketFactory(sslSocketFactory);
+    }
+}
+```
+================================================================
+
+Sample: 9 KeyManagerFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.KeyManager;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        KeyManagerFactory factory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        factory.init(/*initialize with your keystore and password*/);
+        
+        KeyManager[] keyManagers = factory.getKeyManagers();
+        
+        for (KeyManager keyManager : keyManager) {
+            // Use the keyManager as needed
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 KeyManagerFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.KeyManagerFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            System.out.println(kmf.getAlgorithm()); // This will print the algorithm name used by the KeyManagerFactory instance
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 KeyManagerFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.KeyManagerFactory;
+import java.security.KeyStore;
+import java.security.Security;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyStore ks = // initialize KeyStore here
+        char[] password = // initialize password here
+        try {
+            KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            kmf.init(ks, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 KeyManagerFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.ManagerFactoryParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
+        ManagerFactoryParameters spec = null; // Replace null with actual implementation
+        keyManagerFactory.init(spec);
+    }
+}
+```
+================================================================
+
+Sample: 13 KeyManagerFactorySpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.KeyManagerFactorySpi;
+import java.security.KeyStore;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyStore ks = null; // Initialize KeyStore object
+        char[] password = "password".toCharArray(); // Initialize password
+
+        // Call void engineInit method
+        KeyManagerFactorySpi keyManagerFactorySpi = new KeyManagerFactorySpi() {
+            @Override
+            protected void engineInit(KeyStore ks, char[] password) {
+                // Implementation of engineInit method
+                System.out.println("Initializing KeyManagerFactorySpi");
+            }
+        };
+        keyManagerFactorySpi.engineInit(ks, password);
+    }
+}
+```
+================================================================
+
+Sample: 14 KeyManagerFactorySpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.KeyManager;
+import java.security.KeyStore;
+import java.security.Provider;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            KeyStore keyStore = KeyStore.getInstance("JKS");
+            keyStore.load(null, null); // Load a null keystore for demonstration purposes
+            keyManagerFactory.init(keyStore, null);
+            KeyManager[] keyManagers = keyManagerFactory.getKeyManagers();
+            for (KeyManager keyManager : keyManagers) {
+                System.out.println(keyManager.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 KeyManagerFactorySpi_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.KeyManagerFactorySpi;
+import javax.net.ssl.ManagerFactoryParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyManagerFactorySpi keyManagerFactorySpi = new KeyManagerFactorySpi() {
+            @Override
+            protected void engineInit(ManagerFactoryParameters spec) {
+                // Add implementation here
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 16 SNIHostName_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SNIHostName;
+
+public class Main {
+    public static void main(String[] args) {
+        SNIHostName hostName = new SNIHostName("www.example.com");
+        System.out.println("ASCII Name: " + hostName.getAsciiName());
+    }
+}
+```
+================================================================
+
+Sample: 17 SNIMatcher_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SNIMatcher;
+import javax.net.ssl.SNIServerName;
+import javax.net.ssl.SNIHostName;
+
+public class Main {
+    public static void main(String[] args) {
+        SNIMatcher matcher = new SNIMatcher(0) {
+            @Override
+            public boolean matches(SNIServerName serverName) {
+                if (serverName.getType() == SNIHostName.TYPE) {
+                    SNIHostName hostName = (SNIHostName) serverName;
+                    String hostname = hostName.getAsciiName();
+                    return "example.com".equalsIgnoreCase(hostname);
+                }
+                return false;
+            }
+        };
+
+        // Example usage
+        SNIServerName serverName = new SNIHostName("example.com");
+        boolean result = matcher.matches(serverName);
+        System.out.println("Match result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 18 SNIServerName_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SNIServerName;
+
+public class Main {
+    public static void main(String[] args) {
+        SNIServerName serverName = new SNIServerName((short) 0, new byte[]{0x01, 0x02, 0x03});
+        byte[] encoded = serverName.getEncoded();
+        for(byte b : encoded) {
+            System.out.print(b + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 19 SNIServerName_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SNIServerName;
+
+public class Main {
+    public static void main(String[] args) {
+        SNIServerName serverName = new SNIServerName() {
+            @Override
+            public int getType() {
+                return 0; // Implement your logic here
+            }
+
+            @Override
+            public byte[] getEncoded() {
+                return new byte[0]; // Implement your logic here
+            }
+        };
+        
+        int type = serverName.getType();
+        System.out.println("Type: " + type);
+    }
+}
+```
+================================================================
+
+Sample: 20 SNIServerName_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SNIServerName;
+
+public class Main {
+    public static void main(String[] args) {
+        SNIServerName sniServerName = new SNIServerName() {
+            @Override
+            public int getType() {
+                return 0;
+            }
+
+            @Override
+            public byte[] getEncoded() {
+                return new byte[0];
+            }
+
+            @Override
+            public int hashCode() {
+                // Custom implementation of hashCode method
+                return super.hashCode();
+            }
+        };
+
+        // Calling the hashCode method
+        int hashCode = sniServerName.hashCode();
+        System.out.println("Hash code: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 21 SNIServerName_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SNIServerName;
+
+public class Main {
+    public static void main(String[] args) {
+        SNIServerName serverName1 = new SNIServerName() {
+            @Override
+            public int getType() {
+                return 0;
+            }
+
+            @Override
+            public byte[] getEncoded() {
+                return new byte[0];
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (!(obj instanceof SNIServerName)) {
+                    return false;
+                }
+                // perform custom equals comparison logic here
+                return true;
+            }
+        };
+
+        SNIServerName serverName2 = new SNIServerName() {
+            @Override
+            public int getType() {
+                return 0;
+            }
+
+            @Override
+            public byte[] getEncoded() {
+                return new byte[0];
+            }
+        };
+
+        System.out.println(serverName1.equals(serverName2));
+    }
+}
+```
+================================================================
+
+Sample: 22 SSLContext_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SSLContext sslContext = SSLContext.getDefault();
+            SSLParameters sslParameters = sslContext.getSupportedSSLParameters();
+            System.out.println("Supported Cipher Suites: " + String.join(", ", sslParameters.getCipherSuites()));
+            System.out.println("Supported Protocols: " + String.join(", ", sslParameters.getProtocols()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 23 SSLContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String host = "example.com";
+            int port = 443;
+            
+            SSLContext sslContext = SSLContext.getDefault();
+            SSLEngine sslEngine = sslContext.createSSLEngine(host, port);
+            
+            System.out.println("SSLEngine created successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 24 SSLContext_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLContext;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLContext sslContext = SSLContext.getDefault();
+        System.out.println("Client Session Context: " + sslContext.getClientSessionContext());
+    }
+}
+```
+================================================================
+
+Sample: 25 SSLContextSpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLContextSpi;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.TrustManager;
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create KeyManager array
+        KeyManager[] keyManagers = { /* Populate with your KeyManager implementations */ };
+
+        // Create TrustManager array
+        TrustManager[] trustManagers = { /* Populate with your TrustManager implementations */ };
+
+        // Create SecureRandom instance
+        SecureRandom random = new SecureRandom();
+
+        try {
+            // Initialize SSLContextSpi
+            SSLContextSpi engine = new SSLContextSpi() {
+                @Override
+                public void engineInit(KeyManager[] km, TrustManager[] tm, SecureRandom random) {
+                    // Your custom implementation here
+                }
+
+                // Implement other abstract methods of SSLContextSpi here
+            };
+            
+            // Call engineInit method
+            engine.engineInit(keyManagers, trustManagers, random);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 26 SSLContextSpi_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLContextSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLContext context = SSLContext.getInstance("TLS");
+        SSLContextSpi spi = context.getProvider().createContext("TLS", null);
+        SSLEngine engine = spi.engineCreateSSLEngine();
+        System.out.println("SSLEngine created: " + engine);
+    }
+}
+```
+================================================================
+
+Sample: 27 SSLContextSpi_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
+
+public class Main {
+    public static void main(String[] args) {
+        String host = "example.com";
+        int port = 443;
+        
+        try {
+            SSLContext sslContext = SSLContext.getDefault();
+            SSLEngine sslEngine = sslContext.createSSLEngine(host, port);
+            
+            System.out.println("SSLEngine created successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 28 SSLEngine_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLEngine;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLEngine sslEngine = SSLEngine.getDefault();
+        SSLSession sslSession = sslEngine.getSession();
+        
+        System.out.println("SSL Session ID: " + sslSession.getId());
+        System.out.println("SSL Cipher Suite: " + sslSession.getCipherSuite());
+        System.out.println("SSL Protocol: " + sslSession.getProtocol());
+        System.out.println("Creation Time: " + sslSession.getCreationTime());
+    }
+}
+```
+================================================================
+
+Sample: 29 SSLEngine_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLEngine;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLEngine engine = SSLEngine.getInstance("TLS");
+        engine.beginHandshake();
+    }
+}
+```
+================================================================
+
+Sample: 30 SSLEngine_3
+----------------------------------------------------------------
+`void closeInbound()`: This method indicates that no more input data will be sent on this connection. 
+
+Code snippet:
+```java
+import javax.net.ssl.SSLEngine;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLEngine sslEngine = null; // Initialize your SSLEngine object
+        sslEngine.closeInbound();
+    }
+}
+```
+================================================================
+
+Sample: 31 SSLEngine_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLParameters sslParams = new SSLParameters();
+        
+        // To get SSLParameters
+        SSLParameters params = sslParams.getSSLParameters();
+        
+        System.out.println("Cipher Suites: " + params.getCipherSuites());
+        System.out.println("Protocols: " + params.getProtocols());
+    }
+}
+```
+================================================================
+
+Sample: 32 SSLEngine_5
+----------------------------------------------------------------
+`void setUseClientMode(boolean mode)`: This method sets whether this SSLEngine is in client mode or not.
+
+Code snippet:
+```java
+import javax.net.ssl.SSLEngine;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLEngine sslEngine = SSLEngine.getInstance("TLS");
+        
+        // Setting SSLEngine to client mode
+        sslEngine.setUseClientMode(true);
+        
+        // Checking if SSLEngine is in client mode
+        boolean isClientMode = sslEngine.getUseClientMode();
+        System.out.println("Is SSLEngine in client mode: " + isClientMode);
+    }
+}
+```
+================================================================
+
+Sample: 33 SSLEngineResult_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLEngineResult;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assume sslEngineResult is an instance of SSLEngineResult
+        SSLEngineResult.HandshakeStatus handshakeStatus = sslEngineResult.getHandshakeStatus();
+        System.out.println("Handshake Status: " + handshakeStatus);
+    }
+}
+```
+================================================================
+
+Sample: 34 SSLEngineResult_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLEngineResult;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLEngineResult result = new SSLEngineResult(SSLEngineResult.Status.OK, SSLEngineResult.HandshakeStatus.FINISHED, 10, 20);
+        int bytesProduced = result.bytesProduced();
+        System.out.println("Bytes Produced: " + bytesProduced);
+    }
+}
+```
+================================================================
+
+Sample: 35 SSLParameters_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLParameters sslParams = new SSLParameters();
+        
+        String[] cipherSuites = sslParams.getCipherSuites();
+        
+        for(String suite : cipherSuites) {
+            System.out.println(suite);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 36 SSLParameters_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLParameters sslParams = new SSLParameters();
+        String[] protocols = sslParams.getProtocols();
+        for(String protocol : protocols) {
+            System.out.println(protocol);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 37 SSLParameters_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLParameters sslParams = new SSLParameters();
+        System.out.println(sslParams.getNeedClientAuth());
+    }
+}
+```
+================================================================
+
+Sample: 38 SSLParameters_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLParameters sslParameters = new SSLParameters();
+        boolean wantClientAuth = sslParameters.getWantClientAuth();
+        System.out.println("Want client authentication: " + wantClientAuth);
+    }
+}
+```
+================================================================
+
+Sample: 39 SSLServerSocket_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLServerSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLServerSocket sslServerSocket; // Assume sslServerSocket is already initialized
+        
+        String[] supportedCipherSuites = sslServerSocket.getSupportedCipherSuites();
+        
+        for (String cipherSuite : supportedCipherSuites) {
+            System.out.println(cipherSuite);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 40 SSLServerSocket_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLServerSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLServerSocket sslServerSocket = null; // Assuming sslServerSocket is initialized elsewhere
+        boolean useClientMode = sslServerSocket.getUseClientMode();
+        System.out.println("Use client mode: " + useClientMode);
+    }
+}
+```
+================================================================
+
+Sample: 41 SSLServerSocket_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLServerSocketFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SSLServerSocketFactory factory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+            SSLServerSocket serverSocket = (SSLServerSocket) factory.createServerSocket(8080);
+            serverSocket.setWantClientAuth(true);
+
+            System.out.println("WantClientAuth set to true");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```  
+================================================================
+
+Sample: 42 SSLServerSocket_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLServerSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLServerSocket serverSocket = null;
+        boolean needClientAuth = true; // set to true if client authentication is required
+        serverSocket.setNeedClientAuth(needClientAuth);
+    }
+}
+```
+================================================================
+
+Sample: 43 SSLServerSocketFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLServerSocketFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLServerSocketFactory factory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+        String[] cipherSuites = factory.getDefaultCipherSuites();
+        
+        for(String cipherSuite : cipherSuites){
+            System.out.println(cipherSuite);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 44 SSLServerSocketFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLServerSocketFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        String[] supportedCipherSuites = SSLServerSocketFactory.getDefault().getSupportedCipherSuites();
+        
+        System.out.println("Supported Cipher Suites:");
+        for(String suite : supportedCipherSuites) {
+            System.out.println(suite);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 45 SSLSessionBindingEvent_2
+----------------------------------------------------------------
+```java
+import javax.net.ssl.SSLSessionBindingEvent;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLSessionBindingEvent event = new SSLSessionBindingEvent(null, "session");
+        String name = event.getName();
+        System.out.println(name);
+    }
+}
+```
+================================================================
+
+Sample: 46 SSLSocket_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLSocket socket = new SSLSocket() {
+            @Override
+            public void startHandshake() {
+                // Implement your logic for starting SSL handshake
+                System.out.println("SSL handshake initiated");
+            }
+        };
+
+        socket.startHandshake();
+    }
+}
+```
+================================================================
+
+Sample: 47 SSLSocket_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLSocket socket = null; // Initialize your SSLSocket here
+        boolean isSessionCreationEnabled = socket.getEnableSessionCreation();
+        System.out.println("Is session creation enabled: " + isSessionCreationEnabled);
+    }
+}
+```
+================================================================
+
+Sample: 48 SSLSocket_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLSocket sslSocket = ...; // Initialize your SSLSocket here
+
+        // Set session creation enabled or disabled
+        sslSocket.setEnableSessionCreation(true);
+    }
+}
+```
+================================================================
+
+Sample: 49 SSLSocket_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        SSLSocket sslSocket = (SSLSocket) socket;
+        sslSocket.setNeedClientAuth(true);
+    }
+}
+```
+================================================================
+
+Sample: 50 SSLSocketFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.SSLSocketFactory;
+import java.io.IOException;
+import java.net.Socket;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            Socket socket = new Socket();
+            String host = "example.com";
+            int port = 443;
+            boolean autoClose = true;
+
+            Socket sslSocket = sslSocketFactory.createSocket(socket, host, port, autoClose);
+
+            System.out.println("SSL Socket created successfully");
+        } catch (IOException e) {
+            System.out.println("Error creating SSL Socket: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 51 TrustManagerFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.TrustManager;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(null);
+            TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+            System.out.println("TrustManagers obtained successfully.");
+        } catch (Exception e) {
+            System.out.println("Error getting TrustManagers: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 52 TrustManagerFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.TrustManagerFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("X509");
+        String algorithm = trustManagerFactory.getAlgorithm();
+        System.out.println("TrustManagerFactory algorithm: " + algorithm);
+    }
+}
+```
+================================================================
+
+Sample: 53 TrustManagerFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.TrustManagerFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        String algorithm = TrustManagerFactory.getDefaultAlgorithm();
+        
+        TrustManagerFactory factory = null;
+        try {
+            factory = TrustManagerFactory.getInstance(algorithm);
+            // Additional code to use the TrustManagerFactory instance
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 54 TrustManagerFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.TrustManagerFactory;
+import java.security.KeyStore;
+
+public class Main {
+    public static void main(String[] args) {
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509");
+        KeyStore ks = KeyStore.getInstance("JKS");
+        trustManagerFactory.init(ks);
+    }
+}
+```
+================================================================
+
+Sample: 55 TrustManagerFactorySpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.TrustManagerFactorySpi;
+import javax.net.ssl.ManagerFactoryParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        TrustManagerFactorySpi trustManagerFactorySpi = new TrustManagerFactorySpi() {
+            @Override
+            protected void engineInit(ManagerFactoryParameters spec) {
+                // Implementation of engineInit method
+            }
+        };
+        
+        // Call the engineInit method
+        trustManagerFactorySpi.engineInit(new ManagerFactoryParameters() {
+            // Implementation of ManagerFactoryParameters if needed
+        });
+    }
+}
+```
+================================================================
+
+Sample: 56 TrustManagerFactorySpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.TrustManagerFactorySpi;
+import javax.net.ssl.TrustManager;
+
+public class Main {
+    public static void main(String[] args) {
+        TrustManagerFactorySpi trustManagerFactorySpi = new TrustManagerFactorySpi() {
+            @Override
+            protected TrustManager[] engineGetTrustManagers() {
+                return new TrustManager[0];
+            }
+        };
+        
+        TrustManager[] trustManagers = trustManagerFactorySpi.engineGetTrustManagers();
+        System.out.println(trustManagers.length);
+    }
+}
+```
+================================================================
+
+Sample: 57 TrustManagerFactorySpi_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.TrustManagerFactorySpi;
+import java.security.KeyStore;
+
+public class Main {
+    public static void main(String[] args) {
+        // Instantiate TrustManagerFactorySpi implementation
+        TrustManagerFactorySpi trustManagerFactorySpi = new TrustManagerFactorySpi() {
+            @Override
+            protected void engineInit(KeyStore ks) throws Exception {
+                // Implementation of engineInit method
+                System.out.println("TrustManagerFactorySpi Engine Init method called.");
+            }
+        };
+
+        try {
+            // Call the engineInit method
+            trustManagerFactorySpi.engineInit(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 58 X509ExtendedTrustManager_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.X509ExtendedTrustManager;
+import java.security.cert.X509Certificate;
+import java.net.Socket;
+
+public class Main {
+    public static void main(String[] args) {
+        X509ExtendedTrustManager trustManager = new X509ExtendedTrustManager() {
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType) {
+                // Implementation of checking client trust
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType) {
+                // Implementation of checking server trust
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType, Socket socket) {
+                // Implementation of checking client trust using socket
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType, Socket socket) {
+                // Implementation of checking server trust using socket
+            }
+
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+            }
+        };
+        
+        // Usage of checkClientTrusted method
+        X509Certificate[] certificates = new X509Certificate[1];
+        String authType = "TLS";
+        Socket socket = new Socket();
+        trustManager.checkClientTrusted(certificates, authType, socket);
+    }
+}
+```
+================================================================
+
+Sample: 59 X509ExtendedTrustManager_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.X509Certificate;
+import javax.net.ssl.X509ExtendedTrustManager;
+
+import java.net.Socket;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void checkServerTrusted(X509Certificate[] chain, String authType, Socket socket) {
+        // Implementation of checkServerTrusted method goes here
+    }
+}
+```
+================================================================
+
+Sample: 60 X509ExtendedTrustManager_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.X509Certificate;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.X509ExtendedTrustManager;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void checkClientTrusted(X509Certificate[] chain, String authType, SSLEngine engine) {
+        // Implementation of the checkClientTrusted method
+    }
+}
+```
+================================================================
+
+Sample: 61 X509ExtendedTrustManager_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.net.ssl.X509Certificate;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.X509ExtendedTrustManager;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void checkServerTrusted(X509Certificate[] chain, String authType, SSLEngine engine) {
+        // Your implementation here
+    }
+}
+```
+================================================================
+

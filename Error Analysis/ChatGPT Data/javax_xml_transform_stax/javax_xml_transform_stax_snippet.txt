@@ -1,0 +1,119 @@
+Sample: 0 StAXResult_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.transform.stax.StAXResult;
+
+public class Main {
+    public static void main(String[] args) {
+        StAXResult result = new StAXResult();
+        result.setSystemId("example.xml");
+        // You can now use the result object with the specified system ID
+    }
+}
+```
+================================================================
+
+Sample: 1 StAXSource_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.stax.StAXSource;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an XMLInputFactory
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        
+        // Create an XMLStreamReader
+        XMLStreamReader reader = null;
+        try {
+            reader = factory.createXMLStreamReader(new StAXSource());
+            
+            // Use the XMLStreamReader in your code
+            while (reader.hasNext()) {
+                reader.next();
+                // Handle XML events
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (XMLStreamException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 StAXSource_3
+----------------------------------------------------------------
+`XMLEventReader getXMLEventReader()`: This method returns an XMLEventReader for the XML data read from this StAXSource.
+
+Code snippet:
+```java
+import javax.xml.transform.stax.StAXSource;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+            XMLStreamReader reader = factory.createXMLStreamReader(System.in);
+            StAXSource staxSource = new StAXSource(reader);
+            XMLEventReader eventReader = staxSource.getXMLEventReader();
+            
+            while(eventReader.hasNext()) {
+                System.out.println(eventReader.nextEvent());
+            }
+            
+            eventReader.close();
+            reader.close();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 StAXSource_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.transform.stax.StAXSource;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamReader;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String xmlString = "<root>Hello World!</root>";
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+            XMLStreamReader reader = factory.createXMLStreamReader(new StringReader(xmlString));
+            StAXSource source = new StAXSource(reader);
+
+            source.setSystemId("https://example.com/xml");
+
+            System.out.println("System ID set to: " + source.getSystemId());
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+        
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,1910 @@
+ClassName,Method,Return Type,Description,Full Description
+Binder,getEventHandler(),abstract ValidationEventHandler,Return the current event handler or the default event handler if one hasn't been set.,"
+
+getEventHandler
+public abstract ValidationEventHandler getEventHandler()
+                                                throws JAXBException
+Return the current event handler or the default event handler if one
+ hasn't been set.
+
+Returns:
+the current ValidationEventHandler or the default event handler
+         if it hasn't been set
+Throws:
+JAXBException - if an error was encountered while getting the
+         current event handler
+
+
+"
+Binder,getJAXBNode(XmlNode xmlNode),abstract Object,Gets the JAXB object associated with the given XML element.,"
+
+getJAXBNode
+public abstract Object getJAXBNode(XmlNode xmlNode)
+Gets the JAXB object associated with the given XML element.
+
+ 
+ Once a JAXB object tree is associated with an XML fragment,
+ this method enables navigation between the two trees.
+
+ 
+ An association between an XML element and a JAXB object is
+ established by the unmarshal, marshal and update methods.
+ Note that this association is partial; not all XML elements
+ have associated JAXB objects, and not all JAXB objects have
+ associated XML elements.
+
+Returns:
+null if the specified XML node is not known to this
+      Binder, or if it is not associated with a
+      JAXB object.
+Throws:
+IllegalArgumentException - If the node parameter is null
+
+
+"
+Binder,getProperty(String name),abstract Object,Get the particular property in the underlying implementation of Binder.,"
+
+getProperty
+public abstract Object getProperty(String name)
+                            throws PropertyException
+Get the particular property in the underlying implementation of
+ Binder.  This method can only
+ be used to get one of
+ the standard JAXB defined unmarshal/marshal properties
+ or a provider specific property for binder, unmarshal or marshal.
+ Attempting to get an undefined property will result in
+ a PropertyException being thrown.  See
+ Supported Unmarshal Properties
+ and
+ Supported Marshal Properties.
+
+Parameters:
+name - the name of the property to retrieve
+Returns:
+the value of the requested property
+Throws:
+PropertyException - when there is an error retrieving the given property or value
+      property name
+IllegalArgumentException - If the name parameter is null
+
+
+"
+Binder,getSchema(),abstract Schema,Gets the last Schema object (including null) set by the setSchema(Schema) method.,"
+
+getSchema
+public abstract Schema getSchema()
+Gets the last Schema object (including null) set by the
+ setSchema(Schema) method.
+
+Returns:
+the Schema object for validation or null if not present
+
+
+"
+Binder,getXMLNode(Object jaxbObject),abstract XmlNode,Gets the XML element associated with the given JAXB object.,"
+
+getXMLNode
+public abstract XmlNode getXMLNode(Object jaxbObject)
+Gets the XML element associated with the given JAXB object.
+
+ 
+ Once a JAXB object tree is associated with an XML fragment,
+ this method enables navigation between the two trees.
+
+ 
+ An association between an XML element and a JAXB object is
+ established by the bind methods and the update methods.
+ Note that this association is partial; not all XML elements
+ have associated JAXB objects, and not all JAXB objects have
+ associated XML elements.
+
+Parameters:
+jaxbObject - An instance that is reachable from a prior
+                   call to a bind or update method that returned
+                   a JAXB object tree.
+Returns:
+null if the specified JAXB object is not known to this
+      Binder, or if it is not associated with an
+      XML element.
+Throws:
+IllegalArgumentException - If the jaxbObject parameter is null
+
+
+"
+Binder,"marshal(Object jaxbObject, XmlNode xmlNode)",abstract void,Marshal a JAXB object tree to a new XML document.,"
+
+marshal
+public abstract void marshal(Object jaxbObject,
+                             XmlNode xmlNode)
+                      throws JAXBException
+Marshal a JAXB object tree to a new XML document.
+
+ 
+ This method is similar to Marshaller.marshal(Object, Node)
+ with the addition of maintaining the association between JAXB objects
+ and the produced XML nodes,
+ enabling future update operations such as
+ updateXML(Object, Object) or updateJAXB(Object).
+
+ 
+ When getSchema() is non-null, the marshalled
+ xml content is validated during this operation.
+
+Parameters:
+jaxbObject - The content tree to be marshalled.
+xmlNode - The parameter must be a Node that accepts children.
+Throws:
+JAXBException - If any unexpected problem occurs during the marshalling.
+MarshalException - If the ValidationEventHandler
+      returns false from its handleEvent method or the
+      Binder is unable to marshal jaxbObject (or any
+      object reachable from jaxbObject).
+IllegalArgumentException - If any of the method parameters are null
+
+
+"
+Binder,setEventHandler(ValidationEventHandler handler),abstract void,Allow an application to register a ValidationEventHandler.,"
+
+setEventHandler
+public abstract void setEventHandler(ValidationEventHandler handler)
+                              throws JAXBException
+Allow an application to register a ValidationEventHandler.
+ 
+ The ValidationEventHandler will be called by the JAXB Provider
+ if any validation errors are encountered during calls to any of the
+ Binder unmarshal, marshal and update methods.
+
+ 
+ Calling this method with a null parameter will cause the Binder
+ to revert back to the default default event handler.
+
+Parameters:
+handler - the validation event handler
+Throws:
+JAXBException - if an error was encountered while setting the
+         event handler
+
+
+"
+Binder,"setProperty(String name, Object value)",abstract void,Set the particular property in the underlying implementation of Binder.,"
+
+setProperty
+public abstract void setProperty(String name,
+                                 Object value)
+                          throws PropertyException
+Set the particular property in the underlying implementation of
+ Binder.  This method can only be used to set one of
+ the standard JAXB defined unmarshal/marshal properties
+ or a provider specific property for binder, unmarshal or marshal.
+ Attempting to set an undefined property will result in
+ a PropertyException being thrown.  See
+ Supported Unmarshal Properties
+ and
+ Supported Marshal Properties.
+
+Parameters:
+name - the name of the property to be set. This value can either
+              be specified using one of the constant fields or a user
+              supplied string.
+value - the value of the property to be set
+Throws:
+PropertyException - when there is an error processing the given
+                            property or value
+IllegalArgumentException - If the name parameter is null
+
+
+"
+Binder,setSchema(Schema schema),abstract void,"Specifies whether marshal, unmarshal and update methods performs validation on their XML content.","
+
+setSchema
+public abstract void setSchema(Schema schema)
+Specifies whether marshal, unmarshal and update methods
+ performs validation on their XML content.
+
+Parameters:
+schema - set to null to disable validation.
+See Also:
+Unmarshaller.setSchema(Schema)
+
+
+"
+Binder,unmarshal(XmlNode xmlNode),abstract Object,Unmarshal XML infoset view to a JAXB object tree.,"
+
+unmarshal
+public abstract Object unmarshal(XmlNode xmlNode)
+                          throws JAXBException
+Unmarshal XML infoset view to a JAXB object tree.
+
+ 
+ This method is similar to Unmarshaller.unmarshal(Node)
+ with the addition of maintaining the association between XML nodes
+ and the produced JAXB objects, enabling future update operations,
+ updateXML(Object, Object) or updateJAXB(Object).
+
+ 
+ When getSchema() is non-null, xmlNode
+ and its descendants is validated during this operation.
+
+ 
+ This method throws UnmarshalException when the Binder's
+ JAXBContext does not have a mapping for the XML element name
+ or the type, specifiable via @xsi:type, of xmlNode
+ to a JAXB mapped class. The method unmarshal(Object, Class)
+ enables an application to specify the JAXB mapped class that
+ the xmlNode should be mapped to.
+
+Parameters:
+xmlNode - the document/element to unmarshal XML data from.
+Returns:
+the newly created root object of the JAXB object tree.
+Throws:
+JAXBException - If any unexpected errors occur while unmarshalling
+UnmarshalException - If the ValidationEventHandler
+     returns false from its handleEvent method or the
+     Binder is unable to perform the XML to Java
+     binding.
+IllegalArgumentException - If the node parameter is null
+
+
+"
+Binder,"unmarshal(XmlNode xmlNode, Class<T> declaredType)",abstract <T> JAXBElement<T>,Unmarshal XML root element by provided declaredType to a JAXB object tree.,"
+
+unmarshal
+public abstract <T> JAXBElement<T> unmarshal(XmlNode xmlNode,
+                                             Class<T> declaredType)
+                                      throws JAXBException
+Unmarshal XML root element by provided declaredType
+ to a JAXB object tree.
+
+ 
+ Implements Unmarshal by Declared Type
+
+ This method is similar to Unmarshaller.unmarshal(Node, Class)
+ with the addition of maintaining the association between XML nodes
+ and the produced JAXB objects, enabling future update operations,
+ updateXML(Object, Object) or updateJAXB(Object).
+
+ 
+ When getSchema() is non-null, xmlNode
+ and its descendants is validated during this operation.
+
+Parameters:
+xmlNode - the document/element to unmarshal XML data from.
+declaredType - appropriate JAXB mapped class to hold node's XML data.
+Returns:
+JAXB Element representation
+ of node
+Throws:
+JAXBException - If any unexpected errors occur while unmarshalling
+UnmarshalException - If the ValidationEventHandler
+     returns false from its handleEvent method or the
+     Binder is unable to perform the XML to Java
+     binding.
+IllegalArgumentException - If any of the input parameters are null
+Since:
+JAXB2.0
+
+
+"
+Binder,updateJAXB(XmlNode xmlNode),abstract Object,Takes an XML node and updates its associated JAXB object and its descendants.,"
+
+updateJAXB
+public abstract Object updateJAXB(XmlNode xmlNode)
+                           throws JAXBException
+Takes an XML node and updates its associated JAXB object and its descendants.
+
+ 
+ This operation can be thought of as an ""in-place"" unmarshalling.
+ The difference is that instead of creating a whole new JAXB tree,
+ this operation updates an existing tree, reusing as much JAXB objects
+ as possible.
+
+ 
+ As a side-effect, this operation updates the association between
+ XML nodes and JAXB objects.
+
+Returns:
+Returns the updated JAXB object. Typically, this is the same
+      object that was returned from earlier
+      marshal(Object,Object) or
+      updateJAXB(Object) method invocation,
+      but it maybe
+      a different object, for example when the name of the XML
+      element has changed.
+Throws:
+JAXBException - If any unexpected problem occurs updating corresponding JAXB mapped content.
+IllegalArgumentException - If node parameter is null
+
+
+"
+Binder,updateXML(Object jaxbObject),abstract XmlNode,Takes an JAXB object and updates its associated XML node and its descendants.,"
+
+updateXML
+public abstract XmlNode updateXML(Object jaxbObject)
+                           throws JAXBException
+Takes an JAXB object and updates
+ its associated XML node and its descendants.
+
+ 
+ This is a convenience method of:
+ 
+ updateXML( jaxbObject, getXMLNode(jaxbObject));
+ 
+
+Throws:
+JAXBException - If any unexpected problem occurs updating corresponding XML content.
+IllegalArgumentException - If the jaxbObject parameter is null
+
+
+"
+Binder,"updateXML(Object jaxbObject, XmlNode xmlNode)",abstract XmlNode,Changes in JAXB object tree are updated in its associated XML parse tree.,"
+
+updateXML
+public abstract XmlNode updateXML(Object jaxbObject,
+                                  XmlNode xmlNode)
+                           throws JAXBException
+Changes in JAXB object tree are updated in its associated XML parse tree.
+
+ 
+ This operation can be thought of as an ""in-place"" marshalling.
+ The difference is that instead of creating a whole new XML tree,
+ this operation updates an existing tree while trying to preserve
+ the XML as much as possible.
+
+ 
+ For example, unknown elements/attributes in XML that were not bound
+ to JAXB will be left untouched (whereas a marshalling operation
+ would create a new tree that doesn't contain any of those.)
+
+ 
+ As a side-effect, this operation updates the association between
+ XML nodes and JAXB objects.
+
+Parameters:
+jaxbObject - root of potentially modified JAXB object tree
+xmlNode - root of update target XML parse tree
+Returns:
+Returns the updated XML node. Typically, this is the same
+      node you passed in as xmlNode, but it maybe
+      a different object, for example when the tag name of the object
+      has changed.
+Throws:
+JAXBException - If any unexpected problem occurs updating corresponding XML content.
+IllegalArgumentException - If any of the input parameters are null
+
+
+"
+DatatypeConverter,parseAnySimpleType(String lexicalXSDAnySimpleType),static String,Return a string containing the lexical representation of the simple type.,"
+
+parseAnySimpleType
+public static String parseAnySimpleType(String lexicalXSDAnySimpleType)
+
+ Return a string containing the lexical representation of the
+ simple type.
+
+Parameters:
+lexicalXSDAnySimpleType - A string containing lexical
+     representation of the simple type.
+Returns:
+A string containing the lexical representation of the
+     simple type.
+
+
+"
+DatatypeConverter,parseBase64Binary(String lexicalXSDBase64Binary),static byte[],Converts the string argument into an array of bytes.,"
+
+parseBase64Binary
+public static byte[] parseBase64Binary(String lexicalXSDBase64Binary)
+
+ Converts the string argument into an array of bytes.
+
+Parameters:
+lexicalXSDBase64Binary - A string containing lexical representation
+     of xsd:base64Binary.
+Returns:
+An array of bytes represented by the string argument.
+Throws:
+IllegalArgumentException - if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:base64Binary
+
+
+"
+DatatypeConverter,parseBoolean(String lexicalXSDBoolean),static boolean,Converts the string argument into a boolean value.,"
+
+parseBoolean
+public static boolean parseBoolean(String lexicalXSDBoolean)
+
+ Converts the string argument into a boolean value.
+
+Parameters:
+lexicalXSDBoolean - A string containing lexical representation of
+     xsd:boolean.
+Returns:
+A boolean value represented by the string argument.
+Throws:
+IllegalArgumentException - if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:boolean.
+
+
+"
+DatatypeConverter,parseByte(String lexicalXSDByte),static byte,Converts the string argument into a byte value.,"
+
+parseByte
+public static byte parseByte(String lexicalXSDByte)
+
+ Converts the string argument into a byte value.
+
+Parameters:
+lexicalXSDByte - A string containing lexical representation of
+     xsd:byte.
+Returns:
+A byte value represented by the string argument.
+Throws:
+IllegalArgumentException - if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:byte.
+
+
+"
+DatatypeConverter,parseDate(String lexicalXSDDate),static Calendar,Converts the string argument into a Calendar value.,"
+
+parseDate
+public static Calendar parseDate(String lexicalXSDDate)
+
+ Converts the string argument into a Calendar value.
+
+Parameters:
+lexicalXSDDate - A string containing lexical representation of
+     xsd:Date.
+Returns:
+A Calendar value represented by the string argument.
+Throws:
+IllegalArgumentException - if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:Date.
+
+
+"
+DatatypeConverter,parseDateTime(String lexicalXSDDateTime),static Calendar,Converts the string argument into a Calendar value.,"
+
+parseDateTime
+public static Calendar parseDateTime(String lexicalXSDDateTime)
+
+ Converts the string argument into a Calendar value.
+
+Parameters:
+lexicalXSDDateTime - A string containing lexical representation of
+     xsd:datetime.
+Returns:
+A Calendar object represented by the string argument.
+Throws:
+IllegalArgumentException - if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:dateTime.
+
+
+"
+DatatypeConverter,parseDecimal(String lexicalXSDDecimal),static BigDecimal,Converts the string argument into a BigDecimal value.,"
+
+parseDecimal
+public static BigDecimal parseDecimal(String lexicalXSDDecimal)
+
+ Converts the string argument into a BigDecimal value.
+
+Parameters:
+lexicalXSDDecimal - A string containing lexical representation of
+     xsd:decimal.
+Returns:
+A BigDecimal value represented by the string argument.
+Throws:
+NumberFormatException - lexicalXSDDecimal is not a valid string representation of BigDecimal.
+
+
+"
+DatatypeConverter,parseDouble(String lexicalXSDDouble),static double,Converts the string argument into a double value.,"
+
+parseDouble
+public static double parseDouble(String lexicalXSDDouble)
+
+ Converts the string argument into a double value.
+
+Parameters:
+lexicalXSDDouble - A string containing lexical representation of
+     xsd:double.
+Returns:
+A double value represented by the string argument.
+Throws:
+NumberFormatException - lexicalXSDDouble is not a valid string representation of a double value.
+
+
+"
+DatatypeConverter,parseFloat(String lexicalXSDFloat),static float,Converts the string argument into a float value.,"
+
+parseFloat
+public static float parseFloat(String lexicalXSDFloat)
+
+ Converts the string argument into a float value.
+
+Parameters:
+lexicalXSDFloat - A string containing lexical representation of
+     xsd:float.
+Returns:
+A float value represented by the string argument.
+Throws:
+NumberFormatException - lexicalXSDFloat is not a valid string representation of a float value.
+
+
+"
+DatatypeConverter,parseHexBinary(String lexicalXSDHexBinary),static byte[],Converts the string argument into an array of bytes.,"
+
+parseHexBinary
+public static byte[] parseHexBinary(String lexicalXSDHexBinary)
+
+ Converts the string argument into an array of bytes.
+
+Parameters:
+lexicalXSDHexBinary - A string containing lexical representation of
+     xsd:hexBinary.
+Returns:
+An array of bytes represented by the string argument.
+Throws:
+IllegalArgumentException - if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:hexBinary.
+
+
+"
+DatatypeConverter,parseInt(String lexicalXSDInt),static int,Convert the string argument into an int value.,"
+
+parseInt
+public static int parseInt(String lexicalXSDInt)
+
+ Convert the string argument into an int value.
+
+Parameters:
+lexicalXSDInt - A string containing a lexical representation of
+     xsd:int.
+Returns:
+A int value represented by the string argument.
+Throws:
+NumberFormatException - lexicalXSDInt is not a valid string representation of an int value.
+
+
+"
+DatatypeConverter,parseInteger(String lexicalXSDInteger),static BigInteger,Convert the string argument into a BigInteger value.,"
+
+parseInteger
+public static BigInteger parseInteger(String lexicalXSDInteger)
+
+ Convert the string argument into a BigInteger value.
+
+Parameters:
+lexicalXSDInteger - A string containing a lexical representation of
+     xsd:integer.
+Returns:
+A BigInteger value represented by the string argument.
+Throws:
+NumberFormatException - lexicalXSDInteger is not a valid string representation of a BigInteger value.
+
+
+"
+DatatypeConverter,parseLong(String lexicalXSDLong),static long,Converts the string argument into a long value.,"
+
+parseLong
+public static long parseLong(String lexicalXSDLong)
+
+ Converts the string argument into a long value.
+
+Parameters:
+lexicalXSDLong - A string containing lexical representation of
+     xsd:long.
+Returns:
+A long value represented by the string argument.
+Throws:
+NumberFormatException - lexicalXSDLong is not a valid string representation of a long value.
+
+
+"
+DatatypeConverter,"parseQName(String lexicalXSDQName, NamespaceContext nsc)",static QName,Converts the string argument into a byte value.,"
+
+parseQName
+public static QName parseQName(String lexicalXSDQName,
+                               NamespaceContext nsc)
+
+ Converts the string argument into a byte value.
+
+ 
+ String parameter lexicalXSDQname must conform to lexical value space specifed at
+ XML Schema Part 2:Datatypes specification:QNames
+
+Parameters:
+lexicalXSDQName - A string containing lexical representation of xsd:QName.
+nsc - A namespace context for interpreting a prefix within a QName.
+Returns:
+A QName value represented by the string argument.
+Throws:
+IllegalArgumentException - if string parameter does not conform to XML Schema Part 2 specification or
+      if namespace prefix of lexicalXSDQname is not bound to a URI in NamespaceContext nsc.
+
+
+"
+DatatypeConverter,parseShort(String lexicalXSDShort),static short,Converts the string argument into a short value.,"
+
+parseShort
+public static short parseShort(String lexicalXSDShort)
+
+ Converts the string argument into a short value.
+
+Parameters:
+lexicalXSDShort - A string containing lexical representation of
+     xsd:short.
+Returns:
+A short value represented by the string argument.
+Throws:
+NumberFormatException - lexicalXSDShort is not a valid string representation of a short value.
+
+
+"
+DatatypeConverter,parseString(String lexicalXSDString),static String,Convert the lexical XSD string argument into a String value.,"
+
+parseString
+public static String parseString(String lexicalXSDString)
+
+ Convert the lexical XSD string argument into a String value.
+
+Parameters:
+lexicalXSDString - A string containing a lexical representation of
+     xsd:string.
+Returns:
+A String value represented by the string argument.
+
+
+"
+DatatypeConverter,parseTime(String lexicalXSDTime),static Calendar,Converts the string argument into a Calendar value.,"
+
+parseTime
+public static Calendar parseTime(String lexicalXSDTime)
+
+ Converts the string argument into a Calendar value.
+
+Parameters:
+lexicalXSDTime - A string containing lexical representation of
+     xsd:time.
+Returns:
+A Calendar value represented by the string argument.
+Throws:
+IllegalArgumentException - if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:Time.
+
+
+"
+DatatypeConverter,parseUnsignedInt(String lexicalXSDUnsignedInt),static long,Converts the string argument into a long value.,"
+
+parseUnsignedInt
+public static long parseUnsignedInt(String lexicalXSDUnsignedInt)
+
+ Converts the string argument into a long value.
+
+Parameters:
+lexicalXSDUnsignedInt - A string containing lexical representation
+     of xsd:unsignedInt.
+Returns:
+A long value represented by the string argument.
+Throws:
+NumberFormatException - if string parameter can not be parsed into a long value.
+
+
+"
+DatatypeConverter,parseUnsignedShort(String lexicalXSDUnsignedShort),static int,Converts the string argument into an int value.,"
+
+parseUnsignedShort
+public static int parseUnsignedShort(String lexicalXSDUnsignedShort)
+
+ Converts the string argument into an int value.
+
+Parameters:
+lexicalXSDUnsignedShort - A string containing lexical
+     representation of xsd:unsignedShort.
+Returns:
+An int value represented by the string argument.
+Throws:
+NumberFormatException - if string parameter can not be parsed into an int value.
+
+
+"
+DatatypeConverter,printAnySimpleType(String val),static String,Converts a string value into a string.,"
+
+printAnySimpleType
+public static String printAnySimpleType(String val)
+
+ Converts a string value into a string.
+
+Parameters:
+val - A string value
+Returns:
+A string containing a lexical representation of xsd:AnySimpleType
+
+
+"
+DatatypeConverter,printBase64Binary(byte[] val),static String,Converts an array of bytes into a string.,"
+
+printBase64Binary
+public static String printBase64Binary(byte[] val)
+
+ Converts an array of bytes into a string.
+
+Parameters:
+val - An array of bytes
+Returns:
+A string containing a lexical representation of xsd:base64Binary
+Throws:
+IllegalArgumentException - if val is null.
+
+
+"
+DatatypeConverter,printBoolean(boolean val),static String,Converts a boolean value into a string.,"
+
+printBoolean
+public static String printBoolean(boolean val)
+
+ Converts a boolean value into a string.
+
+Parameters:
+val - A boolean value
+Returns:
+A string containing a lexical representation of xsd:boolean
+
+
+"
+DatatypeConverter,printByte(byte val),static String,Converts a byte value into a string.,"
+
+printByte
+public static String printByte(byte val)
+
+ Converts a byte value into a string.
+
+Parameters:
+val - A byte value
+Returns:
+A string containing a lexical representation of xsd:byte
+
+
+"
+DatatypeConverter,printDate(Calendar val),static String,Converts a Calendar value into a string.,"
+
+printDate
+public static String printDate(Calendar val)
+
+ Converts a Calendar value into a string.
+
+Parameters:
+val - A Calendar value
+Returns:
+A string containing a lexical representation of xsd:date
+Throws:
+IllegalArgumentException - if val is null.
+
+
+"
+DatatypeConverter,printDateTime(Calendar val),static String,Converts a Calendar value into a string.,"
+
+printDateTime
+public static String printDateTime(Calendar val)
+
+ Converts a Calendar value into a string.
+
+Parameters:
+val - A Calendar value
+Returns:
+A string containing a lexical representation of xsd:dateTime
+Throws:
+IllegalArgumentException - if val is null.
+
+
+"
+DatatypeConverter,printDecimal(BigDecimal val),static String,Converts a BigDecimal value into a string.,"
+
+printDecimal
+public static String printDecimal(BigDecimal val)
+
+ Converts a BigDecimal value into a string.
+
+Parameters:
+val - A BigDecimal value
+Returns:
+A string containing a lexical representation of xsd:decimal
+Throws:
+IllegalArgumentException - val is null.
+
+
+"
+DatatypeConverter,printDouble(double val),static String,Converts a double value into a string.,"
+
+printDouble
+public static String printDouble(double val)
+
+ Converts a double value into a string.
+
+Parameters:
+val - A double value
+Returns:
+A string containing a lexical representation of xsd:double
+
+
+"
+DatatypeConverter,printFloat(float val),static String,Converts a float value into a string.,"
+
+printFloat
+public static String printFloat(float val)
+
+ Converts a float value into a string.
+
+Parameters:
+val - A float value
+Returns:
+A string containing a lexical representation of xsd:float
+
+
+"
+DatatypeConverter,printHexBinary(byte[] val),static String,Converts an array of bytes into a string.,"
+
+printHexBinary
+public static String printHexBinary(byte[] val)
+
+ Converts an array of bytes into a string.
+
+Parameters:
+val - An array of bytes
+Returns:
+A string containing a lexical representation of xsd:hexBinary
+Throws:
+IllegalArgumentException - if val is null.
+
+
+"
+DatatypeConverter,printInt(int val),static String,Converts an int value into a string.,"
+
+printInt
+public static String printInt(int val)
+
+ Converts an int value into a string.
+
+Parameters:
+val - An int value
+Returns:
+A string containing a lexical representation of xsd:int
+
+
+"
+DatatypeConverter,printInteger(BigInteger val),static String,Converts a BigInteger value into a string.,"
+
+printInteger
+public static String printInteger(BigInteger val)
+
+ Converts a BigInteger value into a string.
+
+Parameters:
+val - A BigInteger value
+Returns:
+A string containing a lexical representation of xsd:integer
+Throws:
+IllegalArgumentException - val is null.
+
+
+"
+DatatypeConverter,printLong(long val),static String,Converts A long value into a string.,"
+
+printLong
+public static String printLong(long val)
+
+ Converts A long value into a string.
+
+Parameters:
+val - A long value
+Returns:
+A string containing a lexical representation of xsd:long
+
+
+"
+DatatypeConverter,"printQName(QName val, NamespaceContext nsc)",static String,Converts a QName instance into a string.,"
+
+printQName
+public static String printQName(QName val,
+                                NamespaceContext nsc)
+
+ Converts a QName instance into a string.
+
+Parameters:
+val - A QName value
+nsc - A namespace context for interpreting a prefix within a QName.
+Returns:
+A string containing a lexical representation of QName
+Throws:
+IllegalArgumentException - if val is null or
+ if nsc is non-null or nsc.getPrefix(nsprefixFromVal) is null.
+
+
+"
+DatatypeConverter,printShort(short val),static String,Converts a short value into a string.,"
+
+printShort
+public static String printShort(short val)
+
+ Converts a short value into a string.
+
+Parameters:
+val - A short value
+Returns:
+A string containing a lexical representation of xsd:short
+
+
+"
+DatatypeConverter,printString(String val),static String,Converts the string argument into a string.,"
+
+printString
+public static String printString(String val)
+
+ Converts the string argument into a string.
+
+Parameters:
+val - A string value.
+Returns:
+A string containing a lexical representation of xsd:string.
+
+
+"
+DatatypeConverter,printTime(Calendar val),static String,Converts a Calendar value into a string.,"
+
+printTime
+public static String printTime(Calendar val)
+
+ Converts a Calendar value into a string.
+
+Parameters:
+val - A Calendar value
+Returns:
+A string containing a lexical representation of xsd:time
+Throws:
+IllegalArgumentException - if val is null.
+
+
+"
+DatatypeConverter,printUnsignedInt(long val),static String,Converts a long value into a string.,"
+
+printUnsignedInt
+public static String printUnsignedInt(long val)
+
+ Converts a long value into a string.
+
+Parameters:
+val - A long value
+Returns:
+A string containing a lexical representation of xsd:unsignedInt
+
+
+"
+DatatypeConverter,printUnsignedShort(int val),static String,Converts an int value into a string.,"
+
+printUnsignedShort
+public static String printUnsignedShort(int val)
+
+ Converts an int value into a string.
+
+Parameters:
+val - An int value
+Returns:
+A string containing a lexical representation of xsd:unsignedShort
+
+
+"
+DatatypeConverter,setDatatypeConverter(DatatypeConverterInterface converter),static void,This method is for JAXB provider use only.,"
+
+setDatatypeConverter
+public static void setDatatypeConverter(DatatypeConverterInterface converter)
+This method is for JAXB provider use only.
+ 
+ JAXB Providers are required to call this method at some point before
+ allowing any of the JAXB client marshal or unmarshal operations to
+ occur.  This is necessary to configure the datatype converter that
+ should be used to perform the print and parse conversions.
+
+ 
+ Calling this api repeatedly will have no effect - the
+ DatatypeConverterInterface instance passed into the first invocation is
+ the one that will be used from then on.
+
+Parameters:
+converter - an instance of a class that implements the
+ DatatypeConverterInterface class - this parameter must not be null.
+Throws:
+IllegalArgumentException - if the parameter is null
+SecurityException - If the SecurityManager in charge denies the access to
+      set the datatype converter.
+See Also:
+JAXBPermission
+
+
+"
+JAXB,"marshal(Object jaxbObject, File xml)",static void,Writes a Java object tree to XML and store it to the specified location.,"
+
+marshal
+public static void marshal(Object jaxbObject,
+                           File xml)
+Writes a Java object tree to XML and store it to the specified location.
+
+Parameters:
+jaxbObject - The Java object to be marshalled into XML. If this object is
+      a JAXBElement, it will provide the root tag name and
+      the body. If this object has XmlRootElement
+      on its class definition, that will be used as the root tag name
+      and the given object will provide the body. Otherwise,
+      the root tag name is infered from
+      the short class name.
+      This parameter must not be null.
+xml - XML will be written to this file. If it already exists,
+      it will be overwritten.
+Throws:
+DataBindingException - If the operation fails, such as due to I/O error, unbindable classes.
+
+
+"
+JAXB,"marshal(Object jaxbObject, OutputStream xml)",static void,Writes a Java object tree to XML and store it to the specified location.,"
+
+marshal
+public static void marshal(Object jaxbObject,
+                           OutputStream xml)
+Writes a Java object tree to XML and store it to the specified location.
+
+Parameters:
+jaxbObject - The Java object to be marshalled into XML. If this object is
+      a JAXBElement, it will provide the root tag name and
+      the body. If this object has XmlRootElement
+      on its class definition, that will be used as the root tag name
+      and the given object will provide the body. Otherwise,
+      the root tag name is infered from
+      the short class name.
+      This parameter must not be null.
+xml - The XML will be sent to the given OutputStream.
+      Upon a successful completion, the stream will be closed by this method.
+Throws:
+DataBindingException - If the operation fails, such as due to I/O error, unbindable classes.
+
+
+"
+JAXB,"marshal(Object jaxbObject, Result xml)",static void,Writes a Java object tree to XML and store it to the specified location.,"
+
+marshal
+public static void marshal(Object jaxbObject,
+                           Result xml)
+Writes a Java object tree to XML and store it to the specified location.
+
+Parameters:
+jaxbObject - The Java object to be marshalled into XML. If this object is
+      a JAXBElement, it will provide the root tag name and
+      the body. If this object has XmlRootElement
+      on its class definition, that will be used as the root tag name
+      and the given object will provide the body. Otherwise,
+      the root tag name is infered from
+      the short class name.
+      This parameter must not be null.
+xml - The XML will be sent to the Result object.
+Throws:
+DataBindingException - If the operation fails, such as due to I/O error, unbindable classes.
+
+
+"
+JAXB,"marshal(Object jaxbObject, String xml)",static void,Writes a Java object tree to XML and store it to the specified location.,"
+
+marshal
+public static void marshal(Object jaxbObject,
+                           String xml)
+Writes a Java object tree to XML and store it to the specified location.
+
+Parameters:
+jaxbObject - The Java object to be marshalled into XML. If this object is
+      a JAXBElement, it will provide the root tag name and
+      the body. If this object has XmlRootElement
+      on its class definition, that will be used as the root tag name
+      and the given object will provide the body. Otherwise,
+      the root tag name is infered from
+      the short class name.
+      This parameter must not be null.
+xml - The string is first interpreted as an absolute URI.
+      If it's not a valid absolute URI,
+      then it's interpreted as a File
+Throws:
+DataBindingException - If the operation fails, such as due to I/O error, unbindable classes.
+
+
+"
+JAXB,"marshal(Object jaxbObject, URI xml)",static void,Writes a Java object tree to XML and store it to the specified location.,"
+
+marshal
+public static void marshal(Object jaxbObject,
+                           URI xml)
+Writes a Java object tree to XML and store it to the specified location.
+
+Parameters:
+jaxbObject - The Java object to be marshalled into XML. If this object is
+      a JAXBElement, it will provide the root tag name and
+      the body. If this object has XmlRootElement
+      on its class definition, that will be used as the root tag name
+      and the given object will provide the body. Otherwise,
+      the root tag name is infered from
+      the short class name.
+      This parameter must not be null.
+xml - The URI is turned into URL and then
+      follows the handling of URL. See above.
+Throws:
+DataBindingException - If the operation fails, such as due to I/O error, unbindable classes.
+
+
+"
+JAXB,"marshal(Object jaxbObject, URL xml)",static void,Writes a Java object tree to XML and store it to the specified location.,"
+
+marshal
+public static void marshal(Object jaxbObject,
+                           URL xml)
+Writes a Java object tree to XML and store it to the specified location.
+
+Parameters:
+jaxbObject - The Java object to be marshalled into XML. If this object is
+      a JAXBElement, it will provide the root tag name and
+      the body. If this object has XmlRootElement
+      on its class definition, that will be used as the root tag name
+      and the given object will provide the body. Otherwise,
+      the root tag name is infered from
+      the short class name.
+      This parameter must not be null.
+xml - The XML will be sent to the
+      resource pointed by this URL. Note that not all URLs support
+      such operation, and exact semantics depends on the URL
+      implementations. In case of HTTP URLs,
+      this will perform HTTP POST.
+Throws:
+DataBindingException - If the operation fails, such as due to I/O error, unbindable classes.
+
+
+"
+JAXB,"marshal(Object jaxbObject, Writer xml)",static void,Writes a Java object tree to XML and store it to the specified location.,"
+
+marshal
+public static void marshal(Object jaxbObject,
+                           Writer xml)
+Writes a Java object tree to XML and store it to the specified location.
+
+Parameters:
+jaxbObject - The Java object to be marshalled into XML. If this object is
+      a JAXBElement, it will provide the root tag name and
+      the body. If this object has XmlRootElement
+      on its class definition, that will be used as the root tag name
+      and the given object will provide the body. Otherwise,
+      the root tag name is infered from
+      the short class name.
+      This parameter must not be null.
+xml - The XML will be sent as a character stream to the given Writer.
+      Upon a successful completion, the stream will be closed by this method.
+Throws:
+DataBindingException - If the operation fails, such as due to I/O error, unbindable classes.
+
+
+"
+JAXB,"unmarshal(File xml, Class<T> type)",static <T> T,Reads in a Java object tree from the given XML input.,"
+
+unmarshal
+public static <T> T unmarshal(File xml,
+                              Class<T> type)
+Reads in a Java object tree from the given XML input.
+
+Parameters:
+xml - Reads the entire file as XML.
+
+
+"
+JAXB,"unmarshal(InputStream xml, Class<T> type)",static <T> T,Reads in a Java object tree from the given XML input.,"
+
+unmarshal
+public static <T> T unmarshal(InputStream xml,
+                              Class<T> type)
+Reads in a Java object tree from the given XML input.
+
+Parameters:
+xml - The entire stream is read as an XML infoset.
+      Upon a successful completion, the stream will be closed by this method.
+
+
+"
+JAXB,"unmarshal(Reader xml, Class<T> type)",static <T> T,Reads in a Java object tree from the given XML input.,"
+
+unmarshal
+public static <T> T unmarshal(Reader xml,
+                              Class<T> type)
+Reads in a Java object tree from the given XML input.
+
+Parameters:
+xml - The character stream is read as an XML infoset.
+      The encoding declaration in the XML will be ignored.
+      Upon a successful completion, the stream will be closed by this method.
+
+
+"
+JAXB,"unmarshal(Source xml, Class<T> type)",static <T> T,Reads in a Java object tree from the given XML input.,"
+
+unmarshal
+public static <T> T unmarshal(Source xml,
+                              Class<T> type)
+Reads in a Java object tree from the given XML input.
+
+Parameters:
+xml - The XML infoset that the Source represents is read.
+
+
+"
+JAXB,"unmarshal(String xml, Class<T> type)",static <T> T,Reads in a Java object tree from the given XML input.,"
+
+unmarshal
+public static <T> T unmarshal(String xml,
+                              Class<T> type)
+Reads in a Java object tree from the given XML input.
+
+Parameters:
+xml - The string is first interpreted as an absolute URI.
+      If it's not a valid absolute URI,
+      then it's interpreted as a File
+
+
+"
+JAXB,"unmarshal(URI xml, Class<T> type)",static <T> T,Reads in a Java object tree from the given XML input.,"
+
+unmarshal
+public static <T> T unmarshal(URI xml,
+                              Class<T> type)
+Reads in a Java object tree from the given XML input.
+
+Parameters:
+xml - The URI is turned into URL and then
+      follows the handling of URL.
+
+
+"
+JAXB,"unmarshal(URL xml, Class<T> type)",static <T> T,Reads in a Java object tree from the given XML input.,"
+
+unmarshal
+public static <T> T unmarshal(URL xml,
+                              Class<T> type)
+Reads in a Java object tree from the given XML input.
+
+Parameters:
+xml - The resource pointed by the URL is read in its entirety.
+
+
+"
+JAXBContext,createBinder(),Binder<Node>,Creates a Binder for W3C DOM.,"
+
+createBinder
+public Binder<Node> createBinder()
+Creates a Binder for W3C DOM.
+
+Returns:
+always a new valid Binder object.
+Since:
+JAXB2.0
+
+
+"
+JAXBContext,createBinder(Class<T> domType),<T> Binder<T>,Creates a Binder object that can be used for associative/in-place unmarshalling/marshalling.,"
+
+createBinder
+public <T> Binder<T> createBinder(Class<T> domType)
+Creates a Binder object that can be used for
+ associative/in-place unmarshalling/marshalling.
+
+Parameters:
+domType - select the DOM API to use by passing in its DOM Node class.
+Returns:
+always a new valid Binder object.
+Throws:
+UnsupportedOperationException - if DOM API corresponding to domType is not supported by
+      the implementation.
+Since:
+JAXB2.0
+
+
+"
+JAXBContext,createJAXBIntrospector(),JAXBIntrospector,Creates a JAXBIntrospector object that can be used to introspect JAXB objects.,"
+
+createJAXBIntrospector
+public JAXBIntrospector createJAXBIntrospector()
+Creates a JAXBIntrospector object that can be used to
+ introspect JAXB objects.
+
+Returns:
+always return a non-null valid JAXBIntrospector object.
+Throws:
+UnsupportedOperationException - Calling this method on JAXB 1.0 implementations will throw
+      an UnsupportedOperationException.
+Since:
+JAXB2.0
+
+
+"
+JAXBContext,createMarshaller(),abstract Marshaller,Create a Marshaller object that can be used to convert a java content tree into XML data.,"
+
+createMarshaller
+public abstract Marshaller createMarshaller()
+                                     throws JAXBException
+Create a Marshaller object that can be used to convert a
+ java content tree into XML data.
+
+Returns:
+a Marshaller object
+Throws:
+JAXBException - if an error was encountered while creating the
+                       Marshaller object
+
+
+"
+JAXBContext,createUnmarshaller(),abstract Unmarshaller,Create an Unmarshaller object that can be used to convert XML data into a java content tree.,"
+
+createUnmarshaller
+public abstract Unmarshaller createUnmarshaller()
+                                         throws JAXBException
+Create an Unmarshaller object that can be used to convert XML
+ data into a java content tree.
+
+Returns:
+an Unmarshaller object
+Throws:
+JAXBException - if an error was encountered while creating the
+                       Unmarshaller object
+
+
+"
+JAXBContext,createValidator(),abstract Validator,Deprecated. since JAXB2.0,"
+
+createValidator
+public abstract Validator createValidator()
+                                   throws JAXBException
+Deprecated. since JAXB2.0
+Validator has been made optional and deprecated in JAXB 2.0.  Please
+ refer to the javadoc for Validator for more detail.
+ 
+ Create a Validator object that can be used to validate a
+ java content tree against its source schema.
+
+Returns:
+a Validator object
+Throws:
+JAXBException - if an error was encountered while creating the
+                       Validator object
+
+
+"
+JAXBContext,generateSchema(SchemaOutputResolver outputResolver),void,Generates the schema documents for this context.,"
+
+generateSchema
+public void generateSchema(SchemaOutputResolver outputResolver)
+                    throws IOException
+Generates the schema documents for this context.
+
+Parameters:
+outputResolver - this object controls the output to which schemas
+      will be sent.
+Throws:
+IOException - if SchemaOutputResolver throws an IOException.
+UnsupportedOperationException - Calling this method on JAXB 1.0 implementations will throw
+      an UnsupportedOperationException.
+Since:
+JAXB 2.0
+
+
+"
+JAXBContext,newInstance(Class... classesToBeBound),static JAXBContext,Obtain a new instance of a JAXBContext class.,"
+
+newInstance
+public static JAXBContext newInstance(Class... classesToBeBound)
+                               throws JAXBException
+
+ Obtain a new instance of a JAXBContext class.
+
+ 
+ The client application must supply a list of classes that the new
+ context object needs to recognize.
+
+ Not only the new context will recognize all the classes specified,
+ but it will also recognize any classes that are directly/indirectly
+ referenced statically from the specified classes. Subclasses of
+ referenced classes nor @XmlTransient referenced classes
+ are not registered with JAXBContext.
+
+ For example, in the following Java code, if you do
+ newInstance(Foo.class), the newly created JAXBContext
+ will recognize both Foo and Bar, but not Zot or FooBar:
+ 
+ class Foo {
+      @XmlTransient FooBar c;
+      Bar b;
+ }
+ class Bar { int x; }
+ class Zot extends Bar { int y; }
+ class FooBar { }
+ 
+
+ Therefore, a typical client application only needs to specify the
+ top-level classes, but it needs to be careful.
+
+ 
+ Note that for each java package registered with JAXBContext,
+ when the optional package annotations exist, they must be processed.
+ (see JLS, Section 7.4.1 ""Named Packages"").
+
+ 
+ The steps involved in discovering the JAXB implementation is discussed in the class javadoc.
+
+Parameters:
+classesToBeBound - list of java classes to be recognized by the new JAXBContext.
+      Can be empty, in which case a JAXBContext that only knows about
+      spec-defined classes will be returned.
+Returns:
+A new instance of a JAXBContext. Always non-null valid object.
+Throws:
+JAXBException - if an error was encountered while creating the
+      JAXBContext, such as (but not limited to):
+ 
+No JAXB implementation was discovered
+  Classes use JAXB annotations incorrectly
+  Classes have colliding annotations (i.e., two classes with the same type name)
+  The JAXB implementation was unable to locate
+      provider-specific out-of-band information (such as additional
+      files generated at the development time.)
+ 
+IllegalArgumentException - if the parameter contains null (i.e., newInstance(null);)
+Since:
+JAXB2.0
+
+
+"
+JAXBContext,"newInstance(Class[] classesToBeBound, Map<String,?> properties)",static JAXBContext,Obtain a new instance of a JAXBContext class.,"
+
+newInstance
+public static JAXBContext newInstance(Class[] classesToBeBound,
+                                      Map<String,?> properties)
+                               throws JAXBException
+
+ Obtain a new instance of a JAXBContext class.
+
+ 
+ An overloading of newInstance(Class...)
+ to configure 'properties' for this instantiation of JAXBContext.
+
+ 
+ The interpretation of properties is up to implementations. Implementations should
+ throw JAXBException if it finds properties that it doesn't understand.
+
+Parameters:
+classesToBeBound - list of java classes to be recognized by the new JAXBContext.
+      Can be empty, in which case a JAXBContext that only knows about
+      spec-defined classes will be returned.
+properties - provider-specific properties. Can be null, which means the same thing as passing
+      in an empty map.
+Returns:
+A new instance of a JAXBContext. Always non-null valid object.
+Throws:
+JAXBException - if an error was encountered while creating the
+      JAXBContext, such as (but not limited to):
+ 
+No JAXB implementation was discovered
+  Classes use JAXB annotations incorrectly
+  Classes have colliding annotations (i.e., two classes with the same type name)
+  The JAXB implementation was unable to locate
+      provider-specific out-of-band information (such as additional
+      files generated at the development time.)
+ 
+IllegalArgumentException - if the parameter contains null (i.e., newInstance(null,someMap);)
+Since:
+JAXB2.0
+
+
+"
+JAXBContext,newInstance(String contextPath),static JAXBContext,Obtain a new instance of a JAXBContext class.,"
+
+newInstance
+public static JAXBContext newInstance(String contextPath)
+                               throws JAXBException
+
+ Obtain a new instance of a JAXBContext class.
+
+ 
+ This is a convenience method to invoke the
+ newInstance(String,ClassLoader) method with
+ the context class loader of the current thread.
+
+Throws:
+JAXBException - if an error was encountered while creating the
+                       JAXBContext such as
+ 
+failure to locate either ObjectFactory.class or jaxb.index in the packages
+an ambiguity among global elements contained in the contextPath
+failure to locate a value for the context factory provider property
+mixing schema derived packages from different providers on the same contextPath
+
+
+
+"
+JAXBContext,"newInstance(String contextPath, ClassLoader classLoader)",static JAXBContext,Obtain a new instance of a JAXBContext class.,"
+
+newInstance
+public static JAXBContext newInstance(String contextPath,
+                                      ClassLoader classLoader)
+                               throws JAXBException
+
+ Obtain a new instance of a JAXBContext class.
+
+ 
+ The client application must supply a context path which is a list of
+ colon (':', \u003A) separated java package names that contain
+ schema-derived classes and/or fully qualified JAXB-annotated classes.
+ Schema-derived
+ code is registered with the JAXBContext by the
+ ObjectFactory.class generated per package.
+ Alternatively than being listed in the context path, programmer
+ annotated JAXB mapped classes can be listed in a
+ jaxb.index resource file, format described below.
+ Note that a java package can contain both schema-derived classes and
+ user annotated JAXB classes. Additionally, the java package may
+ contain JAXB package annotations  that must be processed. (see JLS,
+ Section 7.4.1 ""Named Packages"").
+ 
+
+ Every package listed on the contextPath must meet one or both of the
+ following conditions otherwise a JAXBException will be thrown:
+ 
+
+it must contain ObjectFactory.class
+it must contain jaxb.index
+
+
+Format for jaxb.index
+
+ The file contains a newline-separated list of class names.
+ Space and tab characters, as well as blank
+ lines, are ignored. The comment character
+ is '#' (0x23); on each line all characters following the first comment
+ character are ignored. The file must be encoded in UTF-8. Classes that
+ are reachable, as defined in newInstance(Class...), from the
+ listed classes are also registered with JAXBContext.
+ 
+ Constraints on class name occuring in a jaxb.index file are:
+ 
+Must not end with "".class"".
+Class names are resolved relative to package containing
+       jaxb.index file. Only classes occuring directly in package
+       containing jaxb.index file are allowed.
+Fully qualified class names are not allowed.
+       A qualified class name,relative to current package,
+       is only allowed to specify a nested or inner class.
+
+
+ To maintain compatibility with JAXB 1.0 schema to java
+ interface/implementation binding, enabled by schema customization
+ <jaxb:globalBindings valueClass=""false"">,
+ the JAXB provider will ensure that each package on the context path
+ has a jaxb.properties file which contains a value for the
+ javax.xml.bind.context.factory property and that all values
+ resolve to the same provider.  This requirement does not apply to
+ JAXB annotated classes.
+
+ 
+ If there are any global XML element name collisions across the various
+ packages listed on the contextPath, a JAXBException
+ will be thrown.
+
+ 
+ Mixing generated interface/impl bindings from multiple JAXB Providers
+ in the same context path may result in a JAXBException
+ being thrown.
+
+ 
+ The steps involved in discovering the JAXB implementation is discussed in the class javadoc.
+
+Parameters:
+contextPath - list of java package names that contain schema
+                    derived class and/or java to schema (JAXB-annotated)
+                    mapped classes
+classLoader - This class loader will be used to locate the implementation
+      classes.
+Returns:
+a new instance of a JAXBContext
+Throws:
+JAXBException - if an error was encountered while creating the
+                       JAXBContext such as
+ 
+failure to locate either ObjectFactory.class or jaxb.index in the packages
+an ambiguity among global elements contained in the contextPath
+failure to locate a value for the context factory provider property
+mixing schema derived packages from different providers on the same contextPath
+
+
+
+"
+JAXBContext,"newInstance(String contextPath, ClassLoader classLoader, Map<String,?> properties)",static JAXBContext,Obtain a new instance of a JAXBContext class.,"
+
+newInstance
+public static JAXBContext newInstance(String contextPath,
+                                      ClassLoader classLoader,
+                                      Map<String,?> properties)
+                               throws JAXBException
+
+ Obtain a new instance of a JAXBContext class.
+
+ 
+ This is mostly the same as newInstance(String, ClassLoader),
+ but this version allows you to pass in provider-specific properties to configure
+ the instantiation of JAXBContext.
+
+ 
+ The interpretation of properties is up to implementations. Implementations should
+ throw JAXBException if it finds properties that it doesn't understand.
+
+Parameters:
+contextPath - list of java package names that contain schema derived classes
+classLoader - This class loader will be used to locate the implementation classes.
+properties - provider-specific properties. Can be null, which means the same thing as passing
+      in an empty map.
+Returns:
+a new instance of a JAXBContext
+Throws:
+JAXBException - if an error was encountered while creating the
+                       JAXBContext such as
+ 
+failure to locate either ObjectFactory.class or jaxb.index in the packages
+an ambiguity among global elements contained in the contextPath
+failure to locate a value for the context factory provider property
+mixing schema derived packages from different providers on the same contextPath
+
+Since:
+JAXB2.0
+
+
+"
+JAXBElement,getDeclaredType(),Class<T>,Returns the Java binding of the xml element declaration's type attribute.,"
+
+getDeclaredType
+public Class<T> getDeclaredType()
+Returns the Java binding of the xml element declaration's type attribute.
+
+"
+JAXBElement,getName(),QName,Returns the xml element tag name.,"
+
+getName
+public QName getName()
+Returns the xml element tag name.
+
+"
+JAXBElement,getScope(),Class,Returns scope of xml element declaration.,"
+
+getScope
+public Class getScope()
+Returns scope of xml element declaration.
+
+Returns:
+GlobalScope.class if this element is of global scope.
+See Also:
+isGlobalScope()
+
+
+"
+JAXBElement,getValue(),T,Return the content model and attribute values for this element.,"
+
+getValue
+public T getValue()
+Return the content model and attribute values for this element.
+See isNil() for a description of a property constraint when
+ this value is null
+
+"
+JAXBElement,isGlobalScope(),boolean,Returns true iff this xml element declaration is global.,"
+
+isGlobalScope
+public boolean isGlobalScope()
+Returns true iff this xml element declaration is global.
+
+"
+JAXBElement,isNil(),boolean,Returns true iff this element instance content model is nil.,"
+
+isNil
+public boolean isNil()
+Returns true iff this element instance content model
+ is nil.
+This property always returns true when getValue() is null.
+ Note that the converse is not true, when this property is true,
+ getValue() can contain a non-null value for attribute(s). It is
+ valid for a nil xml element to have attribute(s).
+
+"
+JAXBElement,isTypeSubstituted(),boolean,Returns true iff this xml element instance's value has a different type than xml element declaration's declared type.,"
+
+isTypeSubstituted
+public boolean isTypeSubstituted()
+Returns true iff this xml element instance's value has a different
+ type than xml element declaration's declared type.
+
+"
+JAXBElement,setNil(boolean value),void,Set whether this element has nil content.,"
+
+setNil
+public void setNil(boolean value)
+Set whether this element has nil content.
+
+See Also:
+isNil()
+
+
+"
+JAXBElement,setValue(T t),void,Set the content model and attributes of this xml element.,"
+
+setValue
+public void setValue(T t)
+Set the content model and attributes of this xml element.
+When this property is set to null, isNil() must by true.
+    Details of constraint are described at isNil().
+
+See Also:
+isTypeSubstituted()
+
+
+"
+JAXBIntrospector,getElementName(Object jaxbElement),abstract QName,Get xml element qname for jaxbElement.,"
+
+getElementName
+public abstract QName getElementName(Object jaxbElement)
+Get xml element qname for jaxbElement.
+
+Parameters:
+jaxbElement - is an object that isElement(Object) returned true.
+Returns:
+xml element qname associated with jaxbElement;
+         null if jaxbElement is not a JAXB Element.
+
+
+"
+JAXBIntrospector,getValue(Object jaxbElement),static Object,Get the element value of a JAXB element.,"
+
+getValue
+public static Object getValue(Object jaxbElement)
+Get the element value of a JAXB element.
+Convenience method to abstract whether working with either
+    a javax.xml.bind.JAXBElement instance or an instance of
+    @XmlRootElement annotated Java class.
+
+Parameters:
+jaxbElement - object that #isElement(Object) returns true.
+Returns:
+The element value of the jaxbElement.
+
+
+"
+JAXBIntrospector,isElement(Object object),abstract boolean,Return true if object represents a JAXB element.,"
+
+isElement
+public abstract boolean isElement(Object object)
+Return true if object represents a JAXB element.
+Parameter object is a JAXB element for following cases:
+ 
+It is an instance of javax.xml.bind.JAXBElement.
+The class of object is annotated with
+       @XmlRootElement.
+   
+
+
+See Also:
+getElementName(Object)
+
+
+"
+Marshaller.Listener,afterMarshal(Object source),void,Callback method invoked after marshalling source to XML.,"
+
+afterMarshal
+public void afterMarshal(Object source)
+
+ Callback method invoked after marshalling source to XML.
+ 
+
+ This method is invoked after source and all its descendants have been marshalled.
+ Note that if the class of source defines its own afterMarshal method,
+ the class specific callback method is invoked just before this method is invoked.
+
+Parameters:
+source - instance of JAXB mapped class after marshalling it.
+
+
+"
+Marshaller.Listener,beforeMarshal(Object source),void,Callback method invoked before marshalling from source to XML.,"
+
+beforeMarshal
+public void beforeMarshal(Object source)
+
+ Callback method invoked before marshalling from source to XML.
+ 
+
+ This method is invoked just before marshalling process starts to marshal source.
+ Note that if the class of source defines its own beforeMarshal method,
+ the class specific callback method is invoked just before this method is invoked.
+
+Parameters:
+source - instance of JAXB mapped class prior to marshalling from it.
+
+
+"
+SchemaOutputResolver,"createOutput(String namespaceUri, String suggestedFileName)",abstract Result,"Decides where the schema file (of the given namespace URI) will be written, and return it as a Result object.","
+
+createOutput
+public abstract Result createOutput(String namespaceUri,
+                                    String suggestedFileName)
+                             throws IOException
+Decides where the schema file (of the given namespace URI)
+ will be written, and return it as a Result object.
+
+ 
+ This method is called only once for any given namespace.
+ IOW, all the components in one namespace is always written
+ into the same schema document.
+
+Parameters:
+namespaceUri - The namespace URI that the schema declares.
+      Can be the empty string, but never be null.
+suggestedFileName - A JAXB implementation generates an unique file name (like ""schema1.xsd"")
+      for the convenience of the callee. This name can be
+      used for the file name of the schema, or the callee can just
+      ignore this name and come up with its own name.
+      This is just a hint.
+Returns:
+a Result object that encapsulates the actual destination
+      of the schema.
+
+      If the Result object has a system ID, it must be an
+      absolute system ID. Those system IDs are relativized by the caller and used
+      for <xs:import> statements.
+
+      If the Result object does not have a system ID, a schema
+      for the namespace URI is generated but it won't be explicitly
+      <xs:import>ed from other schemas.
+
+      If null is returned, the schema generation for this
+      namespace URI will be skipped.
+Throws:
+IOException
+
+
+"
+Unmarshaller.Listener,"afterUnmarshal(Object target, Object parent)",void,Callback method invoked after unmarshalling XML data into target.,"
+
+afterUnmarshal
+public void afterUnmarshal(Object target,
+                           Object parent)
+
+ Callback method invoked after unmarshalling XML data into target.
+ 
+
+ This method is invoked after all the properties (except IDREF) are unmarshalled into target,
+ but before target is set into its parent object.
+ Note that if the class of target defines its own afterUnmarshal method,
+ the class specific callback method is invoked before this method is invoked.
+
+Parameters:
+target - non-null instance of JAXB mapped class prior to unmarshalling into it.
+parent - instance of JAXB mapped class that will reference target.
+               null when target is root element.
+
+
+"
+Unmarshaller.Listener,"beforeUnmarshal(Object target, Object parent)",void,Callback method invoked before unmarshalling into target.,"
+
+beforeUnmarshal
+public void beforeUnmarshal(Object target,
+                            Object parent)
+
+ Callback method invoked before unmarshalling into target.
+ 
+
+ This method is invoked immediately after target was created and
+ before the unmarshalling of this object begins. Note that
+ if the class of target defines its own beforeUnmarshal method,
+ the class specific callback method is invoked before this method is invoked.
+
+Parameters:
+target - non-null instance of JAXB mapped class prior to unmarshalling into it.
+parent - instance of JAXB mapped class that will eventually reference target.
+               null when target is root element.
+
+
+"

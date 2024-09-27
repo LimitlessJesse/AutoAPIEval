@@ -1,0 +1,897 @@
+Sample: 0 Buffer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.Buffer;
+
+public class Main {
+    public static void main(String[] args) {
+        Buffer buffer = Buffer.allocate(10);
+        System.out.println("Capacity: " + buffer.capacity());
+    }
+}
+```
+================================================================
+
+Sample: 1 Buffer_2
+----------------------------------------------------------------
+`Buffer clear()`: This method clears the buffer by setting the position to zero, the limit to the capacity, and discarding the mark.
+
+Code snippet:
+```java
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        ByteBuffer buffer = ByteBuffer.allocate(10);
+        buffer.put((byte) 1);
+        buffer.put((byte) 2);
+        System.out.println("Before clear: " + buffer);
+
+        buffer.clear();
+        System.out.println("After clear: " + buffer);
+    }
+}
+```
+================================================================
+
+Sample: 2 Buffer_3
+----------------------------------------------------------------
+`Buffer flip()`: This method flips the buffer. The limit is set to the current position and then the position is set to zero. If the mark is defined then it is discarded.
+
+Code snippet:
+```java
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        ByteBuffer buffer = ByteBuffer.allocate(10);
+        buffer.put((byte) 1);
+        buffer.put((byte) 2);
+        buffer.put((byte) 3);
+
+        System.out.println("Before flip - position: " + buffer.position() + ", limit: " + buffer.limit());
+
+        buffer.flip();
+
+        System.out.println("After flip - position: " + buffer.position() + ", limit: " + buffer.limit());
+    }
+}
+```
+================================================================
+
+Sample: 3 Buffer_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.Buffer;
+
+public class Main {
+    public static void main(String[] args) {
+        Buffer buffer = Buffer.allocate(10);
+        boolean remaining = buffer.hasRemaining();
+        System.out.println("Remaining elements in buffer: " + remaining);
+    }
+}
+```
+================================================================
+
+Sample: 4 Buffer_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.IntBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        IntBuffer buffer = IntBuffer.allocate(5);
+        buffer.put(1);
+        buffer.put(2);
+        buffer.put(3);
+        buffer.flip();
+        
+        System.out.println("Remaining elements in buffer: " + buffer.remaining());
+    }
+}
+```
+================================================================
+
+Sample: 5 ByteBuffer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ByteBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        ByteBuffer buffer = ByteBuffer.allocate(10);
+        System.out.println("Capacity: " + buffer.capacity());
+        System.out.println("Position: " + buffer.position());
+        System.out.println("Limit: " + buffer.limit());
+    }
+}
+```
+================================================================
+
+Sample: 6 ByteBuffer_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ByteBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] array = {1, 2, 3, 4, 5};
+        ByteBuffer buffer = ByteBuffer.wrap(array);
+        
+        System.out.println("Buffer capacity: " + buffer.capacity());
+        System.out.println("Buffer limit: " + buffer.limit());
+        System.out.println("Buffer position: " + buffer.position());
+        System.out.println("Buffer content: ");
+        
+        while (buffer.hasRemaining()) {
+            System.out.print(buffer.get() + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 ByteBuffer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ByteBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        ByteBuffer buffer = ByteBuffer.allocate(10);
+        byte b = 65; // ASCII value of 'A'
+        buffer.put(b);
+        System.out.println("Byte value added to buffer: " + b);
+    }
+}
+```
+================================================================
+
+Sample: 8 ByteBuffer_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ByteBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        ByteBuffer buffer = ByteBuffer.allocate(10);
+        buffer.put((byte) 65);
+        
+        byte value = buffer.get();
+        System.out.println("Byte value: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 9 ByteOrder_1
+----------------------------------------------------------------
+`nativeOrder`: This method retrieves the native byte order of the underlying platform.
+
+Code snippet:
+```java
+import java.nio.ByteOrder;
+
+public class Main {
+    public static void main(String[] args) {
+        ByteOrder byteOrder = ByteOrder.nativeOrder();
+        System.out.println("Native Byte Order: " + byteOrder);
+    }
+}
+```
+================================================================
+
+Sample: 10 ByteOrder_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ByteOrder;
+
+public class Main {
+    public static void main(String[] args) {
+        ByteOrder byteOrder = ByteOrder.BIG_ENDIAN;
+        System.out.println(byteOrder.toString());
+    }
+}
+```
+================================================================
+
+Sample: 11 CharBuffer_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.CharBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        CharBuffer buffer = CharBuffer.allocate(10);
+        buffer.put("Hello, World".toCharArray());
+        
+        CharBuffer slicedBuffer = buffer.slice();
+        
+        System.out.println("Original buffer: " + buffer.toString());
+        System.out.println("Sliced buffer: " + slicedBuffer.toString());
+    }
+}
+```
+================================================================
+
+Sample: 12 CharBuffer_5
+----------------------------------------------------------------
+`CharBuffer duplicate()`: This method creates a new char buffer that shares the content of the original buffer.
+
+Code snippet:
+```java
+import java.nio.CharBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        CharBuffer originalBuffer = CharBuffer.allocate(10);
+        originalBuffer.put("Hello");
+        
+        CharBuffer duplicateBuffer = originalBuffer.duplicate();
+        
+        System.out.println("Original Buffer: " + originalBuffer.toString());
+        System.out.println("Duplicate Buffer: " + duplicateBuffer.toString());
+        
+        originalBuffer.put(" World");
+        
+        System.out.println("Original Buffer after modification: " + originalBuffer.toString());
+        System.out.println("Duplicate Buffer after modification: " + duplicateBuffer.toString());
+    }
+}
+```
+================================================================
+
+Sample: 13 DoubleBuffer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.DoubleBuffer;
+import java.nio.BufferUnderflowException;
+
+public class Main {
+    public static void main(String[] args) {
+        DoubleBuffer buffer = DoubleBuffer.allocate(10);
+        buffer.put(3.14);
+        
+        buffer.flip();
+        
+        try {
+            double value = buffer.get();
+            System.out.println("Value retrieved from buffer: " + value);
+        } catch (BufferUnderflowException e) {
+            System.out.println("Buffer underflow occurred.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 14 DoubleBuffer_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.DoubleBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        DoubleBuffer buffer = DoubleBuffer.allocate(5);
+        buffer.put(3.14);
+        System.out.println(buffer.get(0));
+    }
+}
+```
+================================================================
+
+Sample: 15 DoubleBuffer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.DoubleBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a double buffer
+        DoubleBuffer buffer = DoubleBuffer.allocate(5);
+        buffer.put(new double[]{1.0, 2.0, 3.0, 4.0, 5.0});
+        
+        // Slice the buffer
+        DoubleBuffer slicedBuffer = buffer.slice();
+        
+        // Output the sliced buffer
+        System.out.println("Sliced Buffer: ");
+        while (slicedBuffer.hasRemaining()) {
+            System.out.println(slicedBuffer.get());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 DoubleBuffer_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.DoubleBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a double buffer
+        DoubleBuffer buffer = DoubleBuffer.allocate(5);
+        buffer.put(new double[]{1.0, 2.0, 3.0, 4.0, 5.0});
+        
+        // Duplicate the buffer
+        DoubleBuffer duplicateBuffer = buffer.duplicate();
+        
+        // Print the content of the original buffer
+        System.out.print("Original Buffer: ");
+        while (buffer.hasRemaining()) {
+            System.out.print(buffer.get() + " ");
+        }
+        System.out.println();
+        
+        // Print the content of the duplicated buffer
+        System.out.print("Duplicated Buffer: ");
+        while (duplicateBuffer.hasRemaining()) {
+            System.out.print(duplicateBuffer.get() + " ");
+        }
+        System.out.println();
+    }
+}
+```
+================================================================
+
+Sample: 17 DoubleBuffer_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.DoubleBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a DoubleBuffer
+        DoubleBuffer buffer = DoubleBuffer.allocate(5);
+        
+        // Add some doubles to the buffer
+        buffer.put(1.1);
+        buffer.put(2.2);
+        buffer.put(3.3);
+        buffer.put(4.4);
+        buffer.put(5.5);
+        
+        // Compact the buffer
+        DoubleBuffer compactedBuffer = buffer.compact();
+        
+        // Print the compacted buffer
+        System.out.println("Compacted Buffer:");
+        while (compactedBuffer.hasRemaining()) {
+            System.out.println(compactedBuffer.get());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 FloatBuffer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.FloatBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        FloatBuffer buffer = FloatBuffer.allocate(5);
+        System.out.println("Capacity: " + buffer.capacity());
+    }
+}
+```
+================================================================
+
+Sample: 19 FloatBuffer_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.FloatBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        float[] array = {1.1f, 2.2f, 3.3f};
+        FloatBuffer buffer = FloatBuffer.wrap(array);
+        
+        System.out.println("Buffer capacity: " + buffer.capacity());
+        System.out.println("Buffer limit: " + buffer.limit());
+        System.out.println("Buffer position: " + buffer.position());
+        
+        for (int i = 0; i < buffer.limit(); i++) {
+            System.out.println("Element at index " + i + ": " + buffer.get(i));
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 FloatBuffer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.FloatBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        FloatBuffer buffer = FloatBuffer.allocate(10);
+        buffer.put(3.14f);
+        System.out.println(buffer.get(0));
+    }
+}
+```
+================================================================
+
+Sample: 21 FloatBuffer_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.FloatBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        FloatBuffer floatBuffer = FloatBuffer.allocate(10);
+        floatBuffer.put(3.14f);
+        floatBuffer.flip();
+        
+        float value = floatBuffer.get();
+        System.out.println("Value retrieved from FloatBuffer: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 22 FloatBuffer_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.FloatBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a float buffer
+        FloatBuffer buffer = FloatBuffer.allocate(5);
+        buffer.put(new float[]{1.0f, 2.0f, 3.0f, 4.0f, 5.0f});
+        
+        // Duplicate the buffer
+        FloatBuffer duplicateBuffer = buffer.duplicate();
+        
+        // Print the content of the original buffer
+        System.out.print("Original buffer: ");
+        while (buffer.hasRemaining()) {
+            System.out.print(buffer.get() + " ");
+        }
+        
+        // Print the content of the duplicated buffer
+        System.out.print("\nDuplicated buffer: ");
+        while (duplicateBuffer.hasRemaining()) {
+            System.out.print(duplicateBuffer.get() + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 23 IntBuffer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.IntBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        IntBuffer intBuffer = IntBuffer.allocate(5);
+        for (int i = 0; i < intBuffer.capacity(); i++) {
+            System.out.println(intBuffer.get(i));
+        }
+    }
+}
+```
+================================================================
+
+Sample: 24 IntBuffer_2
+----------------------------------------------------------------
+`IntBuffer duplicate()`: This method creates a new int buffer that shares the content of the original buffer.
+
+Code snippet:
+```java
+import java.nio.IntBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        IntBuffer originalBuffer = IntBuffer.allocate(5);
+        originalBuffer.put(new int[]{1, 2, 3, 4, 5});
+        
+        IntBuffer duplicateBuffer = originalBuffer.duplicate();
+        
+        System.out.println("Original Buffer:");
+        while(originalBuffer.hasRemaining()) {
+            System.out.print(originalBuffer.get() + " ");
+        }
+        
+        System.out.println("\nDuplicate Buffer:");
+        while(duplicateBuffer.hasRemaining()) {
+            System.out.print(duplicateBuffer.get() + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 25 IntBuffer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.IntBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        IntBuffer buffer = IntBuffer.allocate(5);
+        buffer.put(new int[]{1, 2, 3, 4, 5});
+        
+        IntBuffer slicedBuffer = buffer.slice();
+        
+        System.out.println("Original Buffer:");
+        while (buffer.hasRemaining()) {
+            System.out.print(buffer.get() + " ");
+        }
+        
+        System.out.println("\nSliced Buffer:");
+        while (slicedBuffer.hasRemaining()) {
+            System.out.print(slicedBuffer.get() + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 26 IntBuffer_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.IntBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        IntBuffer buffer = IntBuffer.allocate(5);
+        buffer.put(1);
+        buffer.put(2);
+        buffer.put(3);
+        
+        IntBuffer readOnlyBuffer = buffer.asReadOnlyBuffer();
+        
+        System.out.println("Original buffer: ");
+        while(buffer.hasRemaining()) {
+            System.out.println(buffer.get());
+        }
+        
+        System.out.println("Read-only buffer: ");
+        while(readOnlyBuffer.hasRemaining()) {
+            System.out.println(readOnlyBuffer.get());
+        }
+        
+        // Trying to modify the read-only buffer will throw a ReadOnlyBufferException
+        // readOnlyBuffer.put(4);
+    }
+}
+```
+================================================================
+
+Sample: 27 IntBuffer_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.IntBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        IntBuffer intBuffer = IntBuffer.allocate(5);
+        intBuffer.put(1);
+        intBuffer.put(2);
+        intBuffer.put(3);
+        intBuffer.put(4);
+        intBuffer.put(5);
+
+        System.out.println("Before compact:");
+        System.out.println("Position: " + intBuffer.position());
+        System.out.println("Limit: " + intBuffer.limit());
+
+        IntBuffer compactedBuffer = intBuffer.compact();
+
+        System.out.println("\nAfter compact:");
+        System.out.println("Position: " + compactedBuffer.position());
+        System.out.println("Limit: " + compactedBuffer.limit());
+    }
+}
+```
+================================================================
+
+Sample: 28 LongBuffer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.LongBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        LongBuffer buffer = LongBuffer.allocate(5);
+        for (int i = 0; i < buffer.capacity(); i++) {
+            System.out.println(buffer.get(i));
+        }
+    }
+}
+```
+================================================================
+
+Sample: 29 LongBuffer_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.LongBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        long[] src = {1L, 2L, 3L, 4L, 5L};
+        LongBuffer buffer = LongBuffer.allocate(5);
+        buffer.put(src);
+        
+        buffer.flip();
+        while (buffer.hasRemaining()) {
+            System.out.println(buffer.get());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 30 LongBuffer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.LongBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        LongBuffer buffer = LongBuffer.allocate(10);
+        buffer.put(123L);
+        buffer.flip();
+        
+        long value = buffer.get();
+        System.out.println("Value retrieved from buffer: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 31 LongBuffer_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.LongBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        LongBuffer buffer = LongBuffer.allocate(5);
+        buffer.put(1L);
+        buffer.put(2L);
+        buffer.put(3L);
+        buffer.put(4L);
+        buffer.put(5L);
+        
+        LongBuffer slicedBuffer = buffer.slice();
+        
+        System.out.println("Original buffer:");
+        while (buffer.hasRemaining()) {
+            System.out.println(buffer.get());
+        }
+        
+        System.out.println("Sliced buffer:");
+        while (slicedBuffer.hasRemaining()) {
+            System.out.println(slicedBuffer.get());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 32 MappedByteBuffer_2
+----------------------------------------------------------------
+`force`: This method forces any changes made to this buffer's content to be written to the storage device containing the mapped file.
+
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RandomAccessFile file = new RandomAccessFile("test.txt", "rw");
+            FileChannel channel = file.getChannel();
+            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_WRITE, 0, 1024);
+
+            // Write some data to the buffer
+            buffer.putChar(0, 'a');
+
+            // Force changes to be written to the storage device
+            buffer.force();
+
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 33 MappedByteBuffer_3
+----------------------------------------------------------------
+`MappedByteBuffer load()`: This method loads the buffer's content into physical memory.
+
+Code snippet:
+```java
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RandomAccessFile file = new RandomAccessFile("test.txt", "rw");
+            FileChannel channel = file.getChannel();
+            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_WRITE, 0, channel.size());
+            
+            // Load the buffer's content into physical memory
+            buffer.load();
+            
+            // Perform operations on the buffer
+            
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 34 ShortBuffer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ShortBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        ShortBuffer buffer = ShortBuffer.allocate(10);
+        buffer.put((short) 10);
+        buffer.flip();
+        System.out.println(buffer.get());
+    }
+}
+```
+================================================================
+
+Sample: 35 ShortBuffer_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ShortBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        ShortBuffer buffer = ShortBuffer.allocate(5);
+        buffer.put((short) 10);
+        System.out.println(buffer.get(0));
+    }
+}
+```
+================================================================
+
+Sample: 36 ShortBuffer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ShortBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        ShortBuffer buffer = ShortBuffer.allocate(5);
+        buffer.put((short) 1);
+        buffer.put((short) 2);
+        buffer.put((short) 3);
+        buffer.put((short) 4);
+        buffer.put((short) 5);
+        
+        ShortBuffer slicedBuffer = buffer.slice();
+        
+        System.out.println("Original Buffer:");
+        while (buffer.hasRemaining()) {
+            System.out.println(buffer.get());
+        }
+        
+        System.out.println("Sliced Buffer:");
+        while (slicedBuffer.hasRemaining()) {
+            System.out.println(slicedBuffer.get());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 37 ShortBuffer_4
+----------------------------------------------------------------
+`ShortBuffer duplicate()`: This method creates a new short buffer that shares the content of the original buffer.
+
+Code snippet:
+```java
+import java.nio.ShortBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        ShortBuffer originalBuffer = ShortBuffer.allocate(5);
+        originalBuffer.put(new short[]{1, 2, 3, 4, 5});
+        
+        ShortBuffer duplicateBuffer = originalBuffer.duplicate();
+        
+        System.out.println("Original Buffer:");
+        while (originalBuffer.hasRemaining()) {
+            System.out.print(originalBuffer.get() + " ");
+        }
+        
+        System.out.println("\nDuplicate Buffer:");
+        while (duplicateBuffer.hasRemaining()) {
+            System.out.print(duplicateBuffer.get() + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 38 ShortBuffer_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ShortBuffer;
+
+public class Main {
+    public static void main(String[] args) {
+        ShortBuffer buffer = ShortBuffer.allocate(5);
+        buffer.put((short) 1);
+        buffer.put((short) 2);
+        buffer.put((short) 3);
+        buffer.put((short) 4);
+        buffer.put((short) 5);
+
+        System.out.println("Before compact:");
+        System.out.println("Position: " + buffer.position());
+        System.out.println("Limit: " + buffer.limit());
+
+        buffer.position(1);
+        ShortBuffer compactedBuffer = buffer.compact();
+
+        System.out.println("\nAfter compact:");
+        System.out.println("Position: " + compactedBuffer.position());
+        System.out.println("Limit: " + compactedBuffer.limit());
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,326 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,AbstractUndoableEdit,1,boolean canUndo(),True,Returns true if this edit is alive and hasBeenDone is true.,"
+
+canUndo
+public boolean canUndo()
+Returns true if this edit is alive
+ and hasBeenDone is true.
+
+Specified by:
+canUndo in interface UndoableEdit
+Returns:
+true if this edit is alive
+    and hasBeenDone is true
+See Also:
+die(), 
+undo(), 
+redo()
+
+
+"
+0,AbstractUndoableEdit,2,boolean canRedo(),True,Returns true if this edit is alive and hasBeenDone is false.,"
+
+canRedo
+public boolean canRedo()
+Returns true if this edit is alive
+ and hasBeenDone is false.
+
+Specified by:
+canRedo in interface UndoableEdit
+Returns:
+true if this edit is alive
+   and hasBeenDone is false
+See Also:
+die(), 
+undo(), 
+redo()
+
+
+"
+0,AbstractUndoableEdit,3,void undo(),True,Throws CannotUndoException if canUndo returns false.,"
+
+undo
+public void undo()
+          throws CannotUndoException
+Throws CannotUndoException if canUndo
+ returns false. Sets hasBeenDone
+ to false. Subclasses should override to undo the
+ operation represented by this edit. Override should begin with
+ a call to super.
+
+Specified by:
+undo in interface UndoableEdit
+Throws:
+CannotUndoException - if canUndo
+    returns false
+See Also:
+canUndo()
+
+
+"
+0,AbstractUndoableEdit,4,void redo(),True,Throws CannotRedoException if canRedo returns false.,"
+
+redo
+public void redo()
+          throws CannotRedoException
+Throws CannotRedoException if canRedo
+ returns false. Sets hasBeenDone to true.
+ Subclasses should override to redo the operation represented by
+ this edit. Override should begin with a call to super.
+
+Specified by:
+redo in interface UndoableEdit
+Throws:
+CannotRedoException - if canRedo
+     returns false
+See Also:
+canRedo()
+
+
+"
+0,AbstractUndoableEdit,5,String getPresentationName(),True,"This default implementation returns """".","
+
+getPresentationName
+public String getPresentationName()
+This default implementation returns """". Used by
+ getUndoPresentationName and
+ getRedoPresentationName to
+ construct the strings they return. Subclasses should override to
+ return an appropriate description of the operation this edit
+ represents.
+
+Specified by:
+getPresentationName in interface UndoableEdit
+Returns:
+the empty string """"
+See Also:
+getUndoPresentationName(), 
+getRedoPresentationName()
+
+
+"
+1,CompoundEdit,1,void addEdit(UndoableEdit anEdit),False,,NULL
+1,CompoundEdit,2,boolean canRedo(),True,Returns false if isInProgress or if super returns false.,"
+
+canRedo
+public boolean canRedo()
+Returns false if isInProgress or if super
+ returns false.
+
+Specified by:
+canRedo in interface UndoableEdit
+Overrides:
+canRedo in class AbstractUndoableEdit
+Returns:
+true if this edit is alive
+   and hasBeenDone is false
+See Also:
+isInProgress()
+
+
+"
+1,CompoundEdit,3,boolean canUndo(),True,Returns false if isInProgress or if super returns false.,"
+
+canUndo
+public boolean canUndo()
+Returns false if isInProgress or if super
+ returns false.
+
+Specified by:
+canUndo in interface UndoableEdit
+Overrides:
+canUndo in class AbstractUndoableEdit
+Returns:
+true if this edit is alive
+    and hasBeenDone is true
+See Also:
+isInProgress()
+
+
+"
+1,CompoundEdit,4,void redo(),True,Sends redo to all contained UndoableEdits in the order in which they were added.,"
+
+redo
+public void redo()
+          throws CannotRedoException
+Sends redo to all contained
+ UndoableEdits in the order in
+ which they were added.
+
+Specified by:
+redo in interface UndoableEdit
+Overrides:
+redo in class AbstractUndoableEdit
+Throws:
+CannotRedoException - if canRedo
+     returns false
+See Also:
+AbstractUndoableEdit.canRedo()
+
+
+"
+1,CompoundEdit,5,void undo(),True,Sends undo to all contained UndoableEdits in the reverse of the order in which they were added.,"
+
+undo
+public void undo()
+          throws CannotUndoException
+Sends undo to all contained
+ UndoableEdits in the reverse of
+ the order in which they were added.
+
+Specified by:
+undo in interface UndoableEdit
+Overrides:
+undo in class AbstractUndoableEdit
+Throws:
+CannotUndoException - if canUndo
+    returns false
+See Also:
+AbstractUndoableEdit.canUndo()
+
+
+"
+2,StateEdit,1,void undo(),True,Tells the edited object to apply the state prior to the edit,"
+
+undo
+public void undo()
+Tells the edited object to apply the state prior to the edit
+
+Specified by:
+undo in interface UndoableEdit
+Overrides:
+undo in class AbstractUndoableEdit
+See Also:
+AbstractUndoableEdit.canUndo()
+
+
+"
+2,StateEdit,2,void redo(),True,Tells the edited object to apply the state after the edit,"
+
+redo
+public void redo()
+Tells the edited object to apply the state after the edit
+
+Specified by:
+redo in interface UndoableEdit
+Overrides:
+redo in class AbstractUndoableEdit
+See Also:
+AbstractUndoableEdit.canRedo()
+
+
+"
+2,StateEdit,3,boolean addEdit(UndoableEdit anEdit),False,,NULL
+2,StateEdit,4,boolean replaceEdit(UndoableEdit anEdit),False,,NULL
+2,StateEdit,5,boolean canUndo(),False,,NULL
+3,UndoableEditSupport,1,void addEdit(UndoableEdit anEdit),False,,NULL
+3,UndoableEditSupport,2,void discardAllEdits(),False,,NULL
+3,UndoableEditSupport,3,UndoableEdit getUndoableEdit(),False,,NULL
+3,UndoableEditSupport,4,UndoableEdit getUndoableEdit(int index),False,,NULL
+3,UndoableEditSupport,5,int getSize(),False,,NULL
+4,UndoManager,1,void undo(),True,Undoes the appropriate edits.,"
+
+undo
+public void undo()
+          throws CannotUndoException
+Undoes the appropriate edits.  If end has been
+ invoked this calls through to the superclass, otherwise
+ this invokes undo on all edits between the
+ index of the next edit and the last significant edit, updating
+ the index of the next edit appropriately.
+
+Specified by:
+undo in interface UndoableEdit
+Overrides:
+undo in class CompoundEdit
+Throws:
+CannotUndoException - if one of the edits throws
+         CannotUndoException or there are no edits
+         to be undone
+See Also:
+CompoundEdit.end(), 
+canUndo(), 
+editToBeUndone()
+
+
+"
+4,UndoManager,2,void redo(),True,Redoes the appropriate edits.,"
+
+redo
+public void redo()
+          throws CannotRedoException
+Redoes the appropriate edits.  If end has been
+ invoked this calls through to the superclass.  Otherwise
+ this invokes redo on all edits between the
+ index of the next edit and the next significant edit, updating
+ the index of the next edit appropriately.
+
+Specified by:
+redo in interface UndoableEdit
+Overrides:
+redo in class CompoundEdit
+Throws:
+CannotRedoException - if one of the edits throws
+         CannotRedoException or there are no edits
+         to be redone
+See Also:
+CompoundEdit.end(), 
+canRedo(), 
+editToBeRedone()
+
+
+"
+4,UndoManager,3,boolean canUndo(),True,Returns true if edits may be undone.,"
+
+canUndo
+public boolean canUndo()
+Returns true if edits may be undone.  If end has
+ been invoked, this returns the value from super.  Otherwise
+ this returns true if there are any edits to be undone
+ (editToBeUndone returns non-null).
+
+Specified by:
+canUndo in interface UndoableEdit
+Overrides:
+canUndo in class CompoundEdit
+Returns:
+true if there are edits to be undone
+See Also:
+CompoundEdit.canUndo(), 
+editToBeUndone()
+
+
+"
+4,UndoManager,4,boolean canRedo(),True,Returns true if edits may be redone.,"
+
+canRedo
+public boolean canRedo()
+Returns true if edits may be redone.  If end has
+ been invoked, this returns the value from super.  Otherwise,
+ this returns true if there are any edits to be redone
+ (editToBeRedone returns non-null).
+
+Specified by:
+canRedo in interface UndoableEdit
+Overrides:
+canRedo in class CompoundEdit
+Returns:
+true if there are edits to be redone
+See Also:
+CompoundEdit.canRedo(), 
+editToBeRedone()
+
+
+"
+4,UndoManager,5,void discardAllEdits(),True,Empties the undo manager sending each edit a die message in the process.,"
+
+discardAllEdits
+public void discardAllEdits()
+Empties the undo manager sending each edit a die message
+ in the process.
+
+See Also:
+AbstractUndoableEdit.die()
+
+
+"

@@ -1,0 +1,3167 @@
+Sample: 0 ArrayBlockingQueue_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ArrayBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayBlockingQueue<Integer> queue = new ArrayBlockingQueue<>(5);
+        
+        // Insert element into the queue
+        boolean result = queue.offer(10);
+        
+        System.out.println("Element added successfully: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 1 ArrayBlockingQueue_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ArrayBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<>(5);
+        queue.add("First");
+        queue.add("Second");
+        
+        System.out.println("Queue: " + queue);
+        
+        String head = queue.poll();
+        System.out.println("Head of the queue: " + head);
+        
+        System.out.println("Updated Queue: " + queue);
+    }
+}
+```
+================================================================
+
+Sample: 2 ArrayBlockingQueue_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ArrayBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<>(5);
+        queue.add("First");
+        queue.add("Second");
+        
+        System.out.println("Head of the queue: " + queue.peek());
+    }
+}
+```
+================================================================
+
+Sample: 3 ArrayBlockingQueue_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ArrayBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayBlockingQueue<Integer> queue = new ArrayBlockingQueue<>(5);
+        System.out.println("Remaining Capacity: " + queue.remainingCapacity());
+        queue.add(1);
+        System.out.println("Remaining Capacity after adding 1 element: " + queue.remainingCapacity());
+    }
+}
+```
+================================================================
+
+Sample: 4 ArrayBlockingQueue_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ArrayBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayBlockingQueue<Integer> queue = new ArrayBlockingQueue<>(5);
+        queue.add(1);
+        queue.add(2);
+        queue.add(3);
+        
+        System.out.println("Size of the queue: " + queue.size());
+    }
+}
+```
+================================================================
+
+Sample: 5 CompletableFuture_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
+
+public class Main {
+    public static void main(String[] args) {
+        CompletableFuture<Integer> future = new CompletableFuture<>();
+        
+        CompletableFuture<Integer> exceptionallyFuture = future.exceptionally((ex) -> {
+            System.out.println("Exception occurred: " + ex.getMessage());
+            return 0; // default value to return in case of exception
+        });
+        
+        future.completeExceptionally(new RuntimeException("Something went wrong"));
+        
+        try {
+            System.out.println("Result: " + exceptionallyFuture.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 CompletableFuture_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
+
+public class Main {
+    public static void main(String[] args) {
+        CompletableFuture<String> future = CompletableFuture.completedFuture("Hello");
+
+        CompletableFuture<Void> thenAcceptFuture = future.thenAccept(result -> {
+            System.out.println("Received result: " + result);
+        });
+
+        try {
+            thenAcceptFuture.get(); // Wait for the completion of the thenAccept action
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 ConcurrentHashMap_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+        
+        // Adding key-value pairs to the ConcurrentHashMap
+        map.put("One", 1);
+        map.put("Two", 2);
+        map.put("Three", 3);
+        
+        // Retrieving values using keys
+        System.out.println("Value for key 'Two': " + map.get("Two"));
+    }
+}
+```
+================================================================
+
+Sample: 8 ConcurrentHashMap_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+        
+        // Adding key-value pairs to the map
+        map.put("One", 1);
+        map.put("Two", 2);
+        map.put("Three", 3);
+        
+        // Retrieving values using the get method
+        System.out.println("Value for key 'One': " + map.get("One"));
+        System.out.println("Value for key 'Four': " + map.get("Four")); // This will return null
+    }
+}
+```
+================================================================
+
+Sample: 9 ConcurrentHashMap_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+        
+        // Adding key-value pairs to the map
+        map.put("One", 1);
+        map.put("Two", 2);
+        map.put("Three", 3);
+        
+        // Removing a key from the map
+        Integer removedValue = map.remove("Two");
+        
+        System.out.println("Removed value: " + removedValue);
+        System.out.println("Map after removal: " + map);
+    }
+}
+```
+================================================================
+
+Sample: 10 ConcurrentHashMap_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+        map.put("One", 1);
+        map.put("Two", 2);
+        
+        System.out.println("Contains key 'One': " + map.containsKey("One"));
+        System.out.println("Contains key 'Three': " + map.containsKey("Three"));
+    }
+}
+```
+================================================================
+
+Sample: 11 ConcurrentHashMap_KeySetView_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+        map.put("A", 1);
+        map.put("B", 2);
+        
+        ConcurrentHashMap.KeySetView<String, Integer> keySetView = map.keySet();
+        System.out.println("Before clear: " + keySetView);
+        
+        keySetView.clear();
+        System.out.println("After clear: " + keySetView);
+    }
+}
+```
+================================================================
+
+Sample: 12 ConcurrentHashMap_KeySetView_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+        map.put("key1", 1);
+        map.put("key2", 2);
+        
+        ConcurrentHashMap.KeySetView<String, Integer> keySetView = map.keySet();
+        Spliterator<String> spliterator = keySetView.spliterator();
+        
+        spliterator.forEachRemaining(System.out::println);
+    }
+}
+```
+================================================================
+
+Sample: 13 ConcurrentLinkedDeque_1
+----------------------------------------------------------------
+`boolean offer(E e)`: This method inserts the specified element at the tail of the deque.
+
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentLinkedDeque;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentLinkedDeque<String> deque = new ConcurrentLinkedDeque<>();
+        boolean result = deque.offer("Element");
+        System.out.println("Element added successfully: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 14 ConcurrentLinkedDeque_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentLinkedDeque;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentLinkedDeque<String> deque = new ConcurrentLinkedDeque<>();
+        deque.add("First");
+        deque.add("Second");
+        
+        System.out.println("Deque before poll: " + deque);
+        
+        String element = deque.poll();
+        
+        System.out.println("Element polled: " + element);
+        System.out.println("Deque after poll: " + deque);
+    }
+}
+```
+================================================================
+
+Sample: 15 ConcurrentLinkedDeque_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentLinkedDeque;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentLinkedDeque<String> deque = new ConcurrentLinkedDeque<>();
+        deque.add("First");
+        deque.add("Second");
+        
+        System.out.println("Head of the deque: " + deque.peek());
+    }
+}
+```
+================================================================
+
+Sample: 16 ConcurrentLinkedDeque_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentLinkedDeque;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentLinkedDeque<String> deque = new ConcurrentLinkedDeque<>();
+        deque.add("First");
+        deque.add("Second");
+        deque.add("Third");
+
+        System.out.println("Deque before removal: " + deque);
+
+        boolean removed = deque.remove("Second");
+
+        System.out.println("Element 'Second' removed: " + removed);
+        System.out.println("Deque after removal: " + deque);
+    }
+}
+```
+================================================================
+
+Sample: 17 ConcurrentLinkedDeque_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentLinkedDeque;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentLinkedDeque<String> deque = new ConcurrentLinkedDeque<>();
+        deque.add("Hello");
+        deque.add("World");
+        
+        System.out.println(deque.contains("Hello")); // Output: true
+        System.out.println(deque.contains("Java")); // Output: false
+    }
+}
+```
+================================================================
+
+Sample: 18 ConcurrentLinkedQueue_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
+        boolean result = queue.offer("Element");
+        System.out.println("Element added successfully: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 19 ConcurrentLinkedQueue_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
+        queue.add("First");
+        queue.add("Second");
+        
+        System.out.println("Queue: " + queue);
+        
+        String head = queue.poll();
+        System.out.println("Head of the queue: " + head);
+        
+        System.out.println("Updated Queue: " + queue);
+    }
+}
+```
+================================================================
+
+Sample: 20 ConcurrentLinkedQueue_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
+        queue.add("First");
+        queue.add("Second");
+        
+        System.out.println("Head of the queue: " + queue.peek());
+    }
+}
+```
+================================================================
+
+Sample: 21 ConcurrentLinkedQueue_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
+        System.out.println("Is queue empty? " + queue.isEmpty());
+    }
+}
+```
+================================================================
+
+Sample: 22 ConcurrentLinkedQueue_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
+        queue.add("Element 1");
+        queue.add("Element 2");
+        
+        System.out.println("Size of the queue: " + queue.size());
+    }
+}
+```
+================================================================
+
+Sample: 23 ConcurrentSkipListMap_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentSkipListMap;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentSkipListMap<Integer, String> map = new ConcurrentSkipListMap<>();
+        
+        // Using putIfAbsent method
+        String previousValue = map.putIfAbsent(1, "One");
+        System.out.println("Previous value: " + previousValue);
+        
+        // Adding a new key-value pair
+        previousValue = map.putIfAbsent(2, "Two");
+        System.out.println("Previous value: " + previousValue);
+        
+        // Trying to add a key that already exists
+        previousValue = map.putIfAbsent(1, "New One");
+        System.out.println("Previous value: " + previousValue);
+        
+        System.out.println("Map: " + map);
+    }
+}
+```
+================================================================
+
+Sample: 24 ConcurrentSkipListMap_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentSkipListMap;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentSkipListMap<Integer, String> map = new ConcurrentSkipListMap<>();
+        map.put(1, "One");
+        map.put(2, "Two");
+
+        System.out.println("Map before removal: " + map);
+
+        String removedValue = map.remove(1);
+
+        System.out.println("Removed value: " + removedValue);
+        System.out.println("Map after removal: " + map);
+    }
+}
+```
+================================================================
+
+Sample: 25 ConcurrentSkipListMap_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentSkipListMap;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentSkipListMap<Integer, String> map = new ConcurrentSkipListMap<>();
+        
+        map.put(1, "One");
+        map.put(2, "Two");
+        
+        System.out.println("Initial map: " + map);
+        
+        String replacedValue = map.replace(2, "New Two");
+        
+        System.out.println("Replaced value: " + replacedValue);
+        System.out.println("Updated map: " + map);
+    }
+}
+```
+================================================================
+
+Sample: 26 ConcurrentSkipListMap_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentSkipListMap;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentSkipListMap<Integer, String> map = new ConcurrentSkipListMap<>();
+        map.put(1, "One");
+        map.put(2, "Two");
+        
+        String value = map.getOrDefault(1, "Default");
+        System.out.println(value); // Output: One
+        
+        String value2 = map.getOrDefault(3, "Default");
+        System.out.println(value2); // Output: Default
+    }
+}
+```
+================================================================
+
+Sample: 27 ConcurrentSkipListMap_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentNavigableMap<Integer, String> map = new ConcurrentSkipListMap<>();
+        map.put(1, "One");
+        map.put(2, "Two");
+        map.put(3, "Three");
+        
+        ConcurrentNavigableMap<Integer, String> subMap = map.subMap(1, true, 3, false);
+        
+        System.out.println(subMap);
+    }
+}
+```
+================================================================
+
+Sample: 28 ConcurrentSkipListSet_1
+----------------------------------------------------------------
+`boolean add(E e)`: This method adds the specified element to this set if it is not already present.
+
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentSkipListSet;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentSkipListSet<String> set = new ConcurrentSkipListSet<>();
+        System.out.println(set.add("Hello")); // Output: true
+        System.out.println(set.add("Hello")); // Output: false
+    }
+}
+```
+================================================================
+
+Sample: 29 ConcurrentSkipListSet_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentSkipListSet;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentSkipListSet<String> set = new ConcurrentSkipListSet<>();
+        set.add("Hello");
+        set.add("World");
+        
+        System.out.println("Set before removal: " + set);
+        
+        boolean removed = set.remove("Hello");
+        
+        System.out.println("Element 'Hello' removed: " + removed);
+        System.out.println("Set after removal: " + set);
+    }
+}
+```
+================================================================
+
+Sample: 30 ConcurrentSkipListSet_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentSkipListSet;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentSkipListSet<Integer> set = new ConcurrentSkipListSet<>();
+        set.add(1);
+        set.add(2);
+        set.add(3);
+        
+        System.out.println("Initial set: " + set);
+        
+        Integer firstElement = set.pollFirst();
+        
+        System.out.println("First element removed: " + firstElement);
+        System.out.println("Set after removal: " + set);
+    }
+}
+```
+================================================================
+
+Sample: 31 ConcurrentSkipListSet_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentSkipListSet;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentSkipListSet<Integer> set = new ConcurrentSkipListSet<>();
+        set.add(1);
+        set.add(2);
+        set.add(3);
+        
+        System.out.println("Initial set: " + set);
+        
+        Integer lastElement = set.pollLast();
+        
+        System.out.println("Last element removed: " + lastElement);
+        System.out.println("Set after removal: " + set);
+    }
+}
+```
+================================================================
+
+Sample: 32 ConcurrentSkipListSet_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.NavigableSet;
+
+public class Main {
+    public static void main(String[] args) {
+        ConcurrentSkipListSet<Integer> set = new ConcurrentSkipListSet<>();
+        set.add(3);
+        set.add(1);
+        set.add(2);
+        
+        NavigableSet<Integer> descendingSet = set.descendingSet();
+        
+        System.out.println("Original set: " + set);
+        System.out.println("Descending set: " + descendingSet);
+    }
+}
+```
+================================================================
+
+Sample: 33 CopyOnWriteArrayList_1
+----------------------------------------------------------------
+`boolean addIfAbsent(E e)`: This method appends the element to the list if it is not already present.
+
+Code snippet:
+```java
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+```
+================================================================
+
+Sample: 34 CopyOnWriteArrayList_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+        list.add("Hello");
+        System.out.println("List before clear: " + list);
+        
+        list.clear();
+        System.out.println("List after clear: " + list);
+    }
+}
+```
+================================================================
+
+Sample: 35 CopyOnWriteArrayList_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>(Arrays.asList("Hello", "World"));
+        System.out.println("List before removeAll: " + list);
+        
+        CopyOnWriteArrayList<String> elementsToRemove = new CopyOnWriteArrayList<>(Arrays.asList("Hello"));
+        boolean result = list.removeAll(elementsToRemove);
+        
+        System.out.println("List after removeAll: " + list);
+        System.out.println("Result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 36 CopyOnWriteArrayList_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+        list.add("Hello");
+        list.add("World");
+        System.out.println("Original list: " + list);
+
+        // Replacing element at index 1
+        String replacedElement = list.set(1, "Java");
+        System.out.println("Element replaced: " + replacedElement);
+        System.out.println("Updated list: " + list);
+    }
+}
+```
+================================================================
+
+Sample: 37 CopyOnWriteArrayList_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+        list.add("Hello");
+        Object[] array = list.toArray();
+        for (Object element : array) {
+            System.out.println(element);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 38 CopyOnWriteArraySet_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CopyOnWriteArraySet;
+
+public class Main {
+    public static void main(String[] args) {
+        CopyOnWriteArraySet<String> set = new CopyOnWriteArraySet<>();
+        System.out.println(set.add("Hello")); // Output: true
+        System.out.println(set.add("Hello")); // Output: false
+    }
+}
+```
+================================================================
+
+Sample: 39 CopyOnWriteArraySet_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CopyOnWriteArraySet;
+
+public class Main {
+    public static void main(String[] args) {
+        CopyOnWriteArraySet<String> set = new CopyOnWriteArraySet<>();
+        set.add("Hello");
+        set.add("World");
+        
+        System.out.println("Set before removal: " + set);
+        
+        boolean removed = set.remove("Hello");
+        
+        System.out.println("Element 'Hello' removed: " + removed);
+        System.out.println("Set after removal: " + set);
+    }
+}
+```
+================================================================
+
+Sample: 40 CopyOnWriteArraySet_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CopyOnWriteArraySet;
+
+public class Main {
+    public static void main(String[] args) {
+        CopyOnWriteArraySet<String> set = new CopyOnWriteArraySet<>();
+        set.add("Hello");
+        System.out.println(set.contains("Hello")); // Output: true
+    }
+}
+```
+================================================================
+
+Sample: 41 CopyOnWriteArraySet_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CopyOnWriteArraySet;
+
+public class Main {
+    public static void main(String[] args) {
+        CopyOnWriteArraySet<String> set = new CopyOnWriteArraySet<>();
+        set.add("Hello");
+        set.add("World");
+        System.out.println("Size of set: " + set.size());
+    }
+}
+```
+================================================================
+
+Sample: 42 CopyOnWriteArraySet_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CopyOnWriteArraySet;
+
+public class Main {
+    public static void main(String[] args) {
+        CopyOnWriteArraySet<String> set = new CopyOnWriteArraySet<>();
+        set.add("Hello");
+        System.out.println("Set before clear: " + set);
+        
+        set.clear();
+        System.out.println("Set after clear: " + set);
+    }
+}
+```
+================================================================
+
+Sample: 43 CountDownLatch_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CountDownLatch;
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+
+        Thread thread = new Thread(() -> {
+            try {
+                System.out.println("Thread is waiting...");
+                latch.await();
+                System.out.println("Thread has been released");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        thread.start();
+
+        Thread.sleep(2000); // Simulating some operations
+
+        latch.countDown(); // Releases the waiting thread
+    }
+}
+```
+================================================================
+
+Sample: 44 CountDownLatch_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CountDownLatch;
+
+public class Main {
+    public static void main(String[] args) {
+        CountDownLatch latch = new CountDownLatch(1);
+        
+        // Decrement the count of the latch
+        latch.countDown();
+    }
+}
+```
+================================================================
+
+Sample: 45 CountDownLatch_3
+----------------------------------------------------------------
+`long getCount()`: This method returns the current count.
+
+Code snippet:
+```java
+import java.util.concurrent.CountDownLatch;
+
+public class Main {
+    public static void main(String[] args) {
+        CountDownLatch latch = new CountDownLatch(1);
+        System.out.println("Current count: " + latch.getCount());
+    }
+}
+```
+================================================================
+
+Sample: 46 CountDownLatch_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        CountDownLatch latch = new CountDownLatch(1);
+        
+        try {
+            boolean result = latch.await(5, TimeUnit.SECONDS);
+            System.out.println("Count reached zero: " + result);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 47 CountedCompleter_1
+----------------------------------------------------------------
+`void onCompletion(CountedCompleter<?> caller)`: Performs an action when method tryComplete() is invoked and the pending count is zero, or when the unconditional method complete(T) is invoked. By default, this method does nothing. You can distinguish cases by checking the identity of the given caller argument. If not equal to this, then it is typically a subtask that may contain results (and/or links to other results) to combine.
+
+Code snippet:
+```java
+import java.util.concurrent.CountedCompleter;
+
+public class Main {
+    public static void main(String[] args) {
+        // Implement the onCompletion method here
+    }
+}
+```
+================================================================
+
+Sample: 48 CountedCompleter_3
+----------------------------------------------------------------
+`void tryComplete()`: If the pending count is nonzero, decrements the count; otherwise invokes onCompletion(CountedCompleter) and then similarly tries to complete this task's completer, if one exists, else marks this task as complete.
+
+Code snippet:
+```java
+import java.util.concurrent.CountedCompleter;
+
+public class Main {
+    public static void main(String[] args) {
+        CountedCompleter completer = new CountedCompleter() {
+            @Override
+            public void compute() {
+                // Perform computation
+            }
+        };
+        
+        completer.tryComplete();
+    }
+}
+```
+================================================================
+
+Sample: 49 CountedCompleter_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CountedCompleter;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a CountedCompleter task
+        CountedCompleter<Void> task = new CountedCompleter<Void>() {
+            @Override
+            public void compute() {
+                // Perform some computation
+            }
+        };
+        
+        // Call propagateCompletion method
+        task.propagateCompletion();
+    }
+}
+```
+================================================================
+
+Sample: 50 CountedCompleter_5
+----------------------------------------------------------------
+`void setPendingCount(int count)`: This method sets the pending count to the given value.
+
+Code snippet:
+```java
+import java.util.concurrent.CountedCompleter;
+
+public class Main {
+    public static void main(String[] args) {
+        CountedCompleter completer = new CountedCompleter() {
+            @Override
+            public void compute() {
+                // Perform computation
+            }
+        };
+        
+        completer.setPendingCount(5);
+    }
+}
+```
+================================================================
+
+Sample: 51 CyclicBarrier_1
+----------------------------------------------------------------
+`int getParties()`: This method returns the number of parties required to trip this barrier.
+
+Code snippet:
+```java
+import java.util.concurrent.CyclicBarrier;
+
+public class Main {
+    public static void main(String[] args) {
+        CyclicBarrier barrier = new CyclicBarrier(3);
+        int parties = barrier.getParties();
+        System.out.println("Number of parties required to trip the barrier: " + parties);
+    }
+}
+```
+================================================================
+
+Sample: 52 CyclicBarrier_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
+public class Main {
+    public static void main(String[] args) {
+        CyclicBarrier barrier = new CyclicBarrier(3);
+
+        Thread thread1 = new Thread(() -> {
+            try {
+                System.out.println("Thread 1 is waiting at the barrier");
+                int arrivalIndex = barrier.await();
+                System.out.println("Thread 1 has arrived at the barrier with arrival index: " + arrivalIndex);
+            } catch (InterruptedException | BrokenBarrierException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            try {
+                System.out.println("Thread 2 is waiting at the barrier");
+                int arrivalIndex = barrier.await();
+                System.out.println("Thread 2 has arrived at the barrier with arrival index: " + arrivalIndex);
+            } catch (InterruptedException | BrokenBarrierException e) {
+                e.printStackTrace();
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+    }
+}
+```
+================================================================
+
+Sample: 53 CyclicBarrier_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+public class Main {
+    public static void main(String[] args) {
+        CyclicBarrier barrier = new CyclicBarrier(3);
+
+        try {
+            int arrivalIndex = barrier.await(5, TimeUnit.SECONDS);
+            System.out.println("Arrival index: " + arrivalIndex);
+        } catch (InterruptedException | BrokenBarrierException | TimeoutException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 54 CyclicBarrier_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CyclicBarrier;
+
+public class Main {
+    public static void main(String[] args) {
+        CyclicBarrier barrier = new CyclicBarrier(3);
+        boolean broken = barrier.isBroken();
+        System.out.println("Is barrier broken? " + broken);
+    }
+}
+```
+================================================================
+
+Sample: 55 CyclicBarrier_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.BrokenBarrierException;
+
+public class Main {
+    public static void main(String[] args) {
+        CyclicBarrier barrier = new CyclicBarrier(3);
+
+        // Perform some operations with the barrier
+
+        // Reset the barrier
+        barrier.reset();
+    }
+}
+```
+================================================================
+
+Sample: 56 DelayQueue_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.DelayQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        DelayQueue<String> delayQueue = new DelayQueue<>();
+        boolean result = delayQueue.offer("Element");
+        System.out.println("Element added successfully: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 57 DelayQueue_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.DelayQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        DelayQueue<String> delayQueue = new DelayQueue<>();
+        delayQueue.offer("Element 1");
+        delayQueue.offer("Element 2");
+        
+        System.out.println("Polling from DelayQueue:");
+        System.out.println(delayQueue.poll());
+        System.out.println(delayQueue.poll());
+        System.out.println(delayQueue.poll());
+    }
+}
+```
+================================================================
+
+Sample: 58 DelayQueue_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.DelayQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        DelayQueue<String> delayQueue = new DelayQueue<>();
+        delayQueue.add("Element 1");
+        delayQueue.add("Element 2");
+        
+        System.out.println("Peek: " + delayQueue.peek());
+    }
+}
+```
+================================================================
+
+Sample: 59 DelayQueue_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        DelayQueue<String> delayQueue = new DelayQueue<>();
+        try {
+            delayQueue.put("Element");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 60 DelayQueue_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        DelayQueue<String> delayQueue = new DelayQueue<>();
+        
+        // Adding elements with delay
+        delayQueue.put("Element 1");
+        delayQueue.put("Element 2");
+        
+        try {
+            // Retrieving and removing the head of the queue
+            String element = delayQueue.take();
+            System.out.println("Element taken: " + element);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 61 Exchanger_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Exchanger;
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        Exchanger<String> exchanger = new Exchanger<>();
+
+        Thread thread1 = new Thread(() -> {
+            try {
+                String data1 = "Data from Thread 1";
+                System.out.println("Thread 1 is waiting to exchange data...");
+                String exchangedData = exchanger.exchange(data1);
+                System.out.println("Thread 1 received: " + exchangedData);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            try {
+                String data2 = "Data from Thread 2";
+                System.out.println("Thread 2 is waiting to exchange data...");
+                String exchangedData = exchanger.exchange(data2);
+                System.out.println("Thread 2 received: " + exchangedData);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+
+        thread1.join();
+        thread2.join();
+    }
+}
+```
+================================================================
+
+Sample: 62 Exchanger_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Exchanger;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+public class Main {
+    public static void main(String[] args) {
+        Exchanger<String> exchanger = new Exchanger<>();
+
+        try {
+            String exchangedValue = exchanger.exchange("Value to exchange", 5, TimeUnit.SECONDS);
+            System.out.println("Exchanged value: " + exchangedValue);
+        } catch (InterruptedException | TimeoutException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 63 ExecutorCompletionService_1
+----------------------------------------------------------------
+`Future<V> submit(Callable<V> task)`: Submits a value-returning task for execution and returns a Future representing the pending results of the task. Upon completion, this task may be taken or polled.
+
+Code snippet:
+```java
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.Future;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorCompletionService<String> executorCompletionService = new ExecutorCompletionService<>(Executors.newFixedThreadPool(1));
+        
+        Callable<String> task = () -> {
+            Thread.sleep(2000);
+            return "Task completed";
+        };
+        
+        Future<String> future = executorCompletionService.submit(task);
+        
+        try {
+            System.out.println(future.get());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 64 ExecutorCompletionService_2
+----------------------------------------------------------------
+`Future<V> submit(Runnable task, V result)`: This method submits a Runnable task for execution and returns a Future representing that task. Upon completion, this task may be taken or polled.
+
+Code snippet:
+```java
+import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        CompletionService<String> completionService = new ExecutorCompletionService<>(executor);
+
+        Future<String> future = completionService.submit(() -> {
+            return "Task completed";
+        }, "Result");
+
+        try {
+            System.out.println(future.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        executor.shutdown();
+    }
+}
+```
+================================================================
+
+Sample: 65 ExecutorCompletionService_3
+----------------------------------------------------------------
+`Future<V> take()`: This method retrieves and removes the Future representing the next completed task, waiting if none are yet present.
+
+Code snippet:
+```java
+import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        CompletionService<String> completionService = new ExecutorCompletionService<>(executor);
+
+        // Submit a task
+        Future<String> future = completionService.submit(() -> {
+            Thread.sleep(2000);
+            return "Task completed";
+        });
+
+        try {
+            // Retrieve and remove the completed task
+            Future<String> completedTask = completionService.take();
+            System.out.println(completedTask.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        executor.shutdown();
+    }
+}
+```
+================================================================
+
+Sample: 66 ExecutorCompletionService_4
+----------------------------------------------------------------
+`Future<V> poll()`: This method retrieves and removes the Future representing the next completed task, or returns null if none are present.
+
+Code snippet:
+```java
+import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        CompletionService<String> completionService = new ExecutorCompletionService<>(executor);
+
+        // Submit tasks to the completion service
+        completionService.submit(() -> "Task 1");
+        completionService.submit(() -> "Task 2");
+
+        // Retrieve and remove the completed tasks
+        Future<String> future1 = completionService.poll();
+        Future<String> future2 = completionService.poll();
+
+        try {
+            System.out.println(future1.get());
+            System.out.println(future2.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        executor.shutdown();
+    }
+}
+```
+================================================================
+
+Sample: 67 ExecutorCompletionService_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        CompletionService<String> completionService = new ExecutorCompletionService<>(executor);
+
+        // Submit a task
+        Future<String> future = completionService.submit(() -> {
+            Thread.sleep(2000); // Simulating a task that takes 2 seconds to complete
+            return "Task completed";
+        });
+
+        try {
+            // Poll for the completed task with a timeout of 3 seconds
+            Future<String> completedTask = completionService.poll(3, TimeUnit.SECONDS);
+
+            if (completedTask != null) {
+                System.out.println(completedTask.get()); // Output: Task completed
+            } else {
+                System.out.println("No task completed within the specified timeout");
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        executor.shutdown();
+    }
+}
+```
+================================================================
+
+Sample: 68 Executors_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        // Execute tasks using the executor
+        executor.execute(() -> {
+            System.out.println("Task 1 executed by thread: " + Thread.currentThread().getName());
+        });
+        executor.execute(() -> {
+            System.out.println("Task 2 executed by thread: " + Thread.currentThread().getName());
+        });
+        // Shutdown the executor
+        executor.shutdown();
+    }
+}
+```
+================================================================
+
+Sample: 69 Executors_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+public class Main {
+    public static void main(String[] args) {
+        ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(5);
+        // Use the scheduledExecutor for scheduling tasks
+    }
+}
+```
+================================================================
+
+Sample: 70 Executors_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadFactory threadFactory = Executors.defaultThreadFactory();
+        System.out.println("Thread factory created: " + threadFactory);
+    }
+}
+```
+================================================================
+
+Sample: 71 Executors_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        ExecutorService unconfigurableExecutor = Executors.unconfigurableExecutorService(executor);
+        // Now you can use unconfigurableExecutor to safely "freeze" configuration
+    }
+}
+```
+================================================================
+
+Sample: 72 ForkJoinPool_1
+----------------------------------------------------------------
+`void execute(ForkJoinTask<?> task)`: Arranges for (asynchronous) execution of the given task.
+
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+
+public class Main {
+    public static void main(String[] args) {
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        
+        ForkJoinTask<?> task = new ForkJoinTask<Object>() {
+            @Override
+            public Object getRawResult() {
+                return null;
+            }
+
+            @Override
+            protected void setRawResult(Object value) {
+            }
+
+            @Override
+            protected boolean exec() {
+                System.out.println("Executing task");
+                return true;
+            }
+        };
+        
+        forkJoinPool.execute(task);
+    }
+}
+```
+================================================================
+
+Sample: 73 ForkJoinPool_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinPool;
+
+public class Main {
+    public static void main(String[] args) {
+        ForkJoinPool pool = new ForkJoinPool();
+        int parallelism = pool.getParallelism();
+        System.out.println("Parallelism level: " + parallelism);
+    }
+}
+```
+================================================================
+
+Sample: 74 ForkJoinPool_3
+----------------------------------------------------------------
+`long getStealCount()`: Returns an estimate of the total number of tasks stolen from one thread's work queue by another.
+
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinPool;
+
+public class Main {
+    public static void main(String[] args) {
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        long stealCount = forkJoinPool.getStealCount();
+        System.out.println("Steal Count: " + stealCount);
+    }
+}
+```
+================================================================
+
+Sample: 75 ForkJoinPool_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinPool;
+
+public class Main {
+    public static void main(String[] args) {
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        int activeThreadCount = forkJoinPool.getActiveThreadCount();
+        System.out.println("Active Thread Count: " + activeThreadCount);
+    }
+}
+```
+================================================================
+
+Sample: 76 ForkJoinPool_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinPool;
+
+public class Main {
+    public static void main(String[] args) {
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        boolean isQuiescent = forkJoinPool.isQuiescent();
+        System.out.println("All worker threads are currently idle: " + isQuiescent);
+    }
+}
+```
+================================================================
+
+Sample: 77 ForkJoinTask_2
+----------------------------------------------------------------
+`V join()`: This method returns the result of the computation when it is done. Abnormal completion results in RuntimeException or Error, not ExecutionException, and interrupts of the calling thread do not cause the method to abruptly return by throwing InterruptedException.
+
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinTask;
+
+public class Main {
+    public static void main(String[] args) {
+        ForkJoinTask<String> task = new ForkJoinTask<String>() {
+            @Override
+            public String getRawResult() {
+                return "Result";
+            }
+
+            @Override
+            protected void setRawResult(String value) {
+                // Do nothing
+            }
+
+            @Override
+            protected boolean exec() {
+                return true;
+            }
+        };
+
+        String result = task.join();
+        System.out.println("Result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 78 ForkJoinTask_3
+----------------------------------------------------------------
+`boolean cancel(boolean mayInterruptIfRunning)`: Attempts to cancel execution of this task.
+
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinTask;
+
+public class Main {
+    public static void main(String[] args) {
+        ForkJoinTask<Boolean> task = new ForkJoinTask<Boolean>() {
+            @Override
+            public Boolean getRawResult() {
+                return null;
+            }
+
+            @Override
+            protected void setRawResult(Boolean value) {
+            }
+
+            @Override
+            protected boolean exec() {
+                // Task execution logic
+                return true;
+            }
+        };
+
+        boolean isCancelled = task.cancel(true);
+        System.out.println("Task cancelled: " + isCancelled);
+    }
+}
+```
+================================================================
+
+Sample: 79 ForkJoinTask_4
+----------------------------------------------------------------
+`boolean isDone()`: This method returns true if this task completed.
+
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinTask;
+
+public class Main {
+    public static void main(String[] args) {
+        ForkJoinTask<Boolean> task = new ForkJoinTask<Boolean>() {
+            @Override
+            public Boolean getRawResult() {
+                return true;
+            }
+
+            @Override
+            protected void setRawResult(Boolean value) {
+                // Do nothing
+            }
+
+            @Override
+            protected boolean exec() {
+                return true;
+            }
+        };
+
+        boolean done = task.isDone();
+        System.out.println("Task is done: " + done);
+    }
+}
+```
+================================================================
+
+Sample: 80 ForkJoinTask_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinTask;
+
+public class Main {
+    public static void main(String[] args) {
+        ForkJoinTask<Boolean> task = new ForkJoinTask<Boolean>() {
+            @Override
+            public Boolean getRawResult() {
+                return null;
+            }
+
+            @Override
+            protected void setRawResult(Boolean value) {
+                
+            }
+
+            @Override
+            protected boolean exec() {
+                return false;
+            }
+        };
+
+        boolean cancelled = task.isCancelled();
+        System.out.println("Task is cancelled: " + cancelled);
+    }
+}
+```
+================================================================
+
+Sample: 81 ForkJoinWorkerThread_1
+----------------------------------------------------------------
+`void onStart()`: This method initializes internal state after construction but before processing any tasks. If you override this method, you must invoke super.onStart() at the beginning of the method. Initialization requires care: Most fields must have legal default values, to ensure that attempted accesses from other threads work correctly even before this thread starts processing tasks.
+
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinWorkerThread;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a custom ForkJoinWorkerThread
+        ForkJoinWorkerThread workerThread = new ForkJoinWorkerThread(null) {
+            @Override
+            protected void onStart() {
+                super.onStart();
+                // Custom initialization code here
+                System.out.println("Worker thread started");
+            }
+        };
+        
+        // Start the worker thread
+        workerThread.start();
+    }
+}
+```
+================================================================
+
+Sample: 82 ForkJoinWorkerThread_2
+----------------------------------------------------------------
+`void onTermination(Throwable exception)`: Performs cleanup associated with termination of this worker thread. If you override this method, you must invoke super.onTermination at the end of the overridden method.
+
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinWorkerThread;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a custom ForkJoinWorkerThread
+        ForkJoinWorkerThread workerThread = new ForkJoinWorkerThread(null) {
+            @Override
+            protected void onTermination(Throwable exception) {
+                // Perform cleanup associated with termination
+                System.out.println("Cleaning up worker thread");
+                // Invoke super.onTermination at the end of the overridden method
+                super.onTermination(exception);
+            }
+        };
+        
+        // Simulate termination with an exception
+        workerThread.onTermination(new Exception("Simulated exception"));
+    }
+}
+```
+================================================================
+
+Sample: 83 ForkJoinWorkerThread_3
+----------------------------------------------------------------
+`ForkJoinPool getPool()`: This method returns the pool hosting the current ForkJoinWorkerThread.
+
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinWorkerThread;
+
+public class Main {
+    public static void main(String[] args) {
+        ForkJoinWorkerThread workerThread = new ForkJoinWorkerThread(null) {
+            @Override
+            protected void onStart() {
+                ForkJoinPool pool = getPool();
+                System.out.println("Pool hosting this thread: " + pool);
+            }
+        };
+        workerThread.start();
+    }
+}
+```
+================================================================
+
+Sample: 84 ForkJoinWorkerThread_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ForkJoinWorkerThread;
+
+public class Main {
+    public static void main(String[] args) {
+        ForkJoinWorkerThread workerThread = new ForkJoinWorkerThread(null) {
+            @Override
+            public int getPoolIndex() {
+                return super.getPoolIndex();
+            }
+        };
+        
+        int index = workerThread.getPoolIndex();
+        System.out.println("Pool Index: " + index);
+    }
+}
+```
+================================================================
+
+Sample: 85 FutureTask_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.FutureTask;
+
+public class Main {
+    public static void main(String[] args) {
+        FutureTask<String> futureTask = new FutureTask<>(() -> {
+            return "Task completed";
+        });
+
+        futureTask.run();
+    }
+}
+```
+================================================================
+
+Sample: 86 FutureTask_2
+----------------------------------------------------------------
+`boolean cancel(boolean mayInterruptIfRunning)`: Attempts to cancel execution of this task. This attempt will fail if the task has already completed, has already been cancelled, or could not be cancelled for some other reason. If successful, and this task has not started when cancel is called, this task should never run. If the task has already started, then the mayInterruptIfRunning parameter determines whether the thread executing this task should be interrupted in an attempt to stop the task.
+
+After this method returns, subsequent calls to Future.isDone() will always return true. Subsequent calls to Future.isCancelled() will always return true if this method returned true.
+
+Code snippet:
+```java
+import java.util.concurrent.FutureTask;
+
+public class Main {
+    public static void main(String[] args) {
+        FutureTask<String> futureTask = new FutureTask<>(() -> {
+            Thread.sleep(5000);
+            return "Task completed";
+        });
+
+        futureTask.cancel(true);
+    }
+}
+```
+================================================================
+
+Sample: 87 FutureTask_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.FutureTask;
+
+public class Main {
+    public static void main(String[] args) {
+        FutureTask<String> futureTask = new FutureTask<>(() -> "Result");
+        futureTask.cancel(true);
+        System.out.println("Task is cancelled: " + futureTask.isCancelled());
+    }
+}
+```
+================================================================
+
+Sample: 88 FutureTask_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.FutureTask;
+
+public class Main {
+    public static void main(String[] args) {
+        FutureTask<Boolean> futureTask = new FutureTask<>(() -> true);
+        boolean done = futureTask.isDone();
+        System.out.println("Task is done: " + done);
+    }
+}
+```
+================================================================
+
+Sample: 89 FutureTask_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.ExecutionException;
+
+public class Main {
+    public static void main(String[] args) {
+        FutureTask<String> futureTask = new FutureTask<>(() -> {
+            Thread.sleep(1000);
+            return "Result";
+        });
+
+        futureTask.run();
+
+        try {
+            String result = futureTask.get();
+            System.out.println("Result: " + result);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 90 LinkedBlockingDeque_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedBlockingDeque;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedBlockingDeque<String> deque = new LinkedBlockingDeque<>();
+        
+        try {
+            deque.put("Hello");
+            System.out.println("Element added successfully");
+        } catch (InterruptedException e) {
+            System.out.println("Interrupted while waiting to add element");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 91 LinkedBlockingDeque_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedBlockingDeque;
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        LinkedBlockingDeque<String> deque = new LinkedBlockingDeque<>();
+        deque.put("First");
+        deque.put("Second");
+        
+        String element = deque.take();
+        System.out.println("Element taken: " + element);
+    }
+}
+```
+================================================================
+
+Sample: 92 LinkedBlockingDeque_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedBlockingDeque;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedBlockingDeque<Integer> deque = new LinkedBlockingDeque<>(5);
+        
+        System.out.println("Offering element 1: " + deque.offer(1));
+        System.out.println("Offering element 2: " + deque.offer(2));
+        System.out.println("Offering element 3: " + deque.offer(3));
+        System.out.println("Offering element 4: " + deque.offer(4));
+        System.out.println("Offering element 5: " + deque.offer(5));
+        System.out.println("Offering element 6: " + deque.offer(6));
+    }
+}
+```
+================================================================
+
+Sample: 93 LinkedBlockingDeque_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedBlockingDeque;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedBlockingDeque<String> deque = new LinkedBlockingDeque<>();
+        deque.add("First");
+        deque.add("Second");
+        
+        System.out.println("Deque before poll: " + deque);
+        
+        String element = deque.poll();
+        
+        System.out.println("Element polled: " + element);
+        System.out.println("Deque after poll: " + deque);
+    }
+}
+```
+================================================================
+
+Sample: 94 LinkedBlockingDeque_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedBlockingDeque;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedBlockingDeque<Integer> deque = new LinkedBlockingDeque<>(5);
+        
+        deque.add(1);
+        deque.add(2);
+        deque.add(3);
+        
+        System.out.println("Remaining capacity: " + deque.remainingCapacity());
+    }
+}
+```
+================================================================
+
+Sample: 95 LinkedBlockingQueue_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedBlockingQueue<Integer> queue = new LinkedBlockingQueue<>(5);
+        
+        System.out.println(queue.offer(1)); // true
+        System.out.println(queue.offer(2)); // true
+        System.out.println(queue.offer(3)); // true
+        System.out.println(queue.offer(4)); // true
+        System.out.println(queue.offer(5)); // true
+        System.out.println(queue.offer(6)); // false
+    }
+}
+```
+================================================================
+
+Sample: 96 LinkedBlockingQueue_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedBlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        queue.offer("First");
+        queue.offer("Second");
+        
+        System.out.println("Queue: " + queue);
+        
+        String head = queue.poll();
+        System.out.println("Head of the queue: " + head);
+        
+        System.out.println("Updated Queue: " + queue);
+    }
+}
+```
+================================================================
+
+Sample: 97 LinkedBlockingQueue_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedBlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        queue.add("First");
+        queue.add("Second");
+        
+        System.out.println("Head of the queue: " + queue.peek());
+    }
+}
+```
+================================================================
+
+Sample: 98 LinkedBlockingQueue_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedBlockingQueue<String> queue = new LinkedBlockingQueue<>();
+
+        try {
+            queue.put("Element 1");
+            System.out.println("Element added to the queue");
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted while waiting to add element");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 99 LinkedBlockingQueue_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedBlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        queue.add("First");
+        queue.add("Second");
+        queue.add("Third");
+
+        System.out.println("Queue before removal: " + queue);
+
+        boolean removed = queue.remove("Second");
+
+        System.out.println("Element 'Second' removed: " + removed);
+        System.out.println("Queue after removal: " + queue);
+    }
+}
+```
+================================================================
+
+Sample: 100 LinkedTransferQueue_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedTransferQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedTransferQueue<String> transferQueue = new LinkedTransferQueue<>();
+        
+        // Transferring element to a waiting consumer immediately, if possible
+        boolean transferred = transferQueue.tryTransfer("Hello");
+        
+        System.out.println("Element transferred: " + transferred);
+    }
+}
+```
+================================================================
+
+Sample: 101 LinkedTransferQueue_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedTransferQueue;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedTransferQueue<String> transferQueue = new LinkedTransferQueue<>();
+        
+        try {
+            boolean result = transferQueue.tryTransfer("Hello", 5, TimeUnit.SECONDS);
+            System.out.println("Transfer successful: " + result);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 102 LinkedTransferQueue_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedTransferQueue;
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        LinkedTransferQueue<String> queue = new LinkedTransferQueue<>();
+        queue.put("Hello");
+        String element = queue.take();
+        System.out.println(element);
+    }
+}
+```
+================================================================
+
+Sample: 103 LinkedTransferQueue_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedTransferQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedTransferQueue<String> queue = new LinkedTransferQueue<>();
+        boolean hasWaitingConsumer = queue.hasWaitingConsumer();
+        System.out.println("Has waiting consumer: " + hasWaitingConsumer);
+    }
+}
+```
+================================================================
+
+Sample: 104 LinkedTransferQueue_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.LinkedTransferQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedTransferQueue<String> queue = new LinkedTransferQueue<>();
+        queue.offer("Element 1");
+        queue.offer("Element 2");
+        
+        int waitingConsumerCount = queue.getWaitingConsumerCount();
+        System.out.println("Number of waiting consumers: " + waitingConsumerCount);
+    }
+}
+```
+================================================================
+
+Sample: 105 Phaser_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Phaser;
+
+public class Main {
+    public static void main(String[] args) {
+        Phaser phaser = new Phaser();
+        int phaseNumber = phaser.register();
+        System.out.println("Arrival phase number: " + phaseNumber);
+    }
+}
+```
+================================================================
+
+Sample: 106 Phaser_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Phaser;
+
+public class Main {
+    public static void main(String[] args) {
+        Phaser phaser = new Phaser();
+        int phaseNumber = phaser.arrive();
+        System.out.println("Arrival phase number: " + phaseNumber);
+    }
+}
+```
+================================================================
+
+Sample: 107 Phaser_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Phaser;
+
+public class Main {
+    public static void main(String[] args) {
+        Phaser phaser = new Phaser();
+        int phaseNumber = phaser.arriveAndDeregister();
+        System.out.println("Arrival phase number: " + phaseNumber);
+    }
+}
+```
+================================================================
+
+Sample: 108 Phaser_4
+----------------------------------------------------------------
+`int arriveAndAwaitAdvance()`: This method arrives at this phaser and awaits others. It is equivalent to `awaitAdvance(arrive())`. If you need to await with interruption or timeout, you can arrange this with an analogous construction using one of the other forms of the `awaitAdvance` method. If instead you need to deregister upon arrival, use `awaitAdvance(arriveAndDeregister())`.
+
+```java
+import java.util.concurrent.Phaser;
+
+public class Main {
+    public static void main(String[] args) {
+        Phaser phaser = new Phaser();
+        
+        // Registering parties
+        phaser.register();
+        phaser.register();
+        
+        // Arrive at this phaser and await others
+        int phaseNumber = phaser.arriveAndAwaitAdvance();
+        
+        System.out.println("Arrived at phase: " + phaseNumber);
+    }
+}
+```
+================================================================
+
+Sample: 109 Phaser_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Phaser;
+
+public class Main {
+    public static void main(String[] args) {
+        Phaser phaser = new Phaser();
+        int phaseNumber = phaser.bulkRegister(3);
+        System.out.println("Arrival phase number: " + phaseNumber);
+    }
+}
+```
+================================================================
+
+Sample: 110 PriorityBlockingQueue_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.PriorityBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        PriorityBlockingQueue<Integer> queue = new PriorityBlockingQueue<>();
+        queue.offer(5);
+        queue.offer(3);
+        queue.offer(8);
+        
+        System.out.println(queue);
+    }
+}
+```
+================================================================
+
+Sample: 111 PriorityBlockingQueue_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.PriorityBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        PriorityBlockingQueue<Integer> queue = new PriorityBlockingQueue<>();
+        queue.add(5);
+        queue.add(3);
+        queue.add(8);
+        
+        System.out.println("Head of the queue: " + queue.poll());
+    }
+}
+```
+================================================================
+
+Sample: 112 PriorityBlockingQueue_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.PriorityBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        PriorityBlockingQueue<Integer> queue = new PriorityBlockingQueue<>();
+        queue.add(5);
+        queue.add(3);
+        queue.add(8);
+        
+        System.out.println("Head of the queue: " + queue.peek());
+    }
+}
+```
+================================================================
+
+Sample: 113 PriorityBlockingQueue_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.PriorityBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        PriorityBlockingQueue<Integer> queue = new PriorityBlockingQueue<>();
+        queue.put(5);
+        queue.put(3);
+        queue.put(8);
+        
+        System.out.println("Head of the queue: " + queue.take());
+    }
+}
+```
+================================================================
+
+Sample: 114 PriorityBlockingQueue_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.PriorityBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        PriorityBlockingQueue<Integer> queue = new PriorityBlockingQueue<>();
+        queue.add(5);
+        queue.add(3);
+        queue.add(8);
+        
+        System.out.println("Size of the PriorityBlockingQueue: " + queue.size());
+    }
+}
+```
+================================================================
+
+Sample: 115 RecursiveAction_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.RecursiveAction;
+
+public class MyRecursiveAction extends RecursiveAction {
+    
+    @Override
+    protected void compute() {
+        // Perform the main computation here
+        System.out.println("Computing...");
+    }
+
+    public static void main(String[] args) {
+        MyRecursiveAction action = new MyRecursiveAction();
+        action.fork();
+        action.join();
+    }
+}
+```
+================================================================
+
+Sample: 116 RecursiveTask_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.RecursiveTask;
+
+public class Main {
+    public static void main(String[] args) {
+        RecursiveTask<Integer> task = new RecursiveTask<Integer>() {
+            @Override
+            protected Integer compute() {
+                // Perform the main computation here
+                return 42; // Example result
+            }
+        };
+
+        Integer result = task.compute();
+        System.out.println("Result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 117 ScheduledThreadPoolExecutor_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ScheduledFuture;
+
+public class Main {
+    public static void main(String[] args) {
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        
+        Runnable task = () -> {
+            System.out.println("Task executed after delay");
+        };
+        
+        ScheduledFuture<?> future = executor.schedule(task, 5, TimeUnit.SECONDS);
+        
+        try {
+            future.get(); // Wait for the task to complete
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        executor.shutdown();
+    }
+}
+```
+================================================================
+
+Sample: 118 ScheduledThreadPoolExecutor_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ScheduledFuture;
+
+public class Main {
+    public static void main(String[] args) {
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        
+        // Define the task to be executed
+        Runnable task = () -> {
+            System.out.println("Task executed at: " + System.currentTimeMillis());
+        };
+        
+        // Schedule the task to run after an initial delay of 1 second and then every 2 seconds
+        ScheduledFuture<?> future = executor.scheduleAtFixedRate(task, 1, 2, TimeUnit.SECONDS);
+        
+        // Shutdown the executor after 10 seconds
+        executor.schedule(() -> {
+            executor.shutdown();
+        }, 10, TimeUnit.SECONDS);
+    }
+}
+```
+================================================================
+
+Sample: 119 ScheduledThreadPoolExecutor_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ScheduledFuture;
+
+public class Main {
+    public static void main(String[] args) {
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        
+        Runnable task = () -> {
+            System.out.println("Executing task...");
+        };
+        
+        ScheduledFuture<?> future = executor.scheduleWithFixedDelay(task, 0, 1, TimeUnit.SECONDS);
+        
+        try {
+            Thread.sleep(5000);
+            future.cancel(true);
+            executor.shutdown();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 120 ScheduledThreadPoolExecutor_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
+public class Main {
+    public static void main(String[] args) {
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        executor.setContinueExistingPeriodicTasksAfterShutdownPolicy(true);
+        System.out.println("Continue existing periodic tasks after shutdown policy set to true");
+    }
+}
+```
+================================================================
+
+Sample: 121 Semaphore_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Semaphore;
+
+public class Main {
+    public static void main(String[] args) {
+        Semaphore semaphore = new Semaphore(1);
+
+        try {
+            semaphore.acquire();
+            System.out.println("Permit acquired successfully");
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted while waiting for permit");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 122 Semaphore_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Semaphore;
+
+public class Main {
+    public static void main(String[] args) {
+        Semaphore semaphore = new Semaphore(1);
+        
+        try {
+            semaphore.acquire();
+            System.out.println("Semaphore acquired");
+            
+            semaphore.release();
+            System.out.println("Semaphore released");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 123 Semaphore_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Semaphore;
+
+public class Main {
+    public static void main(String[] args) {
+        Semaphore semaphore = new Semaphore(5);
+        System.out.println("Available permits: " + semaphore.availablePermits());
+    }
+}
+```
+================================================================
+
+Sample: 124 Semaphore_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Semaphore;
+
+public class Main {
+    public static void main(String[] args) {
+        Semaphore semaphore = new Semaphore(1);
+        try {
+            semaphore.acquire();
+            System.out.println("Number of threads waiting to acquire: " + semaphore.getQueueLength());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            semaphore.release();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 125 Semaphore_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.Semaphore;
+
+public class Main {
+    public static void main(String[] args) {
+        Semaphore semaphore = new Semaphore(1); // Create a semaphore with 1 permit
+        boolean permitAcquired = semaphore.tryAcquire(); // Try to acquire a permit
+        System.out.println("Permit acquired: " + permitAcquired);
+    }
+}
+```
+================================================================
+
+Sample: 126 SynchronousQueue_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.SynchronousQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        SynchronousQueue<String> queue = new SynchronousQueue<>();
+        
+        try {
+            queue.put("Hello");
+            System.out.println("Element added to the queue");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 127 SynchronousQueue_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.SynchronousQueue;
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        SynchronousQueue<String> queue = new SynchronousQueue<>();
+        
+        // Inserting an element into the queue
+        new Thread(() -> {
+            try {
+                queue.put("Element");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        
+        // Removing the head of the queue
+        String element = queue.take();
+        System.out.println("Removed element: " + element);
+    }
+}
+```
+================================================================
+
+Sample: 128 SynchronousQueue_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.SynchronousQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        SynchronousQueue<String> queue = new SynchronousQueue<>();
+        boolean result = queue.offer("Hello");
+        System.out.println("Element added to queue: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 129 SynchronousQueue_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.SynchronousQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        SynchronousQueue<String> queue = new SynchronousQueue<>();
+        try {
+            queue.put("Element");
+            String element = queue.poll();
+            System.out.println("Retrieved element: " + element);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 130 SynchronousQueue_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.SynchronousQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        SynchronousQueue<Integer> queue = new SynchronousQueue<>();
+        System.out.println("Remaining Capacity: " + queue.remainingCapacity());
+    }
+}
+```
+================================================================
+
+Sample: 131 ThreadPoolExecutor_1
+----------------------------------------------------------------
+`void execute(Runnable command)`: This method executes the given task sometime in the future.
+
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+        
+        executor.execute(() -> {
+            System.out.println("Task executed by ThreadPoolExecutor");
+        });
+        
+        executor.shutdown();
+    }
+}
+```
+================================================================
+
+Sample: 132 ThreadPoolExecutor_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0L, null);
+        List<Runnable> tasks = executor.shutdownNow();
+        System.out.println("Tasks that never commenced execution: " + tasks);
+    }
+}
+```
+================================================================
+
+Sample: 133 ThreadPoolExecutor_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+        
+        try {
+            boolean terminated = executor.awaitTermination(5, TimeUnit.SECONDS);
+            System.out.println("Executor terminated: " + terminated);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            executor.shutdown();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 134 ThreadPoolExecutor_4
+----------------------------------------------------------------
+`int getActiveCount()`: This method returns the approximate number of threads that are actively executing tasks.
+
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0L, null);
+        int activeCount = executor.getActiveCount();
+        System.out.println("Active thread count: " + activeCount);
+    }
+}
+```
+================================================================
+
+Sample: 135 ThreadPoolExecutor_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0L, null, null);
+        boolean terminated = executor.isTerminated();
+        System.out.println("Is Executor Terminated: " + terminated);
+    }
+}
+```
+================================================================
+
+Sample: 136 ThreadPoolExecutor_AbortPolicy_1
+----------------------------------------------------------------
+`void rejectedExecution(Runnable r, ThreadPoolExecutor executor)`: This method always throws a RejectedExecutionException when a task is rejected by the ThreadPoolExecutor with the AbortPolicy.
+
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.RejectedExecutionException;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0L, null, new ThreadPoolExecutor.AbortPolicy());
+        
+        try {
+            executor.rejectedExecution(() -> System.out.println("Task rejected"), executor);
+        } catch (RejectedExecutionException e) {
+            System.out.println("Task rejected and RejectedExecutionException thrown");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 137 ThreadPoolExecutor_CallerRunsPolicy_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new ThreadPoolExecutor.CallerRunsPolicy());
+        
+        executor.execute(() -> {
+            System.out.println("Task executed");
+        });
+    }
+}
+```
+================================================================
+
+Sample: 138 ThreadPoolExecutor_CallerRunsPolicy_2
+----------------------------------------------------------------
+`void rejectedExecution(Runnable r, ThreadPoolExecutor executor)`: This method executes task `r` in the caller's thread, unless the executor has been shut down, in which case the task is discarded.
+
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+        
+        RejectedExecutionHandler handler = new ThreadPoolExecutor.CallerRunsPolicy();
+        
+        executor.setRejectedExecutionHandler(handler);
+        
+        executor.execute(() -> {
+            System.out.println("Task 1 is running");
+        });
+        
+        executor.execute(() -> {
+            System.out.println("Task 2 is running");
+        });
+        
+        executor.execute(() -> {
+            System.out.println("Task 3 is running");
+        });
+        
+        executor.shutdown();
+    }
+}
+```
+================================================================
+
+Sample: 139 ThreadPoolExecutor_CallerRunsPolicy_3
+----------------------------------------------------------------
+`void rejectedExecution(Runnable r, ThreadPoolExecutor executor)`: This method executes task `r` in the caller's thread, unless the executor has been shut down, in which case the task is discarded.
+
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+        
+        RejectedExecutionHandler handler = new ThreadPoolExecutor.CallerRunsPolicy();
+        
+        // Creating a new task
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Executing task in caller's thread");
+            }
+        };
+        
+        // Submitting the task to the executor
+        executor.submit(task);
+        
+        // RejectedExecutionHandler will handle the rejected task
+        handler.rejectedExecution(task, executor);
+    }
+}
+```
+================================================================
+
+Sample: 140 ThreadPoolExecutor_CallerRunsPolicy_4
+----------------------------------------------------------------
+`void rejectedExecution(Runnable r, ThreadPoolExecutor executor)`: This method executes task `r` in the caller's thread, unless the executor has been shut down, in which case the task is discarded.
+
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+        
+        RejectedExecutionHandler handler = new ThreadPoolExecutor.CallerRunsPolicy();
+        handler.rejectedExecution(() -> System.out.println("Task is rejected"), executor);
+    }
+}
+```
+================================================================
+
+Sample: 141 ThreadPoolExecutor_CallerRunsPolicy_5
+----------------------------------------------------------------
+`void rejectedExecution(Runnable r, ThreadPoolExecutor executor)`: This method executes task `r` in the caller's thread, unless the executor has been shut down, in which case the task is discarded.
+
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+        
+        RejectedExecutionHandler handler = new ThreadPoolExecutor.CallerRunsPolicy();
+        
+        // Execute a task
+        executor.execute(() -> {
+            System.out.println("Task is being executed");
+        });
+        
+        // Try to execute a task when executor is shutdown
+        executor.shutdown();
+        handler.rejectedExecution(() -> {
+            System.out.println("Task is rejected");
+        }, executor);
+    }
+}
+```
+================================================================
+
+Sample: 142 ThreadPoolExecutor_DiscardOldestPolicy_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0, TimeUnit.SECONDS, new ThreadPoolExecutor.DiscardOldestPolicy());
+        
+        executor.execute(() -> System.out.println("Task 1"));
+        executor.execute(() -> System.out.println("Task 2"));
+    }
+}
+```
+================================================================
+
+Sample: 143 ThreadPoolExecutor_DiscardPolicy_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+        RejectedExecutionHandler handler = new ThreadPoolExecutor.DiscardPolicy();
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+        
+        executor.setRejectedExecutionHandler(handler);
+        
+        executor.execute(() -> System.out.println("Task 1"));
+        executor.execute(() -> System.out.println("Task 2"));
+        executor.execute(() -> System.out.println("Task 3"));
+        
+        executor.shutdown();
+    }
+}
+```
+================================================================
+

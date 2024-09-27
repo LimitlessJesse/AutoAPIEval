@@ -1,0 +1,166 @@
+Sample: 0 AsynchronousChannelGroup
+----------------------------------------------------------------
+1. `AsynchronousSocketChannel openSocketChannel()`: Opens an asynchronous socket channel.
+2. `AsynchronousServerSocketChannel openServerSocketChannel()`: Opens an asynchronous server-socket channel.
+3. `AsynchronousDatagramChannel openDatagramChannel()`: Opens an asynchronous datagram channel.
+4. `AsynchronousFileChannel openFileChannel(Path path, Set<? extends OpenOption> options, ExecutorService executor, FileAttribute<?>... attrs)`: Opens or creates a file, returning an asynchronous file channel to access the file.
+5. `AsynchronousChannelGroup withThreadPool(ExecutorService executor)`: Creates an asynchronous channel group with the given thread pool.
+================================================================
+
+Sample: 1 AsynchronousFileChannel
+----------------------------------------------------------------
+1. `Future<Integer> read(ByteBuffer dst, long position)`: This method reads a sequence of bytes from this channel into the given buffer, starting at the given file position.
+2. `Future<Integer> write(ByteBuffer src, long position)`: This method writes a sequence of bytes to this channel from the given buffer, starting at the given file position.
+3. `Future<FileLock> lock(long position, long size, boolean shared)`: This method acquires a lock on the given file region.
+4. `Future<FileLock> tryLock(long position, long size, boolean shared)`: This method attempts to acquire a lock on the given file region without blocking.
+5. `void close()`: This method closes this channel asynchronously.
+================================================================
+
+Sample: 2 AsynchronousServerSocketChannel
+----------------------------------------------------------------
+1. `Future<Void> bind(SocketAddress local)`: Binds the channel's socket to a local address and returns a Future representing the result of the operation.
+2. `AsynchronousSocketChannel accept()`: Accepts a connection made to this channel's socket and returns a new AsynchronousSocketChannel.
+3. `void close()`: Closes this channel.
+4. `AsynchronousServerSocketChannel open(AsynchronousChannelGroup group)`: Opens a server-socket channel.
+5. `Set<SocketOption<T>> supportedOptions()`: Returns a set of the socket options supported by this channel.
+================================================================
+
+Sample: 3 AsynchronousSocketChannel
+----------------------------------------------------------------
+1. `Future<Integer> read(ByteBuffer dst)`: Reads a sequence of bytes from this channel into the given buffer.
+2. `Future<Integer> write(ByteBuffer src)`: Writes a sequence of bytes to this channel from the given buffer.
+3. `void connect(SocketAddress remote)`: Connects this channel to the specified remote address.
+4. `SocketAddress getRemoteAddress()`: Returns the remote address to which this channel is connected.
+5. `AsynchronousSocketChannel bind(SocketAddress local)`: Binds the channel's socket to a local address.
+================================================================
+
+Sample: 4 Channels
+----------------------------------------------------------------
+1. `ReadableByteChannel newChannel(InputStream in)`: This method creates a channel that reads bytes from the specified InputStream.
+2. `WritableByteChannel newChannel(OutputStream out)`: This method creates a channel that writes bytes to the specified OutputStream.
+3. `SeekableByteChannel newChannel(Path path, OpenOption... options)`: This method opens or creates a file located at the specified path, returning a SeekableByteChannel for accessing the file.
+4. `ReadableByteChannel newChannel(ReadableByteChannel existingByteChannel)`: This method creates a channel that reads bytes from an existing ReadableByteChannel.
+5. `WritableByteChannel newChannel(WritableByteChannel existingByteChannel)`: This method creates a channel that writes bytes to an existing WritableByteChannel.
+================================================================
+
+Sample: 5 DatagramChannel
+----------------------------------------------------------------
+1. `int send(ByteBuffer src, SocketAddress target)`: This method sends a datagram to the given target address.
+2. `SocketAddress receive(ByteBuffer dst)`: This method receives a datagram from this channel.
+3. `DatagramChannel bind(SocketAddress local)`: This method binds the channel's socket to a local address.
+4. `int read(ByteBuffer dst)`: This method reads a datagram from this channel into the given buffer.
+5. `int write(ByteBuffer src)`: This method writes a datagram to this channel from the given buffer.
+================================================================
+
+Sample: 6 FileChannel
+----------------------------------------------------------------
+1. `int read(ByteBuffer dst)`: This method reads a sequence of bytes from this channel into the given buffer.
+2. `int write(ByteBuffer src)`: This method writes a sequence of bytes from the given buffer into this channel.
+3. `long size()`: This method returns the size of the file to which this channel is connected.
+4. `FileLock lock(long position, long size, boolean shared)`: This method acquires a lock on the given region of the file.
+5. `MappedByteBuffer map(FileChannel.MapMode mode, long position, long size)`: This method maps a region of the file directly into memory.
+================================================================
+
+Sample: 7 FileChannel.MapMode
+----------------------------------------------------------------
+1. `MappedByteBuffer force()`: This method forces any changes made to this buffer's content to be written to the storage device.
+2. `int position()`: This method returns the position within the file at which the mapped region starts.
+3. `MappedByteBuffer load()`: This method loads the content of the mapped region into physical memory, if it was not already loaded.
+4. `FileChannel.MapMode mode()`: This method returns the mapping mode used to open this file region.
+5. `MappedByteBuffer synchronize()`: This method synchronizes the content of the mapped region with the content of the file it maps.
+================================================================
+
+Sample: 8 FileLock
+----------------------------------------------------------------
+1. `void release()`: This method releases the lock, potentially allowing another process to acquire the lock.
+2. `FileChannel channel()`: This method returns the FileChannel object associated with this FileLock.
+3. `boolean isShared()`: This method returns true if the lock is shared, false otherwise.
+4. `long position()`: This method returns the position within the file of the lock.
+5. `long size()`: This method returns the size of the locked file region.
+================================================================
+
+Sample: 9 MembershipKey
+----------------------------------------------------------------
+1. `MembershipKey block(InetAddress source)` : This method blocks multicast packets from a specific source.
+
+2. `void drop()` : This method drops the membership and the associated multicast group.
+
+3. `boolean isValid()` : This method checks if the membership key is still valid.
+
+4. `Channel channel()` : This method returns the channel associated with this membership key.
+
+5. `MembershipKey sourceAddress(InetAddress source)` : This method updates the source address for the membership key.
+================================================================
+
+Sample: 10 Pipe
+----------------------------------------------------------------
+1. `Pipe.SinkChannel sink()`: This method returns the sink channel of the pipe.
+2. `Pipe.SourceChannel source()`: This method returns the source channel of the pipe.
+3. `void close()`: This method closes both the sink and source channels of the pipe.
+4. `int write(ByteBuffer src)`: This method writes bytes from the buffer into the sink channel of the pipe.
+5. `int read(ByteBuffer dst)`: This method reads bytes from the source channel of the pipe into the buffer.
+================================================================
+
+Sample: 11 Pipe.SinkChannel
+----------------------------------------------------------------
+1. `int write(ByteBuffer src)`: This method writes the remaining bytes of the given buffer to the pipe.
+2. `long write(ByteBuffer[] srcs, int offset, int length)`: This method writes a sequence of bytes to the pipe from the given buffers.
+3. `Pipe.SinkChannel shutdownOutput()`: This method shuts down the write side of the pipe.
+4. `void close()`: This method closes the sink channel.
+5. `int validOps()`: This method returns the valid operations of the sink channel.
+================================================================
+
+Sample: 12 Pipe.SourceChannel
+----------------------------------------------------------------
+1. `int validOps()`: Returns the operations that are valid for this channel.
+2. `SourceChannel configureBlocking(boolean blocking)`: Configures this channel to operate in blocking mode or non-blocking mode.
+3. `long read(ByteBuffer dst)`: Reads a sequence of bytes from this channel into the given buffer.
+4. `void close()`: Closes this channel.
+5. `FileDescriptor getFileDescriptor()`: Retrieves the file descriptor associated with this channel.
+================================================================
+
+Sample: 13 SelectableChannel
+----------------------------------------------------------------
+1. `SelectionKey keyFor(Selector sel)`: Return type - SelectionKey, Parameters - Selector sel
+2. `SelectableChannel configureBlocking(boolean block)`: Return type - SelectableChannel, Parameters - boolean block
+3. `int validOps()`: Return type - int, Parameters - None
+4. `Selector provider()`: Return type - Selector, Parameters - None
+5. `SelectableChannel register(Selector sel, int ops, Object att)`: Return type - SelectableChannel, Parameters - Selector sel, int ops, Object att
+================================================================
+
+Sample: 14 SelectionKey
+----------------------------------------------------------------
+1. `Selector selector()`: This method returns the Selector object for this key.
+2. `SelectableChannel channel()`: This method returns the Channel for which this key was created.
+3. `int interestOps()`: This method returns the interest set of operations for this key.
+4. `int readyOps()`: This method returns the ready set of operations for this key.
+5. `boolean isValid()`: This method checks if this key is valid.
+================================================================
+
+Sample: 15 Selector
+----------------------------------------------------------------
+1. `int select()`: This method performs a blocking selection operation.
+2. `Set<SelectionKey> keys()`: This method returns the keys of the selected entries.
+3. `int select(long timeout)`: This method performs a blocking selection operation with a specified timeout.
+4. `Selector provider()`: This method returns the provider of this selector.
+5. `int selectNow()`: This method performs a non-blocking selection operation.
+================================================================
+
+Sample: 16 ServerSocketChannel
+----------------------------------------------------------------
+1. `ServerSocketChannel open()`: This method opens a server-socket channel.
+2. `int validOps()`: This method returns the operations that are supported by this channel.
+3. `boolean isRegistered()`: This method returns true if this channel is currently registered with a selector.
+4. `SelectionKey register(Selector sel, int ops)`: This method registers this channel with the given selector for the given operations. 
+5. `SelectionKey keyFor(Selector sel)`: This method returns the selection key that represents the channel's registration with the given selector.
+================================================================
+
+Sample: 17 SocketChannel
+----------------------------------------------------------------
+1. `int read(ByteBuffer dst)`: This method reads a sequence of bytes from this channel into the given buffer.
+2. `long write(ByteBuffer[] srcs)`: This method writes a sequence of bytes to this channel from the given array of buffers.
+3. `SocketChannel bind(SocketAddress local)`: This method binds the channel's socket to a local address.
+4. `SocketChannel connect(SocketAddress remote)`: This method initiates a connection to the remote address.
+5. `boolean finishConnect()`: This method finishes the process of connecting a socket channel.
+================================================================
+

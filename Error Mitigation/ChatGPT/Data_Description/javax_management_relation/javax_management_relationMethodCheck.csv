@@ -1,0 +1,347 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,MBeanServerNotificationFilter,1,void disableAllObjectNotifications(),False,,NULL
+0,MBeanServerNotificationFilter,2,void disableAttributeChangeNotifications(),False,,NULL
+0,MBeanServerNotificationFilter,3,void disableAttributeChangeNotifications(String attributeName),False,,NULL
+0,MBeanServerNotificationFilter,4,void disableAttributeChangeNotifications(String[] attributeNames),False,,NULL
+0,MBeanServerNotificationFilter,5,void disableAttributeChangeNotifications(List<String> attributeNames),False,,NULL
+1,RelationNotification,1,String getRelationId(),True,,"
+
+getRelationId
+public String getRelationId()
+Returns the relation identifier of created/removed/updated relation.
+
+Returns:
+the relation id.
+
+
+"
+1,RelationNotification,2,ObjectName getObjectName(),True,,"
+
+getObjectName
+public ObjectName getObjectName()
+Returns the ObjectName of the
+ created/removed/updated relation.
+
+Returns:
+the ObjectName if the relation is an MBean, otherwise null.
+
+
+"
+1,RelationNotification,3,String getRelationTypeName(),True,,"
+
+getRelationTypeName
+public String getRelationTypeName()
+Returns the relation type name of created/removed/updated relation.
+
+Returns:
+the relation type name.
+
+
+"
+1,RelationNotification,4,List<ObjectName> getRoles(),False,,NULL
+1,RelationNotification,5,int getEventType(),False,,NULL
+2,RelationService,1,"void createRelationType(String relationTypeName, List<RoleInfo> roleInfoList)",False,,NULL
+2,RelationService,2,void removeRelationType(String relationTypeName),True,,"
+
+removeRelationType
+public void removeRelationType(String relationTypeName)
+                        throws RelationServiceNotRegisteredException,
+                               IllegalArgumentException,
+                               RelationTypeNotFoundException
+Removes given relation type from Relation Service.
+ The relation objects of that type will be removed from the
+ Relation Service.
+
+Specified by:
+removeRelationType in interface RelationServiceMBean
+Parameters:
+relationTypeName - name of the relation type to be removed
+Throws:
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+IllegalArgumentException - if null parameter
+RelationTypeNotFoundException - If there is no relation type
+ with that name
+
+
+"
+2,RelationService,3,"void createRelation(String relationId, String relationTypeName, List<Role> roleList)",False,,NULL
+2,RelationService,4,void removeRelation(String relationId),True,,"
+
+removeRelation
+public void removeRelation(String relationId)
+                    throws RelationServiceNotRegisteredException,
+                           IllegalArgumentException,
+                           RelationNotFoundException
+Removes given relation from the Relation Service.
+ A RelationNotification notification is sent, its type being:
+ - RelationNotification.RELATION_BASIC_REMOVAL if the relation was
+ only internal to the Relation Service
+ - RelationNotification.RELATION_MBEAN_REMOVAL if the relation is
+ registered as an MBean.
+ For MBeans referenced in such relation, nothing will be done,
+
+Specified by:
+removeRelation in interface RelationServiceMBean
+Parameters:
+relationId - relation id of the relation to be removed
+Throws:
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if no relation corresponding to
+ given relation id
+
+
+"
+2,RelationService,5,List<ObjectName> findRelationsOfType(String relationTypeName),False,,NULL
+3,RelationSupport,1,"void setRole(String roleName, Object roleValue)",False,,NULL
+3,RelationSupport,2,Object getRole(String roleName),False,,NULL
+3,RelationSupport,3,List<String> getRoleNames(),False,,NULL
+3,RelationSupport,4,"void setRoles(Map<String, Object> roles)",False,,NULL
+3,RelationSupport,5,"Map<String, Object> getAllRoles()",False,,NULL
+4,RelationTypeSupport,1,String getRelationTypeName(),True,,"
+
+getRelationTypeName
+public String getRelationTypeName()
+Returns the relation type name.
+
+Specified by:
+getRelationTypeName in interface RelationType
+Returns:
+the relation type name.
+
+
+"
+4,RelationTypeSupport,2,List<String> getRoleNames(),False,,NULL
+4,RelationTypeSupport,3,void addRoleInfo(RoleInfo roleInfo),True,,"
+
+addRoleInfo
+protected void addRoleInfo(RoleInfo roleInfo)
+                    throws IllegalArgumentException,
+                           InvalidRelationTypeException
+Add a role info.
+ This method of course should not be used after the creation of the
+ relation type, because updating it would invalidate that the relations
+ created associated to that type still conform to it.
+ Can throw a RuntimeException if trying to update a relation type
+ declared in the Relation Service.
+
+Parameters:
+roleInfo - role info to be added.
+Throws:
+IllegalArgumentException - if null parameter.
+InvalidRelationTypeException - if there is already a role
+  info in current relation type with the same name.
+
+
+"
+4,RelationTypeSupport,4,RoleInfo getRoleInfo(String roleName),True,,"
+
+getRoleInfo
+public RoleInfo getRoleInfo(String roleInfoName)
+                     throws IllegalArgumentException,
+                            RoleInfoNotFoundException
+Returns the role info (RoleInfo object) for the given role info name
+ (null if not found).
+
+Specified by:
+getRoleInfo in interface RelationType
+Parameters:
+roleInfoName - role info name
+Returns:
+RoleInfo object providing role definition
+ does not exist
+Throws:
+IllegalArgumentException - if null parameter
+RoleInfoNotFoundException - if no role info with that name in
+ relation type.
+
+
+"
+4,RelationTypeSupport,5,void removeRole(String roleName),False,,NULL
+5,Role,1,String getRoleName(),True,,"
+
+getRoleName
+public String getRoleName()
+Retrieves role name.
+
+Returns:
+the role name.
+See Also:
+setRoleName(java.lang.String)
+
+
+"
+5,Role,2,List<ObjectName> getRoleValue(),True,,"
+
+getRoleValue
+public List<ObjectName> getRoleValue()
+Retrieves role value.
+
+Returns:
+ArrayList of ObjectName objects for referenced MBeans.
+See Also:
+setRoleValue(java.util.List<javax.management.ObjectName>)
+
+
+"
+5,Role,3,void setRoleName(String roleName),True,,"
+
+setRoleName
+public void setRoleName(String roleName)
+                 throws IllegalArgumentException
+Sets role name.
+
+Parameters:
+roleName - role name
+Throws:
+IllegalArgumentException - if null parameter
+See Also:
+getRoleName()
+
+
+"
+5,Role,4,void setRoleValue(List<ObjectName> roleValue),True,,"
+
+setRoleValue
+public void setRoleValue(List<ObjectName> roleValue)
+                  throws IllegalArgumentException
+Sets role value.
+
+Parameters:
+roleValue - List of ObjectName objects for referenced
+ MBeans.
+Throws:
+IllegalArgumentException - if null parameter
+See Also:
+getRoleValue()
+
+
+"
+5,Role,5,void add(ObjectName objectName),False,,NULL
+6,RoleInfo,1,String getName(),True,,"
+
+getName
+public String getName()
+Returns the name of the role.
+
+Returns:
+the name of the role.
+
+
+"
+6,RoleInfo,2,String getRole(),False,,NULL
+6,RoleInfo,3,boolean isReadable(),True,,"
+
+isReadable
+public boolean isReadable()
+Returns read access mode for the role (true if it is readable).
+
+Returns:
+true if the role is readable.
+
+
+"
+6,RoleInfo,4,boolean isWritable(),True,,"
+
+isWritable
+public boolean isWritable()
+Returns write access mode for the role (true if it is writable).
+
+Returns:
+true if the role is writable.
+
+
+"
+6,RoleInfo,5,String toString(),True,,"
+
+toString
+public String toString()
+Returns a string describing the role info.
+
+Overrides:
+toString in class Object
+Returns:
+a description of the role info.
+
+
+"
+7,RoleList,1,void add(Role role),True,,"
+
+add
+public void add(Role role)
+         throws IllegalArgumentException
+Adds the Role specified as the last element of the list.
+
+Parameters:
+role - the role to be added.
+Throws:
+IllegalArgumentException - if the role is null.
+
+
+"
+7,RoleList,2,void addAll(RoleList roleList),False,,NULL
+7,RoleList,3,Role get(int index),False,,NULL
+7,RoleList,4,boolean remove(Role role),False,,NULL
+7,RoleList,5,int size(),False,,NULL
+8,RoleResult,1,List<ObjectName> getRoles(),False,,NULL
+8,RoleResult,2,boolean hasRole(String roleName),False,,NULL
+8,RoleResult,3,Object getRoleValue(String roleName),False,,NULL
+8,RoleResult,4,"void setRoleValue(String roleName, Object roleValue)",False,,NULL
+8,RoleResult,5,"void addRoles(Map<String, Object> roles)",False,,NULL
+9,RoleStatus,1,String getName(),False,,NULL
+9,RoleStatus,2,int getStatusCode(),False,,NULL
+9,RoleStatus,3,void setStatusCode(int statusCode),False,,NULL
+9,RoleStatus,4,String getDescription(),False,,NULL
+9,RoleStatus,5,void setDescription(String description),False,,NULL
+10,RoleUnresolved,1,String getRoleName(),True,,"
+
+getRoleName
+public String getRoleName()
+Retrieves role name.
+
+Returns:
+the role name.
+See Also:
+setRoleName(java.lang.String)
+
+
+"
+10,RoleUnresolved,2,ObjectName getRoleValue(),False,,NULL
+10,RoleUnresolved,3,String getRoleValueString(),False,,NULL
+10,RoleUnresolved,4,void setRoleName(String roleName),True,,"
+
+setRoleName
+public void setRoleName(String name)
+                 throws IllegalArgumentException
+Sets role name.
+
+Parameters:
+name - the new role name.
+Throws:
+IllegalArgumentException - if null parameter
+See Also:
+getRoleName()
+
+
+"
+10,RoleUnresolved,5,void setRoleValue(ObjectName roleValue),False,,NULL
+11,RoleUnresolvedList,1,void add(RoleUnresolved role),True,,"
+
+add
+public void add(RoleUnresolved role)
+         throws IllegalArgumentException
+Adds the RoleUnresolved specified as the last element of the list.
+
+Parameters:
+role - - the unresolved role to be added.
+Throws:
+IllegalArgumentException - if the unresolved role is null.
+
+
+"
+11,RoleUnresolvedList,2,RoleUnresolved get(int index),False,,NULL
+11,RoleUnresolvedList,3,int size(),False,,NULL
+11,RoleUnresolvedList,4,boolean isEmpty(),False,,NULL
+11,RoleUnresolvedList,5,void clear(),False,,NULL

@@ -1,0 +1,417 @@
+Sample: 0 Binder_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.Binder;
+import javax.xml.bind.ValidationEventHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        Binder binder = null; // Initialize your Binder object
+        ValidationEventHandler handler = null; // Initialize your ValidationEventHandler object
+        binder.setEventHandler(handler);
+    }
+}
+```
+================================================================
+
+Sample: 1 Binder_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.Binder;
+
+public class Main {
+    public static void main(String[] args) {
+        Binder binder = new Binder();
+        binder.setProperty("key", "value");
+    }
+}
+```
+================================================================
+
+Sample: 2 DatatypeConverter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.DatatypeConverter;
+
+public class Main {
+    public static void main(String[] args) {
+        String base64String = "SGVsbG8gV29ybGQh"; // Base64 encoded string
+        byte[] byteArray = DatatypeConverter.parseBase64Binary(base64String);
+        
+        System.out.println("Byte array length: " + byteArray.length);
+    }
+}
+```
+================================================================
+
+Sample: 3 DatatypeConverter_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.DatatypeConverter;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] byteArray = {10, 20, 30, 40, 50};
+        String base64String = DatatypeConverter.printBase64Binary(byteArray);
+        System.out.println("Base64 String: " + base64String);
+    }
+}
+```
+================================================================
+
+Sample: 4 DatatypeConverter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.DatatypeConverter;
+import java.util.Calendar;
+
+public class Main {
+    public static void main(String[] args) {
+        String lexicalXSDDate = "2022-10-15T12:00:00Z";
+        Calendar calendar = DatatypeConverter.parseDate(lexicalXSDDate);
+        System.out.println(calendar.getTime());
+    }
+}
+```
+================================================================
+
+Sample: 5 DatatypeConverter_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.DatatypeConverter;
+import java.util.Calendar;
+
+public class Main {
+    public static void main(String[] args) {
+        Calendar calendar = Calendar.getInstance();
+        String dateString = DatatypeConverter.printDate(calendar);
+        System.out.println("Formatted Date: " + dateString);
+    }
+}
+```
+================================================================
+
+Sample: 6 DatatypeConverter_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.DatatypeConverter;
+import java.math.BigDecimal;
+
+public class Main {
+    public static void main(String[] args) {
+        String lexicalXSDDecimal = "123.45";
+        BigDecimal result = DatatypeConverter.parseDecimal(lexicalXSDDecimal);
+        System.out.println("Parsed BigDecimal value: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 7 JAXBContext_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(MyClass.class);
+            System.out.println("JAXBContext created successfully");
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class MyClass {
+        // Define your class here
+    }
+}
+```
+================================================================
+
+Sample: 8 JAXBContext_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(MyClass.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+            // Use unmarshaller to deserialize XML to Java object
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class MyClass {
+    // Define properties and methods here
+}
+```
+================================================================
+
+Sample: 9 JAXBContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(MyClass.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            
+            // Your code here to use the Marshaller
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 JAXBContext_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Binder;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(Node.class);
+            Binder<Node> binder = jaxbContext.createBinder();
+
+            Node node = new Node();
+            node.setName("Example");
+
+            binder.marshal(node, System.out);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class Node {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+================================================================
+
+Sample: 11 JAXBContext_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.SchemaOutputResolver;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(YourClass.class);
+            
+            jaxbContext.generateSchema(new SchemaOutputResolver() {
+                @Override
+                public Result createOutput(String namespaceUri, String suggestedFileName) throws IOException {
+                    File file = new File(suggestedFileName);
+                    StreamResult result = new StreamResult(file);
+                    result.setSystemId(file.toURI().toURL().toString());
+                    return result;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 JAXBElement_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBElement;
+
+public class Main {
+    public static void main(String[] args) {
+        JAXBElement<String> element = new JAXBElement<>("foo", String.class, "bar");
+        System.out.println("QName name: " + element.getName());
+    }
+}
+```
+================================================================
+
+Sample: 13 JAXBElement_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBElement;
+
+public class Main {
+    public static void main(String[] args) {
+        JAXBElement<String> element = new JAXBElement<String>(null, String.class, "Value");
+        System.out.println(element.isNil()); // Output: false
+    }
+}
+```
+================================================================
+
+Sample: 14 JAXBIntrospector_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBIntrospector;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Object myObject = new Object(); // Initialize your object here
+        boolean elementPresent = JAXBIntrospector.getValue(myObject) != null;
+        System.out.println("Is Element Present: " + elementPresent);
+    }
+}
+```
+================================================================
+
+Sample: 15 JAXBIntrospector_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBIntrospector;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a JAXBContext
+        JAXBContext context = JAXBContext.newInstance(YourClass.class);
+        
+        // Get an instance of JAXBIntrospector
+        JAXBIntrospector introspector = context.createJAXBIntrospector();
+        
+        // Use getValue method on an element
+        YourClass element = new YourClass();
+        Object value = introspector.getValue(element);
+    }
+}
+```
+================================================================
+
+Sample: 16 Marshaller_Listener_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Marshaller.Listener;
+
+public class Main {
+    public static void main(String[] args) {
+        Marshaller.Listener marshallerListener = new Marshaller.Listener() {
+            @Override
+            public void beforeMarshal(Object source) {
+                // Add your custom logic here before marshalling the object
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 17 Marshaller_Listener_2
+----------------------------------------------------------------
+`void afterMarshal(Object source)`: This method is called after marshalling has completed.
+
+Code snippet:
+```java
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Marshaller.Listener;
+
+public class Main {
+    public static void main(String[] args) {
+        Marshaller marshaller = new Marshaller();
+        
+        marshaller.setListener(new Listener() {
+            @Override
+            public void afterMarshal(Object source) {
+                // Your implementation here
+            }
+        });
+    }
+}
+```
+================================================================
+
+Sample: 18 Unmarshaller_Listener_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.Unmarshaller.Listener;
+
+public class MyListener extends Listener {
+    @Override
+    public void beforeUnmarshal(Object target, Object parent) {
+        // Custom logic before unmarshalling
+        System.out.println("Before Unmarshalling...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of MyListener
+        MyListener customListener = new MyListener();
+
+        // Use the beforeUnmarshal method
+        customListener.beforeUnmarshal(new Object(), new Object());
+    }
+}
+```
+================================================================
+
+Sample: 19 Unmarshaller.Listener_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.Unmarshaller;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+
+    public void afterUnmarshal(Object target, Object parent) {
+        // Add your implementation here
+    }
+}
+```
+================================================================
+

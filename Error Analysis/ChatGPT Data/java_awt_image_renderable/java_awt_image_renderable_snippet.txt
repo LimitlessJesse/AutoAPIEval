@@ -1,0 +1,106 @@
+Sample: 0 ParameterBlock_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.renderable.ParameterBlock;
+
+public class Main {
+    public static void main(String[] args) {
+        ParameterBlock pb = new ParameterBlock();
+        int numSources = pb.getNumSources();
+        System.out.println("Number of sources: " + numSources);
+    }
+}
+```
+================================================================
+
+Sample: 1 ParameterBlock_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.renderable.ParameterBlock;
+
+public class Main {
+    public static void main(String[] args) {
+        ParameterBlock parameterBlock = new ParameterBlock();
+        Object source = parameterBlock.getSource(0);
+        System.out.println("Source at index 0: " + source);
+    }
+}
+```
+================================================================
+
+Sample: 2 RenderableImageOp_1
+----------------------------------------------------------------
+`RenderedImage createRendering(RenderContext renderContext)`: This method creates a RenderedImage with the specified RenderContext.
+
+Code snippet:
+```java
+import java.awt.geom.AffineTransform;
+import java.awt.image.renderable.ParameterBlock;
+import java.awt.image.renderable.RenderContext;
+import java.awt.image.renderable.RenderableImage;
+import java.awt.image.BufferedImage;
+import java.awt.image.renderable.RenderableImageOp;
+import java.awt.image.RenderedImage;
+
+public class Main {
+    public static void main(String[] args) {
+        RenderableImageOp renderableImageOp = new RenderableImageOp() {
+            @Override
+            public RenderedImage createRendering(RenderContext renderContext) {
+                ParameterBlock paramBlock = new ParameterBlock();
+                // Set parameters for your operation
+                RenderableImage renderedImage = create(paramBlock);
+                return renderedImage.createDefaultRendering();
+            }
+          
+            @Override
+            public RenderableImage create(ParameterBlock paramBlock, RenderingHints hints) {
+                // Implement how to create RenderableImage
+                return null;
+            }
+        };
+        
+        RenderedImage renderedImage = renderableImageOp.createRendering(new RenderContext(new AffineTransform()));
+        // Use the renderedImage as needed
+    }
+}
+```
+================================================================
+
+Sample: 3 RenderContext_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.RenderingHints;
+import java.awt.image.renderable.RenderContext;
+
+public class Main {
+    public static void main(String[] args) {
+        RenderContext renderContext = new RenderContext(null, null);
+        RenderingHints renderingHints = renderContext.getRenderingHints();
+        System.out.println(renderingHints);
+    }
+}
+```
+================================================================
+
+Sample: 4 RenderContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.geom.AffineTransform;
+import java.awt.image.renderable.RenderContext;
+
+public class Main {
+    public static void main(String[] args) {
+        AffineTransform affineTransform = new AffineTransform();
+        RenderContext renderContext = new RenderContext(affineTransform);
+        AffineTransform transform = renderContext.getTransform();
+        System.out.println("Original Transform: " + transform);
+    }
+}
+```
+================================================================
+

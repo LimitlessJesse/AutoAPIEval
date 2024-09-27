@@ -1,0 +1,857 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Cipher,1,byte[] doFinal(byte[] input),True,"Encrypts or decrypts data in a single-part operation, or finishes a multiple-part operation.","
+
+doFinal
+public final byte[] doFinal(byte[] input)
+                     throws IllegalBlockSizeException,
+                            BadPaddingException
+Encrypts or decrypts data in a single-part operation, or finishes a
+ multiple-part operation. The data is encrypted or decrypted,
+ depending on how this cipher was initialized.
+
+ The bytes in the input buffer, and any input bytes that
+ may have been buffered during a previous update operation,
+ are processed, with padding (if requested) being applied.
+ If an AEAD mode such as GCM/CCM is being used, the authentication
+ tag is appended in the case of encryption, or verified in the
+ case of decryption.
+ The result is stored in a new buffer.
+
+ Upon finishing, this method resets this cipher object to the state
+ it was in when previously initialized via a call to init.
+ That is, the object is reset and available to encrypt or decrypt
+ (depending on the operation mode that was specified in the call to
+ init) more data.
+
+ Note: if any exception is thrown, this cipher object may need to
+ be reset before it can be used again.
+
+Parameters:
+input - the input buffer
+Returns:
+the new buffer with the result
+Throws:
+IllegalStateException - if this cipher is in a wrong state
+ (e.g., has not been initialized)
+IllegalBlockSizeException - if this cipher is a block cipher,
+ no padding has been requested (only in encryption mode), and the total
+ input length of the data processed by this cipher is not a multiple of
+ block size; or if this encryption algorithm is unable to
+ process the input data provided.
+BadPaddingException - if this cipher is in decryption mode,
+ and (un)padding has been requested, but the decrypted data is not
+ bounded by the appropriate padding bytes
+AEADBadTagException - if this cipher is decrypting in an
+ AEAD mode (such as GCM/CCM), and the received authentication tag
+ does not match the calculated value
+
+
+"
+0,Cipher,2,"void init(int opmode, Key key)",True,Initializes this cipher with a key.,"
+
+init
+public final void init(int opmode,
+                       Key key)
+                throws InvalidKeyException
+Initializes this cipher with a key.
+
+ The cipher is initialized for one of the following four operations:
+ encryption, decryption, key wrapping or key unwrapping, depending
+ on the value of opmode.
+
+ If this cipher requires any algorithm parameters that cannot be
+ derived from the given key, the underlying cipher
+ implementation is supposed to generate the required parameters itself
+ (using provider-specific default or random values) if it is being
+ initialized for encryption or key wrapping, and raise an
+ InvalidKeyException if it is being
+ initialized for decryption or key unwrapping.
+ The generated parameters can be retrieved using
+ getParameters or
+ getIV (if the parameter is an IV).
+
+ If this cipher requires algorithm parameters that cannot be
+ derived from the input parameters, and there are no reasonable
+ provider-specific default values, initialization will
+ necessarily fail.
+
+ If this cipher (including its underlying feedback or padding scheme)
+ requires any random bytes (e.g., for parameter generation), it will get
+ them using the SecureRandom
+ implementation of the highest-priority
+ installed provider as the source of randomness.
+ (If none of the installed providers supply an implementation of
+ SecureRandom, a system-provided source of randomness will be used.)
+
+ Note that when a Cipher object is initialized, it loses all
+ previously-acquired state. In other words, initializing a Cipher is
+ equivalent to creating a new instance of that Cipher and initializing
+ it.
+
+Parameters:
+opmode - the operation mode of this cipher (this is one of
+ the following:
+ ENCRYPT_MODE, DECRYPT_MODE,
+ WRAP_MODE or UNWRAP_MODE)
+key - the key
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ initializing this cipher, or requires
+ algorithm parameters that cannot be
+ determined from the given key, or if the given key has a keysize that
+ exceeds the maximum allowable keysize (as determined from the
+ configured jurisdiction policy files).
+UnsupportedOperationException - if (@code opmode} is
+ WRAP_MODE or UNWRAP_MODE but the mode is not implemented
+ by the underlying CipherSpi.
+
+
+"
+0,Cipher,3,"void init(int opmode, Key key, AlgorithmParameters params)",True,Initializes this cipher with a key and a set of algorithm parameters.,"
+
+init
+public final void init(int opmode,
+                       Key key,
+                       AlgorithmParameters params)
+                throws InvalidKeyException,
+                       InvalidAlgorithmParameterException
+Initializes this cipher with a key and a set of algorithm
+ parameters.
+
+ The cipher is initialized for one of the following four operations:
+ encryption, decryption, key wrapping or  key unwrapping, depending
+ on the value of opmode.
+
+ If this cipher requires any algorithm parameters and
+ params is null, the underlying cipher implementation is
+ supposed to generate the required parameters itself (using
+ provider-specific default or random values) if it is being
+ initialized for encryption or key wrapping, and raise an
+ InvalidAlgorithmParameterException if it is being
+ initialized for decryption or key unwrapping.
+ The generated parameters can be retrieved using
+ getParameters or
+ getIV (if the parameter is an IV).
+
+ If this cipher requires algorithm parameters that cannot be
+ derived from the input parameters, and there are no reasonable
+ provider-specific default values, initialization will
+ necessarily fail.
+
+ If this cipher (including its underlying feedback or padding scheme)
+ requires any random bytes (e.g., for parameter generation), it will get
+ them using the SecureRandom
+ implementation of the highest-priority
+ installed provider as the source of randomness.
+ (If none of the installed providers supply an implementation of
+ SecureRandom, a system-provided source of randomness will be used.)
+
+ Note that when a Cipher object is initialized, it loses all
+ previously-acquired state. In other words, initializing a Cipher is
+ equivalent to creating a new instance of that Cipher and initializing
+ it.
+
+Parameters:
+opmode - the operation mode of this cipher (this is one of the
+ following: ENCRYPT_MODE,
+ DECRYPT_MODE, WRAP_MODE
+ or UNWRAP_MODE)
+key - the encryption key
+params - the algorithm parameters
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ initializing this cipher, or its keysize exceeds the maximum allowable
+ keysize (as determined from the configured jurisdiction policy files).
+InvalidAlgorithmParameterException - if the given algorithm
+ parameters are inappropriate for this cipher,
+ or this cipher requires
+ algorithm parameters and params is null, or the given
+ algorithm parameters imply a cryptographic strength that would exceed
+ the legal limits (as determined from the configured jurisdiction
+ policy files).
+UnsupportedOperationException - if (@code opmode} is
+ WRAP_MODE or UNWRAP_MODE but the mode is not implemented
+ by the underlying CipherSpi.
+
+
+"
+0,Cipher,4,"void init(int opmode, Key key, SecureRandom srand)",True,Initializes this cipher with a key and a source of randomness.,"
+
+init
+public final void init(int opmode,
+                       Key key,
+                       SecureRandom random)
+                throws InvalidKeyException
+Initializes this cipher with a key and a source of randomness.
+
+ The cipher is initialized for one of the following four operations:
+ encryption, decryption, key wrapping or  key unwrapping, depending
+ on the value of opmode.
+
+ If this cipher requires any algorithm parameters that cannot be
+ derived from the given key, the underlying cipher
+ implementation is supposed to generate the required parameters itself
+ (using provider-specific default or random values) if it is being
+ initialized for encryption or key wrapping, and raise an
+ InvalidKeyException if it is being
+ initialized for decryption or key unwrapping.
+ The generated parameters can be retrieved using
+ getParameters or
+ getIV (if the parameter is an IV).
+
+ If this cipher requires algorithm parameters that cannot be
+ derived from the input parameters, and there are no reasonable
+ provider-specific default values, initialization will
+ necessarily fail.
+
+ If this cipher (including its underlying feedback or padding scheme)
+ requires any random bytes (e.g., for parameter generation), it will get
+ them from random.
+
+ Note that when a Cipher object is initialized, it loses all
+ previously-acquired state. In other words, initializing a Cipher is
+ equivalent to creating a new instance of that Cipher and initializing
+ it.
+
+Parameters:
+opmode - the operation mode of this cipher (this is one of the
+ following:
+ ENCRYPT_MODE, DECRYPT_MODE,
+ WRAP_MODE or UNWRAP_MODE)
+key - the encryption key
+random - the source of randomness
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ initializing this cipher, or requires
+ algorithm parameters that cannot be
+ determined from the given key, or if the given key has a keysize that
+ exceeds the maximum allowable keysize (as determined from the
+ configured jurisdiction policy files).
+UnsupportedOperationException - if (@code opmode} is
+ WRAP_MODE or UNWRAP_MODE but the mode is not implemented
+ by the underlying CipherSpi.
+
+
+"
+0,Cipher,5,void setIV(byte[] iv),False,,NULL
+1,CipherInputStream,1,"CipherInputStream(InputStream in, Cipher cipher)",False,,NULL
+1,CipherInputStream,2,int read(),True,Reads the next byte of data from this input stream.,"
+
+read
+public int read()
+         throws IOException
+Reads the next byte of data from this input stream. The value
+ byte is returned as an int in the range
+ 0 to 255. If no byte is available
+ because the end of the stream has been reached, the value
+ -1 is returned. This method blocks until input data
+ is available, the end of the stream is detected, or an exception
+ is thrown.
+ 
+
+Overrides:
+read in class FilterInputStream
+Returns:
+the next byte of data, or -1 if the end of the
+          stream is reached.
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+FilterInputStream.in
+
+
+"
+1,CipherInputStream,3,int read(byte[] b),True,Reads up to b.length bytes of data from this input stream into an array of bytes.,"
+
+read
+public int read(byte[] b)
+         throws IOException
+Reads up to b.length bytes of data from this input
+ stream into an array of bytes.
+ 
+ The read method of InputStream calls
+ the read method of three arguments with the arguments
+ b, 0, and b.length.
+
+Overrides:
+read in class FilterInputStream
+Parameters:
+b - the buffer into which the data is read.
+Returns:
+the total number of bytes read into the buffer, or
+             -1 is there is no more data because the end of
+             the stream has been reached.
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+InputStream.read(byte[], int, int)
+
+
+"
+1,CipherInputStream,4,"int read(byte[] b, int off, int len)",True,Reads up to len bytes of data from this input stream into an array of bytes.,"
+
+read
+public int read(byte[] b,
+                int off,
+                int len)
+         throws IOException
+Reads up to len bytes of data from this input stream
+ into an array of bytes. This method blocks until some input is
+ available. If the first argument is null, up to
+ len bytes are read and discarded.
+
+Overrides:
+read in class FilterInputStream
+Parameters:
+b - the buffer into which the data is read.
+off - the start offset in the destination array
+                   buf
+len - the maximum number of bytes read.
+Returns:
+the total number of bytes read into the buffer, or
+             -1 if there is no more data because the end of
+             the stream has been reached.
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+InputStream.read()
+
+
+"
+1,CipherInputStream,5,void close(),True,Closes this input stream and releases any system resources associated with the stream.,"
+
+close
+public void close()
+           throws IOException
+Closes this input stream and releases any system resources
+ associated with the stream.
+ 
+ The close method of CipherInputStream
+ calls the close method of its underlying input
+ stream.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Overrides:
+close in class FilterInputStream
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+FilterInputStream.in
+
+
+"
+2,CipherOutputStream,1,"CipherOutputStream(OutputStream out, Cipher cipher)",False,,NULL
+2,CipherOutputStream,2,void write(int b),True,Writes the specified byte to this output stream.,"
+
+write
+public void write(int b)
+           throws IOException
+Writes the specified byte to this output stream.
+
+Overrides:
+write in class FilterOutputStream
+Parameters:
+b - the byte.
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+
+
+"
+2,CipherOutputStream,3,void write(byte[] b),True,Writes b.length bytes from the specified byte array to this output stream.,"
+
+write
+public void write(byte[] b)
+           throws IOException
+Writes b.length bytes from the specified byte array
+ to this output stream.
+ 
+ The write method of
+ CipherOutputStream calls the write
+ method of three arguments with the three arguments
+ b, 0, and b.length.
+
+Overrides:
+write in class FilterOutputStream
+Parameters:
+b - the data.
+Throws:
+NullPointerException - if b is null.
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+write(byte[], int, int)
+
+
+"
+2,CipherOutputStream,4,"void write(byte[] b, int off, int len)",True,Writes len bytes from the specified byte array starting at offset off to this output stream.,"
+
+write
+public void write(byte[] b,
+                  int off,
+                  int len)
+           throws IOException
+Writes len bytes from the specified byte array
+ starting at offset off to this output stream.
+
+Overrides:
+write in class FilterOutputStream
+Parameters:
+b - the data.
+off - the start offset in the data.
+len - the number of bytes to write.
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+FilterOutputStream.write(int)
+
+
+"
+2,CipherOutputStream,5,void flush(),True,Flushes this output stream by forcing any buffered output bytes that have already been processed by the encapsulated cipher object to be written out.,"
+
+flush
+public void flush()
+           throws IOException
+Flushes this output stream by forcing any buffered output bytes
+ that have already been processed by the encapsulated cipher object
+ to be written out.
+
+ Any bytes buffered by the encapsulated cipher
+ and waiting to be processed by it will not be written out. For example,
+ if the encapsulated cipher is a block cipher, and the total number of
+ bytes written using one of the write methods is less than
+ the cipher's block size, no bytes will be written out.
+
+Specified by:
+flush in interface Flushable
+Overrides:
+flush in class FilterOutputStream
+Throws:
+IOException - if an I/O error occurs.
+Since:
+JCE1.2
+See Also:
+FilterOutputStream.out
+
+
+"
+3,CipherSpi,1,int getOutputSize(int inputLen),False,,NULL
+3,CipherSpi,2,"void init(int opmode, Key key, SecureRandom srand)",False,,NULL
+3,CipherSpi,3,"byte[] update(byte[] in, int inOff, int len)",False,,NULL
+3,CipherSpi,4,"byte[] doFinal(byte[] in, int inOff, int len)",False,,NULL
+3,CipherSpi,5,"void setParameter(String param, Object value)",False,,NULL
+4,EncryptedPrivateKeyInfo,1,EncryptedPrivateKeyInfo(byte[] encoded),False,,NULL
+4,EncryptedPrivateKeyInfo,2,byte[] getEncoded(),True,Returns the ASN.1 encoding of this object.,"
+
+getEncoded
+public byte[] getEncoded()
+                  throws IOException
+Returns the ASN.1 encoding of this object.
+
+Returns:
+the ASN.1 encoding. Returns a new array
+ each time this method is called.
+Throws:
+IOException - if error occurs when constructing its
+ ASN.1 encoding.
+
+
+"
+4,EncryptedPrivateKeyInfo,3,String getAlgName(),True,Returns the encryption algorithm.,"
+
+getAlgName
+public String getAlgName()
+Returns the encryption algorithm.
+ Note: Standard name is returned instead of the specified one
+ in the constructor when such mapping is available.
+ See Appendix A in the
+ 
+ Java Cryptography Architecture Reference Guide
+ for information about standard Cipher algorithm names.
+
+Returns:
+the encryption algorithm name.
+
+
+"
+4,EncryptedPrivateKeyInfo,4,String getProviderName(),False,,NULL
+4,EncryptedPrivateKeyInfo,5,String getKeySpec(),False,,NULL
+5,ExemptionMechanism,1,void setKey(Key key),False,,NULL
+5,ExemptionMechanism,2,Key getKey(),False,,NULL
+5,ExemptionMechanism,3,void setExemptionPolicy(ExemptionPolicy policy),False,,NULL
+5,ExemptionMechanism,4,ExemptionPolicy getExemptionPolicy(),False,,NULL
+5,ExemptionMechanism,5,void setExemptionParameters(ExemptionParameters parameters),False,,NULL
+5,ExemptionMechanism,6,ExemptionParameters getExemptionParameters(),False,,NULL
+5,ExemptionMechanism,7,void setExemptionKey(Key key),False,,NULL
+5,ExemptionMechanism,8,Key getExemptionKey(),False,,NULL
+5,ExemptionMechanism,9,void setExemptionKeySpec(KeySpec keySpec),False,,NULL
+5,ExemptionMechanism,10,KeySpec getExemptionKeySpec(),False,,NULL
+5,ExemptionMechanism,11,void setExemptionKeyFactory(KeyFactory keyFactory),False,,NULL
+5,ExemptionMechanism,12,KeyFactory getExemptionKeyFactory(),False,,NULL
+5,ExemptionMechanism,13,void setExemptionSecureRandom(SecureRandom secureRandom),False,,NULL
+5,ExemptionMechanism,14,SecureRandom getExemptionSecureRandom(),False,,NULL
+5,ExemptionMechanism,15,void setExemptionCipher(Cipher cipher),False,,NULL
+5,ExemptionMechanism,16,Cipher getExemptionCipher(),False,,NULL
+5,ExemptionMechanism,17,void setExemptionMac(Mac mac),False,,NULL
+5,ExemptionMechanism,18,Mac getExemptionMac(),False,,NULL
+5,ExemptionMechanism,19,void setExemptionMacSpi(MacSpi macSpi),False,,NULL
+5,ExemptionMechanism,20,MacSpi getExemptionMacSpi(),False,,NULL
+5,ExemptionMechanism,21,void setExemptionMacSpiProvider(Provider provider),False,,NULL
+5,ExemptionMechanism,22,Provider getExemptionMacSpiProvider(),False,,NULL
+5,ExemptionMechanism,23,void setExemptionMacSpiAlgorithm(String algorithm),False,,NULL
+5,ExemptionMechanism,24,String getExemptionMacSpiAlgorithm(),False,,NULL
+5,ExemptionMechanism,25,void setExemptionMacSpiProviderAlgorithm(String algorithm),False,,NULL
+5,ExemptionMechanism,26,String getExemptionMacSpiProviderAlgorithm(),False,,NULL
+5,ExemptionMechanism,27,void setExemptionMacSpiProviderAlgorithmParameters(AlgorithmParameters parameters),False,,NULL
+5,ExemptionMechanism,28,AlgorithmParameters getExemptionMacSpiProviderAlgorithmParameters(),False,,NULL
+5,ExemptionMechanism,29,void setExemptionMacSpiProviderAlgorithmParametersSpec(AlgorithmParameterSpec spec),False,,NULL
+5,ExemptionMechanism,30,AlgorithmParameterSpec getExemptionMacSpiProviderAlgorithmParametersSpec(),False,,NULL
+5,ExemptionMechanism,31,void setExemptionMacSpiProviderAlgorithmParametersSpecAlgorithm(String algorithm),False,,NULL
+5,ExemptionMechanism,32,String getExemptionMacSpiProviderAlgorithmParametersSpecAlgorithm(),False,,NULL
+5,ExemptionMechanism,33,void setExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParameters(AlgorithmParameters parameters),False,,NULL
+5,ExemptionMechanism,34,AlgorithmParameters getExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParameters(),False,,NULL
+5,ExemptionMechanism,35,void setExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParametersSpec(AlgorithmParameterSpec spec),False,,NULL
+5,ExemptionMechanism,36,AlgorithmParameterSpec getExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParametersSpec(),False,,NULL
+5,ExemptionMechanism,37,void setExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParametersSpecAlgorithm(String algorithm),False,,NULL
+5,ExemptionMechanism,38,String getExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParametersSpecAlgorithm(),False,,NULL
+5,ExemptionMechanism,39,void setExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParametersSpecAlgorithmParameters(AlgorithmParameters parameters),False,,NULL
+5,ExemptionMechanism,40,AlgorithmParameters getExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParametersSpecAlgorithmParameters(),False,,NULL
+5,ExemptionMechanism,41,void setExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParametersSpecAlgorithmParametersSpec(AlgorithmParameterSpec spec),False,,NULL
+5,ExemptionMechanism,42,AlgorithmParameterSpec getExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParametersSpecAlgorithmParametersSpec(),False,,NULL
+5,ExemptionMechanism,43,void setExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParametersSpecAlgorithmParametersSpecAlgorithm(String algorithm),False,,NULL
+5,ExemptionMechanism,44,String getExemptionMacSpiProviderAlgorithmParametersSpecAlgorithmParametersSpecAlgorithmParametersSpecAlgorithm(),False,,NULL
+6,ExemptionMechanismSpi,1,boolean isExempted(PublicKey key),False,,NULL
+6,ExemptionMechanismSpi,2,boolean isExempted(PrivateKey key),False,,NULL
+6,ExemptionMechanismSpi,3,boolean isExempted(KeyPair keyPair),False,,NULL
+6,ExemptionMechanismSpi,4,boolean isExempted(Certificate cert),False,,NULL
+6,ExemptionMechanismSpi,5,boolean isExempted(Key key),False,,NULL
+7,KeyAgreement,1,KeyAgreement,False,,NULL
+7,KeyAgreement,2,"void doPhase(byte[] input, int offset, int len)",False,,NULL
+7,KeyAgreement,3,SecretKey getSecretKey(),False,,NULL
+7,KeyAgreement,4,"void setParameter(String param, Object value)",False,,NULL
+7,KeyAgreement,5,void generateSecret(),False,,NULL
+8,KeyAgreementSpi,1,init(Key key),False,,NULL
+8,KeyAgreementSpi,2,"doPhase(byte[] input, int offSet, int len)",False,,NULL
+8,KeyAgreementSpi,3,generateSecret(),False,,NULL
+8,KeyAgreementSpi,4,getAgreedValue(),False,,NULL
+8,KeyAgreementSpi,5,getLocalPublic(),False,,NULL
+8,KeyAgreementSpi,6,getRemotePublic(),False,,NULL
+8,KeyAgreementSpi,7,getAlgorithmParameters(),False,,NULL
+8,KeyAgreementSpi,8,getAlgorithm(),False,,NULL
+8,KeyAgreementSpi,9,getFormat(),False,,NULL
+8,KeyAgreementSpi,10,getKeySize(),False,,NULL
+8,KeyAgreementSpi,11,getKey(),False,,NULL
+8,KeyAgreementSpi,12,getOutputSize(int len),False,,NULL
+8,KeyAgreementSpi,13,getProvider(),False,,NULL
+8,KeyAgreementSpi,14,getSpi(),False,,NULL
+8,KeyAgreementSpi,15,getTransformation(),False,,NULL
+8,KeyAgreementSpi,16,"init(Key key, SecureRandom random)",False,,NULL
+8,KeyAgreementSpi,17,setParameter(String params),False,,NULL
+8,KeyAgreementSpi,18,setParameter(AlgorithmParameterSpec params),False,,NULL
+8,KeyAgreementSpi,19,setProvider(Provider provider),False,,NULL
+8,KeyAgreementSpi,20,setProvider(String provider),False,,NULL
+8,KeyAgreementSpi,21,"setProvider(String provider, Provider.Context ctx)",False,,NULL
+8,KeyAgreementSpi,22,"setProvider(Provider provider, Provider.Context ctx)",False,,NULL
+8,KeyAgreementSpi,23,setSecureRandom(SecureRandom random),False,,NULL
+8,KeyAgreementSpi,24,setTransformation(String transformation),False,,NULL
+8,KeyAgreementSpi,25,"setTransformation(String transformation, AlgorithmParameterSpec params)",False,,NULL
+8,KeyAgreementSpi,26,"setTransformation(String transformation, SecureRandom random)",False,,NULL
+8,KeyAgreementSpi,27,"setTransformation(String transformation, SecureRandom random, AlgorithmParameterSpec params)",False,,NULL
+8,KeyAgreementSpi,28,"setTransformation(String transformation, AlgorithmParameterSpec params, SecureRandom random)",False,,NULL
+8,KeyAgreementSpi,29,"setTransformation(String transformation, AlgorithmParameterSpec params, SecureRandom random, Provider provider)",False,,NULL
+8,KeyAgreementSpi,30,"setTransformation(String transformation, SecureRandom random, Provider provider)",False,,NULL
+8,KeyAgreementSpi,31,"setTransformation(String transformation, Provider provider)",False,,NULL
+8,KeyAgreementSpi,32,"setTransformation(String transformation, Provider provider, Provider.Context ctx)",False,,NULL
+8,KeyAgreementSpi,33,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random)",False,,NULL
+8,KeyAgreementSpi,34,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params)",False,,NULL
+8,KeyAgreementSpi,35,"setTransformation(String transformation, Provider provider, Provider.Context ctx, AlgorithmParameterSpec params)",False,,NULL
+8,KeyAgreementSpi,36,"setTransformation(String transformation, Provider provider, Provider.Context ctx, AlgorithmParameterSpec params, SecureRandom random)",False,,NULL
+8,KeyAgreementSpi,37,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params)",False,,NULL
+8,KeyAgreementSpi,38,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params, SecureRandom secureRandom)",False,,NULL
+8,KeyAgreementSpi,39,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params, SecureRandom secureRandom, AlgorithmParameterSpec algorithmParameterSpec)",False,,NULL
+8,KeyAgreementSpi,40,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params, SecureRandom secureRandom, AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom1)",False,,NULL
+8,KeyAgreementSpi,41,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params, SecureRandom secureRandom, AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom1, AlgorithmParameterSpec algorithmParameterSpec1)",False,,NULL
+8,KeyAgreementSpi,42,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params, SecureRandom secureRandom, AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom1, AlgorithmParameterSpec algorithmParameterSpec1, SecureRandom secureRandom2)",False,,NULL
+8,KeyAgreementSpi,43,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params, SecureRandom secureRandom, AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom1, AlgorithmParameterSpec algorithmParameterSpec1, SecureRandom secureRandom2, AlgorithmParameterSpec algorithmParameterSpec2)",False,,NULL
+8,KeyAgreementSpi,44,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params, SecureRandom secureRandom, AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom1, AlgorithmParameterSpec algorithmParameterSpec1, SecureRandom secureRandom2, AlgorithmParameterSpec algorithmParameterSpec2, SecureRandom secureRandom3)",False,,NULL
+8,KeyAgreementSpi,45,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params, SecureRandom secureRandom, AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom1, AlgorithmParameterSpec algorithmParameterSpec1, SecureRandom secureRandom2, AlgorithmParameterSpec algorithmParameterSpec2, SecureRandom secureRandom3, AlgorithmParameterSpec algorithmParameterSpec3)",False,,NULL
+8,KeyAgreementSpi,46,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params, SecureRandom secureRandom, AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom1, AlgorithmParameterSpec algorithmParameterSpec1, SecureRandom secureRandom2, AlgorithmParameterSpec algorithmParameterSpec2, SecureRandom secureRandom3, AlgorithmParameterSpec algorithmParameterSpec3, SecureRandom secureRandom4)",False,,NULL
+8,KeyAgreementSpi,47,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params, SecureRandom secureRandom, AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom1, AlgorithmParameterSpec algorithmParameterSpec1, SecureRandom secureRandom2, AlgorithmParameterSpec algorithmParameterSpec2, SecureRandom secureRandom3, AlgorithmParameterSpec algorithmParameterSpec3, SecureRandom secureRandom4, AlgorithmParameterSpec algorithmParameterSpec4)",False,,NULL
+8,KeyAgreementSpi,48,"setTransformation(String transformation, Provider provider, Provider.Context ctx, SecureRandom random, AlgorithmParameterSpec params, SecureRandom secureRandom, AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom1, AlgorithmParameterSpec algorithmParameterSpec1, SecureRandom secureRandom2, AlgorithmParameterSpec algorithmParameterSpec2, SecureRandom secureRandom3, AlgorithmParameterSpec algorithmParameterSpec3, SecureRandom secureRandom4, AlgorithmParameterSpec algorithmParameterSpec4, SecureRandom secureRandom5)",False,,NULL
+9,KeyGenerator,1,KeyGenerator(),False,,NULL
+9,KeyGenerator,2,"init(int keysize, SecureRandom random)",False,,NULL
+9,KeyGenerator,3,"init(AlgorithmParameterSpec params, SecureRandom random)",False,,NULL
+9,KeyGenerator,4,generateKey(),False,,NULL
+9,KeyGenerator,5,getAlgorithm(),False,,NULL
+10,KeyGeneratorSpi,1,KeyGeneratorSpi(),False,,NULL
+10,KeyGeneratorSpi,2,init(SecureRandom random),False,,NULL
+10,KeyGeneratorSpi,3,"init(AlgorithmParameterSpec params, SecureRandom random)",False,,NULL
+10,KeyGeneratorSpi,4,generateKey(),False,,NULL
+10,KeyGeneratorSpi,5,"engineInit(int keysize, SecureRandom random)",False,,NULL
+11,Mac,1,Mac getInstance(String algorithm),True,Returns a Mac object that implements the specified MAC algorithm.,"
+
+getInstance
+public static final Mac getInstance(String algorithm)
+                             throws NoSuchAlgorithmException
+Returns a Mac object that implements the
+ specified MAC algorithm.
+
+  This method traverses the list of registered security Providers,
+ starting with the most preferred Provider.
+ A new Mac object encapsulating the
+ MacSpi implementation from the first
+ Provider that supports the specified algorithm is returned.
+
+  Note that the list of registered providers may be retrieved via
+ the Security.getProviders() method.
+
+Parameters:
+algorithm - the standard name of the requested MAC algorithm.
+ See the Mac section in the 
+ Java Cryptography Architecture Standard Algorithm Name Documentation
+ for information about standard algorithm names.
+Returns:
+the new Mac object.
+Throws:
+NoSuchAlgorithmException - if no Provider supports a
+          MacSpi implementation for the
+          specified algorithm.
+See Also:
+Provider
+
+
+"
+11,Mac,2,void init(Key key),True,Initializes this Mac object with the given key.,"
+
+init
+public final void init(Key key)
+                throws InvalidKeyException
+Initializes this Mac object with the given key.
+
+Parameters:
+key - the key.
+Throws:
+InvalidKeyException - if the given key is inappropriate for
+ initializing this MAC.
+
+
+"
+11,Mac,3,void update(byte[] input),True,Processes the given array of bytes.,"
+
+update
+public final void update(byte[] input)
+                  throws IllegalStateException
+Processes the given array of bytes.
+
+Parameters:
+input - the array of bytes to be processed.
+Throws:
+IllegalStateException - if this Mac has not been
+ initialized.
+
+
+"
+11,Mac,4,byte[] doFinal(),True,Finishes the MAC operation.,"
+
+doFinal
+public final byte[] doFinal()
+                     throws IllegalStateException
+Finishes the MAC operation.
+
+ A call to this method resets this Mac object to the
+ state it was in when previously initialized via a call to
+ init(Key) or
+ init(Key, AlgorithmParameterSpec).
+ That is, the object is reset and available to generate another MAC from
+ the same key, if desired, via new calls to update and
+ doFinal.
+ (In order to reuse this Mac object with a different key,
+ it must be reinitialized via a call to init(Key) or
+ init(Key, AlgorithmParameterSpec).
+
+Returns:
+the MAC result.
+Throws:
+IllegalStateException - if this Mac has not been
+ initialized.
+
+
+"
+11,Mac,5,void reset(),True,Resets this Mac object.,"
+
+reset
+public final void reset()
+Resets this Mac object.
+
+ A call to this method resets this Mac object to the
+ state it was in when previously initialized via a call to
+ init(Key) or
+ init(Key, AlgorithmParameterSpec).
+ That is, the object is reset and available to generate another MAC from
+ the same key, if desired, via new calls to update and
+ doFinal.
+ (In order to reuse this Mac object with a different key,
+ it must be reinitialized via a call to init(Key) or
+ init(Key, AlgorithmParameterSpec).
+
+"
+12,MacSpi,1,void init(Key key),False,,NULL
+12,MacSpi,2,void update(byte input),False,,NULL
+12,MacSpi,3,"void update(byte[] input, int offset, int len)",False,,NULL
+12,MacSpi,4,byte[] doFinal(),False,,NULL
+12,MacSpi,5,void reset(),False,,NULL
+13,NullCipher,1,javax.crypto.NullCipher.getInstance(String algorithm),False,,NULL
+13,NullCipher,2,"javax.crypto.NullCipher.init(int opmode, Key key)",False,,NULL
+13,NullCipher,3,javax.crypto.NullCipher.doFinal(byte[] input),False,,NULL
+13,NullCipher,4,javax.crypto.NullCipher.getBlockSize(),False,,NULL
+13,NullCipher,5,javax.crypto.NullCipher.getOutputSize(int len),False,,NULL
+14,SealedObject,1,"SealedObject(Serializable obj, Cipher cipher)",False,,NULL
+14,SealedObject,2,Object getObject(Cipher cipher),True,Retrieves the original (encapsulated) object.,"
+
+getObject
+public final Object getObject(Cipher c)
+                       throws IOException,
+                              ClassNotFoundException,
+                              IllegalBlockSizeException,
+                              BadPaddingException
+Retrieves the original (encapsulated) object.
+
+ The encapsulated object is unsealed (using the given Cipher,
+ assuming that the Cipher is already properly initialized) and
+ de-serialized, before it is returned.
+
+Parameters:
+c - the cipher used to unseal the object
+Returns:
+the original object.
+Throws:
+NullPointerException - if the given cipher is null.
+IOException - if an error occurs during de-serialiazation
+ClassNotFoundException - if an error occurs during
+ de-serialiazation
+IllegalBlockSizeException - if the given cipher is a block
+ cipher, no padding has been requested, and the total input length is
+ not a multiple of the cipher's block size
+BadPaddingException - if the given cipher has been
+ initialized for decryption, and padding has been specified, but
+ the input data does not have proper expected padding bytes
+
+
+"
+14,SealedObject,3,byte[] getAlgorithmParameters(),False,,NULL
+14,SealedObject,4,byte[] getSealedObject(),False,,NULL
+14,SealedObject,5,byte[] getSealedData(),False,,NULL
+14,SealedObject,6,byte[] getSealedForm(),False,,NULL
+14,SealedObject,7,"byte[] getSealedForm(int offset, int length)",False,,NULL
+14,SealedObject,8,int getSealedLength(),False,,NULL
+14,SealedObject,9,int getSealedOffset(),False,,NULL
+14,SealedObject,10,"int getSealedLength(int offset, int length)",False,,NULL
+14,SealedObject,11,"int getSealedOffset(int offset, int length)",False,,NULL
+14,SealedObject,12,int getSealedLength(int offset),False,,NULL
+14,SealedObject,13,int getSealedOffset(int offset),False,,NULL
+14,SealedObject,14,"int getSealedLength(int offset, int length)",False,,NULL
+14,SealedObject,15,"int getSealedOffset(int offset, int length)",False,,NULL
+14,SealedObject,16,int getSealedLength(int offset),False,,NULL
+14,SealedObject,17,int getSealedOffset(int offset),False,,NULL
+14,SealedObject,18,"int getSealedLength(int offset, int length)",False,,NULL
+14,SealedObject,19,"int getSealedOffset(int offset, int length)",False,,NULL
+14,SealedObject,20,int getSealedLength(int offset),False,,NULL
+14,SealedObject,21,int getSealedOffset(int offset),False,,NULL
+14,SealedObject,22,"int getSealedLength(int offset, int length)",False,,NULL
+14,SealedObject,23,"int getSealedOffset(int offset, int length)",False,,NULL
+14,SealedObject,24,int getSealedLength(int offset),False,,NULL
+14,SealedObject,25,int getSealedOffset(int offset),False,,NULL
+15,SecretKeyFactory,1,SecretKeyFactory getInstance(String algorithm),True,Returns a SecretKeyFactory object that converts secret keys of the specified algorithm.,"
+
+getInstance
+public static final SecretKeyFactory getInstance(String algorithm)
+                                          throws NoSuchAlgorithmException
+Returns a SecretKeyFactory object that converts
+ secret keys of the specified algorithm.
+
+  This method traverses the list of registered security Providers,
+ starting with the most preferred Provider.
+ A new SecretKeyFactory object encapsulating the
+ SecretKeyFactorySpi implementation from the first
+ Provider that supports the specified algorithm is returned.
+
+  Note that the list of registered providers may be retrieved via
+ the Security.getProviders() method.
+
+Parameters:
+algorithm - the standard name of the requested secret-key
+ algorithm.
+ See the SecretKeyFactory section in the 
+ Java Cryptography Architecture Standard Algorithm Name Documentation
+ for information about standard algorithm names.
+Returns:
+the new SecretKeyFactory object.
+Throws:
+NullPointerException - if the specified algorithm
+          is null.
+NoSuchAlgorithmException - if no Provider supports a
+          SecretKeyFactorySpi implementation for the
+          specified algorithm.
+See Also:
+Provider
+
+
+"
+15,SecretKeyFactory,2,SecretKey generateSecret(KeySpec keySpec),True,Generates a SecretKey object from the provided key specification (key material).,"
+
+generateSecret
+public final SecretKey generateSecret(KeySpec keySpec)
+                               throws InvalidKeySpecException
+Generates a SecretKey object from the provided key
+ specification (key material).
+
+Parameters:
+keySpec - the specification (key material) of the secret key
+Returns:
+the secret key
+Throws:
+InvalidKeySpecException - if the given key specification
+ is inappropriate for this secret-key factory to produce a secret key.
+
+
+"
+15,SecretKeyFactory,3,"KeySpec getKeySpec(SecretKey key, Class<? extends KeySpec> keySpec)",False,,NULL
+15,SecretKeyFactory,4,SecretKey translateKey(SecretKey key),True,"Translates a key object, whose provider may be unknown or potentially untrusted, into a corresponding key object of this secret-key factory.","
+
+translateKey
+public final SecretKey translateKey(SecretKey key)
+                             throws InvalidKeyException
+Translates a key object, whose provider may be unknown or potentially
+ untrusted, into a corresponding key object of this secret-key factory.
+
+Parameters:
+key - the key whose provider is unknown or untrusted
+Returns:
+the translated key
+Throws:
+InvalidKeyException - if the given key cannot be processed
+ by this secret-key factory.
+
+
+"
+15,SecretKeyFactory,5,"KeyFactory getInstance(String algorithm, Provider provider)",False,,NULL
+16,SecretKeyFactorySpi,1,SecretKeyFactorySpi(),False,,NULL
+16,SecretKeyFactorySpi,2,"KeyFactorySpi getInstance(String algorithm, String provider)",False,,NULL
+16,SecretKeyFactorySpi,3,KeyFactorySpi getInstance(String algorithm),False,,NULL
+16,SecretKeyFactorySpi,4,"KeyFactorySpi getInstance(String algorithm, Provider provider)",False,,NULL
+16,SecretKeyFactorySpi,5,"SecretKeyFactorySpi getInstance(String algorithm, String provider)",False,,NULL

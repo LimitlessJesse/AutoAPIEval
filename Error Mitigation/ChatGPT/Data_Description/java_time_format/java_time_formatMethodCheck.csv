@@ -1,0 +1,200 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,DateTimeFormatter,1,DateTimeFormatter ofPattern(String pattern),True,,"
+
+ofPattern
+public static DateTimeFormatter ofPattern(String pattern)
+Creates a formatter using the specified pattern.
+ 
+ This method will create a formatter based on a simple
+ pattern of letters and symbols
+ as described in the class documentation.
+ For example, d MMM uuuu will format 2011-12-03 as '3 Dec 2011'.
+ 
+ The formatter will use the default FORMAT locale.
+ This can be changed using withLocale(Locale) on the returned formatter
+ Alternatively use the ofPattern(String, Locale) variant of this method.
+ 
+ The returned formatter has no override chronology or zone.
+ It uses SMART resolver style.
+
+Parameters:
+pattern - the pattern to use, not null
+Returns:
+the formatter based on the pattern, not null
+Throws:
+IllegalArgumentException - if the pattern is invalid
+See Also:
+DateTimeFormatterBuilder.appendPattern(String)
+
+
+"
+0,DateTimeFormatter,2,String format(TemporalAccessor temporal),True,,"
+
+format
+public String format(TemporalAccessor temporal)
+Formats a date-time object using this formatter.
+ 
+ This formats the date-time to a String using the rules of the formatter.
+
+Parameters:
+temporal - the temporal object to format, not null
+Returns:
+the formatted string, not null
+Throws:
+DateTimeException - if an error occurs during formatting
+
+
+"
+0,DateTimeFormatter,3,TemporalAccessor parse(CharSequence text),True,,"
+
+parse
+public TemporalAccessor parse(CharSequence text)
+Fully parses the text producing a temporal object.
+ 
+ This parses the entire text producing a temporal object.
+ It is typically more useful to use parse(CharSequence, TemporalQuery).
+ The result of this method is TemporalAccessor which has been resolved,
+ applying basic validation checks to help ensure a valid date-time.
+ 
+ If the parse completes without reading the entire length of the text,
+ or a problem occurs during parsing or merging, then an exception is thrown.
+
+Parameters:
+text - the text to parse, not null
+Returns:
+the parsed temporal object, not null
+Throws:
+DateTimeParseException - if unable to parse the requested result
+
+
+"
+0,DateTimeFormatter,4,"TemporalAccessor parse(CharSequence text, ParsePosition position)",True,,"
+
+parse
+public TemporalAccessor parse(CharSequence text,
+                              ParsePosition position)
+Parses the text using this formatter, providing control over the text position.
+ 
+ This parses the text without requiring the parse to start from the beginning
+ of the string or finish at the end.
+ The result of this method is TemporalAccessor which has been resolved,
+ applying basic validation checks to help ensure a valid date-time.
+ 
+ The text will be parsed from the specified start ParsePosition.
+ The entire length of the text does not have to be parsed, the ParsePosition
+ will be updated with the index at the end of parsing.
+ 
+ The operation of this method is slightly different to similar methods using
+ ParsePosition on java.text.Format. That class will return
+ errors using the error index on the ParsePosition. By contrast, this
+ method will throw a DateTimeParseException if an error occurs, with
+ the exception containing the error index.
+ This change in behavior is necessary due to the increased complexity of
+ parsing and resolving dates/times in this API.
+ 
+ If the formatter parses the same field more than once with different values,
+ the result will be an error.
+
+Parameters:
+text - the text to parse, not null
+position - the position to parse from, updated with length parsed
+  and the index of any error, not null
+Returns:
+the parsed temporal object, not null
+Throws:
+DateTimeParseException - if unable to parse the requested result
+IndexOutOfBoundsException - if the position is invalid
+
+
+"
+0,DateTimeFormatter,5,"TemporalAccessor parseBest(CharSequence text, TemporalQuery<?>... queries)",True,,"
+
+parseBest
+public TemporalAccessor parseBest(CharSequence text,
+                                  TemporalQuery<?>... queries)
+Fully parses the text producing an object of one of the specified types.
+ 
+ This parse method is convenient for use when the parser can handle optional elements.
+ For example, a pattern of 'uuuu-MM-dd HH.mm[ VV]' can be fully parsed to a ZonedDateTime,
+ or partially parsed to a LocalDateTime.
+ The queries must be specified in order, starting from the best matching full-parse option
+ and ending with the worst matching minimal parse option.
+ The query is typically a method reference to a from(TemporalAccessor) method.
+ 
+ The result is associated with the first type that successfully parses.
+ Normally, applications will use instanceof to check the result.
+ For example:
+ 
+  TemporalAccessor dt = parser.parseBest(str, ZonedDateTime::from, LocalDateTime::from);
+  if (dt instanceof ZonedDateTime) {
+   ...
+  } else {
+   ...
+  }
+ 
+ If the parse completes without reading the entire length of the text,
+ or a problem occurs during parsing or merging, then an exception is thrown.
+
+Parameters:
+text - the text to parse, not null
+queries - the queries defining the types to attempt to parse to,
+  must implement TemporalAccessor, not null
+Returns:
+the parsed date-time, not null
+Throws:
+IllegalArgumentException - if less than 2 types are specified
+DateTimeParseException - if unable to parse the requested result
+
+
+"
+1,DateTimeFormatterBuilder,1,java.time.format.DateTimeFormatterBuilder appendLiteral(char literal),False,,NULL
+1,DateTimeFormatterBuilder,2,"java.time.format.DateTimeFormatterBuilder appendValue(TemporalField field, int width)",False,,NULL
+1,DateTimeFormatterBuilder,3,java.time.format.DateTimeFormatterBuilder parseCaseSensitive(),False,,NULL
+1,DateTimeFormatterBuilder,4,java.time.format.DateTimeFormatterBuilder parseLenient(),False,,NULL
+1,DateTimeFormatterBuilder,5,java.time.format.DateTimeFormatterBuilder optionalStart(),False,,NULL
+2,DecimalStyle,1,char getDecimalSeparator(),True,,"
+
+getDecimalSeparator
+public char getDecimalSeparator()
+Gets the character that represents the decimal point.
+ 
+ The character used to represent a decimal point may vary by culture.
+ This method specifies the character to use.
+
+Returns:
+the character for the decimal point
+
+
+"
+2,DecimalStyle,2,char getDigit(),False,,NULL
+2,DecimalStyle,3,char getZeroDigit(),True,,"
+
+getZeroDigit
+public char getZeroDigit()
+Gets the character that represents zero.
+ 
+ The character used to represent digits may vary by culture.
+ This method specifies the zero character to use, which implies the characters for one to nine.
+
+Returns:
+the character for zero
+
+
+"
+2,DecimalStyle,4,DecimalStyle withDecimalSeparator(char decimalSeparator),True,,"
+
+withDecimalSeparator
+public DecimalStyle withDecimalSeparator(char decimalSeparator)
+Returns a copy of the info with a new character that represents the decimal point.
+ 
+ The character used to represent a decimal point may vary by culture.
+ This method specifies the character to use.
+
+Parameters:
+decimalSeparator - the character for the decimal point
+Returns:
+a copy with a new character that represents the decimal point, not null
+
+
+"
+2,DecimalStyle,5,DecimalStyle withDigit(char digit),False,,NULL

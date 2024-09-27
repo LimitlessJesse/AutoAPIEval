@@ -1,0 +1,157 @@
+Sample: 0 Endpoint_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.Endpoint;
+
+public class Main {
+    public static void main(String[] args) {
+        MyImplementor implementor = new MyImplementor();
+        Endpoint.publish("http://localhost:8080/HelloWorld", implementor);
+    }
+}
+
+class MyImplementor {
+    // your implementation code here
+}
+```  
+================================================================
+
+Sample: 1 Endpoint_3
+----------------------------------------------------------------
+`void stop()`: This method stops the endpoint if it is currently running.
+
+Code snippet:
+```java
+import javax.xml.ws.Endpoint;
+
+public class Main {
+    public static void main(String[] args) {
+        Endpoint endpoint = Endpoint.create(new MyService());
+        
+        // Start the endpoint
+        endpoint.publish("http://localhost:8080/myService");
+        
+        // Some operations
+        
+        // Stop the endpoint
+        endpoint.stop();
+        
+        System.out.println("Endpoint stopped");
+    }
+}
+
+class MyService {
+    // Implementation of the service
+}
+```
+================================================================
+
+Sample: 2 Endpoint_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.Endpoint;
+import java.util.concurrent.Executor;
+
+public class Main {
+    public static void main(String[] args) {
+        Endpoint endpoint = Endpoint.create(new MyService());
+        Executor executor = Executors.newFixedThreadPool(10);
+        endpoint.setExecutor(executor);
+        endpoint.publish("http://localhost:8080/myService");
+    }
+
+    static class MyService {
+        public String sayHello() {
+            return "Hello, World!";
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 Endpoint_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.Endpoint;
+
+public class Main {
+    public static void main(String[] args) {
+        Endpoint endpoint = Endpoint.create(new MyService());
+        System.out.println(endpoint.getBinding());
+    }
+}
+
+class MyService {
+    // Service implementation
+}
+```
+================================================================
+
+Sample: 4 RespectBindingFeature_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.RespectBindingFeature;
+
+public class Main {
+    public static void main(String[] args) {
+        RespectBindingFeature feature = new RespectBindingFeature();
+        System.out.println("Feature ID: " + feature.getID());
+    }
+}
+```
+================================================================
+
+Sample: 5 Service_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.Service;
+import javax.xml.namespace.QName;
+
+public class Main {
+    public static void main(String[] args) {
+        QName serviceName = Service.getServiceName();
+        System.out.println("Service Name: " + serviceName);
+    }
+}
+```
+================================================================
+
+Sample: 6 Service_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.Service;
+import javax.xml.ws.handler.HandlerResolver;
+
+public class Main {
+    public static void main(String[] args) {
+        Service service = new Service();
+        HandlerResolver handlerResolver = service.getHandlerResolver();
+        System.out.println(handlerResolver);
+    }
+}
+```
+================================================================
+
+Sample: 7 Service_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.ws.Service;
+import java.util.concurrent.Executor;
+
+public class Main {
+    public static void main(String[] args) {
+        Service service = Service.create(null);
+        Executor executor = service.getExecutor();
+        // Make use of the executor
+    }
+}
+```
+================================================================
+

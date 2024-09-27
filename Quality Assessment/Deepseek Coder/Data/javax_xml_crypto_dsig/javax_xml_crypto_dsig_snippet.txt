@@ -1,0 +1,108 @@
+Sample: 0 XMLSignatureFactory_1
+----------------------------------------------------------------
+
+@@ Instruction
+I want to learn how to use XMLSignatureFactory getInstance(String algorithm) from javax.xml.crypto.dsig.XMLSignatureFactory
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a code snippet that uses the `getInstance(String algorithm)` method from `javax.xml.crypto.dsig.XMLSignatureFactory`:
+
+```java
+import java.security.Key;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.Signature;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
+import javax.xml.crypto.MarshalException;
+import javax.xml.crypto.dsig.CanonicalizationMethod;
+import javax.xml.crypto.dsig.DigestMethod;
+import javax.xml.crypto.dsig.SignatureMethod;
+import javax.xml.crypto.dsig.XMLSignature;
+import javax.xml.crypto.dsig.XMLSignatureFactory;
+import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
+import javax.xml.crypto.dsig.keyinfo.KeyInfoGenerator;
+import javax.xml.crypto.dsig.keyinfo.X509Data;
+import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
+import javax.xml.crypto.dsig.spec.SignatureMethodSpec;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        // Generate a key pair
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(2048);
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        Key privateKey = keyPair.getPrivate();
+        Key publicKey = keyPair.getPublic();
+
+        // Create a signature
+        Signature signature = Signature.getInstance("SHA256withRSA");
+        signature.initSign(privateKey);
+
+        // Create a XMLSignatureFactory
+        XMLSignatureFactory xmlSignatureFactory = XMLSignatureFactory.getInstance("DOM");
+
+        // Create a SignatureMethod
+        SignatureMethod signatureMethod = xmlSignatureFactory.getSignatureMethod(new SignatureMethodSpec("RSA-SHA256"));
+
+        // Create a CanonicalizationMethod
+        CanonicalizationMethod canonicalizationMethod = xmlSignatureFactory.getCanonicalizationMethod(CanonicalizationMethod.ALGO_ID_C14N11_COMMENTS);
+
+        // Create a DigestMethod
+        DigestMethod digestMethod = xmlSignatureFactory.getDigestMethod(DigestMethod.ALGO_ID_SHA256);
+
+        // Create a KeyInfo
+        KeyInfoGenerator keyInfoGenerator = xmlSignatureFactory.getKeyInfoGenerator();
+        keyInfoGenerator.init(new X509Data(new X509EncodedKeySpec(publicKey.getEncoded())), new C14NMethodParameterSpec(canonicalizationMethod.getAlgorithm()));
+        KeyInfo keyInfo = keyInfoGenerator.generateKeyInfo();
+
+        // Create a XMLSignature
+        XMLSignature xmlSignature = xmlSignatureFactory.newXMLSignature(keyInfo, new SignatureMethod[]{signatureMethod}, new CanonicalizationMethod[]{canonicalizationMethod}, new DigestMethod[]{digestMethod});
+
+        // Sign the XML
+        byte[] xmlBytes = "<xml>Your XML data here</xml>".getBytes();
+        signature.update(xmlBytes);
+        byte[] signatureValue = signature.sign();
+        xmlSignature.setSignatureValue(signatureValue);
+
+        // Print the XML signature
+        System.out.println(xmlSignature.toString());
+    }
+}
+```
+
+This code snippet generates a key pair, creates a signature, and then uses the `XMLSignatureFactory` to create a XML signature. The signature is then signed with the XML data. The XML signature is then printed to the console.
+
+Please replace `"<xml>Your XML data here</xml>"` with your actual XML data.
+
+Please note that this is a basic example and may not cover all use cases. You may need to adjust it according to your specific needs.
+
+Also, please make sure to handle exceptions properly in your production code. This example does not include exception handling for simplicity.
+
+This code uses the `javax.xml.crypto` package, which is part of
+================================================================
+

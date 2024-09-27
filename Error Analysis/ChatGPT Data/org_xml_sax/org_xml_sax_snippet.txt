@@ -1,0 +1,265 @@
+Sample: 0 HandlerBase_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.HandlerBase;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] ch = {'a', 'b', 'c', 'd', 'e', 'f'};
+        int start = 2;
+        int length = 3;
+
+        HandlerBase handler = new HandlerBase();
+        handler.characters(ch, start, length);
+    }
+}
+```
+================================================================
+
+Sample: 1 HandlerBase_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.AttributeList;
+import org.xml.sax.HandlerBase;
+
+public class Main extends HandlerBase {
+    public void startElement(String name, AttributeList atts) {
+        System.out.println("Start Element: " + name);
+        if (atts != null) {
+            for (int i = 0; i < atts.getLength(); i++) {
+                System.out.println("Attribute - Name: " + atts.getName(i) + ", Value: " + atts.getValue(i));
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+        Main handler = new Main();
+        
+        // Simulate calling the startElement method
+        AttributeList attributes = new AttributeList() {
+            @Override
+            public int getLength() {
+                return 2;
+            }
+
+            @Override
+            public String getName(int i) {
+                if (i == 0) {
+                    return "id";
+                } else {
+                    return "value";
+                }
+            }
+
+            @Override
+            public String getType(int i) {
+                return null;
+            }
+
+            @Override
+            public String getType(String s) {
+                return null;
+            }
+
+            @Override
+            public String getValue(int i) {
+                if (i == 0) {
+                    return "123";
+                } else {
+                    return "example";
+                }
+            }
+
+            @Override
+            public String getValue(String s) {
+                return null;
+            }
+        };
+        
+        handler.startElement("element1", attributes);
+    }
+}
+```
+================================================================
+
+Sample: 2 HandlerBase_3
+----------------------------------------------------------------
+`void endElement(String name)`: This method notifies the end of an element.
+
+Code snippet:
+```java
+import org.xml.sax.HandlerBase;
+
+public class Main extends HandlerBase {
+    public static void main(String[] args) {
+        Main handler = new Main();
+        handler.endElement("element");
+    }
+
+    public void endElement(String name) {
+        System.out.println("End of element: " + name);
+    }
+}
+```
+================================================================
+
+Sample: 3 HandlerBase_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.HandlerBase;
+
+public class Main {
+    public static void main(String[] args) {
+        HandlerBase handler = new HandlerBase();
+        handler.processingInstruction("target", "data");
+    }
+}
+```
+================================================================
+
+Sample: 4 HandlerBase_5
+----------------------------------------------------------------
+`void setDocumentLocator(Locator locator)`: This method sets the locator that the parser will use for important events such as error reporting. 
+
+Code snippet:
+```java
+import org.xml.sax.Locator;
+import org.xml.sax.HandlerBase;
+
+public class Main extends HandlerBase {
+
+    public static void main(String[] args) {
+        Main handler = new Main();
+        Locator locator = new Locator() {
+            @Override
+            public String getPublicId() {
+                return null;
+            }
+
+            @Override
+            public String getSystemId() {
+                return null;
+            }
+
+            @Override
+            public int getLineNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getColumnNumber() {
+                return 0;
+            }
+        };
+        handler.setDocumentLocator(locator);
+    }
+
+    @Override
+    public void setDocumentLocator(Locator locator) {
+        super.setDocumentLocator(locator);
+        // Additional custom implementation can be added here
+    }
+}
+```
+================================================================
+
+Sample: 5 InputSource_1
+----------------------------------------------------------------
+`void setEncoding(String encoding)`: This method sets the character encoding for this input source.
+
+Code snippet:
+```java
+import org.xml.sax.InputSource;
+
+public class Main {
+    public static void main(String[] args) {
+        InputSource inputSource = new InputSource();
+        inputSource.setEncoding("UTF-8");
+        
+        System.out.println("Encoding set to: " + inputSource.getEncoding());
+    }
+}
+```
+================================================================
+
+Sample: 6 InputSource_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.InputSource;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        InputSource inputSource = new InputSource();
+        String xmlString = "<root><element>Test</element></root>";
+        InputStream byteStream = new ByteArrayInputStream(xmlString.getBytes());
+        
+        inputSource.setByteStream(byteStream);
+        
+        // Use the InputSource with the set byte stream
+    }
+}
+```
+================================================================
+
+Sample: 7 InputSource_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.InputSource;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        InputSource inputSource = new InputSource();
+        String xmlString = "<example>Hello World!</example>";
+        StringReader reader = new StringReader(xmlString);
+        
+        inputSource.setCharacterStream(reader);
+        
+        System.out.println("Character stream set successfully");
+    }
+}
+```
+================================================================
+
+Sample: 8 InputSource_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.InputSource;
+
+public class Main {
+    public static void main(String[] args) {
+        InputSource inputSource = new InputSource();
+        inputSource.setPublicId("sample-public-id");
+        
+        System.out.println("Public Id set: " + inputSource.getPublicId());
+    }
+}
+```
+================================================================
+
+Sample: 9 InputSource_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.InputSource;
+
+public class Main {
+    public static void main(String[] args) {
+        InputSource inputSource = new InputSource();
+        inputSource.setSystemId("http://example.com/data.xml");
+        System.out.println("System ID set to: " + inputSource.getSystemId());
+    }
+}
+```
+================================================================
+

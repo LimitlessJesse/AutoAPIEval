@@ -1,0 +1,525 @@
+Sample: 0 AttachmentPart_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.AttachmentPart;
+import javax.xml.soap.SOAPException;
+
+public class Main {
+    public static void main(String[] args) {
+        AttachmentPart attachmentPart = new AttachmentPart();
+        
+        try {
+            InputStream inputStream = attachmentPart.getBase64Content();
+            // Use the InputStream to read the Base64 encoded content of the AttachmentPart
+        } catch (SOAPException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 AttachmentPart_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.AttachmentPart;
+
+public class Main {
+    public static void main(String[] args) {
+        AttachmentPart attachment = new AttachmentPart();
+        attachment.setContentId("12345");
+        System.out.println("Content ID: " + attachment.getContentId());
+    }
+}
+```
+================================================================
+
+Sample: 2 AttachmentPart_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.AttachmentPart;
+
+public class Main {
+    public static void main(String[] args) {
+        AttachmentPart attachment = new AttachmentPart();
+        String contentType = attachment.getContentType();
+        System.out.println("Content-Type: " + contentType);
+    }
+}
+```
+================================================================
+
+Sample: 3 AttachmentPart_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.AttachmentPart;
+
+public class Main {
+    public static void main(String[] args) {
+        AttachmentPart attachment = new AttachmentPart();
+        attachment.setContentType("text/plain");
+    }
+}
+```
+================================================================
+
+Sample: 4 MessageFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MessageFactory factory = MessageFactory.newInstance();
+            SOAPMessage message = factory.createMessage();
+            System.out.println("SOAPMessage created successfully");
+        } catch (SOAPException e) {
+            System.err.println("Error creating SOAPMessage: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 MessageFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MessageFactory factory = MessageFactory.newInstance();
+            MimeHeaders headers = new MimeHeaders();
+            InputStream inputStream = new ByteArrayInputStream("Sample SOAP message".getBytes());
+            
+            SOAPMessage message = factory.createMessage(headers, inputStream);
+            
+            System.out.println("SOAP message created successfully");
+        } catch (Exception e) {
+            System.out.println("Error creating SOAP message: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 MimeHeader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.MimeHeader;
+
+public class Main {
+    public static void main(String[] args) {
+        MimeHeader mimeHeader = new MimeHeader("Content-Type", "text/xml");
+        String headerName = mimeHeader.getName();
+        System.out.println("Header Name: " + headerName);
+    }
+}
+```
+================================================================
+
+Sample: 7 MimeHeader_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.MimeHeader;
+
+public class Main {
+    public static void main(String[] args) {
+        MimeHeader mimeHeader = new MimeHeader("Content-Type", "text/xml");
+        String value = mimeHeader.getValue();
+        System.out.println("Header value: " + value);
+    }
+}
+```
+================================================================
+
+Sample: 8 MimeHeaders_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.MimeHeaders;
+
+public class Main {
+    public static void main(String[] args) {
+        MimeHeaders mimeHeaders = new MimeHeaders();
+        mimeHeaders.addHeader("Content-Type", "text/xml");
+    }
+}
+```
+================================================================
+
+Sample: 9 MimeHeaders_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.MimeHeader;
+import javax.xml.soap.MimeHeaders;
+import java.util.Iterator;
+
+public class Main {
+    public static void main(String[] args) {
+        MimeHeaders mimeHeaders = new MimeHeaders();
+        mimeHeaders.addHeader("Content-Type", "text/xml");
+        mimeHeaders.addHeader("SOAPAction", "http://www.example.com/Action");
+
+        Iterator<MimeHeader> iterator = mimeHeaders.getAllHeaders();
+        while (iterator.hasNext()) {
+            MimeHeader header = iterator.next();
+            System.out.println(header.getName() + ": " + header.getValue());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 MimeHeaders_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.MimeHeaders;
+
+public class Main {
+    public static void main(String[] args) {
+        MimeHeaders headers = new MimeHeaders();
+        headers.addHeader("Content-Type", "text/xml");
+        headers.addHeader("SOAPAction", "http://www.example.org/Action");
+        
+        System.out.println("Headers before removal: " + headers.toString());
+        
+        headers.removeAllHeaders();
+        
+        System.out.println("Headers after removal: " + headers.toString());
+    }
+}
+```
+================================================================
+
+Sample: 11 SAAJMetaFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MessageFactory messageFactory = newMessageFactory("SOAP 1.1");
+            System.out.println("MessageFactory created successfully");
+        } catch (SOAPException e) {
+            System.out.println("Error creating MessageFactory: " + e.getMessage());
+        }
+    }
+
+    protected static MessageFactory newMessageFactory(String protocol) throws SOAPException {
+        // Implement the logic to create MessageFactory based on the protocol
+        return MessageFactory.newInstance(protocol);
+    }
+}
+```
+================================================================
+
+Sample: 12 SOAPConnection_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.SOAPConnection;
+import javax.xml.soap.SOAPConnectionFactory;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+            
+            // Create a SOAPMessage object for the request
+            SOAPMessage request = null; // Initialize with your SOAPMessage
+            
+            // Specify where the message should be sent
+            Object to = "http://example.com/endpoint"; // URL endpoint
+            
+            // Call the SOAPMessage call method
+            SOAPMessage response = soapConnection.call(request, to);
+            
+            // Process the response SOAPMessage
+            // For example, you can extract information from the response
+            
+            // Close the connection
+            soapConnection.close();
+        } catch (SOAPException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 SOAPConnection_2
+----------------------------------------------------------------
+`void close()`: This method closes the SOAPConnection object.
+
+Code snippet:
+```java
+import javax.xml.soap.SOAPConnection;
+import javax.xml.soap.SOAPException;
+
+public class Main {
+    public static void main(String[] args) {
+        SOAPConnection connection = null;
+        
+        try {
+            // Code to create and initialize the SOAPConnection object
+            
+            connection.close();
+            System.out.println("SOAPConnection closed successfully");
+        } catch (SOAPException e) {
+            System.err.println("Error closing SOAPConnection: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 14 SOAPConnection_3
+----------------------------------------------------------------
+`SOAPMessage get(Object to)`: This method gets a message from a specific endpoint and blocks until it receives.
+
+Code snippet:
+```java
+import javax.xml.soap.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+
+            String endpointUrl = "http://example.com/soapEndpoint";
+            SOAPMessage soapResponse = soapConnection.get(endpointUrl);
+
+            soapConnection.close();
+
+            // Process the SOAP response
+            System.out.println("SOAP Response:");
+            soapResponse.writeTo(System.out);
+
+        } catch (Exception e) {
+            System.err.println("Error occurred while sending SOAP Request to Server");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 SOAPConnectionFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.SOAPConnection;
+import javax.xml.soap.SOAPConnectionFactory;
+import javax.xml.soap.SOAPException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+            System.out.println("SOAPConnection created successfully.");
+        } catch (SOAPException e) {
+            System.err.println("Error creating SOAPConnection: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 SOAPFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SOAPFactory soapFactory = SOAPFactory.newInstance();
+            Name name = soapFactory.createName("Envelope", "env", "http://www.w3.org/2003/05/soap-envelope");
+            SOAPElement soapElement = soapFactory.createElement(name);
+            System.out.println("Created SOAPElement: " + soapElement);
+        } catch (SOAPException e) {
+            System.err.println("Error creating SOAPElement: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 SOAPFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFactory;
+import javax.xml.soap.SOAPElement;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SOAPFactory soapFactory = SOAPFactory.newInstance();
+            SOAPElement element = soapFactory.createElement("exampleElement");
+            System.out.println("Created SOAPElement: " + element);
+        } catch (SOAPException e) {
+            System.err.println("Error creating SOAPElement: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 SOAPMessage_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a new SOAPMessage
+            MessageFactory factory = MessageFactory.newInstance();
+            SOAPMessage message = factory.createMessage();
+
+            // Get the SOAPPart from the SOAPMessage
+            SOAPPart soapPart = message.getSOAPPart();
+
+            // Print out the SOAPPart object
+            System.out.println("SOAPPart object: " + soapPart);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 19 SOAPMessage_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+
+public class Main {
+    public static void main(String[] args) {
+        SOAPMessage soapMessage = null; // Initialize SOAPMessage object
+        
+        try {
+            soapMessage.saveChanges();
+            System.out.println("Changes saved successfully.");
+        } catch (SOAPException e) {
+            System.err.println("Error saving changes: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 SOAPMessage_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SOAPMessage soapMessage = null; // Initialize your SOAPMessage object here
+            OutputStream outputStream = System.out; // Example output stream, you can use any other OutputStream
+            soapMessage.writeTo(outputStream);
+        } catch (SOAPException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 21 SOAPMessage_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a SOAP message
+            MessageFactory factory = MessageFactory.newInstance();
+            SOAPMessage message = factory.createMessage();
+
+            // Get the SOAP header from the SOAP message
+            SOAPHeader header = message.getSOAPHeader();
+
+            // Print out the SOAP header
+            System.out.println("SOAP Header: " + header);
+
+        } catch (SOAPException e) {
+            System.err.println("Error occurred while getting SOAP header: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 22 SOAPPart_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
+
+public class Main {
+    public static void main(String[] args) {
+        SOAPMessage soapMessage = null; // Initialize SOAPMessage object
+        SOAPPart soapPart = soapMessage.getSOAPPart(); // Get SOAPPart from SOAPMessage
+        soapPart.removeAllMimeHeaders(); // Remove all MimeHeader objects from SOAPPart
+    }
+}
+```
+================================================================
+
+Sample: 23 SOAPPart_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
+
+public class Main {
+    public static void main(String[] args) {
+        SOAPMessage soapMessage = null; // Initialize SOAPMessage object
+        SOAPPart soapPart = soapMessage.getSOAPPart(); // Get SOAPPart from SOAPMessage
+        
+        // Set the content id for the SOAPPart
+        soapPart.setContentId("12345");
+    }
+}
+```
+================================================================
+

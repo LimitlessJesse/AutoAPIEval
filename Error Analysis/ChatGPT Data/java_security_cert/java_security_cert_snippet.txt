@@ -1,0 +1,1210 @@
+Sample: 0 Certificate_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.Certificate;
+import java.security.interfaces.RSAPublicKey;
+import java.security.PublicKey;
+
+public class Main {
+    public static void main(String[] args) {
+        Certificate certificate = // get the certificate from somewhere
+        PublicKey publicKey = certificate.getPublicKey();
+        
+        if (publicKey instanceof RSAPublicKey) {
+            RSAPublicKey rsaPublicKey = (RSAPublicKey) publicKey;
+            System.out.println("RSA Public Key Modulus: " + rsaPublicKey.getModulus());
+            System.out.println("RSA Public Key Exponent: " + rsaPublicKey.getPublicExponent());
+        } else {
+            System.out.println("Public Key is not RSA type");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 Certificate_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.X509Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Assume cert is an X509Certificate object
+            X509Certificate cert = (X509Certificate) certificate;
+
+            byte[] encodedCert = cert.getEncoded();
+
+            System.out.println("Encoded Certificate: " + new String(encodedCert));
+        } catch (CertificateEncodingException e) {
+            System.err.println("Error encoding certificate: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 CertificateFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+            
+            // Load a certificate from a file input stream
+            InputStream inStream = new FileInputStream("example.crt");
+            X509Certificate certificate = (X509Certificate) certificateFactory.generateCertificate(inStream);
+            
+            System.out.println("Certificate: " + certificate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 CertificateFactory_2
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import java.io.InputStream;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
+import java.util.Collection;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InputStream inStream = null; // Initialize InputStream with your actual input stream
+            Collection<? extends Certificate> certificates = generateCertificates(inStream);
+            System.out.println("Certificates generated: " + certificates.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Collection<? extends Certificate> generateCertificates(InputStream inStream) throws Exception {
+        CertificateFactory factory = CertificateFactory.getInstance("X.509");
+        return factory.generateCertificates(inStream);
+    }
+}
+```
+================================================================
+
+Sample: 4 CertificateFactory_3
+----------------------------------------------------------------
+```java
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.cert.CRLException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509CRL;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InputStream inStream = new FileInputStream("example.crl");
+            X509CRL crl = generateCRL(inStream);
+            System.out.println(crl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static X509CRL generateCRL(InputStream inStream) throws CRLException {
+        try {
+            CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+            return (X509CRL) certFactory.generateCRL(inStream);
+        } catch (Exception e) {
+            throw new CRLException("Error generating CRL: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 CertificateFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.InputStream;
+import java.security.cert.CertificateFactory;
+import java.security.cert.CRL;
+import java.util.Collection;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InputStream inStream = // provide InputStream instance here
+            Collection<? extends CRL> crls = generateCRLs(inStream);
+            // do something with the generated CRLs
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Collection<? extends CRL> generateCRLs(InputStream inStream) throws Exception {
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+        return cf.generateCRLs(inStream);
+    }
+}
+```
+================================================================
+
+Sample: 6 CertificateFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.InputStream;
+import java.security.cert.CertificateFactory;
+import java.security.cert.CertPath;
+import java.security.cert.CertificateException;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create an InputStream (inStream) with the certificate content
+            InputStream inStream = Main.class.getResourceAsStream("certificate.crt");
+
+            // Create a CertificateFactory instance
+            CertificateFactory factory = CertificateFactory.getInstance("X.509");
+
+            // Generate a CertPath from the InputStream
+            CertPath certPath = factory.generateCertPath(inStream);
+
+            // Print out the CertPath
+            List<? extends java.security.cert.Certificate> certificates = certPath.getCertificates();
+            for (java.security.cert.Certificate cert : certificates) {
+                System.out.println(cert);
+            }
+
+        } catch (CertificateException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 CertPath_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.CertPath;
+import java.security.cert.Certificate;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        CertPath certPath = // obtain CertPath object
+        
+        List<? extends Certificate> certificates = certPath.getCertificates();
+        
+        for (Certificate cert : certificates) {
+            System.out.println(cert);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 CertPath_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.CertPath;
+
+public class Main {
+    public static void main(String[] args) {
+        CertPath certPath = null; // initialize certPath with appropriate value
+        String type = certPath.getType();
+        System.out.println("CertPath type: " + type);
+    }
+}
+```
+================================================================
+
+Sample: 9 CertPath_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.CertPath;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a CertPath instance
+        List<X509Certificate> certificates = new ArrayList<>();
+        CertPath certPath = CertificateFactory.getInstance("X.509").generateCertPath(certificates);
+
+        // Get the encoded form of the CertPath
+        byte[] encodedCertPath = certPath.getEncoded();
+        
+        // Print the encoded CertPath
+        System.out.println("Encoded CertPath: " + new String(encodedCertPath));
+    }
+}
+```
+================================================================
+
+Sample: 10 CertPath_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.CertPath;
+import java.util.Iterator;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a CertPath object
+        CertPath certPath = // provide the initialization of CertPath object
+        
+        // Get the encodings Iterator
+        Iterator<String> encodings = certPath.getEncodings();
+        
+        // Iterate over the encodings
+        while (encodings.hasNext()) {
+            String encoding = encodings.next();
+            System.out.println("Encoding: " + encoding);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 CertPathBuilder_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.*;
+
+public class Main {
+    public static void main(String[] args) {
+        CertPathParameters params = null; // initialize CertPathParameters
+        CertPathBuilder builder = CertPathBuilder.getInstance("PKIX");
+        try {
+            CertPathBuilderResult result = builder.build(params);
+            System.out.println("CertPathBuilderResult built successfully: " + result);
+        } catch (CertPathBuilderException e) {
+            System.out.println("Error building CertPathBuilderResult: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 CertPathBuilder_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.CertPathBuilder;
+import java.security.cert.CertPathChecker;
+import java.security.cert.PKIXRevocationChecker;
+
+public class Main {
+    public static void main(String[] args) {
+        CertPathBuilder builder = CertPathBuilder.getInstance("PKIX");
+        CertPathChecker revChecker = builder.getRevocationChecker();
+        
+        if (revChecker instanceof PKIXRevocationChecker) {
+            PKIXRevocationChecker pkixRevChecker = (PKIXRevocationChecker) revChecker;
+            System.out.println("Revocation checker obtained successfully: " + pkixRevChecker.toString());
+        } else {
+            System.out.println("Revocation checker obtained is not of type PKIXRevocationChecker");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 CertPathValidator_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.CertPath;
+import java.security.cert.CertPathParameters;
+import java.security.cert.CertPathValidator;
+import java.security.cert.CertPathValidatorResult;
+import java.security.cert.CertPathValidatorException;
+import java.security.cert.PKIXParameters;
+import java.security.cert.TrustAnchor;
+import java.security.cert.X509CertSelector;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            X509Certificate cert = (X509Certificate) cf.generateCertificate(...); // Generate X509Certificate
+
+            // Create CertPath
+            CertPath cp = cf.generateCertPath(Collections.singletonList(cert));
+
+            // Create TrustAnchor
+            TrustAnchor anchor = new TrustAnchor(cert, null);
+
+            // Create PKIXParameters
+            Set<TrustAnchor> trustAnchors = new HashSet<>();
+            trustAnchors.add(anchor);
+            PKIXParameters params = new PKIXParameters(trustAnchors);
+
+            // Validate CertPath
+            CertPathValidator validator = CertPathValidator.getInstance("PKIX");
+            CertPathValidatorResult result = validator.validate(cp, params);
+
+            System.out.println("CertPath validation successful");
+        } catch (CertPathValidatorException e) {
+            System.out.println("CertPath validation failed: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 14 CertPathValidatorSpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.CertPath;
+import java.security.cert.CertPathParameters;
+import java.security.cert.CertPathValidator;
+import java.security.cert.CertPathValidatorResult;
+import java.security.cert.CertPathValidatorSpi;
+import java.security.cert.CertificateException;
+
+public class Main {
+    public static void main(String[] args) {
+        CertPathValidatorSpi validatorSpi = new CertPathValidatorSpi() {
+            @Override
+            protected CertPathValidatorResult engineValidate(CertPath certPath, CertPathParameters params) throws CertificateException {
+                // Add custom validation logic here
+                return null; // Return the CertPathValidatorResult
+            }
+        };
+
+        CertPathValidator certPathValidator = CertPathValidator.getInstance("PKIX");
+        CertPath certPath = null; // Specify certPath
+        CertPathParameters params = null; // Specify certPathParameters
+        
+        try {
+            CertPathValidatorResult result = certPathValidator.validate(certPath, params);
+            System.out.println("Validation successful");
+        } catch (CertificateException e) {
+            System.out.println("Validation failed: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 CertPathValidatorSpi_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.CertPathValidatorSpi;
+import java.security.cert.CertPathChecker;
+import java.security.cert.CertPathParameters;
+import java.security.cert.PKIXRevocationChecker;
+
+public class Main {
+    public static void main(String[] args) {
+        CertPathValidatorSpi validatorSpi = new MyCertPathValidator();
+        CertPathParameters params = null;
+        CertPathChecker checker = validatorSpi.engineGetRevocationChecker();
+        if (checker instanceof PKIXRevocationChecker) {
+            PKIXRevocationChecker revChecker = (PKIXRevocationChecker) checker;
+            // Use revChecker for revocation checking
+        }
+    }
+}
+
+class MyCertPathValidator extends CertPathValidatorSpi {
+    @Override
+    protected CertPathChecker engineGetRevocationChecker() {
+        // Implementation for getting revocation checker
+        return new PKIXRevocationChecker();
+    }
+}
+```
+================================================================
+
+Sample: 16 CertStoreSpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.CRL;
+import java.security.cert.CRLSelector;
+import java.security.cert.CertStoreSpi;
+import java.util.Collection;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public Collection<? extends CRL> engineGetCRLs(CRLSelector selector) {
+        // Implementation of engineGetCRLs method
+        return null;
+    }
+}
+```
+================================================================
+
+Sample: 17 LDAPCertStoreParameters_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.LDAPCertStoreParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        LDAPCertStoreParameters params = new LDAPCertStoreParameters("server.example.com");
+        String serverName = params.getServerName();
+        System.out.println("Server name: " + serverName);
+    }
+}
+```
+================================================================
+
+Sample: 18 LDAPCertStoreParameters_3
+----------------------------------------------------------------
+`int getPort()`: This method returns the port number of the LDAP server.
+
+Code snippet:
+```java
+import java.security.cert.LDAPCertStoreParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        LDAPCertStoreParameters params = new LDAPCertStoreParameters("ldap.example.com", 389);
+        int port = params.getPort();
+        System.out.println("LDAP Server Port: " + port);
+    }
+}
+```
+================================================================
+
+Sample: 19 PKIXBuilderParameters_1
+----------------------------------------------------------------
+```java
+import java.security.cert.PKIXBuilderParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create PKIXBuilderParameters object
+        PKIXBuilderParameters params = new PKIXBuilderParameters(null, null);
+
+        // Set the maximum path length
+        params.setMaxPathLength(5);
+
+        // Get the maximum path length
+        int maxPathLength = params.getMaxPathLength();
+        
+        System.out.println("Maximum Path Length: " + maxPathLength);
+    }
+}
+```
+================================================================
+
+Sample: 20 PKIXBuilderParameters_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PKIXBuilderParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        PKIXBuilderParameters params = new PKIXBuilderParameters(null, null);
+        int maxLength = params.getMaxPathLength();
+        System.out.println("Max Path Length: " + maxLength);
+    }
+}
+```
+================================================================
+
+Sample: 21 PKIXBuilderParameters_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PKIXBuilderParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        PKIXBuilderParameters params = new PKIXBuilderParameters(null, null);
+        int maxPathLength = 5;
+        params.setMaxPathLength(maxPathLength);
+        System.out.println("Max path length set to: " + params.getMaxPathLength());
+    }
+}
+```
+================================================================
+
+Sample: 22 PKIXCertPathChecker_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.Certificate;
+import java.security.cert.PKIXCertPathChecker;
+
+public class Main {
+    public static void main(String[] args) {
+        // create an instance of PKIXCertPathChecker
+        PKIXCertPathChecker checker = new PKIXCertPathChecker() {
+            @Override
+            public void init(boolean forward) {
+                // initialization logic
+            }
+
+            @Override
+            public boolean isForwardCheckingSupported() {
+                return false;
+            }
+
+            @Override
+            public Set<String> getSupportedExtensions() {
+                return null;
+            }
+
+            @Override
+            public void check(Certificate cert, Collection<String> unresolvedCritExts) throws CertPathValidatorException {
+                // implementation of the check method
+                System.out.println("Checking certificate: " + cert.toString());
+            }
+        };
+
+        // create a sample certificate to pass to the check method
+        Certificate certificate = null;
+
+        try {
+            checker.check(certificate, null);
+        } catch (CertPathValidatorException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 23 PKIXCertPathChecker_2
+----------------------------------------------------------------
+`void init(boolean forward)`: This method initializes the internal state of the PKIXCertPathChecker. 
+
+Code snippet:
+```java
+import java.security.cert.PKIXCertPathChecker;
+
+public class Main {
+    public static void main(String[] args) {
+        PKIXCertPathChecker checker = new PKIXCertPathChecker() {
+            @Override
+            public void init(boolean forward) {
+                // Initialization logic here
+                System.out.println("PKIXCertPathChecker initialized with forward: " + forward);
+            }
+
+            // Other abstract methods implementations
+            // ...
+        };
+
+        checker.init(true); // Initializing with forward set to true
+    }
+}
+```
+================================================================
+
+Sample: 24 PKIXCertPathChecker_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PKIXCertPathChecker;
+
+public class Main {
+    public static void main(String[] args) {
+        PKIXCertPathChecker checker = null; // Initialize PKIXCertPathChecker object here
+        
+        // Check if forward checking is supported
+        boolean isForwardCheckingSupported = checker.isForwardCheckingSupported();
+        System.out.println("Is Forward Checking Supported: " + isForwardCheckingSupported);
+    }
+}
+```
+================================================================
+
+Sample: 25 PKIXCertPathChecker_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PKIXCertPathChecker;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        PKIXCertPathChecker checker = null; // Initialize PKIXCertPathChecker object
+        Set<String> extensions = checker.getSupportedExtensions();
+        System.out.println(extensions);
+    }
+}
+```
+================================================================
+
+Sample: 26 PKIXCertPathValidatorResult_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PKIXCertPathValidatorResult;
+import java.security.PublicKey;
+
+public class Main {
+    public static void main(String[] args) {
+        PKIXCertPathValidatorResult result = new PKIXCertPathValidatorResult(null, null, null, null);
+        PublicKey publicKey = result.getPublicKey();
+        System.out.println("Public Key: " + publicKey);
+    }
+}
+```
+================================================================
+
+Sample: 27 PKIXCertPathValidatorResult_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PKIXCertPathValidatorResult;
+
+public class Main {
+    public static void main(String[] args) {
+        PKIXCertPathValidatorResult result = new PKIXCertPathValidatorResult(null, null, null, null);
+        String resultString = result.toString();
+        System.out.println(resultString);
+    }
+}
+```
+================================================================
+
+Sample: 28 PKIXParameters_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PKIXParameters;
+import java.security.KeyStore;
+import java.security.cert.CertStore;
+import java.security.cert.CollectionCertStoreParameters;
+import java.util.ArrayList;
+import java.security.cert.TrustAnchor;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        keyStore.load(null, "password".toCharArray());
+
+        CertStore certStore = CertStore.getInstance("Collection", new CollectionCertStoreParameters(new ArrayList<>()));
+
+        PKIXParameters params = new PKIXParameters(keyStore);
+        params.setRevocationEnabled(true);
+
+        System.out.println("Revocation enabled: " + params.isRevocationEnabled());
+    }
+}
+```
+================================================================
+
+Sample: 29 PKIXParameters_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PKIXParameters;
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        PKIXParameters params = new PKIXParameters();
+        Date date = new Date();
+        
+        params.setDate(date);
+        System.out.println("Date set successfully: " + params.getDate());
+    }
+}
+```
+================================================================
+
+Sample: 30 PKIXParameters_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PKIXParameters;
+import java.security.cert.TrustAnchor;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        PKIXParameters params = new PKIXParameters(getTrustAnchors());
+        // Other code to work with params
+    }
+
+    private static Set<TrustAnchor> getTrustAnchors() {
+        // Implement the logic to get the trust anchors
+        // For example, creating a HashSet and adding TrustAnchor objects
+        Set<TrustAnchor> trustAnchors = new HashSet<>();
+        TrustAnchor anchor1 = new TrustAnchor(/* Initialize TrustAnchor */);
+        TrustAnchor anchor2 = new TrustAnchor(/* Initialize TrustAnchor */);
+        trustAnchors.add(anchor1);
+        trustAnchors.add(anchor2);
+        
+        return trustAnchors;
+    }
+}
+```
+================================================================
+
+Sample: 31 PKIXParameters_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.CertStore;
+import java.security.cert.CertStoreException;
+import java.security.cert.PKIXParameters;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        CertStore certStore = null; // Initialize CertStore object
+        PKIXParameters params = new PKIXParameters();
+        
+        addCertStore(params, certStore);
+        
+        List<CertStore> additionalCertStores = params.getCertStores();
+        System.out.println("Added CertStores: " + additionalCertStores);
+    }
+    
+    public static void addCertStore(PKIXParameters params, CertStore certStore) {
+        try {
+            params.addCertStore(certStore);
+        } catch (CertStoreException e) {
+            System.out.println("Error adding CertStore: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 32 PolicyQualifierInfo_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PolicyQualifierInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        PolicyQualifierInfo policyInfo = new PolicyQualifierInfo(null); // Create a PolicyQualifierInfo object
+        String qualifierId = policyInfo.getPolicyQualifierId(); // Get the policy qualifier ID
+        System.out.println("Policy Qualifier ID: " + qualifierId);
+    }
+}
+```
+================================================================
+
+Sample: 33 PolicyQualifierInfo_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PolicyQualifierInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] policyQualifier = new byte[10];
+        PolicyQualifierInfo policyQualifierInfo = new PolicyQualifierInfo("test", policyQualifier);
+        byte[] qualifier = policyQualifierInfo.getPolicyQualifier();
+        System.out.println("Policy Qualifier: " + new String(qualifier));
+    }
+}
+```
+================================================================
+
+Sample: 34 PolicyQualifierInfo_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.PolicyQualifierInfo;
+
+public class Main {
+    public static void main(String[] args) {
+        PolicyQualifierInfo policyQualifierInfo = new PolicyQualifierInfo(new byte[]{0, 1, 2});
+        String policyQualifierInfoString = policyQualifierInfo.toString();
+        System.out.println(policyQualifierInfoString);
+    }
+}
+```
+================================================================
+
+Sample: 35 TrustAnchor_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.TrustAnchor;
+import java.security.cert.X509Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        TrustAnchor trustAnchor = new TrustAnchor(/*initialize TrustAnchor object*/);
+        X509Certificate trustedCert = trustAnchor.getTrustedCert();
+        System.out.println("Trusted certificate: " + trustedCert.toString());
+    }
+}
+```
+================================================================
+
+Sample: 36 TrustAnchor_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.TrustAnchor;
+import java.security.PublicKey;
+
+public class Main {
+    public static void main(String[] args) {
+        TrustAnchor trustAnchor = new TrustAnchor(publicKey, null);
+        PublicKey caPublicKey = trustAnchor.getCAPublicKey();
+        System.out.println("CA Public Key: " + caPublicKey);
+    }
+}
+```
+================================================================
+
+Sample: 37 X509Certificate_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        X509Certificate cert = // initialize X509Certificate object
+
+        System.out.println("Certificate not before date: " + cert.getNotBefore());
+    }
+}
+```
+================================================================
+
+Sample: 38 X509Certificate_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assume cert is an object of X509Certificate
+        X509Certificate cert = getCertificate(); // Method to get X509Certificate object
+        System.out.println("Not After: " + cert.getNotAfter());
+    }
+
+    // Method to simulate getting X509Certificate object
+    private static X509Certificate getCertificate() {
+        // Create a dummy X509Certificate object for demonstration
+        return new X509Certificate() {
+            // Implement abstract methods here
+        };
+    }
+}
+```
+================================================================
+
+Sample: 39 X509CertSelector_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509Certificate;
+import java.security.cert.X509CertSelector;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CertSelector certSelector = new X509CertSelector();
+        X509Certificate certificate = /* Initialize your X509Certificate here */;
+        certSelector.setCertificate(certificate);
+        
+        // Use the certSelector with the set Certificate
+    }
+}
+```
+================================================================
+
+Sample: 40 X509CertSelector_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509CertSelector;
+import javax.security.auth.x500.X500Principal;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CertSelector certSelector = new X509CertSelector();
+        X500Principal issuer = new X500Principal("CN=Test");
+        certSelector.setIssuer(issuer);
+    }
+}
+```
+================================================================
+
+Sample: 41 X509CertSelector_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509CertSelector;
+import javax.security.auth.x500.X500Principal;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CertSelector certSelector = new X509CertSelector();
+        X500Principal subject = new X500Principal("CN=Test Subject");
+
+        certSelector.setSubject(subject);
+        
+        System.out.println("Subject set successfully: " + certSelector.getSubject().getName());
+    }
+}
+```
+================================================================
+
+Sample: 42 X509CertSelector_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.PublicKey;
+import java.security.cert.X509CertSelector;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of X509CertSelector
+        X509CertSelector selector = new X509CertSelector();
+
+        // Create a public key
+        PublicKey publicKey = null; // Initialize with actual public key
+
+        // Set the public key in the X509CertSelector
+        selector.setSubjectPublicKey(publicKey);
+    }
+}
+```
+================================================================
+
+Sample: 43 X509CRL_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509CRL;
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CRL crl = /* initialize X509CRL object */;
+        Date nextUpdate = crl.getNextUpdate();
+        System.out.println("Next update date: " + nextUpdate);
+    }
+}
+```
+================================================================
+
+Sample: 44 X509CRL_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509CRL;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assume crl is an instance of X509CRL
+        byte[] tbsCertList = crl.getTBSCertList();
+        // Use tbsCertList as needed
+    }
+}
+```
+================================================================
+
+Sample: 45 X509CRLEntry_1
+----------------------------------------------------------------
+```java
+import java.security.cert.X509CRLEntry;
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CRLEntry crlEntry = null; // initialize X509CRLEntry object
+
+        // Retrieve the revocation date of the X509CRLEntry
+        Date revocationDate = crlEntry.getRevocationDate();
+
+        // Print the revocation date
+        System.out.println("Revocation Date: " + revocationDate);
+    }
+}
+```
+================================================================
+
+Sample: 46 X509CRLEntry_2
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import java.math.BigInteger;
+import java.security.cert.X509CRLEntry;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CRLEntry crlEntry = null; // initialize X509CRLEntry object here
+        
+        BigInteger serialNumber = crlEntry.getSerialNumber();
+        System.out.println("Serial Number: " + serialNumber);
+    }
+}
+```
+================================================================
+
+Sample: 47 X509CRLEntry_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509CRLEntry;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CRLEntry crlEntry = null; // Initialize X509CRLEntry object
+        boolean hasExtensions = crlEntry.hasExtensions();
+        System.out.println("CRL Entry has extensions: " + hasExtensions);
+    }
+}
+```
+================================================================
+
+Sample: 48 X509CRLEntry_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509CRLEntry;
+import java.security.cert.CertificateRevokedException;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CRLEntry crlEntry = new CertificateRevokedException();
+        String crlEntryString = crlEntry.toString();
+        System.out.println("X509CRLEntry: " + crlEntryString);
+    }
+}
+```
+================================================================
+
+Sample: 49 X509CRLSelector_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509CRLSelector;
+import javax.security.auth.x500.X500Principal;
+import java.util.Collection;
+import java.util.HashSet;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CRLSelector crlSelector = new X509CRLSelector();
+        Collection<X500Principal> issuers = new HashSet<>();
+        X500Principal issuer1 = new X500Principal("CN=Issuer1");
+        X500Principal issuer2 = new X500Principal("CN=Issuer2");
+        issuers.add(issuer1);
+        issuers.add(issuer2);
+        
+        crlSelector.setIssuers(issuers);
+        
+        System.out.println("Issuers set in CRL selector: " + crlSelector.getIssuers());
+    }
+}
+```
+================================================================
+
+Sample: 50 X509CRLSelector_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509CRLSelector;
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CRLSelector selector = new X509CRLSelector();
+        selector.setDateAndTime(new Date());
+    }
+}
+```
+================================================================
+
+Sample: 51 X509CRLSelector_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509CRLSelector;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CRLSelector selector = new X509CRLSelector();
+        String issuerName = "ExampleIssuer";
+        selector.addIssuerName(issuerName);
+    }
+}
+```
+================================================================
+
+Sample: 52 X509CRLSelector_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.cert.X509CRLSelector;
+import java.security.Principal;
+import javax.security.auth.x500.X500Principal;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CRLSelector crlSelector = new X509CRLSelector();
+        X500Principal issuer = new X500Principal("CN=Test");
+        crlSelector.addIssuer(issuer);
+        
+        // Use the X509CRLSelector with added issuer
+    }
+}
+```
+================================================================
+
+Sample: 53 X509CRLSelector_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.math.BigInteger;
+import java.security.cert.X509CRLSelector;
+
+public class Main {
+    public static void main(String[] args) {
+        X509CRLSelector crlSelector = new X509CRLSelector();
+        BigInteger minCRLNumber = new BigInteger("100");
+        crlSelector.setMinCRLNumber(minCRLNumber);
+    }
+}
+```
+================================================================
+

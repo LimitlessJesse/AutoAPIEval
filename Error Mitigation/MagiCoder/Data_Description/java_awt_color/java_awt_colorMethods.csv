@@ -1,0 +1,1072 @@
+ClassName,Method,Return Type,Description,Full Description
+ColorSpace,fromCIEXYZ(float[] colorvalue),abstract float[],Transforms a color value assumed to be in the CS_CIEXYZ conversion color space into this ColorSpace.,"
+
+fromCIEXYZ
+public abstract float[] fromCIEXYZ(float[] colorvalue)
+Transforms a color value assumed to be in the CS_CIEXYZ conversion
+ color space into this ColorSpace.
+ 
+ This method transforms color values using relative colorimetry,
+ as defined by the International Color Consortium standard.  This
+ means that the XYZ argument values taken by this method are represented
+ relative to the D50 white point of the CS_CIEXYZ color space.
+ This representation is useful in a two-step color conversion
+ process in which colors are transformed from an input color
+ space to CS_CIEXYZ and then to an output color space.  The color
+ values returned by this method are not those that would produce
+ the XYZ value passed to the method when measured by a colorimeter.
+ If you have XYZ values corresponding to measurements made using
+ current CIE recommended practices, they must be converted to D50
+ relative values before being passed to this method.
+ See the fromCIEXYZ method of
+ ICC_ColorSpace for further information.
+ 
+
+Parameters:
+colorvalue - a float array with length of at least 3
+Returns:
+a float array with length equal to the number of
+         components in this ColorSpace
+Throws:
+ArrayIndexOutOfBoundsException - if array length is not
+         at least 3
+
+
+"
+ColorSpace,fromRGB(float[] rgbvalue),abstract float[],Transforms a color value assumed to be in the default CS_sRGB color space into this ColorSpace.,"
+
+fromRGB
+public abstract float[] fromRGB(float[] rgbvalue)
+Transforms a color value assumed to be in the default CS_sRGB
+ color space into this ColorSpace.
+ 
+ This method transforms color values using algorithms designed
+ to produce the best perceptual match between input and output
+ colors.  In order to do colorimetric conversion of color values,
+ you should use the toCIEXYZ
+ method of the CS_sRGB color space to first convert from the input
+ color space to the CS_CIEXYZ color space, and then use the
+ fromCIEXYZ method of this color space to
+ convert from CS_CIEXYZ to the output color space.
+ See toCIEXYZ and
+ fromCIEXYZ for further information.
+ 
+
+Parameters:
+rgbvalue - a float array with length of at least 3
+Returns:
+a float array with length equal to the number of
+         components in this ColorSpace
+Throws:
+ArrayIndexOutOfBoundsException - if array length is not
+         at least 3
+
+
+"
+ColorSpace,getInstance(int colorspace),static ColorSpace,Returns a ColorSpace representing one of the specific predefined color spaces.,"
+
+getInstance
+public static ColorSpace getInstance(int colorspace)
+Returns a ColorSpace representing one of the specific
+ predefined color spaces.
+
+Parameters:
+colorspace - a specific color space identified by one of
+        the predefined class constants (e.g. CS_sRGB, CS_LINEAR_RGB,
+        CS_CIEXYZ, CS_GRAY, or CS_PYCC)
+Returns:
+the requested ColorSpace object
+
+
+"
+ColorSpace,getMaxValue(int component),float,Returns the maximum normalized color component value for the specified component.,"
+
+getMaxValue
+public float getMaxValue(int component)
+Returns the maximum normalized color component value for the
+ specified component.  The default implementation in this abstract
+ class returns 1.0 for all components.  Subclasses should override
+ this method if necessary.
+
+Parameters:
+component - the component index
+Returns:
+the maximum normalized component value
+Throws:
+IllegalArgumentException - if component is less than 0 or
+         greater than numComponents - 1
+Since:
+1.4
+
+
+"
+ColorSpace,getMinValue(int component),float,Returns the minimum normalized color component value for the specified component.,"
+
+getMinValue
+public float getMinValue(int component)
+Returns the minimum normalized color component value for the
+ specified component.  The default implementation in this abstract
+ class returns 0.0 for all components.  Subclasses should override
+ this method if necessary.
+
+Parameters:
+component - the component index
+Returns:
+the minimum normalized component value
+Throws:
+IllegalArgumentException - if component is less than 0 or
+         greater than numComponents - 1
+Since:
+1.4
+
+
+"
+ColorSpace,getName(int idx),String,Returns the name of the component given the component index.,"
+
+getName
+public String getName(int idx)
+Returns the name of the component given the component index.
+
+Parameters:
+idx - the component index
+Returns:
+the name of the component at the specified index
+Throws:
+IllegalArgumentException - if idx is
+         less than 0 or greater than numComponents - 1
+
+
+"
+ColorSpace,getNumComponents(),int,Returns the number of components of this ColorSpace.,"
+
+getNumComponents
+public int getNumComponents()
+Returns the number of components of this ColorSpace.
+
+Returns:
+The number of components in this ColorSpace.
+
+
+"
+ColorSpace,getType(),int,"Returns the color space type of this ColorSpace (for example TYPE_RGB, TYPE_XYZ, ...).","
+
+getType
+public int getType()
+Returns the color space type of this ColorSpace (for example
+ TYPE_RGB, TYPE_XYZ, ...).  The type defines the
+ number of components of the color space and the interpretation,
+ e.g. TYPE_RGB identifies a color space with three components - red,
+ green, and blue.  It does not define the particular color
+ characteristics of the space, e.g. the chromaticities of the
+ primaries.
+
+Returns:
+the type constant that represents the type of this
+         ColorSpace
+
+
+"
+ColorSpace,isCS_sRGB(),boolean,Returns true if the ColorSpace is CS_sRGB.,"
+
+isCS_sRGB
+public boolean isCS_sRGB()
+Returns true if the ColorSpace is CS_sRGB.
+
+Returns:
+true if this is a CS_sRGB color
+         space, false if it is not
+
+
+"
+ColorSpace,toCIEXYZ(float[] colorvalue),abstract float[],Transforms a color value assumed to be in this ColorSpace into the CS_CIEXYZ conversion color space.,"
+
+toCIEXYZ
+public abstract float[] toCIEXYZ(float[] colorvalue)
+Transforms a color value assumed to be in this ColorSpace
+ into the CS_CIEXYZ conversion color space.
+ 
+ This method transforms color values using relative colorimetry,
+ as defined by the International Color Consortium standard.  This
+ means that the XYZ values returned by this method are represented
+ relative to the D50 white point of the CS_CIEXYZ color space.
+ This representation is useful in a two-step color conversion
+ process in which colors are transformed from an input color
+ space to CS_CIEXYZ and then to an output color space.  This
+ representation is not the same as the XYZ values that would
+ be measured from the given color value by a colorimeter.
+ A further transformation is necessary to compute the XYZ values
+ that would be measured using current CIE recommended practices.
+ See the toCIEXYZ method of
+ ICC_ColorSpace for further information.
+ 
+
+Parameters:
+colorvalue - a float array with length of at least the number
+        of components in this ColorSpace
+Returns:
+a float array of length 3
+Throws:
+ArrayIndexOutOfBoundsException - if array length is not
+         at least the number of components in this ColorSpace.
+
+
+"
+ColorSpace,toRGB(float[] colorvalue),abstract float[],Transforms a color value assumed to be in this ColorSpace into a value in the default CS_sRGB color space.,"
+
+toRGB
+public abstract float[] toRGB(float[] colorvalue)
+Transforms a color value assumed to be in this ColorSpace
+ into a value in the default CS_sRGB color space.
+ 
+ This method transforms color values using algorithms designed
+ to produce the best perceptual match between input and output
+ colors.  In order to do colorimetric conversion of color values,
+ you should use the toCIEXYZ
+ method of this color space to first convert from the input
+ color space to the CS_CIEXYZ color space, and then use the
+ fromCIEXYZ method of the CS_sRGB color space to
+ convert from CS_CIEXYZ to the output color space.
+ See toCIEXYZ and
+ fromCIEXYZ for further information.
+ 
+
+Parameters:
+colorvalue - a float array with length of at least the number
+        of components in this ColorSpace
+Returns:
+a float array of length 3
+Throws:
+ArrayIndexOutOfBoundsException - if array length is not
+         at least the number of components in this ColorSpace
+
+
+"
+ICC_ColorSpace,fromCIEXYZ(float[] colorvalue),float[],Transforms a color value assumed to be in the CS_CIEXYZ conversion color space into this ColorSpace.,"
+
+fromCIEXYZ
+public float[] fromCIEXYZ(float[] colorvalue)
+Transforms a color value assumed to be in the CS_CIEXYZ conversion
+ color space into this ColorSpace.
+ 
+ This method transforms color values using relative colorimetry,
+ as defined by the ICC Specification.  This
+ means that the XYZ argument values taken by this method are represented
+ relative to the D50 white point of the CS_CIEXYZ color space.
+ This representation is useful in a two-step color conversion
+ process in which colors are transformed from an input color
+ space to CS_CIEXYZ and then to an output color space.  The color
+ values returned by this method are not those that would produce
+ the XYZ value passed to the method when measured by a colorimeter.
+ If you have XYZ values corresponding to measurements made using
+ current CIE recommended practices, they must be converted to D50
+ relative values before being passed to this method.
+ The paragraphs below explain this in more detail.
+ 
+ The ICC standard uses a device independent color space (DICS) as the
+ mechanism for converting color from one device to another device.  In
+ this architecture, colors are converted from the source device's color
+ space to the ICC DICS and then from the ICC DICS to the destination
+ device's color space.  The ICC standard defines device profiles which
+ contain transforms which will convert between a device's color space
+ and the ICC DICS.  The overall conversion of colors from a source
+ device to colors of a destination device is done by connecting the
+ device-to-DICS transform of the profile for the source device to the
+ DICS-to-device transform of the profile for the destination device.
+ For this reason, the ICC DICS is commonly referred to as the profile
+ connection space (PCS).  The color space used in the methods
+ toCIEXYZ and fromCIEXYZ is the CIEXYZ PCS defined by the ICC
+ Specification.  This is also the color space represented by
+ ColorSpace.CS_CIEXYZ.
+ 
+ The XYZ values of a color are often represented as relative to some
+ white point, so the actual meaning of the XYZ values cannot be known
+ without knowing the white point of those values.  This is known as
+ relative colorimetry.  The PCS uses a white point of D50, so the XYZ
+ values of the PCS are relative to D50.  For example, white in the PCS
+ will have the XYZ values of D50, which is defined to be X=.9642,
+ Y=1.000, and Z=0.8249.  This white point is commonly used for graphic
+ arts applications, but others are often used in other applications.
+ 
+ To quantify the color characteristics of a device such as a printer
+ or monitor, measurements of XYZ values for particular device colors
+ are typically made.  For purposes of this discussion, the term
+ device XYZ values is used to mean the XYZ values that would be
+ measured from device colors using current CIE recommended practices.
+ 
+ Converting between device XYZ values and the PCS XYZ values taken as
+ arguments by this method corresponds to converting between the device's
+ color space, as represented by CIE colorimetric values, and the PCS.
+ There are many factors involved in this process, some of which are quite
+ subtle.  The most important, however, is the adjustment made to account
+ for differences between the device's white point and the white point of
+ the PCS.  There are many techniques for doing this and it is the
+ subject of much current research and controversy.  Some commonly used
+ methods are XYZ scaling, the von Kries transform, and the Bradford
+ transform.  The proper method to use depends upon each particular
+ application.
+ 
+ The simplest method is XYZ scaling.  In this method each device XYZ
+ value is  converted to a PCS XYZ value by multiplying it by the ratio
+ of the PCS white point (D50) to the device white point.
+ 
+
+ Xd, Yd, Zd are the device XYZ values
+ Xdw, Ydw, Zdw are the device XYZ white point values
+ Xp, Yp, Zp are the PCS XYZ values
+ Xd50, Yd50, Zd50 are the PCS XYZ white point values
+
+ Xp = Xd * (Xd50 / Xdw)
+ Yp = Yd * (Yd50 / Ydw)
+ Zp = Zd * (Zd50 / Zdw)
+
+ 
+
+ Conversion from the PCS to the device would be done by inverting these
+ equations:
+ 
+
+ Xd = Xp * (Xdw / Xd50)
+ Yd = Yp * (Ydw / Yd50)
+ Zd = Zp * (Zdw / Zd50)
+
+ 
+
+ Note that the media white point tag in an ICC profile is not the same
+ as the device white point.  The media white point tag is expressed in
+ PCS values and is used to represent the difference between the XYZ of
+ device illuminant and the XYZ of the device media when measured under
+ that illuminant.  The device white point is expressed as the device
+ XYZ values corresponding to white displayed on the device.  For
+ example, displaying the RGB color (1.0, 1.0, 1.0) on an sRGB device
+ will result in a measured device XYZ value of D65.  This will not
+ be the same as the media white point tag XYZ value in the ICC
+ profile for an sRGB device.
+ 
+
+Specified by:
+fromCIEXYZ in class ColorSpace
+Parameters:
+colorvalue - a float array with length of at least 3.
+Returns:
+a float array with length equal to the number of
+         components in this ColorSpace.
+Throws:
+ArrayIndexOutOfBoundsException - if array length is not
+ at least 3.
+
+
+"
+ICC_ColorSpace,fromRGB(float[] rgbvalue),float[],Transforms a color value assumed to be in the default CS_sRGB color space into this ColorSpace.,"
+
+fromRGB
+public float[] fromRGB(float[] rgbvalue)
+Transforms a color value assumed to be in the default CS_sRGB
+ color space into this ColorSpace.
+ 
+ This method transforms color values using algorithms designed
+ to produce the best perceptual match between input and output
+ colors.  In order to do colorimetric conversion of color values,
+ you should use the toCIEXYZ
+ method of the CS_sRGB color space to first convert from the input
+ color space to the CS_CIEXYZ color space, and then use the
+ fromCIEXYZ method of this color space to
+ convert from CS_CIEXYZ to the output color space.
+ See toCIEXYZ and
+ fromCIEXYZ for further information.
+ 
+
+Specified by:
+fromRGB in class ColorSpace
+Parameters:
+rgbvalue - a float array with length of at least 3.
+Returns:
+a float array with length equal to the number of
+       components in this ColorSpace.
+Throws:
+ArrayIndexOutOfBoundsException - if array length is not
+ at least 3.
+
+
+"
+ICC_ColorSpace,getMaxValue(int component),float,Returns the maximum normalized color component value for the specified component.,"
+
+getMaxValue
+public float getMaxValue(int component)
+Returns the maximum normalized color component value for the
+ specified component.  For TYPE_XYZ spaces, this method returns
+ maximum values of 1.0 + (32767.0 / 32768.0) for all components.
+ For TYPE_Lab spaces,
+ this method returns 100.0 for L and 127.0 for a and b components.
+ This is consistent with the encoding of the XYZ and Lab Profile
+ Connection Spaces in the ICC specification.  For all other types, this
+ method returns 1.0 for all components.  When using an ICC_ColorSpace
+ with a profile that requires different maximum component values,
+ it is necessary to subclass this class and override this method.
+
+Overrides:
+getMaxValue in class ColorSpace
+Parameters:
+component - The component index.
+Returns:
+The maximum normalized component value.
+Throws:
+IllegalArgumentException - if component is less than 0 or
+         greater than numComponents - 1.
+Since:
+1.4
+
+
+"
+ICC_ColorSpace,getMinValue(int component),float,Returns the minimum normalized color component value for the specified component.,"
+
+getMinValue
+public float getMinValue(int component)
+Returns the minimum normalized color component value for the
+ specified component.  For TYPE_XYZ spaces, this method returns
+ minimum values of 0.0 for all components.  For TYPE_Lab spaces,
+ this method returns 0.0 for L and -128.0 for a and b components.
+ This is consistent with the encoding of the XYZ and Lab Profile
+ Connection Spaces in the ICC specification.  For all other types, this
+ method returns 0.0 for all components.  When using an ICC_ColorSpace
+ with a profile that requires different minimum component values,
+ it is necessary to subclass this class and override this method.
+
+Overrides:
+getMinValue in class ColorSpace
+Parameters:
+component - The component index.
+Returns:
+The minimum normalized component value.
+Throws:
+IllegalArgumentException - if component is less than 0 or
+         greater than numComponents - 1.
+Since:
+1.4
+
+
+"
+ICC_ColorSpace,getProfile(),ICC_Profile,Returns the ICC_Profile for this ICC_ColorSpace.,"
+
+getProfile
+public ICC_Profile getProfile()
+Returns the ICC_Profile for this ICC_ColorSpace.
+
+Returns:
+the ICC_Profile for this ICC_ColorSpace.
+
+
+"
+ICC_ColorSpace,toCIEXYZ(float[] colorvalue),float[],Transforms a color value assumed to be in this ColorSpace into the CS_CIEXYZ conversion color space.,"
+
+toCIEXYZ
+public float[] toCIEXYZ(float[] colorvalue)
+Transforms a color value assumed to be in this ColorSpace
+ into the CS_CIEXYZ conversion color space.
+ 
+ This method transforms color values using relative colorimetry,
+ as defined by the ICC Specification.  This
+ means that the XYZ values returned by this method are represented
+ relative to the D50 white point of the CS_CIEXYZ color space.
+ This representation is useful in a two-step color conversion
+ process in which colors are transformed from an input color
+ space to CS_CIEXYZ and then to an output color space.  This
+ representation is not the same as the XYZ values that would
+ be measured from the given color value by a colorimeter.
+ A further transformation is necessary to compute the XYZ values
+ that would be measured using current CIE recommended practices.
+ The paragraphs below explain this in more detail.
+ 
+ The ICC standard uses a device independent color space (DICS) as the
+ mechanism for converting color from one device to another device.  In
+ this architecture, colors are converted from the source device's color
+ space to the ICC DICS and then from the ICC DICS to the destination
+ device's color space.  The ICC standard defines device profiles which
+ contain transforms which will convert between a device's color space
+ and the ICC DICS.  The overall conversion of colors from a source
+ device to colors of a destination device is done by connecting the
+ device-to-DICS transform of the profile for the source device to the
+ DICS-to-device transform of the profile for the destination device.
+ For this reason, the ICC DICS is commonly referred to as the profile
+ connection space (PCS).  The color space used in the methods
+ toCIEXYZ and fromCIEXYZ is the CIEXYZ PCS defined by the ICC
+ Specification.  This is also the color space represented by
+ ColorSpace.CS_CIEXYZ.
+ 
+ The XYZ values of a color are often represented as relative to some
+ white point, so the actual meaning of the XYZ values cannot be known
+ without knowing the white point of those values.  This is known as
+ relative colorimetry.  The PCS uses a white point of D50, so the XYZ
+ values of the PCS are relative to D50.  For example, white in the PCS
+ will have the XYZ values of D50, which is defined to be X=.9642,
+ Y=1.000, and Z=0.8249.  This white point is commonly used for graphic
+ arts applications, but others are often used in other applications.
+ 
+ To quantify the color characteristics of a device such as a printer
+ or monitor, measurements of XYZ values for particular device colors
+ are typically made.  For purposes of this discussion, the term
+ device XYZ values is used to mean the XYZ values that would be
+ measured from device colors using current CIE recommended practices.
+ 
+ Converting between device XYZ values and the PCS XYZ values returned
+ by this method corresponds to converting between the device's color
+ space, as represented by CIE colorimetric values, and the PCS.  There
+ are many factors involved in this process, some of which are quite
+ subtle.  The most important, however, is the adjustment made to account
+ for differences between the device's white point and the white point of
+ the PCS.  There are many techniques for doing this and it is the
+ subject of much current research and controversy.  Some commonly used
+ methods are XYZ scaling, the von Kries transform, and the Bradford
+ transform.  The proper method to use depends upon each particular
+ application.
+ 
+ The simplest method is XYZ scaling.  In this method each device XYZ
+ value is  converted to a PCS XYZ value by multiplying it by the ratio
+ of the PCS white point (D50) to the device white point.
+ 
+
+ Xd, Yd, Zd are the device XYZ values
+ Xdw, Ydw, Zdw are the device XYZ white point values
+ Xp, Yp, Zp are the PCS XYZ values
+ Xd50, Yd50, Zd50 are the PCS XYZ white point values
+
+ Xp = Xd * (Xd50 / Xdw)
+ Yp = Yd * (Yd50 / Ydw)
+ Zp = Zd * (Zd50 / Zdw)
+
+ 
+
+ Conversion from the PCS to the device would be done by inverting these
+ equations:
+ 
+
+ Xd = Xp * (Xdw / Xd50)
+ Yd = Yp * (Ydw / Yd50)
+ Zd = Zp * (Zdw / Zd50)
+
+ 
+
+ Note that the media white point tag in an ICC profile is not the same
+ as the device white point.  The media white point tag is expressed in
+ PCS values and is used to represent the difference between the XYZ of
+ device illuminant and the XYZ of the device media when measured under
+ that illuminant.  The device white point is expressed as the device
+ XYZ values corresponding to white displayed on the device.  For
+ example, displaying the RGB color (1.0, 1.0, 1.0) on an sRGB device
+ will result in a measured device XYZ value of D65.  This will not
+ be the same as the media white point tag XYZ value in the ICC
+ profile for an sRGB device.
+ 
+
+Specified by:
+toCIEXYZ in class ColorSpace
+Parameters:
+colorvalue - a float array with length of at least the number
+        of components in this ColorSpace.
+Returns:
+a float array of length 3.
+Throws:
+ArrayIndexOutOfBoundsException - if array length is not
+ at least the number of components in this ColorSpace.
+
+
+"
+ICC_ColorSpace,toRGB(float[] colorvalue),float[],Transforms a color value assumed to be in this ColorSpace into a value in the default CS_sRGB color space.,"
+
+toRGB
+public float[] toRGB(float[] colorvalue)
+Transforms a color value assumed to be in this ColorSpace
+ into a value in the default CS_sRGB color space.
+ 
+ This method transforms color values using algorithms designed
+ to produce the best perceptual match between input and output
+ colors.  In order to do colorimetric conversion of color values,
+ you should use the toCIEXYZ
+ method of this color space to first convert from the input
+ color space to the CS_CIEXYZ color space, and then use the
+ fromCIEXYZ method of the CS_sRGB color space to
+ convert from CS_CIEXYZ to the output color space.
+ See toCIEXYZ and
+ fromCIEXYZ for further information.
+ 
+
+Specified by:
+toRGB in class ColorSpace
+Parameters:
+colorvalue - a float array with length of at least the number
+      of components in this ColorSpace.
+Returns:
+a float array of length 3.
+Throws:
+ArrayIndexOutOfBoundsException - if array length is not
+ at least the number of components in this ColorSpace.
+
+
+"
+ICC_Profile,finalize(),protected void,Frees the resources associated with an ICC_Profile object.,"
+
+finalize
+protected void finalize()
+Frees the resources associated with an ICC_Profile object.
+
+Overrides:
+finalize in class Object
+See Also:
+WeakReference, 
+PhantomReference
+
+
+"
+ICC_Profile,getColorSpaceType(),int,Returns the color space type.,"
+
+getColorSpaceType
+public int getColorSpaceType()
+Returns the color space type.  Returns one of the color space type
+ constants defined by the ColorSpace class.  This is the
+ ""input"" color space of the profile.  The type defines the
+ number of components of the color space and the interpretation,
+ e.g. TYPE_RGB identifies a color space with three components - red,
+ green, and blue.  It does not define the particular color
+ characteristics of the space, e.g. the chromaticities of the
+ primaries.
+
+Returns:
+One of the color space type constants defined in the
+ ColorSpace class.
+
+
+"
+ICC_Profile,getData(),byte[],Returns a byte array corresponding to the data of this ICC_Profile.,"
+
+getData
+public byte[] getData()
+Returns a byte array corresponding to the data of this ICC_Profile.
+
+Returns:
+A byte array that contains the profile data.
+See Also:
+setData(int, byte[])
+
+
+"
+ICC_Profile,getData(int tagSignature),byte[],Returns a particular tagged data element from the profile as a byte array.,"
+
+getData
+public byte[] getData(int tagSignature)
+Returns a particular tagged data element from the profile as
+ a byte array.  Elements are identified by signatures
+ as defined in the ICC specification.  The signature
+ icSigHead can be used to get the header.  This method is useful
+ for advanced applets or applications which need to access
+ profile data directly.
+
+Parameters:
+tagSignature - The ICC tag signature for the data element you
+ want to get.
+Returns:
+A byte array that contains the tagged data element. Returns
+ null if the specified tag doesn't exist.
+See Also:
+setData(int, byte[])
+
+
+"
+ICC_Profile,getInstance(byte[] data),static ICC_Profile,Constructs an ICC_Profile object corresponding to the data in a byte array.,"
+
+getInstance
+public static ICC_Profile getInstance(byte[] data)
+Constructs an ICC_Profile object corresponding to the data in
+ a byte array.  Throws an IllegalArgumentException if the data
+ does not correspond to a valid ICC Profile.
+
+Parameters:
+data - the specified ICC Profile data
+Returns:
+an ICC_Profile object corresponding to
+          the data in the specified data array.
+
+
+"
+ICC_Profile,getInstance(InputStream s),static ICC_Profile,Constructs an ICC_Profile corresponding to the data in an InputStream.,"
+
+getInstance
+public static ICC_Profile getInstance(InputStream s)
+                               throws IOException
+Constructs an ICC_Profile corresponding to the data in an InputStream.
+ This method throws an IllegalArgumentException if the stream does not
+ contain valid ICC Profile data.  It throws an IOException if an I/O
+ error occurs while reading the stream.
+
+Parameters:
+s - The input stream from which to read the profile data.
+Returns:
+an ICC_Profile object corresponding to the
+     data in the specified InputStream.
+Throws:
+IOException - If an I/O error occurs while reading the stream.
+IllegalArgumentException - If the stream does not
+ contain valid ICC Profile data.
+
+
+"
+ICC_Profile,getInstance(int cspace),static ICC_Profile,Constructs an ICC_Profile corresponding to one of the specific color spaces defined by the ColorSpace class (for example CS_sRGB).,"
+
+getInstance
+public static ICC_Profile getInstance(int cspace)
+Constructs an ICC_Profile corresponding to one of the specific color
+ spaces defined by the ColorSpace class (for example CS_sRGB).
+ Throws an IllegalArgumentException if cspace is not one of the
+ defined color spaces.
+
+Parameters:
+cspace - the type of color space to create a profile for.
+ The specified type is one of the color
+ space constants defined in the  ColorSpace class.
+Returns:
+an ICC_Profile object corresponding to
+          the specified ColorSpace type.
+Throws:
+IllegalArgumentException - If cspace is not
+ one of the predefined color space types.
+
+
+"
+ICC_Profile,getInstance(String fileName),static ICC_Profile,Constructs an ICC_Profile corresponding to the data in a file.,"
+
+getInstance
+public static ICC_Profile getInstance(String fileName)
+                               throws IOException
+Constructs an ICC_Profile corresponding to the data in a file.
+ fileName may be an absolute or a relative file specification.
+ Relative file names are looked for in several places: first, relative
+ to any directories specified by the java.iccprofile.path property;
+ second, relative to any directories specified by the java.class.path
+ property; finally, in a directory used to store profiles always
+ available, such as the profile for sRGB.  Built-in profiles use .pf as
+ the file name extension for profiles, e.g. sRGB.pf.
+ This method throws an IOException if the specified file cannot be
+ opened or if an I/O error occurs while reading the file.  It throws
+ an IllegalArgumentException if the file does not contain valid ICC
+ Profile data.
+
+Parameters:
+fileName - The file that contains the data for the profile.
+Returns:
+an ICC_Profile object corresponding to
+          the data in the specified file.
+Throws:
+IOException - If the specified file cannot be opened or
+ an I/O error occurs while reading the file.
+IllegalArgumentException - If the file does not
+ contain valid ICC Profile data.
+SecurityException - If a security manager is installed
+ and it does not permit read access to the given file.
+
+
+"
+ICC_Profile,getMajorVersion(),int,Returns profile major version.,"
+
+getMajorVersion
+public int getMajorVersion()
+Returns profile major version.
+
+Returns:
+The major version of the profile.
+
+
+"
+ICC_Profile,getMinorVersion(),int,Returns profile minor version.,"
+
+getMinorVersion
+public int getMinorVersion()
+Returns profile minor version.
+
+Returns:
+The minor version of the profile.
+
+
+"
+ICC_Profile,getNumComponents(),int,"Returns the number of color components in the ""input"" color space of this profile.","
+
+getNumComponents
+public int getNumComponents()
+Returns the number of color components in the ""input"" color
+ space of this profile.  For example if the color space type
+ of this profile is TYPE_RGB, then this method will return 3.
+
+Returns:
+The number of color components in the profile's input
+ color space.
+Throws:
+ProfileDataException - if color space is in the profile
+         is invalid
+
+
+"
+ICC_Profile,getPCSType(),int,Returns the color space type of the Profile Connection Space (PCS).,"
+
+getPCSType
+public int getPCSType()
+Returns the color space type of the Profile Connection Space (PCS).
+ Returns one of the color space type constants defined by the
+ ColorSpace class.  This is the ""output"" color space of the
+ profile.  For an input, display, or output profile useful
+ for tagging colors or images, this will be either TYPE_XYZ or
+ TYPE_Lab and should be interpreted as the corresponding specific
+ color space defined in the ICC specification.  For a device
+ link profile, this could be any of the color space type constants.
+
+Returns:
+One of the color space type constants defined in the
+ ColorSpace class.
+
+
+"
+ICC_Profile,getProfileClass(),int,Returns the profile class.,"
+
+getProfileClass
+public int getProfileClass()
+Returns the profile class.
+
+Returns:
+One of the predefined profile class constants.
+
+
+"
+ICC_Profile,readResolve(),protected Object,Resolves instances being deserialized into instances registered with CMM.,"
+
+readResolve
+protected Object readResolve()
+                      throws ObjectStreamException
+Resolves instances being deserialized into instances registered
+ with CMM.
+
+Returns:
+ICC_Profile object for profile registered with CMM.
+Throws:
+ObjectStreamException - never thrown, but mandated by the serialization spec.
+Since:
+1.3
+
+
+"
+ICC_Profile,"setData(int tagSignature, byte[] tagData)",void,Sets a particular tagged data element in the profile from a byte array.,"
+
+setData
+public void setData(int tagSignature,
+                    byte[] tagData)
+Sets a particular tagged data element in the profile from
+ a byte array. The array should contain data in a format, corresponded
+ to the tagSignature as defined in the ICC specification, section 10.
+ This method is useful for advanced applets or applications which need to
+ access profile data directly.
+
+Parameters:
+tagSignature - The ICC tag signature for the data element
+ you want to set.
+tagData - the data to set for the specified tag signature
+Throws:
+IllegalArgumentException - if tagSignature is not a signature
+         as defined in the ICC specification.
+IllegalArgumentException - if a content of the tagData
+         array can not be interpreted as valid tag data, corresponding
+         to the tagSignature.
+See Also:
+getData()
+
+
+"
+ICC_Profile,write(OutputStream s),void,Write this ICC_Profile to an OutputStream.,"
+
+write
+public void write(OutputStream s)
+           throws IOException
+Write this ICC_Profile to an OutputStream.
+
+Parameters:
+s - The stream to write the profile data to.
+Throws:
+IOException - If an I/O error occurs while writing to the
+ stream.
+
+
+"
+ICC_Profile,write(String fileName),void,Write this ICC_Profile to a file.,"
+
+write
+public void write(String fileName)
+           throws IOException
+Write this ICC_Profile to a file.
+
+Parameters:
+fileName - The file to write the profile data to.
+Throws:
+IOException - If the file cannot be opened for writing
+ or an I/O error occurs while writing to the file.
+
+
+"
+ICC_ProfileGray,getGamma(),float,Returns a gamma value representing the tone reproduction curve (TRC).,"
+
+getGamma
+public float getGamma()
+Returns a gamma value representing the tone reproduction
+ curve (TRC).  If the profile represents the TRC as a table rather
+ than a single gamma value, then an exception is thrown.  In this
+ case the actual table can be obtained via getTRC().  When
+ using a gamma value, the PCS Y component is computed as follows:
+
+
+                          gamma
+         PCSY = deviceGray
+
+
+
+Returns:
+the gamma value as a float.
+Throws:
+ProfileDataException - if the profile does not specify
+            the TRC as a single gamma value.
+
+
+"
+ICC_ProfileGray,getMediaWhitePoint(),float[],"Returns a float array of length 3 containing the X, Y, and Z components of the mediaWhitePointTag in the ICC profile.","
+
+getMediaWhitePoint
+public float[] getMediaWhitePoint()
+Returns a float array of length 3 containing the X, Y, and Z
+ components of the mediaWhitePointTag in the ICC profile.
+
+Returns:
+an array containing the components of the
+ mediaWhitePointTag in the ICC profile.
+
+
+"
+ICC_ProfileGray,getTRC(),short[],Returns the TRC as an array of shorts.,"
+
+getTRC
+public short[] getTRC()
+Returns the TRC as an array of shorts.  If the profile has
+ specified the TRC as linear (gamma = 1.0) or as a simple gamma
+ value, this method throws an exception, and the getGamma() method
+ should be used to get the gamma value.  Otherwise the short array
+ returned here represents a lookup table where the input Gray value
+ is conceptually in the range [0.0, 1.0].  Value 0.0 maps
+ to array index 0 and value 1.0 maps to array index length-1.
+ Interpolation may be used to generate output values for
+ input values which do not map exactly to an index in the
+ array.  Output values also map linearly to the range [0.0, 1.0].
+ Value 0.0 is represented by an array value of 0x0000 and
+ value 1.0 by 0xFFFF, i.e. the values are really unsigned
+ short values, although they are returned in a short array.
+
+Returns:
+a short array representing the TRC.
+Throws:
+ProfileDataException - if the profile does not specify
+            the TRC as a table.
+
+
+"
+ICC_ProfileRGB,getGamma(int component),float,Returns a gamma value representing the tone reproduction curve (TRC) for a particular component.,"
+
+getGamma
+public float getGamma(int component)
+Returns a gamma value representing the tone reproduction curve
+ (TRC) for a particular component.  The component parameter
+ must be one of REDCOMPONENT, GREENCOMPONENT, or BLUECOMPONENT.
+ 
+ If the profile
+ represents the TRC for the corresponding component
+ as a table rather than a single gamma value, an
+ exception is thrown.  In this case the actual table
+ can be obtained through the getTRC(int) method.
+ When using a gamma value,
+ the linear component (R, G, or B) is computed as follows:
+ 
+
+                                           gamma
+          linearComponent = deviceComponent
+
+
+
+Parameters:
+component - The ICC_ProfileRGB constant that
+ represents the component whose TRC you want to retrieve
+Returns:
+the gamma value as a float.
+Throws:
+ProfileDataException - if the profile does not specify
+            the corresponding TRC as a single gamma value.
+
+
+"
+ICC_ProfileRGB,getMatrix(),float[][],"Returns a 3x3 float matrix constructed from the X, Y, and Z components of the profile's redColorantTag, greenColorantTag, and blueColorantTag.","
+
+getMatrix
+public float[][] getMatrix()
+Returns a 3x3 float matrix constructed from the
+ X, Y, and Z components of the profile's redColorantTag,
+ greenColorantTag, and blueColorantTag.
+ 
+ This matrix can be used for color transforms in the forward
+ direction of the profile--from the profile color space
+ to the CIEXYZ PCS.
+
+Returns:
+A 3x3 float array that contains the x, y, and z
+ components of the profile's redColorantTag,
+ greenColorantTag, and blueColorantTag.
+
+
+"
+ICC_ProfileRGB,getMediaWhitePoint(),float[],Returns an array that contains the components of the profile's mediaWhitePointTag.,"
+
+getMediaWhitePoint
+public float[] getMediaWhitePoint()
+Returns an array that contains the components of the profile's
+ mediaWhitePointTag.
+
+Returns:
+A 3-element float array containing the x, y,
+ and z components of the profile's mediaWhitePointTag.
+
+
+"
+ICC_ProfileRGB,getTRC(int component),short[],Returns the TRC for a particular component as an array.,"
+
+getTRC
+public short[] getTRC(int component)
+Returns the TRC for a particular component as an array.
+ Component must be REDCOMPONENT,
+ GREENCOMPONENT, or BLUECOMPONENT.
+ Otherwise the returned array
+ represents a lookup table where the input component value
+ is conceptually in the range [0.0, 1.0].  Value 0.0 maps
+ to array index 0 and value 1.0 maps to array index length-1.
+ Interpolation might be used to generate output values for
+ input values that do not map exactly to an index in the
+ array.  Output values also map linearly to the range [0.0, 1.0].
+ Value 0.0 is represented by an array value of 0x0000 and
+ value 1.0 by 0xFFFF.  In other words, the values are really unsigned
+ short values even though they are returned in a
+ short array.
+
+ If the profile has specified the corresponding TRC
+ as linear (gamma = 1.0) or as a simple gamma value, this method
+ throws an exception.  In this case, the getGamma(int)
+ method should be used to get the gamma value.
+
+Parameters:
+component - The ICC_ProfileRGB constant that
+ represents the component whose TRC you want to retrieve:
+ REDCOMPONENT, GREENCOMPONENT, or
+ BLUECOMPONENT.
+Returns:
+a short array representing the TRC.
+Throws:
+ProfileDataException - if the profile does not specify
+            the corresponding TRC as a table.
+
+
+"

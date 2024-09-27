@@ -1,0 +1,256 @@
+Sample: 0 HandlerBase_1
+----------------------------------------------------------------
+`void setDocumentLocator(Locator locator)`: This method receives a Locator object for document events.
+
+Code snippet:
+```java
+import org.xml.sax.Locator;
+import org.xml.sax.HandlerBase;
+
+public class Main {
+    public static void main(String[] args) {
+        HandlerBase handler = new HandlerBase() {
+            @Override
+            public void setDocumentLocator(Locator locator) {
+                // Override the setDocumentLocator method to store the locator for use with other document events
+                System.out.println("Received Locator: " + locator);
+            }
+        };
+
+        Locator locator = new Locator() {
+            @Override
+            public int getColumnNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getLineNumber() {
+                return 0;
+            }
+
+            @Override
+            public String getPublicId() {
+                return null;
+            }
+
+            @Override
+            public String getSystemId() {
+                return null;
+            }
+        };
+
+        handler.setDocumentLocator(locator);
+    }
+}
+```
+================================================================
+
+Sample: 1 HandlerBase_2
+----------------------------------------------------------------
+`void startDocument()`: This method receives notification of the beginning of the document.
+
+Code snippet:
+```java
+import org.xml.sax.HandlerBase;
+import org.xml.sax.SAXException;
+
+public class Main {
+    public static void main(String[] args) {
+        HandlerBase handler = new HandlerBase() {
+            @Override
+            public void startDocument() throws SAXException {
+                System.out.println("Document started");
+            }
+        };
+
+        try {
+            handler.startDocument();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 HandlerBase_3
+----------------------------------------------------------------
+`void endDocument()`: This method receives notification of the end of the document.
+
+Code snippet:
+```java
+import org.xml.sax.HandlerBase;
+import org.xml.sax.SAXException;
+
+public class Main {
+    public static void main(String[] args) {
+        HandlerBase handler = new HandlerBase() {
+            @Override
+            public void endDocument() throws SAXException {
+                // Add specific actions to take at the end of the document
+                System.out.println("End of document reached");
+            }
+        };
+
+        try {
+            handler.endDocument();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 HandlerBase_4
+----------------------------------------------------------------
+`void startElement(String name, AttributeList atts)`: This method receives notification of the start of an element.
+
+Code snippet:
+```java
+import org.xml.sax.AttributeList;
+import org.xml.sax.HandlerBase;
+
+public class Main extends HandlerBase {
+    public static void main(String[] args) {
+        Main handler = new Main();
+        handler.startElement("elementName", new AttributeList());
+    }
+
+    public void startElement(String name, AttributeList attributes) {
+        // Add your implementation here
+        System.out.println("Start element: " + name);
+    }
+}
+```
+================================================================
+
+Sample: 4 HandlerBase_5
+----------------------------------------------------------------
+`void endElement(String name)`: This method receives notification of the end of an element.
+
+Code snippet:
+```java
+import org.xml.sax.HandlerBase;
+import org.xml.sax.SAXException;
+
+public class Main extends HandlerBase {
+    public static void main(String[] args) {
+        Main handler = new Main();
+        try {
+            handler.endElement("elementName");
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void endElement(String name) throws SAXException {
+        // Perform specific actions at the end of each element
+        System.out.println("End of element: " + name);
+    }
+}
+```
+================================================================
+
+Sample: 5 InputSource_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.InputSource;
+
+public class Main {
+    public static void main(String[] args) {
+        InputSource inputSource = new InputSource();
+        inputSource.setSystemId("http://example.com/xmlfile.xml");
+        System.out.println("System ID set to: " + inputSource.getSystemId());
+    }
+}
+```
+================================================================
+
+Sample: 6 InputSource_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import org.xml.sax.InputSource;
+
+public class Main {
+    public static void main(String[] args) {
+        InputSource inputSource = new InputSource();
+        inputSource.setPublicId("http://example.com/publicId");
+        System.out.println("Public ID set: " + inputSource.getPublicId());
+    }
+}
+```
+================================================================
+
+Sample: 7 InputSource_3
+----------------------------------------------------------------
+`void setByteStream(InputStream byteStream)`: This method sets the byte stream for the input source.
+
+Code snippet:
+```java
+import org.xml.sax.InputSource;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        InputSource inputSource = new InputSource();
+        
+        // Creating a byte stream
+        String xmlString = "<root><element>Example</element></root>";
+        InputStream byteStream = new ByteArrayInputStream(xmlString.getBytes());
+        
+        // Setting the byte stream for the input source
+        inputSource.setByteStream(byteStream);
+        
+        // Accessing the byte stream
+        InputStream retrievedByteStream = inputSource.getByteStream();
+        System.out.println("Byte Stream: " + retrievedByteStream);
+    }
+}
+```
+================================================================
+
+Sample: 8 InputSource_4
+----------------------------------------------------------------
+`void setCharacterStream(Reader characterStream)`: This method sets the character stream for the input source.
+
+Code snippet:
+```java
+import org.xml.sax.InputSource;
+
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        InputSource inputSource = new InputSource();
+        String xmlString = "<root><element>Value</element></root>";
+        Reader reader = new StringReader(xmlString);
+        
+        inputSource.setCharacterStream(reader);
+    }
+}
+```
+================================================================
+
+Sample: 9 InputSource_5
+----------------------------------------------------------------
+`void setEncoding(String encoding)`: This method sets the character encoding for the input source.
+
+Code snippet:
+```java
+import org.xml.sax.InputSource;
+
+public class Main {
+    public static void main(String[] args) {
+        InputSource inputSource = new InputSource();
+        inputSource.setEncoding("UTF-8");
+        System.out.println("Character encoding set to: " + inputSource.getEncoding());
+    }
+}
+```
+================================================================
+

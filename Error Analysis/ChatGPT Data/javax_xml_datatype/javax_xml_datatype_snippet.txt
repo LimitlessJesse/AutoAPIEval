@@ -1,0 +1,365 @@
+Sample: 0 DatatypeFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.GregorianCalendar;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+            GregorianCalendar gregorianCalendar = new GregorianCalendar();
+            XMLGregorianCalendar xmlGregorianCalendar = datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
+            
+            System.out.println("XMLGregorianCalendar: " + xmlGregorianCalendar);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 DatatypeFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.DatatypeConfigurationException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+            String lexicalRepresentation = "P1Y2M3DT4H5M6S";
+            Duration duration = datatypeFactory.newDuration(lexicalRepresentation);
+            System.out.println("Duration: " + duration.toString());
+        } catch (DatatypeConfigurationException e) {
+            System.out.println("Error creating DatatypeFactory");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 DatatypeFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.GregorianCalendar;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+            GregorianCalendar gregorianCalendar = new GregorianCalendar();
+            XMLGregorianCalendar xmlGregorianCalendar = datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
+            
+            System.out.println("XMLGregorianCalendar: " + xmlGregorianCalendar);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 DatatypeFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.GregorianCalendar;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLGregorianCalendar xmlGregorianCalendar = newXMLGregorianCalendarDate(2022, 10, 20, 0);
+        System.out.println(xmlGregorianCalendar);
+    }
+
+    public static XMLGregorianCalendar newXMLGregorianCalendarDate(int year, int month, int day, int timezone) {
+        try {
+            DatatypeFactory df = DatatypeFactory.newInstance();
+            XMLGregorianCalendar xmlGregorianCalendar = df.newXMLGregorianCalendar();
+            xmlGregorianCalendar.setYear(year);
+            xmlGregorianCalendar.setMonth(month);
+            xmlGregorianCalendar.setDay(day);
+            xmlGregorianCalendar.setTimezone(timezone);
+            return xmlGregorianCalendar;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 DatatypeFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLGregorianCalendar xmlGregorianCalendar = newXMLGregorianCalendarTime(10, 30, 45, 0);
+        System.out.println("Time: " + xmlGregorianCalendar.getHour() + ":" + xmlGregorianCalendar.getMinute() + ":" + xmlGregorianCalendar.getSecond());
+    }
+    
+    public static XMLGregorianCalendar newXMLGregorianCalendarTime(int hours, int minutes, int seconds, int timezone) {
+        try {
+            DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+            XMLGregorianCalendar xmlGregorianCalendar = datatypeFactory.newXMLGregorianCalendarTime(hours, minutes, seconds, timezone);
+            return xmlGregorianCalendar;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 Duration_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatatypeFactory factory = DatatypeFactory.newInstance();
+            Duration duration1 = factory.newDuration(true, 0, 1, 0, 0, 0, 0);
+            Duration duration2 = factory.newDuration(true, 0, 0, 1, 0, 0, 0);
+
+            Duration result = duration1.add(duration2);
+            System.out.println("Result: " + result.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 Duration_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+            Duration duration1 = datatypeFactory.newDuration("P2DT5H30M");
+            Duration duration2 = datatypeFactory.newDuration("P1DT3H15M");
+
+            Duration result = duration1.subtract(duration2);
+            System.out.println("Subtracted Duration: " + result.toString());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 Duration_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.DatatypeConfigurationException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DatatypeFactory factory = DatatypeFactory.newInstance();
+            Duration duration1 = factory.newDuration(true, 0, 0, 0, 5, 30, 15);
+            Duration duration2 = factory.newDuration(true, 0, 0, 0, 10, 15, 45);
+            boolean isLonger = duration2.isLongerThan(duration1);
+            System.out.println("duration2 is longer than duration1: " + isLonger);
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 Duration_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
+
+public class Main {
+    public static void main(String[] args) throws DatatypeConfigurationException {
+        DatatypeFactory factory = DatatypeFactory.newInstance();
+        
+        Duration duration1 = factory.newDuration(true, 0, 1, 0, 0, 0, 0);
+        Duration duration2 = factory.newDuration(true, 0, 2, 0, 0, 0, 0);
+        
+        boolean isShorter = duration1.isShorterThan(duration2);
+        System.out.println("Is duration1 shorter than duration2? " + isShorter);
+    }
+}
+```
+================================================================
+
+Sample: 9 Duration_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
+
+public class Main {
+    public static void main(String[] args) throws DatatypeConfigurationException {
+        Duration duration = DatatypeFactory.newInstance().newDuration("P2Y3M5DT12H30M");
+        
+        Duration multipliedDuration = duration.multiply(2);
+        
+        System.out.println("Original Duration: " + duration.toString());
+        System.out.println("Multiplied Duration by 2: " + multipliedDuration.toString());
+    }
+}
+```
+================================================================
+
+Sample: 10 XMLGregorianCalendar_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.*;
+import java.util.GregorianCalendar;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLGregorianCalendar cal = null;
+        
+        // Create a new XMLGregorianCalendar object
+        try {
+            cal = DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar());
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        // Normalize the XMLGregorianCalendar object
+        cal = cal.normalize();
+
+        System.out.println("Normalized DateTime: " + cal.toString());
+    }
+}
+```
+================================================================
+
+Sample: 11 XMLGregorianCalendar_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.XMLGregorianCalendar;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create two XMLGregorianCalendar objects
+        XMLGregorianCalendar cal1 = null; // initialize with actual values
+        XMLGregorianCalendar cal2 = null; // initialize with actual values
+
+        // Compare the two XMLGregorianCalendar objects
+        int result = cal1.compare(cal2);
+        System.out.println("Comparison Result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 12 XMLGregorianCalendar_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Creating an XMLGregorianCalendar object
+            XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar("2022-12-25");
+
+            // Checking if the XMLGregorianCalendar object is valid
+            boolean isValid = xmlDate.isValid();
+            System.out.println("Is the XMLGregorianCalendar object valid? " + isValid);
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 XMLGregorianCalendar_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            XMLGregorianCalendar xmlGregCal = DatatypeFactory.newInstance().newXMLGregorianCalendar();
+            String xmlFormat = xmlGregCal.toXMLFormat();
+            System.out.println("XML Format: " + xmlFormat);
+        } catch (DatatypeConfigurationException ex) {
+            System.err.println("Error creating XMLGregorianCalendar: " + ex.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 14 XMLGregorianCalendar_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        // Creating an XMLGregorianCalendar instance
+        DatatypeFactory dataTypeFactory = DatatypeFactory.newInstance();
+        XMLGregorianCalendar xmlCalendar = dataTypeFactory.newXMLGregorianCalendar(new GregorianCalendar());
+
+        // Setting the timezone offset to UTC+2
+        xmlCalendar.setTimezone(2 * 60); // 2 hours * 60 minutes
+
+        // Displaying the date with the new timezone offset
+        System.out.println("Original Date: " + xmlCalendar.toString());
+    }
+}
+```
+================================================================
+

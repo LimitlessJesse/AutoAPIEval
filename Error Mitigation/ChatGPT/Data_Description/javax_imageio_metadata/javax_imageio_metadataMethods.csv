@@ -1,0 +1,2837 @@
+ClassName,Method,Return Type,Description,Full Description
+IIOMetadata,activateController(),boolean,Activates the installed IIOMetadataController for this IIOMetadata object and returns the resulting value.,"
+
+activateController
+public boolean activateController()
+Activates the installed IIOMetadataController for
+ this IIOMetadata object and returns the resulting
+ value.  When this method returns true, all values for this
+ IIOMetadata object will be ready for the next write
+ operation.  If false is
+ returned, no settings in this object will have been disturbed
+ (i.e., the user canceled the operation).
+
+  Ordinarily, the controller will be a GUI providing a user
+ interface for a subclass of IIOMetadata for a
+ particular plug-in.  Controllers need not be GUIs, however.
+
+  The default implementation calls getController
+ and the calls activate on the returned object if
+ hasController returns true.
+
+Returns:
+true if the controller completed normally.
+Throws:
+IllegalStateException - if there is no controller
+ currently installed.
+See Also:
+IIOMetadataController, 
+setController(IIOMetadataController), 
+getController(), 
+getDefaultController(), 
+hasController()
+
+
+"
+IIOMetadata,getAsTree(String formatName),abstract Node,Returns an XML DOM Node object that represents the root of a tree of metadata contained within this object according to the conventions defined by a given metadata format.,"
+
+getAsTree
+public abstract Node getAsTree(String formatName)
+Returns an XML DOM Node object that represents the
+ root of a tree of metadata contained within this object
+ according to the conventions defined by a given metadata
+ format.
+
+  The names of the available metadata formats may be queried
+ using the getMetadataFormatNames method.
+
+Parameters:
+formatName - the desired metadata format.
+Returns:
+an XML DOM Node object forming the
+ root of a tree.
+Throws:
+IllegalArgumentException - if formatName
+ is null or is not one of the names returned by
+ getMetadataFormatNames.
+See Also:
+getMetadataFormatNames(), 
+setFromTree(java.lang.String, org.w3c.dom.Node), 
+mergeTree(java.lang.String, org.w3c.dom.Node)
+
+
+"
+IIOMetadata,getController(),IIOMetadataController,Returns whatever IIOMetadataController is currently installed.,"
+
+getController
+public IIOMetadataController getController()
+Returns whatever IIOMetadataController is currently
+ installed.  This could be the default if there is one,
+ null, or the argument of the most recent call
+ to setController.
+
+  The default implementation returns the value of the
+ controller instance variable.
+
+Returns:
+the currently installed
+ IIOMetadataController, or null.
+See Also:
+IIOMetadataController, 
+setController(javax.imageio.metadata.IIOMetadataController), 
+getDefaultController(), 
+hasController(), 
+activateController()
+
+
+"
+IIOMetadata,getDefaultController(),IIOMetadataController,"Returns the default IIOMetadataController, if there is one, regardless of the currently installed controller.","
+
+getDefaultController
+public IIOMetadataController getDefaultController()
+Returns the default IIOMetadataController, if there
+ is one, regardless of the currently installed controller.  If
+ there is no default controller, returns null.
+
+  The default implementation returns the value of the
+ defaultController instance variable.
+
+Returns:
+the default IIOMetadataController, or
+ null.
+See Also:
+IIOMetadataController, 
+setController(IIOMetadataController), 
+getController(), 
+hasController(), 
+activateController()
+
+
+"
+IIOMetadata,getExtraMetadataFormatNames(),String[],"Returns an array of Strings containing the names of additional metadata formats, other than the native and standard formats, recognized by this plug-in's getAsTree, setFromTree, and mergeTree methods.","
+
+getExtraMetadataFormatNames
+public String[] getExtraMetadataFormatNames()
+Returns an array of Strings containing the names
+ of additional metadata formats, other than the native and standard
+ formats, recognized by this plug-in's
+ getAsTree, setFromTree, and
+ mergeTree methods.  If there are no such additional
+ formats, null is returned.
+
+  The default implementation returns a clone of the
+ extraMetadataFormatNames instance variable.
+
+Returns:
+an array of Strings with length at least
+ 1, or null.
+See Also:
+getAsTree(java.lang.String), 
+setFromTree(java.lang.String, org.w3c.dom.Node), 
+mergeTree(java.lang.String, org.w3c.dom.Node), 
+getNativeMetadataFormatName(), 
+getMetadataFormatNames()
+
+
+"
+IIOMetadata,getMetadataFormat(String formatName),IIOMetadataFormat,"Returns an IIOMetadataFormat object describing the given metadata format, or null if no description is available.","
+
+getMetadataFormat
+public IIOMetadataFormat getMetadataFormat(String formatName)
+Returns an IIOMetadataFormat object describing the
+ given metadata format, or null if no description
+ is available.  The supplied name must be one of those returned
+ by getMetadataFormatNames (i.e., either the
+ native format name, the standard format name, or one of those
+ returned by getExtraMetadataFormatNames).
+
+  The default implementation checks the name against the
+ global standard metadata format name, and returns that format
+ if it is supported.  Otherwise, it checks against the native
+ format names followed by any additional format names.  If a
+ match is found, it retrieves the name of the
+ IIOMetadataFormat class from
+ nativeMetadataFormatClassName or
+ extraMetadataFormatClassNames as appropriate, and
+ constructs an instance of that class using its
+ getInstance method.
+
+Parameters:
+formatName - the desired metadata format.
+Returns:
+an IIOMetadataFormat object.
+Throws:
+IllegalArgumentException - if formatName
+ is null or is not one of the names recognized by
+ the plug-in.
+IllegalStateException - if the class corresponding to
+ the format name cannot be loaded.
+
+
+"
+IIOMetadata,getMetadataFormatNames(),String[],"Returns an array of Strings containing the names of all metadata formats, including the native and standard formats, recognized by this plug-in's getAsTree, setFromTree, and mergeTree methods.","
+
+getMetadataFormatNames
+public String[] getMetadataFormatNames()
+Returns an array of Strings containing the names
+ of all metadata formats, including the native and standard
+ formats, recognized by this plug-in's getAsTree,
+ setFromTree, and mergeTree methods.
+ If there are no such formats, null is returned.
+
+  The default implementation calls
+ getNativeMetadataFormatName,
+ isStandardMetadataFormatSupported, and
+ getExtraMetadataFormatNames and returns the
+ combined results.
+
+Returns:
+an array of Strings.
+See Also:
+getNativeMetadataFormatName(), 
+isStandardMetadataFormatSupported(), 
+getExtraMetadataFormatNames()
+
+
+"
+IIOMetadata,getNativeMetadataFormatName(),String,"Returns the name of the ""native"" metadata format for this plug-in, which typically allows for lossless encoding and transmission of the metadata stored in the format handled by this plug-in.","
+
+getNativeMetadataFormatName
+public String getNativeMetadataFormatName()
+Returns the name of the ""native"" metadata format for this
+ plug-in, which typically allows for lossless encoding and
+ transmission of the metadata stored in the format handled by
+ this plug-in.  If no such format is supported,
+ nullwill be returned.
+
+  The structure and contents of the ""native"" metadata format
+ are defined by the plug-in that created this
+ IIOMetadata object.  Plug-ins for simple formats
+ will usually create a dummy node for the root, and then a
+ series of child nodes representing individual tags, chunks, or
+ keyword/value pairs.  A plug-in may choose whether or not to
+ document its native format.
+
+  The default implementation returns the value of the
+ nativeMetadataFormatName instance variable.
+
+Returns:
+the name of the native format, or null.
+See Also:
+getExtraMetadataFormatNames(), 
+getMetadataFormatNames()
+
+
+"
+IIOMetadata,getStandardChromaNode(),protected IIOMetadataNode,"Returns an IIOMetadataNode representing the chroma information of the standard javax_imageio_1.0 metadata format, or null if no such information is available.","
+
+getStandardChromaNode
+protected IIOMetadataNode getStandardChromaNode()
+Returns an IIOMetadataNode representing the chroma
+ information of the standard javax_imageio_1.0
+ metadata format, or null if no such information is
+ available.  This method is intended to be called by the utility
+ routine getStandardTree.
+
+  The default implementation returns null.
+
+  Subclasses should override this method to produce an
+ appropriate subtree if they wish to support the standard
+ metadata format.
+
+Returns:
+an IIOMetadataNode, or null.
+See Also:
+getStandardTree()
+
+
+"
+IIOMetadata,getStandardCompressionNode(),protected IIOMetadataNode,"Returns an IIOMetadataNode representing the compression information of the standard javax_imageio_1.0 metadata format, or null if no such information is available.","
+
+getStandardCompressionNode
+protected IIOMetadataNode getStandardCompressionNode()
+Returns an IIOMetadataNode representing the
+ compression information of the standard
+ javax_imageio_1.0 metadata format, or
+ null if no such information is available.  This
+ method is intended to be called by the utility routine
+ getStandardTree.
+
+  The default implementation returns null.
+
+  Subclasses should override this method to produce an
+ appropriate subtree if they wish to support the standard
+ metadata format.
+
+Returns:
+an IIOMetadataNode, or null.
+See Also:
+getStandardTree()
+
+
+"
+IIOMetadata,getStandardDataNode(),protected IIOMetadataNode,"Returns an IIOMetadataNode representing the data format information of the standard javax_imageio_1.0 metadata format, or null if no such information is available.","
+
+getStandardDataNode
+protected IIOMetadataNode getStandardDataNode()
+Returns an IIOMetadataNode representing the data
+ format information of the standard
+ javax_imageio_1.0 metadata format, or
+ null if no such information is available.  This
+ method is intended to be called by the utility routine
+ getStandardTree.
+
+  The default implementation returns null.
+
+  Subclasses should override this method to produce an
+ appropriate subtree if they wish to support the standard
+ metadata format.
+
+Returns:
+an IIOMetadataNode, or null.
+See Also:
+getStandardTree()
+
+
+"
+IIOMetadata,getStandardDimensionNode(),protected IIOMetadataNode,"Returns an IIOMetadataNode representing the dimension information of the standard javax_imageio_1.0 metadata format, or null if no such information is available.","
+
+getStandardDimensionNode
+protected IIOMetadataNode getStandardDimensionNode()
+Returns an IIOMetadataNode representing the
+ dimension information of the standard
+ javax_imageio_1.0 metadata format, or
+ null if no such information is available.  This
+ method is intended to be called by the utility routine
+ getStandardTree.
+
+  The default implementation returns null.
+
+  Subclasses should override this method to produce an
+ appropriate subtree if they wish to support the standard
+ metadata format.
+
+Returns:
+an IIOMetadataNode, or null.
+See Also:
+getStandardTree()
+
+
+"
+IIOMetadata,getStandardDocumentNode(),protected IIOMetadataNode,"Returns an IIOMetadataNode representing the document information of the standard javax_imageio_1.0 metadata format, or null if no such information is available.","
+
+getStandardDocumentNode
+protected IIOMetadataNode getStandardDocumentNode()
+Returns an IIOMetadataNode representing the document
+ information of the standard javax_imageio_1.0
+ metadata format, or null if no such information is
+ available.  This method is intended to be called by the utility
+ routine getStandardTree.
+
+  The default implementation returns null.
+
+  Subclasses should override this method to produce an
+ appropriate subtree if they wish to support the standard
+ metadata format.
+
+Returns:
+an IIOMetadataNode, or null.
+See Also:
+getStandardTree()
+
+
+"
+IIOMetadata,getStandardTextNode(),protected IIOMetadataNode,"Returns an IIOMetadataNode representing the textual information of the standard javax_imageio_1.0 metadata format, or null if no such information is available.","
+
+getStandardTextNode
+protected IIOMetadataNode getStandardTextNode()
+Returns an IIOMetadataNode representing the textual
+ information of the standard javax_imageio_1.0
+ metadata format, or null if no such information is
+ available.  This method is intended to be called by the utility
+ routine getStandardTree.
+
+  The default implementation returns null.
+
+  Subclasses should override this method to produce an
+ appropriate subtree if they wish to support the standard
+ metadata format.
+
+Returns:
+an IIOMetadataNode, or null.
+See Also:
+getStandardTree()
+
+
+"
+IIOMetadata,getStandardTileNode(),protected IIOMetadataNode,"Returns an IIOMetadataNode representing the tiling information of the standard javax_imageio_1.0 metadata format, or null if no such information is available.","
+
+getStandardTileNode
+protected IIOMetadataNode getStandardTileNode()
+Returns an IIOMetadataNode representing the tiling
+ information of the standard javax_imageio_1.0
+ metadata format, or null if no such information is
+ available.  This method is intended to be called by the utility
+ routine getStandardTree.
+
+  The default implementation returns null.
+
+  Subclasses should override this method to produce an
+ appropriate subtree if they wish to support the standard
+ metadata format.
+
+Returns:
+an IIOMetadataNode, or null.
+See Also:
+getStandardTree()
+
+
+"
+IIOMetadata,getStandardTransparencyNode(),protected IIOMetadataNode,"Returns an IIOMetadataNode representing the transparency information of the standard javax_imageio_1.0 metadata format, or null if no such information is available.","
+
+getStandardTransparencyNode
+protected IIOMetadataNode getStandardTransparencyNode()
+Returns an IIOMetadataNode representing the
+ transparency information of the standard
+ javax_imageio_1.0 metadata format, or
+ null if no such information is available.  This
+ method is intended to be called by the utility routine
+ getStandardTree.
+
+  The default implementation returns null.
+
+  Subclasses should override this method to produce an
+ appropriate subtree if they wish to support the standard
+ metadata format.
+
+Returns:
+an IIOMetadataNode, or null.
+
+
+"
+IIOMetadata,getStandardTree(),protected IIOMetadataNode,A utility method to return a tree of IIOMetadataNodes representing the metadata contained within this object according to the conventions of the standard javax_imageio_1.0 metadata format.,"
+
+getStandardTree
+protected final IIOMetadataNode getStandardTree()
+A utility method to return a tree of
+ IIOMetadataNodes representing the metadata
+ contained within this object according to the conventions of
+ the standard javax_imageio_1.0 metadata format.
+
+  This method calls the various getStandard*Node
+ methods to supply each of the subtrees rooted at the children
+ of the root node.  If any of those methods returns
+ null, the corresponding subtree will be omitted.
+ If all of them return null, a tree consisting of a
+ single root node will be returned.
+
+Returns:
+an IIOMetadataNode representing the root
+ of a metadata tree in the javax_imageio_1.0
+ format.
+See Also:
+getStandardChromaNode(), 
+getStandardCompressionNode(), 
+getStandardDataNode(), 
+getStandardDimensionNode(), 
+getStandardDocumentNode(), 
+getStandardTextNode(), 
+getStandardTileNode(), 
+getStandardTransparencyNode()
+
+
+"
+IIOMetadata,hasController(),boolean,Returns true if there is a controller installed for this IIOMetadata object.,"
+
+hasController
+public boolean hasController()
+Returns true if there is a controller installed
+ for this IIOMetadata object.
+
+  The default implementation returns true if the
+ getController method returns a
+ non-null value.
+
+Returns:
+true if a controller is installed.
+See Also:
+IIOMetadataController, 
+setController(IIOMetadataController), 
+getController(), 
+getDefaultController(), 
+activateController()
+
+
+"
+IIOMetadata,isReadOnly(),abstract boolean,"Returns true if this object does not support the mergeTree, setFromTree, and reset methods.","
+
+isReadOnly
+public abstract boolean isReadOnly()
+Returns true if this object does not support the
+ mergeTree, setFromTree, and
+ reset methods.
+
+Returns:
+true if this IIOMetadata object cannot be
+ modified.
+
+
+"
+IIOMetadata,isStandardMetadataFormatSupported(),boolean,"Returns true if the standard metadata format is supported by getMetadataFormat, getAsTree, setFromTree, and mergeTree.","
+
+isStandardMetadataFormatSupported
+public boolean isStandardMetadataFormatSupported()
+Returns true if the standard metadata format is
+ supported by getMetadataFormat,
+ getAsTree, setFromTree, and
+ mergeTree.
+
+  The default implementation returns the value of the
+ standardFormatSupported instance variable.
+
+Returns:
+true if the standard metadata format
+ is supported.
+See Also:
+getAsTree(java.lang.String), 
+setFromTree(java.lang.String, org.w3c.dom.Node), 
+mergeTree(java.lang.String, org.w3c.dom.Node), 
+getMetadataFormat(java.lang.String)
+
+
+"
+IIOMetadata,"mergeTree(String formatName, Node root)",abstract void,Alters the internal state of this IIOMetadata object from a tree of XML DOM Nodes whose syntax is defined by the given metadata format.,"
+
+mergeTree
+public abstract void mergeTree(String formatName,
+                               Node root)
+                        throws IIOInvalidTreeException
+Alters the internal state of this IIOMetadata
+ object from a tree of XML DOM Nodes whose syntax
+ is defined by the given metadata format.  The previous state is
+ altered only as necessary to accommodate the nodes that are
+ present in the given tree.  If the tree structure or contents
+ are invalid, an IIOInvalidTreeException will be
+ thrown.
+
+  As the semantics of how a tree or subtree may be merged with
+ another tree are completely format-specific, plug-in authors may
+ implement this method in whatever manner is most appropriate for
+ the format, including simply replacing all existing state with the
+ contents of the given tree.
+
+Parameters:
+formatName - the desired metadata format.
+root - an XML DOM Node object forming the
+ root of a tree.
+Throws:
+IllegalStateException - if this object is read-only.
+IllegalArgumentException - if formatName
+ is null or is not one of the names returned by
+ getMetadataFormatNames.
+IllegalArgumentException - if root is
+ null.
+IIOInvalidTreeException - if the tree cannot be parsed
+ successfully using the rules of the given format.
+See Also:
+getMetadataFormatNames(), 
+getAsTree(java.lang.String), 
+setFromTree(java.lang.String, org.w3c.dom.Node)
+
+
+"
+IIOMetadata,reset(),abstract void,"Resets all the data stored in this object to default values, usually to the state this object was in immediately after construction, though the precise semantics are plug-in specific.","
+
+reset
+public abstract void reset()
+Resets all the data stored in this object to default values,
+ usually to the state this object was in immediately after
+ construction, though the precise semantics are plug-in specific.
+ Note that there are many possible default values, depending on
+ how the object was created.
+
+Throws:
+IllegalStateException - if this object is read-only.
+See Also:
+ImageReader.getStreamMetadata(), 
+ImageReader.getImageMetadata(int), 
+ImageWriter.getDefaultStreamMetadata(javax.imageio.ImageWriteParam), 
+ImageWriter.getDefaultImageMetadata(javax.imageio.ImageTypeSpecifier, javax.imageio.ImageWriteParam)
+
+
+"
+IIOMetadata,setController(IIOMetadataController controller),void,"Sets the IIOMetadataController to be used to provide settings for this IIOMetadata object when the activateController method is called, overriding any default controller.","
+
+setController
+public void setController(IIOMetadataController controller)
+Sets the IIOMetadataController to be used
+ to provide settings for this IIOMetadata
+ object when the activateController method
+ is called, overriding any default controller.  If the
+ argument is null, no controller will be
+ used, including any default.  To restore the default, use
+ setController(getDefaultController()).
+
+  The default implementation sets the controller
+ instance variable to the supplied value.
+
+Parameters:
+controller - An appropriate
+ IIOMetadataController, or null.
+See Also:
+IIOMetadataController, 
+getController(), 
+getDefaultController(), 
+hasController(), 
+activateController()
+
+
+"
+IIOMetadata,"setFromTree(String formatName, Node root)",void,Sets the internal state of this IIOMetadata object from a tree of XML DOM Nodes whose syntax is defined by the given metadata format.,"
+
+setFromTree
+public void setFromTree(String formatName,
+                        Node root)
+                 throws IIOInvalidTreeException
+Sets the internal state of this IIOMetadata object
+ from a tree of XML DOM Nodes whose syntax is
+ defined by the given metadata format.  The previous state is
+ discarded.  If the tree's structure or contents are invalid, an
+ IIOInvalidTreeException will be thrown.
+
+  The default implementation calls reset
+ followed by mergeTree(formatName, root).
+
+Parameters:
+formatName - the desired metadata format.
+root - an XML DOM Node object forming the
+ root of a tree.
+Throws:
+IllegalStateException - if this object is read-only.
+IllegalArgumentException - if formatName
+ is null or is not one of the names returned by
+ getMetadataFormatNames.
+IllegalArgumentException - if root is
+ null.
+IIOInvalidTreeException - if the tree cannot be parsed
+ successfully using the rules of the given format.
+See Also:
+getMetadataFormatNames(), 
+getAsTree(java.lang.String), 
+mergeTree(java.lang.String, org.w3c.dom.Node)
+
+
+"
+IIOMetadataFormatImpl,"addAttribute(String elementName, String attrName, int dataType, boolean required, int listMinLength, int listMaxLength)",protected void,Adds a new attribute to a previously defined element that will be defined by a list of values.,"
+
+addAttribute
+protected void addAttribute(String elementName,
+                            String attrName,
+                            int dataType,
+                            boolean required,
+                            int listMinLength,
+                            int listMaxLength)
+Adds a new attribute to a previously defined element that will
+ be defined by a list of values.
+
+Parameters:
+elementName - the name of the element.
+attrName - the name of the attribute being added.
+dataType - the data type (string format) of the attribute,
+ one of the DATATYPE_* constants.
+required - true if the attribute must be present.
+listMinLength - the smallest legal number of list items.
+listMaxLength - the largest legal number of list items.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this
+ format.
+IllegalArgumentException - if attrName is
+ null.
+IllegalArgumentException - if dataType is
+ not one of the predefined constants.
+IllegalArgumentException - if
+ listMinLength is negative or larger than
+ listMaxLength.
+
+
+"
+IIOMetadataFormatImpl,"addAttribute(String elementName, String attrName, int dataType, boolean required, String defaultValue)",protected void,Adds a new attribute to a previously defined element that may be set to an arbitrary value.,"
+
+addAttribute
+protected void addAttribute(String elementName,
+                            String attrName,
+                            int dataType,
+                            boolean required,
+                            String defaultValue)
+Adds a new attribute to a previously defined element that may
+ be set to an arbitrary value.
+
+Parameters:
+elementName - the name of the element.
+attrName - the name of the attribute being added.
+dataType - the data type (string format) of the attribute,
+ one of the DATATYPE_* constants.
+required - true if the attribute must be present.
+defaultValue - the default value for the attribute, or
+ null.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this
+ format.
+IllegalArgumentException - if attrName is
+ null.
+IllegalArgumentException - if dataType is
+ not one of the predefined constants.
+
+
+"
+IIOMetadataFormatImpl,"addAttribute(String elementName, String attrName, int dataType, boolean required, String defaultValue, List<String> enumeratedValues)",protected void,Adds a new attribute to a previously defined element that will be defined by a set of enumerated values.,"
+
+addAttribute
+protected void addAttribute(String elementName,
+                            String attrName,
+                            int dataType,
+                            boolean required,
+                            String defaultValue,
+                            List<String> enumeratedValues)
+Adds a new attribute to a previously defined element that will
+ be defined by a set of enumerated values.
+
+Parameters:
+elementName - the name of the element.
+attrName - the name of the attribute being added.
+dataType - the data type (string format) of the attribute,
+ one of the DATATYPE_* constants.
+required - true if the attribute must be present.
+defaultValue - the default value for the attribute, or
+ null.
+enumeratedValues - a List of
+ Strings containing the legal values for the
+ attribute.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this
+ format.
+IllegalArgumentException - if attrName is
+ null.
+IllegalArgumentException - if dataType is
+ not one of the predefined constants.
+IllegalArgumentException - if
+ enumeratedValues is null.
+IllegalArgumentException - if
+ enumeratedValues does not contain at least one
+ entry.
+IllegalArgumentException - if
+ enumeratedValues contains an element that is not a
+ String or is null.
+
+
+"
+IIOMetadataFormatImpl,"addAttribute(String elementName, String attrName, int dataType, boolean required, String defaultValue, String minValue, String maxValue, boolean minInclusive, boolean maxInclusive)",protected void,Adds a new attribute to a previously defined element that will be defined by a range of values.,"
+
+addAttribute
+protected void addAttribute(String elementName,
+                            String attrName,
+                            int dataType,
+                            boolean required,
+                            String defaultValue,
+                            String minValue,
+                            String maxValue,
+                            boolean minInclusive,
+                            boolean maxInclusive)
+Adds a new attribute to a previously defined element that will
+ be defined by a range of values.
+
+Parameters:
+elementName - the name of the element.
+attrName - the name of the attribute being added.
+dataType - the data type (string format) of the attribute,
+ one of the DATATYPE_* constants.
+required - true if the attribute must be present.
+defaultValue - the default value for the attribute, or
+ null.
+minValue - the smallest (inclusive or exclusive depending
+ on the value of minInclusive) legal value for the
+ attribute, as a String.
+maxValue - the largest (inclusive or exclusive depending
+ on the value of minInclusive) legal value for the
+ attribute, as a String.
+minInclusive - true if minValue
+ is inclusive.
+maxInclusive - true if maxValue
+ is inclusive.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this
+ format.
+IllegalArgumentException - if attrName is
+ null.
+IllegalArgumentException - if dataType is
+ not one of the predefined constants.
+
+
+"
+IIOMetadataFormatImpl,"addBooleanAttribute(String elementName, String attrName, boolean hasDefaultValue, boolean defaultValue)",protected void,"Adds a new attribute to a previously defined element that will be defined by the enumerated values TRUE and FALSE, with a datatype of DATATYPE_BOOLEAN.","
+
+addBooleanAttribute
+protected void addBooleanAttribute(String elementName,
+                                   String attrName,
+                                   boolean hasDefaultValue,
+                                   boolean defaultValue)
+Adds a new attribute to a previously defined element that will
+ be defined by the enumerated values TRUE and
+ FALSE, with a datatype of
+ DATATYPE_BOOLEAN.
+
+Parameters:
+elementName - the name of the element.
+attrName - the name of the attribute being added.
+hasDefaultValue - true if a default value
+ should be present.
+defaultValue - the default value for the attribute as a
+ boolean, ignored if hasDefaultValue
+ is false.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this
+ format.
+IllegalArgumentException - if attrName is
+ null.
+
+
+"
+IIOMetadataFormatImpl,"addChildElement(String elementName, String parentName)",protected void,Adds an existing element to the list of legal children for a given parent node type.,"
+
+addChildElement
+protected void addChildElement(String elementName,
+                               String parentName)
+Adds an existing element to the list of legal children for a
+ given parent node type.
+
+Parameters:
+parentName - the name of the element that will be the
+ new parent of the element.
+elementName - the name of the element to be added as a
+ child.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this
+ format.
+IllegalArgumentException - if parentName
+ is null, or is not a legal element name for this
+ format.
+
+
+"
+IIOMetadataFormatImpl,"addElement(String elementName, String parentName, int childPolicy)",protected void,Adds a new element type to this metadata document format with a child policy other than CHILD_POLICY_REPEAT.,"
+
+addElement
+protected void addElement(String elementName,
+                          String parentName,
+                          int childPolicy)
+Adds a new element type to this metadata document format with a
+ child policy other than CHILD_POLICY_REPEAT.
+
+Parameters:
+elementName - the name of the new element.
+parentName - the name of the element that will be the
+ parent of the new element.
+childPolicy - one of the CHILD_POLICY_*
+ constants, other than CHILD_POLICY_REPEAT,
+ indicating the child policy of the new element.
+Throws:
+IllegalArgumentException - if parentName
+ is null, or is not a legal element name for this
+ format.
+IllegalArgumentException - if childPolicy
+ is not one of the predefined constants.
+
+
+"
+IIOMetadataFormatImpl,"addElement(String elementName, String parentName, int minChildren, int maxChildren)",protected void,Adds a new element type to this metadata document format with a child policy of CHILD_POLICY_REPEAT.,"
+
+addElement
+protected void addElement(String elementName,
+                          String parentName,
+                          int minChildren,
+                          int maxChildren)
+Adds a new element type to this metadata document format with a
+ child policy of CHILD_POLICY_REPEAT.
+
+Parameters:
+elementName - the name of the new element.
+parentName - the name of the element that will be the
+ parent of the new element.
+minChildren - the minimum number of children of the node.
+maxChildren - the maximum number of children of the node.
+Throws:
+IllegalArgumentException - if parentName
+ is null, or is not a legal element name for this
+ format.
+IllegalArgumentException - if minChildren
+ is negative or larger than maxChildren.
+
+
+"
+IIOMetadataFormatImpl,"addObjectValue(String elementName, Class<?> classType, int arrayMinLength, int arrayMaxLength)",protected void,Allows an Object reference of a given class type to be stored in nodes implementing the named element.,"
+
+addObjectValue
+protected void addObjectValue(String elementName,
+                              Class<?> classType,
+                              int arrayMinLength,
+                              int arrayMaxLength)
+Allows an Object reference of a given class type
+ to be stored in nodes implementing the named element.  The
+ value of the Object must an array of objects of
+ class type given by classType, with at least
+ arrayMinLength and at most
+ arrayMaxLength elements.
+
+  If an Object reference was previously allowed,
+ the previous settings are overwritten.
+
+Parameters:
+elementName - the name of the element.
+classType - a Class variable indicating the
+ legal class type for the object value.
+arrayMinLength - the smallest legal length for the array.
+arrayMaxLength - the largest legal length for the array.
+Throws:
+IllegalArgumentException - if elementName is
+ not a legal element name for this format.
+
+
+"
+IIOMetadataFormatImpl,"addObjectValue(String elementName, Class<T> classType, boolean required, T defaultValue)",protected <T> void,Allows an Object reference of a given class type to be stored in nodes implementing the named element.,"
+
+addObjectValue
+protected <T> void addObjectValue(String elementName,
+                                  Class<T> classType,
+                                  boolean required,
+                                  T defaultValue)
+Allows an Object reference of a given class type
+ to be stored in nodes implementing the named element.  The
+ value of the Object is unconstrained other than by
+ its class type.
+
+  If an Object reference was previously allowed,
+ the previous settings are overwritten.
+
+Type Parameters:
+T - the type of the object.
+Parameters:
+elementName - the name of the element.
+classType - a Class variable indicating the
+ legal class type for the object value.
+required - true if an object value must be present.
+defaultValue - the default value for the
+ Object reference, or null.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this format.
+
+
+"
+IIOMetadataFormatImpl,"addObjectValue(String elementName, Class<T> classType, boolean required, T defaultValue, List<? extends T> enumeratedValues)",protected <T> void,Allows an Object reference of a given class type to be stored in nodes implementing the named element.,"
+
+addObjectValue
+protected <T> void addObjectValue(String elementName,
+                                  Class<T> classType,
+                                  boolean required,
+                                  T defaultValue,
+                                  List<? extends T> enumeratedValues)
+Allows an Object reference of a given class type
+ to be stored in nodes implementing the named element.  The
+ value of the Object must be one of the values
+ given by enumeratedValues.
+
+  If an Object reference was previously allowed,
+ the previous settings are overwritten.
+
+Type Parameters:
+T - the type of the object.
+Parameters:
+elementName - the name of the element.
+classType - a Class variable indicating the
+ legal class type for the object value.
+required - true if an object value must be present.
+defaultValue - the default value for the
+ Object reference, or null.
+enumeratedValues - a List of
+ Objects containing the legal values for the
+ object reference.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this format.
+IllegalArgumentException - if
+ enumeratedValues is null.
+IllegalArgumentException - if
+ enumeratedValues does not contain at least one
+ entry.
+IllegalArgumentException - if
+ enumeratedValues contains an element that is not
+ an instance of the class type denoted by classType
+ or is null.
+
+
+"
+IIOMetadataFormatImpl,"addObjectValue(String elementName, Class<T> classType, T defaultValue, Comparable<? super T> minValue, Comparable<? super T> maxValue, boolean minInclusive, boolean maxInclusive)",protected <T extends Object & Comparable<? super T>> void,Allows an Object reference of a given class type to be stored in nodes implementing the named element.,"
+
+addObjectValue
+protected <T extends Object & Comparable<? super T>> void addObjectValue(String elementName,
+                                                                         Class<T> classType,
+                                                                         T defaultValue,
+                                                                         Comparable<? super T> minValue,
+                                                                         Comparable<? super T> maxValue,
+                                                                         boolean minInclusive,
+                                                                         boolean maxInclusive)
+Allows an Object reference of a given class type
+ to be stored in nodes implementing the named element.  The
+ value of the Object must be within the range given
+ by minValue and maxValue.
+ Furthermore, the class type must implement the
+ Comparable interface.
+
+  If an Object reference was previously allowed,
+ the previous settings are overwritten.
+
+Type Parameters:
+T - the type of the object.
+Parameters:
+elementName - the name of the element.
+classType - a Class variable indicating the
+ legal class type for the object value.
+defaultValue - the default value for the
+minValue - the smallest (inclusive or exclusive depending
+ on the value of minInclusive) legal value for the
+ object value, as a String.
+maxValue - the largest (inclusive or exclusive depending
+ on the value of minInclusive) legal value for the
+ object value, as a String.
+minInclusive - true if minValue
+ is inclusive.
+maxInclusive - true if maxValue
+ is inclusive.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this
+ format.
+
+
+"
+IIOMetadataFormatImpl,"canNodeAppear(String elementName, ImageTypeSpecifier imageType)",abstract boolean,"Returns true if the element (and the subtree below it) is allowed to appear in a metadata document for an image of the given type, defined by an ImageTypeSpecifier.","
+
+canNodeAppear
+public abstract boolean canNodeAppear(String elementName,
+                                      ImageTypeSpecifier imageType)
+Description copied from interface: IIOMetadataFormat
+Returns true if the element (and the subtree below
+ it) is allowed to appear in a metadata document for an image of
+ the given type, defined by an ImageTypeSpecifier.
+ For example, a metadata document format might contain an
+ element that describes the primary colors of the image, which
+ would not be allowed when writing a grayscale image.
+
+Specified by:
+canNodeAppear in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+imageType - an ImageTypeSpecifier indicating
+ the type of the image that will be associated with the
+ metadata.
+Returns:
+true if the node is meaningful for images
+ of the given type.
+
+
+"
+IIOMetadataFormatImpl,"getAttributeDataType(String elementName, String attrName)",int,"Returns one of the constants starting with DATATYPE_, indicating the format and interpretation of the value of the given attribute within the named element.","
+
+getAttributeDataType
+public int getAttributeDataType(String elementName,
+                                String attrName)
+Description copied from interface: IIOMetadataFormat
+Returns one of the constants starting with
+ DATATYPE_, indicating the format and
+ interpretation of the value of the given attribute within the
+ named element.  If getAttributeValueType returns
+ VALUE_LIST, then the legal value is a
+ whitespace-spearated list of values of the returned datatype.
+
+Specified by:
+getAttributeDataType in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+attrName - the name of the attribute being queried.
+Returns:
+one of the DATATYPE_* constants.
+
+
+"
+IIOMetadataFormatImpl,"getAttributeDefaultValue(String elementName, String attrName)",String,"Returns the default value of the named attribute, if it is not explicitly present within the named element, as a String, or null if no default value is available.","
+
+getAttributeDefaultValue
+public String getAttributeDefaultValue(String elementName,
+                                       String attrName)
+Description copied from interface: IIOMetadataFormat
+Returns the default value of the named attribute, if it is not
+ explicitly present within the named element, as a
+ String, or null if no default value
+ is available.
+
+Specified by:
+getAttributeDefaultValue in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+attrName - the name of the attribute being queried.
+Returns:
+a String containing the default value, or
+ null.
+
+
+"
+IIOMetadataFormatImpl,"getAttributeDescription(String elementName, String attrName, Locale locale)",String,"Returns a String containing a description of the named attribute, or null.","
+
+getAttributeDescription
+public String getAttributeDescription(String elementName,
+                                      String attrName,
+                                      Locale locale)
+Returns a String containing a description of the
+ named attribute, or null.  The description will be
+ localized for the supplied Locale if possible.
+
+  The default implementation will first locate a
+ ResourceBundle using the current resource base
+ name set by setResourceBaseName and the supplied
+ Locale, using the fallback mechanism described in
+ the comments for ResourceBundle.getBundle.  If a
+ ResourceBundle is found, the element name followed
+ by a ""/"" character followed by the attribute name
+ (elementName + ""/"" + attrName) will be used as a
+ key to its getString method, and the result
+ returned.  If no ResourceBundle is found, or no
+ such key is present, null will be returned.
+
+  If locale is null, the current
+ default Locale returned by Locale.getLocale
+ will be used.
+
+Specified by:
+getAttributeDescription in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element.
+attrName - the name of the attribute.
+locale - the Locale for which localization
+ will be attempted, or null.
+Returns:
+the attribute description.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this format.
+IllegalArgumentException - if attrName is
+ null or is not a legal attribute name for this
+ element.
+See Also:
+setResourceBaseName(java.lang.String)
+
+
+"
+IIOMetadataFormatImpl,"getAttributeEnumerations(String elementName, String attrName)",String[],Returns an array of Strings containing the legal enumerated values for the given attribute within the named element.,"
+
+getAttributeEnumerations
+public String[] getAttributeEnumerations(String elementName,
+                                         String attrName)
+Description copied from interface: IIOMetadataFormat
+Returns an array of Strings containing the legal
+ enumerated values for the given attribute within the named
+ element.  This method should only be called if
+ getAttributeValueType returns
+ VALUE_ENUMERATION.
+
+Specified by:
+getAttributeEnumerations in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+attrName - the name of the attribute being queried.
+Returns:
+an array of Strings.
+
+
+"
+IIOMetadataFormatImpl,"getAttributeListMaxLength(String elementName, String attrName)",int,Returns the maximum number of list items that may be used to define this attribute.,"
+
+getAttributeListMaxLength
+public int getAttributeListMaxLength(String elementName,
+                                     String attrName)
+Description copied from interface: IIOMetadataFormat
+Returns the maximum number of list items that may be used to
+ define this attribute.  A value of
+ Integer.MAX_VALUE may be used to specify that
+ there is no upper bound.  The attribute itself is defined as a
+ String containing multiple whitespace-separated
+ items.  This method should only be called if
+ getAttributeValueType returns
+ VALUE_LIST.
+
+Specified by:
+getAttributeListMaxLength in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+attrName - the name of the attribute being queried.
+Returns:
+the largest legal number of list items for the
+ attribute.
+
+
+"
+IIOMetadataFormatImpl,"getAttributeListMinLength(String elementName, String attrName)",int,Returns the minimum number of list items that may be used to define this attribute.,"
+
+getAttributeListMinLength
+public int getAttributeListMinLength(String elementName,
+                                     String attrName)
+Description copied from interface: IIOMetadataFormat
+Returns the minimum number of list items that may be used to
+ define this attribute.  The attribute itself is defined as a
+ String containing multiple whitespace-separated
+ items.  This method should only be called if
+ getAttributeValueType returns
+ VALUE_LIST.
+
+Specified by:
+getAttributeListMinLength in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+attrName - the name of the attribute being queried.
+Returns:
+the smallest legal number of list items for the
+ attribute.
+
+
+"
+IIOMetadataFormatImpl,"getAttributeMaxValue(String elementName, String attrName)",String,Returns the maximum legal value for the attribute.,"
+
+getAttributeMaxValue
+public String getAttributeMaxValue(String elementName,
+                                   String attrName)
+Description copied from interface: IIOMetadataFormat
+Returns the maximum legal value for the attribute.  Whether
+ this value is inclusive or exclusive may be determined by the
+ value of getAttributeValueType.  The value is
+ returned as a String; its interpretation is
+ dependent on the value of getAttributeDataType.
+ This method should only be called if
+ getAttributeValueType returns
+ VALUE_RANGE_*.
+
+Specified by:
+getAttributeMaxValue in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried, as a
+ String.
+attrName - the name of the attribute being queried.
+Returns:
+a String containing the largest legal
+ value for the attribute.
+
+
+"
+IIOMetadataFormatImpl,"getAttributeMinValue(String elementName, String attrName)",String,Returns the minimum legal value for the attribute.,"
+
+getAttributeMinValue
+public String getAttributeMinValue(String elementName,
+                                   String attrName)
+Description copied from interface: IIOMetadataFormat
+Returns the minimum legal value for the attribute.  Whether
+ this value is inclusive or exclusive may be determined by the
+ value of getAttributeValueType.  The value is
+ returned as a String; its interpretation is
+ dependent on the value of getAttributeDataType.
+ This method should only be called if
+ getAttributeValueType returns
+ VALUE_RANGE_*.
+
+Specified by:
+getAttributeMinValue in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+attrName - the name of the attribute being queried.
+Returns:
+a String containing the smallest legal
+ value for the attribute.
+
+
+"
+IIOMetadataFormatImpl,getAttributeNames(String elementName),String[],Returns an array of Strings listing the names of the attributes that may be associated with the named element.,"
+
+getAttributeNames
+public String[] getAttributeNames(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns an array of Strings listing the names of
+ the attributes that may be associated with the named element.
+
+Specified by:
+getAttributeNames in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+an array of Strings.
+
+
+"
+IIOMetadataFormatImpl,"getAttributeValueType(String elementName, String attrName)",int,"Returns one of the constants starting with VALUE_, indicating whether the values of the given attribute within the named element are arbitrary, constrained to lie within a specified range, constrained to be one of a set of enumerated values, or are a whitespace-separated list of arbitrary values.","
+
+getAttributeValueType
+public int getAttributeValueType(String elementName,
+                                 String attrName)
+Description copied from interface: IIOMetadataFormat
+Returns one of the constants starting with VALUE_,
+ indicating whether the values of the given attribute within the
+ named element are arbitrary, constrained to lie within a
+ specified range, constrained to be one of a set of enumerated
+ values, or are a whitespace-separated list of arbitrary values.
+
+Specified by:
+getAttributeValueType in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+attrName - the name of the attribute being queried.
+Returns:
+one of the VALUE_* constants.
+
+
+"
+IIOMetadataFormatImpl,getChildNames(String elementName),String[],"Returns an array of Strings indicating the names of the element which are allowed to be children of the named element, in the order in which they should appear.","
+
+getChildNames
+public String[] getChildNames(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns an array of Strings indicating the names
+ of the element which are allowed to be children of the named
+ element, in the order in which they should appear.  If the
+ element cannot have children, null is returned.
+
+Specified by:
+getChildNames in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+an array of Strings, or null.
+
+
+"
+IIOMetadataFormatImpl,getChildPolicy(String elementName),int,"Returns one of the constants starting with CHILD_POLICY_, indicating the legal pattern of children for the named element.","
+
+getChildPolicy
+public int getChildPolicy(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns one of the constants starting with
+ CHILD_POLICY_, indicating the legal pattern of
+ children for the named element.
+
+Specified by:
+getChildPolicy in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+one of the CHILD_POLICY_* constants.
+
+
+"
+IIOMetadataFormatImpl,"getElementDescription(String elementName, Locale locale)",String,"Returns a String containing a description of the named element, or null.","
+
+getElementDescription
+public String getElementDescription(String elementName,
+                                    Locale locale)
+Returns a String containing a description of the
+ named element, or null.  The description will be
+ localized for the supplied Locale if possible.
+
+  The default implementation will first locate a
+ ResourceBundle using the current resource base
+ name set by setResourceBaseName and the supplied
+ Locale, using the fallback mechanism described in
+ the comments for ResourceBundle.getBundle.  If a
+ ResourceBundle is found, the element name will be
+ used as a key to its getString method, and the
+ result returned.  If no ResourceBundle is found,
+ or no such key is present, null will be returned.
+
+  If locale is null, the current
+ default Locale returned by Locale.getLocale
+ will be used.
+
+Specified by:
+getElementDescription in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element.
+locale - the Locale for which localization
+ will be attempted.
+Returns:
+the element description.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this format.
+See Also:
+setResourceBaseName(java.lang.String)
+
+
+"
+IIOMetadataFormatImpl,getElementMaxChildren(String elementName),int,Returns the maximum number of children of the named element with child policy CHILD_POLICY_REPEAT.,"
+
+getElementMaxChildren
+public int getElementMaxChildren(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns the maximum number of children of the named element
+ with child policy CHILD_POLICY_REPEAT.  For
+ example, an element representing an entry in an 8-bit color
+ palette might be allowed to repeat up to 256 times.  A value of
+ Integer.MAX_VALUE may be used to specify that
+ there is no upper bound.
+
+Specified by:
+getElementMaxChildren in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+an int.
+
+
+"
+IIOMetadataFormatImpl,getElementMinChildren(String elementName),int,Returns the minimum number of children of the named element with child policy CHILD_POLICY_REPEAT.,"
+
+getElementMinChildren
+public int getElementMinChildren(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns the minimum number of children of the named element
+ with child policy CHILD_POLICY_REPEAT.  For
+ example, an element representing color primary information
+ might be required to have at least 3 children, one for each
+ primary.
+
+Specified by:
+getElementMinChildren in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+an int.
+
+
+"
+IIOMetadataFormatImpl,getObjectArrayMaxLength(String elementName),int,Returns the maximum number of array elements that may be used to define the Object reference within the named element.,"
+
+getObjectArrayMaxLength
+public int getObjectArrayMaxLength(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns the maximum number of array elements that may be used
+ to define the Object reference within the named
+ element.  A value of Integer.MAX_VALUE may be used
+ to specify that there is no upper bound.  This method should
+ only be called if getObjectValueType returns
+ VALUE_LIST.
+
+Specified by:
+getObjectArrayMaxLength in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+the largest valid array length for the
+ Object reference.
+
+
+"
+IIOMetadataFormatImpl,getObjectArrayMinLength(String elementName),int,Returns the minimum number of array elements that may be used to define the Object reference within the named element.,"
+
+getObjectArrayMinLength
+public int getObjectArrayMinLength(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns the minimum number of array elements that may be used
+ to define the Object reference within the named
+ element.  This method should only be called if
+ getObjectValueType returns
+ VALUE_LIST.
+
+Specified by:
+getObjectArrayMinLength in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+the smallest valid array length for the
+ Object reference.
+
+
+"
+IIOMetadataFormatImpl,getObjectClass(String elementName),Class<?>,Returns the Class type of the Object reference stored within the element.,"
+
+getObjectClass
+public Class<?> getObjectClass(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns the Class type of the Object
+ reference stored within the element.  If this element may not
+ contain an Object reference, an
+ IllegalArgumentException will be thrown.  If the
+ class type is an array, this field indicates the underlying
+ class type (e.g, for an array of ints, this
+ method would return int.class).
+
+  Object references whose legal values are
+ defined as a range must implement the Comparable
+ interface.
+
+Specified by:
+getObjectClass in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+a Class object.
+
+
+"
+IIOMetadataFormatImpl,getObjectDefaultValue(String elementName),Object,Returns an Objects containing the default value for the Object reference within the named element.,"
+
+getObjectDefaultValue
+public Object getObjectDefaultValue(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns an Objects containing the default
+ value for the Object reference within
+ the named element.
+
+Specified by:
+getObjectDefaultValue in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+an Object.
+
+
+"
+IIOMetadataFormatImpl,getObjectEnumerations(String elementName),Object[],Returns an array of Objects containing the legal enumerated values for the Object reference within the named element.,"
+
+getObjectEnumerations
+public Object[] getObjectEnumerations(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns an array of Objects containing the legal
+ enumerated values for the Object reference within
+ the named element.  This method should only be called if
+ getObjectValueType returns
+ VALUE_ENUMERATION.
+
+  The Object associated with a node that accepts
+ enumerated values must be equal to one of the values returned by
+ this method, as defined by the == operator (as
+ opposed to the Object.equals method).
+
+Specified by:
+getObjectEnumerations in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+an array of Objects.
+
+
+"
+IIOMetadataFormatImpl,getObjectMaxValue(String elementName),Comparable<?>,Returns the maximum legal value for the Object reference within the named element.,"
+
+getObjectMaxValue
+public Comparable<?> getObjectMaxValue(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns the maximum legal value for the Object
+ reference within the named element.  Whether this value is
+ inclusive or exclusive may be determined by the value of
+ getObjectValueType.  This method should only be
+ called if getObjectValueType returns one of the
+ constants starting with VALUE_RANGE.
+
+Specified by:
+getObjectMaxValue in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+the smallest legal value for the attribute.
+
+
+"
+IIOMetadataFormatImpl,getObjectMinValue(String elementName),Comparable<?>,Returns the minimum legal value for the Object reference within the named element.,"
+
+getObjectMinValue
+public Comparable<?> getObjectMinValue(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns the minimum legal value for the Object
+ reference within the named element.  Whether this value is
+ inclusive or exclusive may be determined by the value of
+ getObjectValueType.  This method should only be
+ called if getObjectValueType returns one of the
+ constants starting with VALUE_RANGE.
+
+Specified by:
+getObjectMinValue in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+the smallest legal value for the attribute.
+
+
+"
+IIOMetadataFormatImpl,getObjectValueType(String elementName),int,"Returns one of the enumerated values starting with VALUE_, indicating the type of values (enumeration, range, or array) that are allowed for the Object reference.","
+
+getObjectValueType
+public int getObjectValueType(String elementName)
+Description copied from interface: IIOMetadataFormat
+Returns one of the enumerated values starting with
+ VALUE_, indicating the type of values
+ (enumeration, range, or array) that are allowed for the
+ Object reference.  If no object value can be
+ stored within the given element, the result of this method will
+ be VALUE_NONE.
+
+  Object references whose legal values are
+ defined as a range must implement the Comparable
+ interface.
+
+Specified by:
+getObjectValueType in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+Returns:
+one of the VALUE_* constants.
+See Also:
+Comparable
+
+
+"
+IIOMetadataFormatImpl,getResourceBaseName(),protected String,Returns the currently set base name for locating ResourceBundles.,"
+
+getResourceBaseName
+protected String getResourceBaseName()
+Returns the currently set base name for locating
+ ResourceBundles.
+
+Returns:
+a String containing the base name.
+See Also:
+setResourceBaseName(java.lang.String)
+
+
+"
+IIOMetadataFormatImpl,getRootName(),String,Returns the name of the root element of the format.,"
+
+getRootName
+public String getRootName()
+Description copied from interface: IIOMetadataFormat
+Returns the name of the root element of the format.
+
+Specified by:
+getRootName in interface IIOMetadataFormat
+Returns:
+a String.
+
+
+"
+IIOMetadataFormatImpl,getStandardFormatInstance(),static IIOMetadataFormat,"Returns an IIOMetadataFormat object describing the standard, plug-in neutral javax.imageio_1.0 metadata document format described in the comment of the javax.imageio.metadata package.","
+
+getStandardFormatInstance
+public static IIOMetadataFormat getStandardFormatInstance()
+Returns an IIOMetadataFormat object describing the
+ standard, plug-in neutral javax.imageio_1.0
+ metadata document format described in the comment of the
+ javax.imageio.metadata package.
+
+Returns:
+a predefined IIOMetadataFormat instance.
+
+
+"
+IIOMetadataFormatImpl,"isAttributeRequired(String elementName, String attrName)",boolean,Returns true if the named attribute must be present within the named element.,"
+
+isAttributeRequired
+public boolean isAttributeRequired(String elementName,
+                                   String attrName)
+Description copied from interface: IIOMetadataFormat
+Returns true if the named attribute must be
+ present within the named element.
+
+Specified by:
+isAttributeRequired in interface IIOMetadataFormat
+Parameters:
+elementName - the name of the element being queried.
+attrName - the name of the attribute being queried.
+Returns:
+true if the attribute must be present.
+
+
+"
+IIOMetadataFormatImpl,"removeAttribute(String elementName, String attrName)",protected void,Removes an attribute from a previously defined element.,"
+
+removeAttribute
+protected void removeAttribute(String elementName,
+                               String attrName)
+Removes an attribute from a previously defined element.  If no
+ attribute with the given name was present in the given element,
+ nothing happens and no exception is thrown.
+
+Parameters:
+elementName - the name of the element.
+attrName - the name of the attribute being removed.
+Throws:
+IllegalArgumentException - if elementName
+ is null, or is not a legal element name for this format.
+
+
+"
+IIOMetadataFormatImpl,removeElement(String elementName),protected void,Removes an element from the format.,"
+
+removeElement
+protected void removeElement(String elementName)
+Removes an element from the format.  If no element with the
+ given name was present, nothing happens and no exception is
+ thrown.
+
+Parameters:
+elementName - the name of the element to be removed.
+
+
+"
+IIOMetadataFormatImpl,removeObjectValue(String elementName),protected void,Disallows an Object reference from being stored in nodes implementing the named element.,"
+
+removeObjectValue
+protected void removeObjectValue(String elementName)
+Disallows an Object reference from being stored in
+ nodes implementing the named element.
+
+Parameters:
+elementName - the name of the element.
+Throws:
+IllegalArgumentException - if elementName is
+ not a legal element name for this format.
+
+
+"
+IIOMetadataFormatImpl,setResourceBaseName(String resourceBaseName),protected void,Sets a new base name for locating ResourceBundles containing descriptions of elements and attributes for this format.,"
+
+setResourceBaseName
+protected void setResourceBaseName(String resourceBaseName)
+Sets a new base name for locating ResourceBundles
+ containing descriptions of elements and attributes for this
+ format.
+
+  Prior to the first time this method is called, the base
+ name will be equal to this.getClass().getName() +
+ ""Resources"".
+
+Parameters:
+resourceBaseName - a String containing the new
+ base name.
+Throws:
+IllegalArgumentException - if
+ resourceBaseName is null.
+See Also:
+getResourceBaseName()
+
+
+"
+IIOMetadataNode,appendChild(Node newChild),Node,Adds the node newChild to the end of the list of children of this node.,"
+
+appendChild
+public Node appendChild(Node newChild)
+Adds the node newChild to the end of the list of
+ children of this node.
+
+Specified by:
+appendChild in interface Node
+Parameters:
+newChild - the Node to insert.
+Returns:
+the node added.
+Throws:
+IllegalArgumentException - if newChild is
+ null.
+
+
+"
+IIOMetadataNode,cloneNode(boolean deep),Node,Returns a duplicate of this node.,"
+
+cloneNode
+public Node cloneNode(boolean deep)
+Returns a duplicate of this node.  The duplicate node has no
+ parent (getParentNode returns null).
+ If a shallow clone is being performed (deep is
+ false), the new node will not have any children or
+ siblings.  If a deep clone is being performed, the new node
+ will form the root of a complete cloned subtree.
+
+Specified by:
+cloneNode in interface Node
+Parameters:
+deep - if true, recursively clone the subtree
+ under the specified node; if false, clone only the
+ node itself.
+Returns:
+the duplicate node.
+
+
+"
+IIOMetadataNode,compareDocumentPosition(Node other),short,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+compareDocumentPosition
+public short compareDocumentPosition(Node other)
+                              throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+compareDocumentPosition in interface Node
+Parameters:
+other - The node to compare against the reference node.
+Returns:
+Returns how the node is positioned relatively to the reference
+   node.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,getAttribute(String name),String,Retrieves an attribute value by name.,"
+
+getAttribute
+public String getAttribute(String name)
+Retrieves an attribute value by name.
+
+Specified by:
+getAttribute in interface Element
+Parameters:
+name - The name of the attribute to retrieve.
+Returns:
+The Attr value as a string, or the empty string
+ if that attribute does not have a specified or default value.
+
+
+"
+IIOMetadataNode,getAttributeNode(String name),Attr,Retrieves an attribute node by name.,"
+
+getAttributeNode
+public Attr getAttributeNode(String name)
+Description copied from interface: Element
+Retrieves an attribute node by name.
+ To retrieve an attribute node by qualified name and namespace URI,
+ use the getAttributeNodeNS method.
+
+Specified by:
+getAttributeNode in interface Element
+Parameters:
+name - The name (nodeName) of the attribute to
+   retrieve.
+Returns:
+The Attr node with the specified name (
+   nodeName) or null if there is no such
+   attribute.
+
+
+"
+IIOMetadataNode,"getAttributeNodeNS(String namespaceURI, String localName)",Attr,Equivalent to getAttributeNode(localName).,"
+
+getAttributeNodeNS
+public Attr getAttributeNodeNS(String namespaceURI,
+                               String localName)
+Equivalent to getAttributeNode(localName).
+
+Specified by:
+getAttributeNodeNS in interface Element
+Parameters:
+namespaceURI - The namespace URI of the attribute to retrieve.
+localName - The local name of the attribute to retrieve.
+Returns:
+The Attr node with the specified attribute local
+   name and namespace URI or null if there is no such
+   attribute.
+See Also:
+setAttributeNodeNS(org.w3c.dom.Attr)
+
+
+"
+IIOMetadataNode,"getAttributeNS(String namespaceURI, String localName)",String,Equivalent to getAttribute(localName).,"
+
+getAttributeNS
+public String getAttributeNS(String namespaceURI,
+                             String localName)
+Equivalent to getAttribute(localName).
+
+Specified by:
+getAttributeNS in interface Element
+Parameters:
+namespaceURI - The namespace URI of the attribute to retrieve.
+localName - The local name of the attribute to retrieve.
+Returns:
+The Attr value as a string, or the empty string
+   if that attribute does not have a specified or default value.
+See Also:
+setAttributeNS(java.lang.String, java.lang.String, java.lang.String)
+
+
+"
+IIOMetadataNode,getAttributes(),NamedNodeMap,Returns a NamedNodeMap containing the attributes of this node.,"
+
+getAttributes
+public NamedNodeMap getAttributes()
+Returns a NamedNodeMap containing the attributes of
+ this node.
+
+Specified by:
+getAttributes in interface Node
+Returns:
+a NamedNodeMap containing the attributes of
+ this node.
+
+
+"
+IIOMetadataNode,getBaseURI(),String,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+getBaseURI
+public String getBaseURI()
+                  throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+getBaseURI in interface Node
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,getChildNodes(),NodeList,Returns a NodeList that contains all children of this node.,"
+
+getChildNodes
+public NodeList getChildNodes()
+Returns a NodeList that contains all children of this node.
+ If there are no children, this is a NodeList containing
+ no nodes.
+
+Specified by:
+getChildNodes in interface Node
+Returns:
+the children as a NodeList
+
+
+"
+IIOMetadataNode,getElementsByTagName(String name),NodeList,"Returns a NodeList of all descendant Elements with a given tag name, in document order.","
+
+getElementsByTagName
+public NodeList getElementsByTagName(String name)
+Description copied from interface: Element
+Returns a NodeList of all descendant Elements
+ with a given tag name, in document order.
+
+Specified by:
+getElementsByTagName in interface Element
+Parameters:
+name - The name of the tag to match on. The special value ""*""
+   matches all tags.
+Returns:
+A list of matching Element nodes.
+
+
+"
+IIOMetadataNode,"getElementsByTagNameNS(String namespaceURI, String localName)",NodeList,Equivalent to getElementsByTagName(localName).,"
+
+getElementsByTagNameNS
+public NodeList getElementsByTagNameNS(String namespaceURI,
+                                       String localName)
+Equivalent to getElementsByTagName(localName).
+
+Specified by:
+getElementsByTagNameNS in interface Element
+Parameters:
+namespaceURI - The namespace URI of the elements to match on. The
+   special value ""*"" matches all namespaces.
+localName - The local name of the elements to match on. The
+   special value ""*"" matches all local names.
+Returns:
+A new NodeList object containing all the matched
+   Elements.
+
+
+"
+IIOMetadataNode,"getFeature(String feature, String version)",Object,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+getFeature
+public Object getFeature(String feature,
+                         String version)
+                  throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+getFeature in interface Node
+Parameters:
+feature - The name of the feature requested. Note that any plus
+   sign ""+"" prepended to the name of the feature will be ignored since
+   it is not significant in the context of this method.
+version - This is the version number of the feature to test.
+Returns:
+Returns an object which implements the specialized APIs of
+   the specified feature and version, if any, or null if
+   there is no object which implements interfaces associated with that
+   feature. If the DOMObject returned by this method
+   implements the Node interface, it must delegate to the
+   primary core Node and not return results inconsistent
+   with the primary core Node such as attributes,
+   childNodes, etc.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,getFirstChild(),Node,"Returns the first child of this node, or null if the node has no children.","
+
+getFirstChild
+public Node getFirstChild()
+Returns the first child of this node, or null if
+ the node has no children.
+
+Specified by:
+getFirstChild in interface Node
+Returns:
+the first child, as a Node, or
+ null
+
+
+"
+IIOMetadataNode,getLastChild(),Node,"Returns the last child of this node, or null if the node has no children.","
+
+getLastChild
+public Node getLastChild()
+Returns the last child of this node, or null if
+ the node has no children.
+
+Specified by:
+getLastChild in interface Node
+Returns:
+the last child, as a Node, or
+ null.
+
+
+"
+IIOMetadataNode,getLength(),int,The number of nodes in the list.,"
+
+getLength
+public int getLength()
+Description copied from interface: NodeList
+The number of nodes in the list. The range of valid child node indices
+ is 0 to length-1 inclusive.
+
+Specified by:
+getLength in interface NodeList
+
+
+"
+IIOMetadataNode,getLocalName(),String,Equivalent to getNodeName.,"
+
+getLocalName
+public String getLocalName()
+Equivalent to getNodeName.
+
+Specified by:
+getLocalName in interface Node
+Returns:
+the node name, as a String.
+
+
+"
+IIOMetadataNode,getNamespaceURI(),String,"Returns null, since namespaces are not supported.","
+
+getNamespaceURI
+public String getNamespaceURI()
+                       throws DOMException
+Returns null, since namespaces are not supported.
+
+Specified by:
+getNamespaceURI in interface Node
+Throws:
+DOMException
+
+
+"
+IIOMetadataNode,getNextSibling(),Node,"Returns the next sibling of this node, or null if the node has no next sibling.","
+
+getNextSibling
+public Node getNextSibling()
+Returns the next sibling of this node, or null if
+ the node has no next sibling.
+
+Specified by:
+getNextSibling in interface Node
+Returns:
+the next sibling, as a Node, or
+ null.
+
+
+"
+IIOMetadataNode,getNodeName(),String,Returns the node name associated with this node.,"
+
+getNodeName
+public String getNodeName()
+Returns the node name associated with this node.
+
+Specified by:
+getNodeName in interface Node
+Returns:
+the node name, as a String.
+
+
+"
+IIOMetadataNode,getNodeType(),short,"Returns the node type, which is always ELEMENT_NODE.","
+
+getNodeType
+public short getNodeType()
+Returns the node type, which is always
+ ELEMENT_NODE.
+
+Specified by:
+getNodeType in interface Node
+Returns:
+the short value ELEMENT_NODE.
+
+
+"
+IIOMetadataNode,getNodeValue(),String,Returns the value associated with this node.,"
+
+getNodeValue
+public String getNodeValue()
+Returns the value associated with this node.
+
+Specified by:
+getNodeValue in interface Node
+Returns:
+the node value, as a String.
+
+
+"
+IIOMetadataNode,getOwnerDocument(),Document,"Returns null, since IIOMetadataNodes do not belong to any Document.","
+
+getOwnerDocument
+public Document getOwnerDocument()
+Returns null, since IIOMetadataNodes
+ do not belong to any Document.
+
+Specified by:
+getOwnerDocument in interface Node
+Returns:
+null.
+
+
+"
+IIOMetadataNode,getParentNode(),Node,Returns the parent of this node.,"
+
+getParentNode
+public Node getParentNode()
+Returns the parent of this node.  A null value
+ indicates that the node is the root of its own tree.  To add a
+ node to an existing tree, use one of the
+ insertBefore, replaceChild, or
+ appendChild methods.
+
+Specified by:
+getParentNode in interface Node
+Returns:
+the parent, as a Node.
+See Also:
+insertBefore(org.w3c.dom.Node, org.w3c.dom.Node), 
+replaceChild(org.w3c.dom.Node, org.w3c.dom.Node), 
+appendChild(org.w3c.dom.Node)
+
+
+"
+IIOMetadataNode,getPrefix(),String,"Returns null, since namespaces are not supported.","
+
+getPrefix
+public String getPrefix()
+Returns null, since namespaces are not supported.
+
+Specified by:
+getPrefix in interface Node
+Returns:
+null.
+See Also:
+setPrefix(java.lang.String)
+
+
+"
+IIOMetadataNode,getPreviousSibling(),Node,"Returns the previous sibling of this node, or null if this node has no previous sibling.","
+
+getPreviousSibling
+public Node getPreviousSibling()
+Returns the previous sibling of this node, or null
+ if this node has no previous sibling.
+
+Specified by:
+getPreviousSibling in interface Node
+Returns:
+the previous sibling, as a Node, or
+ null.
+
+
+"
+IIOMetadataNode,getSchemaTypeInfo(),TypeInfo,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+getSchemaTypeInfo
+public TypeInfo getSchemaTypeInfo()
+                           throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+getSchemaTypeInfo in interface Element
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,getTagName(),String,Equivalent to getNodeName.,"
+
+getTagName
+public String getTagName()
+Equivalent to getNodeName.
+
+Specified by:
+getTagName in interface Element
+Returns:
+the node name, as a String
+
+
+"
+IIOMetadataNode,getTextContent(),String,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+getTextContent
+public String getTextContent()
+                      throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+getTextContent in interface Node
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,getUserData(String key),Object,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+getUserData
+public Object getUserData(String key)
+                   throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+getUserData in interface Node
+Parameters:
+key - The key the object is associated to.
+Returns:
+Returns the DOMUserData associated to the given
+   key on this node, or null if there was none.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,getUserObject(),Object,Returns the Object value associated with this node.,"
+
+getUserObject
+public Object getUserObject()
+Returns the Object value associated with this node.
+
+Returns:
+the user Object.
+See Also:
+setUserObject(java.lang.Object)
+
+
+"
+IIOMetadataNode,hasAttribute(String name),boolean,"Returns true when an attribute with a given name is specified on this element or has a default value, false otherwise.","
+
+hasAttribute
+public boolean hasAttribute(String name)
+Description copied from interface: Element
+Returns true when an attribute with a given name is
+ specified on this element or has a default value, false
+ otherwise.
+
+Specified by:
+hasAttribute in interface Element
+Parameters:
+name - The name of the attribute to look for.
+Returns:
+true if an attribute with the given name is
+   specified on this element or has a default value, false
+    otherwise.
+
+
+"
+IIOMetadataNode,"hasAttributeNS(String namespaceURI, String localName)",boolean,Equivalent to hasAttribute(localName).,"
+
+hasAttributeNS
+public boolean hasAttributeNS(String namespaceURI,
+                              String localName)
+Equivalent to hasAttribute(localName).
+
+Specified by:
+hasAttributeNS in interface Element
+Parameters:
+namespaceURI - The namespace URI of the attribute to look for.
+localName - The local name of the attribute to look for.
+Returns:
+true if an attribute with the given local name
+   and namespace URI is specified or has a default value on this
+   element, false otherwise.
+
+
+"
+IIOMetadataNode,hasAttributes(),boolean,Returns whether this node (if it is an element) has any attributes.,"
+
+hasAttributes
+public boolean hasAttributes()
+Description copied from interface: Node
+Returns whether this node (if it is an element) has any attributes.
+
+Specified by:
+hasAttributes in interface Node
+Returns:
+Returns true if this node has any attributes,
+   false otherwise.
+
+
+"
+IIOMetadataNode,hasChildNodes(),boolean,Returns true if this node has child nodes.,"
+
+hasChildNodes
+public boolean hasChildNodes()
+Returns true if this node has child nodes.
+
+Specified by:
+hasChildNodes in interface Node
+Returns:
+true if this node has children.
+
+
+"
+IIOMetadataNode,"insertBefore(Node newChild, Node refChild)",Node,Inserts the node newChild before the existing child node refChild.,"
+
+insertBefore
+public Node insertBefore(Node newChild,
+                         Node refChild)
+Inserts the node newChild before the existing
+ child node refChild. If refChild is
+ null, insert newChild at the end of
+ the list of children.
+
+Specified by:
+insertBefore in interface Node
+Parameters:
+newChild - the Node to insert.
+refChild - the reference Node.
+Returns:
+the node being inserted.
+Throws:
+IllegalArgumentException - if newChild is
+ null.
+
+
+"
+IIOMetadataNode,isDefaultNamespace(String namespaceURI),boolean,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+isDefaultNamespace
+public boolean isDefaultNamespace(String namespaceURI)
+                           throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+isDefaultNamespace in interface Node
+Parameters:
+namespaceURI - The namespace URI to look for.
+Returns:
+Returns true if the specified
+   namespaceURI is the default namespace,
+   false otherwise.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,isEqualNode(Node node),boolean,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+isEqualNode
+public boolean isEqualNode(Node node)
+                    throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+isEqualNode in interface Node
+Parameters:
+node - The node to compare equality with.
+Returns:
+Returns true if the nodes are equal,
+   false otherwise.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,isSameNode(Node node),boolean,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+isSameNode
+public boolean isSameNode(Node node)
+                   throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+isSameNode in interface Node
+Parameters:
+node - The node to test against.
+Returns:
+Returns true if the nodes are the same,
+   false otherwise.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,"isSupported(String feature, String version)",boolean,Returns false since DOM features are not supported.,"
+
+isSupported
+public boolean isSupported(String feature,
+                           String version)
+Returns false since DOM features are not
+ supported.
+
+Specified by:
+isSupported in interface Node
+Parameters:
+feature - a String, which is ignored.
+version - a String, which is ignored.
+Returns:
+false.
+
+
+"
+IIOMetadataNode,item(int index),Node,Returns the indexth item in the collection.,"
+
+item
+public Node item(int index)
+Description copied from interface: NodeList
+Returns the indexth item in the collection. If
+ index is greater than or equal to the number of nodes in
+ the list, this returns null.
+
+Specified by:
+item in interface NodeList
+Parameters:
+index - Index into the collection.
+Returns:
+The node at the indexth position in the
+   NodeList, or null if that is not a valid
+   index.
+
+
+"
+IIOMetadataNode,lookupNamespaceURI(String prefix),String,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+lookupNamespaceURI
+public String lookupNamespaceURI(String prefix)
+                          throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+lookupNamespaceURI in interface Node
+Parameters:
+prefix - The prefix to look for. If this parameter is
+   null, the method will return the default namespace URI
+   if any.
+Returns:
+Returns the associated namespace URI or null if
+   none is found.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,lookupPrefix(String namespaceURI),String,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+lookupPrefix
+public String lookupPrefix(String namespaceURI)
+                    throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+lookupPrefix in interface Node
+Parameters:
+namespaceURI - The namespace URI to look for.
+Returns:
+Returns an associated namespace prefix if found or
+   null if none is found. If more than one prefix are
+   associated to the namespace prefix, the returned namespace prefix
+   is implementation dependent.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,normalize(),void,"Does nothing, since IIOMetadataNodes do not contain Text children.","
+
+normalize
+public void normalize()
+Does nothing, since IIOMetadataNodes do not
+ contain Text children.
+
+Specified by:
+normalize in interface Node
+
+
+"
+IIOMetadataNode,removeAttribute(String name),void,Removes an attribute by name.,"
+
+removeAttribute
+public void removeAttribute(String name)
+Description copied from interface: Element
+Removes an attribute by name. If a default value for the removed
+ attribute is defined in the DTD, a new attribute immediately appears
+ with the default value as well as the corresponding namespace URI,
+ local name, and prefix when applicable. The implementation may handle
+ default values from other schemas similarly but applications should
+ use Document.normalizeDocument() to guarantee this
+ information is up-to-date.
+ If no attribute with this name is found, this method has no effect.
+ To remove an attribute by local name and namespace URI, use the
+ removeAttributeNS method.
+
+Specified by:
+removeAttribute in interface Element
+Parameters:
+name - The name of the attribute to remove.
+
+
+"
+IIOMetadataNode,removeAttributeNode(Attr oldAttr),Attr,Removes the specified attribute node.,"
+
+removeAttributeNode
+public Attr removeAttributeNode(Attr oldAttr)
+Description copied from interface: Element
+Removes the specified attribute node. If a default value for the
+ removed Attr node is defined in the DTD, a new node
+ immediately appears with the default value as well as the
+ corresponding namespace URI, local name, and prefix when applicable.
+ The implementation may handle default values from other schemas
+ similarly but applications should use
+ Document.normalizeDocument() to guarantee this
+ information is up-to-date.
+
+Specified by:
+removeAttributeNode in interface Element
+Parameters:
+oldAttr - The Attr node to remove from the attribute
+   list.
+Returns:
+The Attr node that was removed.
+
+
+"
+IIOMetadataNode,"removeAttributeNS(String namespaceURI, String localName)",void,Equivalent to removeAttribute(localName).,"
+
+removeAttributeNS
+public void removeAttributeNS(String namespaceURI,
+                              String localName)
+Equivalent to removeAttribute(localName).
+
+Specified by:
+removeAttributeNS in interface Element
+Parameters:
+namespaceURI - The namespace URI of the attribute to remove.
+localName - The local name of the attribute to remove.
+
+
+"
+IIOMetadataNode,removeChild(Node oldChild),Node,"Removes the child node indicated by oldChild from the list of children, and returns it.","
+
+removeChild
+public Node removeChild(Node oldChild)
+Removes the child node indicated by oldChild from
+ the list of children, and returns it.
+
+Specified by:
+removeChild in interface Node
+Parameters:
+oldChild - the Node to be removed.
+Returns:
+the node removed.
+Throws:
+IllegalArgumentException - if oldChild is
+ null.
+
+
+"
+IIOMetadataNode,"replaceChild(Node newChild, Node oldChild)",Node,"Replaces the child node oldChild with newChild in the list of children, and returns the oldChild node.","
+
+replaceChild
+public Node replaceChild(Node newChild,
+                         Node oldChild)
+Replaces the child node oldChild with
+ newChild in the list of children, and returns the
+ oldChild node.
+
+Specified by:
+replaceChild in interface Node
+Parameters:
+newChild - the Node to insert.
+oldChild - the Node to be replaced.
+Returns:
+the node replaced.
+Throws:
+IllegalArgumentException - if newChild is
+ null.
+
+
+"
+IIOMetadataNode,"setAttribute(String name, String value)",void,Adds a new attribute.,"
+
+setAttribute
+public void setAttribute(String name,
+                         String value)
+Description copied from interface: Element
+Adds a new attribute. If an attribute with that name is already present
+ in the element, its value is changed to be that of the value
+ parameter. This value is a simple string; it is not parsed as it is
+ being set. So any markup (such as syntax to be recognized as an
+ entity reference) is treated as literal text, and needs to be
+ appropriately escaped by the implementation when it is written out.
+ In order to assign an attribute value that contains entity
+ references, the user must create an Attr node plus any
+ Text and EntityReference nodes, build the
+ appropriate subtree, and use setAttributeNode to assign
+ it as the value of an attribute.
+ To set an attribute with a qualified name and namespace URI, use
+ the setAttributeNS method.
+
+Specified by:
+setAttribute in interface Element
+Parameters:
+name - The name of the attribute to create or alter.
+value - Value to set in string form.
+
+
+"
+IIOMetadataNode,setAttributeNode(Attr newAttr),Attr,Adds a new attribute node.,"
+
+setAttributeNode
+public Attr setAttributeNode(Attr newAttr)
+                      throws DOMException
+Description copied from interface: Element
+Adds a new attribute node. If an attribute with that name (
+ nodeName) is already present in the element, it is
+ replaced by the new one. Replacing an attribute node by itself has no
+ effect.
+ To add a new attribute node with a qualified name and namespace
+ URI, use the setAttributeNodeNS method.
+
+Specified by:
+setAttributeNode in interface Element
+Parameters:
+newAttr - The Attr node to add to the attribute list.
+Returns:
+If the newAttr attribute replaces an existing
+   attribute, the replaced Attr node is returned,
+   otherwise null is returned.
+Throws:
+DOMException - WRONG_DOCUMENT_ERR: Raised if newAttr was created from a
+   different document than the one that created the element.
+   NO_MODIFICATION_ALLOWED_ERR: Raised if this node is readonly.
+   INUSE_ATTRIBUTE_ERR: Raised if newAttr is already an
+   attribute of another Element object. The DOM user must
+   explicitly clone Attr nodes to re-use them in other
+   elements.
+
+
+"
+IIOMetadataNode,setAttributeNodeNS(Attr newAttr),Attr,Equivalent to setAttributeNode(newAttr).,"
+
+setAttributeNodeNS
+public Attr setAttributeNodeNS(Attr newAttr)
+Equivalent to setAttributeNode(newAttr).
+
+Specified by:
+setAttributeNodeNS in interface Element
+Parameters:
+newAttr - The Attr node to add to the attribute list.
+Returns:
+If the newAttr attribute replaces an existing
+   attribute with the same local name and namespace URI, the replaced
+   Attr node is returned, otherwise null is
+   returned.
+See Also:
+getAttributeNodeNS(java.lang.String, java.lang.String)
+
+
+"
+IIOMetadataNode,"setAttributeNS(String namespaceURI, String qualifiedName, String value)",void,"Equivalent to setAttribute(qualifiedName, value).","
+
+setAttributeNS
+public void setAttributeNS(String namespaceURI,
+                           String qualifiedName,
+                           String value)
+Equivalent to setAttribute(qualifiedName, value).
+
+Specified by:
+setAttributeNS in interface Element
+Parameters:
+namespaceURI - The namespace URI of the attribute to create or
+   alter.
+qualifiedName - The qualified name of the attribute to create or
+   alter.
+value - The value to set in string form.
+See Also:
+getAttributeNS(java.lang.String, java.lang.String)
+
+
+"
+IIOMetadataNode,"setIdAttribute(String name, boolean isId)",void,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+setIdAttribute
+public void setIdAttribute(String name,
+                           boolean isId)
+                    throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+setIdAttribute in interface Element
+Parameters:
+name - The name of the attribute.
+isId - Whether the attribute is a of type ID.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,"setIdAttributeNode(Attr idAttr, boolean isId)",void,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+setIdAttributeNode
+public void setIdAttributeNode(Attr idAttr,
+                               boolean isId)
+                        throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+setIdAttributeNode in interface Element
+Parameters:
+idAttr - The attribute node.
+isId - Whether the attribute is a of type ID.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,"setIdAttributeNS(String namespaceURI, String localName, boolean isId)",void,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+setIdAttributeNS
+public void setIdAttributeNS(String namespaceURI,
+                             String localName,
+                             boolean isId)
+                      throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+setIdAttributeNS in interface Element
+Parameters:
+namespaceURI - The namespace URI of the attribute.
+localName - The local name of the attribute.
+isId - Whether the attribute is a of type ID.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,setNodeValue(String nodeValue),void,Sets the String value associated with this node.,"
+
+setNodeValue
+public void setNodeValue(String nodeValue)
+Sets the String value associated with this node.
+
+Specified by:
+setNodeValue in interface Node
+
+
+"
+IIOMetadataNode,setPrefix(String prefix),void,"Does nothing, since namespaces are not supported.","
+
+setPrefix
+public void setPrefix(String prefix)
+Does nothing, since namespaces are not supported.
+
+Specified by:
+setPrefix in interface Node
+Parameters:
+prefix - a String, which is ignored.
+See Also:
+getPrefix()
+
+
+"
+IIOMetadataNode,setTextContent(String textContent),void,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+setTextContent
+public void setTextContent(String textContent)
+                    throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+setTextContent in interface Node
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,"setUserData(String key, Object data, UserDataHandler handler)",Object,This DOM Level 3 method is not supported for IIOMetadataNode and will throw a DOMException.,"
+
+setUserData
+public Object setUserData(String key,
+                          Object data,
+                          UserDataHandler handler)
+                   throws DOMException
+This DOM Level 3 method is not supported for IIOMetadataNode
+ and will throw a DOMException.
+
+Specified by:
+setUserData in interface Node
+Parameters:
+key - The key to associate the object to.
+data - The object to associate to the given key, or
+   null to remove any existing association to that key.
+handler - The handler to associate to that key, or
+   null.
+Returns:
+Returns the DOMUserData previously associated to
+   the given key on this node, or null if there was none.
+Throws:
+DOMException - - always.
+
+
+"
+IIOMetadataNode,setUserObject(Object userObject),void,Sets the value associated with this node.,"
+
+setUserObject
+public void setUserObject(Object userObject)
+Sets the value associated with this node.
+
+Parameters:
+userObject - the user Object.
+See Also:
+getUserObject()
+
+
+"

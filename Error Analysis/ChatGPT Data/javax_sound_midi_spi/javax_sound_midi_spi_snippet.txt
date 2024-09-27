@@ -1,0 +1,313 @@
+Sample: 0 MidiDeviceProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiDevice.Info;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
+        
+        for (Info info : infos) {
+            System.out.println(info.getName());
+            System.out.println(info.getDescription());
+            System.out.println(info.getVendor());
+            System.out.println();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 MidiDeviceProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.spi.MidiDeviceProvider;
+import javax.sound.midi.MidiDevice;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiDeviceProvider provider = new YourMidiDeviceProvider(); // Replace YourMidiDeviceProvider with the actual provider
+        MidiDevice.Info info = new MidiDevice.Info("Device Name", "Vendor", "Description", "Version");
+
+        MidiDevice device = provider.getDevice(info);
+
+        // Use the MidiDevice object
+    }
+}
+```
+================================================================
+
+Sample: 2 MidiDeviceProvider_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.spi.MidiDeviceProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiDeviceProvider provider = new SomeMidiDeviceProvider();
+        MidiDevice.Info info = new MidiDevice.Info("Name", "Vendor", "Description", "Version");
+        boolean isSupported = provider.isDeviceSupported(info);
+        System.out.println("Is device supported? " + isSupported);
+    }
+
+    static class SomeMidiDeviceProvider extends MidiDeviceProvider {
+        @Override
+        public MidiDevice.Info[] getDeviceInfo() {
+            return new MidiDevice.Info[0];
+        }
+
+        @Override
+        public MidiDevice getDevice(MidiDevice.Info info) {
+            return null;
+        }
+
+        @Override
+        public boolean isDeviceSupported(MidiDevice.Info info) {
+            // Implementation of the isDeviceSupported method
+            return true;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 MidiFileReader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.Sequence;
+import javax.sound.midi.spi.MidiFileReader;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        File midiFile = new File("example.mid");
+        MidiFileReader midiFileReader = new MidiFileReader();
+
+        try {
+            Sequence sequence = midiFileReader.getSequence(midiFile);
+            System.out.println("Sequence loaded successfully");
+        } catch (IOException e) {
+            System.out.println("Error loading sequence: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 MidiFileReader_2
+----------------------------------------------------------------
+```java
+import javax.sound.midi.Sequence;
+import javax.sound.midi.spi.MidiFileReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MidiFileReader midiReader = new MidiFileReader();
+            File midiFile = new File("example.mid");
+            InputStream inputStream = new FileInputStream(midiFile);
+            Sequence sequence = midiReader.getSequence(inputStream);
+            System.out.println(sequence);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 MidiFileWriter_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.Sequence;
+import javax.sound.midi.spi.MidiFileWriter;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiFileWriter midiFileWriter = new MidiFileWriter();
+        Sequence sequence = new Sequence(Sequence.PPQ, 1);
+        File file = new File("output.mid");
+        
+        try {
+            int fileType = MidiFileWriter.MIDI_TYPE_1;
+            int bytesWritten = midiFileWriter.write(sequence, fileType, file);
+            System.out.println("Bytes written: " + bytesWritten);
+        } catch (Exception e) {
+            System.err.println("Error writing MIDI file: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 MidiFileWriter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.Sequence;
+import javax.sound.midi.spi.MidiFileWriter;
+import java.io.OutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiFileWriter midiFileWriter = new MidiFileWriter();
+        Sequence sequence = new Sequence(); // Create a Sequence object
+        int fileType = 0; // Set type of MIDI file
+        OutputStream outputStream = System.out;
+        
+        try {
+            midiFileWriter.write(sequence, fileType, outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 MidiFileWriter_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.spi.MidiFileWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiFileWriter midiFileWriter = new SomeMidiFileWriter(); // replace SomeMidiFileWriter with the actual implementation
+        int[] midiFileTypes = midiFileWriter.getMidiFileTypes();
+        
+        System.out.print("Supported MIDI file types: ");
+        for(int type : midiFileTypes){
+            System.out.print(type + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 MidiFileWriter_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.spi.MidiFileWriter;
+import javax.sound.midi.Sequence;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        MidiFileWriter midiFileWriter = new MidiFileWriter();
+        Sequence sequence = new Sequence();
+        int[] midiFileTypes = midiFileWriter.getMidiFileTypes(sequence);
+        System.out.println(Arrays.toString(midiFileTypes));
+    }
+}
+```
+================================================================
+
+Sample: 9 SoundbankReader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.Soundbank;
+import javax.sound.midi.spi.SoundbankReader;
+import java.io.InputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        SoundbankReader soundbankReader = new com.sun.media.sound.SF2SoundbankReader();
+
+        try {
+            InputStream inputStream = Main.class.getResourceAsStream("exampleSoundbank.sf2");
+            Soundbank soundbank = soundbankReader.getSoundbank(inputStream);
+
+            // Use the soundbank object here
+            System.out.println("Loaded soundbank: " + soundbank);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 SoundbankReader_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.Soundbank;
+import javax.sound.midi.spi.SoundbankReader;
+import java.net.URL;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        SoundbankReader reader = new SoundbankReader(); // Instantiate the SoundbankReader
+        URL url = Main.class.getResource("example_soundbank.sf2"); // Example URL to a soundbank file
+        try {
+            Soundbank soundbank = reader.getSoundbank(url); // Get the Soundbank from the specified URL
+            // Use the soundbank as needed
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 SoundbankReader_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sound.midi.Soundbank;
+import javax.sound.midi.spi.SoundbankReader;
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.ServiceLoader;
+
+public class Main {
+    public static void main(String[] args) {
+        File soundbankFile = new File("example.sf2");
+        Soundbank soundbank = null;
+
+        ServiceLoader<SoundbankReader> serviceLoader = ServiceLoader.load(SoundbankReader.class);
+        Iterator<SoundbankReader> iterator = serviceLoader.iterator();
+
+        while (iterator.hasNext()) {
+            SoundbankReader reader = iterator.next();
+            try {
+                soundbank = reader.getSoundbank(soundbankFile);
+                if (soundbank != null) {
+                    break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (soundbank != null) {
+            System.out.println("Soundbank loaded successfully: " + soundbank);
+        } else {
+            System.out.println("Failed to load Soundbank");
+        }
+    }
+}
+```
+================================================================
+

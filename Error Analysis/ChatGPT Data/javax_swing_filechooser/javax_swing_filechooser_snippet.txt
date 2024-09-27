@@ -1,0 +1,299 @@
+Sample: 0 FileFilter_1
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import javax.swing.filechooser.FileFilter;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        FileFilter filter = new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                // Implement your logic here to determine if the file should be accepted
+                return f.getName().endsWith(".txt"); // Example: Accept only text files
+            }
+
+            @Override
+            public String getDescription() {
+                return "Text files (*.txt)";
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 1 FileFilter_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.filechooser.FileFilter;
+
+public class Main {
+    public static void main(String[] args) {
+        FileFilter fileFilter = new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                return f.getName().toLowerCase().endsWith(".txt");
+            }
+
+            @Override
+            public String getDescription() {
+                return "Text files (*.txt)";
+            }
+        };
+
+        System.out.println(fileFilter.getDescription());
+    }
+}
+```
+================================================================
+
+Sample: 2 FileNameExtensionFilter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+public class Main {
+    public static void main(String[] args) {
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+        String description = filter.getDescription();
+        System.out.println("Description: " + description);
+    }
+}
+```
+================================================================
+
+Sample: 3 FileNameExtensionFilter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+        File file = new File("example.txt");
+        
+        boolean result = filter.accept(file);
+        System.out.println("File " + file.getName() + " is accepted: " + result);
+    }
+    
+}
+```
+================================================================
+
+Sample: 4 FileSystemView_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        FileSystemView fileSystemView = FileSystemView.getFileSystemView();
+        File[] roots = fileSystemView.getRoots();
+        
+        for (File root : roots) {
+            System.out.println(root);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 FileSystemView_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        FileSystemView fsv = FileSystemView.getFileSystemView();
+        File homeDirectory = fsv.getHomeDirectory();
+        System.out.println("Home Directory: " + homeDirectory);
+    }
+}
+```
+================================================================
+
+Sample: 6 FileSystemView_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        FileSystemView fileSystemView = FileSystemView.getFileSystemView();
+        File defaultDirectory = fileSystemView.getDefaultDirectory();
+        System.out.println("Default directory: " + defaultDirectory.getPath());
+    }
+}
+```
+================================================================
+
+Sample: 7 FileSystemView_5
+----------------------------------------------------------------
+```java
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        FileSystemView fileSystemView = FileSystemView.getFileSystemView();
+        File containingDir = fileSystemView.getHomeDirectory(); // example directory, change as needed
+
+        File newFolder = fileSystemView.createFileObject(containingDir, "NewFolder");
+        
+        if (fileSystemView.isFileSystemRoot(newFolder)) {
+            System.out.println("Cannot create folder at the root of the file system.");
+        } else {
+            if (fileSystemView.getFiles(containingDir, false).contains(newFolder)) {
+                System.out.println("Folder already exists.");
+            } else {
+                boolean created = fileSystemView.createFileObject(containingDir, newFolder.getName()).mkdir();
+                if (created) {
+                    System.out.println("Folder created successfully.");
+                } else {
+                    System.out.println("Failed to create folder.");
+                }
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 FileView_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.filechooser.FileView;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        File file = new File("test.txt");
+        FileView fileView = new FileView() {
+            @Override
+            public String getName(File f) {
+                return f.getName();
+            }
+        };
+        String fileName = fileView.getName(file);
+        System.out.println("File name: " + fileName);
+    }
+}
+```
+================================================================
+
+Sample: 9 FileView_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.filechooser.FileView;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        File file = new File("example.txt");
+        FileView fileView = new FileView();
+
+        String typeDescription = fileView.getTypeDescription(file);
+        System.out.println("Type Description: " + typeDescription);
+    }
+}
+```
+================================================================
+
+Sample: 10 FileView_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.filechooser.FileView;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a File object to pass to the getDescription method
+        java.io.File file = new java.io.File("path/to/file.txt");
+
+        // Create an instance of FileView
+        FileView fileView = new FileView() {
+            @Override
+            public String getDescription(java.io.File f) {
+                // Return a custom description for the file
+                return "Custom description for file: " + f.getName();
+            }
+        };
+
+        // Get the description for the specified file
+        String description = fileView.getDescription(file);
+
+        // Print the description
+        System.out.println(description);
+    }
+}
+```
+================================================================
+
+Sample: 11 FileView_4
+----------------------------------------------------------------
+Method `getIcon(File f)`: This method returns the icon for a specified file.
+
+Code snippet:
+```java
+import javax.swing.filechooser.FileView;
+import javax.swing.Icon;
+
+public class Main {
+    public static void main(String[] args) {
+        FileView fileView = new FileView() {
+            @Override
+            public Icon getIcon(File f) {
+                // Add your logic here to return the icon for the specified file
+                return null;
+            }
+        };
+        
+        // To use the getIcon method, you can call fileView.getIcon(file);
+        // Replace null with the actual icon logic
+    }
+}
+```
+================================================================
+
+Sample: 12 FileView_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.filechooser.FileView;
+import java.io.File;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        File file = new File("example.txt");
+        FileView fileView = new FileView() {
+            @Override
+            public Boolean isTraversable(File f) {
+                // Add implementation here
+                return super.isTraversable(f);
+            }
+        };
+        Boolean result = fileView.isTraversable(file);
+        System.out.println("Is file traversable? " + result);
+    }
+}
+```
+================================================================
+

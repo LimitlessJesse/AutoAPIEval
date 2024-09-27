@@ -1,0 +1,330 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Files,1,boolean exists(Path path),False,,NULL
+0,Files,2,void createDirectory(Path dir),False,,NULL
+0,Files,3,InputStream newInputStream(Path path),False,,NULL
+0,Files,4,OutputStream newOutputStream(Path path),False,,NULL
+0,Files,5,List<String> readAllLines(Path path),True,,"
+
+readAllLines
+public static List<String> readAllLines(Path path)
+                                 throws IOException
+Read all lines from a file. Bytes from the file are decoded into characters
+ using the UTF-8 charset.
+
+  This method works as if invoking it were equivalent to evaluating the
+ expression:
+ 
+ Files.readAllLines(path, StandardCharsets.UTF_8)
+ 
+
+Parameters:
+path - the path to the file
+Returns:
+the lines from the file as a List; whether the List is modifiable or not is implementation dependent and
+          therefore not specified
+Throws:
+IOException - if an I/O error occurs reading from the file or a malformed or
+          unmappable byte sequence is read
+SecurityException - In the case of the default provider, and a security manager is
+          installed, the checkRead
+          method is invoked to check read access to the file.
+Since:
+1.8
+
+
+"
+1,FileStore,1,long getTotalSpace(),True,,"
+
+getTotalSpace
+public abstract long getTotalSpace()
+                            throws IOException
+Returns the size, in bytes, of the file store.
+
+Returns:
+the size of the file store, in bytes
+Throws:
+IOException - if an I/O error occurs
+
+
+"
+1,FileStore,2,long getUsableSpace(),True,,"
+
+getUsableSpace
+public abstract long getUsableSpace()
+                             throws IOException
+Returns the number of bytes available to this Java virtual machine on the
+ file store.
+
+  The returned number of available bytes is a hint, but not a
+ guarantee, that it is possible to use most or any of these bytes.  The
+ number of usable bytes is most likely to be accurate immediately
+ after the space attributes are obtained. It is likely to be made inaccurate
+ by any external I/O operations including those made on the system outside
+ of this Java virtual machine.
+
+Returns:
+the number of bytes available
+Throws:
+IOException - if an I/O error occurs
+
+
+"
+1,FileStore,3,long getUnallocatedSpace(),True,,"
+
+getUnallocatedSpace
+public abstract long getUnallocatedSpace()
+                                  throws IOException
+Returns the number of unallocated bytes in the file store.
+
+  The returned number of unallocated bytes is a hint, but not a
+ guarantee, that it is possible to use most or any of these bytes.  The
+ number of unallocated bytes is most likely to be accurate immediately
+ after the space attributes are obtained. It is likely to be
+ made inaccurate by any external I/O operations including those made on
+ the system outside of this virtual machine.
+
+Returns:
+the number of unallocated bytes
+Throws:
+IOException - if an I/O error occurs
+
+
+"
+1,FileStore,4,String type(),True,,"
+
+type
+public abstract String type()
+Returns the type of this file store. The format of the string
+ returned by this method is highly implementation specific. It may
+ indicate, for example, the format used or if the file store is local
+ or remote.
+
+Returns:
+a string representing the type of this file store
+
+
+"
+1,FileStore,5,boolean isReadOnly(),True,,"
+
+isReadOnly
+public abstract boolean isReadOnly()
+Tells whether this file store is read-only. A file store is read-only if
+ it does not support write operations or other changes to files. Any
+ attempt to create a file, open an existing file for writing etc. causes
+ an IOException to be thrown.
+
+Returns:
+true if, and only if, this file store is read-only
+
+
+"
+2,FileSystem,1,"Path getPath(String first, String... more)",True,,"
+
+getPath
+public abstract Path getPath(String first,
+                             String... more)
+Converts a path string, or a sequence of strings that when joined form
+ a path string, to a Path. If more does not specify any
+ elements then the value of the first parameter is the path string
+ to convert. If more specifies one or more elements then each
+ non-empty string, including first, is considered to be a sequence
+ of name elements (see Path) and is joined to form a path string.
+ The details as to how the Strings are joined is provider specific but
+ typically they will be joined using the name-separator as the separator. For example, if the name separator is
+ ""/"" and getPath(""/foo"",""bar"",""gus"") is invoked, then the
+ path string ""/foo/bar/gus"" is converted to a Path.
+ A Path representing an empty path is returned if first
+ is the empty string and more does not contain any non-empty
+ strings.
+
+  The parsing and conversion to a path object is inherently
+ implementation dependent. In the simplest case, the path string is rejected,
+ and InvalidPathException thrown, if the path string contains
+ characters that cannot be converted to characters that are legal
+ to the file store. For example, on UNIX systems, the NUL (\u0000)
+ character is not allowed to be present in a path. An implementation may
+ choose to reject path strings that contain names that are longer than those
+ allowed by any file store, and where an implementation supports a complex
+ path syntax, it may choose to reject path strings that are badly
+ formed.
+
+  In the case of the default provider, path strings are parsed based
+ on the definition of paths at the platform or virtual file system level.
+ For example, an operating system may not allow specific characters to be
+ present in a file name, but a specific underlying file store may impose
+ different or additional restrictions on the set of legal
+ characters.
+
+  This method throws InvalidPathException when the path string
+ cannot be converted to a path. Where possible, and where applicable,
+ the exception is created with an index value indicating the first position in the path parameter
+ that caused the path string to be rejected.
+
+Parameters:
+first - the path string or initial part of the path string
+more - additional strings to be joined to form the path string
+Returns:
+the resulting Path
+Throws:
+InvalidPathException - If the path string cannot be converted
+
+
+"
+2,FileSystem,2,FileSystemProvider provider(),True,,"
+
+provider
+public abstract FileSystemProvider provider()
+Returns the provider that created this file system.
+
+Returns:
+The provider that created this file system.
+
+
+"
+2,FileSystem,3,WatchService newWatchService(),True,,"
+
+newWatchService
+public abstract WatchService newWatchService()
+                                      throws IOException
+Constructs a new WatchService (optional operation).
+
+  This method constructs a new watch service that may be used to watch
+ registered objects for changes and events.
+
+Returns:
+a new watch service
+Throws:
+UnsupportedOperationException - If this FileSystem does not support watching file system
+          objects for changes and events. This exception is not thrown
+          by FileSystems created by the default provider.
+IOException - If an I/O error occurs
+
+
+"
+2,FileSystem,4,FileStore getFileStore(Path path),False,,NULL
+2,FileSystem,5,Iterable<Path> getRootDirectories(),True,,"
+
+getRootDirectories
+public abstract Iterable<Path> getRootDirectories()
+Returns an object to iterate over the paths of the root directories.
+
+  A file system provides access to a file store that may be composed
+ of a number of distinct file hierarchies, each with its own top-level
+ root directory. Unless denied by the security manager, each element in
+ the returned iterator corresponds to the root directory of a distinct
+ file hierarchy. The order of the elements is not defined. The file
+ hierarchies may change during the lifetime of the Java virtual machine.
+ For example, in some implementations, the insertion of removable media
+ may result in the creation of a new file hierarchy with its own
+ top-level directory.
+
+  When a security manager is installed, it is invoked to check access
+ to the each root directory. If denied, the root directory is not returned
+ by the iterator. In the case of the default provider, the SecurityManager.checkRead(String) method is invoked to check read access
+ to each root directory. It is system dependent if the permission checks
+ are done when the iterator is obtained or during iteration.
+
+Returns:
+An object to iterate over the root directories
+
+
+"
+5,Paths,1,"Path get(String first, String... more)",True,,"
+
+get
+public static Path get(String first,
+                       String... more)
+Converts a path string, or a sequence of strings that when joined form
+ a path string, to a Path. If more does not specify any
+ elements then the value of the first parameter is the path string
+ to convert. If more specifies one or more elements then each
+ non-empty string, including first, is considered to be a sequence
+ of name elements (see Path) and is joined to form a path string.
+ The details as to how the Strings are joined is provider specific but
+ typically they will be joined using the name-separator as the separator. For example, if the name separator is
+ ""/"" and getPath(""/foo"",""bar"",""gus"") is invoked, then the
+ path string ""/foo/bar/gus"" is converted to a Path.
+ A Path representing an empty path is returned if first
+ is the empty string and more does not contain any non-empty
+ strings.
+
+  The Path is obtained by invoking the getPath method of the default FileSystem.
+
+  Note that while this method is very convenient, using it will imply
+ an assumed reference to the default FileSystem and limit the
+ utility of the calling code. Hence it should not be used in library code
+ intended for flexible reuse. A more flexible alternative is to use an
+ existing Path instance as an anchor, such as:
+ 
+     Path dir = ...
+     Path path = dir.resolve(""file"");
+ 
+
+Parameters:
+first - the path string or initial part of the path string
+more - additional strings to be joined to form the path string
+Returns:
+the resulting Path
+Throws:
+InvalidPathException - if the path string cannot be converted to a Path
+See Also:
+FileSystem.getPath(java.lang.String, java.lang.String...)
+
+
+"
+5,Paths,2,Path get(URI uri),True,,"
+
+get
+public static Path get(URI uri)
+Converts the given URI to a Path object.
+
+  This method iterates over the installed providers to locate the provider that is identified by the
+ URI scheme of the given URI. URI schemes are
+ compared without regard to case. If the provider is found then its getPath method is invoked to convert the
+ URI.
+
+  In the case of the default provider, identified by the URI scheme
+ ""file"", the given URI has a non-empty path component, and undefined query
+ and fragment components. Whether the authority component may be present
+ is platform specific. The returned Path is associated with the
+ default file system.
+
+  The default provider provides a similar round-trip guarantee
+ to the File class. For a given Path p it
+ is guaranteed that
+ 
+ Paths.get(p.toUri()).equals(
+p.toAbsolutePath())
+
+ so long as the original Path, the URI, and the new Path are all created in (possibly different invocations of) the same
+ Java virtual machine. Whether other providers make any guarantees is
+ provider specific and therefore unspecified.
+
+Parameters:
+uri - the URI to convert
+Returns:
+the resulting Path
+Throws:
+IllegalArgumentException - if preconditions on the uri parameter do not hold. The
+          format of the URI is provider specific.
+FileSystemNotFoundException - The file system, identified by the URI, does not exist and
+          cannot be created automatically, or the provider identified by
+          the URI's scheme component is not installed
+SecurityException - if a security manager is installed and it denies an unspecified
+          permission to access the file system
+
+
+"
+5,Paths,3,Path get(String path),False,,NULL
+5,Paths,4,"Path get(URI uri, String... more)",False,,NULL
+5,Paths,5,"Path get(URI uri, String path)",False,,NULL
+6,SimpleFileVisitor,1,"FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)",False,,NULL
+6,SimpleFileVisitor,2,"FileVisitResult visitFile(Path file, BasicFileAttributes attrs)",False,,NULL
+6,SimpleFileVisitor,3,"FileVisitResult visitFileFailed(Path file, IOException exc)",False,,NULL
+6,SimpleFileVisitor,4,"FileVisitResult postVisitDirectory(Path dir, IOException exc)",False,,NULL
+6,SimpleFileVisitor,5,"FileVisitResult visitFile(Path file, BasicFileAttributes attrs)",False,,NULL
+7,StandardWatchEventKinds,1,WatchEvent.Kind<T> name(),False,,NULL
+7,StandardWatchEventKinds,2,boolean equals(Object obj),False,,NULL
+7,StandardWatchEventKinds,3,int hashCode(),False,,NULL
+7,StandardWatchEventKinds,4,String name(),False,,NULL
+7,StandardWatchEventKinds,5,String toString(),False,,NULL

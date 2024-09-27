@@ -1,0 +1,841 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Certificate,1,CertificateFactory getInstance(String type),False,,NULL
+0,Certificate,2,Certificate generateCertificate(InputStream in),False,,NULL
+0,Certificate,3,"Certificate generateCertificate(InputStream in, String provider)",False,,NULL
+0,Certificate,4,"CertPath getInstance(InputStream in, String provider)",False,,NULL
+0,Certificate,5,CertPath getInstance(InputStream in),False,,NULL
+0,Certificate,6,"CertPath getInstance(CertPath certPath, CertPathParameters parameters)",False,,NULL
+0,Certificate,7,"CertPath getInstance(CertPath certPath, CertPathParameters parameters, String provider)",False,,NULL
+0,Certificate,8,"CertPath getInstance(String type, InputStream in)",False,,NULL
+0,Certificate,9,"CertPath getInstance(String type, InputStream in, String provider)",False,,NULL
+0,Certificate,10,"CertPath getInstance(String type, CertPath certPath)",False,,NULL
+0,Certificate,11,"CertPath getInstance(String type, CertPath certPath, String provider)",False,,NULL
+0,Certificate,12,"CertPath getInstance(String type, CertPath certPath, CertPathParameters parameters)",False,,NULL
+0,Certificate,13,"CertPath getInstance(String type, CertPath certPath, CertPathParameters parameters, String provider)",False,,NULL
+0,Certificate,14,"CertPath getInstance(String type, String path)",False,,NULL
+0,Certificate,15,"CertPath getInstance(String type, String path, String provider)",False,,NULL
+0,Certificate,16,"CertPath getInstance(String type, String path, CertPathParameters parameters)",False,,NULL
+0,Certificate,17,"CertPath getInstance(String type, String path, CertPathParameters parameters, String provider)",False,,NULL
+1,Certificate.CertificateRep,1,Certificate getCertificate(byte[] encoded),False,,NULL
+1,Certificate.CertificateRep,2,Certificate getCertificate(InputStream inStream),False,,NULL
+1,Certificate.CertificateRep,3,"Certificate getCertificate(String type, byte[] encoded)",False,,NULL
+1,Certificate.CertificateRep,4,"Certificate getCertificate(String type, InputStream inStream)",False,,NULL
+1,Certificate.CertificateRep,5,"Certificate getCertificate(String type, String certPath)",False,,NULL
+2,CertificateFactory,1,CertificateFactory getInstance(String algorithm),True,Returns a certificate factory object that implements the specified certificate type.,"
+
+getInstance
+public static final CertificateFactory getInstance(String type)
+                                            throws CertificateException
+Returns a certificate factory object that implements the
+ specified certificate type.
+
+  This method traverses the list of registered security Providers,
+ starting with the most preferred Provider.
+ A new CertificateFactory object encapsulating the
+ CertificateFactorySpi implementation from the first
+ Provider that supports the specified type is returned.
+
+  Note that the list of registered providers may be retrieved via
+ the Security.getProviders() method.
+
+Parameters:
+type - the name of the requested certificate type.
+ See the CertificateFactory section in the 
+ Java Cryptography Architecture Standard Algorithm Name Documentation
+ for information about standard certificate types.
+Returns:
+a certificate factory object for the specified type.
+Throws:
+CertificateException - if no Provider supports a
+          CertificateFactorySpi implementation for the
+          specified type.
+See Also:
+Provider
+
+
+"
+2,CertificateFactory,2,Certificate generateCertificate(InputStream in),True,Generates a certificate object and initializes it with the data read from the input stream inStream.,"
+
+generateCertificate
+public final Certificate generateCertificate(InputStream inStream)
+                                      throws CertificateException
+Generates a certificate object and initializes it with
+ the data read from the input stream inStream.
+
+ In order to take advantage of the specialized certificate format
+ supported by this certificate factory,
+ the returned certificate object can be typecast to the corresponding
+ certificate class. For example, if this certificate
+ factory implements X.509 certificates, the returned certificate object
+ can be typecast to the X509Certificate class.
+
+ In the case of a certificate factory for X.509 certificates, the
+ certificate provided in inStream must be DER-encoded and
+ may be supplied in binary or printable (Base64) encoding. If the
+ certificate is provided in Base64 encoding, it must be bounded at
+ the beginning by -----BEGIN CERTIFICATE-----, and must be bounded at
+ the end by -----END CERTIFICATE-----.
+
+ Note that if the given input stream does not support
+ mark and
+ reset, this method will
+ consume the entire input stream. Otherwise, each call to this
+ method consumes one certificate and the read position of the
+ input stream is positioned to the next available byte after
+ the inherent end-of-certificate marker. If the data in the input stream
+ does not contain an inherent end-of-certificate marker (other
+ than EOF) and there is trailing data after the certificate is parsed, a
+ CertificateException is thrown.
+
+Parameters:
+inStream - an input stream with the certificate data.
+Returns:
+a certificate object initialized with the data
+ from the input stream.
+Throws:
+CertificateException - on parsing errors.
+
+
+"
+2,CertificateFactory,3,CertPath generateCertPath(InputStream in),True,Generates a CertPath object and initializes it with the data read from the InputStream inStream.,"
+
+generateCertPath
+public final CertPath generateCertPath(InputStream inStream)
+                                throws CertificateException
+Generates a CertPath object and initializes it with
+ the data read from the InputStream inStream. The data
+ is assumed to be in the default encoding. The name of the default
+ encoding is the first element of the Iterator returned by
+ the getCertPathEncodings method.
+
+Parameters:
+inStream - an InputStream containing the data
+Returns:
+a CertPath initialized with the data from the
+   InputStream
+Throws:
+CertificateException - if an exception occurs while decoding
+Since:
+1.4
+
+
+"
+2,CertificateFactory,4,CRL generateCRL(InputStream in),True,Generates a certificate revocation list (CRL) object and initializes it with the data read from the input stream inStream.,"
+
+generateCRL
+public final CRL generateCRL(InputStream inStream)
+                      throws CRLException
+Generates a certificate revocation list (CRL) object and initializes it
+ with the data read from the input stream inStream.
+
+ In order to take advantage of the specialized CRL format
+ supported by this certificate factory,
+ the returned CRL object can be typecast to the corresponding
+ CRL class. For example, if this certificate
+ factory implements X.509 CRLs, the returned CRL object
+ can be typecast to the X509CRL class.
+
+ Note that if the given input stream does not support
+ mark and
+ reset, this method will
+ consume the entire input stream. Otherwise, each call to this
+ method consumes one CRL and the read position of the input stream
+ is positioned to the next available byte after the inherent
+ end-of-CRL marker. If the data in the
+ input stream does not contain an inherent end-of-CRL marker (other
+ than EOF) and there is trailing data after the CRL is parsed, a
+ CRLException is thrown.
+
+Parameters:
+inStream - an input stream with the CRL data.
+Returns:
+a CRL object initialized with the data
+ from the input stream.
+Throws:
+CRLException - on parsing errors.
+
+
+"
+2,CertificateFactory,5,Certificate generateCertificate(byte[] certData),False,,NULL
+2,CertificateFactory,6,CertPath generateCertPath(byte[] certData),False,,NULL
+2,CertificateFactory,7,CRL generateCRL(byte[] certData),False,,NULL
+2,CertificateFactory,8,Certificate generateCertificate(String certData),False,,NULL
+2,CertificateFactory,9,CertPath generateCertPath(String certData),False,,NULL
+2,CertificateFactory,10,CRL generateCRL(String certData),False,,NULL
+3,CertificateFactorySpi,1,CertificateFactorySpi(),False,,NULL
+3,CertificateFactorySpi,2,CertificateFactorySpi(String type),False,,NULL
+3,CertificateFactorySpi,3,"CertificateFactorySpi(String type, String provider)",False,,NULL
+3,CertificateFactorySpi,4,"CertificateFactorySpi(String type, String provider, String algorithm)",False,,NULL
+3,CertificateFactorySpi,5,"CertificateFactorySpi(String type, String provider, String algorithm, String digest)",False,,NULL
+3,CertificateFactorySpi,6,"CertificateFactorySpi(String type, String provider, String algorithm, String digest, String signature)",False,,NULL
+3,CertificateFactorySpi,7,"CertificateFactorySpi(String type, String provider, String algorithm, String digest, String signature, String keyFactory)",False,,NULL
+3,CertificateFactorySpi,8,"CertificateFactorySpi(String type, String provider, String algorithm, String digest, String signature, String keyFactory, String keyAlgorithm)",False,,NULL
+3,CertificateFactorySpi,9,"CertificateFactorySpi(String type, String provider, String algorithm, String digest, String signature, String keyFactory, String keyAlgorithm, String keyStore)",False,,NULL
+3,CertificateFactorySpi,10,"CertificateFactorySpi(String type, String provider, String algorithm, String digest, String signature, String keyFactory, String keyAlgorithm, String keyStore, String keyStoreType)",False,,NULL
+3,CertificateFactorySpi,11,"CertificateFactorySpi(String type, String provider, String algorithm, String digest, String signature, String keyFactory, String keyAlgorithm, String keyStore, String keyStoreType, String keyStorePassword)",False,,NULL
+3,CertificateFactorySpi,12,"CertificateFactorySpi(String type, String provider, String algorithm, String digest, String signature, String keyFactory, String keyAlgorithm, String keyStore, String keyStoreType, String keyStorePassword, String keyPassword)",False,,NULL
+3,CertificateFactorySpi,13,"CertificateFactorySpi(String type, String provider, String algorithm, String digest, String signature, String keyFactory, String keyAlgorithm, String keyStore, String keyStoreType, String keyStorePassword, String keyPassword, String trustStore)",False,,NULL
+3,CertificateFactorySpi,14,"CertificateFactorySpi(String type, String provider, String algorithm, String digest, String signature, String keyFactory, String keyAlgorithm, String keyStore, String keyStoreType, String keyStorePassword, String keyPassword, String trustStore, String trustStoreType)",False,,NULL
+3,CertificateFactorySpi,15,"CertificateFactorySpi(String type, String provider, String algorithm, String digest, String signature, String keyFactory, String keyAlgorithm, String keyStore, String keyStoreType, String keyStorePassword, String keyPassword, String trustStore, String trustStoreType, String trustStorePassword)",False,,NULL
+4,CertPath,1,CertPath getInstance(Object certPath),False,,NULL
+4,CertPath,2,"CertPath getInstance(Object certPath, String provider)",False,,NULL
+4,CertPath,3,CertPath getInstance(InputStream inStream),False,,NULL
+4,CertPath,4,"CertPath getInstance(InputStream inStream, String provider)",False,,NULL
+4,CertPath,5,CertPath getInstance(byte[] encodedCertPath),False,,NULL
+4,CertPath,6,"CertPath getInstance(byte[] encodedCertPath, String provider)",False,,NULL
+4,CertPath,7,CertPath getInstance(String certPath),False,,NULL
+4,CertPath,8,"CertPath getInstance(String certPath, String provider)",False,,NULL
+4,CertPath,9,CertPath getInstance(URL url),False,,NULL
+4,CertPath,10,"CertPath getInstance(URL url, String provider)",False,,NULL
+4,CertPath,11,CertPath getInstance(Certificate[] certificates),False,,NULL
+4,CertPath,12,"CertPath getInstance(Certificate[] certificates, String provider)",False,,NULL
+4,CertPath,13,"CertPath getInstance(Certificate[] certificates, CertPathParameters parameters)",False,,NULL
+4,CertPath,14,"CertPath getInstance(Certificate[] certificates, CertPathParameters parameters, String provider)",False,,NULL
+4,CertPath,15,"CertPath getInstance(Certificate[] certificates, CertPathParameters parameters, String provider, CertPathConstraints constraints)",False,,NULL
+4,CertPath,16,"CertPath getInstance(Certificate[] certificates, CertPathParameters parameters, String provider, CertPathConstraints constraints, CertPathValidator validator)",False,,NULL
+4,CertPath,17,"CertPath getInstance(Certificate[] certificates, CertPathParameters parameters, String provider, CertPathConstraints constraints, CertPathValidator validator, CertPathChecker checker)",False,,NULL
+4,CertPath,18,"CertPath getInstance(Certificate[] certificates, CertPathParameters parameters, String provider, CertPathConstraints constraints, CertPathValidator validator, CertPathChecker checker, CertPathBuilder builder)",False,,NULL
+4,CertPath,19,"CertPath getInstance(Certificate[] certificates, CertPathParameters parameters, String provider, CertPathConstraints constraints, CertPathValidator validator, CertPathChecker checker, CertPathBuilder builder, CertPathProtectionParameters protectionParameters)",False,,NULL
+4,CertPath,20,"CertPath getInstance(Certificate[] certificates, CertPathParameters parameters, String provider, CertPathConstraints constraints, CertPathValidator validator, CertPathChecker checker, CertPathBuilder builder, CertPathProtectionParameters protectionParameters, CertPathSpi spi)",False,,NULL
+5,CertPath.CertPathRep,1,CertPathRep getCertPathRep(),False,,NULL
+5,CertPath.CertPathRep,2,CertPathRep getCertPathRep(CertPathParameters parameters),False,,NULL
+5,CertPath.CertPathRep,3,"CertPathRep getCertPathRep(CertPathParameters parameters, CertPathGenerator generator)",False,,NULL
+5,CertPath.CertPathRep,4,"CertPathRep getCertPathRep(CertPathParameters parameters, CertPathGenerator generator, CertPathChecker checker)",False,,NULL
+5,CertPath.CertPathRep,5,"CertPathRep getCertPathRep(CertPathParameters parameters, CertPathGenerator generator, CertPathChecker checker, CertPathProver prover)",False,,NULL
+6,CertPathBuilder,1,CertPathBuilder.getInstance(String algorithm),False,,NULL
+6,CertPathBuilder,2,CertPathBuilderResult build(CertPathParameters params),True,Attempts to build a certification path using the specified algorithm parameter set.,"
+
+build
+public final CertPathBuilderResult build(CertPathParameters params)
+                                  throws CertPathBuilderException,
+                                         InvalidAlgorithmParameterException
+Attempts to build a certification path using the specified algorithm
+ parameter set.
+
+Parameters:
+params - the algorithm parameters
+Returns:
+the result of the build algorithm
+Throws:
+CertPathBuilderException - if the builder is unable to construct
+  a certification path that satisfies the specified parameters
+InvalidAlgorithmParameterException - if the specified parameters
+ are inappropriate for this CertPathBuilder
+
+
+"
+6,CertPathBuilder,3,"CertPathBuilderResult build(CertPathParameters params, Collection<? extends CertPath> endEntityCerts)",False,,NULL
+6,CertPathBuilder,4,"CertPathBuilderResult build(CertPathParameters params, CertPath endEntityCert)",False,,NULL
+6,CertPathBuilder,5,"CertPathBuilderResult build(CertPathParameters params, CertPath endEntityCert, CertPath issuerCert)",False,,NULL
+7,CertPathBuilderSpi,1,CertPathBuilderSpi(),False,,NULL
+7,CertPathBuilderSpi,2,CertPathBuilderResult engineBuild(CertPathParameters params),True,Attempts to build a certification path using the specified algorithm parameter set.,"
+
+engineBuild
+public abstract CertPathBuilderResult engineBuild(CertPathParameters params)
+                                           throws CertPathBuilderException,
+                                                  InvalidAlgorithmParameterException
+Attempts to build a certification path using the specified
+ algorithm parameter set.
+
+Parameters:
+params - the algorithm parameters
+Returns:
+the result of the build algorithm
+Throws:
+CertPathBuilderException - if the builder is unable to construct
+ a certification path that satisfies the specified parameters
+InvalidAlgorithmParameterException - if the specified parameters
+ are inappropriate for this CertPathBuilder
+
+
+"
+7,CertPathBuilderSpi,3,"void engineInit(CertPathParameters params, CertPathChecker checker)",False,,NULL
+7,CertPathBuilderSpi,4,"void engineSetParameter(String param, Object value)",False,,NULL
+7,CertPathBuilderSpi,5,Object engineGetParameter(String param),False,,NULL
+8,CertPathValidator,1,CertPathValidator,False,,NULL
+8,CertPathValidator,2,CertPathValidatorResult,False,,NULL
+8,CertPathValidator,3,CertPathValidatorException,False,,NULL
+8,CertPathValidator,4,CertPathValidatorParameters,False,,NULL
+8,CertPathValidator,5,CertPathValidatorResult,False,,NULL
+9,CertPathValidatorSpi,1,CertPathValidatorSpi(),False,,NULL
+9,CertPathValidatorSpi,2,void engineInit(ManagerParameters parameters),False,,NULL
+9,CertPathValidatorSpi,3,"CertPathValidatorResult engineValidate(CertPath certPath, CertPathParameters parameters)",True,Validates the specified certification path using the specified algorithm parameter set.,"
+
+engineValidate
+public abstract CertPathValidatorResult engineValidate(CertPath certPath,
+                                                       CertPathParameters params)
+                                                throws CertPathValidatorException,
+                                                       InvalidAlgorithmParameterException
+Validates the specified certification path using the specified
+ algorithm parameter set.
+ 
+ The CertPath specified must be of a type that is
+ supported by the validation algorithm, otherwise an
+ InvalidAlgorithmParameterException will be thrown. For
+ example, a CertPathValidator that implements the PKIX
+ algorithm validates CertPath objects of type X.509.
+
+Parameters:
+certPath - the CertPath to be validated
+params - the algorithm parameters
+Returns:
+the result of the validation algorithm
+Throws:
+CertPathValidatorException - if the CertPath
+ does not validate
+InvalidAlgorithmParameterException - if the specified
+ parameters or the type of the specified CertPath are
+ inappropriate for this CertPathValidator
+
+
+"
+9,CertPathValidatorSpi,4,CertPathChecker createRevocationChecker(CertPathParameters parameters),False,,NULL
+9,CertPathValidatorSpi,5,CertPathChecker createAccessibilityChecker(CertPathParameters parameters),False,,NULL
+10,CertStore,1,"CertStore getInstance(String type, Provider provider)",False,,NULL
+10,CertStore,2,"CertStore getInstance(String type, Provider provider, CertStoreParameters params)",False,,NULL
+10,CertStore,3,"CertStore getInstance(String type, CertStoreParameters params)",True,Returns a CertStore object that implements the specified CertStore type and is initialized with the specified parameters.,"
+
+getInstance
+public static CertStore getInstance(String type,
+                                    CertStoreParameters params)
+                             throws InvalidAlgorithmParameterException,
+                                    NoSuchAlgorithmException
+Returns a CertStore object that implements the specified
+ CertStore type and is initialized with the specified
+ parameters.
+
+  This method traverses the list of registered security Providers,
+ starting with the most preferred Provider.
+ A new CertStore object encapsulating the
+ CertStoreSpi implementation from the first
+ Provider that supports the specified type is returned.
+
+  Note that the list of registered providers may be retrieved via
+ the Security.getProviders() method.
+
+ The CertStore that is returned is initialized with the
+ specified CertStoreParameters. The type of parameters
+ needed may vary between different types of CertStores.
+ Note that the specified CertStoreParameters object is
+ cloned.
+
+Parameters:
+type - the name of the requested CertStore type.
+ See the CertStore section in the 
+ Java Cryptography Architecture Standard Algorithm Name Documentation
+ for information about standard types.
+params - the initialization parameters (may be null).
+Returns:
+a CertStore object that implements the specified
+          CertStore type.
+Throws:
+NoSuchAlgorithmException - if no Provider supports a
+          CertStoreSpi implementation for the specified type.
+InvalidAlgorithmParameterException - if the specified
+          initialization parameters are inappropriate for this
+          CertStore.
+See Also:
+Provider
+
+
+"
+10,CertStore,4,CertStore getInstance(String type),False,,NULL
+10,CertStore,5,CertStore getInstance(CertStoreParameters params),False,,NULL
+11,CertStoreSpi,1,CertStoreSpi(),False,,NULL
+11,CertStoreSpi,2,CertStoreSpi(CertStoreParameters params),False,,NULL
+11,CertStoreSpi,3,CertStoreParameters getCertStoreParameters(),False,,NULL
+11,CertStoreSpi,4,Collection<String> getCertificateAuthorities(),False,,NULL
+11,CertStoreSpi,5,Collection<Certificate> getCertificates(CertSelector selector),False,,NULL
+11,CertStoreSpi,6,Collection<CRL> getCRLs(CRLSelector selector),False,,NULL
+11,CertStoreSpi,7,Collection<CertPath> getCertPaths(CertPathSelector selector),False,,NULL
+11,CertStoreSpi,8,Collection<CertStoreParameters> getCertStoreParameters(String algorithm),False,,NULL
+11,CertStoreSpi,9,Collection<CertStoreSpi> getCertStoreSpi(String algorithm),False,,NULL
+11,CertStoreSpi,10,Collection<CertStoreSpi> getCertStoreSpi(CertStoreParameters params),False,,NULL
+11,CertStoreSpi,11,"Collection<CertStoreSpi> getCertStoreSpi(String algorithm, CertStoreParameters params)",False,,NULL
+11,CertStoreSpi,12,"Collection<CertStoreSpi> getCertStoreSpi(String algorithm, String provider)",False,,NULL
+11,CertStoreSpi,13,"Collection<CertStoreSpi> getCertStoreSpi(String algorithm, String provider, CertStoreParameters params)",False,,NULL
+11,CertStoreSpi,14,"Collection<CertStoreSpi> getCertStoreSpi(String algorithm, String provider, CertStoreParameters params, String type)",False,,NULL
+11,CertStoreSpi,15,"Collection<CertStoreSpi> getCertStoreSpi(String algorithm, String provider, CertStoreParameters params, String type, String format)",False,,NULL
+12,CollectionCertStoreParameters,1,boolean add(E e),False,,NULL
+12,CollectionCertStoreParameters,2,boolean addAll(Collection<? extends E> c),False,,NULL
+12,CollectionCertStoreParameters,3,void clear(),False,,NULL
+12,CollectionCertStoreParameters,4,boolean contains(Object o),False,,NULL
+12,CollectionCertStoreParameters,5,boolean containsAll(Collection<?> c),False,,NULL
+12,CollectionCertStoreParameters,6,E get(int index),False,,NULL
+12,CollectionCertStoreParameters,7,int indexOf(Object o),False,,NULL
+12,CollectionCertStoreParameters,8,boolean isEmpty(),False,,NULL
+12,CollectionCertStoreParameters,9,Iterator<E> iterator(),False,,NULL
+12,CollectionCertStoreParameters,10,boolean remove(Object o),False,,NULL
+12,CollectionCertStoreParameters,11,boolean removeAll(Collection<?> c),False,,NULL
+12,CollectionCertStoreParameters,12,boolean retainAll(Collection<?> c),False,,NULL
+12,CollectionCertStoreParameters,13,"E set(int index, E element)",False,,NULL
+12,CollectionCertStoreParameters,14,int size(),False,,NULL
+12,CollectionCertStoreParameters,15,"List<E> subList(int fromIndex, int toIndex)",False,,NULL
+12,CollectionCertStoreParameters,16,Object[] toArray(),False,,NULL
+12,CollectionCertStoreParameters,17,<T> T[] toArray(T[] a),False,,NULL
+12,CollectionCertStoreParameters,18,boolean equals(Object o),False,,NULL
+12,CollectionCertStoreParameters,19,int hashCode(),False,,NULL
+12,CollectionCertStoreParameters,20,String toString(),True,Returns a formatted string describing the parameters.,"
+
+toString
+public String toString()
+Returns a formatted string describing the parameters.
+
+Overrides:
+toString in class Object
+Returns:
+a formatted string describing the parameters
+
+
+"
+13,CRL,1,CRL.getRevokedCertificates(),False,,NULL
+13,CRL,2,CRL.getThisUpdate(),False,,NULL
+13,CRL,3,CRL.getNextUpdate(),False,,NULL
+13,CRL,4,CRL.getTBSCertList(),False,,NULL
+13,CRL,5,CRL.getSignatureAlgorithm(),False,,NULL
+14,LDAPCertStoreParameters,1,LDAPCertStoreParameters(String url),False,,NULL
+14,LDAPCertStoreParameters,2,String getURL(),False,,NULL
+14,LDAPCertStoreParameters,3,void setURL(String url),False,,NULL
+14,LDAPCertStoreParameters,4,String getBase(),False,,NULL
+14,LDAPCertStoreParameters,5,void setBase(String base),False,,NULL
+14,LDAPCertStoreParameters,6,String getScope(),False,,NULL
+14,LDAPCertStoreParameters,7,void setScope(String scope),False,,NULL
+14,LDAPCertStoreParameters,8,String getFilter(),False,,NULL
+14,LDAPCertStoreParameters,9,void setFilter(String filter),False,,NULL
+14,LDAPCertStoreParameters,10,String getCertificatesAttribute(),False,,NULL
+14,LDAPCertStoreParameters,11,void setCertificatesAttribute(String certificatesAttribute),False,,NULL
+14,LDAPCertStoreParameters,12,String getCRLsAttribute(),False,,NULL
+14,LDAPCertStoreParameters,13,void setCRLsAttribute(String crlsAttribute),False,,NULL
+14,LDAPCertStoreParameters,14,String getCertificatePathsAttribute(),False,,NULL
+14,LDAPCertStoreParameters,15,void setCertificatePathsAttribute(String certificatePathsAttribute),False,,NULL
+14,LDAPCertStoreParameters,16,String getCertificateRevocationListsAttribute(),False,,NULL
+14,LDAPCertStoreParameters,17,void setCertificateRevocationListsAttribute(String certificateRevocationListsAttribute),False,,NULL
+14,LDAPCertStoreParameters,18,String getCertificatePoliciesAttribute(),False,,NULL
+14,LDAPCertStoreParameters,19,void setCertificatePoliciesAttribute(String certificatePoliciesAttribute),False,,NULL
+14,LDAPCertStoreParameters,20,String getCertificateIssuersAttribute(),False,,NULL
+14,LDAPCertStoreParameters,21,void setCertificateIssuersAttribute(String certificateIssuersAttribute),False,,NULL
+14,LDAPCertStoreParameters,22,String getCertificateSerialNumbersAttribute(),False,,NULL
+14,LDAPCertStoreParameters,23,void setCertificateSerialNumbersAttribute(String certificateSerialNumbersAttribute),False,,NULL
+14,LDAPCertStoreParameters,24,String getCertificateSubjectsAttribute(),False,,NULL
+14,LDAPCertStoreParameters,25,void setCertificateSubjectsAttribute(String certificateSubjectsAttribute),False,,NULL
+14,LDAPCertStoreParameters,26,String getCertificateValidityPeriodsAttribute(),False,,NULL
+14,LDAPCertStoreParameters,27,void setCertificateValidityPeriodsAttribute(String certificateValidityPeriodsAttribute),False,,NULL
+14,LDAPCertStoreParameters,28,String getCertificateIssuerUniqueIDsAttribute(),False,,NULL
+14,LDAPCertStoreParameters,29,void setCertificateIssuerUniqueIDsAttribute(String certificateIssuerUniqueIDsAttribute),False,,NULL
+14,LDAPCertStoreParameters,30,String getCertificateSubjectUniqueIDsAttribute(),False,,NULL
+14,LDAPCertStoreParameters,31,void setCertificateSubjectUniqueIDsAttribute(String certificateSubjectUniqueIDsAttribute),False,,NULL
+14,LDAPCertStoreParameters,32,String getCertificateExtensionsAttribute(),False,,NULL
+14,LDAPCertStoreParameters,33,void setCertificateExtensionsAttribute(String certificateExtensionsAttribute),False,,NULL
+14,LDAPCertStoreParameters,34,String getCertificatePublicKeysAttribute(),False,,NULL
+14,LDAPCertStoreParameters,35,void setCertificatePublicKeysAttribute(String certificatePublicKeysAttribute),False,,NULL
+14,LDAPCertStoreParameters,36,String getCertificateRDNsAttribute(),False,,NULL
+14,LDAPCertStoreParameters,37,void setCertificateRDNsAttribute(String certificateRDNsAttribute),False,,NULL
+14,LDAPCertStoreParameters,38,String getCertificateAlternativeNamesAttribute(),False,,NULL
+14,LDAPCertStoreParameters,39,void setCertificateAlternativeNamesAttribute(String certificateAlternativeNamesAttribute),False,,NULL
+14,LDAPCertStoreParameters,40,String getCertificateIssuerAlternativeNamesAttribute(),False,,NULL
+14,LDAPCertStoreParameters,41,void setCertificateIssuerAlternativeNamesAttribute(String certificateIssuerAlternativeNamesAttribute),False,,NULL
+14,LDAPCertStoreParameters,42,String getCertificateSubjectAlternativeNamesAttribute(),False,,NULL
+14,LDAPCertStoreParameters,43,void setCertificateSubjectAlternativeNamesAttribute(String certificateSubjectAlternativeNamesAttribute),False,,NULL
+14,LDAPCertStoreParameters,44,String getCertificateIssuerUniqueIDAlternativeNamesAttribute(),False,,NULL
+14,LDAPCertStoreParameters,45,void setCertificateIssuerUniqueIDAlternativeNamesAttribute(String certificateIssuerUniqueIDAlternativeNamesAttribute),False,,NULL
+14,LDAPCertStoreParameters,46,String getCertificateSubjectUniqueIDAlternativeNamesAttribute(),False,,NULL
+14,LDAPCertStoreParameters,47,void setCertificateSubjectUniqueIDAlternativeNamesAttribute(String certificateSubjectUniqueIDAlternativeNamesAttribute),False,,NULL
+14,LDAPCertStoreParameters,48,String getCertificateIssuerDNsAttribute(),False,,NULL
+14,LDAPCertStoreParameters,49,void setCertificateIssuerDNsAttribute(String certificateIssuerDNsAttribute),False,,NULL
+14,LDAPCertStoreParameters,50,String getCertificateSubjectDNsAttribute(),False,,NULL
+14,LDAPCertStoreParameters,51,void setCertificateSubjectDNsAttribute(String certificateSubjectDNsAttribute),False,,NULL
+14,LDAPCertStoreParameters,52,String getCertificateIssuerSerialNumbersAttribute(),False,,NULL
+14,LDAPCertStoreParameters,53,void setCertificateIssuerSerialNumbersAttribute(String certificateIssuerSerialNumbersAttribute),False,,NULL
+14,LDAPCertStoreParameters,54,String getCertificateIssuerCountryNamesAttribute(),False,,NULL
+15,PKIXBuilderParameters,1,PKIXBuilderParameters(),False,,NULL
+15,PKIXBuilderParameters,2,void setInitialPolicies(List<PolicyNode> initialPolicies),False,,NULL
+15,PKIXBuilderParameters,3,void setMaxPathLength(int maxPathLength),True,Sets the value of the maximum number of non-self-issued intermediate certificates that may exist in a certification path.,"
+
+setMaxPathLength
+public void setMaxPathLength(int maxPathLength)
+Sets the value of the maximum number of non-self-issued intermediate
+ certificates that may exist in a certification path. A certificate
+ is self-issued if the DNs that appear in the subject and issuer
+ fields are identical and are not empty. Note that the last certificate
+ in a certification path is not an intermediate certificate, and is not
+ included in this limit. Usually the last certificate is an end entity
+ certificate, but it can be a CA certificate. A PKIX
+ CertPathBuilder instance must not build
+ paths longer than the length specified.
+
+  A value of 0 implies that the path can only contain
+ a single certificate. A value of -1 implies that the
+ path length is unconstrained (i.e. there is no maximum).
+ The default maximum path length, if not specified, is 5.
+ Setting a value less than -1 will cause an exception to be thrown.
+
+  If any of the CA certificates contain the
+ BasicConstraintsExtension, the value of the
+ pathLenConstraint field of the extension overrides
+ the maximum path length parameter whenever the result is a
+ certification path of smaller length.
+
+Parameters:
+maxPathLength - the maximum number of non-self-issued intermediate
+  certificates that may exist in a certification path
+Throws:
+InvalidParameterException - if maxPathLength is set
+  to a value less than -1
+See Also:
+getMaxPathLength()
+
+
+"
+15,PKIXBuilderParameters,4,void setMaxTreeDepth(int maxTreeDepth),False,,NULL
+15,PKIXBuilderParameters,5,void setRevocationEnabled(boolean revocationEnabled),False,,NULL
+15,PKIXBuilderParameters,6,void setTargetCertConstraints(CertSelectionConstraints targetCertConstraints),False,,NULL
+15,PKIXBuilderParameters,7,void setTrustAnchors(List<TrustAnchor> trustAnchors),False,,NULL
+15,PKIXBuilderParameters,8,void setUnknownCriticalExtensionHandling(int unknownCriticalExtensionHandling),False,,NULL
+15,PKIXBuilderParameters,9,void setUnmatchCriticalExtensionHandling(int unmatchCriticalExtensionHandling),False,,NULL
+15,PKIXBuilderParameters,10,void setUrlResolver(PKIXParameters.URLResolver urlResolver),False,,NULL
+15,PKIXBuilderParameters,11,void setValidityCheckConstraints(CertSelectionConstraints validityCheckConstraints),False,,NULL
+16,PKIXCertPathBuilderResult,1,getCertPath(),False,,NULL
+16,PKIXCertPathBuilderResult,2,getTrustAnchor(),False,,NULL
+16,PKIXCertPathBuilderResult,3,getPolicyTree(),False,,NULL
+16,PKIXCertPathBuilderResult,4,getCertPathChecker(),False,,NULL
+16,PKIXCertPathBuilderResult,5,getCertPathParameters(),False,,NULL
+17,PKIXCertPathChecker,1,void init(boolean forwardChecking),True,Initializes the internal state of this PKIXCertPathChecker.,"
+
+init
+public abstract void init(boolean forward)
+                   throws CertPathValidatorException
+Initializes the internal state of this PKIXCertPathChecker.
+ 
+ The forward flag specifies the order that
+ certificates will be passed to the check method
+ (forward or reverse). A PKIXCertPathChecker must
+ support reverse checking and may support forward checking.
+
+Specified by:
+init in interface CertPathChecker
+Parameters:
+forward - the order that certificates are presented to
+ the check method. If true, certificates
+ are presented from target to most-trusted CA (forward); if
+ false, from most-trusted CA to target (reverse).
+Throws:
+CertPathValidatorException - if this
+ PKIXCertPathChecker is unable to check certificates in
+ the specified order; it should never be thrown if the forward flag
+ is false since reverse checking must be supported
+
+
+"
+17,PKIXCertPathChecker,2,"boolean check(X509Certificate cert, int i, CertPathParameters params, Collection<String> unresolvedCriticalExtensions)",False,,NULL
+17,PKIXCertPathChecker,3,void check(CertificateValidityInterval interval),False,,NULL
+17,PKIXCertPathChecker,4,void check(CertificateIssuerChecker issuerChecker),False,,NULL
+17,PKIXCertPathChecker,5,void check(CertificateRevocationChecker revocationChecker),False,,NULL
+18,PKIXCertPathValidatorResult,1,getTrustAnchors(),False,,NULL
+18,PKIXCertPathValidatorResult,2,getPolicyTree(),False,,NULL
+18,PKIXCertPathValidatorResult,3,getCertPath(),False,,NULL
+18,PKIXCertPathValidatorResult,4,getPolicyQualifiers(),False,,NULL
+18,PKIXCertPathValidatorResult,5,getRevocationEnabled(),False,,NULL
+19,PKIXParameters,1,PKIXParameters(),False,,NULL
+19,PKIXParameters,2,void setRevocationEnabled(boolean revocationEnabled),True,Sets the RevocationEnabled flag.,"
+
+setRevocationEnabled
+public void setRevocationEnabled(boolean val)
+Sets the RevocationEnabled flag. If this flag is true, the default
+ revocation checking mechanism of the underlying PKIX service provider
+ will be used. If this flag is false, the default revocation checking
+ mechanism will be disabled (not used).
+ 
+ When a PKIXParameters object is created, this flag is set
+ to true. This setting reflects the most common strategy for checking
+ revocation, since each service provider must support revocation
+ checking to be PKIX compliant. Sophisticated applications should set
+ this flag to false when it is not practical to use a PKIX service
+ provider's default revocation checking mechanism or when an alternative
+ revocation checking mechanism is to be substituted (by also calling the
+ addCertPathChecker or setCertPathCheckers methods).
+
+Parameters:
+val - the new value of the RevocationEnabled flag
+
+
+"
+19,PKIXParameters,3,void setMaxPathLength(int maxPathLength),False,,NULL
+19,PKIXParameters,4,void setMaxPathElements(int maxPathElements),False,,NULL
+19,PKIXParameters,5,void setMaxNameConstraintLength(int maxNameConstraintLength),False,,NULL
+19,PKIXParameters,6,void setMaxKeySize(int maxKeySize),False,,NULL
+19,PKIXParameters,7,void setMaxEndEntitySize(int maxEndEntitySize),False,,NULL
+19,PKIXParameters,8,void setMaxIssuerSize(int maxIssuerSize),False,,NULL
+19,PKIXParameters,9,void setMaxCRLSize(int maxCRLSize),False,,NULL
+19,PKIXParameters,10,void setMaxPathCRLSize(int maxPathCRLSize),False,,NULL
+19,PKIXParameters,11,void setMaxIssuerCRLSize(int maxIssuerCRLSize),False,,NULL
+19,PKIXParameters,12,void setMaxOcspSize(int maxOcspSize),False,,NULL
+19,PKIXParameters,13,void setMaxOcspResponses(int maxOcspResponses),False,,NULL
+19,PKIXParameters,14,void setMaxIssuerOcspSize(int maxIssuerOcspSize),False,,NULL
+19,PKIXParameters,15,void setMaxIssuerOcspResponses(int maxIssuerOcspResponses),False,,NULL
+19,PKIXParameters,16,void setMaxIssuerNameConstraintLength(int maxIssuerNameConstraintLength),False,,NULL
+19,PKIXParameters,17,void setMaxIssuerNameConstraints(int maxIssuerNameConstraints),False,,NULL
+19,PKIXParameters,18,void setMaxIssuerNameConstraintsPerCertificate(int maxIssuerNameConstraintsPerCertificate),False,,NULL
+19,PKIXParameters,19,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,20,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,21,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,22,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,23,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,24,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,25,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,26,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,27,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,28,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,29,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,30,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,31,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,32,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,33,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,34,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,35,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,36,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,37,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,38,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,39,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,40,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,41,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,42,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,43,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+19,PKIXParameters,44,void setMaxIssuerNameConstraintsPerCertificatePath(int maxIssuerNameConstraintsPerCertificatePath),False,,NULL
+20,PKIXRevocationChecker,1,"PKIXRevocationChecker(CertStore certStore, CertStore untrustedCertStore, PKIXParameters params)",False,,NULL
+20,PKIXRevocationChecker,2,void check(Certificate certificate) throws CertificateException,False,,NULL
+20,PKIXRevocationChecker,3,void check(CertPath certPath) throws CertificateException,False,,NULL
+20,PKIXRevocationChecker,4,"void check(CertPath certPath, int index) throws CertificateException",False,,NULL
+20,PKIXRevocationChecker,5,"void check(CertPath certPath, int index, int pathLength) throws CertificateException",False,,NULL
+21,PolicyQualifierInfo,1,PolicyQualifierInfo(ASN1Sequence seq),False,,NULL
+21,PolicyQualifierInfo,2,ASN1ObjectIdentifier getPolicyQualifierId(),False,,NULL
+21,PolicyQualifierInfo,3,ASN1Encodable getQualifier(),False,,NULL
+21,PolicyQualifierInfo,4,ASN1Primitive toASN1Primitive(),False,,NULL
+21,PolicyQualifierInfo,5,String toString(),True,Return a printable representation of this PolicyQualifierInfo.,"
+
+toString
+public String toString()
+Return a printable representation of this
+ PolicyQualifierInfo.
+
+Overrides:
+toString in class Object
+Returns:
+a String describing the contents of this
+         PolicyQualifierInfo
+
+
+"
+22,TrustAnchor,1,"TrustAnchor(X509Certificate cert, PrivateKey pk)",False,,NULL
+22,TrustAnchor,2,X509Certificate getTrustedCert(),True,Returns the most-trusted CA certificate.,"
+
+getTrustedCert
+public final X509Certificate getTrustedCert()
+Returns the most-trusted CA certificate.
+
+Returns:
+a trusted X509Certificate or null
+ if the trust anchor was not specified as a trusted certificate
+
+
+"
+22,TrustAnchor,3,PrivateKey getPrivateKey(),False,,NULL
+22,TrustAnchor,4,boolean equals(Object obj),False,,NULL
+22,TrustAnchor,5,int hashCode(),False,,NULL
+23,X509Certificate,1,getIssuerX500Principal(),False,,NULL
+23,X509Certificate,2,getSubjectX500Principal(),False,,NULL
+23,X509Certificate,3,getNotBefore(),False,,NULL
+23,X509Certificate,4,getNotAfter(),False,,NULL
+23,X509Certificate,5,getPublicKey(),False,,NULL
+23,X509Certificate,6,getSerialNumber(),False,,NULL
+23,X509Certificate,7,getSigAlgName(),False,,NULL
+23,X509Certificate,8,getSigAlgOID(),False,,NULL
+23,X509Certificate,9,getVersion(),False,,NULL
+23,X509Certificate,10,verify(PublicKey key),False,,NULL
+23,X509Certificate,11,"verify(PublicKey key, String sigProvider)",False,,NULL
+23,X509Certificate,12,"verify(PublicKey key, String sigProvider, String provider)",False,,NULL
+23,X509Certificate,13,getType(),False,,NULL
+23,X509Certificate,14,getCriticalExtensionOIDs(),False,,NULL
+23,X509Certificate,15,getNonCriticalExtensionOIDs(),False,,NULL
+23,X509Certificate,16,getExtensionValue(String oid),False,,NULL
+23,X509Certificate,17,getTBSCertificate(),False,,NULL
+23,X509Certificate,18,getEncoded(),False,,NULL
+23,X509Certificate,19,getEncoded(String type),False,,NULL
+23,X509Certificate,20,getIssuerUniqueID(),False,,NULL
+23,X509Certificate,21,getSubjectUniqueID(),False,,NULL
+23,X509Certificate,22,getKeyUsage(),False,,NULL
+23,X509Certificate,23,getExtendedKeyUsage(),False,,NULL
+23,X509Certificate,24,getBasicConstraints(),False,,NULL
+23,X509Certificate,25,getAuthorityKeyIdentifier(),False,,NULL
+23,X509Certificate,26,getSubjectAlternativeNames(),False,,NULL
+23,X509Certificate,27,getIssuerAlternativeNames(),False,,NULL
+23,X509Certificate,28,getCRLDistributionPoints(),False,,NULL
+23,X509Certificate,29,getCertificatePolicies(),False,,NULL
+23,X509Certificate,30,getPolicyMappings(),False,,NULL
+23,X509Certificate,31,getSubjectKeyIdentifier(),False,,NULL
+23,X509Certificate,32,getAuthorityInfoAccess(),False,,NULL
+23,X509Certificate,33,getExtensions(),False,,NULL
+23,X509Certificate,34,getExtensionValue(String oid),False,,NULL
+23,X509Certificate,35,"getExtensionValue(String oid, boolean critical)",False,,NULL
+23,X509Certificate,36,"getExtensionValue(String oid, boolean critical, boolean isCritical)",False,,NULL
+23,X509Certificate,37,"getExtensionValue(String oid, boolean critical, boolean isCritical, boolean isCritical)",False,,NULL
+23,X509Certificate,38,"getExtensionValue(String oid, boolean critical, boolean isCritical, boolean isCritical, boolean isCritical)",False,,NULL
+23,X509Certificate,39,"getExtensionValue(String oid, boolean critical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical)",False,,NULL
+23,X509Certificate,40,"getExtensionValue(String oid, boolean critical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical)",False,,NULL
+23,X509Certificate,41,"getExtensionValue(String oid, boolean critical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical)",False,,NULL
+23,X509Certificate,42,"getExtensionValue(String oid, boolean critical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical)",False,,NULL
+23,X509Certificate,43,"getExtensionValue(String oid, boolean critical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical)",False,,NULL
+23,X509Certificate,44,"getExtensionValue(String oid, boolean critical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical)",False,,NULL
+23,X509Certificate,45,"getExtensionValue(String oid, boolean critical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical)",False,,NULL
+23,X509Certificate,46,"getExtensionValue(String oid, boolean critical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical, boolean isCritical)",False,,NULL
+24,X509CertSelector,1,boolean getCriteria(),False,,NULL
+24,X509CertSelector,2,void setCertificate(X509Certificate certificate),True,Sets the certificateEquals criterion.,"
+
+setCertificate
+public void setCertificate(X509Certificate cert)
+Sets the certificateEquals criterion. The specified
+ X509Certificate must be equal to the
+ X509Certificate passed to the match method.
+ If null, then this check is not applied.
+
+ This method is particularly useful when it is necessary to
+ match a single certificate. Although other criteria can be specified
+ in conjunction with the certificateEquals criterion, it is usually not
+ practical or necessary.
+
+Parameters:
+cert - the X509Certificate to match (or
+ null)
+See Also:
+getCertificate()
+
+
+"
+24,X509CertSelector,3,void setCertificate(X509Certificate certificate),True,Sets the certificateEquals criterion.,"
+
+setCertificate
+public void setCertificate(X509Certificate cert)
+Sets the certificateEquals criterion. The specified
+ X509Certificate must be equal to the
+ X509Certificate passed to the match method.
+ If null, then this check is not applied.
+
+ This method is particularly useful when it is necessary to
+ match a single certificate. Although other criteria can be specified
+ in conjunction with the certificateEquals criterion, it is usually not
+ practical or necessary.
+
+Parameters:
+cert - the X509Certificate to match (or
+ null)
+See Also:
+getCertificate()
+
+
+"
+24,X509CertSelector,4,void setCertificate(X509Certificate certificate),True,Sets the certificateEquals criterion.,"
+
+setCertificate
+public void setCertificate(X509Certificate cert)
+Sets the certificateEquals criterion. The specified
+ X509Certificate must be equal to the
+ X509Certificate passed to the match method.
+ If null, then this check is not applied.
+
+ This method is particularly useful when it is necessary to
+ match a single certificate. Although other criteria can be specified
+ in conjunction with the certificateEquals criterion, it is usually not
+ practical or necessary.
+
+Parameters:
+cert - the X509Certificate to match (or
+ null)
+See Also:
+getCertificate()
+
+
+"
+24,X509CertSelector,5,void setCertificate(X509Certificate certificate),True,Sets the certificateEquals criterion.,"
+
+setCertificate
+public void setCertificate(X509Certificate cert)
+Sets the certificateEquals criterion. The specified
+ X509Certificate must be equal to the
+ X509Certificate passed to the match method.
+ If null, then this check is not applied.
+
+ This method is particularly useful when it is necessary to
+ match a single certificate. Although other criteria can be specified
+ in conjunction with the certificateEquals criterion, it is usually not
+ practical or necessary.
+
+Parameters:
+cert - the X509Certificate to match (or
+ null)
+See Also:
+getCertificate()
+
+
+"
+25,X509CRL,1,X509CRL getRevokedCertificate(int index),False,,NULL
+25,X509CRL,2,int getRevokedCertificateCount(),False,,NULL
+25,X509CRL,3,Date getThisUpdate(),True,Gets the thisUpdate date from the CRL.,"
+
+getThisUpdate
+public abstract Date getThisUpdate()
+Gets the thisUpdate date from the CRL.
+ The ASN.1 definition for this is:
+ 
+ thisUpdate   ChoiceOfTime
+ ChoiceOfTime ::= CHOICE {
+     utcTime        UTCTime,
+     generalTime    GeneralizedTime }
+ 
+
+Returns:
+the thisUpdate date from the CRL.
+
+
+"
+25,X509CRL,4,Date getNextUpdate(),True,Gets the nextUpdate date from the CRL.,"
+
+getNextUpdate
+public abstract Date getNextUpdate()
+Gets the nextUpdate date from the CRL.
+
+Returns:
+the nextUpdate date from the CRL, or null if
+ not present.
+
+
+"
+25,X509CRL,5,String getIssuerDN(),False,,NULL
+25,X509CRL,6,String getSignatureAlgorithm(),False,,NULL
+25,X509CRL,7,byte[] getSignature(),True,Gets the signature value (the raw signature bits) from the CRL.,"
+
+getSignature
+public abstract byte[] getSignature()
+Gets the signature value (the raw signature bits) from
+ the CRL.
+ The ASN.1 definition for this is:
+ 
+ signature     BIT STRING
+ 
+
+Returns:
+the signature.
+
+
+"
+25,X509CRL,8,boolean verify(PublicKey key),False,,NULL
+25,X509CRL,9,"boolean verify(PublicKey key, String provider)",False,,NULL
+25,X509CRL,10,"boolean verify(PublicKey key, String provider, SecureRandom random)",False,,NULL
+26,X509CRLEntry,1,getRevocationDate(),False,,NULL
+26,X509CRLEntry,2,getSerialNumber(),False,,NULL
+26,X509CRLEntry,3,getRevocationReason(),False,,NULL
+26,X509CRLEntry,4,getCertificate(),False,,NULL
+26,X509CRLEntry,5,getExtensions(),False,,NULL
+27,X509CRLSelector,1,boolean getCriteria(),False,,NULL
+27,X509CRLSelector,2,void setCriteria(CRLSelector.Criteria criteria),False,,NULL
+27,X509CRLSelector,3,boolean match(Certificate cert),False,,NULL
+27,X509CRLSelector,4,"boolean match(Certificate cert, CRLSelector.Criteria criteria)",False,,NULL
+27,X509CRLSelector,5,"boolean match(Certificate cert, CRLSelector.Criteria criteria, Date date)",False,,NULL

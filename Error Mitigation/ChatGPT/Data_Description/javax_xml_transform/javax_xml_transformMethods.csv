@@ -1,0 +1,695 @@
+ClassName,Method,Return Type,Description,Full Description
+Transformer,clearParameters(),abstract void,Clear all parameters set with setParameter.,"
+
+clearParameters
+public abstract void clearParameters()
+Clear all parameters set with setParameter.
+
+"
+Transformer,getErrorListener(),abstract ErrorListener,Get the error event handler in effect for the transformation.,"
+
+getErrorListener
+public abstract ErrorListener getErrorListener()
+Get the error event handler in effect for the transformation.
+ Implementations must provide a default error listener.
+
+Returns:
+The current error handler, which should never be null.
+
+
+"
+Transformer,getOutputProperties(),abstract Properties,Get a copy of the output properties for the transformation.,"
+
+getOutputProperties
+public abstract Properties getOutputProperties()
+Get a copy of the output properties for the transformation.
+The properties returned should contain properties set by the user,
+ and properties set by the stylesheet, and these properties
+ are ""defaulted"" by default properties specified by
+ section 16 of the
+ XSL Transformations (XSLT) W3C Recommendation.  The properties that
+ were specifically set by the user or the stylesheet should be in the base
+ Properties list, while the XSLT default properties that were not
+ specifically set should be the default Properties list.  Thus,
+ getOutputProperties().getProperty(String key) will obtain any
+ property in that was set by setOutputProperty(java.lang.String, java.lang.String),
+ setOutputProperties(java.util.Properties), in the stylesheet, or the default
+ properties, while
+ getOutputProperties().get(String key) will only retrieve properties
+ that were explicitly set by setOutputProperty(java.lang.String, java.lang.String),
+ setOutputProperties(java.util.Properties), or in the stylesheet.
+Note that mutation of the Properties object returned will not
+ effect the properties that the transformer contains.
+If any of the argument keys are not recognized and are not
+ namespace qualified, the property will be ignored and not returned.
+ In other words the behaviour is not orthogonal with
+ setOutputProperties.
+
+Returns:
+A copy of the set of output properties in effect for
+   the next transformation.
+See Also:
+OutputKeys, 
+Properties, 
+
+   XSL Transformations (XSLT) Version 1.0
+
+
+"
+Transformer,getOutputProperty(String name),abstract String,Get an output property that is in effect for the transformer.,"
+
+getOutputProperty
+public abstract String getOutputProperty(String name)
+                                  throws IllegalArgumentException
+Get an output property that is in effect for the transformer.
+If a property has been set using setOutputProperty(java.lang.String, java.lang.String),
+ that value will be returned. Otherwise, if a property is explicitly
+ specified in the stylesheet, that value will be returned. If
+ the value of the property has been defaulted, that is, if no
+ value has been set explicitly either with setOutputProperty(java.lang.String, java.lang.String) or
+ in the stylesheet, the result may vary depending on
+ implementation and input stylesheet.
+
+Parameters:
+name - A non-null String that specifies an output
+ property name, which may be namespace qualified.
+Returns:
+The string value of the output property, or null
+ if no property was found.
+Throws:
+IllegalArgumentException - If the property is not supported.
+See Also:
+OutputKeys
+
+
+"
+Transformer,getParameter(String name),abstract Object,Get a parameter that was explicitly set with setParameter.,"
+
+getParameter
+public abstract Object getParameter(String name)
+Get a parameter that was explicitly set with setParameter.
+
+ This method does not return a default parameter value, which
+ cannot be determined until the node context is evaluated during
+ the transformation process.
+
+Parameters:
+name - of Object to get
+Returns:
+A parameter that has been set with setParameter.
+
+
+"
+Transformer,getURIResolver(),abstract URIResolver,Get an object that will be used to resolve URIs used in document().,"
+
+getURIResolver
+public abstract URIResolver getURIResolver()
+Get an object that will be used to resolve URIs used in
+ document().
+
+Returns:
+An object that implements the URIResolver interface,
+ or null.
+
+
+"
+Transformer,reset(),void,Reset this Transformer to its original configuration.,"
+
+reset
+public void reset()
+Reset this Transformer to its original configuration.
+Transformer is reset to the same state as when it was created with
+ TransformerFactory.newTransformer(),
+ TransformerFactory.newTransformer(Source source) or
+ Templates.newTransformer().
+ reset() is designed to allow the reuse of existing Transformers
+ thus saving resources associated with the creation of new Transformers.
+The reset Transformer is not guaranteed to have the same URIResolver
+ or ErrorListener Objects, e.g. Object.equals(Object obj).
+ It is guaranteed to have a functionally equal URIResolver
+ and ErrorListener.
+
+Throws:
+UnsupportedOperationException - When implementation does not
+   override this method.
+Since:
+1.5
+
+
+"
+Transformer,setErrorListener(ErrorListener listener),abstract void,Set the error event listener in effect for the transformation.,"
+
+setErrorListener
+public abstract void setErrorListener(ErrorListener listener)
+                               throws IllegalArgumentException
+Set the error event listener in effect for the transformation.
+
+Parameters:
+listener - The new error listener.
+Throws:
+IllegalArgumentException - if listener is null.
+
+
+"
+Transformer,setOutputProperties(Properties oformat),abstract void,Set the output properties for the transformation.,"
+
+setOutputProperties
+public abstract void setOutputProperties(Properties oformat)
+Set the output properties for the transformation.  These
+ properties will override properties set in the Templates
+ with xsl:output.
+
+ If argument to this function is null, any properties
+ previously set are removed, and the value will revert to the value
+ defined in the templates object.
+Pass a qualified property key name as a two-part string, the namespace
+ URI enclosed in curly braces ({}), followed by the local name. If the
+ name has a null URL, the String only contain the local name. An
+ application can safely check for a non-null URI by testing to see if the
+ first character of the name is a '{' character.
+For example, if a URI and local name were obtained from an element
+ defined with <xyz:foo
+ xmlns:xyz=""http://xyz.foo.com/yada/baz.html""/>,
+ then the qualified name would be ""{http://xyz.foo.com/yada/baz.html}foo"".
+ Note that no prefix is used.
+ An IllegalArgumentException is thrown  if any of the
+ argument keys are not recognized and are not namespace qualified.
+
+Parameters:
+oformat - A set of output properties that will be
+   used to override any of the same properties in affect
+   for the transformation.
+Throws:
+IllegalArgumentException - When keys are not recognized and
+   are not namespace qualified.
+See Also:
+OutputKeys, 
+Properties
+
+
+"
+Transformer,"setOutputProperty(String name, String value)",abstract void,Set an output property that will be in effect for the transformation.,"
+
+setOutputProperty
+public abstract void setOutputProperty(String name,
+                                       String value)
+                                throws IllegalArgumentException
+Set an output property that will be in effect for the
+ transformation.
+
+ Pass a qualified property name as a two-part string, the namespace URI
+ enclosed in curly braces ({}), followed by the local name. If the
+ name has a null URL, the String only contain the local name. An
+ application can safely check for a non-null URI by testing to see if the
+ first character of the name is a '{' character.
+For example, if a URI and local name were obtained from an element
+ defined with <xyz:foo
+ xmlns:xyz=""http://xyz.foo.com/yada/baz.html""/>,
+ then the qualified name would be ""{http://xyz.foo.com/yada/baz.html}foo"".
+ Note that no prefix is used.
+The Properties object that was passed to setOutputProperties(java.util.Properties)
+ won't be effected by calling this method.
+
+Parameters:
+name - A non-null String that specifies an output
+ property name, which may be namespace qualified.
+value - The non-null string value of the output property.
+Throws:
+IllegalArgumentException - If the property is not supported, and is
+ not qualified with a namespace.
+See Also:
+OutputKeys
+
+
+"
+Transformer,"setParameter(String name, Object value)",abstract void,Add a parameter for the transformation.,"
+
+setParameter
+public abstract void setParameter(String name,
+                                  Object value)
+Add a parameter for the transformation.
+
+ Pass a qualified name as a two-part string, the namespace URI
+ enclosed in curly braces ({}), followed by the local name. If the
+ name has a null URL, the String only contain the local name. An
+ application can safely check for a non-null URI by testing to see if the
+ first character of the name is a '{' character.
+For example, if a URI and local name were obtained from an element
+ defined with <xyz:foo
+ xmlns:xyz=""http://xyz.foo.com/yada/baz.html""/>,
+ then the qualified name would be ""{http://xyz.foo.com/yada/baz.html}foo"".
+ Note that no prefix is used.
+
+Parameters:
+name - The name of the parameter, which may begin with a
+ namespace URI in curly braces ({}).
+value - The value object.  This can be any valid Java object. It is
+ up to the processor to provide the proper object coersion or to simply
+ pass the object on for use in an extension.
+Throws:
+NullPointerException - If value is null.
+
+
+"
+Transformer,setURIResolver(URIResolver resolver),abstract void,Set an object that will be used to resolve URIs used in document().,"
+
+setURIResolver
+public abstract void setURIResolver(URIResolver resolver)
+Set an object that will be used to resolve URIs used in
+ document().
+
+ If the resolver argument is null, the URIResolver value will
+ be cleared and the transformer will no longer have a resolver.
+
+Parameters:
+resolver - An object that implements the URIResolver interface,
+ or null.
+
+
+"
+Transformer,"transform(Source xmlSource, Result outputTarget)",abstract void,Transform the XML Source to a Result.,"
+
+transform
+public abstract void transform(Source xmlSource,
+                               Result outputTarget)
+                        throws TransformerException
+Transform the XML Source to a Result.
+ Specific transformation behavior is determined by the settings of the
+ TransformerFactory in effect when the
+ Transformer was instantiated and any modifications made to
+ the Transformer instance.
+An empty Source is represented as an empty document
+ as constructed by DocumentBuilder.newDocument().
+ The result of transforming an empty Source depends on
+ the transformation behavior; it is not always an empty
+ Result.
+
+Parameters:
+xmlSource - The XML input to transform.
+outputTarget - The Result of transforming the
+   xmlSource.
+Throws:
+TransformerException - If an unrecoverable error occurs
+   during the course of the transformation.
+
+
+"
+TransformerFactory,"getAssociatedStylesheet(Source source, String media, String title, String charset)",abstract Source,Get the stylesheet specification(s) associated with the XML Source document via the xml-stylesheet processing instruction that match the given criteria.,"
+
+getAssociatedStylesheet
+public abstract Source getAssociatedStylesheet(Source source,
+                                               String media,
+                                               String title,
+                                               String charset)
+                                        throws TransformerConfigurationException
+Get the stylesheet specification(s) associated with the
+ XML Source document via the
+ 
+ xml-stylesheet processing instruction that match the given criteria.
+ Note that it is possible to return several stylesheets, in which case
+ they are applied as if they were a list of imports or cascades in a
+ single stylesheet.
+
+Parameters:
+source - The XML source document.
+media - The media attribute to be matched.  May be null, in which
+      case the prefered templates will be used (i.e. alternate = no).
+title - The value of the title attribute to match.  May be null.
+charset - The value of the charset attribute to match.  May be null.
+Returns:
+A Source Object suitable for passing
+   to the TransformerFactory.
+Throws:
+TransformerConfigurationException - An Exception
+   is thrown if an error occurings during parsing of the
+   source.
+See Also:
+
+   Associating Style Sheets with XML documents Version 1.0
+
+
+"
+TransformerFactory,getAttribute(String name),abstract Object,Allows the user to retrieve specific attributes on the underlying implementation.,"
+
+getAttribute
+public abstract Object getAttribute(String name)
+Allows the user to retrieve specific attributes on the underlying
+ implementation.
+ An IllegalArgumentException is thrown if the underlying
+ implementation doesn't recognize the attribute.
+
+Parameters:
+name - The name of the attribute.
+Returns:
+value The value of the attribute.
+Throws:
+IllegalArgumentException - When implementation does not
+   recognize the attribute.
+
+
+"
+TransformerFactory,getErrorListener(),abstract ErrorListener,Get the error event handler for the TransformerFactory.,"
+
+getErrorListener
+public abstract ErrorListener getErrorListener()
+Get the error event handler for the TransformerFactory.
+
+Returns:
+The current error handler, which should never be null.
+
+
+"
+TransformerFactory,getFeature(String name),abstract boolean,Look up the value of a feature.,"
+
+getFeature
+public abstract boolean getFeature(String name)
+Look up the value of a feature.
+
+ 
+ Feature names are fully qualified URIs.
+ Implementations may define their own features.
+ false is returned if this TransformerFactory or the
+ Transformers or Templates it creates cannot support the feature.
+ It is possible for an TransformerFactory to expose a feature value but be unable to change its state.
+ 
+
+Parameters:
+name - Feature name.
+Returns:
+The current state of the feature, true or false.
+Throws:
+NullPointerException - If the name parameter is null.
+
+
+"
+TransformerFactory,getURIResolver(),abstract URIResolver,"Get the object that is used by default during the transformation to resolve URIs used in document(), xsl:import, or xsl:include.","
+
+getURIResolver
+public abstract URIResolver getURIResolver()
+Get the object that is used by default during the transformation
+ to resolve URIs used in document(), xsl:import, or xsl:include.
+
+Returns:
+The URIResolver that was set with setURIResolver.
+
+
+"
+TransformerFactory,newInstance(),static TransformerFactory,Obtain a new instance of a TransformerFactory.,"
+
+newInstance
+public static TransformerFactory newInstance()
+                                      throws TransformerFactoryConfigurationError
+Obtain a new instance of a TransformerFactory.
+ This static method creates a new factory instance.
+This method uses the following ordered lookup procedure to determine
+ the TransformerFactory implementation class to
+ load:
+
+
+ Use the javax.xml.transform.TransformerFactory system
+ property.
+ 
+
+ Use the properties file ""lib/jaxp.properties"" in the JRE directory.
+ This configuration file is in standard java.util.Properties
+  format and contains the fully qualified name of the
+ implementation class with the key being the system property defined
+ above.
+ 
+ The jaxp.properties file is read only once by the JAXP implementation
+ and it's values are then cached for future use.  If the file does not exist
+ when the first attempt is made to read from it, no further attempts are
+ made to check for its existence.  It is not possible to change the value
+ of any property in jaxp.properties after it has been read for the first time.
+ 
+
+   Use the service-provider loading facilities, defined by the
+   ServiceLoader class, to attempt to locate and load an
+   implementation of the service using the default loading mechanism:
+   the service-provider loading facility will use the current thread's context class loader
+   to attempt to load the service. If the context class
+   loader is null, the system class loader will be used.
+ 
+
+   Otherwise, the system-default implementation is returned.
+ 
+
+Once an application has obtained a reference to a 
+ TransformerFactory it can use the factory to configure
+ and obtain transformer instances.
+
+Returns:
+new TransformerFactory instance, never null.
+Throws:
+TransformerFactoryConfigurationError - Thrown in case of service configuration error or if
+ the implementation is not available or cannot be instantiated.
+
+
+"
+TransformerFactory,"newInstance(String factoryClassName, ClassLoader classLoader)",static TransformerFactory,Obtain a new instance of a TransformerFactory from factory class name.,"
+
+newInstance
+public static TransformerFactory newInstance(String factoryClassName,
+                                             ClassLoader classLoader)
+                                      throws TransformerFactoryConfigurationError
+Obtain a new instance of a TransformerFactory from factory class name.
+ This function is useful when there are multiple providers in the classpath.
+ It gives more control to the application as it can specify which provider
+ should be loaded.
+Once an application has obtained a reference to a 
+ TransformerFactory it can use the factory to configure
+ and obtain transformer instances.
+Tip for Trouble-shooting
+Setting the jaxp.debug system property will cause
+ this method to print a lot of debug messages
+ to System.err about what it is doing and where it is looking at.
+ If you have problems try:
+
+ java -Djaxp.debug=1 YourProgram ....
+ 
+
+Parameters:
+factoryClassName - fully qualified factory class name that provides implementation of javax.xml.transform.TransformerFactory.
+classLoader - ClassLoader used to load the factory class. If null
+                     current Thread's context classLoader is used to load the factory class.
+Returns:
+new TransformerFactory instance, never null.
+Throws:
+TransformerFactoryConfigurationError - if factoryClassName is null, or
+                   the factory class cannot be loaded, instantiated.
+Since:
+1.6
+See Also:
+newInstance()
+
+
+"
+TransformerFactory,newTemplates(Source source),abstract Templates,"Process the Source into a Templates object, which is a a compiled representation of the source.","
+
+newTemplates
+public abstract Templates newTemplates(Source source)
+                                throws TransformerConfigurationException
+Process the Source into a Templates object, which is a
+ a compiled representation of the source. This Templates object
+ may then be used concurrently across multiple threads.  Creating
+ a Templates object allows the TransformerFactory to do detailed
+ performance optimization of transformation instructions, without
+ penalizing runtime transformation.
+
+Parameters:
+source - An object that holds a URL, input stream, etc.
+Returns:
+A Templates object capable of being used for transformation
+   purposes, never null.
+Throws:
+TransformerConfigurationException - When parsing to
+   construct the Templates object fails.
+
+
+"
+TransformerFactory,newTransformer(),abstract Transformer,Create a new Transformer that performs a copy of the Source to the Result.,"
+
+newTransformer
+public abstract Transformer newTransformer()
+                                    throws TransformerConfigurationException
+Create a new Transformer that performs a copy
+ of the Source to the Result.
+ i.e. the ""identity transform"".
+
+Returns:
+A Transformer object that may be used to perform a transformation
+ in a single thread, never null.
+Throws:
+TransformerConfigurationException - When it is not
+   possible to create a Transformer instance.
+
+
+"
+TransformerFactory,newTransformer(Source source),abstract Transformer,Process the Source into a TransformerObject.,"
+
+newTransformer
+public abstract Transformer newTransformer(Source source)
+                                    throws TransformerConfigurationException
+Process the Source into a Transformer
+Object.  The Source is an XSLT document that
+ conforms to 
+ XSL Transformations (XSLT) Version 1.0.  Care must
+ be taken not to use this Transformer in multiple
+ Threads running concurrently.
+ Different TransformerFactories can be used concurrently by
+ different Threads.
+
+Parameters:
+source - Source  of XSLT document used to create
+   Transformer.
+   Examples of XML Sources include
+   DOMSource,
+   SAXSource, and
+   StreamSource.
+Returns:
+A Transformer object that may be used to perform
+   a transformation in a single Thread, never
+   null.
+Throws:
+TransformerConfigurationException - Thrown if there are errors when
+    parsing the Source or it is not possible to create a
+   Transformer instance.
+See Also:
+
+   XSL Transformations (XSLT) Version 1.0
+
+
+"
+TransformerFactory,"setAttribute(String name, Object value)",abstract void,Allows the user to set specific attributes on the underlying implementation.,"
+
+setAttribute
+public abstract void setAttribute(String name,
+                                  Object value)
+Allows the user to set specific attributes on the underlying
+ implementation.  An attribute in this context is defined to
+ be an option that the implementation provides.
+ An IllegalArgumentException is thrown if the underlying
+ implementation doesn't recognize the attribute.
+ 
+ All implementations that implement JAXP 1.5 or newer are required to
+ support the XMLConstants.ACCESS_EXTERNAL_DTD  and
+ XMLConstants.ACCESS_EXTERNAL_STYLESHEET properties.
+ 
+
+
+
+      Access to external DTDs in the source file is restricted to the protocols
+      specified by the XMLConstants.ACCESS_EXTERNAL_DTD property.
+      If access is denied during transformation due to the restriction of this property,
+      TransformerException will be thrown by
+      Transformer.transform(Source, Result).
+      
+
+      Access to external DTDs in the stylesheet is restricted to the protocols
+      specified by the XMLConstants.ACCESS_EXTERNAL_DTD property.
+      If access is denied during the creation of a new transformer due to the
+      restriction of this property,
+      TransformerConfigurationException will be thrown
+      by the newTransformer(Source) method.
+      
+
+      Access to external reference set by the stylesheet processing instruction,
+      Import and Include element is restricted to the protocols specified by the
+      XMLConstants.ACCESS_EXTERNAL_STYLESHEET property.
+      If access is denied during the creation of a new transformer due to the
+      restriction of this property,
+      TransformerConfigurationException will be thrown
+      by the newTransformer(Source) method.
+      
+
+      Access to external document through XSLT document function is restricted
+      to the protocols specified by the property. If access is denied during
+      the transformation due to the restriction of this property,
+      TransformerException will be thrown by the
+      Transformer.transform(Source, Result) method.
+      
+
+
+
+Parameters:
+name - The name of the attribute.
+value - The value of the attribute.
+Throws:
+IllegalArgumentException - When implementation does not
+   recognize the attribute.
+
+
+"
+TransformerFactory,setErrorListener(ErrorListener listener),abstract void,"Set the error event listener for the TransformerFactory, which is used for the processing of transformation instructions, and not for the transformation itself.","
+
+setErrorListener
+public abstract void setErrorListener(ErrorListener listener)
+Set the error event listener for the TransformerFactory, which
+ is used for the processing of transformation instructions,
+ and not for the transformation itself.
+ An IllegalArgumentException is thrown if the
+ ErrorListener listener is null.
+
+Parameters:
+listener - The new error listener.
+Throws:
+IllegalArgumentException - When listener is
+   null
+
+
+"
+TransformerFactory,"setFeature(String name, boolean value)",abstract void,Set a feature for this TransformerFactory and Transformers or Templates created by this factory.,"
+
+setFeature
+public abstract void setFeature(String name,
+                                boolean value)
+                         throws TransformerConfigurationException
+Set a feature for this TransformerFactory and Transformers
+ or Templates created by this factory.
+
+ Feature names are fully qualified URIs.
+ Implementations may define their own features.
+ An TransformerConfigurationException is thrown if this TransformerFactory or the
+ Transformers or Templates it creates cannot support the feature.
+ It is possible for an TransformerFactory to expose a feature value but be unable to change its state.
+ 
+All implementations are required to support the XMLConstants.FEATURE_SECURE_PROCESSING feature.
+ When the feature is:
+
+
+true: the implementation will limit XML processing to conform to implementation limits
+     and behave in a secure fashion as defined by the implementation.
+     Examples include resolving user defined style sheets and functions.
+     If XML processing is limited for security reasons, it will be reported via a call to the registered
+     ErrorListener.fatalError(TransformerException exception).
+     See setErrorListener(ErrorListener listener).
+   
+
+false: the implementation will processing XML according to the XML specifications without
+     regard to possible implementation limits.
+   
+
+
+Parameters:
+name - Feature name.
+value - Is feature state true or false.
+Throws:
+TransformerConfigurationException - if this TransformerFactory
+   or the Transformers or Templates it creates cannot support this feature.
+NullPointerException - If the name parameter is null.
+
+
+"
+TransformerFactory,setURIResolver(URIResolver resolver),abstract void,"Set an object that is used by default during the transformation to resolve URIs used in document(), xsl:import, or xsl:include.","
+
+setURIResolver
+public abstract void setURIResolver(URIResolver resolver)
+Set an object that is used by default during the transformation
+ to resolve URIs used in document(), xsl:import, or xsl:include.
+
+Parameters:
+resolver - An object that implements the URIResolver interface,
+ or null.
+
+
+"

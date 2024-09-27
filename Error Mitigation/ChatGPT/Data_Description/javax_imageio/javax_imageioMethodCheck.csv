@@ -1,0 +1,690 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,IIOImage,1,ImageReader getImageReader(),False,,NULL
+0,IIOImage,2,ImageWriter getImageWriter(),False,,NULL
+0,IIOImage,3,IIOMetadata getMetadata(),True,,"
+
+getMetadata
+public IIOMetadata getMetadata()
+Returns a reference to the current IIOMetadata
+ object, or null is none is set.
+
+Returns:
+an IIOMetadata object, or null.
+See Also:
+setMetadata(javax.imageio.metadata.IIOMetadata)
+
+
+"
+0,IIOImage,4,Raster getRaster(),True,,"
+
+getRaster
+public Raster getRaster()
+Returns the currently set Raster, or
+ null if only a RenderedImage is
+ available.
+
+Returns:
+a Raster, or null.
+See Also:
+setRaster(java.awt.image.Raster)
+
+
+"
+0,IIOImage,5,void setRaster(Raster raster),True,,"
+
+setRaster
+public void setRaster(Raster raster)
+Sets the current Raster.  The value is
+ stored by reference.  Any existing RenderedImage is
+ discarded.
+
+Parameters:
+raster - a Raster.
+Throws:
+IllegalArgumentException - if raster is
+ null.
+See Also:
+getRaster()
+
+
+"
+1,IIOParam,1,void setSourceRegion(Rectangle sourceRegion),True,,"
+
+setSourceRegion
+public void setSourceRegion(Rectangle sourceRegion)
+Sets the source region of interest.  The region of interest is
+ described as a rectangle, with the upper-left corner of the
+ source image as pixel (0, 0) and increasing values down and to
+ the right.  The actual number of pixels used will depend on
+ the subsampling factors set by setSourceSubsampling.
+ If subsampling has been set such that this number is zero,
+ an IllegalStateException will be thrown.
+
+  The source region of interest specified by this method will
+ be clipped as needed to fit within the source bounds, as well
+ as the destination offsets, width, and height at the time of
+ actual I/O.
+
+  A value of null for sourceRegion
+ will remove any region specification, causing the entire image
+ to be used.
+
+Parameters:
+sourceRegion - a Rectangle specifying the
+ source region of interest, or null.
+Throws:
+IllegalArgumentException - if
+ sourceRegion is non-null and either
+ sourceRegion.x or sourceRegion.y is
+ negative.
+IllegalArgumentException - if
+ sourceRegion is non-null and either
+ sourceRegion.width or
+ sourceRegion.height is negative or 0.
+IllegalStateException - if subsampling is such that
+ this region will have a subsampled width or height of zero.
+See Also:
+getSourceRegion(), 
+setSourceSubsampling(int, int, int, int), 
+setDestinationOffset(java.awt.Point), 
+getDestinationOffset()
+
+
+"
+1,IIOParam,2,Rectangle getSourceRegion(),True,,"
+
+getSourceRegion
+public Rectangle getSourceRegion()
+Returns the source region to be used.  The returned value is
+ that set by the most recent call to
+ setSourceRegion, and will be null if
+ there is no region set.
+
+Returns:
+the source region of interest as a
+ Rectangle, or null.
+See Also:
+setSourceRegion(java.awt.Rectangle)
+
+
+"
+1,IIOParam,3,void setSourceRenderSize(Dimension size),False,,NULL
+1,IIOParam,4,Dimension getSourceRenderSize(),False,,NULL
+1,IIOParam,5,void setSourceBands(int[] sourceBands),True,,"
+
+setSourceBands
+public void setSourceBands(int[] sourceBands)
+Sets the indices of the source bands to be used.  Duplicate
+ indices are not allowed.
+
+  A null value indicates that all source bands
+ will be used.
+
+  At the time of reading, an
+ IllegalArgumentException will be thrown by the
+ reader or writer if a value larger than the largest available
+ source band index has been specified or if the number of source
+ bands and destination bands to be used differ.  The
+ ImageReader.checkReadParamBandSettings method may
+ be used to automate this test.
+
+  Semantically, a copy is made of the array; changes to the
+ array contents subsequent to this call have no effect on
+ this IIOParam.
+
+Parameters:
+sourceBands - an array of integer band indices to be
+ used.
+Throws:
+IllegalArgumentException - if sourceBands
+ contains a negative or duplicate value.
+See Also:
+getSourceBands(), 
+ImageReadParam.setDestinationBands(int[]), 
+ImageReader.checkReadParamBandSettings(javax.imageio.ImageReadParam, int, int)
+
+
+"
+2,ImageIO,1,ImageReader getImageReaderByFormatName(String formatName),False,,NULL
+2,ImageIO,2,ImageWriter getImageWriterByFormatName(String formatName),False,,NULL
+2,ImageIO,3,String[] getReaderFormatNames(),True,,"
+
+getReaderFormatNames
+public static String[] getReaderFormatNames()
+Returns an array of Strings listing all of the
+ informal format names understood by the current set of registered
+ readers.
+
+Returns:
+an array of Strings.
+
+
+"
+2,ImageIO,4,String[] getWriterFormatNames(),True,,"
+
+getWriterFormatNames
+public static String[] getWriterFormatNames()
+Returns an array of Strings listing all of the
+ informal format names understood by the current set of registered
+ writers.
+
+Returns:
+an array of Strings.
+
+
+"
+2,ImageIO,5,"boolean write(RenderedImage im, String formatName, OutputStream output)",True,,"
+
+write
+public static boolean write(RenderedImage im,
+                            String formatName,
+                            OutputStream output)
+                     throws IOException
+Writes an image using an arbitrary ImageWriter
+ that supports the given format to an OutputStream.
+
+  This method does not close the provided
+ OutputStream after the write operation has completed;
+ it is the responsibility of the caller to close the stream, if desired.
+
+  The current cache settings from getUseCacheand
+ getCacheDirectory will be used to control caching.
+
+Parameters:
+im - a RenderedImage to be written.
+formatName - a String containing the informal
+ name of the format.
+output - an OutputStream to be written to.
+Returns:
+false if no appropriate writer is found.
+Throws:
+IllegalArgumentException - if any parameter is
+ null.
+IOException - if an error occurs during writing.
+
+
+"
+3,ImageReader,1,int getNumImages(boolean allowSearch),True,,"
+
+getNumImages
+public abstract int getNumImages(boolean allowSearch)
+                          throws IOException
+Returns the number of images, not including thumbnails, available
+ from the current input source.
+
+  Note that some image formats (such as animated GIF) do not
+ specify how many images are present in the stream.  Thus
+ determining the number of images will require the entire stream
+ to be scanned and may require memory for buffering.  If images
+ are to be processed in order, it may be more efficient to
+ simply call read with increasing indices until an
+ IndexOutOfBoundsException is thrown to indicate
+ that no more images are available.  The
+ allowSearch parameter may be set to
+ false to indicate that an exhaustive search is not
+ desired; the return value will be -1 to indicate
+ that a search is necessary.  If the input has been specified
+ with seekForwardOnly set to true,
+ this method throws an IllegalStateException if
+ allowSearch is set to true.
+
+Parameters:
+allowSearch - if true, the true number of
+ images will be returned even if a search is required.  If
+ false, the reader may return -1
+ without performing the search.
+Returns:
+the number of images, as an int, or
+ -1 if allowSearch is
+ false and a search would be required.
+Throws:
+IllegalStateException - if the input source has not been set,
+ or if the input has been specified with seekForwardOnly
+ set to true.
+IOException - if an error occurs reading the
+ information from the input source.
+See Also:
+setInput(java.lang.Object, boolean, boolean)
+
+
+"
+3,ImageReader,2,ImageReadParam getDefaultReadParam(),True,,"
+
+getDefaultReadParam
+public ImageReadParam getDefaultReadParam()
+Returns a default ImageReadParam object
+ appropriate for this format.  All subclasses should define a
+ set of default values for all parameters and return them with
+ this call.  This method may be called before the input source
+ is set.
+
+  The default implementation constructs and returns a new
+ ImageReadParam object that does not allow source
+ scaling (i.e., it returns new
+ ImageReadParam().
+
+Returns:
+an ImageReadParam object which may be used
+ to control the decoding process using a set of default settings.
+
+
+"
+3,ImageReader,3,IIOMetadata getImageMetadata(int imageIndex),True,,"
+
+getImageMetadata
+public abstract IIOMetadata getImageMetadata(int imageIndex)
+                                      throws IOException
+Returns an IIOMetadata object containing metadata
+ associated with the given image, or null if the
+ reader does not support reading metadata, is set to ignore
+ metadata, or if no metadata is available.
+
+Parameters:
+imageIndex - the index of the image whose metadata is to
+ be retrieved.
+Returns:
+an IIOMetadata object, or
+ null.
+Throws:
+IllegalStateException - if the input source has not been
+ set.
+IndexOutOfBoundsException - if the supplied index is
+ out of bounds.
+IOException - if an error occurs during reading.
+
+
+"
+3,ImageReader,4,ImageTypeSpecifier getImageType(int imageIndex),False,,NULL
+3,ImageReader,5,Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex),True,,"
+
+getImageTypes
+public abstract Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex)
+                                                    throws IOException
+Returns an Iterator containing possible image
+ types to which the given image may be decoded, in the form of
+ ImageTypeSpecifierss.  At least one legal image
+ type will be returned.
+
+  The first element of the iterator should be the most
+ ""natural"" type for decoding the image with as little loss as
+ possible.  For example, for a JPEG image the first entry should
+ be an RGB image, even though the image data is stored
+ internally in a YCbCr color space.
+
+Parameters:
+imageIndex - the index of the image to be
+ retrieved.
+Returns:
+an Iterator containing at least one
+ ImageTypeSpecifier representing suggested image
+ types for decoding the current given image.
+Throws:
+IllegalStateException - if the input source has not been set.
+IndexOutOfBoundsException - if the supplied index is
+ out of bounds.
+IOException - if an error occurs reading the format
+ information from the input source.
+See Also:
+ImageReadParam.setDestination(BufferedImage), 
+ImageReadParam.setDestinationType(ImageTypeSpecifier)
+
+
+"
+4,ImageReadParam,1,void setSourceRegion(Rectangle sourceRegion),False,,NULL
+4,ImageReadParam,2,Rectangle getSourceRegion(),False,,NULL
+4,ImageReadParam,3,void setSourceRenderSize(Dimension size),True,,"
+
+setSourceRenderSize
+public void setSourceRenderSize(Dimension size)
+                         throws UnsupportedOperationException
+If the image is able to be rendered at an arbitrary size, sets
+ the source width and height to the supplied values.  Note that
+ the values returned from the getWidth and
+ getHeight methods on ImageReader are
+ not affected by this method; they will continue to return the
+ default size for the image.  Similarly, if the image is also
+ tiled the tile width and height are given in terms of the default
+ size.
+
+  Typically, the width and height should be chosen such that
+ the ratio of width to height closely approximates the aspect
+ ratio of the image, as returned from
+ ImageReader.getAspectRatio.
+
+  If this plug-in does not allow the rendering size to be
+ set, an UnsupportedOperationException will be
+ thrown.
+
+  To remove the render size setting, pass in a value of
+ null for size.
+
+Parameters:
+size - a Dimension indicating the desired
+ width and height.
+Throws:
+IllegalArgumentException - if either the width or the
+ height is negative or 0.
+UnsupportedOperationException - if image resizing
+ is not supported by this plug-in.
+See Also:
+getSourceRenderSize(), 
+ImageReader.getWidth(int), 
+ImageReader.getHeight(int), 
+ImageReader.getAspectRatio(int)
+
+
+"
+4,ImageReadParam,4,Dimension getSourceRenderSize(),True,,"
+
+getSourceRenderSize
+public Dimension getSourceRenderSize()
+Returns the width and height of the source image as it
+ will be rendered during decoding, if they have been set via the
+ setSourceRenderSize method.  A
+ nullvalue indicates that no setting has been made.
+
+Returns:
+the rendered width and height of the source image
+ as a Dimension.
+See Also:
+setSourceRenderSize(java.awt.Dimension)
+
+
+"
+4,ImageReadParam,5,"void setSourceSubsampling(int sourceXSubsampling, int sourceYSubsampling, int subsamplingXOffset, int subsamplingYOffset)",False,,NULL
+5,ImageTypeSpecifier,1,int getNumBands(),True,,"
+
+getNumBands
+public int getNumBands()
+Return the number of bands
+ specified by this object.  This is the same value as returned by
+ SampleModel.getNumBands
+
+Returns:
+the number of bands in the image.
+
+
+"
+5,ImageTypeSpecifier,2,ColorModel getColorModel(),True,,"
+
+getColorModel
+public ColorModel getColorModel()
+Returns the ColorModel specified by this object.
+
+Returns:
+a ColorModel.
+
+
+"
+5,ImageTypeSpecifier,3,SampleModel getSampleModel(),True,,"
+
+getSampleModel
+public SampleModel getSampleModel()
+Returns a SampleModel based on the settings
+ encapsulated within this object.  The width and height of the
+ SampleModel will be set to arbitrary values.
+
+Returns:
+a SampleModel with arbitrary dimensions.
+
+
+"
+5,ImageTypeSpecifier,4,int getBufferedImageType(),True,,"
+
+getBufferedImageType
+public int getBufferedImageType()
+Returns an int containing one of the enumerated constant values
+ describing image formats from BufferedImage.
+
+Returns:
+an int representing a
+ BufferedImage type.
+See Also:
+BufferedImage, 
+BufferedImage.TYPE_CUSTOM, 
+BufferedImage.TYPE_INT_RGB, 
+BufferedImage.TYPE_INT_ARGB, 
+BufferedImage.TYPE_INT_ARGB_PRE, 
+BufferedImage.TYPE_INT_BGR, 
+BufferedImage.TYPE_3BYTE_BGR, 
+BufferedImage.TYPE_4BYTE_ABGR, 
+BufferedImage.TYPE_4BYTE_ABGR_PRE, 
+BufferedImage.TYPE_USHORT_565_RGB, 
+BufferedImage.TYPE_USHORT_555_RGB, 
+BufferedImage.TYPE_BYTE_GRAY, 
+BufferedImage.TYPE_USHORT_GRAY, 
+BufferedImage.TYPE_BYTE_BINARY, 
+BufferedImage.TYPE_BYTE_INDEXED
+
+
+"
+5,ImageTypeSpecifier,5,boolean isCompatible(ImageTypeSpecifier type),False,,NULL
+6,ImageWriteParam,1,void setCompressionMode(int mode),True,,"
+
+setCompressionMode
+public void setCompressionMode(int mode)
+Specifies whether compression is to be performed, and if so how
+ compression parameters are to be determined.  The mode
+ argument must be one of the four modes, interpreted as follows:
+
+ 
+MODE_DISABLED - If the mode is set to
+   MODE_DISABLED, methods that query or modify the
+   compression type or parameters will throw an
+   IllegalStateException (if compression is
+   normally supported by the plug-in). Some writers, such as JPEG,
+   do not normally offer uncompressed output. In this case, attempting
+   to set the mode to MODE_DISABLED will throw an
+   UnsupportedOperationException and the mode will not be
+   changed.
+
+   MODE_EXPLICIT - Compress using the
+   compression type and quality settings specified in this
+   ImageWriteParam.  Any previously set compression
+   parameters are discarded.
+
+   MODE_COPY_FROM_METADATA - Use whatever
+   compression parameters are specified in metadata objects
+   passed in to the writer.
+
+   MODE_DEFAULT - Use default compression
+   parameters.
+ 
+ The default is MODE_COPY_FROM_METADATA.
+
+Parameters:
+mode - The mode for setting compression in the output
+ stream.
+Throws:
+UnsupportedOperationException - if the writer does not
+ support compression, or does not support the requested mode.
+IllegalArgumentException - if mode is not
+ one of the modes listed above.
+See Also:
+getCompressionMode()
+
+
+"
+6,ImageWriteParam,2,int getCompressionMode(),True,,"
+
+getCompressionMode
+public int getCompressionMode()
+Returns the current compression mode, if compression is
+ supported.
+
+Returns:
+the current compression mode.
+Throws:
+UnsupportedOperationException - if the writer does not
+ support compression.
+See Also:
+setCompressionMode(int)
+
+
+"
+6,ImageWriteParam,3,void setCompressionQuality(float quality),True,,"
+
+setCompressionQuality
+public void setCompressionQuality(float quality)
+Sets the compression quality to a value between 0
+ and 1.  Only a single compression quality setting
+ is supported by default; writers can provide extended versions
+ of ImageWriteParam that offer more control.  For
+ lossy compression schemes, the compression quality should
+ control the tradeoff between file size and image quality (for
+ example, by choosing quantization tables when writing JPEG
+ images).  For lossless schemes, the compression quality may be
+ used to control the tradeoff between file size and time taken
+ to perform the compression (for example, by optimizing row
+ filters and setting the ZLIB compression level when writing
+ PNG images).
+
+  A compression quality setting of 0.0 is most generically
+ interpreted as ""high compression is important,"" while a setting of
+ 1.0 is most generically interpreted as ""high image quality is
+ important.""
+
+  If there are multiple compression types but none has been
+ set, an IllegalStateException is thrown.
+
+  The default implementation checks that compression is
+ supported, and that the compression mode is
+ MODE_EXPLICIT.  If so, if
+ getCompressionTypes() returns null or
+ compressionType is non-null it sets
+ the compressionQuality instance variable.
+
+Parameters:
+quality - a float between 0and
+ 1 indicating the desired quality level.
+Throws:
+UnsupportedOperationException - if the writer does not
+ support compression.
+IllegalStateException - if the compression mode is not
+ MODE_EXPLICIT.
+IllegalStateException - if the set of legal
+ compression types is non-null and the current
+ compression type is null.
+IllegalArgumentException - if quality is
+ not between 0and 1, inclusive.
+See Also:
+getCompressionQuality()
+
+
+"
+6,ImageWriteParam,4,float getCompressionQuality(),True,,"
+
+getCompressionQuality
+public float getCompressionQuality()
+Returns the current compression quality setting.
+
+  If there are multiple compression types but none has been
+ set, an IllegalStateException is thrown.
+
+  The default implementation checks that compression is
+ supported and that the compression mode is
+ MODE_EXPLICIT.  If so, if
+ getCompressionTypes() is null or
+ getCompressionType() is non-null, it
+ returns the value of the compressionQuality
+ instance variable.
+
+Returns:
+the current compression quality setting.
+Throws:
+UnsupportedOperationException - if the writer does not
+ support compression.
+IllegalStateException - if the compression mode is not
+ MODE_EXPLICIT.
+IllegalStateException - if the set of legal
+ compression types is non-null and the current
+ compression type is null.
+See Also:
+setCompressionQuality(float)
+
+
+"
+6,ImageWriteParam,5,void setProgressiveMode(String mode),False,,NULL
+7,ImageWriter,1,void setOutput(Object output),True,,"
+
+setOutput
+public void setOutput(Object output)
+Sets the destination to the given
+ ImageOutputStream or other Object.
+ The destination is assumed to be ready to accept data, and will
+ not be closed at the end of each write. This allows distributed
+ imaging applications to transmit a series of images over a
+ single network connection.  If output is
+ null, any currently set output will be removed.
+
+  If output is an
+ ImageOutputStream, calls to the
+ write, writeToSequence, and
+ prepareWriteEmpty/endWriteEmpty
+ methods will preserve the existing contents of the stream.
+ Other write methods, such as writeInsert,
+ replaceStreamMetadata,
+ replaceImageMetadata, replacePixels,
+ prepareInsertEmpty/endInsertEmpty,
+ and endWriteSequence, require the full contents
+ of the stream to be readable and writable, and may alter any
+ portion of the stream.
+
+  Use of a general Object other than an
+ ImageOutputStream is intended for writers that
+ interact directly with an output device or imaging protocol.
+ The set of legal classes is advertised by the writer's service
+ provider's getOutputTypes method; most writers
+ will return a single-element array containing only
+ ImageOutputStream.class to indicate that they
+ accept only an ImageOutputStream.
+
+  The default implementation sets the output
+ instance variable to the value of output after
+ checking output against the set of classes
+ advertised by the originating provider, if there is one.
+
+Parameters:
+output - the ImageOutputStream or other
+ Object to use for future writing.
+Throws:
+IllegalArgumentException - if output is
+ not an instance of one of the classes returned by the
+ originating service provider's getOutputTypes
+ method.
+See Also:
+getOutput()
+
+
+"
+7,ImageWriter,2,void setLocale(Locale locale),True,,"
+
+setLocale
+public void setLocale(Locale locale)
+Sets the current Locale of this
+ ImageWriter to the given value.  A value of
+ null removes any previous setting, and indicates
+ that the writer should localize as it sees fit.
+
+  The default implementation checks locale
+ against the values returned by
+ getAvailableLocales, and sets the
+ locale instance variable if it is found.  If
+ locale is null, the instance variable
+ is set to null without any checking.
+
+Parameters:
+locale - the desired Locale, or
+ null.
+Throws:
+IllegalArgumentException - if locale is
+ non-null but is not one of the values returned by
+ getAvailableLocales.
+See Also:
+getLocale()
+
+
+"
+7,ImageWriter,3,"void setOutput(Object output, boolean seekForwardOnly)",False,,NULL
+7,ImageWriter,4,void setOutput(ImageOutputStream stream),False,,NULL
+7,ImageWriter,5,"void setOutput(ImageOutputStream stream, boolean seekForwardOnly)",False,,NULL

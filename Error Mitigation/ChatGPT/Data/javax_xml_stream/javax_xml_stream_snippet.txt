@@ -1,0 +1,265 @@
+Sample: 0 XMLInputFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        try {
+            XMLStreamReader reader = factory.createXMLStreamReader(new StringReader("<example>Hello World</example>"));
+            while (reader.hasNext()) {
+                int event = reader.next();
+                if (event == XMLStreamReader.START_ELEMENT) {
+                    System.out.println("Start Element: " + reader.getLocalName());
+                } else if (event == XMLStreamReader.CHARACTERS) {
+                    System.out.println("Text: " + reader.getText());
+                } else if (event == XMLStreamReader.END_ELEMENT) {
+                    System.out.println("End Element: " + reader.getLocalName());
+                }
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 XMLInputFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.io.InputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        try {
+            InputStream inputStream = // provide input stream here
+            XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
+            // Use the XMLStreamReader object for further processing
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 XMLInputFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.Source;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        try {
+            XMLStreamReader reader = factory.createXMLStreamReader(null);
+            // Use the XMLStreamReader object for further processing
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 XMLInputFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.io.InputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        try {
+            XMLStreamReader reader = factory.createXMLStreamReader("systemId", System.in);
+            // Use the XMLStreamReader object for further processing
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 XMLInputFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.io.StringReader;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        try {
+            XMLStreamReader reader = factory.createXMLStreamReader("systemId", new StringReader("<xml>data</xml>"));
+            while (reader.hasNext()) {
+                reader.next();
+                System.out.println(reader.getText());
+            }
+            reader.close();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 XMLOutputFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.stream.XMLOutputFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            XMLOutputFactory factory = XMLOutputFactory.newInstance();
+            System.out.println("XMLOutputFactory instance created successfully");
+        } catch (FactoryConfigurationError e) {
+            System.err.println("Error creating XMLOutputFactory instance: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 XMLOutputFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+import java.io.StringWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+        try {
+            StringWriter stringWriter = new StringWriter();
+            XMLEventWriter eventWriter = factory.createXMLEventWriter(stringWriter);
+            eventWriter.add(factory.createStartDocument());
+            eventWriter.add(factory.createStartElement("", "", "root"));
+            eventWriter.add(factory.createEndElement("", "", "root"));
+            eventWriter.add(factory.createEndDocument());
+            eventWriter.close();
+            System.out.println(stringWriter.toString());
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 XMLOutputFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+import java.io.OutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+        try {
+            OutputStream outputStream = System.out; // Example output stream
+            XMLEventWriter eventWriter = factory.createXMLEventWriter(outputStream);
+            // Use the eventWriter to write XML events to the output stream
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 XMLOutputFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.stream.XMLStreamException;
+import java.io.StringWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+        StringWriter stringWriter = new StringWriter();
+        
+        try {
+            XMLStreamWriter xmlStreamWriter = factory.createXMLStreamWriter(stringWriter);
+            xmlStreamWriter.writeStartDocument();
+            xmlStreamWriter.writeStartElement("root");
+            xmlStreamWriter.writeCharacters("Hello, XMLStreamWriter!");
+            xmlStreamWriter.writeEndElement();
+            xmlStreamWriter.writeEndDocument();
+            xmlStreamWriter.flush();
+            xmlStreamWriter.close();
+            
+            System.out.println(stringWriter.toString());
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 XMLOutputFactory_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.stream.XMLStreamException;
+import java.io.OutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+        try {
+            OutputStream outputStream = System.out; // Example output stream
+            XMLStreamWriter writer = factory.createXMLStreamWriter(outputStream);
+            writer.writeStartDocument();
+            writer.writeStartElement("root");
+            writer.writeCharacters("Hello, XMLStreamWriter!");
+            writer.writeEndElement();
+            writer.writeEndDocument();
+            writer.flush();
+            writer.close();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

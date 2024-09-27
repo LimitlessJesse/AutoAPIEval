@@ -1,0 +1,751 @@
+Sample: 0 FileHandler_1
+----------------------------------------------------------------
+void publish(LogRecord record): This method publishes a LogRecord to all registered FileHandlers.
+
+Code snippet:
+```java
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.io.IOException;
+import java.util.logging.LogRecord;
+
+public class Main {
+    public static void main(String[] args) {
+        Logger logger = Logger.getLogger("MyLogger");
+        try {
+            FileHandler fileHandler = new FileHandler("myLogFile.log");
+            logger.addHandler(fileHandler);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        LogRecord logRecord = new LogRecord(Level.INFO, "This is a log message");
+        fileHandler.publish(logRecord);
+    }
+}
+```
+================================================================
+
+Sample: 1 FileHandler_2
+----------------------------------------------------------------
+`void close()`: This method closes the file associated with this FileHandler and releases any resources associated with it.
+
+Code snippet:
+```java
+import java.util.logging.FileHandler;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileHandler fileHandler = new FileHandler("log.txt");
+            // perform logging operations
+            
+            fileHandler.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 Formatter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
+
+public class Main {
+    public static void main(String[] args) {
+
+    }
+
+    public String format(LogRecord record) {
+        // Customize the log record formatting here
+        return record.getMessage();
+    }
+}
+```
+================================================================
+
+Sample: 3 Formatter_2
+----------------------------------------------------------------
+`String getHead(Handler h)`: This method returns the head of a formatted message. 
+
+Code snippet:
+```java
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+
+public class Main {
+    
+    private static Formatter formatter = new Formatter() {
+        @Override
+        public String format(LogRecord record) {
+            return record.getMessage();
+        }
+
+        @Override
+        public String getHead(Handler h) {
+            return "Log Header: ";
+        }
+    };
+    
+    public static void main(String[] args) {
+        Handler handler = null; // initialize your handler here
+        System.out.println(formatter.getHead(handler));
+    }
+}
+```
+================================================================
+
+Sample: 4 Formatter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Handler handler = // initialize your Handler instance
+        Formatter formatter = // initialize your Formatter instance
+        String tail = formatter.getTail(handler);
+        
+        System.out.println("Tail: " + tail);
+    }
+}
+```
+================================================================
+
+Sample: 5 Formatter_5
+----------------------------------------------------------------
+`String formatMessage(LogRecord record)`: This method formats the given log record and returns the formatted message.
+
+Code snippet:
+```java
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
+
+public class Main {
+    public static void main(String[] args) {
+        MyFormatter formatter = new MyFormatter();
+        LogRecord record = new LogRecord(Level.INFO, "Sample log message");
+        String formattedMessage = formatter.formatMessage(record);
+        System.out.println("Formatted message: " + formattedMessage);
+    }
+
+    static class MyFormatter extends Formatter {
+        @Override
+        public String format(LogRecord record) {
+            return record.getMessage();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 Handler_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+
+public class Main {
+    public static void main(String[] args) {
+        CustomHandler handler = new CustomHandler();
+        LogRecord record = new LogRecord(Level.INFO, "Sample log message");
+        handler.publish(record);
+    }
+
+    static class CustomHandler extends Handler {
+        @Override
+        public void publish(LogRecord record) {
+            // Custom logic for handling the log record
+            System.out.println("Log message: " + record.getMessage());
+        }
+
+        @Override
+        public void flush() {
+            // Method implementation for flushing any buffered output
+        }
+
+        @Override
+        public void close() throws SecurityException {
+            // Method implementation for closing the handler
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 Handler_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Handler;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming we have a custom Handler implementation
+        MyCustomHandler customHandler = new MyCustomHandler();
+        customHandler.flush();
+    }
+}
+
+class MyCustomHandler extends Handler {
+    @Override
+    public void flush() {
+        // Implement custom flushing logic here
+        System.out.println("Flushing logs...");
+    }
+}
+```
+================================================================
+
+Sample: 8 Handler_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Handler;
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+    
+    public void closeHandler(Handler handler) {
+        try {
+            handler.close();
+        } catch (SecurityException e) {
+            System.err.println("Error occurred while closing the handler: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 Handler_4
+----------------------------------------------------------------
+`String getEncoding()`: This method returns the character encoding that this Handler is configured to use.
+
+Code snippet:
+```java
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+
+public class Main {
+    public static void main(String[] args) {
+        Handler handler = new ConsoleHandler();
+        String encoding = handler.getEncoding();
+        System.out.println("Handler encoding: " + encoding);
+    }
+}
+```
+================================================================
+
+Sample: 10 Handler_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Handler;
+import java.util.logging.ErrorManager;
+
+public class Main {
+    public static void main(String[] args) {
+        Handler handler = new Handler() {
+            @Override
+            public void publish(java.util.logging.LogRecord record) {
+                // Implement publish method
+            }
+
+            @Override
+            public void flush() {
+                // Implement flush method
+            }
+
+            @Override
+            public void close() throws SecurityException {
+                // Implement close method
+            }
+        };
+
+        ErrorManager errorManager = handler.getErrorManager();
+        System.out.println(errorManager);
+    }
+}
+```
+================================================================
+
+Sample: 11 Level_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Level;
+
+public class Main {
+    public static void main(String[] args) {
+        Level level = Level.SEVERE;
+        System.out.println("Level name: " + level.getName());
+    }
+}
+```
+================================================================
+
+Sample: 12 Level_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Level;
+
+public class Main {
+    public static void main(String[] args) {
+        Level level = Level.parse("INFO");
+        System.out.println("Parsed Level: " + level);
+    }
+}
+```
+================================================================
+
+Sample: 13 Level_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Level;
+
+public class Main {
+    public static void main(String[] args) {
+        Level level = Level.INFO;
+        System.out.println("The integer value of level is: " + level.intValue());
+    }
+}
+```
+================================================================
+
+Sample: 14 Level_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Level;
+
+public class Main {
+    public static void main(String[] args) {
+        Level level = Level.INFO;
+        System.out.println(level.getLocalizedName());
+    }
+}
+```
+================================================================
+
+Sample: 15 Level_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Level;
+
+public class Main {
+    public static void main(String[] args) {
+        Level level1 = Level.INFO;
+        Level level2 = Level.WARNING;
+        
+        boolean isEqual = level1.equals(level2);
+        System.out.println(isEqual);
+    }
+}
+```
+================================================================
+
+Sample: 16 Logger_1
+----------------------------------------------------------------
+`void info(String msg)`: This method logs a message with the level `INFO`.
+
+Code snippet:
+```java
+import java.util.logging.Logger;
+
+public class Main {
+    public static void main(String[] args) {
+        Logger logger = Logger.getLogger(Main.class.getName());
+        logger.info("This is an information message");
+    }
+}
+```
+================================================================
+
+Sample: 17 Logger_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Logger;
+
+public class Main {
+    
+    public static void warning(String msg) {
+        Logger logger = Logger.getLogger(Main.class.getName());
+        logger.warning(msg);
+    }
+
+    public static void main(String[] args) {
+        warning("This is a warning message");
+    }
+}
+```
+================================================================
+
+Sample: 18 Logger_3
+----------------------------------------------------------------
+`void severe(String msg)`: This method logs a message with a log level of SEVERE.
+
+Code snippet:
+```java
+import java.util.logging.Logger;
+
+public class Main {
+    public static void main(String[] args) {
+        Logger logger = Logger.getLogger(Main.class.getName());
+        logger.severe("This is a severe error message");
+    }
+}
+```
+================================================================
+
+Sample: 19 Logger_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Main {
+    public static void main(String[] args) {
+        Logger logger = Logger.getLogger("Main");
+        log(Level.INFO, "This is an info message");
+    }
+
+    private static void log(Level level, String msg) {
+        Logger.getLogger("Main").log(level, msg);
+    }
+}
+```
+================================================================
+
+Sample: 20 Logger_5
+----------------------------------------------------------------
+`Level getLevel()`: This method returns the Level associated with this Logger.
+
+Code snippet:
+```java
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Main {
+    public static void main(String[] args) {
+        Logger logger = Logger.getLogger(Main.class.getName());
+        Level level = logger.getLevel();
+        System.out.println("Logger Level: " + level);
+    }
+}
+```
+================================================================
+
+Sample: 21 LogManager_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.LogManager;
+
+public class Main {
+    
+    public static void readConfiguration(InputStream ins) throws IOException, SecurityException {
+        LogManager manager = LogManager.getLogManager();
+        manager.readConfiguration(ins);
+    }
+    
+    public static void main(String[] args) {
+        // Example usage
+        try {
+            readConfiguration(Main.class.getResourceAsStream("logging.properties"));
+        } catch (IOException | SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 22 LogManager_4
+----------------------------------------------------------------
+void reset(): This method resets the LogManager object
+
+Code snippet:
+```java
+import java.util.logging.LogManager;
+
+public class Main {
+    public static void main(String[] args) {
+        LogManager manager = LogManager.getLogManager();
+        manager.reset();
+    }
+}
+```
+================================================================
+
+Sample: 23 LogManager_5
+----------------------------------------------------------------
+`void checkAccess()`: This method checks access. 
+
+Code snippet:
+```java
+import java.util.logging.LogManager;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            LogManager manager = LogManager.getLogManager();
+            manager.checkAccess();
+            System.out.println("Access checked successfully");
+        } catch (SecurityException e) {
+            System.out.println("Access check failed: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 24 LogRecord_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.LogRecord;
+
+public class Main {
+    public static void main(String[] args) {
+        LogRecord record = new LogRecord(Level.INFO, "This is a log message");
+        String className = record.getSourceClassName();
+        System.out.println("Source class name: " + className);
+    }
+}
+```
+================================================================
+
+Sample: 25 LogRecord_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.LogRecord;
+
+public class Main {
+    public static void main(String[] args) {
+        LogRecord record = new LogRecord(Level.INFO, "This is a log message");
+        System.out.println(record.getLoggerName()); // Output: null
+    }
+}
+```
+================================================================
+
+Sample: 26 LogRecord_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+
+public class Main {
+    public static void main(String[] args) {
+        LogRecord record = new LogRecord(Level.INFO, "This is a log message");
+        Level level = record.getLevel();
+        System.out.println("Log level: " + level.getName());
+    }
+}
+```
+================================================================
+
+Sample: 27 LogRecord_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.LogRecord;
+
+public class Main {
+    public static void main(String[] args) {
+        LogRecord record = new LogRecord(Level.INFO, "This is a log message");
+        Throwable throwable = record.getThrown();
+        if (throwable != null) {
+            throwable.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 28 MemoryHandler_1
+----------------------------------------------------------------
+`void push(LogRecord record)`: This method pushes a LogRecord onto the memory handler buffer.
+
+Code snippet:
+```java
+import java.util.logging.MemoryHandler;
+import java.util.logging.LogRecord;
+
+public class Main {
+    public static void main(String[] args) {
+        MemoryHandler handler = new MemoryHandler();
+        LogRecord record = new LogRecord(Level.INFO, "Sample log message");
+        handler.push(record);
+    }
+}
+```
+================================================================
+
+Sample: 29 MemoryHandler_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.MemoryHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        MemoryHandler handler = new MemoryHandler();
+        LogRecord record = new LogRecord(Level.INFO, "Sample log message");
+        boolean isLoggable = handler.isLoggable(record);
+        System.out.println("Is Log Record Loggable? " + isLoggable);
+    }
+}
+```
+================================================================
+
+Sample: 30 MemoryHandler_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.LogRecord;
+import java.util.logging.MemoryHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        MemoryHandler memoryHandler = new MemoryHandler();
+        LogRecord record = new LogRecord(Level.INFO, "Sample log message");
+        memoryHandler.publish(record);
+    }
+}
+```
+================================================================
+
+Sample: 31 MemoryHandler_5
+----------------------------------------------------------------
+`void flush()`: This method pushes any unsent logging messages to the target output handler.
+
+Code snippet:
+```java
+import java.util.logging.MemoryHandler;
+import java.util.logging.Level;
+import java.util.logging.ConsoleHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a MemoryHandler with a target ConsoleHandler
+        MemoryHandler memoryHandler = new MemoryHandler(new ConsoleHandler(), 1000, Level.FINE);
+
+        // Log some messages
+        memoryHandler.publish(memoryHandler.getFormatter().formatMessage(null, "Logging message 1", Level.INFO));
+        memoryHandler.publish(memoryHandler.getFormatter().formatMessage(null, "Logging message 2", Level.WARNING));
+
+        System.out.println("Before flushing:");
+        System.out.println(memoryHandler.getPushLevel() + " " + memoryHandler.getMemoryUsage());
+
+        // Flush the unsent messages
+        memoryHandler.flush();
+
+        System.out.println("After flushing:");
+        System.out.println(memoryHandler.getPushLevel() + " " + memoryHandler.getMemoryUsage());
+    }
+}
+```
+================================================================
+
+Sample: 32 SimpleFormatter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.LogRecord;
+import java.util.logging.SimpleFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleFormatter formatter = new SimpleFormatter();
+        LogRecord record = new LogRecord(Level.INFO, "This is a log message");
+        String formattedMessage = formatter.format(record);
+        System.out.println(formattedMessage);
+    }
+}
+```
+================================================================
+
+Sample: 33 SocketHandler_1
+----------------------------------------------------------------
+void close(): This method closes the SocketHandler and releases all associated resources.
+
+Code snippet:
+```java
+import java.util.logging.SocketHandler;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        SocketHandler socketHandler = new SocketHandler();
+        
+        try {
+            // perform some logging operations
+            
+            // close the SocketHandler
+            socketHandler.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 34 StreamHandler_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.StreamHandler;
+import java.io.OutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        StreamHandler handler = new StreamHandler();
+        OutputStream outputStream = System.out;
+        handler.setOutputStream(outputStream);
+    }
+}
+```
+================================================================
+
+Sample: 35 StreamHandler_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.logging.StreamHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        StreamHandler handler = new StreamHandler();
+        handler.setEncoding("UTF-8");
+    }
+}
+```
+================================================================
+

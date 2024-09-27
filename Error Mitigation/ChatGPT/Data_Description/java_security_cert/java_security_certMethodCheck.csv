@@ -1,0 +1,1639 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Certificate,1,PublicKey getPublicKey(),True,,"
+
+getPublicKey
+public abstract PublicKey getPublicKey()
+Gets the public key from this certificate.
+
+Returns:
+the public key.
+
+
+"
+0,Certificate,2,byte[] getEncoded(),True,,"
+
+getEncoded
+public abstract byte[] getEncoded()
+                           throws CertificateEncodingException
+Returns the encoded form of this certificate. It is
+ assumed that each certificate type would have only a single
+ form of encoding; for example, X.509 certificates would
+ be encoded as ASN.1 DER.
+
+Returns:
+the encoded form of this certificate
+Throws:
+CertificateEncodingException - if an encoding error occurs.
+
+
+"
+0,Certificate,3,String toString(),True,,"
+
+toString
+public abstract String toString()
+Returns a string representation of this certificate.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of this certificate.
+
+
+"
+0,Certificate,4,boolean equals(Object other),True,,"
+
+equals
+public boolean equals(Object other)
+Compares this certificate for equality with the specified
+ object. If the other object is an
+ instanceof Certificate, then
+ its encoded form is retrieved and compared with the
+ encoded form of this certificate.
+
+Overrides:
+equals in class Object
+Parameters:
+other - the object to test for equality with this certificate.
+Returns:
+true iff the encoded forms of the two certificates
+ match, false otherwise.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+0,Certificate,5,int hashCode(),True,,"
+
+hashCode
+public int hashCode()
+Returns a hashcode value for this certificate from its
+ encoded form.
+
+Overrides:
+hashCode in class Object
+Returns:
+the hashcode value.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+1,Certificate.CertificateRep,1,byte[] getEncoded(),False,,NULL
+1,Certificate.CertificateRep,2,String getType(),False,,NULL
+1,Certificate.CertificateRep,3,PublicKey getPublicKey(),False,,NULL
+1,Certificate.CertificateRep,4,String toString(),False,,NULL
+1,Certificate.CertificateRep,5,boolean equals(Object other),False,,NULL
+2,CertificateFactory,1,Certificate generateCertificate(InputStream inStream),True,,"
+
+generateCertificate
+public final Certificate generateCertificate(InputStream inStream)
+                                      throws CertificateException
+Generates a certificate object and initializes it with
+ the data read from the input stream inStream.
+
+ In order to take advantage of the specialized certificate format
+ supported by this certificate factory,
+ the returned certificate object can be typecast to the corresponding
+ certificate class. For example, if this certificate
+ factory implements X.509 certificates, the returned certificate object
+ can be typecast to the X509Certificate class.
+
+ In the case of a certificate factory for X.509 certificates, the
+ certificate provided in inStream must be DER-encoded and
+ may be supplied in binary or printable (Base64) encoding. If the
+ certificate is provided in Base64 encoding, it must be bounded at
+ the beginning by -----BEGIN CERTIFICATE-----, and must be bounded at
+ the end by -----END CERTIFICATE-----.
+
+ Note that if the given input stream does not support
+ mark and
+ reset, this method will
+ consume the entire input stream. Otherwise, each call to this
+ method consumes one certificate and the read position of the
+ input stream is positioned to the next available byte after
+ the inherent end-of-certificate marker. If the data in the input stream
+ does not contain an inherent end-of-certificate marker (other
+ than EOF) and there is trailing data after the certificate is parsed, a
+ CertificateException is thrown.
+
+Parameters:
+inStream - an input stream with the certificate data.
+Returns:
+a certificate object initialized with the data
+ from the input stream.
+Throws:
+CertificateException - on parsing errors.
+
+
+"
+2,CertificateFactory,2,CertPath generateCertPath(InputStream inStream),True,,"
+
+generateCertPath
+public final CertPath generateCertPath(InputStream inStream)
+                                throws CertificateException
+Generates a CertPath object and initializes it with
+ the data read from the InputStream inStream. The data
+ is assumed to be in the default encoding. The name of the default
+ encoding is the first element of the Iterator returned by
+ the getCertPathEncodings method.
+
+Parameters:
+inStream - an InputStream containing the data
+Returns:
+a CertPath initialized with the data from the
+   InputStream
+Throws:
+CertificateException - if an exception occurs while decoding
+Since:
+1.4
+
+
+"
+2,CertificateFactory,3,CRL generateCRL(InputStream inStream),True,,"
+
+generateCRL
+public final CRL generateCRL(InputStream inStream)
+                      throws CRLException
+Generates a certificate revocation list (CRL) object and initializes it
+ with the data read from the input stream inStream.
+
+ In order to take advantage of the specialized CRL format
+ supported by this certificate factory,
+ the returned CRL object can be typecast to the corresponding
+ CRL class. For example, if this certificate
+ factory implements X.509 CRLs, the returned CRL object
+ can be typecast to the X509CRL class.
+
+ Note that if the given input stream does not support
+ mark and
+ reset, this method will
+ consume the entire input stream. Otherwise, each call to this
+ method consumes one CRL and the read position of the input stream
+ is positioned to the next available byte after the inherent
+ end-of-CRL marker. If the data in the
+ input stream does not contain an inherent end-of-CRL marker (other
+ than EOF) and there is trailing data after the CRL is parsed, a
+ CRLException is thrown.
+
+Parameters:
+inStream - an input stream with the CRL data.
+Returns:
+a CRL object initialized with the data
+ from the input stream.
+Throws:
+CRLException - on parsing errors.
+
+
+"
+2,CertificateFactory,4,Collection<? extends Certificate> generateCertificates(InputStream inStream),True,,"
+
+generateCertificates
+public final Collection<? extends Certificate> generateCertificates(InputStream inStream)
+                                                             throws CertificateException
+Returns a (possibly empty) collection view of the certificates read
+ from the given input stream inStream.
+
+ In order to take advantage of the specialized certificate format
+ supported by this certificate factory, each element in
+ the returned collection view can be typecast to the corresponding
+ certificate class. For example, if this certificate
+ factory implements X.509 certificates, the elements in the returned
+ collection can be typecast to the X509Certificate class.
+
+ In the case of a certificate factory for X.509 certificates,
+ inStream may contain a sequence of DER-encoded certificates
+ in the formats described for
+ generateCertificate.
+ In addition, inStream may contain a PKCS#7 certificate
+ chain. This is a PKCS#7 SignedData object, with the only
+ significant field being certificates. In particular, the
+ signature and the contents are ignored. This format allows multiple
+ certificates to be downloaded at once. If no certificates are present,
+ an empty collection is returned.
+
+ Note that if the given input stream does not support
+ mark and
+ reset, this method will
+ consume the entire input stream.
+
+Parameters:
+inStream - the input stream with the certificates.
+Returns:
+a (possibly empty) collection view of
+ java.security.cert.Certificate objects
+ initialized with the data from the input stream.
+Throws:
+CertificateException - on parsing errors.
+
+
+"
+2,CertificateFactory,5,Collection<? extends CRL> generateCRLs(InputStream inStream),True,,"
+
+generateCRLs
+public final Collection<? extends CRL> generateCRLs(InputStream inStream)
+                                             throws CRLException
+Returns a (possibly empty) collection view of the CRLs read
+ from the given input stream inStream.
+
+ In order to take advantage of the specialized CRL format
+ supported by this certificate factory, each element in
+ the returned collection view can be typecast to the corresponding
+ CRL class. For example, if this certificate
+ factory implements X.509 CRLs, the elements in the returned
+ collection can be typecast to the X509CRL class.
+
+ In the case of a certificate factory for X.509 CRLs,
+ inStream may contain a sequence of DER-encoded CRLs.
+ In addition, inStream may contain a PKCS#7 CRL
+ set. This is a PKCS#7 SignedData object, with the only
+ significant field being crls. In particular, the
+ signature and the contents are ignored. This format allows multiple
+ CRLs to be downloaded at once. If no CRLs are present,
+ an empty collection is returned.
+
+ Note that if the given input stream does not support
+ mark and
+ reset, this method will
+ consume the entire input stream.
+
+Parameters:
+inStream - the input stream with the CRLs.
+Returns:
+a (possibly empty) collection view of
+ java.security.cert.CRL objects initialized with the data from the input
+ stream.
+Throws:
+CRLException - on parsing errors.
+
+
+"
+3,CertificateFactorySpi,1,Certificate engineGenerateCertificate(InputStream inStream),True,,"
+
+engineGenerateCertificate
+public abstract Certificate engineGenerateCertificate(InputStream inStream)
+                                               throws CertificateException
+Generates a certificate object and initializes it with
+ the data read from the input stream inStream.
+
+ In order to take advantage of the specialized certificate format
+ supported by this certificate factory,
+ the returned certificate object can be typecast to the corresponding
+ certificate class. For example, if this certificate
+ factory implements X.509 certificates, the returned certificate object
+ can be typecast to the X509Certificate class.
+
+ In the case of a certificate factory for X.509 certificates, the
+ certificate provided in inStream must be DER-encoded and
+ may be supplied in binary or printable (Base64) encoding. If the
+ certificate is provided in Base64 encoding, it must be bounded at
+ the beginning by -----BEGIN CERTIFICATE-----, and must be bounded at
+ the end by -----END CERTIFICATE-----.
+
+ Note that if the given input stream does not support
+ mark and
+ reset, this method will
+ consume the entire input stream. Otherwise, each call to this
+ method consumes one certificate and the read position of the input stream
+ is positioned to the next available byte after the inherent
+ end-of-certificate marker. If the data in the
+ input stream does not contain an inherent end-of-certificate marker (other
+ than EOF) and there is trailing data after the certificate is parsed, a
+ CertificateException is thrown.
+
+Parameters:
+inStream - an input stream with the certificate data.
+Returns:
+a certificate object initialized with the data
+ from the input stream.
+Throws:
+CertificateException - on parsing errors.
+
+
+"
+3,CertificateFactorySpi,2,Certificate[] engineGenerateCertificates(InputStream inStream),False,,NULL
+3,CertificateFactorySpi,3,CRL engineGenerateCRL(InputStream inStream),True,,"
+
+engineGenerateCRL
+public abstract CRL engineGenerateCRL(InputStream inStream)
+                               throws CRLException
+Generates a certificate revocation list (CRL) object and initializes it
+ with the data read from the input stream inStream.
+
+ In order to take advantage of the specialized CRL format
+ supported by this certificate factory,
+ the returned CRL object can be typecast to the corresponding
+ CRL class. For example, if this certificate
+ factory implements X.509 CRLs, the returned CRL object
+ can be typecast to the X509CRL class.
+
+ Note that if the given input stream does not support
+ mark and
+ reset, this method will
+ consume the entire input stream. Otherwise, each call to this
+ method consumes one CRL and the read position of the input stream
+ is positioned to the next available byte after the inherent
+ end-of-CRL marker. If the data in the
+ input stream does not contain an inherent end-of-CRL marker (other
+ than EOF) and there is trailing data after the CRL is parsed, a
+ CRLException is thrown.
+
+Parameters:
+inStream - an input stream with the CRL data.
+Returns:
+a CRL object initialized with the data
+ from the input stream.
+Throws:
+CRLException - on parsing errors.
+
+
+"
+3,CertificateFactorySpi,4,Collection<? extends CRL> engineGenerateCRLs(InputStream inStream),True,,"
+
+engineGenerateCRLs
+public abstract Collection<? extends CRL> engineGenerateCRLs(InputStream inStream)
+                                                      throws CRLException
+Returns a (possibly empty) collection view of the CRLs read
+ from the given input stream inStream.
+
+ In order to take advantage of the specialized CRL format
+ supported by this certificate factory, each element in
+ the returned collection view can be typecast to the corresponding
+ CRL class. For example, if this certificate
+ factory implements X.509 CRLs, the elements in the returned
+ collection can be typecast to the X509CRL class.
+
+ In the case of a certificate factory for X.509 CRLs,
+ inStream may contain a single DER-encoded CRL.
+ In addition, inStream may contain a PKCS#7 CRL
+ set. This is a PKCS#7 SignedData object, with the only
+ significant field being crls. In particular, the
+ signature and the contents are ignored. This format allows multiple
+ CRLs to be downloaded at once. If no CRLs are present,
+ an empty collection is returned.
+
+ Note that if the given input stream does not support
+ mark and
+ reset, this method will
+ consume the entire input stream.
+
+Parameters:
+inStream - the input stream with the CRLs.
+Returns:
+a (possibly empty) collection view of
+ java.security.cert.CRL objects initialized with the data from the input
+ stream.
+Throws:
+CRLException - on parsing errors.
+
+
+"
+3,CertificateFactorySpi,5,CertPath engineGenerateCertPath(InputStream inStream),True,,"
+
+engineGenerateCertPath
+public CertPath engineGenerateCertPath(InputStream inStream)
+                                throws CertificateException
+Generates a CertPath object and initializes it with
+ the data read from the InputStream inStream. The data
+ is assumed to be in the default encoding.
+
+  This method was added to version 1.4 of the Java 2 Platform
+ Standard Edition. In order to maintain backwards compatibility with
+ existing service providers, this method cannot be abstract
+ and by default throws an UnsupportedOperationException.
+
+Parameters:
+inStream - an InputStream containing the data
+Returns:
+a CertPath initialized with the data from the
+   InputStream
+Throws:
+CertificateException - if an exception occurs while decoding
+UnsupportedOperationException - if the method is not supported
+Since:
+1.4
+
+
+"
+4,CertPath,1,List<? extends Certificate> getCertificates(),True,,"
+
+getCertificates
+public abstract List<? extends Certificate> getCertificates()
+Returns the list of certificates in this certification path.
+ The List returned must be immutable and thread-safe.
+
+Returns:
+an immutable List of Certificates
+         (may be empty, but not null)
+
+
+"
+4,CertPath,2,String getType(),True,,"
+
+getType
+public String getType()
+Returns the type of Certificates in this certification
+ path. This is the same string that would be returned by
+ cert.getType()
+ for all Certificates in the certification path.
+
+Returns:
+the type of Certificates in this certification
+ path (never null)
+
+
+"
+4,CertPath,3,byte[] getEncoded(),True,,"
+
+getEncoded
+public abstract byte[] getEncoded()
+                           throws CertificateEncodingException
+Returns the encoded form of this certification path, using the default
+ encoding.
+
+Returns:
+the encoded bytes
+Throws:
+CertificateEncodingException - if an encoding error occurs
+
+
+"
+4,CertPath,4,CertPathValidator getCertPathValidator(Provider provider),False,,NULL
+4,CertPath,5,CertPathBuilder getCertPathBuilder(Provider provider),False,,NULL
+5,CertPath.CertPathRep,1,Object readResolve(),True,,"
+
+readResolve
+protected Object readResolve()
+                      throws ObjectStreamException
+Returns a CertPath constructed from the type and data.
+
+Returns:
+the resolved CertPath object
+Throws:
+ObjectStreamException - if a CertPath could not
+ be constructed
+
+
+"
+5,CertPath.CertPathRep,2,void writeReplace(),False,,NULL
+5,CertPath.CertPathRep,3,"CertPathRep(String type, byte[] data)",False,,NULL
+5,CertPath.CertPathRep,4,String getType(),False,,NULL
+5,CertPath.CertPathRep,5,byte[] getData(),False,,NULL
+6,CertPathBuilder,1,CertPathBuilderResult build(CertPathParameters params),True,,"
+
+build
+public final CertPathBuilderResult build(CertPathParameters params)
+                                  throws CertPathBuilderException,
+                                         InvalidAlgorithmParameterException
+Attempts to build a certification path using the specified algorithm
+ parameter set.
+
+Parameters:
+params - the algorithm parameters
+Returns:
+the result of the build algorithm
+Throws:
+CertPathBuilderException - if the builder is unable to construct
+  a certification path that satisfies the specified parameters
+InvalidAlgorithmParameterException - if the specified parameters
+ are inappropriate for this CertPathBuilder
+
+
+"
+6,CertPathBuilder,2,void addCertStore(CertStore store),False,,NULL
+6,CertPathBuilder,3,void setRevocationEnabled(boolean revocationEnabled),False,,NULL
+6,CertPathBuilder,4,void setTargetCertConstraints(CertSelector selector),False,,NULL
+6,CertPathBuilder,5,void setAlgorithmConstraints(AlgorithmConstraints constraints),False,,NULL
+7,CertPathBuilderSpi,1,CertPathBuilderResult engineBuild(CertPathParameters params),True,,"
+
+engineBuild
+public abstract CertPathBuilderResult engineBuild(CertPathParameters params)
+                                           throws CertPathBuilderException,
+                                                  InvalidAlgorithmParameterException
+Attempts to build a certification path using the specified
+ algorithm parameter set.
+
+Parameters:
+params - the algorithm parameters
+Returns:
+the result of the build algorithm
+Throws:
+CertPathBuilderException - if the builder is unable to construct
+ a certification path that satisfies the specified parameters
+InvalidAlgorithmParameterException - if the specified parameters
+ are inappropriate for this CertPathBuilder
+
+
+"
+7,CertPathBuilderSpi,2,CertPathChecker engineGetRevocationChecker(),True,,"
+
+engineGetRevocationChecker
+public CertPathChecker engineGetRevocationChecker()
+Returns a CertPathChecker that this implementation uses to
+ check the revocation status of certificates. A PKIX implementation
+ returns objects of type PKIXRevocationChecker.
+
+ The primary purpose of this method is to allow callers to specify
+ additional input parameters and options specific to revocation checking.
+ See the class description of CertPathBuilder for an example.
+
+ This method was added to version 1.8 of the Java Platform Standard
+ Edition. In order to maintain backwards compatibility with existing
+ service providers, this method cannot be abstract and by default throws
+ an UnsupportedOperationException.
+
+Returns:
+a CertPathChecker that this implementation uses to
+ check the revocation status of certificates
+Throws:
+UnsupportedOperationException - if this method is not supported
+Since:
+1.8
+
+
+"
+7,CertPathBuilderSpi,3,CertPathBuilderSpi clone(),False,,NULL
+7,CertPathBuilderSpi,4,void engineInit(CertPathBuilderParameters params),False,,NULL
+7,CertPathBuilderSpi,5,"CertPathBuilderResult engineValidate(CertPath certPath, CertPathParameters params)",False,,NULL
+8,CertPathValidator,1,"CertPathValidatorResult validate(CertPath certPath, CertPathParameters params)",True,,"
+
+validate
+public final CertPathValidatorResult validate(CertPath certPath,
+                                              CertPathParameters params)
+                                       throws CertPathValidatorException,
+                                              InvalidAlgorithmParameterException
+Validates the specified certification path using the specified
+ algorithm parameter set.
+ 
+ The CertPath specified must be of a type that is
+ supported by the validation algorithm, otherwise an
+ InvalidAlgorithmParameterException will be thrown. For
+ example, a CertPathValidator that implements the PKIX
+ algorithm validates CertPath objects of type X.509.
+
+Parameters:
+certPath - the CertPath to be validated
+params - the algorithm parameters
+Returns:
+the result of the validation algorithm
+Throws:
+CertPathValidatorException - if the CertPath
+ does not validate
+InvalidAlgorithmParameterException - if the specified
+ parameters or the type of the specified CertPath are
+ inappropriate for this CertPathValidator
+
+
+"
+8,CertPathValidator,2,void setRevocationEnabled(boolean val),False,,NULL
+8,CertPathValidator,3,void setCertPathCheckers(List<PKIXCertPathChecker> checkers),False,,NULL
+8,CertPathValidator,4,void setCertStores(List<CertStore> stores),False,,NULL
+9,CertPathValidatorSpi,1,"CertPathValidatorResult engineValidate(CertPath certPath, CertPathParameters params)",True,,"
+
+engineValidate
+public abstract CertPathValidatorResult engineValidate(CertPath certPath,
+                                                       CertPathParameters params)
+                                                throws CertPathValidatorException,
+                                                       InvalidAlgorithmParameterException
+Validates the specified certification path using the specified
+ algorithm parameter set.
+ 
+ The CertPath specified must be of a type that is
+ supported by the validation algorithm, otherwise an
+ InvalidAlgorithmParameterException will be thrown. For
+ example, a CertPathValidator that implements the PKIX
+ algorithm validates CertPath objects of type X.509.
+
+Parameters:
+certPath - the CertPath to be validated
+params - the algorithm parameters
+Returns:
+the result of the validation algorithm
+Throws:
+CertPathValidatorException - if the CertPath
+ does not validate
+InvalidAlgorithmParameterException - if the specified
+ parameters or the type of the specified CertPath are
+ inappropriate for this CertPathValidator
+
+
+"
+9,CertPathValidatorSpi,2,void engineInit(ValidatorSpiParameters params),False,,NULL
+9,CertPathValidatorSpi,3,CertPathChecker engineGetRevocationChecker(),True,,"
+
+engineGetRevocationChecker
+public CertPathChecker engineGetRevocationChecker()
+Returns a CertPathChecker that this implementation uses to
+ check the revocation status of certificates. A PKIX implementation
+ returns objects of type PKIXRevocationChecker.
+
+ The primary purpose of this method is to allow callers to specify
+ additional input parameters and options specific to revocation checking.
+ See the class description of CertPathValidator for an example.
+
+ This method was added to version 1.8 of the Java Platform Standard
+ Edition. In order to maintain backwards compatibility with existing
+ service providers, this method cannot be abstract and by default throws
+ an UnsupportedOperationException.
+
+Returns:
+a CertPathChecker that this implementation uses to
+ check the revocation status of certificates
+Throws:
+UnsupportedOperationException - if this method is not supported
+Since:
+1.8
+
+
+"
+9,CertPathValidatorSpi,4,CertPathValidatorSpi clone(),False,,NULL
+9,CertPathValidatorSpi,5,"void engineSetParameter(String param, Object value)",False,,NULL
+10,CertStore,1,Collection<? extends Certificate> getCertificates(CertSelector selector),True,,"
+
+getCertificates
+public final Collection<? extends Certificate> getCertificates(CertSelector selector)
+                                                        throws CertStoreException
+Returns a Collection of Certificates that
+ match the specified selector. If no Certificates
+ match the selector, an empty Collection will be returned.
+ 
+ For some CertStore types, the resulting
+ Collection may not contain all of the
+ Certificates that match the selector. For instance,
+ an LDAP CertStore may not search all entries in the
+ directory. Instead, it may just search entries that are likely to
+ contain the Certificates it is looking for.
+ 
+ Some CertStore implementations (especially LDAP
+ CertStores) may throw a CertStoreException
+ unless a non-null CertSelector is provided that
+ includes specific criteria that can be used to find the certificates.
+ Issuer and/or subject names are especially useful criteria.
+
+Parameters:
+selector - A CertSelector used to select which
+  Certificates should be returned. Specify null
+  to return all Certificates (if supported).
+Returns:
+A Collection of Certificates that
+         match the specified selector (never null)
+Throws:
+CertStoreException - if an exception occurs
+
+
+"
+10,CertStore,2,Collection<? extends CRL> getCRLs(CRLSelector selector),True,,"
+
+getCRLs
+public final Collection<? extends CRL> getCRLs(CRLSelector selector)
+                                        throws CertStoreException
+Returns a Collection of CRLs that
+ match the specified selector. If no CRLs
+ match the selector, an empty Collection will be returned.
+ 
+ For some CertStore types, the resulting
+ Collection may not contain all of the
+ CRLs that match the selector. For instance,
+ an LDAP CertStore may not search all entries in the
+ directory. Instead, it may just search entries that are likely to
+ contain the CRLs it is looking for.
+ 
+ Some CertStore implementations (especially LDAP
+ CertStores) may throw a CertStoreException
+ unless a non-null CRLSelector is provided that
+ includes specific criteria that can be used to find the CRLs.
+ Issuer names and/or the certificate to be checked are especially useful.
+
+Parameters:
+selector - A CRLSelector used to select which
+  CRLs should be returned. Specify null
+  to return all CRLs (if supported).
+Returns:
+A Collection of CRLs that
+         match the specified selector (never null)
+Throws:
+CertStoreException - if an exception occurs
+
+
+"
+10,CertStore,3,Collection<? extends Certificate> engineGetCertificates(CertSelector selector),False,,NULL
+10,CertStore,4,Collection<? extends CRL> engineGetCRLs(CRLSelector selector),False,,NULL
+10,CertStore,5,void engineInit(CertStoreParameters params) throws InvalidAlgorithmParameterException,False,,NULL
+11,CertStoreSpi,1,Collection<? extends X509CRL> engineGetCRLs(CRLSelector selector),False,,NULL
+11,CertStoreSpi,2,Collection<? extends Certificate> engineGetCertificates(CertSelector selector),True,,"
+
+engineGetCertificates
+public abstract Collection<? extends Certificate> engineGetCertificates(CertSelector selector)
+                                                                 throws CertStoreException
+Returns a Collection of Certificates that
+ match the specified selector. If no Certificates
+ match the selector, an empty Collection will be returned.
+ 
+ For some CertStore types, the resulting
+ Collection may not contain all of the
+ Certificates that match the selector. For instance,
+ an LDAP CertStore may not search all entries in the
+ directory. Instead, it may just search entries that are likely to
+ contain the Certificates it is looking for.
+ 
+ Some CertStore implementations (especially LDAP
+ CertStores) may throw a CertStoreException
+ unless a non-null CertSelector is provided that includes
+ specific criteria that can be used to find the certificates. Issuer
+ and/or subject names are especially useful criteria.
+
+Parameters:
+selector - A CertSelector used to select which
+  Certificates should be returned. Specify null
+  to return all Certificates (if supported).
+Returns:
+A Collection of Certificates that
+         match the specified selector (never null)
+Throws:
+CertStoreException - if an exception occurs
+
+
+"
+11,CertStoreSpi,3,void engineInit(CertStoreParameters params) throws InvalidAlgorithmParameterException,False,,NULL
+11,CertStoreSpi,4,Collection<? extends Certificate> engineGetCertificates(X509CertSelector selector) throws CertStoreException,False,,NULL
+11,CertStoreSpi,5,Collection<? extends CRL> engineGetCRLs(X509CRLSelector selector) throws CertStoreException,False,,NULL
+12,CollectionCertStoreParameters,1,CollectionCertStoreParameters(Collection<? extends Certificate> coll),False,,NULL
+12,CollectionCertStoreParameters,2,Collection<? extends Certificate> getCollection(),False,,NULL
+12,CollectionCertStoreParameters,3,boolean equals(Object obj),False,,NULL
+12,CollectionCertStoreParameters,4,int hashCode(),False,,NULL
+12,CollectionCertStoreParameters,5,String toString(),True,,"
+
+toString
+public String toString()
+Returns a formatted string describing the parameters.
+
+Overrides:
+toString in class Object
+Returns:
+a formatted string describing the parameters
+
+
+"
+13,CRL,1,X509CRL getLatestCRL(),False,,NULL
+13,CRL,2,X509CRLEntry getRevokedCertificate(X509Certificate cert),False,,NULL
+13,CRL,3,boolean isRevoked(X509Certificate cert),False,,NULL
+13,CRL,4,Date getThisUpdate(),False,,NULL
+13,CRL,5,Date getNextUpdate(),False,,NULL
+14,LDAPCertStoreParameters,1,String getServerName(),True,,"
+
+getServerName
+public String getServerName()
+Returns the DNS name of the LDAP server.
+
+Returns:
+the name (not null)
+
+
+"
+14,LDAPCertStoreParameters,2,int getPort(),True,,"
+
+getPort
+public int getPort()
+Returns the port number of the LDAP server.
+
+Returns:
+the port number
+
+
+"
+14,LDAPCertStoreParameters,3,String getContextName(),False,,NULL
+14,LDAPCertStoreParameters,4,String getAttribute(),False,,NULL
+14,LDAPCertStoreParameters,5,String getFilter(),False,,NULL
+15,PKIXBuilderParameters,1,void setCertStores(List<CertStore> stores),False,,NULL
+15,PKIXBuilderParameters,2,void setTargetCertConstraints(CertSelector selector),False,,NULL
+15,PKIXBuilderParameters,3,void setInitialPolicies(Set<String> initialPolicies),False,,NULL
+15,PKIXBuilderParameters,4,void setDate(Date date),False,,NULL
+15,PKIXBuilderParameters,5,void setRevocationEnabled(boolean val),False,,NULL
+16,PKIXCertPathBuilderResult,1,CertPath getCertPath(),True,,"
+
+getCertPath
+public CertPath getCertPath()
+Returns the built and validated certification path. The
+ CertPath object does not include the trust anchor.
+ Instead, use the getTrustAnchor() method to
+ obtain the TrustAnchor that served as the trust anchor
+ for the certification path.
+
+Specified by:
+getCertPath in interface CertPathBuilderResult
+Returns:
+the built and validated CertPath (never
+ null)
+
+
+"
+16,PKIXCertPathBuilderResult,2,PublicKey getPublicKey(),False,,NULL
+16,PKIXCertPathBuilderResult,3,TrustAnchor getTrustAnchor(),False,,NULL
+16,PKIXCertPathBuilderResult,4,PolicyNode getPolicyTree(),False,,NULL
+16,PKIXCertPathBuilderResult,5,List<? extends Certificate> getCertificates(),False,,NULL
+17,PKIXCertPathChecker,1,void init(boolean forward),True,,"
+
+init
+public abstract void init(boolean forward)
+                   throws CertPathValidatorException
+Initializes the internal state of this PKIXCertPathChecker.
+ 
+ The forward flag specifies the order that
+ certificates will be passed to the check method
+ (forward or reverse). A PKIXCertPathChecker must
+ support reverse checking and may support forward checking.
+
+Specified by:
+init in interface CertPathChecker
+Parameters:
+forward - the order that certificates are presented to
+ the check method. If true, certificates
+ are presented from target to most-trusted CA (forward); if
+ false, from most-trusted CA to target (reverse).
+Throws:
+CertPathValidatorException - if this
+ PKIXCertPathChecker is unable to check certificates in
+ the specified order; it should never be thrown if the forward flag
+ is false since reverse checking must be supported
+
+
+"
+17,PKIXCertPathChecker,2,boolean isForwardCheckingSupported(),True,,"
+
+isForwardCheckingSupported
+public abstract boolean isForwardCheckingSupported()
+Indicates if forward checking is supported. Forward checking refers
+ to the ability of the PKIXCertPathChecker to perform
+ its checks when certificates are presented to the check
+ method in the forward direction (from target to most-trusted CA).
+
+Specified by:
+isForwardCheckingSupported in interface CertPathChecker
+Returns:
+true if forward checking is supported,
+ false otherwise
+
+
+"
+17,PKIXCertPathChecker,3,Set<String> getSupportedExtensions(),True,,"
+
+getSupportedExtensions
+public abstract Set<String> getSupportedExtensions()
+Returns an immutable Set of X.509 certificate extensions
+ that this PKIXCertPathChecker supports (i.e. recognizes, is
+ able to process), or null if no extensions are supported.
+ 
+ Each element of the set is a String representing the
+ Object Identifier (OID) of the X.509 extension that is supported.
+ The OID is represented by a set of nonnegative integers separated by
+ periods.
+ 
+ All X.509 certificate extensions that a PKIXCertPathChecker
+ might possibly be able to process should be included in the set.
+
+Returns:
+an immutable Set of X.509 extension OIDs (in
+ String format) supported by this
+ PKIXCertPathChecker, or null if no
+ extensions are supported
+
+
+"
+17,PKIXCertPathChecker,4,"void check(Certificate cert, Collection<String> unresolvedCritExts)",True,,"
+
+check
+public abstract void check(Certificate cert,
+                           Collection<String> unresolvedCritExts)
+                    throws CertPathValidatorException
+Performs the check(s) on the specified certificate using its internal
+ state and removes any critical extensions that it processes from the
+ specified collection of OID strings that represent the unresolved
+ critical extensions. The certificates are presented in the order
+ specified by the init method.
+
+Parameters:
+cert - the Certificate to be checked
+unresolvedCritExts - a Collection of OID strings
+ representing the current set of unresolved critical extensions
+Throws:
+CertPathValidatorException - if the specified certificate does
+ not pass the check
+
+
+"
+17,PKIXCertPathChecker,5,Object clone(),True,,"
+
+clone
+public Object clone()
+Returns a clone of this object. Calls the Object.clone()
+ method.
+ All subclasses which maintain state must support and
+ override this method, if necessary.
+
+Overrides:
+clone in class Object
+Returns:
+a copy of this PKIXCertPathChecker
+See Also:
+Cloneable
+
+
+"
+18,PKIXCertPathValidatorResult,1,PKIXCertPath getCertPath(),False,,NULL
+18,PKIXCertPathValidatorResult,2,PolicyNode getPolicyTree(),True,,"
+
+getPolicyTree
+public PolicyNode getPolicyTree()
+Returns the root node of the valid policy tree resulting from the
+ PKIX certification path validation algorithm. The
+ PolicyNode object that is returned and any objects that
+ it returns through public methods are immutable.
+
+ Most applications will not need to examine the valid policy tree.
+ They can achieve their policy processing goals by setting the
+ policy-related parameters in PKIXParameters. However, more
+ sophisticated applications, especially those that process policy
+ qualifiers, may need to traverse the valid policy tree using the
+ PolicyNode.getParent and
+ PolicyNode.getChildren methods.
+
+Returns:
+the root node of the valid policy tree, or null
+ if there are no valid policies
+
+
+"
+18,PKIXCertPathValidatorResult,3,PublicKey getPublicKey(),True,,"
+
+getPublicKey
+public PublicKey getPublicKey()
+Returns the public key of the subject (target) of the certification
+ path, including any inherited public key parameters if applicable.
+
+Returns:
+the public key of the subject (never null)
+
+
+"
+18,PKIXCertPathValidatorResult,4,String toString(),True,,"
+
+toString
+public String toString()
+Return a printable representation of this
+ PKIXCertPathValidatorResult.
+
+Overrides:
+toString in class Object
+Returns:
+a String describing the contents of this
+         PKIXCertPathValidatorResult
+
+
+"
+18,PKIXCertPathValidatorResult,5,Object clone(),True,,"
+
+clone
+public Object clone()
+Returns a copy of this object.
+
+Specified by:
+clone in interface CertPathValidatorResult
+Overrides:
+clone in class Object
+Returns:
+the copy
+See Also:
+Cloneable
+
+
+"
+19,PKIXParameters,1,void setInitialPolicies(Set<PolicyNode> initialPolicies),False,,NULL
+19,PKIXParameters,2,void setCertStores(List<CertStore> stores),True,,"
+
+setCertStores
+public void setCertStores(List<CertStore> stores)
+Sets the list of CertStores to be used in finding
+ certificates and CRLs. May be null, in which case
+ no CertStores will be used. The first
+ CertStores in the list may be preferred to those that
+ appear later.
+ 
+ Note that the List is copied to protect against
+ subsequent modifications.
+
+Parameters:
+stores - a List of CertStores (or
+ null)
+Throws:
+ClassCastException - if any of the elements in the list are
+ not of type java.security.cert.CertStore
+See Also:
+getCertStores()
+
+
+"
+19,PKIXParameters,3,void setDate(Date date),True,,"
+
+setDate
+public void setDate(Date date)
+Sets the time for which the validity of the certification path
+ should be determined. If null, the current time is used.
+ 
+ Note that the Date supplied here is copied to protect
+ against subsequent modifications.
+
+Parameters:
+date - the Date, or null for the
+ current time
+See Also:
+getDate()
+
+
+"
+19,PKIXParameters,4,void setRevocationEnabled(boolean val),True,,"
+
+setRevocationEnabled
+public void setRevocationEnabled(boolean val)
+Sets the RevocationEnabled flag. If this flag is true, the default
+ revocation checking mechanism of the underlying PKIX service provider
+ will be used. If this flag is false, the default revocation checking
+ mechanism will be disabled (not used).
+ 
+ When a PKIXParameters object is created, this flag is set
+ to true. This setting reflects the most common strategy for checking
+ revocation, since each service provider must support revocation
+ checking to be PKIX compliant. Sophisticated applications should set
+ this flag to false when it is not practical to use a PKIX service
+ provider's default revocation checking mechanism or when an alternative
+ revocation checking mechanism is to be substituted (by also calling the
+ addCertPathChecker or setCertPathCheckers methods).
+
+Parameters:
+val - the new value of the RevocationEnabled flag
+
+
+"
+19,PKIXParameters,5,void setSigProvider(String sigProvider),True,,"
+
+setSigProvider
+public void setSigProvider(String sigProvider)
+Sets the signature provider's name. The specified provider will be
+ preferred when creating Signature
+ objects. If null or not set, the first provider found
+ supporting the algorithm will be used.
+
+Parameters:
+sigProvider - the signature provider's name (or null)
+See Also:
+getSigProvider()
+
+
+"
+20,PKIXRevocationChecker,1,void setOcspResponses(List<OCSPResponse> responses),False,,NULL
+20,PKIXRevocationChecker,2,void setOptions(Set<Option> options),False,,NULL
+20,PKIXRevocationChecker,3,"void setOcspExtensions(Map<String, Extension> extensions)",False,,NULL
+20,PKIXRevocationChecker,4,"void setOcspExtensionsOverride(Map<String, Extension> extensions)",False,,NULL
+20,PKIXRevocationChecker,5,void setOcspResponder(URI uri),True,,"
+
+setOcspResponder
+public void setOcspResponder(URI uri)
+Sets the URI that identifies the location of the OCSP responder. This
+ overrides the ocsp.responderURL security property and any
+ responder specified in a certificate's Authority Information Access
+ Extension, as defined in RFC 5280.
+
+Parameters:
+uri - the responder URI
+
+
+"
+21,PolicyQualifierInfo,1,String getPolicyQualifierId(),True,,"
+
+getPolicyQualifierId
+public final String getPolicyQualifierId()
+Returns the policyQualifierId field of this
+ PolicyQualifierInfo. The policyQualifierId
+ is an Object Identifier (OID) represented by a set of nonnegative
+ integers separated by periods.
+
+Returns:
+the OID (never null)
+
+
+"
+21,PolicyQualifierInfo,2,byte[] getPolicyQualifier(),True,,"
+
+getPolicyQualifier
+public final byte[] getPolicyQualifier()
+Returns the ASN.1 DER encoded form of the qualifier
+ field of this PolicyQualifierInfo.
+
+Returns:
+the ASN.1 DER encoded bytes of the qualifier
+ field. Note that a copy is returned, so the data is cloned each
+ time this method is called.
+
+
+"
+21,PolicyQualifierInfo,3,PolicyQualifierInfo[] getPolicyQualifiers(),False,,NULL
+21,PolicyQualifierInfo,4,String toString(),True,,"
+
+toString
+public String toString()
+Return a printable representation of this
+ PolicyQualifierInfo.
+
+Overrides:
+toString in class Object
+Returns:
+a String describing the contents of this
+         PolicyQualifierInfo
+
+
+"
+21,PolicyQualifierInfo,5,boolean equals(Object other),False,,NULL
+22,TrustAnchor,1,PublicKey getTrustedCert(),False,,NULL
+22,TrustAnchor,2,String getNameConstraints(),False,,NULL
+22,TrustAnchor,3,X500Principal getCA(),True,,"
+
+getCA
+public final X500Principal getCA()
+Returns the name of the most-trusted CA as an X500Principal.
+
+Returns:
+the X.500 distinguished name of the most-trusted CA, or
+ null if the trust anchor was not specified as a trusted
+ public key and name or X500Principal pair
+Since:
+1.5
+
+
+"
+22,TrustAnchor,4,Set<String> getPolicyQualifiers(),False,,NULL
+22,TrustAnchor,5,byte[] getNameConstraintsEncoded(),False,,NULL
+23,X509Certificate,1,PublicKey getPublicKey(),False,,NULL
+23,X509Certificate,2,Collection<List<?>> getSubjectAlternativeNames(),True,,"
+
+getSubjectAlternativeNames
+public Collection<List<?>> getSubjectAlternativeNames()
+                                               throws CertificateParsingException
+Gets an immutable collection of subject alternative names from the
+ SubjectAltName extension, (OID = 2.5.29.17).
+ 
+ The ASN.1 definition of the SubjectAltName extension is:
+ 
+ SubjectAltName ::= GeneralNames
+
+ GeneralNames :: = SEQUENCE SIZE (1..MAX) OF GeneralName
+
+ GeneralName ::= CHOICE {
+      otherName                       [0]     OtherName,
+      rfc822Name                      [1]     IA5String,
+      dNSName                         [2]     IA5String,
+      x400Address                     [3]     ORAddress,
+      directoryName                   [4]     Name,
+      ediPartyName                    [5]     EDIPartyName,
+      uniformResourceIdentifier       [6]     IA5String,
+      iPAddress                       [7]     OCTET STRING,
+      registeredID                    [8]     OBJECT IDENTIFIER}
+ 
+
+ If this certificate does not contain a SubjectAltName
+ extension, null is returned. Otherwise, a
+ Collection is returned with an entry representing each
+ GeneralName included in the extension. Each entry is a
+ List whose first entry is an Integer
+ (the name type, 0-8) and whose second entry is a String
+ or a byte array (the name, in string or ASN.1 DER encoded form,
+ respectively).
+ 
+RFC 822, DNS, and URI
+ names are returned as Strings,
+ using the well-established string formats for those types (subject to
+ the restrictions included in RFC 3280). IPv4 address names are
+ returned using dotted quad notation. IPv6 address names are returned
+ in the form ""a1:a2:...:a8"", where a1-a8 are hexadecimal values
+ representing the eight 16-bit pieces of the address. OID names are
+ returned as Strings represented as a series of nonnegative
+ integers separated by periods. And directory names (distinguished names)
+ are returned in 
+ RFC 2253 string format. No standard string format is
+ defined for otherNames, X.400 names, EDI party names, or any
+ other type of names. They are returned as byte arrays
+ containing the ASN.1 DER encoded form of the name.
+ 
+ Note that the Collection returned may contain more
+ than one name of the same type. Also, note that the returned
+ Collection is immutable and any entries containing byte
+ arrays are cloned to protect against subsequent modifications.
+ 
+ This method was added to version 1.4 of the Java 2 Platform Standard
+ Edition. In order to maintain backwards compatibility with existing
+ service providers, this method is not abstract
+ and it provides a default implementation. Subclasses
+ should override this method with a correct implementation.
+
+Returns:
+an immutable Collection of subject alternative
+ names (or null)
+Throws:
+CertificateParsingException - if the extension cannot be decoded
+Since:
+1.4
+
+
+"
+23,X509Certificate,3,boolean hasUnsupportedCriticalExtension(),False,,NULL
+23,X509Certificate,4,byte[] getEncoded(),False,,NULL
+23,X509Certificate,5,void checkValidity(Date date),True,,"
+
+checkValidity
+public abstract void checkValidity(Date date)
+                            throws CertificateExpiredException,
+                                   CertificateNotYetValidException
+Checks that the given date is within the certificate's
+ validity period. In other words, this determines whether the
+ certificate would be valid at the given date/time.
+
+Parameters:
+date - the Date to check against to see if this certificate
+        is valid at that date/time.
+Throws:
+CertificateExpiredException - if the certificate has expired
+ with respect to the date supplied.
+CertificateNotYetValidException - if the certificate is not
+ yet valid with respect to the date supplied.
+See Also:
+checkValidity()
+
+
+"
+24,X509CertSelector,1,void setSubject(String subject),True,,"
+
+setSubject
+public void setSubject(String subjectDN)
+                throws IOException
+Denigrated, use setSubject(X500Principal)
+ or setSubject(byte[]) instead. This method should not be
+ relied on as it can fail to match some certificates because of a loss of
+ encoding information in the RFC 2253 String form of some distinguished
+ names.
+ 
+ Sets the subject criterion. The specified distinguished name
+ must match the subject distinguished name in the
+ X509Certificate. If null, any subject
+ distinguished name will do.
+ 
+ If subjectDN is not null, it should contain a
+ distinguished name, in RFC 2253 format.
+
+Parameters:
+subjectDN - a distinguished name in RFC 2253 format
+                  (or null)
+Throws:
+IOException - if a parsing error occurs (incorrect form for DN)
+
+
+"
+24,X509CertSelector,2,void setIssuer(String issuer),True,,"
+
+setIssuer
+public void setIssuer(String issuerDN)
+               throws IOException
+Denigrated, use setIssuer(X500Principal)
+ or setIssuer(byte[]) instead. This method should not be
+ relied on as it can fail to match some certificates because of a loss of
+ encoding information in the
+ RFC 2253 String form
+ of some distinguished names.
+ 
+ Sets the issuer criterion. The specified distinguished name
+ must match the issuer distinguished name in the
+ X509Certificate. If null, any issuer
+ distinguished name will do.
+ 
+ If issuerDN is not null, it should contain a
+ distinguished name, in RFC 2253 format.
+
+Parameters:
+issuerDN - a distinguished name in RFC 2253 format
+                 (or null)
+Throws:
+IOException - if a parsing error occurs (incorrect form for DN)
+
+
+"
+24,X509CertSelector,3,void setSerialNumber(BigInteger serialNumber),True,,"
+
+setSerialNumber
+public void setSerialNumber(BigInteger serial)
+Sets the serialNumber criterion. The specified serial number
+ must match the certificate serial number in the
+ X509Certificate. If null, any certificate
+ serial number will do.
+
+Parameters:
+serial - the certificate serial number to match
+        (or null)
+See Also:
+getSerialNumber()
+
+
+"
+24,X509CertSelector,4,void setCertificateValid(Date date),True,,"
+
+setCertificateValid
+public void setCertificateValid(Date certValid)
+Sets the certificateValid criterion. The specified date must fall
+ within the certificate validity period for the
+ X509Certificate. If null, no certificateValid
+ check will be done.
+ 
+ Note that the Date supplied here is cloned to protect
+ against subsequent modifications.
+
+Parameters:
+certValid - the Date to check (or null)
+See Also:
+getCertificateValid()
+
+
+"
+24,X509CertSelector,5,void setKeyUsage(boolean[] keyUsage),True,,"
+
+setKeyUsage
+public void setKeyUsage(boolean[] keyUsage)
+Sets the keyUsage criterion. The X509Certificate
+ must allow the specified keyUsage values. If null, no
+ keyUsage check will be done. Note that an X509Certificate
+ that has no keyUsage extension implicitly allows all keyUsage values.
+ 
+ Note that the boolean array supplied here is cloned to protect against
+ subsequent modifications.
+
+Parameters:
+keyUsage - a boolean array in the same format as the boolean
+                 array returned by
+ X509Certificate.getKeyUsage().
+                 Or null.
+See Also:
+getKeyUsage()
+
+
+"
+25,X509CRL,1,X509CRLEntry getRevokedCertificate(X509Certificate certificate),True,,"
+
+getRevokedCertificate
+public X509CRLEntry getRevokedCertificate(X509Certificate certificate)
+Get the CRL entry, if any, for the given certificate.
+
+ This method can be used to lookup CRL entries in indirect CRLs,
+ that means CRLs that contain entries from issuers other than the CRL
+ issuer. The default implementation will only return entries for
+ certificates issued by the CRL issuer. Subclasses that wish to
+ support indirect CRLs should override this method.
+
+Parameters:
+certificate - the certificate for which a CRL entry is to be looked
+   up
+Returns:
+the entry for the given certificate, or null if no such entry
+   exists in this CRL.
+Throws:
+NullPointerException - if certificate is null
+Since:
+1.5
+
+
+"
+25,X509CRL,2,Set<? extends X509CRLEntry> getRevokedCertificates(),True,,"
+
+getRevokedCertificates
+public abstract Set<? extends X509CRLEntry> getRevokedCertificates()
+Gets all the entries from this CRL.
+ This returns a Set of X509CRLEntry objects.
+
+Returns:
+all the entries or null if there are none present.
+See Also:
+X509CRLEntry
+
+
+"
+25,X509CRL,3,X500Principal getIssuerDN(),False,,NULL
+25,X509CRL,4,Date getNextUpdate(),True,,"
+
+getNextUpdate
+public abstract Date getNextUpdate()
+Gets the nextUpdate date from the CRL.
+
+Returns:
+the nextUpdate date from the CRL, or null if
+ not present.
+
+
+"
+25,X509CRL,5,X509CRLEntry getRevokedCertificate(BigInteger serialNumber),True,,"
+
+getRevokedCertificate
+public abstract X509CRLEntry getRevokedCertificate(BigInteger serialNumber)
+Gets the CRL entry, if any, with the given certificate serialNumber.
+
+Parameters:
+serialNumber - the serial number of the certificate for which a CRL entry
+ is to be looked up
+Returns:
+the entry with the given serial number, or null if no such entry
+ exists in this CRL.
+See Also:
+X509CRLEntry
+
+
+"
+26,X509CRLEntry,1,byte[] getEncoded(),True,,"
+
+getEncoded
+public abstract byte[] getEncoded()
+                           throws CRLException
+Returns the ASN.1 DER-encoded form of this CRL Entry,
+ that is the inner SEQUENCE.
+
+Returns:
+the encoded form of this certificate
+Throws:
+CRLException - if an encoding error occurs.
+
+
+"
+26,X509CRLEntry,2,BigInteger getSerialNumber(),True,,"
+
+getSerialNumber
+public abstract BigInteger getSerialNumber()
+Gets the serial number from this X509CRLEntry,
+ the userCertificate.
+
+Returns:
+the serial number.
+
+
+"
+26,X509CRLEntry,3,Date getRevocationDate(),True,,"
+
+getRevocationDate
+public abstract Date getRevocationDate()
+Gets the revocation date from this X509CRLEntry,
+ the revocationDate.
+
+Returns:
+the revocation date.
+
+
+"
+26,X509CRLEntry,4,boolean hasExtensions(),True,,"
+
+hasExtensions
+public abstract boolean hasExtensions()
+Returns true if this CRL entry has extensions.
+
+Returns:
+true if this entry has extensions, false otherwise.
+
+
+"
+26,X509CRLEntry,5,String toString(),True,,"
+
+toString
+public abstract String toString()
+Returns a string representation of this CRL entry.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of this CRL entry.
+
+
+"
+27,X509CRLSelector,1,void setIssuers(Collection<X500Principal> issuers),True,,"
+
+setIssuers
+public void setIssuers(Collection<X500Principal> issuers)
+Sets the issuerNames criterion. The issuer distinguished name in the
+ X509CRL must match at least one of the specified
+ distinguished names. If null, any issuer distinguished name
+ will do.
+ 
+ This method allows the caller to specify, with a single method call,
+ the complete set of issuer names which X509CRLs may contain.
+ The specified value replaces the previous value for the issuerNames
+ criterion.
+ 
+ The names parameter (if not null) is a
+ Collection of X500Principals.
+ 
+ Note that the names parameter can contain duplicate
+ distinguished names, but they may be removed from the
+ Collection of names returned by the
+ getIssuers method.
+ 
+ Note that a copy is performed on the Collection to
+ protect against subsequent modifications.
+
+Parameters:
+issuers - a Collection of X500Principals
+   (or null)
+Since:
+1.5
+See Also:
+getIssuers()
+
+
+"
+27,X509CRLSelector,2,void setDateAndTime(Date dateAndTime),True,,"
+
+setDateAndTime
+public void setDateAndTime(Date dateAndTime)
+Sets the dateAndTime criterion. The specified date must be
+ equal to or later than the value of the thisUpdate component
+ of the X509CRL and earlier than the value of the
+ nextUpdate component. There is no match if the X509CRL
+ does not contain a nextUpdate component.
+ If null, no dateAndTime check will be done.
+ 
+ Note that the Date supplied here is cloned to protect
+ against subsequent modifications.
+
+Parameters:
+dateAndTime - the Date to match against
+                    (or null)
+See Also:
+getDateAndTime()
+
+
+"
+27,X509CRLSelector,3,void setCertificateChecking(X509Certificate cert),True,,"
+
+setCertificateChecking
+public void setCertificateChecking(X509Certificate cert)
+Sets the certificate being checked. This is not a criterion. Rather,
+ it is optional information that may help a CertStore
+ find CRLs that would be relevant when checking revocation for the
+ specified certificate. If null is specified, then no
+ such optional information is provided.
+
+Parameters:
+cert - the X509Certificate being checked
+             (or null)
+See Also:
+getCertificateChecking()
+
+
+"
+27,X509CRLSelector,4,void addIssuer(X500Principal issuer),True,,"
+
+addIssuer
+public void addIssuer(X500Principal issuer)
+Adds a name to the issuerNames criterion. The issuer distinguished
+ name in the X509CRL must match at least one of the specified
+ distinguished names.
+ 
+ This method allows the caller to add a name to the set of issuer names
+ which X509CRLs may contain. The specified name is added to
+ any previous value for the issuerNames criterion.
+ If the specified name is a duplicate, it may be ignored.
+
+Parameters:
+issuer - the issuer as X500Principal
+Since:
+1.5
+
+
+"
+27,X509CRLSelector,5,void addIssuerName(String issuerName),True,,"
+
+addIssuerName
+public void addIssuerName(String name)
+                   throws IOException
+Denigrated, use
+ addIssuer(X500Principal) or
+ addIssuerName(byte[]) instead. This method should not be
+ relied on as it can fail to match some CRLs because of a loss of
+ encoding information in the RFC 2253 String form of some distinguished
+ names.
+ 
+ Adds a name to the issuerNames criterion. The issuer distinguished
+ name in the X509CRL must match at least one of the specified
+ distinguished names.
+ 
+ This method allows the caller to add a name to the set of issuer names
+ which X509CRLs may contain. The specified name is added to
+ any previous value for the issuerNames criterion.
+ If the specified name is a duplicate, it may be ignored.
+
+Parameters:
+name - the name in RFC 2253 form
+Throws:
+IOException - if a parsing error occurs
+
+
+"

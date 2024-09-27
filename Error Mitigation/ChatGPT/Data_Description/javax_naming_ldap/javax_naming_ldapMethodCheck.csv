@@ -1,0 +1,522 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,BasicControl,1,byte[] getEncodedValue(),True,,"
+
+getEncodedValue
+public byte[] getEncodedValue()
+Retrieves the control's ASN.1 BER encoded value.
+ The result includes the BER tag and length for the control's value but
+ does not include the control's object identifier and criticality setting.
+
+Specified by:
+getEncodedValue in interface Control
+Returns:
+A possibly null byte array representing the control's
+          ASN.1 BER encoded value. It is not cloned - any changes to the
+          returned value will affect the contents of the control.
+
+
+"
+0,BasicControl,2,String getID(),True,,"
+
+getID
+public String getID()
+Retrieves the control's object identifier string.
+
+Specified by:
+getID in interface Control
+Returns:
+The non-null object identifier string.
+
+
+"
+0,BasicControl,3,boolean isCritical(),True,,"
+
+isCritical
+public boolean isCritical()
+Determines the control's criticality.
+
+Specified by:
+isCritical in interface Control
+Returns:
+true if the control is critical; false otherwise.
+
+
+"
+0,BasicControl,4,void setCritical(boolean criticality),False,,NULL
+0,BasicControl,5,void setEncodedValue(byte[] value),False,,NULL
+1,ControlFactory,1,Control getControlInstance(Control control),True,,"
+
+getControlInstance
+public abstract Control getControlInstance(Control ctl)
+                                    throws NamingException
+Creates a control using this control factory.
+
+ The factory is used by the service provider to return controls
+ that it reads from the LDAP protocol as specialized control classes.
+ Without this mechanism, the provider would be returning
+ controls that only contained data in BER encoded format.
+
+ Typically, ctl is a ""basic"" control containing
+ BER encoded data. The factory is used to create a specialized
+ control implementation, usually by decoding the BER encoded data,
+ that provides methods to access that data in a type-safe and friendly
+ manner.
+ 
+ For example, a factory might use the BER encoded data in
+ basic control and return an instance of a VirtualListReplyControl.
+
+ If this factory cannot create a control using the argument supplied,
+ it should return null.
+ A factory should only throw an exception if it is sure that
+ it is the only intended factory and that no other control factories
+ should be tried. This might happen, for example, if the BER data
+ in the control does not match what is expected of a control with
+ the given OID. Since this method throws NamingException,
+ any other internally generated exception that should be propagated
+ must be wrapped inside a NamingException.
+
+Parameters:
+ctl - A non-null control.
+Returns:
+A possibly null Control.
+Throws:
+NamingException - If ctl contains invalid data that prevents it
+ from being used to create a control. A factory should only throw
+ an exception if it knows how to produce the control (identified by the OID)
+ but is unable to because of, for example invalid BER data.
+
+
+"
+1,ControlFactory,2,"Control getControlInstance(Control control, Name name, Context context, Hashtable<?, ?> environment)",False,,NULL
+1,ControlFactory,3,"Control getControlInstance(String oid, byte[] value)",False,,NULL
+1,ControlFactory,4,"Control getControlInstance(String oid, boolean criticality, byte[] value)",False,,NULL
+1,ControlFactory,5,"Control getControlInstance(String oid, boolean criticality, byte[] value, int offset, int length)",False,,NULL
+2,InitialLdapContext,1,ExtendedResponse extendedOperation(ExtendedRequest request),True,,"
+
+extendedOperation
+public ExtendedResponse extendedOperation(ExtendedRequest request)
+                                   throws NamingException
+Description copied from interface: LdapContext
+Performs an extended operation.
+
+ This method is used to support LDAPv3 extended operations.
+
+Specified by:
+extendedOperation in interface LdapContext
+Parameters:
+request - The non-null request to be performed.
+Returns:
+The possibly null response of the operation. null means
+ the operation did not generate any response.
+Throws:
+NamingException - If an error occurred while performing the
+ extended operation.
+
+
+"
+2,InitialLdapContext,2,Control[] getConnectControls(),True,,"
+
+getConnectControls
+public Control[] getConnectControls()
+                             throws NamingException
+Description copied from interface: LdapContext
+Retrieves the connection request controls in effect for this context.
+ The controls are owned by the JNDI implementation and are
+ immutable. Neither the array nor the controls may be modified by the
+ caller.
+
+Specified by:
+getConnectControls in interface LdapContext
+Returns:
+A possibly-null array of controls. null means no connect controls
+ have been set for this context.
+Throws:
+NamingException - If an error occurred while getting the request
+ controls.
+
+
+"
+2,InitialLdapContext,3,void setRequestControls(Control[] requestControls),True,,"
+
+setRequestControls
+public void setRequestControls(Control[] requestControls)
+                        throws NamingException
+Description copied from interface: LdapContext
+Sets the request controls for methods subsequently
+ invoked on this context.
+ The request controls are owned by the JNDI implementation and are
+ immutable. Neither the array nor the controls may be modified by the
+ caller.
+ 
+ This removes any previous request controls and adds
+ requestControls
+ for use by subsequent methods invoked on this context.
+ This method does not affect this context's connection request controls.
+
+ Note that requestControls will be in effect until the next
+ invocation of setRequestControls(). You need to explicitly
+ invoke setRequestControls() with null or an empty
+ array to clear the controls if you don't want them to affect the
+ context methods any more.
+ To check what request controls are in effect for this context, use
+ getRequestControls().
+
+Specified by:
+setRequestControls in interface LdapContext
+Parameters:
+requestControls - The possibly null controls to use. If null, no
+ controls are used.
+Throws:
+NamingException - If an error occurred while setting the
+ request controls.
+See Also:
+LdapContext.getRequestControls()
+
+
+"
+2,InitialLdapContext,4,void setResponseControls(Control[] responseControls),False,,NULL
+2,InitialLdapContext,5,void setRequestControls(Control[] requestControls),True,,"
+
+setRequestControls
+public void setRequestControls(Control[] requestControls)
+                        throws NamingException
+Description copied from interface: LdapContext
+Sets the request controls for methods subsequently
+ invoked on this context.
+ The request controls are owned by the JNDI implementation and are
+ immutable. Neither the array nor the controls may be modified by the
+ caller.
+ 
+ This removes any previous request controls and adds
+ requestControls
+ for use by subsequent methods invoked on this context.
+ This method does not affect this context's connection request controls.
+
+ Note that requestControls will be in effect until the next
+ invocation of setRequestControls(). You need to explicitly
+ invoke setRequestControls() with null or an empty
+ array to clear the controls if you don't want them to affect the
+ context methods any more.
+ To check what request controls are in effect for this context, use
+ getRequestControls().
+
+Specified by:
+setRequestControls in interface LdapContext
+Parameters:
+requestControls - The possibly null controls to use. If null, no
+ controls are used.
+Throws:
+NamingException - If an error occurred while setting the
+ request controls.
+See Also:
+LdapContext.getRequestControls()
+
+
+"
+3,LdapName,1,int compareTo(Object obj),True,,"
+
+compareTo
+public int compareTo(Object obj)
+Compares this LdapName with the specified Object for order.
+ Returns a negative integer, zero, or a positive integer as this
+ Name is less than, equal to, or greater than the given Object.
+ 
+ If obj is null or not an instance of LdapName, ClassCastException
+ is thrown.
+ 
+ Ordering of LDAP names follows the lexicographical rules for
+ string comparison, with the extension that this applies to all
+ the RDNs in the LDAP name. All the RDNs are lined up in their
+ specified order and compared lexicographically.
+ See Rdn.compareTo(Object obj)
+ for RDN comparison rules.
+ 
+ If this LDAP name is lexicographically lesser than obj,
+ a negative number is returned.
+ If this LDAP name is lexicographically greater than obj,
+ a positive number is returned.
+
+Specified by:
+compareTo in interface Comparable<Object>
+Specified by:
+compareTo in interface Name
+Parameters:
+obj - The non-null LdapName instance to compare against.
+Returns:
+A negative integer, zero, or a positive integer as this Name
+          is less than, equal to, or greater than the given obj.
+Throws:
+ClassCastException - if obj is null or not a LdapName.
+See Also:
+Comparable.compareTo(Object)
+
+
+"
+3,LdapName,2,boolean startsWith(LdapName prefix),False,,NULL
+3,LdapName,3,LdapName getSuffix(int posn),False,,NULL
+3,LdapName,4,int size(),True,,"
+
+size
+public int size()
+Retrieves the number of components in this LDAP name.
+
+Specified by:
+size in interface Name
+Returns:
+The non-negative number of components in this LDAP name.
+
+
+"
+3,LdapName,5,String toString(),True,,"
+
+toString
+public String toString()
+Returns a string representation of this LDAP name in a format
+ defined by RFC 2253
+ and described in the class description. If the name has zero
+ components an empty string is returned.
+
+Overrides:
+toString in class Object
+Returns:
+The string representation of the LdapName.
+
+
+"
+4,ManageReferralControl,1,void setReferralContext(LdapReferralContext ctx),False,,NULL
+4,ManageReferralControl,2,LdapReferralContext getReferralContext(),False,,NULL
+4,ManageReferralControl,3,void setHopCount(int hopCount),False,,NULL
+4,ManageReferralControl,4,int getHopCount(),False,,NULL
+4,ManageReferralControl,5,void setManageReferral(boolean manageReferral),False,,NULL
+5,PagedResultsControl,1,int getResultSize(),False,,NULL
+5,PagedResultsControl,2,byte[] getCookie(),False,,NULL
+5,PagedResultsControl,3,boolean isCritical(),False,,NULL
+5,PagedResultsControl,4,void setSize(int size),False,,NULL
+5,PagedResultsControl,5,void setCookie(byte[] cookie),False,,NULL
+6,PagedResultsResponseControl,1,int getResultSize(),True,,"
+
+getResultSize
+public int getResultSize()
+Retrieves (an estimate of) the number of entries in the search result.
+
+Returns:
+The number of entries in the search result, or zero if unknown.
+
+
+"
+6,PagedResultsResponseControl,2,byte[] getCookie(),True,,"
+
+getCookie
+public byte[] getCookie()
+Retrieves the server-generated cookie. Null is returned when there are
+ no more entries for the server to return.
+
+Returns:
+A possibly null server-generated cookie. It is not cloned - any
+         changes to the cookie will update the control's state and thus
+         are not recommended.
+
+
+"
+6,PagedResultsResponseControl,3,boolean isEndOfResults(),False,,NULL
+6,PagedResultsResponseControl,4,int getEstimatedPageSize(),False,,NULL
+6,PagedResultsResponseControl,5,int getRemaining(),False,,NULL
+7,Rdn,1,String getType(),True,,"
+
+getType
+public String getType()
+Retrieves one of this Rdn's type.
+ This is a convenience method for obtaining the type,
+ when the RDN contains a single type and value mapping,
+ which is the common RDN usage.
+ 
+ For a multi-valued RDN, the type/value pairs have
+ no specific order defined on them. In that case, this method
+ returns type of one of the type/value pairs.
+ The getValue() method returns the
+ value corresponding to the type returned by this method.
+
+Returns:
+The non-null attribute type.
+
+
+"
+7,Rdn,2,String getValue(),False,,NULL
+7,Rdn,3,boolean equals(Object obj),True,,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified Object with this Rdn for equality.
+ Returns true if the given object is also a Rdn and the two Rdns
+ represent the same attribute type and value mappings. The order of
+ components in multi-valued Rdns (such as ""ou=Sales+cn=Bob"") is not
+ significant.
+ 
+ Type and value equality matching is done as below:
+ 
+ The types are compared for equality with their case ignored.
+  String values with different but equivalent usage of quoting,
+ escaping, or UTF8-hex-encoding are considered equal.
+ The case of the values is ignored during the comparison.
+ 
+
+ If obj is null or not an instance of Rdn, false is returned.
+ 
+
+Overrides:
+equals in class Object
+Parameters:
+obj - object to be compared for equality with this Rdn.
+Returns:
+true if the specified object is equal to this Rdn.
+See Also:
+hashCode()
+
+
+"
+7,Rdn,4,int compareTo(Object obj),True,,"
+
+compareTo
+public int compareTo(Object obj)
+Compares this Rdn with the specified Object for order.
+ Returns a negative integer, zero, or a positive integer as this
+ Rdn is less than, equal to, or greater than the given Object.
+ 
+ If obj is null or not an instance of Rdn, ClassCastException
+ is thrown.
+ 
+ The attribute type and value pairs of the RDNs are lined up
+ against each other and compared lexicographically. The order of
+ components in multi-valued Rdns (such as ""ou=Sales+cn=Bob"") is not
+ significant.
+
+Specified by:
+compareTo in interface Comparable<Object>
+Parameters:
+obj - The non-null object to compare against.
+Returns:
+A negative integer, zero, or a positive integer as this Rdn
+          is less than, equal to, or greater than the given Object.
+Throws:
+ClassCastException - if obj is null or not a Rdn.
+
+
+"
+7,Rdn,5,String toString(),True,,"
+
+toString
+public String toString()
+Returns this Rdn as a string represented in a format defined by
+ RFC 2253 and described
+ in the class description for LdapName.
+
+Overrides:
+toString in class Object
+Returns:
+The string representation of the Rdn.
+
+
+"
+8,SortControl,1,"SortControl(byte[] sortBy, boolean critical)",False,,NULL
+8,SortControl,2,byte[] getEncodedValue(),False,,NULL
+8,SortControl,3,String getID(),False,,NULL
+8,SortControl,4,boolean isCritical(),False,,NULL
+8,SortControl,5,String toString(),False,,NULL
+9,SortKey,1,SortKey(String attrID),False,,NULL
+9,SortKey,2,String getAttributeID(),True,,"
+
+getAttributeID
+public String getAttributeID()
+Retrieves the attribute ID of the sort key.
+
+Returns:
+The non-null Attribute ID of the sort key.
+
+
+"
+9,SortKey,3,void setAscending(boolean ascendingOrder),False,,NULL
+9,SortKey,4,boolean isAscending(),True,,"
+
+isAscending
+public boolean isAscending()
+Determines the sort order.
+
+Returns:
+true if the sort order is ascending, false if descending.
+
+
+"
+9,SortKey,5,void setMatchingRuleID(String matchingRuleID),False,,NULL
+10,SortResponseControl,1,int getSortResult(),False,,NULL
+10,SortResponseControl,2,String getAttributeID(),True,,"
+
+getAttributeID
+public String getAttributeID()
+Retrieves the ID of the attribute that caused the sort to fail.
+ Returns null if no ID was returned by the server.
+
+Returns:
+The possibly null ID of the bad attribute.
+
+
+"
+10,SortResponseControl,3,byte[] getCookie(),False,,NULL
+10,SortResponseControl,4,boolean isSorted(),True,,"
+
+isSorted
+public boolean isSorted()
+Determines if the search results have been successfully sorted.
+ If an error occurred during sorting a NamingException is thrown.
+
+Returns:
+true if the search results have been sorted.
+
+
+"
+10,SortResponseControl,5,String toString(),False,,NULL
+11,StartTlsRequest,1,void setHostname(String hostname),False,,NULL
+11,StartTlsRequest,2,void setPort(int port),False,,NULL
+11,StartTlsRequest,3,void setEnabledCipherSuites(String[] suites),False,,NULL
+11,StartTlsRequest,4,void setEnabledProtocols(String[] protocols),False,,NULL
+11,StartTlsRequest,5,void setSocketFactory(SocketFactory factory),False,,NULL
+12,StartTlsResponse,1,void close(),True,,"
+
+close
+public abstract void close()
+                    throws IOException
+Closes the TLS connection gracefully and reverts back to the underlying
+ connection.
+
+Throws:
+IOException - If an IO error was encountered while closing the
+ TLS connection
+
+
+"
+12,StartTlsResponse,2,javax.net.ssl.SSLSession negotiate(),False,,NULL
+12,StartTlsResponse,3,void setEnabledCipherSuites(String[] suites),True,,"
+
+setEnabledCipherSuites
+public abstract void setEnabledCipherSuites(String[] suites)
+Overrides the default list of cipher suites enabled for use on the
+ TLS connection. The cipher suites must have already been listed by
+ SSLSocketFactory.getSupportedCipherSuites() as being supported.
+ Even if a suite has been enabled, it still might not be used because
+ the peer does not support it, or because the requisite certificates
+ (and private keys) are not available.
+
+Parameters:
+suites - The non-null list of names of all the cipher suites to
+ enable.
+See Also:
+negotiate()
+
+
+"
+12,StartTlsResponse,4,void setEnabledProtocols(String[] protocols),False,,NULL
+12,StartTlsResponse,5,void setHostnameVerifier(javax.net.ssl.HostnameVerifier verifier),False,,NULL
+13,UnsolicitedNotificationEvent,1,javax.naming.ldap.UnsolicitedNotification getNotification(),False,,NULL
+13,UnsolicitedNotificationEvent,2,javax.naming.ldap.Control[] getControls(),False,,NULL
+13,UnsolicitedNotificationEvent,3,javax.naming.ldap.LdapContext getLdapContext(),False,,NULL
+13,UnsolicitedNotificationEvent,4,java.lang.String getException(),False,,NULL
+13,UnsolicitedNotificationEvent,5,java.lang.String toString(),False,,NULL

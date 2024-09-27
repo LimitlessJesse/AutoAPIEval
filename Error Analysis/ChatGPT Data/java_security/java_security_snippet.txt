@@ -1,0 +1,3249 @@
+Sample: 0 AccessControlContext_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AccessControlContext;
+
+public class Main {
+    public static void main(String[] args) {
+        AccessControlContext context1 = new AccessControlContext(null, null);
+        AccessControlContext context2 = new AccessControlContext(null, null);
+        
+        boolean result = context1.equals(context2);
+        System.out.println("Are the two access control contexts equal? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 1 AccessControlContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AccessControlContext;
+
+public class Main {
+    public static void main(String[] args) {
+        AccessControlContext context = new AccessControlContext();
+        int hashCode = context.hashCode();
+        System.out.println("HashCode of AccessControlContext: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 2 AccessControlContext_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Permission;
+import java.security.AccessControlContext;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        // Create a sample Permission object
+        Permission permission = new java.io.FilePermission("/tmp/test.txt", "read");
+        
+        // Create an AccessControlContext object
+        AccessControlContext context = AccessController.getContext();
+        
+        // Check permission using checkPermission method
+        context.checkPermission(permission);
+    }
+}
+```
+================================================================
+
+Sample: 3 AlgorithmParameterGenerator_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameterGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Initialize AlgorithmParameterGenerator with specified strength
+            AlgorithmParameterGenerator paramGen = AlgorithmParameterGenerator.getInstance("DiffieHellman");
+            int strength = 1024; // strength parameter
+            paramGen.init(strength);
+
+            // Generate parameters
+            paramGen.generateParameters();
+            System.out.println("AlgorithmParameterGenerator initialized successfully with strength: " + strength);
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        }
+    }
+}
+```
+
+This code snippet demonstrates how to use the `void init(int strength)` method from `java.security.AlgorithmParameterGenerator` to initialize the algorithm parameter generator with a specified strength.
+================================================================
+
+Sample: 4 AlgorithmParameterGenerator_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameters;
+import java.security.AlgorithmParameterGenerator;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            AlgorithmParameterGenerator paramGen = AlgorithmParameterGenerator.getInstance("AES");
+            paramGen.init(128);
+            AlgorithmParameters params = paramGen.generateParameters();
+            System.out.println("Generated parameters: " + params);
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 AlgorithmParameterGenerator_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameterGenerator;
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        int strength = 512;
+        SecureRandom random = new SecureRandom();
+        
+        AlgorithmParameterGenerator paramGen;
+        try {
+            paramGen = AlgorithmParameterGenerator.getInstance("DiffieHellman");
+            paramGen.init(strength, random);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 AlgorithmParameterGenerator_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameterGenerator;
+import java.security.AlgorithmParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        AlgorithmParameterGenerator paramGen = AlgorithmParameterGenerator.getInstance("RSA");
+        paramGen.init(new RSAKeyGenParameterSpec(1024, RSAKeyGenParameterSpec.F4));
+    }
+}
+```
+================================================================
+
+Sample: 7 AlgorithmParameterGenerator_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameterGenerator;
+import java.security.AlgorithmParameterSpec;
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            AlgorithmParameterGenerator paramGenerator = AlgorithmParameterGenerator.getInstance("AES");
+            AlgorithmParameterSpec paramSpec = null; // Initialize your AlgorithmParameterSpec here
+            SecureRandom random = new SecureRandom();
+            paramGenerator.init(paramSpec, random);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 AlgorithmParameterGeneratorSpi_2
+----------------------------------------------------------------
+`void engineInit(AlgorithmParameterSpec params, SecureRandom random)`: This method initializes this AlgorithmParameterGeneratorSpi implementation with the specified parameter set and random object.
+
+Code snippet:
+```java
+import java.security.AlgorithmParameterGeneratorSpi;
+import java.security.AlgorithmParameterSpec;
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        AlgorithmParameterGeneratorSpi exampleAPI = new AlgorithmParameterGeneratorSpi() {
+            @Override
+            protected void engineInit(AlgorithmParameterSpec params, SecureRandom random) {
+                // Implementation of engineInit method
+            }
+        };
+        
+        // Example usage of engineInit method
+        AlgorithmParameterSpec params = null; // Dummy parameter for demonstration
+        SecureRandom random = new SecureRandom(); // Dummy SecureRandom object
+        exampleAPI.engineInit(params, random);
+    }
+}
+```
+================================================================
+
+Sample: 9 AlgorithmParameterGeneratorSpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameterGenerator;
+import java.security.AlgorithmParameters;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            AlgorithmParameterGenerator generator = AlgorithmParameterGenerator.getInstance("DH");
+            SecureRandom random = new SecureRandom();
+            generator.init(1024, random);
+            AlgorithmParameters params = generator.generateParameters();
+            System.out.println("Generated parameters: " + params.toString());
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 AlgorithmParameterGeneratorSpi_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameterGenerator;
+import java.security.AlgorithmParameterGeneratorSpi;
+import java.security.AlgorithmParameters;
+import java.security.spec.AlgorithmParameterSpec;
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        AlgorithmParameterGenerator algorithmParameterGenerator;
+        try {
+            algorithmParameterGenerator = AlgorithmParameterGenerator.getInstance("RSA");
+            SecureRandom random = new SecureRandom();
+            AlgorithmParameterSpec genParamSpec = null; // Your specific algorithm parameter specification
+            algorithmParameterGenerator.engineInit(genParamSpec, random);
+            AlgorithmParameters algorithmParameters = algorithmParameterGenerator.generateParameters();
+            
+            // Use the generated AlgorithmParameters as needed
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 AlgorithmParameters_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameters;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            AlgorithmParameters algorithmParams = AlgorithmParameters.getInstance("AES");
+            System.out.println(algorithmParams.getAlgorithm());
+        } catch (NoSuchAlgorithmException e) {
+            System.err.println("Algorithm not found: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 AlgorithmParameters_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameters;
+import java.security.spec.AlgorithmParameterSpec;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        AlgorithmParameters algorithmParameters;
+        AlgorithmParameterSpec paramSpec;
+
+        // Initialize AlgorithmParameters using init method
+        try {
+            algorithmParameters = AlgorithmParameters.getInstance("AES");
+            algorithmParameters.init(paramSpec);
+            System.out.println("AlgorithmParameters initialized successfully");
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 AlgorithmParameters_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameters;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] params = {0, 1, 2, 3, 4};
+        AlgorithmParameters algorithmParameters = AlgorithmParameters.getInstance("DummyAlgorithm");
+        algorithmParameters.init(params);
+        System.out.println("AlgorithmParameters initialized successfully.");
+    }
+}
+```
+================================================================
+
+Sample: 14 AlgorithmParameters_4
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import java.security.AlgorithmParameters;
+import javax.crypto.spec.DHParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            AlgorithmParameters algorithmParams = AlgorithmParameters.getInstance("DiffieHellman");
+            byte[] params = {123, 45, 67, 89}; // Example parameters, actual values should be set accordingly
+            String format = "ASN.1"; // Example format, actual format should be set accordingly
+            algorithmParams.init(params, format);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 AlgorithmParametersSpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParametersSpi;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        AlgorithmParametersSpi algorithmParameters = new AlgorithmParametersSpi() {
+            @Override
+            protected byte[] engineGetEncoded() {
+                // Add your implementation here
+                return new byte[0];
+            }
+        };
+
+        byte[] encoded = algorithmParameters.engineGetEncoded();
+        System.out.println(Arrays.toString(encoded));
+    }
+}
+```
+================================================================
+
+Sample: 16 AlgorithmParametersSpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameterSpec;
+import java.security.AlgorithmParametersSpi;
+
+public class Main {
+    public void engineInit(AlgorithmParameterSpec paramSpec) {
+        // Implementation of the engineInit method goes here
+    }
+
+    public static void main(String[] args) {
+        // Code to demonstrate the use of engineInit method
+        Main main = new Main();
+        AlgorithmParameterSpec paramSpec = new AlgorithmParameterSpec(); // Example parameter spec object
+        main.engineInit(paramSpec);
+    }
+}
+```
+================================================================
+
+Sample: 17 AlgorithmParametersSpi_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParametersSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] params = new byte[]{1, 2, 3};
+        AlgorithmParametersSpi engine = new AlgorithmParametersSpi() {
+            @Override
+            protected byte[] engineGetEncoded() {
+                return new byte[0];
+            }
+
+            @Override
+            protected byte[] engineGetEncoded(String format) {
+                return new byte[0];
+            }
+
+            @Override
+            protected AlgorithmParameterSpec engineGetParameterSpec(Class paramSpec) {
+                return null;
+            }
+
+            @Override
+            protected void engineInit(byte[] params) {
+                // Implementation of engineInit method
+            }
+
+            @Override
+            protected void engineInit(AlgorithmParameterSpec paramSpec) {
+                
+            }
+        };
+        engine.engineInit(params);
+    }
+}
+```
+================================================================
+
+Sample: 18 AllPermission_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AllPermission;
+
+public class Main {
+    public static void main(String[] args) {
+        AllPermission allPermission = new AllPermission();
+        boolean result = allPermission.implies(new AllPermission());
+        System.out.println("Permission implied: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 19 AllPermission_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AllPermission;
+
+public class Main {
+    public static void main(String[] args) {
+        AllPermission perm = new AllPermission();
+        AllPermission perm2 = new AllPermission();
+        
+        // Using equals() method to compare two AllPermission objects
+        boolean result = perm.equals(perm2);
+        System.out.println("Are the two AllPermission objects equal? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 20 AllPermission_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AllPermission;
+
+public class Main {
+    public static void main(String[] args) {
+        AllPermission allPermission = new AllPermission();
+        int hashCode = allPermission.hashCode();
+        System.out.println("HashCode of AllPermission: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 21 AllPermission_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AllPermission;
+
+public class Main {
+    public static void main(String[] args) {
+        AllPermission permission = new AllPermission();
+        String actions = permission.getActions();
+        System.out.println("Actions allowed: " + actions);
+    }
+}
+```
+================================================================
+
+Sample: 22 AllPermission_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AllPermission;
+import java.security.PermissionCollection;
+
+public class Main {
+    public static void main(String[] args) {
+        PermissionCollection permissionCollection = new AllPermission().newPermissionCollection();
+        // use permissionCollection here
+    }
+}
+```
+================================================================
+
+Sample: 23 AuthProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.Subject;
+import javax.security.auth.CallbackHandler;
+import java.security.AuthProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        AuthProvider authProvider = new AuthProvider() {
+            @Override
+            public void login(Subject subject, CallbackHandler callbackHandler) {
+                // Implementation of login method
+            }
+
+            @Override
+            public void logout() {
+                // Implementation of logout method
+            }
+
+            @Override
+            public void setProperty(String key, String value) {
+                // Implementation of setProperty method
+            }
+
+            @Override
+            public String getProperty(String key) {
+                // Implementation of getProperty method
+                return null;
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 24 AuthProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AuthProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        AuthProvider provider = new ExampleAuthProvider();
+        provider.logout();
+    }
+}
+
+class ExampleAuthProvider extends AuthProvider {
+    @Override
+    public void logout() {
+        // Implement logout functionality
+        System.out.println("Logged out successfully");
+    }
+}
+```
+================================================================
+
+Sample: 25 AuthProvider_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AuthProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        AuthProvider provider = new MyCustomProvider();
+        provider.setCallbackHandler(new MyCallbackHandler());
+    }
+}
+
+class MyCustomProvider extends AuthProvider {
+    // Implement other abstract methods of AuthProvider here
+}
+
+class MyCallbackHandler implements CallbackHandler {
+    // Implement the CallbackHandler interface methods here
+}
+```
+================================================================
+
+Sample: 26 CodeSigner_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.CodeSigner;
+import java.util.Base64;
+
+public class Main {
+    public static void main(String[] args) {
+        CodeSigner codeSigner = new CodeSigner(null, null);
+        String codeSignerString = codeSigner.toString();
+        System.out.println("CodeSigner details: " + codeSignerString);
+    }
+}
+```
+================================================================
+
+Sample: 27 CodeSigner_5
+----------------------------------------------------------------
+```java
+import java.security.CodeSigner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        CodeSigner signer1 = new CodeSigner(new byte[]{1, 2}, new String[]{"Cert1"});
+        CodeSigner signer2 = new CodeSigner(new byte[]{1, 2}, new String[]{"Cert1"});
+
+        boolean isEqual = signer1.equals(signer2);
+        System.out.println("Are the CodeSigners equal? " + isEqual);
+    }
+}
+```
+================================================================
+
+Sample: 28 CodeSource_2
+----------------------------------------------------------------
+```java
+import java.security.CodeSource;
+import java.security.cert.CodeSigner;
+
+public class Main {
+    public static void main(String[] args) {
+        CodeSource codeSource = Main.class.getProtectionDomain().getCodeSource();
+        CodeSigner[] codeSigners = codeSource.getCodeSigners();
+        
+        if (codeSigners != null) {
+            for (CodeSigner signer : codeSigners) {
+                System.out.println("Signer information: " + signer.toString());
+            }
+        } else {
+            System.out.println("No code signers found.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 29 CodeSource_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.CodeSource;
+import java.security.cert.Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        CodeSource codeSource = Main.class.getProtectionDomain().getCodeSource();
+        Certificate[] certificates = codeSource.getCertificates();
+        
+        if(certificates != null) {
+            for(Certificate cert : certificates) {
+                System.out.println(cert);
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 30 CodeSource_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.CodeSource;
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) {
+        CodeSource codeSource = Main.class.getProtectionDomain().getCodeSource();
+        URL location = codeSource.getLocation();
+        System.out.println("Location of the code source: " + location);
+    }
+}
+```
+================================================================
+
+Sample: 31 DigestInputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            DigestInputStream dis = new DigestInputStream(System.in, md);
+            byte[] buffer = new byte[1024];
+            while (dis.read(buffer) != -1) {
+                // Process input stream
+            }
+            dis.close();
+            byte[] digest = md.digest();
+            System.out.println("SHA-256 Hash: " + bytesToHex(digest));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+}
+```
+================================================================
+
+Sample: 32 DigestInputStream_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.*;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] data = "Hello, World!".getBytes();
+            ByteArrayInputStream bais = new ByteArrayInputStream(data);
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            DigestInputStream dis = new DigestInputStream(bais, md);
+            
+            byte[] buffer = new byte[1024];
+            int bytesRead = dis.read(buffer, 0, buffer.length);
+            
+            System.out.println("Number of bytes read: " + bytesRead);
+            System.out.println("Digest: " + md.digest());
+            
+            dis.close();
+        } catch (IOException | java.security.NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 33 DigestInputStream_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.security.DigestInputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a DigestInputStream object
+            DigestInputStream dis = new DigestInputStream(null, null);
+            
+            // Read the next byte of data from the input stream
+            int data = dis.read();
+            
+            // Use the data read from the input stream
+            System.out.println("Data read: " + data);
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading data: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 34 DigestOutputStream_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.DigestOutputStream;
+import java.security.MessageDigest;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a MessageDigest instance
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+        // Create a ByteArrayOutputStream to write data
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        // Create a DigestOutputStream with the specified digest and output stream
+        DigestOutputStream digestOutputStream = new DigestOutputStream(baos, digest);
+
+        // On(true) turns on the digest computation on the underlying output stream
+        digestOutputStream.on(true);
+
+        // Write data to the DigestOutputStream
+        String data = "Hello World";
+        digestOutputStream.write(data.getBytes());
+
+        // Perform any additional operations
+
+        // Close the DigestOutputStream
+        digestOutputStream.close();
+
+        // Get the digest value
+        byte[] digestValue = digest.digest();
+        
+        // Print the digest value
+        System.out.println("Digest value: " + new String(digestValue));
+    }
+}
+```
+================================================================
+
+Sample: 35 DigestOutputStream_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.DigestOutputStream;
+import java.security.MessageDigest;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a MessageDigest instance
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+        // Create a DigestOutputStream instance and set the MessageDigest
+        DigestOutputStream digestOutputStream = new DigestOutputStream(System.out, digest);
+
+        // Use the setMessageDigest method to set the MessageDigest
+        digestOutputStream.setMessageDigest(digest);
+
+        // Perform operations with the DigestOutputStream
+        
+    }
+}
+```
+================================================================
+
+Sample: 36 DigestOutputStream_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.security.DigestOutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create MessageDigest instance
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            
+            // Create DigestOutputStream with ByteArrayOutputStream
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            DigestOutputStream digestOutputStream = new DigestOutputStream(byteArrayOutputStream, digest);
+            
+            // Write data to DigestOutputStream
+            digestOutputStream.write("Hello, World!".getBytes());
+            digestOutputStream.close(); // Need to close to calculate the digest
+            
+            // Get the calculated digest
+            byte[] hash = digest.digest();
+            String hashString = Arrays.toString(hash);
+            
+            // Print the calculated hash value
+            System.out.println("Hash: " + hashString);
+        } catch (NoSuchAlgorithmException e) {
+            System.err.println("Error creating MessageDigest: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 37 DigestOutputStream_4
+----------------------------------------------------------------
+`void write(int b)`: This method writes a byte to the output stream.
+  
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.security.DigestOutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create MessageDigest instance
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            
+            // Create ByteArrayOutputStream to hold the output
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            
+            // Create DigestOutputStream with MessageDigest and ByteArrayOutputStream
+            DigestOutputStream digestOutputStream = new DigestOutputStream(byteArrayOutputStream, md);
+            
+            // Write a byte to the DigestOutputStream
+            digestOutputStream.write(65); // ASCII value of 'A'
+            
+            // Get the digest (hash value)
+            byte[] digest = md.digest();
+            System.out.println("MD5 hash: " + bytesToHex(digest));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // Helper method to convert bytes to hexadecimal string
+    private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
+
+    private static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+}
+```
+================================================================
+
+Sample: 38 DigestOutputStream_5
+----------------------------------------------------------------
+`void write(byte[] b, int off, int len)`: This method writes len bytes from the specified byte array starting at offset off to the output stream.
+
+Code snippet:
+```java
+import java.io.ByteArrayOutputStream;
+import java.security.DigestOutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            DigestOutputStream dos = new DigestOutputStream(baos, md);
+            
+            byte[] data = { 1, 2, 3, 4, 5 };
+            dos.write(data, 0, data.length);
+            dos.close();
+            
+            byte[] digest = md.digest();
+            
+            for (byte b : digest) {
+                System.out.format("%02x", b);
+            }
+        } catch (NoSuchAlgorithmException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 39 GuardedObject_1
+----------------------------------------------------------------
+`Object getObject()`: This method returns the guarded object it guards.
+
+Code snippet:
+```java
+import java.security.GuardedObject;
+
+public class Main {
+    public static void main(String[] args) {
+        GuardedObject guardedObject = new GuardedObject("Secret", null);
+        
+        try {
+            Object obj = guardedObject.getObject();
+            System.out.println(obj);
+        } catch (Exception e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 40 Identity_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Identity;
+
+public class Main {
+    public static void main(String[] args) {
+        Identity identity = new Identity() {
+            @Override
+            public String getName() {
+                return "John Doe";
+            }
+        };
+
+        System.out.println(identity.getName());
+    }
+}
+```
+================================================================
+
+Sample: 41 Identity_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Identity;
+
+public class Main {
+    public static void main(String[] args) {
+        Identity identity = new Identity("Alice") {
+            @Override
+            public PublicKey getPublicKey() {
+                return null; // Return your PublicKey implementation here
+            }
+        };
+        
+        PublicKey publicKey = identity.getPublicKey();
+        System.out.println("Public Key: " + publicKey);
+    }
+}
+```
+================================================================
+
+Sample: 42 Identity_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Identity;
+import java.security.cert.Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        Identity identity = new Identity("John Doe");
+        Certificate[] certificates = identity.certificates();
+        
+        for (Certificate cert : certificates) {
+            System.out.println(cert.toString());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 43 Identity_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Identity;
+import java.security.cert.Certificate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        Identity identity = new Identity("John Doe");
+        Certificate certificate = generateCertificate();
+        addCertificate(identity, certificate);
+    }
+
+    public static void addCertificate(Identity identity, Certificate certificate) {
+        List<Certificate> certificates = new ArrayList<>();
+        certificates.add(certificate);
+        identity.addCertificate(certificate);
+        System.out.println("Certificate added to identity: " + certificate);
+    }
+
+    public static Certificate generateCertificate() {
+        // Implement certificate generation logic here
+        return null;
+    }
+}
+```
+================================================================
+
+Sample: 44 Identity_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Certificate;
+import java.security.Identity;
+
+public class Main {
+    public static void main(String[] args) {
+        Identity identity = new Identity("Test", null);
+        Certificate cert = new Certificate();
+        
+        // Removing certificate from the identity
+        identity.removeCertificate(cert);
+    }
+}
+```
+================================================================
+
+Sample: 45 IdentityScope_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Identity;
+import java.security.IdentityScope;
+
+public class Main {
+    public static void main(String[] args) {
+        IdentityScope scope = new IdentityScope();
+        Identity identity = new Identity("Alice", null);
+        
+        scope.addIdentity(identity);
+        
+        System.out.println("Identity added to scope: " + scope.getIdentity("Alice"));
+    }
+}
+```
+================================================================
+
+Sample: 46 IdentityScope_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Identity;
+import java.security.IdentityScope;
+
+public class Main {
+    public static void main(String[] args) {
+        IdentityScope scope = IdentityScope.getSystemScope();
+        Identity identity = scope.getIdentity("Alice");
+        System.out.println("Identity name: " + identity.getName());
+    }
+}
+```
+================================================================
+
+Sample: 47 IdentityScope_3
+----------------------------------------------------------------
+```java
+import java.security.Identity;
+import java.security.IdentityScope;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Identity identity = IdentityScope.getIdentity(null);
+            System.out.println("Identity: " + identity);
+        } catch (SecurityException e) {
+            System.out.println("SecurityException: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 48 IdentityScope_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.IdentityScope;
+import java.security.Identity;
+import java.util.Enumeration;
+
+public class Main {
+    public static void main(String[] args) {
+        IdentityScope scope = IdentityScope.getSystemScope();
+        Enumeration<Identity> identities = scope.identities();
+        
+        while (identities.hasMoreElements()) {
+            Identity identity = identities.nextElement();
+            System.out.println(identity.getName());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 49 IdentityScope_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Identity;
+import java.security.IdentityScope;
+
+public class Main {
+    public static void main(String[] args) {
+        Identity identityToRemove = new Identity("ExampleIdentity", null);
+        IdentityScope identityScope = IdentityScope.getSystemScope();
+        identityScope.removeIdentity(identityToRemove);
+    }
+}
+```
+================================================================
+
+Sample: 50 KeyFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyFactory;
+import java.security.spec.X509EncodedKeySpec;
+import java.security.PublicKey;
+import java.util.Base64;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        byte[] publicKeyBytes = Base64.getDecoder().decode("YOUR_PUBLIC_KEY_HERE");
+
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyBytes);
+        
+        PublicKey publicKey = keyFactory.generatePublic(keySpec);
+        System.out.println("Public Key: " + publicKey);
+    }
+}
+```
+================================================================
+
+Sample: 51 KeyFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] privateKeyBytes = new byte[] { /* Add your private key bytes here */ };
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateKeyBytes);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
+
+            System.out.println("Private Key: " + privateKey);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 52 KeyFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Key;
+import java.security.KeyFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        Key originalKey = ...; // Initialize originalKey with your Key object
+        KeyFactory keyFactory = KeyFactory.getInstance("Algorithm");
+        Key translatedKey = keyFactory.translateKey(originalKey);
+    }
+}
+```
+================================================================
+
+Sample: 53 KeyFactorySpi_4
+----------------------------------------------------------------
+```java
+import java.security.Key;
+import java.security.KeyFactorySpi;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming you have a KeyFactorySpi instance called keyFactorySpi
+        Key key = keyFactorySpi.engineTranslateKey(key);
+        System.out.println("Translated key: " + key);
+    }
+}
+```
+================================================================
+
+Sample: 54 KeyPair_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
+            keyPairGen.initialize(2048);
+            KeyPair keyPair = keyPairGen.generateKeyPair();
+            
+            PublicKey publicKey = keyPair.getPublic();
+            System.out.println("Public Key: " + publicKey);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```  
+================================================================
+
+Sample: 55 KeyPair_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+        keyGen.initialize(2048);
+        KeyPair keyPair = keyGen.generateKeyPair();
+
+        PrivateKey privateKey = keyPair.getPrivate();
+        System.out.println("Private Key: " + privateKey);
+    }
+}
+```
+================================================================
+
+Sample: 56 KeyPairGenerator_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048); // Key size
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            
+            System.out.println("Public Key: " + keyPair.getPublic());
+            System.out.println("Private Key: " + keyPair.getPrivate());
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 57 KeyPairGenerator_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        initializeKeyPairGenerator(2048);
+    }
+
+    public static void initializeKeyPairGenerator(int keysize) {
+        try {
+            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+            keyGen.initialize(keysize);
+            System.out.println("KeyPairGenerator initialized with keysize: " + keysize);
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 58 KeyPairGenerator_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            String algorithm = keyPairGenerator.getAlgorithm();
+            System.out.println("Key pair algorithm: " + algorithm);
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 59 KeyPairGenerator_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyPairGenerator;
+import java.security.spec.AlgorithmParameterSpec;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        AlgorithmParameterSpec params = null;
+        keyPairGenerator.initialize(params);
+    }
+}
+```
+================================================================
+
+Sample: 60 KeyPairGeneratorSpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            
+            System.out.println("Public Key: " + keyPair.getPublic());
+            System.out.println("Private Key: " + keyPair.getPrivate());
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 61 KeyPairGeneratorSpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048, new SecureRandom());
+            // Generate key pair
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 62 KeyPairGeneratorSpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.AlgorithmParameterSpec;
+import java.security.SecureRandom;
+import java.security.KeyPairGeneratorSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyPairGeneratorSpi keyPairGenerator = new KeyPairGeneratorSpi() {
+            @Override
+            protected void initialize(AlgorithmParameterSpec params, SecureRandom random) {
+
+                // Your implementation of the initialize method goes here
+
+            }
+
+            @Override
+            protected void engineGenerateKeyPair() {
+                // Method implementation
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 63 KeyStore_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a KeyStore object
+            KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+
+            // Load the KeyStore from an InputStream with a password
+            char[] password = "mypassword".toCharArray();
+            InputStream keystoreStream = new FileInputStream("mykeystore.jks");
+            keyStore.load(keystoreStream, password);
+
+            System.out.println("KeyStore loaded successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 64 KeyStore_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStore;
+import java.util.Enumeration;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyStore keyStore = KeyStore.getInstance("JKS");
+            keyStore.load(null, null);
+            
+            Enumeration<String> aliases = keyStore.aliases();
+            while (aliases.hasMoreElements()) {
+                String alias = aliases.nextElement();
+                System.out.println("Alias: " + alias);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 65 KeyStore_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.cert.Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyStore keyStore = KeyStore.getInstance("JKS");
+            char[] password = "password".toCharArray();
+            Key key = // Initialize your Key object here
+            Certificate[] chain = // Initialize your Certificate array here
+            keyStore.load(null, password);
+            keyStore.setKeyEntry("alias", key, password, chain);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 66 KeyStore_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStore;
+import java.security.cert.Certificate;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+            char[] password = "keystorePassword".toCharArray();
+            try (FileInputStream fis = new FileInputStream("keystorePath")) {
+                keystore.load(fis, password);
+            }
+
+            String alias = "certificateAlias";
+            Certificate cert = keystore.getCertificate(alias);
+            System.out.println("Certificate obtained: " + cert.toString());
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 67 KeyStore_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.FileInputStream;
+import java.security.Key;
+import java.security.KeyStore;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyStore keyStore = KeyStore.getInstance("JKS");
+            char[] password = "keystorepassword".toCharArray();
+            FileInputStream fis = new FileInputStream("keystore.jks");
+            keyStore.load(fis, password);
+
+            String alias = "keyalias";
+            Key key = keyStore.getKey(alias, password);
+            
+            System.out.println("Key retrieved successfully: " + key.toString());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 68 KeyStore_Builder_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.KeyStore.PasswordProtection;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyStore keyStore = KeyStore.getInstance("JKS");
+            KeyStore.Builder builder = KeyStore.Builder.newInstance(keyStore, new PasswordProtection("password".toCharArray()));
+            System.out.println("KeyStore.Builder instance created successfully");
+        } catch (KeyStoreException e) {
+            System.out.println("Error creating KeyStore.Builder instance: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 69 KeyStore_Builder_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStore;
+import java.security.KeyStore.Builder;
+import java.security.KeyStoreException;
+import java.io.InputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        Builder builder = KeyStore.Builder.newInstance("JKS", null, new InputStream() {
+            @Override
+            public int read() {
+                return -1; // Placeholder implementation
+            }
+        });
+        
+        try {
+            KeyStore keyStore = builder.getKeyStore();
+            System.out.println("KeyStore type: " + keyStore.getType());
+        } catch (KeyStoreException e) {
+            System.out.println("KeyStoreException: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 70 KeyStore_CallbackHandlerProtection_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStore;
+import java.security.KeyStore.CallbackHandlerProtection;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyStore.CallbackHandlerProtection protection = new CallbackHandlerProtection(handler);
+        System.out.println("CallbackHandlerProtection created successfully.");
+    }
+}
+```
+================================================================
+
+Sample: 71 KeyStore_PasswordProtection_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStore;
+import java.security.KeyStore.PasswordProtection;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        char[] password = "secretpassword".toCharArray();
+        PasswordProtection passwordProtection = new PasswordProtection(password);
+        
+        char[] retrievedPassword = passwordProtection.getPassword();
+        System.out.println("Retrieved password: " + Arrays.toString(retrievedPassword));
+    }
+}
+```
+================================================================
+
+Sample: 72 KeyStore_PasswordProtection_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStore.PasswordProtection;
+
+public class Main {
+    public static void main(String[] args) {
+        PasswordProtection protection = new PasswordProtection("password".toCharArray());
+        protection.destroy();
+        System.out.println("Password has been destroyed.");
+    }
+}
+```
+================================================================
+
+Sample: 73 KeyStore_SecretKeyEntry_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStore;
+import java.security.KeyStore.SecretKeyEntry;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assume keyStore is a properly initialized KeyStore object
+        KeyStore.SecretKeyEntry secretKeyEntry = (KeyStore.SecretKeyEntry) keyStore.getEntry("alias", null);
+        if (secretKeyEntry != null) {
+            SecretKey secretKey = secretKeyEntry.getSecretKey();
+            System.out.println("Secret Key: " + secretKey);
+        } else {
+            System.out.println("Secret key entry not found.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 74 KeyStore_TrustedCertificateEntry_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStore.TrustedCertificateEntry;
+import java.security.cert.Certificate;
+import java.security.KeyStore;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyStore keyStore = KeyStore.getInstance("JKS");
+            char[] password = "password".toCharArray();
+            keyStore.load(null, password);
+            
+            TrustedCertificateEntry trustedCertEntry = (TrustedCertificateEntry) keyStore.getEntry("alias", null);
+            Certificate trustedCert = trustedCertEntry.getTrustedCertificate();
+            
+            System.out.println("Trusted Certificate: " + trustedCert.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 75 KeyStore_TrustedCertificateEntry_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStore;
+import java.security.KeyStore.TrustedCertificateEntry;
+import java.security.cert.Certificate;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        KeyStore keyStore = KeyStore.getInstance("JKS");
+        keyStore.load(null, null);
+
+        Certificate cert = // get certificate from somewhere
+
+        TrustedCertificateEntry trustedCertEntry = new TrustedCertificateEntry(cert);
+        String certString = trustedCertEntry.toString();
+
+        System.out.println(certString);
+    }
+}
+```
+================================================================
+
+Sample: 76 KeyStoreSpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStoreSpi;
+import java.util.Enumeration;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyStoreSpi keyStoreSpi = new CustomKeyStoreSpi(); // You would need to create a custom KeyStoreSpi implementation
+        Enumeration<String> aliases = keyStoreSpi.engineAliases();
+        
+        while (aliases.hasMoreElements()) {
+            String alias = aliases.nextElement();
+            System.out.println(alias);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 77 KeyStoreSpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStoreSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyStoreSpi keyStore = new KeyStoreSpi(); // Instantiate a KeyStoreSpi object
+        String alias = "keyAlias";
+        char[] password = "keyPassword".toCharArray();
+        try {
+            java.security.Key key = keyStore.engineGetKey(alias, password);
+            System.out.println("Key retrieved successfully: " + key);
+        } catch (Exception e) {
+            System.out.println("Error getting key: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 78 KeyStoreSpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.KeyStoreSpi;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableEntryException;
+import java.security.KeyStore.Entry;
+import java.security.KeyStore.ProtectionParameter;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyStore keyStore = KeyStore.getInstance("JKS");
+        KeyStoreSpi keyStoreSpi = keyStore.getProvider().getKeyStoreSpi();
+        try {
+            String alias = "myAlias";
+            ProtectionParameter protParam = null; // Provide the protection parameter
+            Entry entry = keyStoreSpi.engineGetEntry(alias, protParam);
+            // Use the entry obtained
+        } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableEntryException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 79 KeyStoreSpi_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.KeyStoreSpi;
+import java.security.Key;
+import java.security.cert.Certificate;
+
+public class Main {
+    public static void main(String[] args) {
+        KeyStoreSpi keyStore = new KeyStoreSpi();
+        String alias = "myAlias";
+        Key key = new Key();
+        char[] password = {'p', 'a', 's', 's'};
+        Certificate[] chain = new Certificate[1];
+        
+        keyStore.engineSetKeyEntry(alias, key, password, chain);
+    }
+}
+```
+================================================================
+
+Sample: 80 KeyStoreSpi_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ByteArrayInputStream;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.KeyStoreSpi;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.io.ByteArrayOutputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] keystoreData = // Load your keystore data here
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(keystoreData);
+
+            KeyStoreSpi keyStoreSpi = new YourCustomKeyStoreSpi();
+            KeyStore keyStore = KeyStore.getInstance("YourKeystoreType");
+            keyStore.load(inputStream, "yourKeystorePassword".toCharArray());
+
+            System.out.println("KeyStore loaded successfully.");
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class YourCustomKeyStoreSpi extends KeyStoreSpi {
+        protected void engineLoad(InputStream stream, char[] password) throws IOException, NoSuchAlgorithmException, CertificateException {
+            // Implementation of loading the keystore from stream with password
+        }
+    }
+}
+```
+================================================================
+
+Sample: 81 MessageDigest_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] input = "Hello World".getBytes();
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(input);
+            byte[] digest = md.digest();
+            System.out.println("MD5 Hash: " + Arrays.toString(digest));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 82 MessageDigest_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        String data = "Hello World";
+        
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] digest = md.digest(data.getBytes());
+            
+            System.out.println("Hashed value: " + bytesToHex(digest));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    
+    private static String bytesToHex(byte[] bytes) {
+        StringBuilder result = new StringBuilder();
+        for (byte b : bytes) {
+            result.append(String.format("%02x", b));
+        }
+        return result.toString();
+    }
+}
+```
+================================================================
+
+Sample: 83 MessageDigest_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] input = "Hello".getBytes();
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] digest = md.digest(input);
+            for (int i = 0; i < digest.length; i++) {
+                System.out.printf("%02x", digest[i]);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("No such algorithm");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 84 MessageDigest_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.MessageDigest;
+
+public class Main {
+    public static void main(String[] args) {
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        messageDigest.update("Hello, World!".getBytes());
+
+        // Resetting the MessageDigest
+        messageDigest.reset();
+        System.out.println("MessageDigest reset");
+    }
+}
+```
+================================================================
+
+Sample: 85 MessageDigest_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.MessageDigest;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            System.out.println("Algorithm used: " + md.getAlgorithm());
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 86 MessageDigestSpi_1
+----------------------------------------------------------------
+`int engineGetDigestLength()`: This method returns the digest length in bytes for the algorithm implemented by this MessageDigestSpi.
+
+Code snippet:
+```java
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String algorithm = "SHA-256";
+            MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
+            int digestLength = messageDigest.getDigestLength();
+            System.out.println("Digest length for " + algorithm + " is " + digestLength + " bytes");
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 87 MessageDigestSpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.MessageDigestSpi;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] input = "Hello, World".getBytes();
+        try {
+            MessageDigestSpi digest = MessageDigestSpi.getInstance("MD5");
+            digest.engineUpdate(input);
+            byte[] result = digest.engineDigest();
+            System.out.println(new String(result));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 88 MessageDigestSpi_3
+----------------------------------------------------------------
+`void engineUpdate(byte[] input, int offset, int len)`: This method updates the digest using the specified byte array starting at the specified offset and processing length bytes.
+
+Code snippet:
+```java
+import java.security.MessageDigestSpi;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] input = "Hello, World!".getBytes();
+        try {
+            MessageDigestSpi messageDigest = MessageDigestSpi.getInstance("SHA-256");
+            messageDigest.engineUpdate(input, 0, input.length);
+            byte[] digest = messageDigest.digest();
+            System.out.println("Digest: " + new String(digest));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 89 MessageDigestSpi_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            String input = "Hello, World!";
+            byte[] messageDigest = md.digest(input.getBytes());
+            System.out.println("MD5 Hash: " + bytesToHex(messageDigest));
+        } catch (NoSuchAlgorithmException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
+    private static String bytesToHex(byte[] bytes) {
+        StringBuilder result = new StringBuilder();
+        for (byte b : bytes) {
+            result.append(String.format("%02x", b));
+        }
+        return result.toString();
+    }
+}
+```
+================================================================
+
+Sample: 90 MessageDigestSpi_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.MessageDigestSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        MessageDigestSpi engine = new MessageDigestSpi() {
+            @Override
+            protected void engineReset() {
+                // Reset the message digest engine
+            }
+        };
+
+        engine.engineReset(); // Call the engineReset method
+    }
+}
+```
+================================================================
+
+Sample: 91 Permission_1
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import java.security.Permission;
+
+public class Main {
+    public static void main(String[] args) {
+        Permission permission = new java.security.BasicPermission("test");
+        String actions = permission.getActions();
+        System.out.println("Actions: " + actions);
+    }
+}
+```
+================================================================
+
+Sample: 92 Permission_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Permission;
+
+public class Main {
+    public static void main(String[] args) {
+        Permission perm1 = new RuntimePermission("createClassLoader");
+        Permission perm2 = new RuntimePermission("setSecurityManager");
+        
+        boolean result = perm1.implies(perm2);
+        System.out.println("Permission 1 implies Permission 2: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 93 Permission_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.PermissionCollection;
+
+public class Main {
+    public static void main(String[] args) {
+        PermissionCollection permissionCollection = PermissionCollection.newPermissionCollection();
+        // Additional code can be added here to work with the PermissionCollection
+    }
+}
+```
+================================================================
+
+Sample: 94 Permission_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Permission;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a new Permission object
+        Permission permission = new Permission("examplePermission") {
+            @Override
+            public boolean implies(Permission p) {
+                return false;
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                return false;
+            }
+
+            @Override
+            public int hashCode() {
+                return 42; // Custom hash code implementation
+            }
+
+            @Override
+            public String getActions() {
+                return null;
+            }
+
+            @Override
+            public String toString() {
+                return null;
+            }
+        };
+
+        // Get the hash code of the Permission object
+        int hashCode = permission.hashCode();
+        System.out.println("Hash Code: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 95 Permission_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Permission;
+
+public class Main {
+    public static void main(String[] args) {
+        Permission permission1 = new java.security.BasicPermission("test");
+        Permission permission2 = new java.security.BasicPermission("test");
+
+        boolean isEqual = permission1.equals(permission2);
+        System.out.println("Are the permissions equal? " + isEqual);
+    }
+}
+```
+================================================================
+
+Sample: 96 PermissionCollection_1
+----------------------------------------------------------------
+`void add(Permission permission)`: This method adds a permission object to the permission collection.
+
+Code snippet:
+```java
+import java.security.Permission;
+import java.security.PermissionCollection;
+
+public class Main {
+    public static void main(String[] args) {
+        PermissionCollection permissionCollection = new MyPermissionCollection();
+        Permission permission = new MyPermission("myPermission");
+        
+        permissionCollection.add(permission);
+    }
+
+    static class MyPermission extends Permission {
+        public MyPermission(String name) {
+            super(name);
+        }
+
+        @Override
+        public boolean implies(Permission permission) {
+            return false;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return false;
+        }
+
+        @Override
+        public String getActions() {
+            return null;
+        }
+
+        @Override
+        public int hashCode() {
+            return 0;
+        }
+
+        @Override
+        public String toString() {
+            return null;
+        }
+    }
+
+    static class MyPermissionCollection extends PermissionCollection {
+        @Override
+        public void add(Permission permission) {
+            // Implement adding permission to the collection
+            System.out.println("Adding permission: " + permission.getName());
+        }
+
+        @Override
+        public boolean implies(Permission permission) {
+            return false;
+        }
+
+        @Override
+        public Enumeration<Permission> elements() {
+            return null;
+        }
+    }
+}
+
+```
+================================================================
+
+Sample: 97 PermissionCollection_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Permission;
+import java.security.PermissionCollection;
+
+public class Main {
+    public static void main(String[] args) {
+        PermissionCollection permissionCollection = new MyPermissionCollection();
+        Permission permission = new MyPermission("myPermission");
+        
+        boolean impliesPermission = permissionCollection.implies(permission);
+        System.out.println("Permission implies: " + impliesPermission);
+    }
+}
+
+class MyPermission extends Permission {
+    
+    public MyPermission(String name) {
+        super(name);
+    }
+
+    @Override
+    public boolean implies(Permission permission) {
+        // Your custom logic for checking if this permission implies the specified permission
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // Your custom equals logic
+        return false;
+    }
+
+    @Override
+    public String getActions() {
+        return null;
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
+
+    @Override
+    public boolean implies(Permission permission) {
+        return false;
+    }
+
+    @Override
+    public boolean newPermissionCollection() {
+        return false;
+    }
+}
+
+class MyPermissionCollection extends PermissionCollection {
+    
+    @Override
+    public void add(Permission permission) {
+        // Your custom logic for adding a permission to the collection
+    }
+
+    @Override
+    public boolean implies(Permission permission) {
+        // Your custom logic for checking if any permission in the collection implies the specified permission
+        return false;
+    }
+
+    @Override
+    public Enumeration elements() {
+        return null;
+    }
+}
+```
+================================================================
+
+Sample: 98 Permissions_1
+----------------------------------------------------------------
+`void add(Permission permission)`: This method adds a new Permission object to the Permissions collection.
+
+Code snippet:
+```java
+import java.security.Permission;
+import java.security.Permissions;
+
+public class Main {
+    public static void main(String[] args) {
+        Permissions permissions = new Permissions();
+        
+        // Creating a new Permission
+        Permission permission = new java.io.FilePermission("/tmp/*", "read");
+
+        // Adding the Permission to the Permissions collection
+        permissions.add(permission);
+        
+        System.out.println("Added permission: " + permission);
+    }
+}
+```
+================================================================
+
+Sample: 99 Permissions_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Permission;
+import java.security.Permissions;
+
+public class Main {
+    public static void main(String[] args) {
+        Permissions permissions = new Permissions();
+        Permission permission = new RuntimePermission("myPermission");
+        boolean result = permissions.implies(permission);
+        System.out.println("Permission implied: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 100 PKCS12Attribute_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.PKCS12Attribute;
+
+public class Main {
+    public static void main(String[] args) {
+        PKCS12Attribute attribute = new PKCS12Attribute();
+        byte[] encoded = attribute.getEncoded();
+        System.out.println("Encoded value: " + new String(encoded));
+    }
+}
+```
+================================================================
+
+Sample: 101 Policy_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Policy;
+
+public class Main {
+    public static void main(String[] args) {
+        Policy policy = Policy.getPolicy();
+        policy.refresh();
+    }
+}
+```
+================================================================
+
+Sample: 102 Policy_3
+----------------------------------------------------------------
+```java
+import java.security.Policy;
+
+public class Main {
+    public static void main(String[] args) {
+        Policy policy = Policy.getPolicy();
+        policy.refresh();
+    }
+}
+```
+================================================================
+
+Sample: 103 Policy_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.PermissionCollection;
+import java.security.ProtectionDomain;
+import java.security.Policy;
+
+public class Main {
+    public static void main(String[] args) {
+        Policy policy = Policy.getPolicy();
+        ProtectionDomain domain = Main.class.getProtectionDomain();
+        PermissionCollection permissions = policy.getPermissions(domain);
+        // Use permissions as needed
+    }
+}
+```
+================================================================
+
+Sample: 104 Policy_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Permission;
+import java.security.Policy;
+import java.security.ProtectionDomain;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a sample ProtectionDomain and Permission
+        ProtectionDomain domain = new ProtectionDomain(null, null);
+        Permission permission = new java.io.FilePermission("/tmp/test.txt", "read");
+
+        // Use boolean implies(ProtectionDomain domain, Permission permission) method
+        Policy policy = Policy.getPolicy();
+        boolean permissionGranted = policy.implies(domain, permission);
+
+        // Display the result
+        System.out.println("Permission granted: " + permissionGranted);
+    }
+}
+```
+================================================================
+
+Sample: 105 ProtectionDomain_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
+
+public class Main {
+    public static void main(String[] args) {
+        ProtectionDomain pd = Main.class.getProtectionDomain();
+        CodeSource cs = pd.getCodeSource();
+        System.out.println("Code Source Location: " + cs.getLocation());
+    }
+}
+```
+================================================================
+
+Sample: 106 ProtectionDomain_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.ProtectionDomain;
+
+public class Main {
+    public static void main(String[] args) {
+        ProtectionDomain protectionDomain = Main.class.getProtectionDomain();
+        ClassLoader classLoader = protectionDomain.getClassLoader();
+        System.out.println(classLoader);
+    }
+}
+```
+================================================================
+
+Sample: 107 ProtectionDomain_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.CodeSource;
+import java.security.PermissionCollection;
+import java.security.ProtectionDomain;
+
+public class Main {
+    public static void main(String[] args) {
+        ProtectionDomain pd = Main.class.getProtectionDomain();
+        CodeSource cs = pd.getCodeSource();
+        PermissionCollection pc = pd.getPermissions();
+        
+        System.out.println("Permissions for the ProtectionDomain:");
+        System.out.println(pc.elements());
+    }
+}
+```
+================================================================
+
+Sample: 108 ProtectionDomain_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.ProtectionDomain;
+import java.security.Principal;
+
+public class Main {
+    public static void main(String[] args) {
+        ProtectionDomain pd = Main.class.getProtectionDomain();
+        Principal[] principals = pd.getPrincipals();
+        
+        if(principals != null){
+            for(Principal principal : principals){
+                System.out.println("Principal name: " + principal.getName());
+            }
+        } else {
+            System.out.println("No principals found.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 109 ProtectionDomain_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Permission;
+import java.security.ProtectionDomain;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Permission permission = new java.io.FilePermission("/tmp/*", "read");
+        ProtectionDomain domain = new ProtectionDomain(null, null);
+        
+        boolean result = domain.implies(permission);
+        System.out.println("Does the ProtectionDomain imply the permission? " + result);
+    }
+}
+```
+================================================================
+
+Sample: 110 Provider_1
+----------------------------------------------------------------
+```java
+import java.security.Provider;
+
+public class Main {
+    public static void main(String[] args) {
+        Provider provider = new Provider("myProvider", 1.0, "myProvider info") {};
+        String name = provider.getName();
+        System.out.println("Provider name: " + name);
+    }
+}
+```
+================================================================
+
+Sample: 111 Provider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Provider;
+
+public class Main {
+    public static void main(String[] args) {
+        Provider provider = new Provider("testProvider", 1.0, "Test Provider") {};
+
+        double version = provider.getVersion();
+        System.out.println("Provider Version: " + version);
+    }
+}
+```
+================================================================
+
+Sample: 112 Provider_Service_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Provider;
+import java.security.Provider.Service;
+
+public class Main {
+    public static void main(String[] args) {
+        Provider provider = new Provider("MyProvider", 1.0, "My custom provider") {};
+        Service service = provider.getService("AlgorithmName", "Type");
+
+        if (service != null) {
+            System.out.println("Service type: " + service.getType());
+        } else {
+            System.out.println("Service not found");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 113 Provider_Service_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Provider;
+import java.security.Provider.Service;
+
+public class Main {
+    public static void main(String[] args) {
+        Provider provider = new Provider("MyProvider", 1.0, "My custom provider") {};
+        Service service = provider.getService("MessageDigest", "SHA-256");
+        String algorithm = service.getAlgorithm();
+        System.out.println(algorithm);
+    }
+}
+```
+================================================================
+
+Sample: 114 SecureRandom_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[10];
+        random.nextBytes(bytes);
+
+        System.out.print("Random bytes: ");
+        for (byte b : bytes) {
+            System.out.print(b + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 115 SecureRandomSpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.SecureRandom;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] seed = {1, 2, 3, 4, 5};
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.engineSetSeed(seed);
+        System.out.println("Seed set successfully.");
+    }
+}
+```
+================================================================
+
+Sample: 116 SecureRandomSpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.SecureRandom;
+import java.security.SecureRandomSpi;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        SecureRandom random = new SecureRandom();
+        byte[] seed = random.engineGenerateSeed(10);
+        System.out.println(Arrays.toString(seed));
+    }
+}
+```
+================================================================
+
+Sample: 117 SecureRandomSpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.SecureRandom;
+import java.security.SecureRandomSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[10];
+        random.engineNextBytes(bytes);
+        System.out.println("Random bytes generated: ");
+        for (byte b : bytes) {
+            System.out.print(b + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 118 Security_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Provider;
+import java.security.Security;
+
+public class Main {
+    public static void main(String[] args) {
+        Provider provider = new Provider("MyProvider", 1.0, "Description") {};
+        int position = 1;
+        Security.insertProviderAt(provider, position);
+    }
+}
+```
+================================================================
+
+Sample: 119 Signature_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Signature;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Signature signature = Signature.getInstance("SHA256withRSA");
+            byte[] data = "Hello, World!".getBytes();
+            signature.update(data);
+            byte[] signatureValue = signature.sign();
+            System.out.println("Signature: " + new String(signatureValue));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 120 Signature_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Signature;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.MessageDigest;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Generate key pair
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("DSA");
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            PrivateKey privateKey = keyPair.getPrivate();
+            PublicKey publicKey = keyPair.getPublic();
+            
+            // Create Signature object
+            Signature signature = Signature.getInstance("SHA256withDSA");
+            
+            // Initialize Signature object with private key for signing
+            signature.initSign(privateKey);
+            
+            // Generate data
+            byte[] data = "Hello, World!".getBytes();
+            
+            // Update Signature object with data for signing
+            signature.update(data);
+            
+            // Sign the data and get the signature
+            byte[] signatureBytes = signature.sign();
+            
+            System.out.println("Signature: " + new String(signatureBytes));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 121 Signature_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assume 'signature' is a byte array representing a signature
+        
+        // Initialize Signature object
+        Signature sig = Signature.getInstance("SHA256withRSA");
+        
+        // Initialize public key and set it to the Signature object if needed
+        // PublicKey publicKey = ...;
+        // sig.initVerify(publicKey);
+        
+        // Verify the signature
+        boolean isVerified = sig.verify(signature);
+        
+        System.out.println("Signature verified: " + isVerified);
+    }
+}
+```
+================================================================
+
+Sample: 122 Signature_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
+            KeyPair keyPair = keyPairGen.generateKeyPair();
+
+            Signature signature = Signature.getInstance("SHA256withRSA");
+            PrivateKey privateKey = keyPair.getPrivate();
+            signature.initSign(privateKey);
+
+            // Perform signing operations using this signature object
+            // ...
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 123 Signature_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.Signature;
+import java.security.PublicKey;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Signature signature = Signature.getInstance("SHA256withRSA");
+            PublicKey publicKey = // initialize your public key here
+            signature.initVerify(publicKey);
+            // Other code related to signature verification
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 124 SignatureSpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.SignatureSpi;
+import java.security.PublicKey;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming engineInitVerify method is implemented in a custom SignatureSpi class
+        CustomSignatureSpi customSignatureSpi = new CustomSignatureSpi();
+        PublicKey publicKey = getPublicKey(); // Your public key logic here
+        customSignatureSpi.engineInitVerify(publicKey);
+    }
+}
+
+class CustomSignatureSpi extends SignatureSpi {
+    protected void engineInitVerify(PublicKey publicKey) {
+        // Implementation of engineInitVerify method
+        System.out.println("Initialized verification with public key");
+    }
+}
+```
+================================================================
+
+Sample: 125 SignatureSpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Signature signature = Signature.getInstance("SHA256withRSA");
+            PrivateKey privateKey = // initialize private key here
+            engineInitSign(privateKey);
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    protected void engineInitSign(PrivateKey privateKey) throws InvalidKeyException {
+        // Implement your custom logic here
+        // This method should initialize the signing operation with the specified private key
+    }
+}
+```
+================================================================
+
+Sample: 126 SignatureSpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.SignatureSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        // Example of using void engineUpdate(byte b) from java.security.SignatureSpi
+        byte[] data = "Hello".getBytes();
+        SignatureSpi signatureSpi = new CustomSignatureSpi();
+        signatureSpi.engineUpdate(data[0]);
+    }
+
+    static class CustomSignatureSpi extends SignatureSpi {
+        @Override
+        protected void engineUpdate(byte b) {
+            // Custom implementation
+            System.out.println("Updating signature with byte: " + b);
+        }
+
+        // Other methods of SignatureSpi should be implemented here
+    }
+}
+```
+================================================================
+
+Sample: 127 SignatureSpi_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.SignatureSpi;
+import java.security.InvalidKeyException;
+import java.security.SignatureException;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] input = { 0x01, 0x02, 0x03 };
+        int off = 0;
+        int len = input.length;
+        
+        MySignatureSpi mySignature = new MySignatureSpi();
+        try {
+            mySignature.engineUpdate(input, off, len);
+        } catch (InvalidKeyException | SignatureException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class MySignatureSpi extends SignatureSpi {
+    protected void engineUpdate(byte[] input, int off, int len) {
+        // implementation of engineUpdate method
+        System.out.println("Updating signature with input");
+    }
+}
+```
+================================================================
+
+Sample: 128 SignatureSpi_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.SignatureSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        // Sample code to use engineSign method
+        byte[] dataToSign = "Hello, World!".getBytes();
+        SignatureSpi signature = new CustomSignatureSpi(); // CustomSignatureSpi extends SignatureSpi
+        signature.engineInitSign(null);
+        signature.engineUpdate(dataToSign, 0, dataToSign.length);
+        byte[] signatureBytes = signature.engineSign();
+        System.out.println("Signature: " + new String(signatureBytes));
+    }
+}
+```
+================================================================
+
+Sample: 129 SignedObject_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.Serializable;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.SignedObject;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            PrivateKey privateKey = keyPair.getPrivate();
+            PublicKey publicKey = keyPair.getPublic();
+
+            Serializable objectToSign = "Hello, World!";
+            SignedObject signedObject = new SignedObject(objectToSign, privateKey, null);
+
+            Serializable signedObjectData = signedObject.getObject(publicKey);
+            System.out.println("Signed object data: " + signedObjectData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 130 SignedObject_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+            String data = "Hello, World!";
+            Signature signature = Signature.getInstance("SHA256withRSA");
+            signature.initSign(keyPair.getPrivate());
+            signature.update(data.getBytes());
+            byte[] signedData = signature.sign();
+
+            SignedObject signedObject = new SignedObject(data, keyPair.getPrivate(), signature);
+            boolean isValid = signedObject.verify(keyPair.getPublic(), signature);
+
+            System.out.println("Is signature valid: " + isValid);
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException | InvalidObjectException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 131 SignedObject_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.SignedObject;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create SignedObject instance
+        SignedObject signedObject = new SignedObject("Hello", getPrivateKey());
+
+        // Get the signature byte array
+        byte[] signature = signedObject.getSignature();
+        System.out.println("Signature: " + signature);
+    }
+
+    private static PrivateKey getPrivateKey() {
+        // Provide implementation to get private key
+        return null;
+    }
+
+    private static PublicKey getPublicKey() {
+        // Provide implementation to get public key
+        return null;
+    }
+}
+```
+================================================================
+
+Sample: 132 UnresolvedPermission_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.PermissionCollection;
+import java.security.UnresolvedPermission;
+
+public class Main {
+    public static void main(String[] args) {
+        UnresolvedPermission unresolvedPermission = new UnresolvedPermission("permissionName", "targetName", null, null);
+        PermissionCollection permissionCollection = unresolvedPermission.newPermissionCollection();
+        // You can now use the permissionCollection object for further operations
+    }
+}
+```
+================================================================
+
+Sample: 133 UnresolvedPermission_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.security.UnresolvedPermission;
+
+public class Main {
+    public static void main(String[] args) {
+        UnresolvedPermission unresolvedPermission = new UnresolvedPermission("name", "actions");
+        String actions = unresolvedPermission.getActions();
+        System.out.println("Actions: " + actions);
+    }
+}
+```
+================================================================
+

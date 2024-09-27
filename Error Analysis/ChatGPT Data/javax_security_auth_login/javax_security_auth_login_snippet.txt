@@ -1,0 +1,225 @@
+Sample: 0 AppConfigurationEntry_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.AppConfigurationEntry;
+
+public class Main {
+    public static void main(String[] args) {
+        AppConfigurationEntry entry = new AppConfigurationEntry("exampleModuleName", AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, null);
+        String loginModuleName = entry.getLoginModuleName();
+        System.out.println("Login module name: " + loginModuleName);
+    }
+}
+```
+================================================================
+
+Sample: 1 AppConfigurationEntry_LoginModuleControlFlag_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
+
+public class Main {
+    public static void main(String[] args) {
+        LoginModuleControlFlag flag = LoginModuleControlFlag.REQUIRED;
+        String flagString = flag.toString();
+        System.out.println(flagString);
+    }
+}
+```
+================================================================
+
+Sample: 2 Configuration_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.AppConfigurationEntry;
+import javax.security.auth.login.Configuration;
+
+public class Main {
+    public static void main(String[] args) {
+        Configuration config = Configuration.getConfiguration();
+        AppConfigurationEntry[] entries = config.getAppConfigurationEntry("exampleName");
+        
+        if (entries != null) {
+            for (AppConfigurationEntry entry : entries) {
+                System.out.println("LoginModule Class Name: " + entry.getLoginModuleName());
+                System.out.println("Control Flag: " + entry.getControlFlag());
+                
+                // Additional properties retrieval if needed
+                for (String key : entry.getOptions().keySet()) {
+                    System.out.println("Property Key: " + key);
+                    System.out.println("Property Value: " + entry.getOptions().get(key));
+                }
+            }
+        } else {
+            System.out.println("No configuration entries found for the specified name.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 Configuration_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.Configuration;
+
+public class Main {
+    public static void main(String[] args) {
+        Configuration config = Configuration.getConfiguration();
+        config.refresh();
+    }
+}
+```
+================================================================
+
+Sample: 4 Configuration_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.Configuration;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a Configuration object
+        Configuration configuration = new Configuration();
+
+        // Call setConfiguration method
+        setConfiguration(configuration);
+    }
+
+    public static void setConfiguration(Configuration configuration) {
+        // Implementation of setConfiguration method
+        System.out.println("Setting configuration: " + configuration);
+    }
+}
+```
+================================================================
+
+Sample: 5 ConfigurationSpi_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.AppConfigurationEntry;
+import javax.security.auth.login.ConfigurationSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        String name = "exampleName";
+        ConfigurationSpi configSpi = new CustomConfigurationSpi(); // CustomConfigurationSpi should extend ConfigurationSpi
+        AppConfigurationEntry[] entries = configSpi.engineGetAppConfigurationEntry(name);
+
+        for (AppConfigurationEntry entry : entries) {
+            System.out.println("LoginModuleName: " + entry.getLoginModuleName());
+            System.out.println("ControlFlag: " + entry.getControlFlag());
+            System.out.println("Options: " + entry.getOptions());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 ConfigurationSpi_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.ConfigurationSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        // Usage of void engineRefresh()
+        ConfigurationSpi configurationSpi = new ConfigurationSpi() {
+            @Override
+            public void engineRefresh() {
+                // Implementation details
+                System.out.println("Refreshing engine...");
+            }
+        };
+        
+        configurationSpi.engineRefresh();
+    }
+}
+```
+================================================================
+
+Sample: 7 LoginContext_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            LoginContext lc = new LoginContext("Sample", new MyCallbackHandler());
+            lc.login();
+            System.out.println("Login successful!");
+        } catch (LoginException e) {
+            System.out.println("Login failed: " + e.getMessage());
+        }
+    }
+    
+    static class MyCallbackHandler implements CallbackHandler {
+        @Override
+        public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+            // Handle the callbacks for authentication
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 LoginContext_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
+public class Main {
+    public static void main(String[] args) {
+        // Define the method to logout using LoginContext
+        void logout() {
+            try {
+                LoginContext lc = new LoginContext("exampleLoginModule");
+                lc.logout();
+            } catch (LoginException e) {
+                System.err.println("Error during logout: " + e.getMessage());
+            }
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 LoginContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.security.auth.Subject;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            LoginContext loginContext = new LoginContext("Sample", new MyCallbackHandler());
+            loginContext.login();
+            Subject subject = loginContext.getSubject();
+            System.out.println("Subject: " + subject);
+        } catch (LoginException e) {
+            System.err.println("Login failed: " + e.getMessage());
+        }
+    }
+}
+
+class MyCallbackHandler implements CallbackHandler {
+    // Implement callback handler methods here
+}
+```
+================================================================
+

@@ -1,0 +1,4129 @@
+ClassName,Method,Return Type,Description,Full Description
+CallSite,dynamicInvoker(),abstract MethodHandle,Produces a method handle equivalent to an invokedynamic instruction which has been linked to this call site.,"
+
+dynamicInvoker
+public abstract MethodHandle dynamicInvoker()
+Produces a method handle equivalent to an invokedynamic instruction
+ which has been linked to this call site.
+ 
+ This method is equivalent to the following code:
+ 
+ MethodHandle getTarget, invoker, result;
+ getTarget = MethodHandles.publicLookup().bind(this, ""getTarget"", MethodType.methodType(MethodHandle.class));
+ invoker = MethodHandles.exactInvoker(this.type());
+ result = MethodHandles.foldArguments(invoker, getTarget)
+ 
+
+Returns:
+a method handle which always invokes this call site's current target
+
+
+"
+CallSite,getTarget(),abstract MethodHandle,"Returns the target method of the call site, according to the behavior defined by this call site's specific class.","
+
+getTarget
+public abstract MethodHandle getTarget()
+Returns the target method of the call site, according to the
+ behavior defined by this call site's specific class.
+ The immediate subclasses of CallSite document the
+ class-specific behaviors of this method.
+
+Returns:
+the current linkage state of the call site, its target method handle
+See Also:
+ConstantCallSite, 
+VolatileCallSite, 
+setTarget(java.lang.invoke.MethodHandle), 
+ConstantCallSite.getTarget(), 
+MutableCallSite.getTarget(), 
+VolatileCallSite.getTarget()
+
+
+"
+CallSite,setTarget(MethodHandle newTarget),abstract void,"Updates the target method of this call site, according to the behavior defined by this call site's specific class.","
+
+setTarget
+public abstract void setTarget(MethodHandle newTarget)
+Updates the target method of this call site, according to the
+ behavior defined by this call site's specific class.
+ The immediate subclasses of CallSite document the
+ class-specific behaviors of this method.
+ 
+ The type of the new target must be equal to
+ the type of the old target.
+
+Parameters:
+newTarget - the new target
+Throws:
+NullPointerException - if the proposed new target is null
+WrongMethodTypeException - if the proposed new target
+         has a method type that differs from the previous target
+See Also:
+getTarget(), 
+ConstantCallSite.setTarget(java.lang.invoke.MethodHandle), 
+MutableCallSite.setTarget(java.lang.invoke.MethodHandle), 
+VolatileCallSite.setTarget(java.lang.invoke.MethodHandle)
+
+
+"
+CallSite,type(),MethodType,Returns the type of this call site's target.,"
+
+type
+public MethodType type()
+Returns the type of this call site's target.
+ Although targets may change, any call site's type is permanent, and can never change to an unequal type.
+ The setTarget method enforces this invariant by refusing any new target that does
+ not have the previous target's type.
+
+Returns:
+the type of the current target, which is also the type of any future target
+
+
+"
+ConstantCallSite,dynamicInvoker(),MethodHandle,Returns this call site's permanent target.,"
+
+dynamicInvoker
+public final MethodHandle dynamicInvoker()
+Returns this call site's permanent target.
+ Since that target will never change, this is a correct implementation
+ of CallSite.dynamicInvoker.
+
+Specified by:
+dynamicInvoker in class CallSite
+Returns:
+the immutable linkage state of this call site, a constant method handle
+Throws:
+IllegalStateException - if the ConstantCallSite constructor has not completed
+
+
+"
+ConstantCallSite,getTarget(),MethodHandle,"Returns the target method of the call site, which behaves like a final field of the ConstantCallSite.","
+
+getTarget
+public final MethodHandle getTarget()
+Returns the target method of the call site, which behaves
+ like a final field of the ConstantCallSite.
+ That is, the target is always the original value passed
+ to the constructor call which created this instance.
+
+Specified by:
+getTarget in class CallSite
+Returns:
+the immutable linkage state of this call site, a constant method handle
+Throws:
+IllegalStateException - if the ConstantCallSite constructor has not completed
+See Also:
+ConstantCallSite, 
+VolatileCallSite, 
+CallSite.setTarget(java.lang.invoke.MethodHandle), 
+getTarget(), 
+MutableCallSite.getTarget(), 
+VolatileCallSite.getTarget()
+
+
+"
+ConstantCallSite,setTarget(MethodHandle ignore),void,Always throws an UnsupportedOperationException.,"
+
+setTarget
+public final void setTarget(MethodHandle ignore)
+Always throws an UnsupportedOperationException.
+ This kind of call site cannot change its target.
+
+Specified by:
+setTarget in class CallSite
+Parameters:
+ignore - a new target proposed for the call site, which is ignored
+Throws:
+UnsupportedOperationException - because this kind of call site cannot change its target
+See Also:
+CallSite.getTarget(), 
+setTarget(java.lang.invoke.MethodHandle), 
+MutableCallSite.setTarget(java.lang.invoke.MethodHandle), 
+VolatileCallSite.setTarget(java.lang.invoke.MethodHandle)
+
+
+"
+LambdaMetafactory,"altMetafactory(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, Object... args)",static CallSite,"Facilitates the creation of simple ""function objects"" that implement one or more interfaces by delegation to a provided MethodHandle, after appropriate type adaptation and partial evaluation of arguments.","
+
+altMetafactory
+public static CallSite altMetafactory(MethodHandles.Lookup caller,
+                                      String invokedName,
+                                      MethodType invokedType,
+                                      Object... args)
+                               throws LambdaConversionException
+Facilitates the creation of simple ""function objects"" that implement one
+ or more interfaces by delegation to a provided MethodHandle,
+ after appropriate type adaptation and partial evaluation of arguments.
+ Typically used as a bootstrap method for invokedynamic
+ call sites, to support the lambda expression and method
+ reference expression features of the Java Programming Language.
+
+ This is the general, more flexible metafactory; a streamlined version
+ is provided by metafactory(java.lang.invoke.MethodHandles.Lookup,
+ String, MethodType, MethodType, MethodHandle, MethodType).
+ A general description of the behavior of this method is provided
+ above.
+
+ The argument list for this method includes three fixed parameters,
+ corresponding to the parameters automatically stacked by the VM for the
+ bootstrap method in an invokedynamic invocation, and an Object[]
+ parameter that contains additional parameters.  The declared argument
+ list for this method is:
+
+ 
+  CallSite altMetafactory(MethodHandles.Lookup caller,
+                          String invokedName,
+                          MethodType invokedType,
+                          Object... args)
+ 
+but it behaves as if the argument list is as follows:
+
+ 
+  CallSite altMetafactory(MethodHandles.Lookup caller,
+                          String invokedName,
+                          MethodType invokedType,
+                          MethodType samMethodType,
+                          MethodHandle implMethod,
+                          MethodType instantiatedMethodType,
+                          int flags,
+                          int markerInterfaceCount,  // IF flags has MARKERS set
+                          Class... markerInterfaces, // IF flags has MARKERS set
+                          int bridgeCount,           // IF flags has BRIDGES set
+                          MethodType... bridges      // IF flags has BRIDGES set
+                          )
+ 
+Arguments that appear in the argument list for
+ metafactory(MethodHandles.Lookup, String, MethodType, MethodType, MethodHandle, MethodType)
+ have the same specification as in that method.  The additional arguments
+ are interpreted as follows:
+ 
+flags indicates additional options; this is a bitwise
+     OR of desired flags.  Defined flags are FLAG_BRIDGES,
+     FLAG_MARKERS, and FLAG_SERIALIZABLE.
+markerInterfaceCount is the number of additional interfaces
+     the function object should implement, and is present if and only if the
+     FLAG_MARKERS flag is set.
+markerInterfaces is a variable-length list of additional
+     interfaces to implement, whose length equals markerInterfaceCount,
+     and is present if and only if the FLAG_MARKERS flag is set.
+bridgeCount is the number of additional method signatures
+     the function object should implement, and is present if and only if
+     the FLAG_BRIDGES flag is set.
+bridges is a variable-length list of additional
+     methods signatures to implement, whose length equals bridgeCount,
+     and is present if and only if the FLAG_BRIDGES flag is set.
+
+Each class named by markerInterfaces is subject to the same
+ restrictions as Rd, the return type of invokedType,
+ as described above.  Each MethodType
+ named by bridges is subject to the same restrictions as
+ samMethodType, as described above.
+
+ When FLAG_SERIALIZABLE is set in flags, the function objects
+ will implement Serializable, and will have a writeReplace
+ method that returns an appropriate SerializedLambda.  The
+ caller class must have an appropriate $deserializeLambda$
+ method, as described in SerializedLambda.
+
+ When the target of the CallSite returned from this method is
+ invoked, the resulting function objects are instances of a class with
+ the following properties:
+ 
+The class implements the interface named by the return type
+     of invokedType and any interfaces named by markerInterfaces
+The class declares methods with the name given by invokedName,
+     and the signature given by samMethodType and additional signatures
+     given by bridges
+The class may override methods from Object, and may
+     implement methods related to serialization.
+
+
+Parameters:
+caller - Represents a lookup context with the accessibility
+               privileges of the caller.  When used with invokedynamic,
+               this is stacked automatically by the VM.
+invokedName - The name of the method to implement.  When used with
+                    invokedynamic, this is provided by the
+                    NameAndType of the InvokeDynamic
+                    structure and is stacked automatically by the VM.
+invokedType - The expected signature of the CallSite.  The
+                    parameter types represent the types of capture variables;
+                    the return type is the interface to implement.   When
+                    used with invokedynamic, this is provided by
+                    the NameAndType of the InvokeDynamic
+                    structure and is stacked automatically by the VM.
+                    In the event that the implementation method is an
+                    instance method and this signature has any parameters,
+                    the first parameter in the invocation signature must
+                    correspond to the receiver.
+args - An Object[] array containing the required
+                    arguments samMethodType, implMethod,
+                    instantiatedMethodType, flags, and any
+                    optional arguments, as described
+                    altMetafactory(MethodHandles.Lookup, String, MethodType, Object...) above}
+Returns:
+a CallSite whose target can be used to perform capture, generating
+         instances of the interface named by invokedType
+Throws:
+LambdaConversionException - If any of the linkage invariants
+                                   described above
+                                   are violated
+
+
+"
+LambdaMetafactory,"metafactory(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, MethodType samMethodType, MethodHandle implMethod, MethodType instantiatedMethodType)",static CallSite,"Facilitates the creation of simple ""function objects"" that implement one or more interfaces by delegation to a provided MethodHandle, after appropriate type adaptation and partial evaluation of arguments.","
+
+metafactory
+public static CallSite metafactory(MethodHandles.Lookup caller,
+                                   String invokedName,
+                                   MethodType invokedType,
+                                   MethodType samMethodType,
+                                   MethodHandle implMethod,
+                                   MethodType instantiatedMethodType)
+                            throws LambdaConversionException
+Facilitates the creation of simple ""function objects"" that implement one
+ or more interfaces by delegation to a provided MethodHandle,
+ after appropriate type adaptation and partial evaluation of arguments.
+ Typically used as a bootstrap method for invokedynamic
+ call sites, to support the lambda expression and method
+ reference expression features of the Java Programming Language.
+
+ This is the standard, streamlined metafactory; additional flexibility
+ is provided by altMetafactory(MethodHandles.Lookup, String, MethodType, Object...).
+ A general description of the behavior of this method is provided
+ above.
+
+ When the target of the CallSite returned from this method is
+ invoked, the resulting function objects are instances of a class which
+ implements the interface named by the return type of invokedType,
+ declares a method with the name given by invokedName and the
+ signature given by samMethodType.  It may also override additional
+ methods from Object.
+
+Parameters:
+caller - Represents a lookup context with the accessibility
+               privileges of the caller.  When used with invokedynamic,
+               this is stacked automatically by the VM.
+invokedName - The name of the method to implement.  When used with
+                    invokedynamic, this is provided by the
+                    NameAndType of the InvokeDynamic
+                    structure and is stacked automatically by the VM.
+invokedType - The expected signature of the CallSite.  The
+                    parameter types represent the types of capture variables;
+                    the return type is the interface to implement.   When
+                    used with invokedynamic, this is provided by
+                    the NameAndType of the InvokeDynamic
+                    structure and is stacked automatically by the VM.
+                    In the event that the implementation method is an
+                    instance method and this signature has any parameters,
+                    the first parameter in the invocation signature must
+                    correspond to the receiver.
+samMethodType - Signature and return type of method to be implemented
+                      by the function object.
+implMethod - A direct method handle describing the implementation
+                   method which should be called (with suitable adaptation
+                   of argument types, return types, and with captured
+                   arguments prepended to the invocation arguments) at
+                   invocation time.
+instantiatedMethodType - The signature and return type that should
+                               be enforced dynamically at invocation time.
+                               This may be the same as samMethodType,
+                               or may be a specialization of it.
+Returns:
+a CallSite whose target can be used to perform capture, generating
+         instances of the interface named by invokedType
+Throws:
+LambdaConversionException - If any of the linkage invariants
+                                   described above
+                                   are violated
+
+
+"
+MethodHandle,"asCollector(Class<?> arrayType, int arrayLength)",MethodHandle,"Makes an array-collecting method handle, which accepts a given number of trailing positional arguments and collects them into an array argument.","
+
+asCollector
+public MethodHandle asCollector(Class<?> arrayType,
+                                int arrayLength)
+Makes an array-collecting method handle, which accepts a given number of trailing
+ positional arguments and collects them into an array argument.
+ The new method handle adapts, as its target,
+ the current method handle.  The type of the adapter will be
+ the same as the type of the target, except that a single trailing
+ parameter (usually of type arrayType) is replaced by
+ arrayLength parameters whose type is element type of arrayType.
+ 
+ If the array type differs from the final argument type on the original target,
+ the original target is adapted to take the array type directly,
+ as if by a call to asType.
+ 
+ When called, the adapter replaces its trailing arrayLength
+ arguments by a single new array of type arrayType, whose elements
+ comprise (in order) the replaced arguments.
+ Finally the target is called.
+ What the target eventually returns is returned unchanged by the adapter.
+ 
+ (The array may also be a shared constant when arrayLength is zero.)
+ 
+ (Note: The arrayType is often identical to the last
+ parameter type of the original target.
+ It is an explicit argument for symmetry with asSpreader, and also
+ to allow the target to use a simple Object as its last parameter type.)
+ 
+ In order to create a collecting adapter which is not restricted to a particular
+ number of collected arguments, use asVarargsCollector instead.
+ 
+ Here are some examples of array-collecting method handles:
+ 
+MethodHandle deepToString = publicLookup()
+  .findStatic(Arrays.class, ""deepToString"", methodType(String.class, Object[].class));
+assertEquals(""[won]"",   (String) deepToString.invokeExact(new Object[]{""won""}));
+MethodHandle ts1 = deepToString.asCollector(Object[].class, 1);
+assertEquals(methodType(String.class, Object.class), ts1.type());
+//assertEquals(""[won]"", (String) ts1.invokeExact(         new Object[]{""won""})); //FAIL
+assertEquals(""[[won]]"", (String) ts1.invokeExact((Object) new Object[]{""won""}));
+// arrayType can be a subtype of Object[]
+MethodHandle ts2 = deepToString.asCollector(String[].class, 2);
+assertEquals(methodType(String.class, String.class, String.class), ts2.type());
+assertEquals(""[two, too]"", (String) ts2.invokeExact(""two"", ""too""));
+MethodHandle ts0 = deepToString.asCollector(Object[].class, 0);
+assertEquals(""[]"", (String) ts0.invokeExact());
+// collectors can be nested, Lisp-style
+MethodHandle ts22 = deepToString.asCollector(Object[].class, 3).asCollector(String[].class, 2);
+assertEquals(""[A, B, [C, D]]"", ((String) ts22.invokeExact((Object)'A', (Object)""B"", ""C"", ""D"")));
+// arrayType can be any primitive array type
+MethodHandle bytesToString = publicLookup()
+  .findStatic(Arrays.class, ""toString"", methodType(String.class, byte[].class))
+  .asCollector(byte[].class, 3);
+assertEquals(""[1, 2, 3]"", (String) bytesToString.invokeExact((byte)1, (byte)2, (byte)3));
+MethodHandle longsToString = publicLookup()
+  .findStatic(Arrays.class, ""toString"", methodType(String.class, long[].class))
+  .asCollector(long[].class, 1);
+assertEquals(""[123]"", (String) longsToString.invokeExact((long)123));
+ 
+
+Parameters:
+arrayType - often Object[], the type of the array argument which will collect the arguments
+arrayLength - the number of arguments to collect into a new array argument
+Returns:
+a new method handle which collects some trailing argument
+         into an array, before calling the original method handle
+Throws:
+NullPointerException - if arrayType is a null reference
+IllegalArgumentException - if arrayType is not an array type
+         or arrayType is not assignable to this method handle's trailing parameter type,
+         or arrayLength is not a legal array size,
+         or the resulting method handle's type would have
+         too many parameters
+WrongMethodTypeException - if the implied asType call fails
+See Also:
+asSpreader(java.lang.Class<?>, int), 
+asVarargsCollector(java.lang.Class<?>)
+
+
+"
+MethodHandle,asFixedArity(),MethodHandle,Makes a fixed arity method handle which is otherwise equivalent to the current method handle.,"
+
+asFixedArity
+public MethodHandle asFixedArity()
+Makes a fixed arity method handle which is otherwise
+ equivalent to the current method handle.
+ 
+ If the current method handle is not of
+ variable arity,
+ the current method handle is returned.
+ This is true even if the current method handle
+ could not be a valid input to asVarargsCollector.
+ 
+ Otherwise, the resulting fixed-arity method handle has the same
+ type and behavior of the current method handle,
+ except that isVarargsCollector
+ will be false.
+ The fixed-arity method handle may (or may not) be the
+ a previous argument to asVarargsCollector.
+ 
+ Here is an example, of a list-making variable arity method handle:
+ 
+MethodHandle asListVar = publicLookup()
+  .findStatic(Arrays.class, ""asList"", methodType(List.class, Object[].class))
+  .asVarargsCollector(Object[].class);
+MethodHandle asListFix = asListVar.asFixedArity();
+assertEquals(""[1]"", asListVar.invoke(1).toString());
+Exception caught = null;
+try { asListFix.invoke((Object)1); }
+catch (Exception ex) { caught = ex; }
+assert(caught instanceof ClassCastException);
+assertEquals(""[two, too]"", asListVar.invoke(""two"", ""too"").toString());
+try { asListFix.invoke(""two"", ""too""); }
+catch (Exception ex) { caught = ex; }
+assert(caught instanceof WrongMethodTypeException);
+Object[] argv = { ""three"", ""thee"", ""tee"" };
+assertEquals(""[three, thee, tee]"", asListVar.invoke(argv).toString());
+assertEquals(""[three, thee, tee]"", asListFix.invoke(argv).toString());
+assertEquals(1, ((List) asListVar.invoke((Object)argv)).size());
+assertEquals(""[three, thee, tee]"", asListFix.invoke((Object)argv).toString());
+ 
+
+Returns:
+a new method handle which accepts only a fixed number of arguments
+See Also:
+asVarargsCollector(java.lang.Class<?>), 
+isVarargsCollector()
+
+
+"
+MethodHandle,"asSpreader(Class<?> arrayType, int arrayLength)",MethodHandle,"Makes an array-spreading method handle, which accepts a trailing array argument and spreads its elements as positional arguments.","
+
+asSpreader
+public MethodHandle asSpreader(Class<?> arrayType,
+                               int arrayLength)
+Makes an array-spreading method handle, which accepts a trailing array argument
+ and spreads its elements as positional arguments.
+ The new method handle adapts, as its target,
+ the current method handle.  The type of the adapter will be
+ the same as the type of the target, except that the final
+ arrayLength parameters of the target's type are replaced
+ by a single array parameter of type arrayType.
+ 
+ If the array element type differs from any of the corresponding
+ argument types on the original target,
+ the original target is adapted to take the array elements directly,
+ as if by a call to asType.
+ 
+ When called, the adapter replaces a trailing array argument
+ by the array's elements, each as its own argument to the target.
+ (The order of the arguments is preserved.)
+ They are converted pairwise by casting and/or unboxing
+ to the types of the trailing parameters of the target.
+ Finally the target is called.
+ What the target eventually returns is returned unchanged by the adapter.
+ 
+ Before calling the target, the adapter verifies that the array
+ contains exactly enough elements to provide a correct argument count
+ to the target method handle.
+ (The array may also be null when zero elements are required.)
+ 
+ If, when the adapter is called, the supplied array argument does
+ not have the correct number of elements, the adapter will throw
+ an IllegalArgumentException instead of invoking the target.
+ 
+ Here are some simple examples of array-spreading method handles:
+ 
+MethodHandle equals = publicLookup()
+  .findVirtual(String.class, ""equals"", methodType(boolean.class, Object.class));
+assert( (boolean) equals.invokeExact(""me"", (Object)""me""));
+assert(!(boolean) equals.invokeExact(""me"", (Object)""thee""));
+// spread both arguments from a 2-array:
+MethodHandle eq2 = equals.asSpreader(Object[].class, 2);
+assert( (boolean) eq2.invokeExact(new Object[]{ ""me"", ""me"" }));
+assert(!(boolean) eq2.invokeExact(new Object[]{ ""me"", ""thee"" }));
+// try to spread from anything but a 2-array:
+for (int n = 0; n <= 10; n++) {
+  Object[] badArityArgs = (n == 2 ? null : new Object[n]);
+  try { assert((boolean) eq2.invokeExact(badArityArgs) && false); }
+  catch (IllegalArgumentException ex) { } // OK
+}
+// spread both arguments from a String array:
+MethodHandle eq2s = equals.asSpreader(String[].class, 2);
+assert( (boolean) eq2s.invokeExact(new String[]{ ""me"", ""me"" }));
+assert(!(boolean) eq2s.invokeExact(new String[]{ ""me"", ""thee"" }));
+// spread second arguments from a 1-array:
+MethodHandle eq1 = equals.asSpreader(Object[].class, 1);
+assert( (boolean) eq1.invokeExact(""me"", new Object[]{ ""me"" }));
+assert(!(boolean) eq1.invokeExact(""me"", new Object[]{ ""thee"" }));
+// spread no arguments from a 0-array or null:
+MethodHandle eq0 = equals.asSpreader(Object[].class, 0);
+assert( (boolean) eq0.invokeExact(""me"", (Object)""me"", new Object[0]));
+assert(!(boolean) eq0.invokeExact(""me"", (Object)""thee"", (Object[])null));
+// asSpreader and asCollector are approximate inverses:
+for (int n = 0; n <= 2; n++) {
+    for (Class<?> a : new Class<?>[]{Object[].class, String[].class, CharSequence[].class}) {
+        MethodHandle equals2 = equals.asSpreader(a, n).asCollector(a, n);
+        assert( (boolean) equals2.invokeWithArguments(""me"", ""me""));
+        assert(!(boolean) equals2.invokeWithArguments(""me"", ""thee""));
+    }
+}
+MethodHandle caToString = publicLookup()
+  .findStatic(Arrays.class, ""toString"", methodType(String.class, char[].class));
+assertEquals(""[A, B, C]"", (String) caToString.invokeExact(""ABC"".toCharArray()));
+MethodHandle caString3 = caToString.asCollector(char[].class, 3);
+assertEquals(""[A, B, C]"", (String) caString3.invokeExact('A', 'B', 'C'));
+MethodHandle caToString2 = caString3.asSpreader(char[].class, 2);
+assertEquals(""[A, B, C]"", (String) caToString2.invokeExact('A', ""BC"".toCharArray()));
+ 
+
+Parameters:
+arrayType - usually Object[], the type of the array argument from which to extract the spread arguments
+arrayLength - the number of arguments to spread from an incoming array argument
+Returns:
+a new method handle which spreads its final array argument,
+         before calling the original method handle
+Throws:
+NullPointerException - if arrayType is a null reference
+IllegalArgumentException - if arrayType is not an array type,
+         or if target does not have at least
+         arrayLength parameter types,
+         or if arrayLength is negative,
+         or if the resulting method handle's type would have
+         too many parameters
+WrongMethodTypeException - if the implied asType call fails
+See Also:
+asCollector(java.lang.Class<?>, int)
+
+
+"
+MethodHandle,asType(MethodType newType),MethodHandle,Produces an adapter method handle which adapts the type of the current method handle to a new type.,"
+
+asType
+public MethodHandle asType(MethodType newType)
+Produces an adapter method handle which adapts the type of the
+ current method handle to a new type.
+ The resulting method handle is guaranteed to report a type
+ which is equal to the desired new type.
+ 
+ If the original type and new type are equal, returns this.
+ 
+ The new method handle, when invoked, will perform the following
+ steps:
+ 
+Convert the incoming argument list to match the original
+     method handle's argument list.
+ Invoke the original method handle on the converted argument list.
+ Convert any result returned by the original method handle
+     to the return type of new method handle.
+ 
+
+ This method provides the crucial behavioral difference between
+ invokeExact and plain, inexact invoke.
+ The two methods
+ perform the same steps when the caller's type descriptor exactly m atches
+ the callee's, but when the types differ, plain invoke
+ also calls asType (or some internal equivalent) in order
+ to match up the caller's and callee's types.
+ 
+ If the current method is a variable arity method handle
+ argument list conversion may involve the conversion and collection
+ of several arguments into an array, as
+ described elsewhere.
+ In every other case, all conversions are applied pairwise,
+ which means that each argument or return value is converted to
+ exactly one argument or return value (or no return value).
+ The applied conversions are defined by consulting the
+ the corresponding component types of the old and new
+ method handle types.
+ 
+ Let T0 and T1 be corresponding new and old parameter types,
+ or old and new return types.  Specifically, for some valid index i, let
+ T0=newType.parameterType(i) and T1=this.type().parameterType(i).
+ Or else, going the other way for return values, let
+ T0=this.type().returnType() and T1=newType.returnType().
+ If the types are the same, the new method handle makes no change
+ to the corresponding argument or return value (if any).
+ Otherwise, one of the following conversions is applied
+ if possible:
+ 
+If T0 and T1 are references, then a cast to T1 is applied.
+     (The types do not need to be related in any particular way.
+     This is because a dynamic value of null can convert to any reference type.)
+ If T0 and T1 are primitives, then a Java method invocation
+     conversion (JLS 5.3) is applied, if one exists.
+     (Specifically, T0 must convert to T1 by a widening primitive conversion.)
+ If T0 is a primitive and T1 a reference,
+     a Java casting conversion (JLS 5.5) is applied if one exists.
+     (Specifically, the value is boxed from T0 to its wrapper class,
+     which is then widened as needed to T1.)
+ If T0 is a reference and T1 a primitive, an unboxing
+     conversion will be applied at runtime, possibly followed
+     by a Java method invocation conversion (JLS 5.3)
+     on the primitive value.  (These are the primitive widening conversions.)
+     T0 must be a wrapper class or a supertype of one.
+     (In the case where T0 is Object, these are the conversions
+     allowed by java.lang.reflect.Method.invoke.)
+     The unboxing conversion must have a possibility of success, which means that
+     if T0 is not itself a wrapper class, there must exist at least one
+     wrapper class TW which is a subtype of T0 and whose unboxed
+     primitive value can be widened to T1.
+ If the return type T1 is marked as void, any returned value is discarded
+ If the return type T0 is void and T1 a reference, a null value is introduced.
+ If the return type T0 is void and T1 a primitive,
+     a zero value is introduced.
+ 
+ (Note: Both T0 and T1 may be regarded as static types,
+ because neither corresponds specifically to the dynamic type of any
+ actual argument or return value.)
+ 
+ The method handle conversion cannot be made if any one of the required
+ pairwise conversions cannot be made.
+ 
+ At runtime, the conversions applied to reference arguments
+ or return values may require additional runtime checks which can fail.
+ An unboxing operation may fail because the original reference is null,
+ causing a NullPointerException.
+ An unboxing operation or a reference cast may also fail on a reference
+ to an object of the wrong type,
+ causing a ClassCastException.
+ Although an unboxing operation may accept several kinds of wrappers,
+ if none are available, a ClassCastException will be thrown.
+
+Parameters:
+newType - the expected type of the new method handle
+Returns:
+a method handle which delegates to this after performing
+           any necessary argument conversions, and arranges for any
+           necessary return value conversions
+Throws:
+NullPointerException - if newType is a null reference
+WrongMethodTypeException - if the conversion cannot be made
+See Also:
+MethodHandles.explicitCastArguments(java.lang.invoke.MethodHandle, java.lang.invoke.MethodType)
+
+
+"
+MethodHandle,asVarargsCollector(Class<?> arrayType),MethodHandle,Makes a variable arity adapter which is able to accept any number of trailing positional arguments and collect them into an array argument.,"
+
+asVarargsCollector
+public MethodHandle asVarargsCollector(Class<?> arrayType)
+Makes a variable arity adapter which is able to accept
+ any number of trailing positional arguments and collect them
+ into an array argument.
+ 
+ The type and behavior of the adapter will be the same as
+ the type and behavior of the target, except that certain
+ invoke and asType requests can lead to
+ trailing positional arguments being collected into target's
+ trailing parameter.
+ Also, the last parameter type of the adapter will be
+ arrayType, even if the target has a different
+ last parameter type.
+ 
+ This transformation may return this if the method handle is
+ already of variable arity and its trailing parameter type
+ is identical to arrayType.
+ 
+ When called with invokeExact, the adapter invokes
+ the target with no argument changes.
+ (Note: This behavior is different from a
+ fixed arity collector,
+ since it accepts a whole array of indeterminate length,
+ rather than a fixed number of arguments.)
+ 
+ When called with plain, inexact invoke, if the caller
+ type is the same as the adapter, the adapter invokes the target as with
+ invokeExact.
+ (This is the normal behavior for invoke when types match.)
+ 
+ Otherwise, if the caller and adapter arity are the same, and the
+ trailing parameter type of the caller is a reference type identical to
+ or assignable to the trailing parameter type of the adapter,
+ the arguments and return values are converted pairwise,
+ as if by asType on a fixed arity
+ method handle.
+ 
+ Otherwise, the arities differ, or the adapter's trailing parameter
+ type is not assignable from the corresponding caller type.
+ In this case, the adapter replaces all trailing arguments from
+ the original trailing argument position onward, by
+ a new array of type arrayType, whose elements
+ comprise (in order) the replaced arguments.
+ 
+ The caller type must provides as least enough arguments,
+ and of the correct type, to satisfy the target's requirement for
+ positional arguments before the trailing array argument.
+ Thus, the caller must supply, at a minimum, N-1 arguments,
+ where N is the arity of the target.
+ Also, there must exist conversions from the incoming arguments
+ to the target's arguments.
+ As with other uses of plain invoke, if these basic
+ requirements are not fulfilled, a WrongMethodTypeException
+ may be thrown.
+ 
+ In all cases, what the target eventually returns is returned unchanged by the adapter.
+ 
+ In the final case, it is exactly as if the target method handle were
+ temporarily adapted with a fixed arity collector
+ to the arity required by the caller type.
+ (As with asCollector, if the array length is zero,
+ a shared constant may be used instead of a new array.
+ If the implied call to asCollector would throw
+ an IllegalArgumentException or WrongMethodTypeException,
+ the call to the variable arity adapter must throw
+ WrongMethodTypeException.)
+ 
+ The behavior of asType is also specialized for
+ variable arity adapters, to maintain the invariant that
+ plain, inexact invoke is always equivalent to an asType
+ call to adjust the target type, followed by invokeExact.
+ Therefore, a variable arity adapter responds
+ to an asType request by building a fixed arity collector,
+ if and only if the adapter and requested type differ either
+ in arity or trailing argument type.
+ The resulting fixed arity collector has its type further adjusted
+ (if necessary) to the requested type by pairwise conversion,
+ as if by another application of asType.
+ 
+ When a method handle is obtained by executing an ldc instruction
+ of a CONSTANT_MethodHandle constant, and the target method is marked
+ as a variable arity method (with the modifier bit 0x0080),
+ the method handle will accept multiple arities, as if the method handle
+ constant were created by means of a call to asVarargsCollector.
+ 
+ In order to create a collecting adapter which collects a predetermined
+ number of arguments, and whose type reflects this predetermined number,
+ use asCollector instead.
+ 
+ No method handle transformations produce new method handles with
+ variable arity, unless they are documented as doing so.
+ Therefore, besides asVarargsCollector,
+ all methods in MethodHandle and MethodHandles
+ will return a method handle with fixed arity,
+ except in the cases where they are specified to return their original
+ operand (e.g., asType of the method handle's own type).
+ 
+ Calling asVarargsCollector on a method handle which is already
+ of variable arity will produce a method handle with the same type and behavior.
+ It may (or may not) return the original variable arity method handle.
+ 
+ Here is an example, of a list-making variable arity method handle:
+ 
+MethodHandle deepToString = publicLookup()
+  .findStatic(Arrays.class, ""deepToString"", methodType(String.class, Object[].class));
+MethodHandle ts1 = deepToString.asVarargsCollector(Object[].class);
+assertEquals(""[won]"",   (String) ts1.invokeExact(    new Object[]{""won""}));
+assertEquals(""[won]"",   (String) ts1.invoke(         new Object[]{""won""}));
+assertEquals(""[won]"",   (String) ts1.invoke(                      ""won"" ));
+assertEquals(""[[won]]"", (String) ts1.invoke((Object) new Object[]{""won""}));
+// findStatic of Arrays.asList(...) produces a variable arity method handle:
+MethodHandle asList = publicLookup()
+  .findStatic(Arrays.class, ""asList"", methodType(List.class, Object[].class));
+assertEquals(methodType(List.class, Object[].class), asList.type());
+assert(asList.isVarargsCollector());
+assertEquals(""[]"", asList.invoke().toString());
+assertEquals(""[1]"", asList.invoke(1).toString());
+assertEquals(""[two, too]"", asList.invoke(""two"", ""too"").toString());
+String[] argv = { ""three"", ""thee"", ""tee"" };
+assertEquals(""[three, thee, tee]"", asList.invoke(argv).toString());
+assertEquals(""[three, thee, tee]"", asList.invoke((Object[])argv).toString());
+List ls = (List) asList.invoke((Object)argv);
+assertEquals(1, ls.size());
+assertEquals(""[three, thee, tee]"", Arrays.toString((Object[])ls.get(0)));
+ 
+
+Discussion:
+ These rules are designed as a dynamically-typed variation
+ of the Java rules for variable arity methods.
+ In both cases, callers to a variable arity method or method handle
+ can either pass zero or more positional arguments, or else pass
+ pre-collected arrays of any length.  Users should be aware of the
+ special role of the final argument, and of the effect of a
+ type match on that final argument, which determines whether
+ or not a single trailing argument is interpreted as a whole
+ array or a single element of an array to be collected.
+ Note that the dynamic type of the trailing argument has no
+ effect on this decision, only a comparison between the symbolic
+ type descriptor of the call site and the type descriptor of the method handle.)
+
+Parameters:
+arrayType - often Object[], the type of the array argument which will collect the arguments
+Returns:
+a new method handle which can collect any number of trailing arguments
+         into an array, before calling the original method handle
+Throws:
+NullPointerException - if arrayType is a null reference
+IllegalArgumentException - if arrayType is not an array type
+         or arrayType is not assignable to this method handle's trailing parameter type
+See Also:
+asCollector(java.lang.Class<?>, int), 
+isVarargsCollector(), 
+asFixedArity()
+
+
+"
+MethodHandle,bindTo(Object x),MethodHandle,"Binds a value x to the first argument of a method handle, without invoking it.","
+
+bindTo
+public MethodHandle bindTo(Object x)
+Binds a value x to the first argument of a method handle, without invoking it.
+ The new method handle adapts, as its target,
+ the current method handle by binding it to the given argument.
+ The type of the bound handle will be
+ the same as the type of the target, except that a single leading
+ reference parameter will be omitted.
+ 
+ When called, the bound handle inserts the given value x
+ as a new leading argument to the target.  The other arguments are
+ also passed unchanged.
+ What the target eventually returns is returned unchanged by the bound handle.
+ 
+ The reference x must be convertible to the first parameter
+ type of the target.
+ 
+ (Note:  Because method handles are immutable, the target method handle
+ retains its original type and behavior.)
+
+Parameters:
+x - the value to bind to the first argument of the target
+Returns:
+a new method handle which prepends the given value to the incoming
+         argument list, before calling the original method handle
+Throws:
+IllegalArgumentException - if the target does not have a
+         leading parameter type that is a reference type
+ClassCastException - if x cannot be converted
+         to the leading parameter type of the target
+See Also:
+MethodHandles.insertArguments(java.lang.invoke.MethodHandle, int, java.lang.Object...)
+
+
+"
+MethodHandle,invoke(Object... args),Object,"Invokes the method handle, allowing any caller type descriptor, and optionally performing conversions on arguments and return values.","
+
+invoke
+public final Object invoke(Object... args)
+                    throws Throwable
+Invokes the method handle, allowing any caller type descriptor,
+ and optionally performing conversions on arguments and return values.
+ 
+ If the call site's symbolic type descriptor exactly matches this method handle's type,
+ the call proceeds as if by invokeExact.
+ 
+ Otherwise, the call proceeds as if this method handle were first
+ adjusted by calling asType to adjust this method handle
+ to the required type, and then the call proceeds as if by
+ invokeExact on the adjusted method handle.
+ 
+ There is no guarantee that the asType call is actually made.
+ If the JVM can predict the results of making the call, it may perform
+ adaptations directly on the caller's arguments,
+ and call the target method handle according to its own exact type.
+ 
+ The resolved type descriptor at the call site of invoke must
+ be a valid argument to the receivers asType method.
+ In particular, the caller must specify the same argument arity
+ as the callee's type,
+ if the callee is not a variable arity collector.
+ 
+ When this method is observed via the Core Reflection API,
+ it will appear as a single native method, taking an object array and returning an object.
+ If this native method is invoked directly via
+ java.lang.reflect.Method.invoke, via JNI,
+ or indirectly via Lookup.unreflect,
+ it will throw an UnsupportedOperationException.
+
+Parameters:
+args - the signature-polymorphic parameter list, statically represented using varargs
+Returns:
+the signature-polymorphic result, statically represented using Object
+Throws:
+WrongMethodTypeException - if the target's type cannot be adjusted to the caller's symbolic type descriptor
+ClassCastException - if the target's type can be adjusted to the caller, but a reference cast fails
+Throwable - anything thrown by the underlying method propagates unchanged through the method handle call
+
+
+"
+MethodHandle,invokeExact(Object... args),Object,"Invokes the method handle, allowing any caller type descriptor, but requiring an exact type match.","
+
+invokeExact
+public final Object invokeExact(Object... args)
+                         throws Throwable
+Invokes the method handle, allowing any caller type descriptor, but requiring an exact type match.
+ The symbolic type descriptor at the call site of invokeExact must
+ exactly match this method handle's type.
+ No conversions are allowed on arguments or return values.
+ 
+ When this method is observed via the Core Reflection API,
+ it will appear as a single native method, taking an object array and returning an object.
+ If this native method is invoked directly via
+ java.lang.reflect.Method.invoke, via JNI,
+ or indirectly via Lookup.unreflect,
+ it will throw an UnsupportedOperationException.
+
+Parameters:
+args - the signature-polymorphic parameter list, statically represented using varargs
+Returns:
+the signature-polymorphic result, statically represented using Object
+Throws:
+WrongMethodTypeException - if the target's type is not identical with the caller's symbolic type descriptor
+Throwable - anything thrown by the underlying method propagates unchanged through the method handle call
+
+
+"
+MethodHandle,invokeWithArguments(List<?> arguments),Object,"Performs a variable arity invocation, passing the arguments in the given array to the method handle, as if via an inexact invoke from a call site which mentions only the type Object, and whose arity is the length of the argument array.","
+
+invokeWithArguments
+public Object invokeWithArguments(List<?> arguments)
+                           throws Throwable
+Performs a variable arity invocation, passing the arguments in the given array
+ to the method handle, as if via an inexact invoke from a call site
+ which mentions only the type Object, and whose arity is the length
+ of the argument array.
+ 
+ This method is also equivalent to the following code:
+ 
+   invokeWithArguments(arguments.toArray()
+ 
+
+Parameters:
+arguments - the arguments to pass to the target
+Returns:
+the result returned by the target
+Throws:
+NullPointerException - if arguments is a null reference
+ClassCastException - if an argument cannot be converted by reference casting
+WrongMethodTypeException - if the target's type cannot be adjusted to take the given number of Object arguments
+Throwable - anything thrown by the target method invocation
+
+
+"
+MethodHandle,invokeWithArguments(Object... arguments),Object,"Performs a variable arity invocation, passing the arguments in the given list to the method handle, as if via an inexact invoke from a call site which mentions only the type Object, and whose arity is the length of the argument list.","
+
+invokeWithArguments
+public Object invokeWithArguments(Object... arguments)
+                           throws Throwable
+Performs a variable arity invocation, passing the arguments in the given list
+ to the method handle, as if via an inexact invoke from a call site
+ which mentions only the type Object, and whose arity is the length
+ of the argument list.
+ 
+ Specifically, execution proceeds as if by the following steps,
+ although the methods are not guaranteed to be called if the JVM
+ can predict their effects.
+ 
+Determine the length of the argument array as N.
+     For a null reference, N=0. 
+Determine the general type TN of N arguments as
+     as TN=MethodType.genericMethodType(N).
+Force the original target method handle MH0 to the
+     required type, as MH1 = MH0.asType(TN). 
+Spread the array into N separate arguments A0, .... 
+Invoke the type-adjusted method handle on the unpacked arguments:
+     MH1.invokeExact(A0, ...). 
+Take the return value as an Object reference. 
+
+
+ Because of the action of the asType step, the following argument
+ conversions are applied as necessary:
+ 
+reference casting
+ unboxing
+ widening primitive conversions
+ 
+
+ The result returned by the call is boxed if it is a primitive,
+ or forced to null if the return type is void.
+ 
+ This call is equivalent to the following code:
+ 
+ MethodHandle invoker = MethodHandles.spreadInvoker(this.type(), 0);
+ Object result = invoker.invokeExact(this, arguments);
+ 
+
+ Unlike the signature polymorphic methods invokeExact and invoke,
+ invokeWithArguments can be accessed normally via the Core Reflection API and JNI.
+ It can therefore be used as a bridge between native or reflective code and method handles.
+
+Parameters:
+arguments - the arguments to pass to the target
+Returns:
+the result returned by the target
+Throws:
+ClassCastException - if an argument cannot be converted by reference casting
+WrongMethodTypeException - if the target's type cannot be adjusted to take the given number of Object arguments
+Throwable - anything thrown by the target method invocation
+See Also:
+MethodHandles.spreadInvoker(java.lang.invoke.MethodType, int)
+
+
+"
+MethodHandle,isVarargsCollector(),boolean,Determines if this method handle supports variable arity calls.,"
+
+isVarargsCollector
+public boolean isVarargsCollector()
+Determines if this method handle
+ supports variable arity calls.
+ Such method handles arise from the following sources:
+ 
+a call to asVarargsCollector
+a call to a lookup method
+     which resolves to a variable arity Java method or constructor
+ an ldc instruction of a CONSTANT_MethodHandle
+     which resolves to a variable arity Java method or constructor
+ 
+
+Returns:
+true if this method handle accepts more than one arity of plain, inexact invoke calls
+See Also:
+asVarargsCollector(java.lang.Class<?>), 
+asFixedArity()
+
+
+"
+MethodHandle,toString(),String,"Returns a string representation of the method handle, starting with the string ""MethodHandle"" and ending with the string representation of the method handle's type.","
+
+toString
+public String toString()
+Returns a string representation of the method handle,
+ starting with the string ""MethodHandle"" and
+ ending with the string representation of the method handle's type.
+ In other words, this method returns a string equal to the value of:
+ 
+ ""MethodHandle"" + type().toString()
+ 
+
+ (Note:  Future releases of this API may add further information
+ to the string representation.
+ Therefore, the present syntax should not be parsed by applications.)
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of the method handle
+
+
+"
+MethodHandle,type(),MethodType,Reports the type of this method handle.,"
+
+type
+public MethodType type()
+Reports the type of this method handle.
+ Every invocation of this method handle via invokeExact must exactly match this type.
+
+Returns:
+the method handle type
+
+
+"
+MethodHandleProxies,"asInterfaceInstance(Class<T> intfc, MethodHandle target)",static <T> T,Produces an instance of the given single-method interface which redirects its calls to the given method handle.,"
+
+asInterfaceInstance
+public static <T> T asInterfaceInstance(Class<T> intfc,
+                                        MethodHandle target)
+Produces an instance of the given single-method interface which redirects
+ its calls to the given method handle.
+ 
+ A single-method interface is an interface which declares a uniquely named method.
+ When determining the uniquely named method of a single-method interface,
+ the public Object methods (toString, equals, hashCode)
+ are disregarded.  For example, Comparator is a single-method interface,
+ even though it re-declares the Object.equals method.
+ 
+ The interface must be public.  No additional access checks are performed.
+ 
+ The resulting instance of the required type will respond to
+ invocation of the type's uniquely named method by calling
+ the given target on the incoming arguments,
+ and returning or throwing whatever the target
+ returns or throws.  The invocation will be as if by
+ target.invoke.
+ The target's type will be checked before the
+ instance is created, as if by a call to asType,
+ which may result in a WrongMethodTypeException.
+ 
+ The uniquely named method is allowed to be multiply declared,
+ with distinct type descriptors.  (E.g., it can be overloaded,
+ or can possess bridge methods.)  All such declarations are
+ connected directly to the target method handle.
+ Argument and return types are adjusted by asType
+ for each individual declaration.
+ 
+ The wrapper instance will implement the requested interface
+ and its super-types, but no other single-method interfaces.
+ This means that the instance will not unexpectedly
+ pass an instanceof test for any unrequested type.
+ 
+Implementation Note:
+ Therefore, each instance must implement a unique single-method interface.
+ Implementations may not bundle together
+ multiple single-method interfaces onto single implementation classes
+ in the style of AWTEventMulticaster.
+ 
+ The method handle may throw an undeclared exception,
+ which means any checked exception (or other checked throwable)
+ not declared by the requested type's single abstract method.
+ If this happens, the throwable will be wrapped in an instance of
+ UndeclaredThrowableException
+ and thrown in that wrapped form.
+ 
+ Like Integer.valueOf,
+ asInterfaceInstance is a factory method whose results are defined
+ by their behavior.
+ It is not guaranteed to return a new instance for every call.
+ 
+ Because of the possibility of bridge methods
+ and other corner cases, the interface may also have several abstract methods
+ with the same name but having distinct descriptors (types of returns and parameters).
+ In this case, all the methods are bound in common to the one given target.
+ The type check and effective asType conversion is applied to each
+ method type descriptor, and all abstract methods are bound to the target in common.
+ Beyond this type check, no further checks are made to determine that the
+ abstract methods are related in any way.
+ 
+ Future versions of this API may accept additional types,
+ such as abstract classes with single abstract methods.
+ Future versions of this API may also equip wrapper instances
+ with one or more additional public ""marker"" interfaces.
+ 
+ If a security manager is installed, this method is caller sensitive.
+ During any invocation of the target method handle via the returned wrapper,
+ the original creator of the wrapper (the caller) will be visible
+ to context checks requested by the security manager.
+
+Type Parameters:
+T - the desired type of the wrapper, a single-method interface
+Parameters:
+intfc - a class object representing T
+target - the method handle to invoke from the wrapper
+Returns:
+a correctly-typed wrapper for the given target
+Throws:
+NullPointerException - if either argument is null
+IllegalArgumentException - if the intfc is not a
+         valid argument to this method
+WrongMethodTypeException - if the target cannot
+         be converted to the type required by the requested interface
+
+
+"
+MethodHandleProxies,isWrapperInstance(Object x),static boolean,Determines if the given object was produced by a call to asInterfaceInstance.,"
+
+isWrapperInstance
+public static boolean isWrapperInstance(Object x)
+Determines if the given object was produced by a call to asInterfaceInstance.
+
+Parameters:
+x - any reference
+Returns:
+true if the reference is not null and points to an object produced by asInterfaceInstance
+
+
+"
+MethodHandleProxies,wrapperInstanceTarget(Object x),static MethodHandle,Produces or recovers a target method handle which is behaviorally equivalent to the unique method of this wrapper instance.,"
+
+wrapperInstanceTarget
+public static MethodHandle wrapperInstanceTarget(Object x)
+Produces or recovers a target method handle which is behaviorally
+ equivalent to the unique method of this wrapper instance.
+ The object x must have been produced by a call to asInterfaceInstance.
+ This requirement may be tested via isWrapperInstance.
+
+Parameters:
+x - any reference
+Returns:
+a method handle implementing the unique method
+Throws:
+IllegalArgumentException - if the reference x is not to a wrapper instance
+
+
+"
+MethodHandleProxies,wrapperInstanceType(Object x),static Class<?>,Recovers the unique single-method interface type for which this wrapper instance was created.,"
+
+wrapperInstanceType
+public static Class<?> wrapperInstanceType(Object x)
+Recovers the unique single-method interface type for which this wrapper instance was created.
+ The object x must have been produced by a call to asInterfaceInstance.
+ This requirement may be tested via isWrapperInstance.
+
+Parameters:
+x - any reference
+Returns:
+the single-method interface type for which the wrapper was created
+Throws:
+IllegalArgumentException - if the reference x is not to a wrapper instance
+
+
+"
+MethodHandles,arrayElementGetter(Class<?> arrayClass),static MethodHandle,Produces a method handle giving read access to elements of an array.,"
+
+arrayElementGetter
+public static MethodHandle arrayElementGetter(Class<?> arrayClass)
+                                       throws IllegalArgumentException
+Produces a method handle giving read access to elements of an array.
+ The type of the method handle will have a return type of the array's
+ element type.  Its first argument will be the array type,
+ and the second will be int.
+
+Parameters:
+arrayClass - an array type
+Returns:
+a method handle which can load values from the given array type
+Throws:
+NullPointerException - if the argument is null
+IllegalArgumentException - if arrayClass is not an array type
+
+
+"
+MethodHandles,arrayElementSetter(Class<?> arrayClass),static MethodHandle,Produces a method handle giving write access to elements of an array.,"
+
+arrayElementSetter
+public static MethodHandle arrayElementSetter(Class<?> arrayClass)
+                                       throws IllegalArgumentException
+Produces a method handle giving write access to elements of an array.
+ The type of the method handle will have a void return type.
+ Its last argument will be the array's element type.
+ The first and second arguments will be the array type and int.
+
+Parameters:
+arrayClass - the class of an array
+Returns:
+a method handle which can store values into the array type
+Throws:
+NullPointerException - if the argument is null
+IllegalArgumentException - if arrayClass is not an array type
+
+
+"
+MethodHandles,"catchException(MethodHandle target, Class<? extends Throwable> exType, MethodHandle handler)",static MethodHandle,"Makes a method handle which adapts a target method handle, by running it inside an exception handler.","
+
+catchException
+public static MethodHandle catchException(MethodHandle target,
+                                          Class<? extends Throwable> exType,
+                                          MethodHandle handler)
+Makes a method handle which adapts a target method handle,
+ by running it inside an exception handler.
+ If the target returns normally, the adapter returns that value.
+ If an exception matching the specified type is thrown, the fallback
+ handle is called instead on the exception, plus the original arguments.
+ 
+ The target and handler must have the same corresponding
+ argument and return types, except that handler may omit trailing arguments
+ (similarly to the predicate in guardWithTest).
+ Also, the handler must have an extra leading parameter of exType or a supertype.
+  Here is pseudocode for the resulting adapter:
+ 
+ T target(A..., B...);
+ T handler(ExType, A...);
+ T adapter(A... a, B... b) {
+   try {
+     return target(a..., b...);
+   } catch (ExType ex) {
+     return handler(ex, a...);
+   }
+ }
+ 
+ Note that the saved arguments (a... in the pseudocode) cannot
+ be modified by execution of the target, and so are passed unchanged
+ from the caller to the handler, if the handler is invoked.
+ 
+ The target and handler must return the same type, even if the handler
+ always throws.  (This might happen, for instance, because the handler
+ is simulating a finally clause).
+ To create such a throwing handler, compose the handler creation logic
+ with throwException,
+ in order to create a method handle of the correct return type.
+
+Parameters:
+target - method handle to call
+exType - the type of exception which the handler will catch
+handler - method handle to call if a matching exception is thrown
+Returns:
+method handle which incorporates the specified try/catch logic
+Throws:
+NullPointerException - if any argument is null
+IllegalArgumentException - if handler does not accept
+          the given exception type, or if the method handle types do
+          not match in their return types and their
+          corresponding parameters
+
+
+"
+MethodHandles,"collectArguments(MethodHandle target, int pos, MethodHandle filter)",static MethodHandle,Adapts a target method handle by pre-processing a sub-sequence of its arguments with a filter (another method handle).,"
+
+collectArguments
+public static MethodHandle collectArguments(MethodHandle target,
+                                            int pos,
+                                            MethodHandle filter)
+Adapts a target method handle by pre-processing
+ a sub-sequence of its arguments with a filter (another method handle).
+ The pre-processed arguments are replaced by the result (if any) of the
+ filter function.
+ The target is then called on the modified (usually shortened) argument list.
+ 
+ If the filter returns a value, the target must accept that value as
+ its argument in position pos, preceded and/or followed by
+ any arguments not passed to the filter.
+ If the filter returns void, the target must accept all arguments
+ not passed to the filter.
+ No arguments are reordered, and a result returned from the filter
+ replaces (in order) the whole subsequence of arguments originally
+ passed to the adapter.
+ 
+ The argument types (if any) of the filter
+ replace zero or one argument types of the target, at position pos,
+ in the resulting adapted method handle.
+ The return type of the filter (if any) must be identical to the
+ argument type of the target at position pos, and that target argument
+ is supplied by the return value of the filter.
+ 
+ In all cases, pos must be greater than or equal to zero, and
+ pos must also be less than or equal to the target's arity.
+ Example:
+
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+MethodHandle deepToString = publicLookup()
+  .findStatic(Arrays.class, ""deepToString"", methodType(String.class, Object[].class));
+
+MethodHandle ts1 = deepToString.asCollector(String[].class, 1);
+assertEquals(""[strange]"", (String) ts1.invokeExact(""strange""));
+
+MethodHandle ts2 = deepToString.asCollector(String[].class, 2);
+assertEquals(""[up, down]"", (String) ts2.invokeExact(""up"", ""down""));
+
+MethodHandle ts3 = deepToString.asCollector(String[].class, 3);
+MethodHandle ts3_ts2 = collectArguments(ts3, 1, ts2);
+assertEquals(""[top, [up, down], strange]"",
+             (String) ts3_ts2.invokeExact(""top"", ""up"", ""down"", ""strange""));
+
+MethodHandle ts3_ts2_ts1 = collectArguments(ts3_ts2, 3, ts1);
+assertEquals(""[top, [up, down], [strange]]"",
+             (String) ts3_ts2_ts1.invokeExact(""top"", ""up"", ""down"", ""strange""));
+
+MethodHandle ts3_ts2_ts3 = collectArguments(ts3_ts2, 1, ts3);
+assertEquals(""[top, [[up, down, strange], charm], bottom]"",
+             (String) ts3_ts2_ts3.invokeExact(""top"", ""up"", ""down"", ""strange"", ""charm"", ""bottom""));
+ 
+ Here is pseudocode for the resulting adapter:
+ 
+ T target(A...,V,C...);
+ V filter(B...);
+ T adapter(A... a,B... b,C... c) {
+   V v = filter(b...);
+   return target(a...,v,c...);
+ }
+ // and if the filter has no arguments:
+ T target2(A...,V,C...);
+ V filter2();
+ T adapter2(A... a,C... c) {
+   V v = filter2();
+   return target2(a...,v,c...);
+ }
+ // and if the filter has a void return:
+ T target3(A...,C...);
+ void filter3(B...);
+ void adapter3(A... a,B... b,C... c) {
+   filter3(b...);
+   return target3(a...,c...);
+ }
+ 
+
+ A collection adapter collectArguments(mh, 0, coll) is equivalent to
+ one which first ""folds"" the affected arguments, and then drops them, in separate
+ steps as follows:
+ 
+ mh = MethodHandles.dropArguments(mh, 1, coll.type().parameterList()); //step 2
+ mh = MethodHandles.foldArguments(mh, coll); //step 1
+ 
+ If the target method handle consumes no arguments besides than the result
+ (if any) of the filter coll, then collectArguments(mh, 0, coll)
+ is equivalent to filterReturnValue(coll, mh).
+ If the filter method handle coll consumes one argument and produces
+ a non-void result, then collectArguments(mh, N, coll)
+ is equivalent to filterArguments(mh, N, coll).
+ Other equivalences are possible but would require argument permutation.
+
+Parameters:
+target - the method handle to invoke after filtering the subsequence of arguments
+pos - the position of the first adapter argument to pass to the filter,
+            and/or the target argument which receives the result of the filter
+filter - method handle to call on the subsequence of arguments
+Returns:
+method handle which incorporates the specified argument subsequence filtering logic
+Throws:
+NullPointerException - if either argument is null
+IllegalArgumentException - if the return type of filter
+          is non-void and is not the same as the pos argument of the target,
+          or if pos is not between 0 and the target's arity, inclusive,
+          or if the resulting method handle's type would have
+          too many parameters
+See Also:
+foldArguments(java.lang.invoke.MethodHandle, java.lang.invoke.MethodHandle), 
+filterArguments(java.lang.invoke.MethodHandle, int, java.lang.invoke.MethodHandle...), 
+filterReturnValue(java.lang.invoke.MethodHandle, java.lang.invoke.MethodHandle)
+
+
+"
+MethodHandles,"constant(Class<?> type, Object value)",static MethodHandle,Produces a method handle of the requested return type which returns the given constant value every time it is invoked.,"
+
+constant
+public static MethodHandle constant(Class<?> type,
+                                    Object value)
+Produces a method handle of the requested return type which returns the given
+ constant value every time it is invoked.
+ 
+ Before the method handle is returned, the passed-in value is converted to the requested type.
+ If the requested type is primitive, widening primitive conversions are attempted,
+ else reference conversions are attempted.
+ The returned method handle is equivalent to identity(type).bindTo(value).
+
+Parameters:
+type - the return type of the desired method handle
+value - the value to return
+Returns:
+a method handle of the given return type and no arguments, which always returns the given value
+Throws:
+NullPointerException - if the type argument is null
+ClassCastException - if the value cannot be converted to the required return type
+IllegalArgumentException - if the given type is void.class
+
+
+"
+MethodHandles,"dropArguments(MethodHandle target, int pos, Class<?>... valueTypes)",static MethodHandle,Produces a method handle which will discard some dummy arguments before calling some other specified target method handle.,"
+
+dropArguments
+public static MethodHandle dropArguments(MethodHandle target,
+                                         int pos,
+                                         Class<?>... valueTypes)
+Produces a method handle which will discard some dummy arguments
+ before calling some other specified target method handle.
+ The type of the new method handle will be the same as the target's type,
+ except it will also include the dummy argument types,
+ at some given position.
+ 
+ The pos argument may range between zero and N,
+ where N is the arity of the target.
+ If pos is zero, the dummy arguments will precede
+ the target's real arguments; if pos is N
+ they will come after.
+ 
+Example:
+
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+MethodHandle cat = lookup().findVirtual(String.class,
+  ""concat"", methodType(String.class, String.class));
+assertEquals(""xy"", (String) cat.invokeExact(""x"", ""y""));
+MethodHandle d0 = dropArguments(cat, 0, String.class);
+assertEquals(""yz"", (String) d0.invokeExact(""x"", ""y"", ""z""));
+MethodHandle d1 = dropArguments(cat, 1, String.class);
+assertEquals(""xz"", (String) d1.invokeExact(""x"", ""y"", ""z""));
+MethodHandle d2 = dropArguments(cat, 2, String.class);
+assertEquals(""xy"", (String) d2.invokeExact(""x"", ""y"", ""z""));
+MethodHandle d12 = dropArguments(cat, 1, int.class, boolean.class);
+assertEquals(""xz"", (String) d12.invokeExact(""x"", 12, true, ""z""));
+ 
+
+ This method is also equivalent to the following code:
+ 
+ dropArguments (target, pos, Arrays.asList(valueTypes))
+ 
+
+Parameters:
+target - the method handle to invoke after the arguments are dropped
+valueTypes - the type(s) of the argument(s) to drop
+pos - position of first argument to drop (zero for the leftmost)
+Returns:
+a method handle which drops arguments of the given types,
+         before calling the original method handle
+Throws:
+NullPointerException - if the target is null,
+                              or if the valueTypes array or any of its elements is null
+IllegalArgumentException - if any element of valueTypes is void.class,
+                  or if pos is negative or greater than the arity of the target,
+                  or if the new method handle's type would have
+                  too many parameters
+
+
+"
+MethodHandles,"dropArguments(MethodHandle target, int pos, List<Class<?>> valueTypes)",static MethodHandle,Produces a method handle which will discard some dummy arguments before calling some other specified target method handle.,"
+
+dropArguments
+public static MethodHandle dropArguments(MethodHandle target,
+                                         int pos,
+                                         List<Class<?>> valueTypes)
+Produces a method handle which will discard some dummy arguments
+ before calling some other specified target method handle.
+ The type of the new method handle will be the same as the target's type,
+ except it will also include the dummy argument types,
+ at some given position.
+ 
+ The pos argument may range between zero and N,
+ where N is the arity of the target.
+ If pos is zero, the dummy arguments will precede
+ the target's real arguments; if pos is N
+ they will come after.
+ 
+Example:
+
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+MethodHandle cat = lookup().findVirtual(String.class,
+  ""concat"", methodType(String.class, String.class));
+assertEquals(""xy"", (String) cat.invokeExact(""x"", ""y""));
+MethodType bigType = cat.type().insertParameterTypes(0, int.class, String.class);
+MethodHandle d0 = dropArguments(cat, 0, bigType.parameterList().subList(0,2));
+assertEquals(bigType, d0.type());
+assertEquals(""yz"", (String) d0.invokeExact(123, ""x"", ""y"", ""z""));
+ 
+
+ This method is also equivalent to the following code:
+ 
+ dropArguments (target, pos, valueTypes.toArray(new Class[0]))
+ 
+
+Parameters:
+target - the method handle to invoke after the arguments are dropped
+valueTypes - the type(s) of the argument(s) to drop
+pos - position of first argument to drop (zero for the leftmost)
+Returns:
+a method handle which drops arguments of the given types,
+         before calling the original method handle
+Throws:
+NullPointerException - if the target is null,
+                              or if the valueTypes list or any of its elements is null
+IllegalArgumentException - if any element of valueTypes is void.class,
+                  or if pos is negative or greater than the arity of the target,
+                  or if the new method handle's type would have too many parameters
+
+
+"
+MethodHandles,exactInvoker(MethodType type),static MethodHandle,"Produces a special invoker method handle which can be used to invoke any method handle of the given type, as if by invokeExact.","
+
+exactInvoker
+public static MethodHandle exactInvoker(MethodType type)
+Produces a special invoker method handle which can be used to
+ invoke any method handle of the given type, as if by invokeExact.
+ The resulting invoker will have a type which is
+ exactly equal to the desired type, except that it will accept
+ an additional leading argument of type MethodHandle.
+ 
+ This method is equivalent to the following code (though it may be more efficient):
+ publicLookup().findVirtual(MethodHandle.class, ""invokeExact"", type)
+
+Discussion:
+ Invoker method handles can be useful when working with variable method handles
+ of unknown types.
+ For example, to emulate an invokeExact call to a variable method
+ handle M, extract its type T,
+ look up the invoker method X for T,
+ and call the invoker method, as X.invoke(T, A...).
+ (It would not work to call X.invokeExact, since the type T
+ is unknown.)
+ If spreading, collecting, or other argument transformations are required,
+ they can be applied once to the invoker X and reused on many M
+ method handle values, as long as they are compatible with the type of X.
+ 
+(Note:  The invoker method is not available via the Core Reflection API.
+ An attempt to call java.lang.reflect.Method.invoke
+ on the declared invokeExact or invoke method will raise an
+ UnsupportedOperationException.)
+
+ This method throws no reflective or security exceptions.
+
+Parameters:
+type - the desired target type
+Returns:
+a method handle suitable for invoking any method handle of the given type
+Throws:
+IllegalArgumentException - if the resulting method handle's type would have
+          too many parameters
+
+
+"
+MethodHandles,"explicitCastArguments(MethodHandle target, MethodType newType)",static MethodHandle,Produces a method handle which adapts the type of the given method handle to a new type by pairwise argument and return type conversion.,"
+
+explicitCastArguments
+public static MethodHandle explicitCastArguments(MethodHandle target,
+                                                 MethodType newType)
+Produces a method handle which adapts the type of the
+ given method handle to a new type by pairwise argument and return type conversion.
+ The original type and new type must have the same number of arguments.
+ The resulting method handle is guaranteed to report a type
+ which is equal to the desired new type.
+ 
+ If the original type and new type are equal, returns target.
+ 
+ The same conversions are allowed as for MethodHandle.asType,
+ and some additional conversions are also applied if those conversions fail.
+ Given types T0, T1, one of the following conversions is applied
+ if possible, before or instead of any conversions done by asType:
+ 
+If T0 and T1 are references, and T1 is an interface type,
+     then the value of type T0 is passed as a T1 without a cast.
+     (This treatment of interfaces follows the usage of the bytecode verifier.)
+ If T0 is boolean and T1 is another primitive,
+     the boolean is converted to a byte value, 1 for true, 0 for false.
+     (This treatment follows the usage of the bytecode verifier.)
+ If T1 is boolean and T0 is another primitive,
+     T0 is converted to byte via Java casting conversion (JLS 5.5),
+     and the low order bit of the result is tested, as if by (x & 1) != 0.
+ If T0 and T1 are primitives other than boolean,
+     then a Java casting conversion (JLS 5.5) is applied.
+     (Specifically, T0 will convert to T1 by
+     widening and/or narrowing.)
+ If T0 is a reference and T1 a primitive, an unboxing
+     conversion will be applied at runtime, possibly followed
+     by a Java casting conversion (JLS 5.5) on the primitive value,
+     possibly followed by a conversion from byte to boolean by testing
+     the low-order bit.
+ If T0 is a reference and T1 a primitive,
+     and if the reference is null at runtime, a zero value is introduced.
+ 
+
+Parameters:
+target - the method handle to invoke after arguments are retyped
+newType - the expected type of the new method handle
+Returns:
+a method handle which delegates to the target after performing
+           any necessary argument conversions, and arranges for any
+           necessary return value conversions
+Throws:
+NullPointerException - if either argument is null
+WrongMethodTypeException - if the conversion cannot be made
+See Also:
+MethodHandle.asType(java.lang.invoke.MethodType)
+
+
+"
+MethodHandles,"filterArguments(MethodHandle target, int pos, MethodHandle... filters)",static MethodHandle,"Adapts a target method handle by pre-processing one or more of its arguments, each with its own unary filter function, and then calling the target with each pre-processed argument replaced by the result of its corresponding filter function.","
+
+filterArguments
+public static MethodHandle filterArguments(MethodHandle target,
+                                           int pos,
+                                           MethodHandle... filters)
+Adapts a target method handle by pre-processing
+ one or more of its arguments, each with its own unary filter function,
+ and then calling the target with each pre-processed argument
+ replaced by the result of its corresponding filter function.
+ 
+ The pre-processing is performed by one or more method handles,
+ specified in the elements of the filters array.
+ The first element of the filter array corresponds to the pos
+ argument of the target, and so on in sequence.
+ 
+ Null arguments in the array are treated as identity functions,
+ and the corresponding arguments left unchanged.
+ (If there are no non-null elements in the array, the original target is returned.)
+ Each filter is applied to the corresponding argument of the adapter.
+ 
+ If a filter F applies to the Nth argument of
+ the target, then F must be a method handle which
+ takes exactly one argument.  The type of F's sole argument
+ replaces the corresponding argument type of the target
+ in the resulting adapted method handle.
+ The return type of F must be identical to the corresponding
+ parameter type of the target.
+ 
+ It is an error if there are elements of filters
+ (null or not)
+ which do not correspond to argument positions in the target.
+ Example:
+
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+MethodHandle cat = lookup().findVirtual(String.class,
+  ""concat"", methodType(String.class, String.class));
+MethodHandle upcase = lookup().findVirtual(String.class,
+  ""toUpperCase"", methodType(String.class));
+assertEquals(""xy"", (String) cat.invokeExact(""x"", ""y""));
+MethodHandle f0 = filterArguments(cat, 0, upcase);
+assertEquals(""Xy"", (String) f0.invokeExact(""x"", ""y"")); // Xy
+MethodHandle f1 = filterArguments(cat, 1, upcase);
+assertEquals(""xY"", (String) f1.invokeExact(""x"", ""y"")); // xY
+MethodHandle f2 = filterArguments(cat, 0, upcase, upcase);
+assertEquals(""XY"", (String) f2.invokeExact(""x"", ""y"")); // XY
+ 
+ Here is pseudocode for the resulting adapter:
+ 
+ V target(P... p, A[i]... a[i], B... b);
+ A[i] filter[i](V[i]);
+ T adapter(P... p, V[i]... v[i], B... b) {
+   return target(p..., f[i](v[i])..., b...);
+ }
+ 
+
+Parameters:
+target - the method handle to invoke after arguments are filtered
+pos - the position of the first argument to filter
+filters - method handles to call initially on filtered arguments
+Returns:
+method handle which incorporates the specified argument filtering logic
+Throws:
+NullPointerException - if the target is null
+                              or if the filters array is null
+IllegalArgumentException - if a non-null element of filters
+          does not match a corresponding argument type of target as described above,
+          or if the pos+filters.length is greater than target.type().parameterCount(),
+          or if the resulting method handle's type would have
+          too many parameters
+
+
+"
+MethodHandles,"filterReturnValue(MethodHandle target, MethodHandle filter)",static MethodHandle,Adapts a target method handle by post-processing its return value (if any) with a filter (another method handle).,"
+
+filterReturnValue
+public static MethodHandle filterReturnValue(MethodHandle target,
+                                             MethodHandle filter)
+Adapts a target method handle by post-processing
+ its return value (if any) with a filter (another method handle).
+ The result of the filter is returned from the adapter.
+ 
+ If the target returns a value, the filter must accept that value as
+ its only argument.
+ If the target returns void, the filter must accept no arguments.
+ 
+ The return type of the filter
+ replaces the return type of the target
+ in the resulting adapted method handle.
+ The argument type of the filter (if any) must be identical to the
+ return type of the target.
+ Example:
+
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+MethodHandle cat = lookup().findVirtual(String.class,
+  ""concat"", methodType(String.class, String.class));
+MethodHandle length = lookup().findVirtual(String.class,
+  ""length"", methodType(int.class));
+System.out.println((String) cat.invokeExact(""x"", ""y"")); // xy
+MethodHandle f0 = filterReturnValue(cat, length);
+System.out.println((int) f0.invokeExact(""x"", ""y"")); // 2
+ 
+ Here is pseudocode for the resulting adapter:
+ 
+ V target(A...);
+ T filter(V);
+ T adapter(A... a) {
+   V v = target(a...);
+   return filter(v);
+ }
+ // and if the target has a void return:
+ void target2(A...);
+ T filter2();
+ T adapter2(A... a) {
+   target2(a...);
+   return filter2();
+ }
+ // and if the filter has a void return:
+ V target3(A...);
+ void filter3(V);
+ void adapter3(A... a) {
+   V v = target3(a...);
+   filter3(v);
+ }
+ 
+
+Parameters:
+target - the method handle to invoke before filtering the return value
+filter - method handle to call on the return value
+Returns:
+method handle which incorporates the specified return value filtering logic
+Throws:
+NullPointerException - if either argument is null
+IllegalArgumentException - if the argument list of filter
+          does not match the return type of target as described above
+
+
+"
+MethodHandles,"foldArguments(MethodHandle target, MethodHandle combiner)",static MethodHandle,"Adapts a target method handle by pre-processing some of its arguments, and then calling the target with the result of the pre-processing, inserted into the original sequence of arguments.","
+
+foldArguments
+public static MethodHandle foldArguments(MethodHandle target,
+                                         MethodHandle combiner)
+Adapts a target method handle by pre-processing
+ some of its arguments, and then calling the target with
+ the result of the pre-processing, inserted into the original
+ sequence of arguments.
+ 
+ The pre-processing is performed by combiner, a second method handle.
+ Of the arguments passed to the adapter, the first N arguments
+ are copied to the combiner, which is then called.
+ (Here, N is defined as the parameter count of the combiner.)
+ After this, control passes to the target, with any result
+ from the combiner inserted before the original N incoming
+ arguments.
+ 
+ If the combiner returns a value, the first parameter type of the target
+ must be identical with the return type of the combiner, and the next
+ N parameter types of the target must exactly match the parameters
+ of the combiner.
+ 
+ If the combiner has a void return, no result will be inserted,
+ and the first N parameter types of the target
+ must exactly match the parameters of the combiner.
+ 
+ The resulting adapter is the same type as the target, except that the
+ first parameter type is dropped,
+ if it corresponds to the result of the combiner.
+ 
+ (Note that dropArguments can be used to remove any arguments
+ that either the combiner or the target does not wish to receive.
+ If some of the incoming arguments are destined only for the combiner,
+ consider using asCollector instead, since those
+ arguments will not need to be live on the stack on entry to the
+ target.)
+ Example:
+
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+MethodHandle trace = publicLookup().findVirtual(java.io.PrintStream.class,
+  ""println"", methodType(void.class, String.class))
+    .bindTo(System.out);
+MethodHandle cat = lookup().findVirtual(String.class,
+  ""concat"", methodType(String.class, String.class));
+assertEquals(""boojum"", (String) cat.invokeExact(""boo"", ""jum""));
+MethodHandle catTrace = foldArguments(cat, trace);
+// also prints ""boo"":
+assertEquals(""boojum"", (String) catTrace.invokeExact(""boo"", ""jum""));
+ 
+ Here is pseudocode for the resulting adapter:
+ 
+ // there are N arguments in A...
+ T target(V, A[N]..., B...);
+ V combiner(A...);
+ T adapter(A... a, B... b) {
+   V v = combiner(a...);
+   return target(v, a..., b...);
+ }
+ // and if the combiner has a void return:
+ T target2(A[N]..., B...);
+ void combiner2(A...);
+ T adapter2(A... a, B... b) {
+   combiner2(a...);
+   return target2(a..., b...);
+ }
+ 
+
+Parameters:
+target - the method handle to invoke after arguments are combined
+combiner - method handle to call initially on the incoming arguments
+Returns:
+method handle which incorporates the specified argument folding logic
+Throws:
+NullPointerException - if either argument is null
+IllegalArgumentException - if combiner's return type
+          is non-void and not the same as the first argument type of
+          the target, or if the initial N argument types
+          of the target
+          (skipping one matching the combiner's return type)
+          are not identical with the argument types of combiner
+
+
+"
+MethodHandles,"guardWithTest(MethodHandle test, MethodHandle target, MethodHandle fallback)",static MethodHandle,"Makes a method handle which adapts a target method handle, by guarding it with a test, a boolean-valued method handle.","
+
+guardWithTest
+public static MethodHandle guardWithTest(MethodHandle test,
+                                         MethodHandle target,
+                                         MethodHandle fallback)
+Makes a method handle which adapts a target method handle,
+ by guarding it with a test, a boolean-valued method handle.
+ If the guard fails, a fallback handle is called instead.
+ All three method handles must have the same corresponding
+ argument and return types, except that the return type
+ of the test must be boolean, and the test is allowed
+ to have fewer arguments than the other two method handles.
+  Here is pseudocode for the resulting adapter:
+ 
+ boolean test(A...);
+ T target(A...,B...);
+ T fallback(A...,B...);
+ T adapter(A... a,B... b) {
+   if (test(a...))
+     return target(a..., b...);
+   else
+     return fallback(a..., b...);
+ }
+ 
+ Note that the test arguments (a... in the pseudocode) cannot
+ be modified by execution of the test, and so are passed unchanged
+ from the caller to the target or fallback as appropriate.
+
+Parameters:
+test - method handle used for test, must return boolean
+target - method handle to call if test passes
+fallback - method handle to call if test fails
+Returns:
+method handle which incorporates the specified if/then/else logic
+Throws:
+NullPointerException - if any argument is null
+IllegalArgumentException - if test does not return boolean,
+          or if all three method types do not match (with the return
+          type of test changed to match that of the target).
+
+
+"
+MethodHandles,identity(Class<?> type),static MethodHandle,Produces a method handle which returns its sole argument when invoked.,"
+
+identity
+public static MethodHandle identity(Class<?> type)
+Produces a method handle which returns its sole argument when invoked.
+
+Parameters:
+type - the type of the sole parameter and return value of the desired method handle
+Returns:
+a unary method handle which accepts and returns the given type
+Throws:
+NullPointerException - if the argument is null
+IllegalArgumentException - if the given type is void.class
+
+
+"
+MethodHandles,"insertArguments(MethodHandle target, int pos, Object... values)",static MethodHandle,Provides a target method handle with one or more bound arguments in advance of the method handle's invocation.,"
+
+insertArguments
+public static MethodHandle insertArguments(MethodHandle target,
+                                           int pos,
+                                           Object... values)
+Provides a target method handle with one or more bound arguments
+ in advance of the method handle's invocation.
+ The formal parameters to the target corresponding to the bound
+ arguments are called bound parameters.
+ Returns a new method handle which saves away the bound arguments.
+ When it is invoked, it receives arguments for any non-bound parameters,
+ binds the saved arguments to their corresponding parameters,
+ and calls the original target.
+ 
+ The type of the new method handle will drop the types for the bound
+ parameters from the original target type, since the new method handle
+ will no longer require those arguments to be supplied by its callers.
+ 
+ Each given argument object must match the corresponding bound parameter type.
+ If a bound parameter type is a primitive, the argument object
+ must be a wrapper, and will be unboxed to produce the primitive value.
+ 
+ The pos argument selects which parameters are to be bound.
+ It may range between zero and N-L (inclusively),
+ where N is the arity of the target method handle
+ and L is the length of the values array.
+
+Parameters:
+target - the method handle to invoke after the argument is inserted
+pos - where to insert the argument (zero for the first)
+values - the series of arguments to insert
+Returns:
+a method handle which inserts an additional argument,
+         before calling the original method handle
+Throws:
+NullPointerException - if the target or the values array is null
+See Also:
+MethodHandle.bindTo(java.lang.Object)
+
+
+"
+MethodHandles,invoker(MethodType type),static MethodHandle,"Produces a special invoker method handle which can be used to invoke any method handle compatible with the given type, as if by invoke.","
+
+invoker
+public static MethodHandle invoker(MethodType type)
+Produces a special invoker method handle which can be used to
+ invoke any method handle compatible with the given type, as if by invoke.
+ The resulting invoker will have a type which is
+ exactly equal to the desired type, except that it will accept
+ an additional leading argument of type MethodHandle.
+ 
+ Before invoking its target, if the target differs from the expected type,
+ the invoker will apply reference casts as
+ necessary and box, unbox, or widen primitive values, as if by asType.
+ Similarly, the return value will be converted as necessary.
+ If the target is a variable arity method handle,
+ the required arity conversion will be made, again as if by asType.
+ 
+ This method is equivalent to the following code (though it may be more efficient):
+ publicLookup().findVirtual(MethodHandle.class, ""invoke"", type)
+
+Discussion:
+ A general method type is one which
+ mentions only Object arguments and return values.
+ An invoker for such a type is capable of calling any method handle
+ of the same arity as the general type.
+ 
+(Note:  The invoker method is not available via the Core Reflection API.
+ An attempt to call java.lang.reflect.Method.invoke
+ on the declared invokeExact or invoke method will raise an
+ UnsupportedOperationException.)
+
+ This method throws no reflective or security exceptions.
+
+Parameters:
+type - the desired target type
+Returns:
+a method handle suitable for invoking any method handle convertible to the given type
+Throws:
+IllegalArgumentException - if the resulting method handle's type would have
+          too many parameters
+
+
+"
+MethodHandles,lookup(),static MethodHandles.Lookup,Returns a lookup object with full capabilities to emulate all supported bytecode behaviors of the caller.,"
+
+lookup
+public static MethodHandles.Lookup lookup()
+Returns a lookup object with
+ full capabilities to emulate all supported bytecode behaviors of the caller.
+ These capabilities include private access to the caller.
+ Factory methods on the lookup object can create
+ direct method handles
+ for any member that the caller has access to via bytecodes,
+ including protected and private fields and methods.
+ This lookup object is a capability which may be delegated to trusted agents.
+ Do not store it in place where untrusted code can access it.
+ 
+ This method is caller sensitive, which means that it may return different
+ values to different callers.
+ 
+ For any given caller class C, the lookup object returned by this call
+ has equivalent capabilities to any lookup object
+ supplied by the JVM to the bootstrap method of an
+ invokedynamic instruction
+ executing in the same caller class C.
+
+Returns:
+a lookup object for the caller of this method, with private access
+
+
+"
+MethodHandles,"permuteArguments(MethodHandle target, MethodType newType, int... reorder)",static MethodHandle,"Produces a method handle which adapts the calling sequence of the given method handle to a new type, by reordering the arguments.","
+
+permuteArguments
+public static MethodHandle permuteArguments(MethodHandle target,
+                                            MethodType newType,
+                                            int... reorder)
+Produces a method handle which adapts the calling sequence of the
+ given method handle to a new type, by reordering the arguments.
+ The resulting method handle is guaranteed to report a type
+ which is equal to the desired new type.
+ 
+ The given array controls the reordering.
+ Call #I the number of incoming parameters (the value
+ newType.parameterCount(), and call #O the number
+ of outgoing parameters (the value target.type().parameterCount()).
+ Then the length of the reordering array must be #O,
+ and each element must be a non-negative number less than #I.
+ For every N less than #O, the N-th
+ outgoing argument will be taken from the I-th incoming
+ argument, where I is reorder[N].
+ 
+ No argument or return value conversions are applied.
+ The type of each incoming argument, as determined by newType,
+ must be identical to the type of the corresponding outgoing parameter
+ or parameters in the target method handle.
+ The return type of newType must be identical to the return
+ type of the original target.
+ 
+ The reordering array need not specify an actual permutation.
+ An incoming argument will be duplicated if its index appears
+ more than once in the array, and an incoming argument will be dropped
+ if its index does not appear in the array.
+ As in the case of dropArguments,
+ incoming arguments which are not mentioned in the reordering array
+ are may be any type, as determined only by newType.
+ 
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+MethodType intfn1 = methodType(int.class, int.class);
+MethodType intfn2 = methodType(int.class, int.class, int.class);
+MethodHandle sub = ... (int x, int y) -> (x-y) ...;
+assert(sub.type().equals(intfn2));
+MethodHandle sub1 = permuteArguments(sub, intfn2, 0, 1);
+MethodHandle rsub = permuteArguments(sub, intfn2, 1, 0);
+assert((int)rsub.invokeExact(1, 100) == 99);
+MethodHandle add = ... (int x, int y) -> (x+y) ...;
+assert(add.type().equals(intfn2));
+MethodHandle twice = permuteArguments(add, intfn1, 0, 0);
+assert(twice.type().equals(intfn1));
+assert((int)twice.invokeExact(21) == 42);
+ 
+
+Parameters:
+target - the method handle to invoke after arguments are reordered
+newType - the expected type of the new method handle
+reorder - an index array which controls the reordering
+Returns:
+a method handle which delegates to the target after it
+           drops unused arguments and moves and/or duplicates the other arguments
+Throws:
+NullPointerException - if any argument is null
+IllegalArgumentException - if the index array length is not equal to
+                  the arity of the target, or if any index array element
+                  not a valid index for a parameter of newType,
+                  or if two corresponding parameter types in
+                  target.type() and newType are not identical,
+
+
+"
+MethodHandles,publicLookup(),static MethodHandles.Lookup,Returns a lookup object which is trusted minimally.,"
+
+publicLookup
+public static MethodHandles.Lookup publicLookup()
+Returns a lookup object which is trusted minimally.
+ It can only be used to create method handles to
+ publicly accessible fields and methods.
+ 
+ As a matter of pure convention, the lookup class
+ of this lookup object will be Object.
+
+ 
+Discussion:
+ The lookup class can be changed to any other class C using an expression of the form
+ publicLookup().in(C.class).
+ Since all classes have equal access to public names,
+ such a change would confer no new access rights.
+ A public lookup object is always subject to
+ security manager checks.
+ Also, it cannot access
+ caller sensitive methods.
+
+Returns:
+a lookup object which is trusted minimally
+
+
+"
+MethodHandles,"reflectAs(Class<T> expected, MethodHandle target)",static <T extends Member> T,"Performs an unchecked ""crack"" of a direct method handle.","
+
+reflectAs
+public static <T extends Member> T reflectAs(Class<T> expected,
+                                             MethodHandle target)
+Performs an unchecked ""crack"" of a
+ direct method handle.
+ The result is as if the user had obtained a lookup object capable enough
+ to crack the target method handle, called
+ Lookup.revealDirect
+ on the target to obtain its symbolic reference, and then called
+ MethodHandleInfo.reflectAs
+ to resolve the symbolic reference to a member.
+ 
+ If there is a security manager, its checkPermission method
+ is called with a ReflectPermission(""suppressAccessChecks"") permission.
+
+Type Parameters:
+T - the desired type of the result, either Member or a subtype
+Parameters:
+target - a direct method handle to crack into symbolic reference components
+expected - a class object representing the desired result type T
+Returns:
+a reference to the method, constructor, or field object
+Throws:
+SecurityException - if the caller is not privileged to call setAccessible
+NullPointerException - if either argument is null
+IllegalArgumentException - if the target is not a direct method handle
+ClassCastException - if the member is not of the expected type
+Since:
+1.8
+
+
+"
+MethodHandles,"spreadInvoker(MethodType type, int leadingArgCount)",static MethodHandle,"Produces a method handle which will invoke any method handle of the given type, with a given number of trailing arguments replaced by a single trailing Object[] array.","
+
+spreadInvoker
+public static MethodHandle spreadInvoker(MethodType type,
+                                         int leadingArgCount)
+Produces a method handle which will invoke any method handle of the
+ given type, with a given number of trailing arguments replaced by
+ a single trailing Object[] array.
+ The resulting invoker will be a method handle with the following
+ arguments:
+ 
+a single MethodHandle target
+ zero or more leading values (counted by leadingArgCount)
+ an Object[] array containing trailing arguments
+ 
+
+ The invoker will invoke its target like a call to invoke with
+ the indicated type.
+ That is, if the target is exactly of the given type, it will behave
+ like invokeExact; otherwise it behave as if asType
+ is used to convert the target to the required type.
+ 
+ The type of the returned invoker will not be the given type, but rather
+ will have all parameters except the first leadingArgCount
+ replaced by a single array of type Object[], which will be
+ the final parameter.
+ 
+ Before invoking its target, the invoker will spread the final array, apply
+ reference casts as necessary, and unbox and widen primitive arguments.
+ If, when the invoker is called, the supplied array argument does
+ not have the correct number of elements, the invoker will throw
+ an IllegalArgumentException instead of invoking the target.
+ 
+ This method is equivalent to the following code (though it may be more efficient):
+ 
+MethodHandle invoker = MethodHandles.invoker(type);
+int spreadArgCount = type.parameterCount() - leadingArgCount;
+invoker = invoker.asSpreader(Object[].class, spreadArgCount);
+return invoker;
+ 
+ This method throws no reflective or security exceptions.
+
+Parameters:
+type - the desired target type
+leadingArgCount - number of fixed arguments, to be passed unchanged to the target
+Returns:
+a method handle suitable for invoking any method handle of the given type
+Throws:
+NullPointerException - if type is null
+IllegalArgumentException - if leadingArgCount is not in
+                  the range from 0 to type.parameterCount() inclusive,
+                  or if the resulting method handle's type would have
+          too many parameters
+
+
+"
+MethodHandles,"throwException(Class<?> returnType, Class<? extends Throwable> exType)",static MethodHandle,Produces a method handle which will throw exceptions of the given exType.,"
+
+throwException
+public static MethodHandle throwException(Class<?> returnType,
+                                          Class<? extends Throwable> exType)
+Produces a method handle which will throw exceptions of the given exType.
+ The method handle will accept a single argument of exType,
+ and immediately throw it as an exception.
+ The method type will nominally specify a return of returnType.
+ The return type may be anything convenient:  It doesn't matter to the
+ method handle's behavior, since it will never return normally.
+
+Parameters:
+returnType - the return type of the desired method handle
+exType - the parameter type of the desired method handle
+Returns:
+method handle which can throw the given exceptions
+Throws:
+NullPointerException - if either argument is null
+
+
+"
+MethodHandles.Lookup,"bind(Object receiver, String name, MethodType type)",MethodHandle,Produces an early-bound method handle for a non-static method.,"
+
+bind
+public MethodHandle bind(Object receiver,
+                         String name,
+                         MethodType type)
+                  throws NoSuchMethodException,
+                         IllegalAccessException
+Produces an early-bound method handle for a non-static method.
+ The receiver must have a supertype defc in which a method
+ of the given name and type is accessible to the lookup class.
+ The method and all its argument types must be accessible to the lookup object.
+ The type of the method handle will be that of the method,
+ without any insertion of an additional receiver parameter.
+ The given receiver will be bound into the method handle,
+ so that every call to the method handle will invoke the
+ requested method on the given receiver.
+ 
+ The returned method handle will have
+ variable arity if and only if
+ the method's variable arity modifier bit (0x0080) is set
+ and the trailing array argument is not the only argument.
+ (If the trailing array argument is the only argument,
+ the given receiver value will be bound to it.)
+ 
+ This is equivalent to the following code:
+ 
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+MethodHandle mh0 = lookup().findVirtual(defc, name, type);
+MethodHandle mh1 = mh0.bindTo(receiver);
+MethodType mt1 = mh1.type();
+if (mh0.isVarargsCollector())
+  mh1 = mh1.asVarargsCollector(mt1.parameterType(mt1.parameterCount()-1));
+return mh1;
+ 
+ where defc is either receiver.getClass() or a super
+ type of that class, in which the requested method is accessible
+ to the lookup class.
+ (Note that bindTo does not preserve variable arity.)
+
+Parameters:
+receiver - the object from which the method is accessed
+name - the name of the method
+type - the type of the method, with the receiver argument omitted
+Returns:
+the desired method handle
+Throws:
+NoSuchMethodException - if the method does not exist
+IllegalAccessException - if access checking fails
+                                or if the method's variable arity modifier bit
+                                is set and asVarargsCollector fails
+SecurityException - if a security manager is present and it
+                              refuses access
+NullPointerException - if any argument is null
+See Also:
+MethodHandle.bindTo(java.lang.Object), 
+findVirtual(java.lang.Class<?>, java.lang.String, java.lang.invoke.MethodType)
+
+
+"
+MethodHandles.Lookup,"findConstructor(Class<?> refc, MethodType type)",MethodHandle,"Produces a method handle which creates an object and initializes it, using the constructor of the specified type.","
+
+findConstructor
+public MethodHandle findConstructor(Class<?> refc,
+                                    MethodType type)
+                             throws NoSuchMethodException,
+                                    IllegalAccessException
+Produces a method handle which creates an object and initializes it, using
+ the constructor of the specified type.
+ The parameter types of the method handle will be those of the constructor,
+ while the return type will be a reference to the constructor's class.
+ The constructor and all its argument types must be accessible to the lookup object.
+ 
+ The requested type must have a return type of void.
+ (This is consistent with the JVM's treatment of constructor type descriptors.)
+ 
+ The returned method handle will have
+ variable arity if and only if
+ the constructor's variable arity modifier bit (0x0080) is set.
+ 
+ If the returned method handle is invoked, the constructor's class will
+ be initialized, if it has not already been initialized.
+ Example:
+
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+MethodHandle MH_newArrayList = publicLookup().findConstructor(
+  ArrayList.class, methodType(void.class, Collection.class));
+Collection orig = Arrays.asList(""x"", ""y"");
+Collection copy = (ArrayList) MH_newArrayList.invokeExact(orig);
+assert(orig != copy);
+assertEquals(orig, copy);
+// a variable-arity constructor:
+MethodHandle MH_newProcessBuilder = publicLookup().findConstructor(
+  ProcessBuilder.class, methodType(void.class, String[].class));
+ProcessBuilder pb = (ProcessBuilder)
+  MH_newProcessBuilder.invoke(""x"", ""y"", ""z"");
+assertEquals(""[x, y, z]"", pb.command().toString());
+ 
+
+Parameters:
+refc - the class or interface from which the method is accessed
+type - the type of the method, with the receiver argument omitted, and a void return type
+Returns:
+the desired method handle
+Throws:
+NoSuchMethodException - if the constructor does not exist
+IllegalAccessException - if access checking fails
+                                or if the method's variable arity modifier bit
+                                is set and asVarargsCollector fails
+SecurityException - if a security manager is present and it
+                              refuses access
+NullPointerException - if any argument is null
+
+
+"
+MethodHandles.Lookup,"findGetter(Class<?> refc, String name, Class<?> type)",MethodHandle,Produces a method handle giving read access to a non-static field.,"
+
+findGetter
+public MethodHandle findGetter(Class<?> refc,
+                               String name,
+                               Class<?> type)
+                        throws NoSuchFieldException,
+                               IllegalAccessException
+Produces a method handle giving read access to a non-static field.
+ The type of the method handle will have a return type of the field's
+ value type.
+ The method handle's single argument will be the instance containing
+ the field.
+ Access checking is performed immediately on behalf of the lookup class.
+
+Parameters:
+refc - the class or interface from which the method is accessed
+name - the field's name
+type - the field's type
+Returns:
+a method handle which can load values from the field
+Throws:
+NoSuchFieldException - if the field does not exist
+IllegalAccessException - if access checking fails, or if the field is static
+SecurityException - if a security manager is present and it
+                              refuses access
+NullPointerException - if any argument is null
+
+
+"
+MethodHandles.Lookup,"findSetter(Class<?> refc, String name, Class<?> type)",MethodHandle,Produces a method handle giving write access to a non-static field.,"
+
+findSetter
+public MethodHandle findSetter(Class<?> refc,
+                               String name,
+                               Class<?> type)
+                        throws NoSuchFieldException,
+                               IllegalAccessException
+Produces a method handle giving write access to a non-static field.
+ The type of the method handle will have a void return type.
+ The method handle will take two arguments, the instance containing
+ the field, and the value to be stored.
+ The second argument will be of the field's value type.
+ Access checking is performed immediately on behalf of the lookup class.
+
+Parameters:
+refc - the class or interface from which the method is accessed
+name - the field's name
+type - the field's type
+Returns:
+a method handle which can store values into the field
+Throws:
+NoSuchFieldException - if the field does not exist
+IllegalAccessException - if access checking fails, or if the field is static
+SecurityException - if a security manager is present and it
+                              refuses access
+NullPointerException - if any argument is null
+
+
+"
+MethodHandles.Lookup,"findSpecial(Class<?> refc, String name, MethodType type, Class<?> specialCaller)",MethodHandle,Produces an early-bound method handle for a virtual method.,"
+
+findSpecial
+public MethodHandle findSpecial(Class<?> refc,
+                                String name,
+                                MethodType type,
+                                Class<?> specialCaller)
+                         throws NoSuchMethodException,
+                                IllegalAccessException
+Produces an early-bound method handle for a virtual method.
+ It will bypass checks for overriding methods on the receiver,
+ as if called from an invokespecial
+ instruction from within the explicitly specified specialCaller.
+ The type of the method handle will be that of the method,
+ with a suitably restricted receiver type prepended.
+ (The receiver type will be specialCaller or a subtype.)
+ The method and all its argument types must be accessible
+ to the lookup object.
+ 
+ Before method resolution,
+ if the explicitly specified caller class is not identical with the
+ lookup class, or if this lookup object does not have
+ private access
+ privileges, the access fails.
+ 
+ The returned method handle will have
+ variable arity if and only if
+ the method's variable arity modifier bit (0x0080) is set.
+ 
+(Note:  JVM internal methods named ""<init>"" are not visible to this API,
+ even though the invokespecial instruction can refer to them
+ in special circumstances.  Use findConstructor
+ to access instance initialization methods in a safe manner.)
+Example:
+
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+static class Listie extends ArrayList {
+  public String toString() { return ""[wee Listie]""; }
+  static Lookup lookup() { return MethodHandles.lookup(); }
+}
+...
+// no access to constructor via invokeSpecial:
+MethodHandle MH_newListie = Listie.lookup()
+  .findConstructor(Listie.class, methodType(void.class));
+Listie l = (Listie) MH_newListie.invokeExact();
+try { assertEquals(""impossible"", Listie.lookup().findSpecial(
+        Listie.class, ""<init>"", methodType(void.class), Listie.class));
+ } catch (NoSuchMethodException ex) { } // OK
+// access to super and self methods via invokeSpecial:
+MethodHandle MH_super = Listie.lookup().findSpecial(
+  ArrayList.class, ""toString"" , methodType(String.class), Listie.class);
+MethodHandle MH_this = Listie.lookup().findSpecial(
+  Listie.class, ""toString"" , methodType(String.class), Listie.class);
+MethodHandle MH_duper = Listie.lookup().findSpecial(
+  Object.class, ""toString"" , methodType(String.class), Listie.class);
+assertEquals(""[]"", (String) MH_super.invokeExact(l));
+assertEquals(""""+l, (String) MH_this.invokeExact(l));
+assertEquals(""[]"", (String) MH_duper.invokeExact(l)); // ArrayList method
+try { assertEquals(""inaccessible"", Listie.lookup().findSpecial(
+        String.class, ""toString"", methodType(String.class), Listie.class));
+ } catch (IllegalAccessException ex) { } // OK
+Listie subl = new Listie() { public String toString() { return ""[subclass]""; } };
+assertEquals(""""+l, (String) MH_this.invokeExact(subl)); // Listie method
+ 
+
+Parameters:
+refc - the class or interface from which the method is accessed
+name - the name of the method (which must not be ""<init>"")
+type - the type of the method, with the receiver argument omitted
+specialCaller - the proposed calling class to perform the invokespecial
+Returns:
+the desired method handle
+Throws:
+NoSuchMethodException - if the method does not exist
+IllegalAccessException - if access checking fails
+                                or if the method's variable arity modifier bit
+                                is set and asVarargsCollector fails
+SecurityException - if a security manager is present and it
+                              refuses access
+NullPointerException - if any argument is null
+
+
+"
+MethodHandles.Lookup,"findStatic(Class<?> refc, String name, MethodType type)",MethodHandle,Produces a method handle for a static method.,"
+
+findStatic
+public MethodHandle findStatic(Class<?> refc,
+                               String name,
+                               MethodType type)
+                        throws NoSuchMethodException,
+                               IllegalAccessException
+Produces a method handle for a static method.
+ The type of the method handle will be that of the method.
+ (Since static methods do not take receivers, there is no
+ additional receiver argument inserted into the method handle type,
+ as there would be with findVirtual or findSpecial.)
+ The method and all its argument types must be accessible to the lookup object.
+ 
+ The returned method handle will have
+ variable arity if and only if
+ the method's variable arity modifier bit (0x0080) is set.
+ 
+ If the returned method handle is invoked, the method's class will
+ be initialized, if it has not already been initialized.
+ Example:
+
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+MethodHandle MH_asList = publicLookup().findStatic(Arrays.class,
+  ""asList"", methodType(List.class, Object[].class));
+assertEquals(""[x, y]"", MH_asList.invoke(""x"", ""y"").toString());
+ 
+
+Parameters:
+refc - the class from which the method is accessed
+name - the name of the method
+type - the type of the method
+Returns:
+the desired method handle
+Throws:
+NoSuchMethodException - if the method does not exist
+IllegalAccessException - if access checking fails,
+                                or if the method is not static,
+                                or if the method's variable arity modifier bit
+                                is set and asVarargsCollector fails
+SecurityException - if a security manager is present and it
+                              refuses access
+NullPointerException - if any argument is null
+
+
+"
+MethodHandles.Lookup,"findStaticGetter(Class<?> refc, String name, Class<?> type)",MethodHandle,Produces a method handle giving read access to a static field.,"
+
+findStaticGetter
+public MethodHandle findStaticGetter(Class<?> refc,
+                                     String name,
+                                     Class<?> type)
+                              throws NoSuchFieldException,
+                                     IllegalAccessException
+Produces a method handle giving read access to a static field.
+ The type of the method handle will have a return type of the field's
+ value type.
+ The method handle will take no arguments.
+ Access checking is performed immediately on behalf of the lookup class.
+ 
+ If the returned method handle is invoked, the field's class will
+ be initialized, if it has not already been initialized.
+
+Parameters:
+refc - the class or interface from which the method is accessed
+name - the field's name
+type - the field's type
+Returns:
+a method handle which can load values from the field
+Throws:
+NoSuchFieldException - if the field does not exist
+IllegalAccessException - if access checking fails, or if the field is not static
+SecurityException - if a security manager is present and it
+                              refuses access
+NullPointerException - if any argument is null
+
+
+"
+MethodHandles.Lookup,"findStaticSetter(Class<?> refc, String name, Class<?> type)",MethodHandle,Produces a method handle giving write access to a static field.,"
+
+findStaticSetter
+public MethodHandle findStaticSetter(Class<?> refc,
+                                     String name,
+                                     Class<?> type)
+                              throws NoSuchFieldException,
+                                     IllegalAccessException
+Produces a method handle giving write access to a static field.
+ The type of the method handle will have a void return type.
+ The method handle will take a single
+ argument, of the field's value type, the value to be stored.
+ Access checking is performed immediately on behalf of the lookup class.
+ 
+ If the returned method handle is invoked, the field's class will
+ be initialized, if it has not already been initialized.
+
+Parameters:
+refc - the class or interface from which the method is accessed
+name - the field's name
+type - the field's type
+Returns:
+a method handle which can store values into the field
+Throws:
+NoSuchFieldException - if the field does not exist
+IllegalAccessException - if access checking fails, or if the field is not static
+SecurityException - if a security manager is present and it
+                              refuses access
+NullPointerException - if any argument is null
+
+
+"
+MethodHandles.Lookup,"findVirtual(Class<?> refc, String name, MethodType type)",MethodHandle,Produces a method handle for a virtual method.,"
+
+findVirtual
+public MethodHandle findVirtual(Class<?> refc,
+                                String name,
+                                MethodType type)
+                         throws NoSuchMethodException,
+                                IllegalAccessException
+Produces a method handle for a virtual method.
+ The type of the method handle will be that of the method,
+ with the receiver type (usually refc) prepended.
+ The method and all its argument types must be accessible to the lookup object.
+ 
+ When called, the handle will treat the first argument as a receiver
+ and dispatch on the receiver's type to determine which method
+ implementation to enter.
+ (The dispatching action is identical with that performed by an
+ invokevirtual or invokeinterface instruction.)
+ 
+ The first argument will be of type refc if the lookup
+ class has full privileges to access the member.  Otherwise
+ the member must be protected and the first argument
+ will be restricted in type to the lookup class.
+ 
+ The returned method handle will have
+ variable arity if and only if
+ the method's variable arity modifier bit (0x0080) is set.
+ 
+ Because of the general equivalence between invokevirtual
+ instructions and method handles produced by findVirtual,
+ if the class is MethodHandle and the name string is
+ invokeExact or invoke, the resulting
+ method handle is equivalent to one produced by
+ MethodHandles.exactInvoker or
+ MethodHandles.invoker
+ with the same type argument.
+
+ Example:
+
+import static java.lang.invoke.MethodHandles.*;
+import static java.lang.invoke.MethodType.*;
+...
+MethodHandle MH_concat = publicLookup().findVirtual(String.class,
+  ""concat"", methodType(String.class, String.class));
+MethodHandle MH_hashCode = publicLookup().findVirtual(Object.class,
+  ""hashCode"", methodType(int.class));
+MethodHandle MH_hashCode_String = publicLookup().findVirtual(String.class,
+  ""hashCode"", methodType(int.class));
+assertEquals(""xy"", (String) MH_concat.invokeExact(""x"", ""y""));
+assertEquals(""xy"".hashCode(), (int) MH_hashCode.invokeExact((Object)""xy""));
+assertEquals(""xy"".hashCode(), (int) MH_hashCode_String.invokeExact(""xy""));
+// interface method:
+MethodHandle MH_subSequence = publicLookup().findVirtual(CharSequence.class,
+  ""subSequence"", methodType(CharSequence.class, int.class, int.class));
+assertEquals(""def"", MH_subSequence.invoke(""abcdefghi"", 3, 6).toString());
+// constructor ""internal method"" must be accessed differently:
+MethodType MT_newString = methodType(void.class); //()V for new String()
+try { assertEquals(""impossible"", lookup()
+        .findVirtual(String.class, ""<init>"", MT_newString));
+ } catch (NoSuchMethodException ex) { } // OK
+MethodHandle MH_newString = publicLookup()
+  .findConstructor(String.class, MT_newString);
+assertEquals("""", (String) MH_newString.invokeExact());
+ 
+
+Parameters:
+refc - the class or interface from which the method is accessed
+name - the name of the method
+type - the type of the method, with the receiver argument omitted
+Returns:
+the desired method handle
+Throws:
+NoSuchMethodException - if the method does not exist
+IllegalAccessException - if access checking fails,
+                                or if the method is static
+                                or if the method's variable arity modifier bit
+                                is set and asVarargsCollector fails
+SecurityException - if a security manager is present and it
+                              refuses access
+NullPointerException - if any argument is null
+
+
+"
+MethodHandles.Lookup,in(Class<?> requestedLookupClass),MethodHandles.Lookup,Creates a lookup on the specified new lookup class.,"
+
+in
+public MethodHandles.Lookup in(Class<?> requestedLookupClass)
+Creates a lookup on the specified new lookup class.
+ The resulting object will report the specified
+ class as its own lookupClass.
+ 
+ However, the resulting Lookup object is guaranteed
+ to have no more access capabilities than the original.
+ In particular, access capabilities can be lost as follows:
+If the new lookup class differs from the old one,
+ protected members will not be accessible by virtue of inheritance.
+ (Protected members may continue to be accessible because of package sharing.)
+ If the new lookup class is in a different package
+ than the old one, protected and default (package) members will not be accessible.
+ If the new lookup class is not within the same package member
+ as the old one, private members will not be accessible.
+ If the new lookup class is not accessible to the old lookup class,
+ then no members, not even public members, will be accessible.
+ (In all other cases, public members will continue to be accessible.)
+ 
+
+Parameters:
+requestedLookupClass - the desired lookup class for the new lookup object
+Returns:
+a lookup object which reports the desired lookup class
+Throws:
+NullPointerException - if the argument is null
+
+
+"
+MethodHandles.Lookup,lookupClass(),Class<?>,Tells which class is performing the lookup.,"
+
+lookupClass
+public Class<?> lookupClass()
+Tells which class is performing the lookup.  It is this class against
+  which checks are performed for visibility and access permissions.
+  
+  The class implies a maximum level of access permission,
+  but the permissions may be additionally limited by the bitmask
+  lookupModes, which controls whether non-public members
+  can be accessed.
+
+Returns:
+the lookup class, on behalf of which this lookup object finds members
+
+
+"
+MethodHandles.Lookup,lookupModes(),int,Tells which access-protection classes of members this lookup object can produce.,"
+
+lookupModes
+public int lookupModes()
+Tells which access-protection classes of members this lookup object can produce.
+  The result is a bit-mask of the bits
+  PUBLIC (0x01),
+  PRIVATE (0x02),
+  PROTECTED (0x04),
+  and PACKAGE (0x08).
+  
+  A freshly-created lookup object
+  on the caller's class
+  has all possible bits set, since the caller class can access all its own members.
+  A lookup object on a new lookup class
+  created from a previous lookup object
+  may have some mode bits set to zero.
+  The purpose of this is to restrict access via the new lookup object,
+  so that it can access only names which can be reached by the original
+  lookup object, and also by the new lookup class.
+
+Returns:
+the lookup modes, which limit the kinds of access performed by this lookup object
+
+
+"
+MethodHandles.Lookup,revealDirect(MethodHandle target),MethodHandleInfo,Cracks a direct method handle created by this lookup object or a similar one.,"
+
+revealDirect
+public MethodHandleInfo revealDirect(MethodHandle target)
+Cracks a direct method handle
+ created by this lookup object or a similar one.
+ Security and access checks are performed to ensure that this lookup object
+ is capable of reproducing the target method handle.
+ This means that the cracking may fail if target is a direct method handle
+ but was created by an unrelated lookup object.
+ This can happen if the method handle is caller sensitive
+ and was created by a lookup object for a different class.
+
+Parameters:
+target - a direct method handle to crack into symbolic reference components
+Returns:
+a symbolic reference which can be used to reconstruct this method handle from this lookup object
+Throws:
+SecurityException - if a security manager is present and it
+                              refuses access
+IllegalArgumentException - if the target is not a direct method handle or if access checking fails
+NullPointerException - if the target is null
+Since:
+1.8
+See Also:
+MethodHandleInfo
+
+
+"
+MethodHandles.Lookup,toString(),String,Displays the name of the class from which lookups are to be made.,"
+
+toString
+public String toString()
+Displays the name of the class from which lookups are to be made.
+ (The name is the one reported by Class.getName.)
+ If there are restrictions on the access permitted to this lookup,
+ this is indicated by adding a suffix to the class name, consisting
+ of a slash and a keyword.  The keyword represents the strongest
+ allowed access, and is chosen as follows:
+ 
+If no access is allowed, the suffix is ""/noaccess"".
+ If only public access is allowed, the suffix is ""/public"".
+ If only public and package access are allowed, the suffix is ""/package"".
+ If only public, package, and private access are allowed, the suffix is ""/private"".
+ 
+ If none of the above cases apply, it is the case that full
+ access (public, package, private, and protected) is allowed.
+ In this case, no suffix is added.
+ This is true only of an object obtained originally from
+ MethodHandles.lookup.
+ Objects created by Lookup.in
+ always have restricted access, and will display a suffix.
+ 
+ (It may seem strange that protected access should be
+ stronger than private access.  Viewed independently from
+ package access, protected access is the first to be lost,
+ because it requires a direct subclass relationship between
+ caller and callee.)
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of the object.
+See Also:
+in(java.lang.Class<?>)
+
+
+"
+MethodHandles.Lookup,unreflect(Method m),MethodHandle,"Makes a direct method handle to m, if the lookup class has permission.","
+
+unreflect
+public MethodHandle unreflect(Method m)
+                       throws IllegalAccessException
+Makes a direct method handle
+ to m, if the lookup class has permission.
+ If m is non-static, the receiver argument is treated as an initial argument.
+ If m is virtual, overriding is respected on every call.
+ Unlike the Core Reflection API, exceptions are not wrapped.
+ The type of the method handle will be that of the method,
+ with the receiver type prepended (but only if it is non-static).
+ If the method's accessible flag is not set,
+ access checking is performed immediately on behalf of the lookup class.
+ If m is not public, do not share the resulting handle with untrusted parties.
+ 
+ The returned method handle will have
+ variable arity if and only if
+ the method's variable arity modifier bit (0x0080) is set.
+ 
+ If m is static, and
+ if the returned method handle is invoked, the method's class will
+ be initialized, if it has not already been initialized.
+
+Parameters:
+m - the reflected method
+Returns:
+a method handle which can invoke the reflected method
+Throws:
+IllegalAccessException - if access checking fails
+                                or if the method's variable arity modifier bit
+                                is set and asVarargsCollector fails
+NullPointerException - if the argument is null
+
+
+"
+MethodHandles.Lookup,unreflectConstructor(Constructor<?> c),MethodHandle,Produces a method handle for a reflected constructor.,"
+
+unreflectConstructor
+public MethodHandle unreflectConstructor(Constructor<?> c)
+                                  throws IllegalAccessException
+Produces a method handle for a reflected constructor.
+ The type of the method handle will be that of the constructor,
+ with the return type changed to the declaring class.
+ The method handle will perform a newInstance operation,
+ creating a new instance of the constructor's class on the
+ arguments passed to the method handle.
+ 
+ If the constructor's accessible flag is not set,
+ access checking is performed immediately on behalf of the lookup class.
+ 
+ The returned method handle will have
+ variable arity if and only if
+ the constructor's variable arity modifier bit (0x0080) is set.
+ 
+ If the returned method handle is invoked, the constructor's class will
+ be initialized, if it has not already been initialized.
+
+Parameters:
+c - the reflected constructor
+Returns:
+a method handle which can invoke the reflected constructor
+Throws:
+IllegalAccessException - if access checking fails
+                                or if the method's variable arity modifier bit
+                                is set and asVarargsCollector fails
+NullPointerException - if the argument is null
+
+
+"
+MethodHandles.Lookup,unreflectGetter(Field f),MethodHandle,Produces a method handle giving read access to a reflected field.,"
+
+unreflectGetter
+public MethodHandle unreflectGetter(Field f)
+                             throws IllegalAccessException
+Produces a method handle giving read access to a reflected field.
+ The type of the method handle will have a return type of the field's
+ value type.
+ If the field is static, the method handle will take no arguments.
+ Otherwise, its single argument will be the instance containing
+ the field.
+ If the field's accessible flag is not set,
+ access checking is performed immediately on behalf of the lookup class.
+ 
+ If the field is static, and
+ if the returned method handle is invoked, the field's class will
+ be initialized, if it has not already been initialized.
+
+Parameters:
+f - the reflected field
+Returns:
+a method handle which can load values from the reflected field
+Throws:
+IllegalAccessException - if access checking fails
+NullPointerException - if the argument is null
+
+
+"
+MethodHandles.Lookup,unreflectSetter(Field f),MethodHandle,Produces a method handle giving write access to a reflected field.,"
+
+unreflectSetter
+public MethodHandle unreflectSetter(Field f)
+                             throws IllegalAccessException
+Produces a method handle giving write access to a reflected field.
+ The type of the method handle will have a void return type.
+ If the field is static, the method handle will take a single
+ argument, of the field's value type, the value to be stored.
+ Otherwise, the two arguments will be the instance containing
+ the field, and the value to be stored.
+ If the field's accessible flag is not set,
+ access checking is performed immediately on behalf of the lookup class.
+ 
+ If the field is static, and
+ if the returned method handle is invoked, the field's class will
+ be initialized, if it has not already been initialized.
+
+Parameters:
+f - the reflected field
+Returns:
+a method handle which can store values into the reflected field
+Throws:
+IllegalAccessException - if access checking fails
+NullPointerException - if the argument is null
+
+
+"
+MethodHandles.Lookup,"unreflectSpecial(Method m, Class<?> specialCaller)",MethodHandle,Produces a method handle for a reflected method.,"
+
+unreflectSpecial
+public MethodHandle unreflectSpecial(Method m,
+                                     Class<?> specialCaller)
+                              throws IllegalAccessException
+Produces a method handle for a reflected method.
+ It will bypass checks for overriding methods on the receiver,
+ as if called from an invokespecial
+ instruction from within the explicitly specified specialCaller.
+ The type of the method handle will be that of the method,
+ with a suitably restricted receiver type prepended.
+ (The receiver type will be specialCaller or a subtype.)
+ If the method's accessible flag is not set,
+ access checking is performed immediately on behalf of the lookup class,
+ as if invokespecial instruction were being linked.
+ 
+ Before method resolution,
+ if the explicitly specified caller class is not identical with the
+ lookup class, or if this lookup object does not have
+ private access
+ privileges, the access fails.
+ 
+ The returned method handle will have
+ variable arity if and only if
+ the method's variable arity modifier bit (0x0080) is set.
+
+Parameters:
+m - the reflected method
+specialCaller - the class nominally calling the method
+Returns:
+a method handle which can invoke the reflected method
+Throws:
+IllegalAccessException - if access checking fails
+                                or if the method's variable arity modifier bit
+                                is set and asVarargsCollector fails
+NullPointerException - if any argument is null
+
+
+"
+MethodType,appendParameterTypes(Class<?>... ptypesToInsert),MethodType,Finds or creates a method type with additional parameter types.,"
+
+appendParameterTypes
+public MethodType appendParameterTypes(Class<?>... ptypesToInsert)
+Finds or creates a method type with additional parameter types.
+ Convenience method for methodType.
+
+Parameters:
+ptypesToInsert - zero or more new parameter types to insert after the end of the parameter list
+Returns:
+the same type, except with the selected parameter(s) appended
+Throws:
+IllegalArgumentException - if any element of ptypesToInsert is void.class
+                                  or if the resulting method type would have more than 255 parameter slots
+NullPointerException - if ptypesToInsert or any of its elements is null
+
+
+"
+MethodType,appendParameterTypes(List<Class<?>> ptypesToInsert),MethodType,Finds or creates a method type with additional parameter types.,"
+
+appendParameterTypes
+public MethodType appendParameterTypes(List<Class<?>> ptypesToInsert)
+Finds or creates a method type with additional parameter types.
+ Convenience method for methodType.
+
+Parameters:
+ptypesToInsert - zero or more new parameter types to insert after the end of the parameter list
+Returns:
+the same type, except with the selected parameter(s) appended
+Throws:
+IllegalArgumentException - if any element of ptypesToInsert is void.class
+                                  or if the resulting method type would have more than 255 parameter slots
+NullPointerException - if ptypesToInsert or any of its elements is null
+
+
+"
+MethodType,"changeParameterType(int num, Class<?> nptype)",MethodType,Finds or creates a method type with a single different parameter type.,"
+
+changeParameterType
+public MethodType changeParameterType(int num,
+                                      Class<?> nptype)
+Finds or creates a method type with a single different parameter type.
+ Convenience method for methodType.
+
+Parameters:
+num - the index (zero-based) of the parameter type to change
+nptype - a new parameter type to replace the old one with
+Returns:
+the same type, except with the selected parameter changed
+Throws:
+IndexOutOfBoundsException - if num is not a valid index into parameterArray()
+IllegalArgumentException - if nptype is void.class
+NullPointerException - if nptype is null
+
+
+"
+MethodType,changeReturnType(Class<?> nrtype),MethodType,Finds or creates a method type with a different return type.,"
+
+changeReturnType
+public MethodType changeReturnType(Class<?> nrtype)
+Finds or creates a method type with a different return type.
+ Convenience method for methodType.
+
+Parameters:
+nrtype - a return parameter type to replace the old one with
+Returns:
+the same type, except with the return type change
+Throws:
+NullPointerException - if nrtype is null
+
+
+"
+MethodType,"dropParameterTypes(int start, int end)",MethodType,Finds or creates a method type with some parameter types omitted.,"
+
+dropParameterTypes
+public MethodType dropParameterTypes(int start,
+                                     int end)
+Finds or creates a method type with some parameter types omitted.
+ Convenience method for methodType.
+
+Parameters:
+start - the index (zero-based) of the first parameter type to remove
+end - the index (greater than start) of the first parameter type after not to remove
+Returns:
+the same type, except with the selected parameter(s) removed
+Throws:
+IndexOutOfBoundsException - if start is negative or greater than parameterCount()
+                                  or if end is negative or greater than parameterCount()
+                                  or if start is greater than end
+
+
+"
+MethodType,equals(Object x),boolean,Compares the specified object with this type for equality.,"
+
+equals
+public boolean equals(Object x)
+Compares the specified object with this type for equality.
+ That is, it returns true if and only if the specified object
+ is also a method type with exactly the same parameters and return type.
+
+Overrides:
+equals in class Object
+Parameters:
+x - object to compare
+Returns:
+true if this object is the same as the obj
+          argument; false otherwise.
+See Also:
+Object.equals(Object)
+
+
+"
+MethodType,erase(),MethodType,Erases all reference types to Object.,"
+
+erase
+public MethodType erase()
+Erases all reference types to Object.
+ Convenience method for methodType.
+ All primitive types (including void) will remain unchanged.
+
+Returns:
+a version of the original type with all reference types replaced
+
+
+"
+MethodType,"fromMethodDescriptorString(String descriptor, ClassLoader loader)",static MethodType,"Finds or creates an instance of a method type, given the spelling of its bytecode descriptor.","
+
+fromMethodDescriptorString
+public static MethodType fromMethodDescriptorString(String descriptor,
+                                                    ClassLoader loader)
+                                             throws IllegalArgumentException,
+                                                    TypeNotPresentException
+Finds or creates an instance of a method type, given the spelling of its bytecode descriptor.
+ Convenience method for methodType.
+ Any class or interface name embedded in the descriptor string
+ will be resolved by calling ClassLoader.loadClass(java.lang.String)
+ on the given loader (or if it is null, on the system class loader).
+ 
+ Note that it is possible to encounter method types which cannot be
+ constructed by this method, because their component types are
+ not all reachable from a common class loader.
+ 
+ This method is included for the benefit of applications that must
+ generate bytecodes that process method handles and invokedynamic.
+
+Parameters:
+descriptor - a bytecode-level type descriptor string ""(T...)T""
+loader - the class loader in which to look up the types
+Returns:
+a method type matching the bytecode-level type descriptor
+Throws:
+NullPointerException - if the string is null
+IllegalArgumentException - if the string is not well-formed
+TypeNotPresentException - if a named type cannot be found
+
+
+"
+MethodType,generic(),MethodType,"Converts all types, both reference and primitive, to Object.","
+
+generic
+public MethodType generic()
+Converts all types, both reference and primitive, to Object.
+ Convenience method for genericMethodType.
+ The expression type.wrap().erase() produces the same value
+ as type.generic().
+
+Returns:
+a version of the original type with all types replaced
+
+
+"
+MethodType,genericMethodType(int objectArgCount),static MethodType,Finds or creates a method type whose components are all Object.,"
+
+genericMethodType
+public static MethodType genericMethodType(int objectArgCount)
+Finds or creates a method type whose components are all Object.
+ Convenience method for methodType.
+ All parameters and the return type will be Object.
+
+Parameters:
+objectArgCount - number of parameters
+Returns:
+a generally applicable method type, for all calls of the given argument count
+Throws:
+IllegalArgumentException - if objectArgCount is negative or greater than 255
+See Also:
+genericMethodType(int, boolean)
+
+
+"
+MethodType,"genericMethodType(int objectArgCount, boolean finalArray)",static MethodType,Finds or creates a method type whose components are Object with an optional trailing Object[] array.,"
+
+genericMethodType
+public static MethodType genericMethodType(int objectArgCount,
+                                           boolean finalArray)
+Finds or creates a method type whose components are Object with an optional trailing Object[] array.
+ Convenience method for methodType.
+ All parameters and the return type will be Object,
+ except the final array parameter if any, which will be Object[].
+
+Parameters:
+objectArgCount - number of parameters (excluding the final array parameter if any)
+finalArray - whether there will be a trailing array parameter, of type Object[]
+Returns:
+a generally applicable method type, for all calls of the given fixed argument count and a collected array of further arguments
+Throws:
+IllegalArgumentException - if objectArgCount is negative or greater than 255 (or 254, if finalArray is true)
+See Also:
+genericMethodType(int)
+
+
+"
+MethodType,hashCode(),int,Returns the hash code value for this method type.,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this method type.
+ It is defined to be the same as the hashcode of a List
+ whose elements are the return type followed by the
+ parameter types.
+
+Overrides:
+hashCode in class Object
+Returns:
+the hash code value for this method type
+See Also:
+Object.hashCode(), 
+equals(Object), 
+List.hashCode()
+
+
+"
+MethodType,hasPrimitives(),boolean,Reports if this type contains a primitive argument or return value.,"
+
+hasPrimitives
+public boolean hasPrimitives()
+Reports if this type contains a primitive argument or return value.
+ The return type void counts as a primitive.
+
+Returns:
+true if any of the types are primitives
+
+
+"
+MethodType,hasWrappers(),boolean,Reports if this type contains a wrapper argument or return value.,"
+
+hasWrappers
+public boolean hasWrappers()
+Reports if this type contains a wrapper argument or return value.
+ Wrappers are types which box primitive values, such as Integer.
+ The reference type java.lang.Void counts as a wrapper,
+ if it occurs as a return type.
+
+Returns:
+true if any of the types are wrappers
+
+
+"
+MethodType,"insertParameterTypes(int num, Class<?>... ptypesToInsert)",MethodType,Finds or creates a method type with additional parameter types.,"
+
+insertParameterTypes
+public MethodType insertParameterTypes(int num,
+                                       Class<?>... ptypesToInsert)
+Finds or creates a method type with additional parameter types.
+ Convenience method for methodType.
+
+Parameters:
+num - the position (zero-based) of the inserted parameter type(s)
+ptypesToInsert - zero or more new parameter types to insert into the parameter list
+Returns:
+the same type, except with the selected parameter(s) inserted
+Throws:
+IndexOutOfBoundsException - if num is negative or greater than parameterCount()
+IllegalArgumentException - if any element of ptypesToInsert is void.class
+                                  or if the resulting method type would have more than 255 parameter slots
+NullPointerException - if ptypesToInsert or any of its elements is null
+
+
+"
+MethodType,"insertParameterTypes(int num, List<Class<?>> ptypesToInsert)",MethodType,Finds or creates a method type with additional parameter types.,"
+
+insertParameterTypes
+public MethodType insertParameterTypes(int num,
+                                       List<Class<?>> ptypesToInsert)
+Finds or creates a method type with additional parameter types.
+ Convenience method for methodType.
+
+Parameters:
+num - the position (zero-based) of the inserted parameter type(s)
+ptypesToInsert - zero or more new parameter types to insert into the parameter list
+Returns:
+the same type, except with the selected parameter(s) inserted
+Throws:
+IndexOutOfBoundsException - if num is negative or greater than parameterCount()
+IllegalArgumentException - if any element of ptypesToInsert is void.class
+                                  or if the resulting method type would have more than 255 parameter slots
+NullPointerException - if ptypesToInsert or any of its elements is null
+
+
+"
+MethodType,methodType(Class<?> rtype),static MethodType,Finds or creates a method type with the given components.,"
+
+methodType
+public static MethodType methodType(Class<?> rtype)
+Finds or creates a method type with the given components.
+ Convenience method for methodType.
+ The resulting method has no parameter types.
+
+Parameters:
+rtype - the return type
+Returns:
+a method type with the given return value
+Throws:
+NullPointerException - if rtype is null
+
+
+"
+MethodType,"methodType(Class<?> rtype, Class<?> ptype0)",static MethodType,Finds or creates a method type with the given components.,"
+
+methodType
+public static MethodType methodType(Class<?> rtype,
+                                    Class<?> ptype0)
+Finds or creates a method type with the given components.
+ Convenience method for methodType.
+ The resulting method has the single given parameter type.
+
+Parameters:
+rtype - the return type
+ptype0 - the parameter type
+Returns:
+a method type with the given return value and parameter type
+Throws:
+NullPointerException - if rtype or ptype0 is null
+IllegalArgumentException - if ptype0 is void.class
+
+
+"
+MethodType,"methodType(Class<?> rtype, Class<?>[] ptypes)",static MethodType,Finds or creates an instance of the given method type.,"
+
+methodType
+public static MethodType methodType(Class<?> rtype,
+                                    Class<?>[] ptypes)
+Finds or creates an instance of the given method type.
+
+Parameters:
+rtype - the return type
+ptypes - the parameter types
+Returns:
+a method type with the given components
+Throws:
+NullPointerException - if rtype or ptypes or any element of ptypes is null
+IllegalArgumentException - if any element of ptypes is void.class
+
+
+"
+MethodType,"methodType(Class<?> rtype, Class<?> ptype0, Class<?>... ptypes)",static MethodType,Finds or creates a method type with the given components.,"
+
+methodType
+public static MethodType methodType(Class<?> rtype,
+                                    Class<?> ptype0,
+                                    Class<?>... ptypes)
+Finds or creates a method type with the given components.
+ Convenience method for methodType.
+ The leading parameter type is prepended to the remaining array.
+
+Parameters:
+rtype - the return type
+ptype0 - the first parameter type
+ptypes - the remaining parameter types
+Returns:
+a method type with the given components
+Throws:
+NullPointerException - if rtype or ptype0 or ptypes or any element of ptypes is null
+IllegalArgumentException - if ptype0 or ptypes or any element of ptypes is void.class
+
+
+"
+MethodType,"methodType(Class<?> rtype, List<Class<?>> ptypes)",static MethodType,Finds or creates a method type with the given components.,"
+
+methodType
+public static MethodType methodType(Class<?> rtype,
+                                    List<Class<?>> ptypes)
+Finds or creates a method type with the given components.
+ Convenience method for methodType.
+
+Parameters:
+rtype - the return type
+ptypes - the parameter types
+Returns:
+a method type with the given components
+Throws:
+NullPointerException - if rtype or ptypes or any element of ptypes is null
+IllegalArgumentException - if any element of ptypes is void.class
+
+
+"
+MethodType,"methodType(Class<?> rtype, MethodType ptypes)",static MethodType,Finds or creates a method type with the given components.,"
+
+methodType
+public static MethodType methodType(Class<?> rtype,
+                                    MethodType ptypes)
+Finds or creates a method type with the given components.
+ Convenience method for methodType.
+ The resulting method has the same parameter types as ptypes,
+ and the specified return type.
+
+Parameters:
+rtype - the return type
+ptypes - the method type which supplies the parameter types
+Returns:
+a method type with the given components
+Throws:
+NullPointerException - if rtype or ptypes is null
+
+
+"
+MethodType,parameterArray(),Class<?>[],Presents the parameter types as an array (a convenience method).,"
+
+parameterArray
+public Class<?>[] parameterArray()
+Presents the parameter types as an array (a convenience method).
+ Changes to the array will not result in changes to the type.
+
+Returns:
+the parameter types (as a fresh copy if necessary)
+
+
+"
+MethodType,parameterCount(),int,Returns the number of parameter types in this method type.,"
+
+parameterCount
+public int parameterCount()
+Returns the number of parameter types in this method type.
+
+Returns:
+the number of parameter types
+
+
+"
+MethodType,parameterList(),List<Class<?>>,Presents the parameter types as a list (a convenience method).,"
+
+parameterList
+public List<Class<?>> parameterList()
+Presents the parameter types as a list (a convenience method).
+ The list will be immutable.
+
+Returns:
+the parameter types (as an immutable list)
+
+
+"
+MethodType,parameterType(int num),Class<?>,"Returns the parameter type at the specified index, within this method type.","
+
+parameterType
+public Class<?> parameterType(int num)
+Returns the parameter type at the specified index, within this method type.
+
+Parameters:
+num - the index (zero-based) of the desired parameter type
+Returns:
+the selected parameter type
+Throws:
+IndexOutOfBoundsException - if num is not a valid index into parameterArray()
+
+
+"
+MethodType,returnType(),Class<?>,Returns the return type of this method type.,"
+
+returnType
+public Class<?> returnType()
+Returns the return type of this method type.
+
+Returns:
+the return type
+
+
+"
+MethodType,toMethodDescriptorString(),String,Produces a bytecode descriptor representation of the method type.,"
+
+toMethodDescriptorString
+public String toMethodDescriptorString()
+Produces a bytecode descriptor representation of the method type.
+ 
+ Note that this is not a strict inverse of fromMethodDescriptorString.
+ Two distinct classes which share a common name but have different class loaders
+ will appear identical when viewed within descriptor strings.
+ 
+ This method is included for the benefit of applications that must
+ generate bytecodes that process method handles and invokedynamic.
+ fromMethodDescriptorString,
+ because the latter requires a suitable class loader argument.
+
+Returns:
+the bytecode type descriptor representation
+
+
+"
+MethodType,toString(),String,"Returns a string representation of the method type, of the form ""(PT0,PT1...)RT"".","
+
+toString
+public String toString()
+Returns a string representation of the method type,
+ of the form ""(PT0,PT1...)RT"".
+ The string representation of a method type is a
+ parenthesis enclosed, comma separated list of type names,
+ followed immediately by the return type.
+ 
+ Each type is represented by its
+ simple name.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of the object.
+
+
+"
+MethodType,unwrap(),MethodType,Converts all wrapper types to their corresponding primitive types.,"
+
+unwrap
+public MethodType unwrap()
+Converts all wrapper types to their corresponding primitive types.
+ Convenience method for methodType.
+ All primitive types (including void) will remain unchanged.
+ A return type of java.lang.Void is changed to void.
+
+Returns:
+a version of the original type with all wrapper types replaced
+
+
+"
+MethodType,wrap(),MethodType,Converts all primitive types to their corresponding wrapper types.,"
+
+wrap
+public MethodType wrap()
+Converts all primitive types to their corresponding wrapper types.
+ Convenience method for methodType.
+ All reference types (including wrapper types) will remain unchanged.
+ A void return type is changed to the type java.lang.Void.
+ The expression type.wrap().erase() produces the same value
+ as type.generic().
+
+Returns:
+a version of the original type with all primitive types replaced
+
+
+"
+MutableCallSite,dynamicInvoker(),MethodHandle,Produces a method handle equivalent to an invokedynamic instruction which has been linked to this call site.,"
+
+dynamicInvoker
+public final MethodHandle dynamicInvoker()
+Produces a method handle equivalent to an invokedynamic instruction
+ which has been linked to this call site.
+ 
+ This method is equivalent to the following code:
+ 
+ MethodHandle getTarget, invoker, result;
+ getTarget = MethodHandles.publicLookup().bind(this, ""getTarget"", MethodType.methodType(MethodHandle.class));
+ invoker = MethodHandles.exactInvoker(this.type());
+ result = MethodHandles.foldArguments(invoker, getTarget)
+ 
+
+Specified by:
+dynamicInvoker in class CallSite
+Returns:
+a method handle which always invokes this call site's current target
+
+
+"
+MutableCallSite,getTarget(),MethodHandle,"Returns the target method of the call site, which behaves like a normal field of the MutableCallSite.","
+
+getTarget
+public final MethodHandle getTarget()
+Returns the target method of the call site, which behaves
+ like a normal field of the MutableCallSite.
+ 
+ The interactions of getTarget with memory are the same
+ as of a read from an ordinary variable, such as an array element or a
+ non-volatile, non-final field.
+ 
+ In particular, the current thread may choose to reuse the result
+ of a previous read of the target from memory, and may fail to see
+ a recent update to the target by another thread.
+
+Specified by:
+getTarget in class CallSite
+Returns:
+the linkage state of this call site, a method handle which can change over time
+See Also:
+setTarget(java.lang.invoke.MethodHandle)
+
+
+"
+MutableCallSite,setTarget(MethodHandle newTarget),void,"Updates the target method of this call site, as a normal variable.","
+
+setTarget
+public void setTarget(MethodHandle newTarget)
+Updates the target method of this call site, as a normal variable.
+ The type of the new target must agree with the type of the old target.
+ 
+ The interactions with memory are the same
+ as of a write to an ordinary variable, such as an array element or a
+ non-volatile, non-final field.
+ 
+ In particular, unrelated threads may fail to see the updated target
+ until they perform a read from memory.
+ Stronger guarantees can be created by putting appropriate operations
+ into the bootstrap method and/or the target methods used
+ at any given call site.
+
+Specified by:
+setTarget in class CallSite
+Parameters:
+newTarget - the new target
+Throws:
+NullPointerException - if the proposed new target is null
+WrongMethodTypeException - if the proposed new target
+         has a method type that differs from the previous target
+See Also:
+getTarget()
+
+
+"
+MutableCallSite,syncAll(MutableCallSite[] sites),static void,"Performs a synchronization operation on each call site in the given array, forcing all other threads to throw away any cached values previously loaded from the target of any of the call sites.","
+
+syncAll
+public static void syncAll(MutableCallSite[] sites)
+Performs a synchronization operation on each call site in the given array,
+ forcing all other threads to throw away any cached values previously
+ loaded from the target of any of the call sites.
+ 
+ This operation does not reverse any calls that have already started
+ on an old target value.
+ (Java supports forward time travel only.)
+ 
+ The overall effect is to force all future readers of each call site's target
+ to accept the most recently stored value.
+ (""Most recently"" is reckoned relative to the syncAll itself.)
+ Conversely, the syncAll call may block until all readers have
+ (somehow) decached all previous versions of each call site's target.
+ 
+ To avoid race conditions, calls to setTarget and syncAll
+ should generally be performed under some sort of mutual exclusion.
+ Note that reader threads may observe an updated target as early
+ as the setTarget call that install the value
+ (and before the syncAll that confirms the value).
+ On the other hand, reader threads may observe previous versions of
+ the target until the syncAll call returns
+ (and after the setTarget that attempts to convey the updated version).
+ 
+ This operation is likely to be expensive and should be used sparingly.
+ If possible, it should be buffered for batch processing on sets of call sites.
+ 
+ If sites contains a null element,
+ a NullPointerException will be raised.
+ In this case, some non-null elements in the array may be
+ processed before the method returns abnormally.
+ Which elements these are (if any) is implementation-dependent.
+
+ Java Memory Model details
+ In terms of the Java Memory Model, this operation performs a synchronization
+ action which is comparable in effect to the writing of a volatile variable
+ by the current thread, and an eventual volatile read by every other thread
+ that may access one of the affected call sites.
+ 
+ The following effects are apparent, for each individual call site S:
+ 
+A new volatile variable V is created, and written by the current thread.
+     As defined by the JMM, this write is a global synchronization event.
+ As is normal with thread-local ordering of write events,
+     every action already performed by the current thread is
+     taken to happen before the volatile write to V.
+     (In some implementations, this means that the current thread
+     performs a global release operation.)
+ Specifically, the write to the current target of S is
+     taken to happen before the volatile write to V.
+ The volatile write to V is placed
+     (in an implementation specific manner)
+     in the global synchronization order.
+ Consider an arbitrary thread T (other than the current thread).
+     If T executes a synchronization action A
+     after the volatile write to V (in the global synchronization order),
+     it is therefore required to see either the current target
+     of S, or a later write to that target,
+     if it executes a read on the target of S.
+     (This constraint is called ""synchronization-order consistency"".)
+ The JMM specifically allows optimizing compilers to elide
+     reads or writes of variables that are known to be useless.
+     Such elided reads and writes have no effect on the happens-before
+     relation.  Regardless of this fact, the volatile V
+     will not be elided, even though its written value is
+     indeterminate and its read value is not used.
+ 
+ Because of the last point, the implementation behaves as if a
+ volatile read of V were performed by T
+ immediately after its action A.  In the local ordering
+ of actions in T, this read happens before any future
+ read of the target of S.  It is as if the
+ implementation arbitrarily picked a read of S's target
+ by T, and forced a read of V to precede it,
+ thereby ensuring communication of the new target value.
+ 
+ As long as the constraints of the Java Memory Model are obeyed,
+ implementations may delay the completion of a syncAll
+ operation while other threads (T above) continue to
+ use previous values of S's target.
+ However, implementations are (as always) encouraged to avoid
+ livelock, and to eventually require all threads to take account
+ of the updated target.
+
+ 
+Discussion:
+ For performance reasons, syncAll is not a virtual method
+ on a single call site, but rather applies to a set of call sites.
+ Some implementations may incur a large fixed overhead cost
+ for processing one or more synchronization operations,
+ but a small incremental cost for each additional call site.
+ In any case, this operation is likely to be costly, since
+ other threads may have to be somehow interrupted
+ in order to make them notice the updated target value.
+ However, it may be observed that a single call to synchronize
+ several sites has the same formal effect as many calls,
+ each on just one of the sites.
+
+ 
+Implementation Note:
+ Simple implementations of MutableCallSite may use
+ a volatile variable for the target of a mutable call site.
+ In such an implementation, the syncAll method can be a no-op,
+ and yet it will conform to the JMM behavior documented above.
+
+Parameters:
+sites - an array of call sites to be synchronized
+Throws:
+NullPointerException - if the sites array reference is null
+                              or the array contains a null
+
+
+"
+SerializedLambda,getCapturedArg(int i),Object,Get a dynamic argument to the lambda capture site.,"
+
+getCapturedArg
+public Object getCapturedArg(int i)
+Get a dynamic argument to the lambda capture site.
+
+Parameters:
+i - the argument to capture
+Returns:
+a dynamic argument to the lambda capture site
+
+
+"
+SerializedLambda,getCapturedArgCount(),int,Get the count of dynamic arguments to the lambda capture site.,"
+
+getCapturedArgCount
+public int getCapturedArgCount()
+Get the count of dynamic arguments to the lambda capture site.
+
+Returns:
+the count of dynamic arguments to the lambda capture site
+
+
+"
+SerializedLambda,getCapturingClass(),String,Get the name of the class that captured this lambda.,"
+
+getCapturingClass
+public String getCapturingClass()
+Get the name of the class that captured this lambda.
+
+Returns:
+the name of the class that captured this lambda
+
+
+"
+SerializedLambda,getFunctionalInterfaceClass(),String,Get the name of the invoked type to which this lambda has been converted,"
+
+getFunctionalInterfaceClass
+public String getFunctionalInterfaceClass()
+Get the name of the invoked type to which this
+ lambda has been converted
+
+Returns:
+the name of the functional interface class to which
+ this lambda has been converted
+
+
+"
+SerializedLambda,getFunctionalInterfaceMethodName(),String,Get the name of the primary method for the functional interface to which this lambda has been converted.,"
+
+getFunctionalInterfaceMethodName
+public String getFunctionalInterfaceMethodName()
+Get the name of the primary method for the functional interface
+ to which this lambda has been converted.
+
+Returns:
+the name of the primary methods of the functional interface
+
+
+"
+SerializedLambda,getFunctionalInterfaceMethodSignature(),String,Get the signature of the primary method for the functional interface to which this lambda has been converted.,"
+
+getFunctionalInterfaceMethodSignature
+public String getFunctionalInterfaceMethodSignature()
+Get the signature of the primary method for the functional
+ interface to which this lambda has been converted.
+
+Returns:
+the signature of the primary method of the functional
+ interface
+
+
+"
+SerializedLambda,getImplClass(),String,Get the name of the class containing the implementation method.,"
+
+getImplClass
+public String getImplClass()
+Get the name of the class containing the implementation
+ method.
+
+Returns:
+the name of the class containing the implementation
+ method
+
+
+"
+SerializedLambda,getImplMethodKind(),int,Get the method handle kind (see MethodHandleInfo) of the implementation method.,"
+
+getImplMethodKind
+public int getImplMethodKind()
+Get the method handle kind (see MethodHandleInfo) of
+ the implementation method.
+
+Returns:
+the method handle kind of the implementation method
+
+
+"
+SerializedLambda,getImplMethodName(),String,Get the name of the implementation method.,"
+
+getImplMethodName
+public String getImplMethodName()
+Get the name of the implementation method.
+
+Returns:
+the name of the implementation method
+
+
+"
+SerializedLambda,getImplMethodSignature(),String,Get the signature of the implementation method.,"
+
+getImplMethodSignature
+public String getImplMethodSignature()
+Get the signature of the implementation method.
+
+Returns:
+the signature of the implementation method
+
+
+"
+SerializedLambda,getInstantiatedMethodType(),String,Get the signature of the primary functional interface method after type variables are substituted with their instantiation from the capture site.,"
+
+getInstantiatedMethodType
+public final String getInstantiatedMethodType()
+Get the signature of the primary functional interface method
+ after type variables are substituted with their instantiation
+ from the capture site.
+
+Returns:
+the signature of the primary functional interface method
+ after type variable processing
+
+
+"
+SerializedLambda,toString(),String,Returns a string representation of the object.,"
+
+toString
+public String toString()
+Description copied from class: Object
+Returns a string representation of the object. In general, the
+ toString method returns a string that
+ ""textually represents"" this object. The result should
+ be a concise but informative representation that is easy for a
+ person to read.
+ It is recommended that all subclasses override this method.
+ 
+ The toString method for class Object
+ returns a string consisting of the name of the class of which the
+ object is an instance, the at-sign character `@', and
+ the unsigned hexadecimal representation of the hash code of the
+ object. In other words, this method returns a string equal to the
+ value of:
+ 
+
+ getClass().getName() + '@' + Integer.toHexString(hashCode())
+ 
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of the object.
+
+
+"
+SwitchPoint,"guardWithTest(MethodHandle target, MethodHandle fallback)",MethodHandle,Returns a method handle which always delegates either to the target or the fallback.,"
+
+guardWithTest
+public MethodHandle guardWithTest(MethodHandle target,
+                                  MethodHandle fallback)
+Returns a method handle which always delegates either to the target or the fallback.
+ The method handle will delegate to the target exactly as long as the switch point is valid.
+ After that, it will permanently delegate to the fallback.
+ 
+ The target and fallback must be of exactly the same method type,
+ and the resulting combined method handle will also be of this type.
+
+Parameters:
+target - the method handle selected by the switch point as long as it is valid
+fallback - the method handle selected by the switch point after it is invalidated
+Returns:
+a combined method handle which always calls either the target or fallback
+Throws:
+NullPointerException - if either argument is null
+IllegalArgumentException - if the two method types do not match
+See Also:
+MethodHandles.guardWithTest(java.lang.invoke.MethodHandle, java.lang.invoke.MethodHandle, java.lang.invoke.MethodHandle)
+
+
+"
+SwitchPoint,hasBeenInvalidated(),boolean,Determines if this switch point has been invalidated yet.,"
+
+hasBeenInvalidated
+public boolean hasBeenInvalidated()
+Determines if this switch point has been invalidated yet.
+
+ 
+Discussion:
+ Because of the one-way nature of invalidation, once a switch point begins
+ to return true for hasBeenInvalidated,
+ it will always do so in the future.
+ On the other hand, a valid switch point visible to other threads may
+ be invalidated at any moment, due to a request by another thread.
+ 
+ Since invalidation is a global and immediate operation,
+ the execution of this query, on a valid switchpoint,
+ must be internally sequenced with any
+ other threads that could cause invalidation.
+ This query may therefore be expensive.
+ The recommended way to build a boolean-valued method handle
+ which queries the invalidation state of a switch point s is
+ to call s.guardWithTest on
+ constant true and false method handles.
+
+Returns:
+true if this switch point has been invalidated
+
+
+"
+SwitchPoint,invalidateAll(SwitchPoint[] switchPoints),static void,Sets all of the given switch points into the invalid state.,"
+
+invalidateAll
+public static void invalidateAll(SwitchPoint[] switchPoints)
+Sets all of the given switch points into the invalid state.
+ After this call executes, no thread will observe any of the
+ switch points to be in a valid state.
+ 
+ This operation is likely to be expensive and should be used sparingly.
+ If possible, it should be buffered for batch processing on sets of switch points.
+ 
+ If switchPoints contains a null element,
+ a NullPointerException will be raised.
+ In this case, some non-null elements in the array may be
+ processed before the method returns abnormally.
+ Which elements these are (if any) is implementation-dependent.
+
+ 
+Discussion:
+ For performance reasons, invalidateAll is not a virtual method
+ on a single switch point, but rather applies to a set of switch points.
+ Some implementations may incur a large fixed overhead cost
+ for processing one or more invalidation operations,
+ but a small incremental cost for each additional invalidation.
+ In any case, this operation is likely to be costly, since
+ other threads may have to be somehow interrupted
+ in order to make them notice the updated switch point state.
+ However, it may be observed that a single call to invalidate
+ several switch points has the same formal effect as many calls,
+ each on just one of the switch points.
+
+ 
+Implementation Note:
+ Simple implementations of SwitchPoint may use
+ a private MutableCallSite to publish the state of a switch point.
+ In such an implementation, the invalidateAll method can
+ simply change the call site's target, and issue one call to
+ synchronize all the
+ private call sites.
+
+Parameters:
+switchPoints - an array of call sites to be synchronized
+Throws:
+NullPointerException - if the switchPoints array reference is null
+                              or the array contains a null
+
+
+"
+VolatileCallSite,dynamicInvoker(),MethodHandle,Produces a method handle equivalent to an invokedynamic instruction which has been linked to this call site.,"
+
+dynamicInvoker
+public final MethodHandle dynamicInvoker()
+Produces a method handle equivalent to an invokedynamic instruction
+ which has been linked to this call site.
+ 
+ This method is equivalent to the following code:
+ 
+ MethodHandle getTarget, invoker, result;
+ getTarget = MethodHandles.publicLookup().bind(this, ""getTarget"", MethodType.methodType(MethodHandle.class));
+ invoker = MethodHandles.exactInvoker(this.type());
+ result = MethodHandles.foldArguments(invoker, getTarget)
+ 
+
+Specified by:
+dynamicInvoker in class CallSite
+Returns:
+a method handle which always invokes this call site's current target
+
+
+"
+VolatileCallSite,getTarget(),MethodHandle,"Returns the target method of the call site, which behaves like a volatile field of the VolatileCallSite.","
+
+getTarget
+public final MethodHandle getTarget()
+Returns the target method of the call site, which behaves
+ like a volatile field of the VolatileCallSite.
+ 
+ The interactions of getTarget with memory are the same
+ as of a read from a volatile field.
+ 
+ In particular, the current thread is required to issue a fresh
+ read of the target from memory, and must not fail to see
+ a recent update to the target by another thread.
+
+Specified by:
+getTarget in class CallSite
+Returns:
+the linkage state of this call site, a method handle which can change over time
+See Also:
+setTarget(java.lang.invoke.MethodHandle)
+
+
+"
+VolatileCallSite,setTarget(MethodHandle newTarget),void,"Updates the target method of this call site, as a volatile variable.","
+
+setTarget
+public void setTarget(MethodHandle newTarget)
+Updates the target method of this call site, as a volatile variable.
+ The type of the new target must agree with the type of the old target.
+ 
+ The interactions with memory are the same as of a write to a volatile field.
+ In particular, any threads is guaranteed to see the updated target
+ the next time it calls getTarget.
+
+Specified by:
+setTarget in class CallSite
+Parameters:
+newTarget - the new target
+Throws:
+NullPointerException - if the proposed new target is null
+WrongMethodTypeException - if the proposed new target
+         has a method type that differs from the previous target
+See Also:
+getTarget()
+
+
+"

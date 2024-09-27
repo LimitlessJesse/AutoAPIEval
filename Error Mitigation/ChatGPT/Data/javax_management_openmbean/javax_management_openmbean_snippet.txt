@@ -1,0 +1,364 @@
+Sample: 0 ArrayType_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.ArrayType;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayType arrayType = new ArrayType(String.class, false);
+        int dimension = arrayType.getDimension();
+        System.out.println("Dimension of arrays described by ArrayType instance: " + dimension);
+    }
+}
+```
+================================================================
+
+Sample: 1 ArrayType_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.ArrayType;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayType arrayType = new ArrayType(String.class, false);
+        boolean isPrimitiveArray = arrayType.isPrimitiveArray();
+        System.out.println("Is primitive array: " + isPrimitiveArray);
+    }
+}
+```
+================================================================
+
+Sample: 2 ArrayType_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.ArrayType;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayType arrayType = new ArrayType(1, SimpleType.INTEGER);
+        Object obj = new int[]{1, 2, 3};
+        boolean isValue = arrayType.isValue(obj);
+        System.out.println("Is obj a value for this ArrayType instance? " + isValue);
+    }
+}
+```
+================================================================
+
+Sample: 3 ArrayType_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.ArrayType;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayType arrayType = new ArrayType(1, String.class);
+        System.out.println(arrayType.toString());
+    }
+}
+```
+================================================================
+
+Sample: 4 CompositeDataSupport_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.CompositeDataSupport;
+import javax.management.openmbean.InvalidKeyException;
+
+public class Main {
+    public static void main(String[] args) {
+        CompositeDataSupport data = new CompositeDataSupport();
+        try {
+            Object value = data.get("key");
+            System.out.println("Value: " + value);
+        } catch (IllegalArgumentException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 CompositeDataSupport_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.CompositeDataSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        CompositeDataSupport data = new CompositeDataSupport();
+        boolean result = data.containsKey("key");
+        System.out.println("Contains key: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 6 CompositeType_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.CompositeType;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        CompositeType compositeType = new CompositeType("typeName", "description", new String[]{"key1", "key2"}, new String[]{"desc1", "desc2"}, new String[]{"type1", "type2"});
+        Set<String> keySet = compositeType.keySet();
+        System.out.println(keySet);
+    }
+}
+```
+================================================================
+
+Sample: 7 CompositeType_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.CompositeType;
+import javax.management.openmbean.CompositeData;
+import javax.management.openmbean.OpenType;
+
+public class Main {
+    public static void main(String[] args) {
+        CompositeType compositeType = new CompositeType("typeName", "description", new String[]{"item1"}, new String[]{"item1"}, new OpenType[]{OpenType.STRING});
+        CompositeData compositeData = new CompositeData() {
+            @Override
+            public CompositeType getCompositeType() {
+                return compositeType;
+            }
+        };
+
+        boolean isValue = compositeType.isValue(compositeData);
+        System.out.println("Is value: " + isValue);
+    }
+}
+```
+================================================================
+
+Sample: 8 OpenMBeanAttributeInfoSupport_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.OpenType;
+import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        OpenMBeanAttributeInfoSupport attributeInfo = new OpenMBeanAttributeInfoSupport("attributeName", "attributeDescription", OpenType.STRING);
+        OpenType<?> openType = attributeInfo.getOpenType();
+        System.out.println("Open Type: " + openType);
+    }
+}
+```
+================================================================
+
+Sample: 9 OpenMBeanAttributeInfoSupport_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        OpenMBeanAttributeInfoSupport attributeInfo = new OpenMBeanAttributeInfoSupport("attributeName", "attributeType", "attributeDescription", true, false, false);
+        Object defaultValue = attributeInfo.getDefaultValue();
+        System.out.println("Default Value: " + defaultValue);
+    }
+}
+```
+================================================================
+
+Sample: 10 OpenMBeanParameterInfoSupport_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.OpenType;
+import javax.management.openmbean.OpenMBeanParameterInfoSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        OpenMBeanParameterInfoSupport parameterInfo = new OpenMBeanParameterInfoSupport("paramName", "paramDescription", OpenType.STRING);
+        OpenType<?> openType = parameterInfo.getOpenType();
+        System.out.println("Open Type: " + openType);
+    }
+}
+```
+================================================================
+
+Sample: 11 OpenMBeanParameterInfoSupport_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.OpenMBeanParameterInfoSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        OpenMBeanParameterInfoSupport paramInfo = new OpenMBeanParameterInfoSupport("paramName", "paramType", "paramDescription");
+        Object defaultValue = paramInfo.getDefaultValue();
+        System.out.println("Default Value: " + defaultValue);
+    }
+}
+```
+================================================================
+
+Sample: 12 OpenMBeanParameterInfoSupport_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.OpenMBeanParameterInfoSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        OpenMBeanParameterInfoSupport paramInfo = new OpenMBeanParameterInfoSupport("paramName", "paramType", "paramDescription");
+        boolean hasDefault = paramInfo.hasDefaultValue();
+        System.out.println("Parameter has default value: " + hasDefault);
+    }
+}
+```
+================================================================
+
+Sample: 13 OpenType_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.OpenType;
+
+public class Main {
+    public static void main(String[] args) {
+        OpenType openType = // initialize OpenType object
+        String typeName = openType.getTypeName();
+        System.out.println("Type Name: " + typeName);
+    }
+}
+```
+================================================================
+
+Sample: 14 OpenType_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.OpenType;
+
+public class Main {
+    public static void main(String[] args) {
+        OpenType openType = // initialize OpenType object
+        String description = openType.getDescription();
+        System.out.println(description);
+    }
+}
+```
+================================================================
+
+Sample: 15 OpenType_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.OpenType;
+
+public class Main {
+    public static void main(String[] args) {
+        OpenType openType = // initialize OpenType object here
+        Object obj = // initialize object to be tested here
+        boolean isValid = openType.isValue(obj);
+        System.out.println("Is valid value: " + isValid);
+    }
+}
+```
+================================================================
+
+Sample: 16 OpenType_5
+----------------------------------------------------------------
+`boolean equals(Object obj)`: Compares the specified obj parameter with this open type instance for equality.
+
+Code snippet:
+```java
+import javax.management.openmbean.OpenType;
+
+public class Main {
+    public static void main(String[] args) {
+        OpenType openType1 = new OpenType() {
+            @Override
+            public boolean equals(Object obj) {
+                // Custom implementation for comparing open type instances
+                return super.equals(obj);
+            }
+        };
+
+        OpenType openType2 = new OpenType() {
+            @Override
+            public boolean equals(Object obj) {
+                // Custom implementation for comparing open type instances
+                return super.equals(obj);
+            }
+        };
+
+        System.out.println("Are openType1 and openType2 equal? " + openType1.equals(openType2));
+    }
+}
+```
+================================================================
+
+Sample: 17 SimpleType_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.SimpleType;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleType<String> simpleType = SimpleType.STRING;
+        String value = "Hello";
+        
+        boolean isValue = simpleType.isValue(value);
+        System.out.println("Is value: " + isValue);
+    }
+}
+```
+================================================================
+
+Sample: 18 TabularDataSupport_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.CompositeData;
+import javax.management.openmbean.TabularDataSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        TabularDataSupport tabularData = new TabularDataSupport();
+        
+        // Creating a sample CompositeData object
+        CompositeData compositeData = null; // Initialize with actual CompositeData
+        
+        // Adding the CompositeData object to the TabularDataSupport instance
+        tabularData.put(compositeData);
+    }
+}
+```
+================================================================
+
+Sample: 19 TabularType_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.openmbean.TabularType;
+import javax.management.openmbean.TabularData;
+
+public class Main {
+    public static void main(String[] args) {
+        TabularType tabularType = new TabularType("TestTabularType", "Description", new String[]{"key"});
+        TabularData tabularData = null; // Initialize your TabularData object here
+
+        boolean isValue = tabularType.isValue(tabularData);
+        System.out.println("Is value: " + isValue);
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,24 @@
+import java.text.BreakIterator;
+import java.util.Locale;
+
+public class BreakIterator_5 {
+    public static void main(String[] args) {
+        String text = "Hello, world! This is a test.";
+        BreakIterator wordIterator = BreakIterator.getWordInstance(Locale.US);
+        wordIterator.setText(text);
+
+        int start = wordIterator.first();
+        for (int end = wordIterator.next(); end!= BreakIterator.DONE; start = end, end = wordIterator.next()) {
+            System.out.println(text.substring(start, end));
+        }
+
+        int currentPosition = wordIterator.current();
+        int previousPosition = wordIterator.previous();
+
+        if (previousPosition!= BreakIterator.DONE) {
+            System.out.println("Previous word: " + text.substring(previousPosition, currentPosition));
+        } else {
+            System.out.println("No previous word.");
+        }
+    }
+}

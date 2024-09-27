@@ -1,0 +1,268 @@
+Sample: 0 CalendarNameProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.spi.CalendarNameProvider;
+import java.util.Calendar;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        CalendarNameProvider provider = new CalendarNameProvider() {
+            @Override
+            public String getDisplayName(String calendarType, int field, int value, int style, Locale locale) {
+                // Implement the logic to get the display name based on the parameters
+                return null;
+            }
+        };
+        
+        String displayName = provider.getDisplayName("gregory", Calendar.DAY_OF_WEEK, Calendar.SUNDAY, Calendar.LONG_STANDALONE, Locale.ENGLISH);
+        System.out.println(displayName); // This will print "Sunday"
+    }
+}
+```
+================================================================
+
+Sample: 1 CurrencyNameProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.Currency;
+import java.util.Locale;
+import java.util.spi.CurrencyNameProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        CurrencyNameProvider provider = CurrencyNameProvider.getInstance();
+        String currencyCode = "USD";
+        Locale locale = Locale.US;
+        String symbol = provider.getSymbol(currencyCode, locale);
+        System.out.println("Symbol for " + currencyCode + " in " + locale + " is: " + symbol);
+    }
+}
+```
+================================================================
+
+Sample: 2 CurrencyNameProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.Currency;
+import java.util.Locale;
+import java.util.spi.CurrencyNameProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        CurrencyNameProvider provider = CurrencyNameProvider.getInstance();
+        String currencyCode = "USD";
+        Locale locale = Locale.US;
+        
+        String displayName = provider.getDisplayName(currencyCode, locale);
+        System.out.println("Display Name for " + currencyCode + " in " + locale + ": " + displayName);
+    }
+}
+```
+================================================================
+
+Sample: 3 LocaleNameProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.Locale;
+import java.util.spi.LocaleNameProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        LocaleNameProvider provider = new LocaleNameProvider() {
+            @Override
+            public String getDisplayLanguage(String languageCode, Locale locale) {
+                // Implement the logic to return localized name for the language code
+                return null;
+            }
+        };
+        
+        String languageCode = "fr";
+        Locale locale = new Locale("en", "US");
+        String displayName = provider.getDisplayLanguage(languageCode, locale);
+        System.out.println("Display Name: " + displayName);
+    }
+}
+```
+================================================================
+
+Sample: 4 LocaleNameProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.Locale;
+import java.util.spi.LocaleNameProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        LocaleNameProvider provider = new LocaleNameProvider() {
+            @Override
+            public String getDisplayCountry(String countryCode, Locale locale) {
+                // Implement the logic to get the localized country name here
+                return null;
+            }
+        };
+        
+        String countryCode = "US";
+        Locale locale = new Locale("fr", "FR");
+        String countryName = provider.getDisplayCountry(countryCode, locale);
+        System.out.println(countryName);
+    }
+}
+```
+================================================================
+
+Sample: 5 LocaleNameProvider_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.spi.LocaleNameProvider;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        LocaleNameProvider provider = new LocaleNameProvider() {
+            @Override
+            public String getDisplayVariant(String variant, Locale locale) {
+                // Implement the logic to return localized name for the variant
+                return null;
+            }
+        };
+        
+        String variant = "testVariant";
+        Locale locale = new Locale("en", "US");
+        
+        String displayName = provider.getDisplayVariant(variant, locale);
+        System.out.println("Localized name for variant: " + displayName);
+    }
+}
+```
+================================================================
+
+Sample: 6 LocaleNameProvider_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.Locale;
+import java.util.spi.LocaleNameProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        LocaleNameProvider provider = new LocaleNameProvider() {
+            @Override
+            public String getDisplayScript(String scriptCode, Locale locale) {
+                // Implement the logic to return localized script names
+                return null;
+            }
+        };
+        
+        String scriptCode = "Latn";
+        Locale locale = Locale.US;
+        
+        String displayName = provider.getDisplayScript(scriptCode, locale);
+        System.out.println("Localized script name: " + displayName);
+    }
+}
+```
+================================================================
+
+Sample: 7 LocaleServiceProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.spi.LocaleServiceProvider;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        LocaleServiceProvider provider = new LocaleServiceProvider() {
+            @Override
+            public Locale[] getAvailableLocales() {
+                return Locale.getAvailableLocales();
+            }
+        };
+
+        Locale[] availableLocales = provider.getAvailableLocales();
+        for (Locale locale : availableLocales) {
+            System.out.println(locale);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 LocaleServiceProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.spi.LocaleServiceProvider;
+import java.util.Locale;
+
+public class Main {
+    public static void main(String[] args) {
+        MyLocaleServiceProvider provider = new MyLocaleServiceProvider();
+        Locale locale = new Locale("en", "US");
+        boolean isSupported = provider.isSupportedLocale(locale);
+        System.out.println("Is locale supported: " + isSupported);
+    }
+}
+
+class MyLocaleServiceProvider extends LocaleServiceProvider {
+    @Override
+    public boolean isSupportedLocale(Locale locale) {
+        // Add your implementation here
+        return false;
+    }
+}
+```
+================================================================
+
+Sample: 9 TimeZoneNameProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.TimeZone;
+import java.util.Locale;
+import java.util.spi.TimeZoneNameProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        TimeZoneNameProvider provider = TimeZoneNameProvider.getTimeZoneNameProvider();
+        String timeZoneID = "GMT";
+        boolean daylight = false;
+        int style = TimeZone.LONG;
+        Locale locale = Locale.US;
+        
+        String displayName = provider.getDisplayName(timeZoneID, daylight, style, locale);
+        System.out.println("Time Zone Display Name: " + displayName);
+    }
+}
+```
+================================================================
+
+Sample: 10 TimeZoneNameProvider_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.spi.TimeZoneNameProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        TimeZoneNameProvider provider = TimeZoneNameProvider.getTimeZoneNameProvider();
+        String timeZoneID = "America/Los_Angeles";
+        int style = TimeZone.LONG;
+        Locale locale = Locale.US;
+        
+        String genericDisplayName = provider.getGenericDisplayName(timeZoneID, style, locale);
+        System.out.println("Generic Display Name: " + genericDisplayName);
+    }
+}
+```
+================================================================
+

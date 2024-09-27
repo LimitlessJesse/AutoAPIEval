@@ -1,0 +1,120 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,W3CEndpointReference,1,String getAddress(),False,,NULL
+0,W3CEndpointReference,2,"Map<QName,String> getElements()",False,,NULL
+0,W3CEndpointReference,3,String getMetaData(),False,,NULL
+0,W3CEndpointReference,4,String getReferenceParameters(),False,,NULL
+0,W3CEndpointReference,5,String getServiceName(),False,,NULL
+1,W3CEndpointReferenceBuilder,1,W3CEndpointReferenceBuilder address(String address),True,,"
+
+address
+public W3CEndpointReferenceBuilder address(String address)
+Sets the address to the
+ W3CEndpointReference instance's
+ wsa:Address.
+ 
+ The address MUST be set to a non-null
+ value when building a W3CEndpointReference for a
+ web service endpoint that is not published by the same
+ Java EE application or when running on Java SE.
+
+Parameters:
+address - The address of the endpoint to be targeted
+      by the returned W3CEndpointReference.
+Returns:
+A W3CEndpointReferenceBuilder instance with
+   the address set to the wsa:Address.
+
+
+"
+1,W3CEndpointReferenceBuilder,2,"W3CEndpointReferenceBuilder referenceParameter(QName name, Object value)",False,,NULL
+1,W3CEndpointReferenceBuilder,3,W3CEndpointReferenceBuilder metadata(Element metadata),True,,"
+
+metadata
+public W3CEndpointReferenceBuilder metadata(Element metadataElement)
+Adds the metadataElement to the
+ W3CEndpointReference instance's
+ wsa:Metadata element.
+
+Parameters:
+metadataElement - The element to be added to the
+      wsa:Metadata element.
+Returns:
+A W3CEndpointReferenceBuilder instance with
+   the metadataElement added to the
+    wsa:Metadata element.
+Throws:
+IllegalArgumentException - if metadataElement
+ is null.
+
+
+"
+1,W3CEndpointReferenceBuilder,4,W3CEndpointReferenceBuilder wsdlDocumentLocation(String wsdlDocumentLocation),True,,"
+
+wsdlDocumentLocation
+public W3CEndpointReferenceBuilder wsdlDocumentLocation(String wsdlDocumentLocation)
+Sets the wsdlDocumentLocation that will be referenced
+ as wsa:Metadata/@wsdli:wsdlLocation. The namespace name
+ for the wsdli:wsdlLocation's value can be taken from the WSDL itself.
+
+ 
+ See 
+ 2.1 Referencing WSDL Metadata from an EPR for more details.
+
+Parameters:
+wsdlDocumentLocation - The location of the WSDL document to
+      be referenced in the wsa:Metadata of the
+     W3CEndpointReference.
+Returns:
+A W3CEndpointReferenceBuilder instance with
+   the wsdlDocumentLocation that is to be referenced.
+
+
+"
+1,W3CEndpointReferenceBuilder,5,W3CEndpointReference build(),True,,"
+
+build
+public W3CEndpointReference build()
+Builds a W3CEndpointReference from the accumulated
+ properties set on this W3CEndpointReferenceBuilder
+ instance.
+ 
+ This method can be used to create a W3CEndpointReference
+ for any endpoint by specifying the address property along
+ with any other desired properties.  This method
+ can also be used to create a W3CEndpointReference for
+ an endpoint that is published by the same Java EE application.
+ This method can automatically determine the address of
+ an endpoint published by the same Java EE application that is identified by the
+ serviceName and
+ endpointName properties.  If the address is
+ null and the serviceName and
+ endpointName
+ do not identify an endpoint published by the same Java EE application, a
+ java.lang.IllegalStateException MUST be thrown.
+
+Returns:
+W3CEndpointReference from the accumulated
+ properties set on this W3CEndpointReferenceBuilder
+ instance. This method never returns null.
+Throws:
+IllegalStateException - 
+If the address, serviceName and
+            endpointName are all null.
+        If the serviceName service is null and the
+            endpointName is NOT null.
+        If the address property is null and
+            the serviceName and endpointName do not
+            specify a valid endpoint published by the same Java EE
+            application.
+        If the serviceName is NOT null
+             and is not present in the specified WSDL.
+        If the endpointName port is not null and it
+             is not present in serviceName service in the WSDL.
+        If the wsdlDocumentLocation is NOT null
+            and does not represent a valid WSDL.
+     
+WebServiceException - If an error occurs while creating the
+                             W3CEndpointReference.
+
+
+"

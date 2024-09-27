@@ -20,7 +20,7 @@ def compile_and_run(packagePath, fileName, stdin, csvWriter, outputFile):
 
   
   if result != -1:
-    java_class,ext = os.path.splitext(java_file)
+    
     cmd = ['java', java_file]
     proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE)
 
@@ -81,7 +81,6 @@ i = 0
 for row in recordReader:
   if row['UsedPackage'] == 'True':
     # put stdin in case some program needs one
-    # print(f'Running {row["FileName"]}')
     print(f"{i}", end=" ")
     compile_and_run(packagePath, row['FileName'], b'in case', csvWriter, outputFile)
     i += 1

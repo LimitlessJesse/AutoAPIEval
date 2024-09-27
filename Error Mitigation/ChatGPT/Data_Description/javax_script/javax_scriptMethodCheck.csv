@@ -1,0 +1,400 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,AbstractScriptEngine,1,Object eval(String script),True,,"
+
+eval
+public Object eval(String script)
+            throws ScriptException
+Same as eval(Reader) except that the abstract
+ eval(String, ScriptContext) is used.
+
+Specified by:
+eval in interface ScriptEngine
+Parameters:
+script - A String containing the source of the script.
+Returns:
+The return value from eval(String, ScriptContext)
+Throws:
+ScriptException - if an error occurs in script.
+NullPointerException - if any of the parameters is null.
+
+
+"
+0,AbstractScriptEngine,2,Object eval(Reader reader),True,,"
+
+eval
+public Object eval(Reader reader)
+            throws ScriptException
+eval(Reader) calls the abstract
+ eval(Reader, ScriptContext) passing the value of the context
+ field.
+
+Specified by:
+eval in interface ScriptEngine
+Parameters:
+reader - A Reader containing the source of the script.
+Returns:
+The return value from eval(Reader, ScriptContext)
+Throws:
+ScriptException - if an error occurs in script.
+NullPointerException - if any of the parameters is null.
+
+
+"
+0,AbstractScriptEngine,3,"Object eval(String script, Bindings n)",True,,"
+
+eval
+public Object eval(String script,
+                   Bindings bindings)
+            throws ScriptException
+Same as eval(Reader, Bindings) except that the abstract
+ eval(String, ScriptContext) is used.
+
+Specified by:
+eval in interface ScriptEngine
+Parameters:
+script - A String containing the source of the script.
+bindings - A Bindings to use as the ENGINE_SCOPE
+ while the script executes.
+Returns:
+The return value from eval(String, ScriptContext)
+Throws:
+ScriptException - if an error occurs in script.
+NullPointerException - if any of the parameters is null.
+
+
+"
+0,AbstractScriptEngine,4,"Object eval(Reader reader, Bindings n)",True,,"
+
+eval
+public Object eval(Reader reader,
+                   Bindings bindings)
+            throws ScriptException
+eval(Reader, Bindings) calls the abstract
+ eval(Reader, ScriptContext) method, passing it a ScriptContext
+ whose Reader, Writers and Bindings for scopes other that ENGINE_SCOPE
+ are identical to those members of the protected context field.  The specified
+ Bindings is used instead of the ENGINE_SCOPE
+Bindings of the context field.
+
+Specified by:
+eval in interface ScriptEngine
+Parameters:
+reader - A Reader containing the source of the script.
+bindings - A Bindings to use for the ENGINE_SCOPE
+ while the script executes.
+Returns:
+The return value from eval(Reader, ScriptContext)
+Throws:
+ScriptException - if an error occurs in script.
+NullPointerException - if any of the parameters is null.
+
+
+"
+0,AbstractScriptEngine,5,"Object eval(String script, ScriptContext context)",False,,NULL
+1,CompiledScript,1,Object eval(),True,,"
+
+eval
+public Object eval()
+            throws ScriptException
+Executes the program stored in the CompiledScript object.  The
+ default ScriptContext of the associated ScriptEngine is used.
+ The effect of calling this method is same as that of eval(getEngine().getContext()).
+
+Returns:
+The return value from the script execution
+Throws:
+ScriptException - if an error occurs.
+
+
+"
+1,CompiledScript,2,Object eval(Bindings n),True,,"
+
+eval
+public Object eval(Bindings bindings)
+            throws ScriptException
+Executes the program stored in the CompiledScript object using
+ the supplied Bindings of attributes as the ENGINE_SCOPE of the
+ associated ScriptEngine during script execution.  If bindings is null,
+ then the effect of calling this method is same as that of eval(getEngine().getContext()).
+ .
+ The GLOBAL_SCOPE Bindings, Reader and Writer
+ associated with the default ScriptContext of the associated ScriptEngine are used.
+
+Parameters:
+bindings - The bindings of attributes used for the ENGINE_SCOPE.
+Returns:
+The return value from the script execution
+Throws:
+ScriptException - if an error occurs.
+
+
+"
+1,CompiledScript,3,Object eval(ScriptContext context),True,,"
+
+eval
+public abstract Object eval(ScriptContext context)
+                     throws ScriptException
+Executes the program stored in this CompiledScript object.
+
+Parameters:
+context - A ScriptContext that is used in the same way as
+ the ScriptContext passed to the eval methods of
+ ScriptEngine.
+Returns:
+The value returned by the script execution, if any.  Should return null
+ if no value is returned by the script execution.
+Throws:
+ScriptException - if an error occurs.
+NullPointerException - if context is null.
+
+
+"
+1,CompiledScript,4,void setEngineBindings(Bindings bindings),False,,NULL
+1,CompiledScript,5,void setContext(ScriptContext context),False,,NULL
+2,ScriptEngineManager,1,ScriptEngine getEngineByName(String shortName),True,,"
+
+getEngineByName
+public ScriptEngine getEngineByName(String shortName)
+Looks up and creates a ScriptEngine for a given  name.
+ The algorithm first searches for a ScriptEngineFactory that has been
+ registered as a handler for the specified name using the registerEngineName
+ method.
+  If one is not found, it searches the set of ScriptEngineFactory instances
+ stored by the constructor for one with the specified name.  If a ScriptEngineFactory
+ is found by either method, it is used to create instance of ScriptEngine.
+
+Parameters:
+shortName - The short name of the ScriptEngine implementation.
+ returned by the getNames method of its ScriptEngineFactory.
+Returns:
+A ScriptEngine created by the factory located in the search.  Returns null
+ if no such factory was found.  The ScriptEngineManager sets its own globalScope
+Bindings as the GLOBAL_SCOPE Bindings of the newly
+ created ScriptEngine.
+Throws:
+NullPointerException - if shortName is null.
+
+
+"
+2,ScriptEngineManager,2,List<ScriptEngineFactory> getEngineFactories(),True,,"
+
+getEngineFactories
+public List<ScriptEngineFactory> getEngineFactories()
+Returns a list whose elements are instances of all the ScriptEngineFactory classes
+ found by the discovery mechanism.
+
+Returns:
+List of all discovered ScriptEngineFactorys.
+
+
+"
+2,ScriptEngineManager,3,ScriptEngine getEngineByExtension(String extension),True,,"
+
+getEngineByExtension
+public ScriptEngine getEngineByExtension(String extension)
+Look up and create a ScriptEngine for a given extension.  The algorithm
+ used by getEngineByName is used except that the search starts
+ by looking for a ScriptEngineFactory registered to handle the
+ given extension using registerEngineExtension.
+
+Parameters:
+extension - The given extension
+Returns:
+The engine to handle scripts with this extension.  Returns null
+ if not found.
+Throws:
+NullPointerException - if extension is null.
+
+
+"
+2,ScriptEngineManager,4,ScriptEngine getEngineByMimeType(String type),True,,"
+
+getEngineByMimeType
+public ScriptEngine getEngineByMimeType(String mimeType)
+Look up and create a ScriptEngine for a given mime type.  The algorithm
+ used by getEngineByName is used except that the search starts
+ by looking for a ScriptEngineFactory registered to handle the
+ given mime type using registerEngineMimeType.
+
+Parameters:
+mimeType - The given mime type
+Returns:
+The engine to handle scripts with this mime type.  Returns null
+ if not found.
+Throws:
+NullPointerException - if mimeType is null.
+
+
+"
+2,ScriptEngineManager,5,"void registerEngineName(String name, ScriptEngineFactory factory)",True,,"
+
+registerEngineName
+public void registerEngineName(String name,
+                               ScriptEngineFactory factory)
+Registers a ScriptEngineFactory to handle a language
+ name.  Overrides any such association found using the Discovery mechanism.
+
+Parameters:
+name - The name to be associated with the ScriptEngineFactory.
+factory - The class to associate with the given name.
+Throws:
+NullPointerException - if any of the parameters is null.
+
+
+"
+3,SimpleBindings,1,"void put(String key, Object value)",False,,NULL
+3,SimpleBindings,2,Object get(Object key),True,,"
+
+get
+public Object get(Object key)
+Returns the value to which this map maps the specified key.  Returns
+ null if the map contains no mapping for this key.  A return
+ value of null does not necessarily indicate that the
+ map contains no mapping for the key; it's also possible that the map
+ explicitly maps the key to null.  The containsKey
+ operation may be used to distinguish these two cases.
+
+ More formally, if this map contains a mapping from a key
+ k to a value v such that (key==null ? k==null :
+ key.equals(k)), then this method returns v; otherwise
+ it returns null.  (There can be at most one such mapping.)
+
+Specified by:
+get in interface Map<String,Object>
+Specified by:
+get in interface Bindings
+Parameters:
+key - key whose associated value is to be returned.
+Returns:
+the value to which this map maps the specified key, or
+         null if the map contains no mapping for this key.
+Throws:
+NullPointerException - if key is null
+ClassCastException - if key is not String
+IllegalArgumentException - if key is empty String
+
+
+"
+3,SimpleBindings,3,"Set<Map.Entry<String, Object>> entrySet()",False,,NULL
+3,SimpleBindings,4,Object remove(Object key),True,,"
+
+remove
+public Object remove(Object key)
+Removes the mapping for this key from this map if it is present
+ (optional operation).   More formally, if this map contains a mapping
+ from key k to value v such that
+ (key==null ?  k==null : key.equals(k)), that mapping
+ is removed.  (The map can contain at most one such mapping.)
+
+ Returns the value to which the map previously associated the key, or
+ null if the map contained no mapping for this key.  (A
+ null return can also indicate that the map previously
+ associated null with the specified key if the implementation
+ supports null values.)  The map will not contain a mapping for
+ the specified  key once the call returns.
+
+Specified by:
+remove in interface Map<String,Object>
+Specified by:
+remove in interface Bindings
+Parameters:
+key - key whose mapping is to be removed from the map.
+Returns:
+previous value associated with specified key, or null
+         if there was no mapping for key.
+Throws:
+NullPointerException - if key is null
+ClassCastException - if key is not String
+IllegalArgumentException - if key is empty String
+
+
+"
+3,SimpleBindings,5,boolean containsKey(Object key),True,,"
+
+containsKey
+public boolean containsKey(Object key)
+Returns true if this map contains a mapping for the specified
+ key.  More formally, returns true if and only if
+ this map contains a mapping for a key k such that
+ (key==null ? k==null : key.equals(k)).  (There can be
+ at most one such mapping.)
+
+Specified by:
+containsKey in interface Map<String,Object>
+Specified by:
+containsKey in interface Bindings
+Parameters:
+key - key whose presence in this map is to be tested.
+Returns:
+true if this map contains a mapping for the specified
+         key.
+Throws:
+NullPointerException - if key is null
+ClassCastException - if key is not String
+IllegalArgumentException - if key is empty String
+
+
+"
+4,SimpleScriptContext,1,"void setAttribute(String name, Object value)",False,,NULL
+4,SimpleScriptContext,2,Object getAttribute(String name),True,,"
+
+getAttribute
+public Object getAttribute(String name)
+Retrieves the value of the attribute with the given name in
+ the scope occurring earliest in the search order.  The order
+ is determined by the numeric value of the scope parameter (lowest
+ scope values first.)
+
+Specified by:
+getAttribute in interface ScriptContext
+Parameters:
+name - The name of the the attribute to retrieve.
+Returns:
+The value of the attribute in the lowest scope for
+ which an attribute with the given name is defined.  Returns
+ null if no attribute with the name exists in any scope.
+Throws:
+NullPointerException - if the name is null.
+IllegalArgumentException - if the name is empty.
+
+
+"
+4,SimpleScriptContext,3,Writer getWriter(),True,,"
+
+getWriter
+public Writer getWriter()
+Returns the Writer for scripts to use when displaying output.
+
+Specified by:
+getWriter in interface ScriptContext
+Returns:
+The Writer.
+
+
+"
+4,SimpleScriptContext,4,void setWriter(Writer writer),True,,"
+
+setWriter
+public void setWriter(Writer writer)
+Sets the Writer for scripts to use when displaying output.
+
+Specified by:
+setWriter in interface ScriptContext
+Parameters:
+writer - The new Writer.
+
+
+"
+4,SimpleScriptContext,5,void setErrorWriter(Writer writer),True,,"
+
+setErrorWriter
+public void setErrorWriter(Writer writer)
+Sets the Writer used to display error output.
+
+Specified by:
+setErrorWriter in interface ScriptContext
+Parameters:
+writer - The Writer.
+
+
+"

@@ -1,0 +1,1463 @@
+ClassName,Method,Return Type,Description,Full Description
+BasicControl,getEncodedValue(),byte[],Retrieves the control's ASN.1 BER encoded value.,"
+
+getEncodedValue
+public byte[] getEncodedValue()
+Retrieves the control's ASN.1 BER encoded value.
+ The result includes the BER tag and length for the control's value but
+ does not include the control's object identifier and criticality setting.
+
+Specified by:
+getEncodedValue in interface Control
+Returns:
+A possibly null byte array representing the control's
+          ASN.1 BER encoded value. It is not cloned - any changes to the
+          returned value will affect the contents of the control.
+
+
+"
+BasicControl,getID(),String,Retrieves the control's object identifier string.,"
+
+getID
+public String getID()
+Retrieves the control's object identifier string.
+
+Specified by:
+getID in interface Control
+Returns:
+The non-null object identifier string.
+
+
+"
+BasicControl,isCritical(),boolean,Determines the control's criticality.,"
+
+isCritical
+public boolean isCritical()
+Determines the control's criticality.
+
+Specified by:
+isCritical in interface Control
+Returns:
+true if the control is critical; false otherwise.
+
+
+"
+ControlFactory,getControlInstance(Control ctl),abstract Control,Creates a control using this control factory.,"
+
+getControlInstance
+public abstract Control getControlInstance(Control ctl)
+                                    throws NamingException
+Creates a control using this control factory.
+
+ The factory is used by the service provider to return controls
+ that it reads from the LDAP protocol as specialized control classes.
+ Without this mechanism, the provider would be returning
+ controls that only contained data in BER encoded format.
+
+ Typically, ctl is a ""basic"" control containing
+ BER encoded data. The factory is used to create a specialized
+ control implementation, usually by decoding the BER encoded data,
+ that provides methods to access that data in a type-safe and friendly
+ manner.
+ 
+ For example, a factory might use the BER encoded data in
+ basic control and return an instance of a VirtualListReplyControl.
+
+ If this factory cannot create a control using the argument supplied,
+ it should return null.
+ A factory should only throw an exception if it is sure that
+ it is the only intended factory and that no other control factories
+ should be tried. This might happen, for example, if the BER data
+ in the control does not match what is expected of a control with
+ the given OID. Since this method throws NamingException,
+ any other internally generated exception that should be propagated
+ must be wrapped inside a NamingException.
+
+Parameters:
+ctl - A non-null control.
+Returns:
+A possibly null Control.
+Throws:
+NamingException - If ctl contains invalid data that prevents it
+ from being used to create a control. A factory should only throw
+ an exception if it knows how to produce the control (identified by the OID)
+ but is unable to because of, for example invalid BER data.
+
+
+"
+ControlFactory,"getControlInstance(Control ctl, Context ctx, Hashtable<?,?> env)",static Control,Creates a control using known control factories.,"
+
+getControlInstance
+public static Control getControlInstance(Control ctl,
+                                         Context ctx,
+                                         Hashtable<?,?> env)
+                                  throws NamingException
+Creates a control using known control factories.
+ 
+ The following rule is used to create the control:
+
+ Use the control factories specified in
+    the LdapContext.CONTROL_FACTORIES property of the
+    environment, and of the provider resource file associated with
+    ctx, in that order.
+    The value of this property is a colon-separated list of factory
+    class names that are tried in order, and the first one that succeeds
+    in creating the control is the one used.
+    If none of the factories can be loaded,
+    return ctl.
+    If an exception is encountered while creating the control, the
+    exception is passed up to the caller.
+
+
+ Note that a control factory
+ must be public and must have a public constructor that accepts no arguments.
+ 
+
+Parameters:
+ctl - The non-null control object containing the OID and BER data.
+ctx - The possibly null context in which the control is being created.
+ If null, no such information is available.
+env - The possibly null environment of the context. This is used
+ to find the value of the LdapContext.CONTROL_FACTORIES property.
+Returns:
+A control object created using ctl; or
+         ctl if a control object cannot be created using
+         the algorithm described above.
+Throws:
+NamingException - if a naming exception was encountered
+         while attempting to create the control object.
+         If one of the factories accessed throws an
+         exception, it is propagated up to the caller.
+ If an error was encountered while loading
+ and instantiating the factory and object classes, the exception
+ is wrapped inside a NamingException and then rethrown.
+
+
+"
+InitialLdapContext,extendedOperation(ExtendedRequest request),ExtendedResponse,Performs an extended operation.,"
+
+extendedOperation
+public ExtendedResponse extendedOperation(ExtendedRequest request)
+                                   throws NamingException
+Description copied from interface: LdapContext
+Performs an extended operation.
+
+ This method is used to support LDAPv3 extended operations.
+
+Specified by:
+extendedOperation in interface LdapContext
+Parameters:
+request - The non-null request to be performed.
+Returns:
+The possibly null response of the operation. null means
+ the operation did not generate any response.
+Throws:
+NamingException - If an error occurred while performing the
+ extended operation.
+
+
+"
+InitialLdapContext,getConnectControls(),Control[],Retrieves the connection request controls in effect for this context.,"
+
+getConnectControls
+public Control[] getConnectControls()
+                             throws NamingException
+Description copied from interface: LdapContext
+Retrieves the connection request controls in effect for this context.
+ The controls are owned by the JNDI implementation and are
+ immutable. Neither the array nor the controls may be modified by the
+ caller.
+
+Specified by:
+getConnectControls in interface LdapContext
+Returns:
+A possibly-null array of controls. null means no connect controls
+ have been set for this context.
+Throws:
+NamingException - If an error occurred while getting the request
+ controls.
+
+
+"
+InitialLdapContext,getRequestControls(),Control[],Retrieves the request controls in effect for this context.,"
+
+getRequestControls
+public Control[] getRequestControls()
+                             throws NamingException
+Description copied from interface: LdapContext
+Retrieves the request controls in effect for this context.
+ The request controls are owned by the JNDI implementation and are
+ immutable. Neither the array nor the controls may be modified by the
+ caller.
+
+Specified by:
+getRequestControls in interface LdapContext
+Returns:
+A possibly-null array of controls. null means no request controls
+ have been set for this context.
+Throws:
+NamingException - If an error occurred while getting the request
+ controls.
+See Also:
+LdapContext.setRequestControls(javax.naming.ldap.Control[])
+
+
+"
+InitialLdapContext,getResponseControls(),Control[],Retrieves the response controls produced as a result of the last method invoked on this context.,"
+
+getResponseControls
+public Control[] getResponseControls()
+                              throws NamingException
+Description copied from interface: LdapContext
+Retrieves the response controls produced as a result of the last
+ method invoked on this context.
+ The response controls are owned by the JNDI implementation and are
+ immutable. Neither the array nor the controls may be modified by the
+ caller.
+
+ These response controls might have been generated by a successful or
+ failed operation.
+
+ When a context method that may return response controls is invoked,
+ response controls from the previous method invocation are cleared.
+ getResponseControls() returns all of the response controls
+ generated by LDAP operations used by the context method in the order
+ received from the LDAP server.
+ Invoking getResponseControls() does not
+ clear the response controls. You can call it many times (and get
+ back the same controls) until the next context method that may return
+ controls is invoked.
+
+
+Specified by:
+getResponseControls in interface LdapContext
+Returns:
+A possibly null array of controls. If null, the previous
+ method invoked on this context did not produce any controls.
+Throws:
+NamingException - If an error occurred while getting the response
+ controls.
+
+
+"
+InitialLdapContext,newInstance(Control[] reqCtls),LdapContext,Creates a new instance of this context initialized using request controls.,"
+
+newInstance
+public LdapContext newInstance(Control[] reqCtls)
+                        throws NamingException
+Description copied from interface: LdapContext
+Creates a new instance of this context initialized using request controls.
+
+ This method is a convenience method for creating a new instance
+ of this context for the purposes of multithreaded access.
+ For example, if multiple threads want to use different context
+ request controls,
+ each thread may use this method to get its own copy of this context
+ and set/get context request controls without having to synchronize with other
+ threads.
+
+ The new context has the same environment properties and connection
+ request controls as this context. See the class description for details.
+ Implementations might also allow this context and the new context
+ to share the same network connection or other resources if doing
+ so does not impede the independence of either context.
+
+Specified by:
+newInstance in interface LdapContext
+Parameters:
+reqCtls - The possibly null request controls
+ to use for the new context.
+ If null, the context is initialized with no request controls.
+Returns:
+A non-null LdapContext instance.
+Throws:
+NamingException - If an error occurred while creating
+ the new instance.
+See Also:
+InitialLdapContext
+
+
+"
+InitialLdapContext,reconnect(Control[] connCtls),void,Reconnects to the LDAP server using the supplied controls and this context's environment.,"
+
+reconnect
+public void reconnect(Control[] connCtls)
+               throws NamingException
+Description copied from interface: LdapContext
+Reconnects to the LDAP server using the supplied controls and
+ this context's environment.
+
+ This method is a way to explicitly initiate an LDAP ""bind"" operation.
+ For example, you can use this method to set request controls for
+ the LDAP ""bind"" operation, or to explicitly connect to the server
+ to get response controls returned by the LDAP ""bind"" operation.
+
+ This method sets this context's connCtls
+ to be its new connection request controls. This context's
+ context request controls are not affected.
+ After this method has been invoked, any subsequent
+ implicit reconnections will be done using connCtls.
+ connCtls are also used as
+ connection request controls for new context instances derived from this
+ context.
+ These connection request controls are not
+ affected by setRequestControls().
+
+ Service provider implementors should read the ""Service Provider"" section
+ in the class description for implementation details.
+
+Specified by:
+reconnect in interface LdapContext
+Parameters:
+connCtls - The possibly null controls to use. If null, no
+ controls are used.
+Throws:
+NamingException - If an error occurred while reconnecting.
+See Also:
+LdapContext.getConnectControls(), 
+LdapContext.newInstance(javax.naming.ldap.Control[])
+
+
+"
+InitialLdapContext,setRequestControls(Control[] requestControls),void,Sets the request controls for methods subsequently invoked on this context.,"
+
+setRequestControls
+public void setRequestControls(Control[] requestControls)
+                        throws NamingException
+Description copied from interface: LdapContext
+Sets the request controls for methods subsequently
+ invoked on this context.
+ The request controls are owned by the JNDI implementation and are
+ immutable. Neither the array nor the controls may be modified by the
+ caller.
+ 
+ This removes any previous request controls and adds
+ requestControls
+ for use by subsequent methods invoked on this context.
+ This method does not affect this context's connection request controls.
+
+ Note that requestControls will be in effect until the next
+ invocation of setRequestControls(). You need to explicitly
+ invoke setRequestControls() with null or an empty
+ array to clear the controls if you don't want them to affect the
+ context methods any more.
+ To check what request controls are in effect for this context, use
+ getRequestControls().
+
+Specified by:
+setRequestControls in interface LdapContext
+Parameters:
+requestControls - The possibly null controls to use. If null, no
+ controls are used.
+Throws:
+NamingException - If an error occurred while setting the
+ request controls.
+See Also:
+LdapContext.getRequestControls()
+
+
+"
+LdapName,"add(int posn, Rdn comp)",Name,Adds a single RDN at a specified position within this LDAP name.,"
+
+add
+public Name add(int posn,
+                Rdn comp)
+Adds a single RDN at a specified position within this
+ LDAP name.
+ RDNs of this LDAP name at or after the index (if any) of the new
+ RDN are shifted up by one (away from index 0) to accommodate
+ the new RDN.
+
+Parameters:
+comp - The non-null RDN to add.
+posn - The index at which to add the new RDN.
+                  Must be in the range [0,size()].
+Returns:
+The updated LdapName, not a new instance.
+                  Cannot be null.
+Throws:
+IndexOutOfBoundsException - If posn is outside the specified range.
+
+
+"
+LdapName,"add(int posn, String comp)",Name,Adds a single component at a specified position within this LDAP name.,"
+
+add
+public Name add(int posn,
+                String comp)
+         throws InvalidNameException
+Adds a single component at a specified position within this
+ LDAP name.
+ Components of this LDAP name at or after the index (if any) of the new
+ component are shifted up by one (away from index 0) to accommodate
+ the new component.
+
+Specified by:
+add in interface Name
+Parameters:
+comp - The non-null component to add.
+posn - The index at which to add the new component.
+                  Must be in the range [0,size()].
+Returns:
+The updated LdapName, not a new instance.
+                  Cannot be null.
+Throws:
+IndexOutOfBoundsException - If posn is outside the specified range.
+InvalidNameException - If adding comp at the
+                  specified position would violate the name's syntax.
+
+
+"
+LdapName,add(Rdn comp),Name,Adds a single RDN to the end of this LDAP name.,"
+
+add
+public Name add(Rdn comp)
+Adds a single RDN to the end of this LDAP name.
+
+Parameters:
+comp - The non-null RDN to add.
+Returns:
+The updated LdapName, not a new instance.
+                  Cannot be null.
+
+
+"
+LdapName,add(String comp),Name,Adds a single component to the end of this LDAP name.,"
+
+add
+public Name add(String comp)
+         throws InvalidNameException
+Adds a single component to the end of this LDAP name.
+
+Specified by:
+add in interface Name
+Parameters:
+comp - The non-null component to add.
+Returns:
+The updated LdapName, not a new instance.
+                  Cannot be null.
+Throws:
+InvalidNameException - If adding comp at end of the name
+                  would violate the name's syntax.
+
+
+"
+LdapName,"addAll(int posn, List<Rdn> suffixRdns)",Name,Adds the RDNs of a name -- in order -- at a specified position within this name.,"
+
+addAll
+public Name addAll(int posn,
+                   List<Rdn> suffixRdns)
+Adds the RDNs of a name -- in order -- at a specified position
+ within this name. RDNs of this LDAP name at or after the
+ index (if any) of the first new RDN are shifted up (away from index 0) to
+ accommodate the new RDNs.
+
+Parameters:
+suffixRdns - The non-null suffix Rdns to add.
+posn - The index at which to add the suffix RDNs.
+                          Must be in the range [0,size()].
+Returns:
+The updated name (not a new instance).
+Throws:
+IndexOutOfBoundsException - If posn is outside the specified range.
+
+
+"
+LdapName,"addAll(int posn, Name suffix)",Name,Adds the components of a name -- in order -- at a specified position within this name.,"
+
+addAll
+public Name addAll(int posn,
+                   Name suffix)
+            throws InvalidNameException
+Adds the components of a name -- in order -- at a specified position
+ within this name. Components of this LDAP name at or after the
+ index (if any) of the first new component are shifted up
+ (away from index 0) to accommodate the new components.
+
+Specified by:
+addAll in interface Name
+Parameters:
+suffix - The non-null components to add.
+posn - The index at which to add the new component.
+                  Must be in the range [0,size()].
+Returns:
+The updated name (not a new instance).
+Throws:
+InvalidNameException - if suffix is not a valid LDAP
+          name, or if the addition of the components would violate the
+          syntax rules of this LDAP name.
+IndexOutOfBoundsException - If posn is outside the specified range.
+
+
+"
+LdapName,addAll(List<Rdn> suffixRdns),Name,Adds the RDNs of a name -- in order -- to the end of this name.,"
+
+addAll
+public Name addAll(List<Rdn> suffixRdns)
+Adds the RDNs of a name -- in order -- to the end of this name.
+
+Parameters:
+suffixRdns - The non-null suffix Rdns to add.
+Returns:
+The updated name (not a new instance).
+
+
+"
+LdapName,addAll(Name suffix),Name,Adds the components of a name -- in order -- to the end of this name.,"
+
+addAll
+public Name addAll(Name suffix)
+            throws InvalidNameException
+Adds the components of a name -- in order -- to the end of this name.
+
+Specified by:
+addAll in interface Name
+Parameters:
+suffix - The non-null components to add.
+Returns:
+The updated name (not a new instance).
+Throws:
+InvalidNameException - if suffix is not a valid LDAP
+          name, or if the addition of the components would violate the
+          syntax rules of this LDAP name.
+
+
+"
+LdapName,clone(),Object,Generates a new copy of this name.,"
+
+clone
+public Object clone()
+Generates a new copy of this name.
+ Subsequent changes to the components of this name will not
+ affect the new copy, and vice versa.
+
+Specified by:
+clone in interface Name
+Overrides:
+clone in class Object
+Returns:
+A copy of the this LDAP name.
+See Also:
+Cloneable
+
+
+"
+LdapName,compareTo(Object obj),int,Compares this LdapName with the specified Object for order.,"
+
+compareTo
+public int compareTo(Object obj)
+Compares this LdapName with the specified Object for order.
+ Returns a negative integer, zero, or a positive integer as this
+ Name is less than, equal to, or greater than the given Object.
+ 
+ If obj is null or not an instance of LdapName, ClassCastException
+ is thrown.
+ 
+ Ordering of LDAP names follows the lexicographical rules for
+ string comparison, with the extension that this applies to all
+ the RDNs in the LDAP name. All the RDNs are lined up in their
+ specified order and compared lexicographically.
+ See Rdn.compareTo(Object obj)
+ for RDN comparison rules.
+ 
+ If this LDAP name is lexicographically lesser than obj,
+ a negative number is returned.
+ If this LDAP name is lexicographically greater than obj,
+ a positive number is returned.
+
+Specified by:
+compareTo in interface Comparable<Object>
+Specified by:
+compareTo in interface Name
+Parameters:
+obj - The non-null LdapName instance to compare against.
+Returns:
+A negative integer, zero, or a positive integer as this Name
+          is less than, equal to, or greater than the given obj.
+Throws:
+ClassCastException - if obj is null or not a LdapName.
+See Also:
+Comparable.compareTo(Object)
+
+
+"
+LdapName,endsWith(List<Rdn> rdns),boolean,Determines whether the specified RDN sequence forms a suffix of this LDAP name.,"
+
+endsWith
+public boolean endsWith(List<Rdn> rdns)
+Determines whether the specified RDN sequence forms a suffix of this
+ LDAP name.  Returns true if this LdapName is at least as long as rdns,
+ and for every position p in the range [size() - rdns.size(), size())
+ the component getRdn(p) matches rdns.get(p). Returns false otherwise.
+ If rdns is null, false is returned.
+
+Parameters:
+rdns - The sequence of Rdns to check.
+Returns:
+true if rdns form a suffix of this LDAP name,
+          false otherwise.
+
+
+"
+LdapName,endsWith(Name n),boolean,Determines whether this LDAP name ends with a specified LDAP name suffix.,"
+
+endsWith
+public boolean endsWith(Name n)
+Determines whether this LDAP name ends with a specified
+ LDAP name suffix.
+ A name n is a suffix if it is equal to
+ getSuffix(size()-n.size())--in other words this LDAP
+ name ends with 'n'. If n is null or not a RFC2253 formatted name
+ as described in the class description, false is returned.
+
+Specified by:
+endsWith in interface Name
+Parameters:
+n - The LDAP name to check.
+Returns:
+true if n is a suffix of this name, false otherwise.
+See Also:
+getSuffix(int posn)
+
+
+"
+LdapName,equals(Object obj),boolean,Determines whether two LDAP names are equal.,"
+
+equals
+public boolean equals(Object obj)
+Determines whether two LDAP names are equal.
+ If obj is null or not an LDAP name, false is returned.
+ 
+ Two LDAP names are equal if each RDN in one is equal
+ to the corresponding RDN in the other. This implies
+ both have the same number of RDNs, and each RDN's
+ equals() test against the corresponding RDN in the other
+ name returns true. See Rdn.equals(Object obj)
+ for a definition of RDN equality.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - The possibly null object to compare against.
+Returns:
+true if obj is equal to this LDAP name,
+                  false otherwise.
+See Also:
+hashCode()
+
+
+"
+LdapName,get(int posn),String,Retrieves a component of this LDAP name as a string.,"
+
+get
+public String get(int posn)
+Retrieves a component of this LDAP name as a string.
+
+Specified by:
+get in interface Name
+Parameters:
+posn - The 0-based index of the component to retrieve.
+              Must be in the range [0,size()).
+Returns:
+The non-null component at index posn.
+Throws:
+IndexOutOfBoundsException - if posn is outside the
+          specified range.
+
+
+"
+LdapName,getAll(),Enumeration<String>,Retrieves the components of this name as an enumeration of strings.,"
+
+getAll
+public Enumeration<String> getAll()
+Retrieves the components of this name as an enumeration
+ of strings. The effect of updates to this name on this enumeration
+ is undefined. If the name has zero components, an empty (non-null)
+ enumeration is returned.
+ The order of the components returned by the enumeration is same as
+ the order in which the components are numbered as described in the
+ class description.
+
+Specified by:
+getAll in interface Name
+Returns:
+A non-null enumeration of the components of this LDAP name.
+ Each element of the enumeration is of class String.
+
+
+"
+LdapName,getPrefix(int posn),Name,Creates a name whose components consist of a prefix of the components of this LDAP name.,"
+
+getPrefix
+public Name getPrefix(int posn)
+Creates a name whose components consist of a prefix of the
+ components of this LDAP name.
+ Subsequent changes to this name will not affect the name
+ that is returned and vice versa.
+
+Specified by:
+getPrefix in interface Name
+Parameters:
+posn - The 0-based index of the component at which to stop.
+                  Must be in the range [0,size()].
+Returns:
+An instance of LdapName consisting of the
+          components at indexes in the range [0,posn).
+          If posn is zero, an empty LDAP name is returned.
+Throws:
+IndexOutOfBoundsException - If posn is outside the specified range.
+
+
+"
+LdapName,getRdn(int posn),Rdn,Retrieves an RDN of this LDAP name as an Rdn.,"
+
+getRdn
+public Rdn getRdn(int posn)
+Retrieves an RDN of this LDAP name as an Rdn.
+
+Parameters:
+posn - The 0-based index of the RDN to retrieve.
+          Must be in the range [0,size()).
+Returns:
+The non-null RDN at index posn.
+Throws:
+IndexOutOfBoundsException - if posn is outside the
+            specified range.
+
+
+"
+LdapName,getRdns(),List<Rdn>,Retrieves the list of relative distinguished names.,"
+
+getRdns
+public List<Rdn> getRdns()
+Retrieves the list of relative distinguished names.
+ The contents of the list are unmodifiable.
+ The indexing of RDNs in the returned list follows the numbering of
+ RDNs as described in the class description.
+ If the name has zero components, an empty list is returned.
+
+Returns:
+The name as a list of RDNs which are instances of
+          the class Rdn.
+
+
+"
+LdapName,getSuffix(int posn),Name,Creates a name whose components consist of a suffix of the components in this LDAP name.,"
+
+getSuffix
+public Name getSuffix(int posn)
+Creates a name whose components consist of a suffix of the
+ components in this LDAP name.
+ Subsequent changes to this name do not affect the name that is
+ returned and vice versa.
+
+Specified by:
+getSuffix in interface Name
+Parameters:
+posn - The 0-based index of the component at which to start.
+                  Must be in the range [0,size()].
+Returns:
+An instance of LdapName consisting of the
+          components at indexes in the range [posn,size()).
+          If posn is equal to size(), an empty LDAP name is
+          returned.
+Throws:
+IndexOutOfBoundsException - If posn is outside the specified range.
+
+
+"
+LdapName,hashCode(),int,Computes the hash code of this LDAP name.,"
+
+hashCode
+public int hashCode()
+Computes the hash code of this LDAP name.
+ The hash code is the sum of the hash codes of individual RDNs
+ of this  name.
+
+Overrides:
+hashCode in class Object
+Returns:
+An int representing the hash code of this name.
+See Also:
+equals(java.lang.Object)
+
+
+"
+LdapName,isEmpty(),boolean,Determines whether this LDAP name is empty.,"
+
+isEmpty
+public boolean isEmpty()
+Determines whether this LDAP name is empty.
+ An empty name is one with zero components.
+
+Specified by:
+isEmpty in interface Name
+Returns:
+true if this LDAP name is empty, false otherwise.
+
+
+"
+LdapName,remove(int posn),Object,Removes a component from this LDAP name.,"
+
+remove
+public Object remove(int posn)
+              throws InvalidNameException
+Removes a component from this LDAP name.
+ The component of this name at the specified position is removed.
+ Components with indexes greater than this position (if any)
+ are shifted down (toward index 0) by one.
+
+Specified by:
+remove in interface Name
+Parameters:
+posn - The index of the component to remove.
+                  Must be in the range [0,size()).
+Returns:
+The component removed (a String).
+Throws:
+IndexOutOfBoundsException - if posn is outside the specified range.
+InvalidNameException - if deleting the component
+                  would violate the syntax rules of the name.
+
+
+"
+LdapName,size(),int,Retrieves the number of components in this LDAP name.,"
+
+size
+public int size()
+Retrieves the number of components in this LDAP name.
+
+Specified by:
+size in interface Name
+Returns:
+The non-negative number of components in this LDAP name.
+
+
+"
+LdapName,startsWith(List<Rdn> rdns),boolean,Determines whether the specified RDN sequence forms a prefix of this LDAP name.,"
+
+startsWith
+public boolean startsWith(List<Rdn> rdns)
+Determines whether the specified RDN sequence forms a prefix of this
+ LDAP name.  Returns true if this LdapName is at least as long as rdns,
+ and for every position p in the range [0, rdns.size()) the component
+ getRdn(p) matches rdns.get(p). Returns false otherwise. If rdns is
+ null, false is returned.
+
+Parameters:
+rdns - The sequence of Rdns to check.
+Returns:
+true if rdns form a prefix of this LDAP name,
+          false otherwise.
+
+
+"
+LdapName,startsWith(Name n),boolean,Determines whether this LDAP name starts with a specified LDAP name prefix.,"
+
+startsWith
+public boolean startsWith(Name n)
+Determines whether this LDAP name starts with a specified LDAP name
+ prefix.
+ A name n is a prefix if it is equal to
+ getPrefix(n.size())--in other words this LDAP
+ name starts with 'n'. If n is null or not a RFC2253 formatted name
+ as described in the class description, false is returned.
+
+Specified by:
+startsWith in interface Name
+Parameters:
+n - The LDAP name to check.
+Returns:
+true if n is a prefix of this LDAP name,
+ false otherwise.
+See Also:
+getPrefix(int posn)
+
+
+"
+LdapName,toString(),String,Returns a string representation of this LDAP name in a format defined by RFC 2253 and described in the class description.,"
+
+toString
+public String toString()
+Returns a string representation of this LDAP name in a format
+ defined by RFC 2253
+ and described in the class description. If the name has zero
+ components an empty string is returned.
+
+Overrides:
+toString in class Object
+Returns:
+The string representation of the LdapName.
+
+
+"
+PagedResultsResponseControl,getCookie(),byte[],Retrieves the server-generated cookie.,"
+
+getCookie
+public byte[] getCookie()
+Retrieves the server-generated cookie. Null is returned when there are
+ no more entries for the server to return.
+
+Returns:
+A possibly null server-generated cookie. It is not cloned - any
+         changes to the cookie will update the control's state and thus
+         are not recommended.
+
+
+"
+PagedResultsResponseControl,getResultSize(),int,Retrieves (an estimate of) the number of entries in the search result.,"
+
+getResultSize
+public int getResultSize()
+Retrieves (an estimate of) the number of entries in the search result.
+
+Returns:
+The number of entries in the search result, or zero if unknown.
+
+
+"
+Rdn,compareTo(Object obj),int,Compares this Rdn with the specified Object for order.,"
+
+compareTo
+public int compareTo(Object obj)
+Compares this Rdn with the specified Object for order.
+ Returns a negative integer, zero, or a positive integer as this
+ Rdn is less than, equal to, or greater than the given Object.
+ 
+ If obj is null or not an instance of Rdn, ClassCastException
+ is thrown.
+ 
+ The attribute type and value pairs of the RDNs are lined up
+ against each other and compared lexicographically. The order of
+ components in multi-valued Rdns (such as ""ou=Sales+cn=Bob"") is not
+ significant.
+
+Specified by:
+compareTo in interface Comparable<Object>
+Parameters:
+obj - The non-null object to compare against.
+Returns:
+A negative integer, zero, or a positive integer as this Rdn
+          is less than, equal to, or greater than the given Object.
+Throws:
+ClassCastException - if obj is null or not a Rdn.
+
+
+"
+Rdn,equals(Object obj),boolean,Compares the specified Object with this Rdn for equality.,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified Object with this Rdn for equality.
+ Returns true if the given object is also a Rdn and the two Rdns
+ represent the same attribute type and value mappings. The order of
+ components in multi-valued Rdns (such as ""ou=Sales+cn=Bob"") is not
+ significant.
+ 
+ Type and value equality matching is done as below:
+ 
+ The types are compared for equality with their case ignored.
+  String values with different but equivalent usage of quoting,
+ escaping, or UTF8-hex-encoding are considered equal.
+ The case of the values is ignored during the comparison.
+ 
+
+ If obj is null or not an instance of Rdn, false is returned.
+ 
+
+Overrides:
+equals in class Object
+Parameters:
+obj - object to be compared for equality with this Rdn.
+Returns:
+true if the specified object is equal to this Rdn.
+See Also:
+hashCode()
+
+
+"
+Rdn,escapeValue(Object val),static String,"Given the value of an attribute, returns a string escaped according to the rules specified in RFC 2253.","
+
+escapeValue
+public static String escapeValue(Object val)
+Given the value of an attribute, returns a string escaped according
+ to the rules specified in
+ RFC 2253.
+ 
+ For example, if the val is ""Sue, Grabbit and Runn"", the escaped
+ value returned by this method is ""Sue\, Grabbit and Runn"".
+ 
+ A string value is represented as a String and binary value
+ as a byte array.
+
+Parameters:
+val - The non-null object to be escaped.
+Returns:
+Escaped string value.
+Throws:
+ClassCastException - if val is is not a String or byte array.
+
+
+"
+Rdn,getType(),String,Retrieves one of this Rdn's type.,"
+
+getType
+public String getType()
+Retrieves one of this Rdn's type.
+ This is a convenience method for obtaining the type,
+ when the RDN contains a single type and value mapping,
+ which is the common RDN usage.
+ 
+ For a multi-valued RDN, the type/value pairs have
+ no specific order defined on them. In that case, this method
+ returns type of one of the type/value pairs.
+ The getValue() method returns the
+ value corresponding to the type returned by this method.
+
+Returns:
+The non-null attribute type.
+
+
+"
+Rdn,getValue(),Object,Retrieves one of this Rdn's value.,"
+
+getValue
+public Object getValue()
+Retrieves one of this Rdn's value.
+ This is a convenience method for obtaining the value,
+ when the RDN contains a single type and value mapping,
+ which is the common RDN usage.
+ 
+ For a multi-valued RDN, this method returns value corresponding
+ to the type returned by getType() method.
+
+Returns:
+The non-null attribute value.
+
+
+"
+Rdn,hashCode(),int,Returns the hash code of this RDN.,"
+
+hashCode
+public int hashCode()
+Returns the hash code of this RDN. Two RDNs that are
+ equal (according to the equals method) will have the same
+ hash code.
+
+Overrides:
+hashCode in class Object
+Returns:
+An int representing the hash code of this Rdn.
+See Also:
+equals(java.lang.Object)
+
+
+"
+Rdn,size(),int,Retrieves the number of attribute type/value pairs in this Rdn.,"
+
+size
+public int size()
+Retrieves the number of attribute type/value pairs in this Rdn.
+
+Returns:
+The non-negative number of type/value pairs in this Rdn.
+
+
+"
+Rdn,toAttributes(),Attributes,Retrieves the Attributes view of the type/value mappings contained in this Rdn.,"
+
+toAttributes
+public Attributes toAttributes()
+Retrieves the Attributes
+ view of the type/value mappings contained in this Rdn.
+
+Returns:
+The non-null attributes containing the type/value
+          mappings of this Rdn.
+
+
+"
+Rdn,toString(),String,Returns this Rdn as a string represented in a format defined by RFC 2253 and described in the class description for LdapName.,"
+
+toString
+public String toString()
+Returns this Rdn as a string represented in a format defined by
+ RFC 2253 and described
+ in the class description for LdapName.
+
+Overrides:
+toString in class Object
+Returns:
+The string representation of the Rdn.
+
+
+"
+Rdn,unescapeValue(String val),static Object,"Given an attribute value string formated according to the rules specified in RFC 2253, returns the unformated value.","
+
+unescapeValue
+public static Object unescapeValue(String val)
+Given an attribute value string formated according to the rules
+ specified in
+ RFC 2253,
+ returns the unformated value.  Escapes and quotes are
+ stripped away, and hex-encoded UTF-8 is converted to equivalent
+ UTF-16 characters. Returns a string value as a String, and a
+ binary value as a byte array.
+ 
+ Legal and illegal values are defined in RFC 2253.
+ This method is generous in accepting the values and does not
+ catch all illegal values.
+ Therefore, passing in an illegal value might not necessarily
+ trigger an IllegalArgumentException.
+
+Parameters:
+val - The non-null string to be unescaped.
+Returns:
+Unescaped value.
+Throws:
+IllegalArgumentException - When an Illegal value
+                  is provided.
+
+
+"
+SortKey,getAttributeID(),String,Retrieves the attribute ID of the sort key.,"
+
+getAttributeID
+public String getAttributeID()
+Retrieves the attribute ID of the sort key.
+
+Returns:
+The non-null Attribute ID of the sort key.
+
+
+"
+SortKey,getMatchingRuleID(),String,Retrieves the matching rule ID used to order the attribute values.,"
+
+getMatchingRuleID
+public String getMatchingRuleID()
+Retrieves the matching rule ID used to order the attribute values.
+
+Returns:
+The possibly null matching rule ID. If null then the
+            ordering matching rule defined for the sort key attribute
+            is used.
+
+
+"
+SortKey,isAscending(),boolean,Determines the sort order.,"
+
+isAscending
+public boolean isAscending()
+Determines the sort order.
+
+Returns:
+true if the sort order is ascending, false if descending.
+
+
+"
+SortResponseControl,getAttributeID(),String,Retrieves the ID of the attribute that caused the sort to fail.,"
+
+getAttributeID
+public String getAttributeID()
+Retrieves the ID of the attribute that caused the sort to fail.
+ Returns null if no ID was returned by the server.
+
+Returns:
+The possibly null ID of the bad attribute.
+
+
+"
+SortResponseControl,getException(),NamingException,Retrieves the NamingException appropriate for the result code.,"
+
+getException
+public NamingException getException()
+Retrieves the NamingException appropriate for the result code.
+
+Returns:
+A NamingException or null if the result code indicates
+         success.
+
+
+"
+SortResponseControl,getResultCode(),int,Retrieves the LDAP result code of the sort operation.,"
+
+getResultCode
+public int getResultCode()
+Retrieves the LDAP result code of the sort operation.
+
+Returns:
+The result code. A zero value indicates success.
+
+
+"
+SortResponseControl,isSorted(),boolean,Determines if the search results have been successfully sorted.,"
+
+isSorted
+public boolean isSorted()
+Determines if the search results have been successfully sorted.
+ If an error occurred during sorting a NamingException is thrown.
+
+Returns:
+true if the search results have been sorted.
+
+
+"
+StartTlsRequest,"createExtendedResponse(String id, byte[] berValue, int offset, int length)",ExtendedResponse,Creates an extended response object that corresponds to the LDAP StartTLS extended request.,"
+
+createExtendedResponse
+public ExtendedResponse createExtendedResponse(String id,
+                                               byte[] berValue,
+                                               int offset,
+                                               int length)
+                                        throws NamingException
+Creates an extended response object that corresponds to the
+ LDAP StartTLS extended request.
+ 
+ The result must be a concrete subclass of StartTlsResponse
+ and must have a public zero-argument constructor.
+ 
+ This method locates the implementation class by locating
+ configuration files that have the name:
+ 
+     META-INF/services/javax.naming.ldap.StartTlsResponse
+ 
+ The configuration files and their corresponding implementation classes must
+ be accessible to the calling thread's context class loader.
+ 
+ Each configuration file should contain a list of fully-qualified class
+ names, one per line.  Space and tab characters surrounding each name, as
+ well as blank lines, are ignored.  The comment character is '#'
+ (0x23); on each line all characters following the first comment
+ character are ignored.  The file must be encoded in UTF-8.
+ 
+ This method will return an instance of the first implementation
+ class that it is able to load and instantiate successfully from
+ the list of class names collected from the configuration files.
+ This method uses the calling thread's context classloader to find the
+ configuration files and to load the implementation class.
+ 
+ If no class can be found in this way, this method will use
+ an implementation-specific way to locate an implementation.
+ If none is found, a NamingException is thrown.
+
+Specified by:
+createExtendedResponse in interface ExtendedRequest
+Parameters:
+id - The object identifier of the extended response.
+                   Its value must be ""1.3.6.1.4.1.1466.20037"" or null.
+                   Both values are equivalent.
+berValue - The possibly null ASN.1 BER encoded value of the
+                   extended response. This is the raw BER bytes
+                   including the tag and length of the response value.
+                   It does not include the response OID.
+                   Its value is ignored because a Start TLS response
+                   is not expected to contain any response value.
+offset - The starting position in berValue of the bytes to use.
+                   Its value is ignored because a Start TLS response
+                   is not expected to contain any response value.
+length - The number of bytes in berValue to use.
+                   Its value is ignored because a Start TLS response
+                   is not expected to contain any response value.
+Returns:
+The StartTLS extended response object.
+Throws:
+NamingException - If a naming exception was encountered
+                   while creating the StartTLS extended response object.
+See Also:
+ExtendedResponse
+
+
+"
+StartTlsRequest,getEncodedValue(),byte[],Retrieves the StartTLS request's ASN.1 BER encoded value.,"
+
+getEncodedValue
+public byte[] getEncodedValue()
+Retrieves the StartTLS request's ASN.1 BER encoded value.
+ Since the request has no defined value, null is always
+ returned.
+
+Specified by:
+getEncodedValue in interface ExtendedRequest
+Returns:
+The null value.
+
+
+"
+StartTlsRequest,getID(),String,Retrieves the StartTLS request's object identifier string.,"
+
+getID
+public String getID()
+Retrieves the StartTLS request's object identifier string.
+
+Specified by:
+getID in interface ExtendedRequest
+Returns:
+The object identifier string, ""1.3.6.1.4.1.1466.20037"".
+
+
+"
+StartTlsResponse,close(),abstract void,Closes the TLS connection gracefully and reverts back to the underlying connection.,"
+
+close
+public abstract void close()
+                    throws IOException
+Closes the TLS connection gracefully and reverts back to the underlying
+ connection.
+
+Throws:
+IOException - If an IO error was encountered while closing the
+ TLS connection
+
+
+"
+StartTlsResponse,getEncodedValue(),byte[],Retrieves the StartTLS response's ASN.1 BER encoded value.,"
+
+getEncodedValue
+public byte[] getEncodedValue()
+Retrieves the StartTLS response's ASN.1 BER encoded value.
+ Since the response has no defined value, null is always
+ returned.
+
+Specified by:
+getEncodedValue in interface ExtendedResponse
+Returns:
+The null value.
+
+
+"
+StartTlsResponse,getID(),String,Retrieves the StartTLS response's object identifier string.,"
+
+getID
+public String getID()
+Retrieves the StartTLS response's object identifier string.
+
+Specified by:
+getID in interface ExtendedResponse
+Returns:
+The object identifier string, ""1.3.6.1.4.1.1466.20037"".
+
+
+"
+StartTlsResponse,negotiate(),abstract SSLSession,Negotiates a TLS session using the default SSL socket factory.,"
+
+negotiate
+public abstract SSLSession negotiate()
+                              throws IOException
+Negotiates a TLS session using the default SSL socket factory.
+ 
+ This method is equivalent to negotiate(null).
+
+Returns:
+The negotiated SSL session
+Throws:
+IOException - If an IO error was encountered while establishing
+ the TLS session.
+See Also:
+setEnabledCipherSuites(java.lang.String[]), 
+setHostnameVerifier(javax.net.ssl.HostnameVerifier)
+
+
+"
+StartTlsResponse,negotiate(SSLSocketFactory factory),abstract SSLSession,Negotiates a TLS session using an SSL socket factory.,"
+
+negotiate
+public abstract SSLSession negotiate(SSLSocketFactory factory)
+                              throws IOException
+Negotiates a TLS session using an SSL socket factory.
+ 
+ Creates an SSL socket using the supplied SSL socket factory and
+ attaches it to the existing connection. Performs the TLS handshake
+ and returns the negotiated session information.
+ 
+ If cipher suites have been set via setEnabledCipherSuites
+ then they are enabled before the TLS handshake begins.
+ 
+ Hostname verification is performed after the TLS handshake completes.
+ The default hostname verification performs a match of the server's
+ hostname against the hostname information found in the server's certificate.
+ If this verification fails and no callback has been set via
+ setHostnameVerifier then the negotiation fails.
+ If this verification fails and a callback has been set via
+ setHostnameVerifier, then the callback is used to determine whether
+ the negotiation succeeds.
+ 
+ If an error occurs then the SSL socket is closed and an IOException
+ is thrown. The underlying connection remains intact.
+
+Parameters:
+factory - The possibly null SSL socket factory to use.
+ If null, the default SSL socket factory is used.
+Returns:
+The negotiated SSL session
+Throws:
+IOException - If an IO error was encountered while establishing
+ the TLS session.
+See Also:
+setEnabledCipherSuites(java.lang.String[]), 
+setHostnameVerifier(javax.net.ssl.HostnameVerifier)
+
+
+"
+StartTlsResponse,setEnabledCipherSuites(String[] suites),abstract void,Overrides the default list of cipher suites enabled for use on the TLS connection.,"
+
+setEnabledCipherSuites
+public abstract void setEnabledCipherSuites(String[] suites)
+Overrides the default list of cipher suites enabled for use on the
+ TLS connection. The cipher suites must have already been listed by
+ SSLSocketFactory.getSupportedCipherSuites() as being supported.
+ Even if a suite has been enabled, it still might not be used because
+ the peer does not support it, or because the requisite certificates
+ (and private keys) are not available.
+
+Parameters:
+suites - The non-null list of names of all the cipher suites to
+ enable.
+See Also:
+negotiate()
+
+
+"
+StartTlsResponse,setHostnameVerifier(HostnameVerifier verifier),abstract void,Sets the hostname verifier used by negotiate() after the TLS handshake has completed and the default hostname verification has failed.,"
+
+setHostnameVerifier
+public abstract void setHostnameVerifier(HostnameVerifier verifier)
+Sets the hostname verifier used by negotiate()
+ after the TLS handshake has completed and the default hostname
+ verification has failed.
+ setHostnameVerifier() must be called before
+ negotiate() is invoked for it to have effect.
+ If called after
+ negotiate(), this method does not do anything.
+
+Parameters:
+verifier - The non-null hostname verifier callback.
+See Also:
+negotiate()
+
+
+"
+UnsolicitedNotificationEvent,dispatch(UnsolicitedNotificationListener listener),void,Invokes the notificationReceived() method on a listener using this event.,"
+
+dispatch
+public void dispatch(UnsolicitedNotificationListener listener)
+Invokes the notificationReceived() method on
+ a listener using this event.
+
+Parameters:
+listener - The non-null listener on which to invoke
+ notificationReceived.
+
+
+"
+UnsolicitedNotificationEvent,getNotification(),UnsolicitedNotification,Returns the unsolicited notification.,"
+
+getNotification
+public UnsolicitedNotification getNotification()
+Returns the unsolicited notification.
+
+Returns:
+The non-null unsolicited notification that caused this
+ event to be fired.
+
+
+"

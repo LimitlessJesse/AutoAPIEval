@@ -1,0 +1,185 @@
+Sample: 0 ZoneOffsetTransition_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.zone.ZoneOffsetTransition;
+
+public class Main {
+    public static void main(String[] args) {
+        ZoneOffsetTransition transition = ZoneOffsetTransition.of(...);
+        boolean isGap = transition.isGap();
+        System.out.println("Is it a gap? " + isGap);
+    }
+}
+```
+================================================================
+
+Sample: 1 ZoneOffsetTransition_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.zone.ZoneOffsetTransition;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a ZoneOffsetTransition object
+        ZoneOffsetTransition transition = ZoneOffsetTransition.of(...);
+        
+        // Check if the offset is valid
+        boolean isValid = transition.isValidOffset(ZoneOffset.ofHours(2));
+        System.out.println("Is valid offset: " + isValid);
+    }
+}
+```
+================================================================
+
+Sample: 2 ZoneOffsetTransitionRule_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.zone.ZoneOffsetTransition;
+import java.time.zone.ZoneOffsetTransitionRule;
+import java.time.zone.ZoneRules;
+
+public class Main {
+    public static void main(String[] args) {
+        ZoneRules rules = ZoneRules.of();
+        ZoneOffsetTransitionRule rule = rules.getTransitionRules().get(0);
+        ZoneOffsetTransition transition = rule.createTransition(2021);
+        System.out.println("Transition: " + transition);
+    }
+}
+```
+================================================================
+
+Sample: 3 ZoneOffsetTransitionRule_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.zone.ZoneOffsetTransitionRule;
+import java.time.Month;
+
+public class Main {
+    public static void main(String[] args) {
+        ZoneOffsetTransitionRule rule = ZoneOffsetTransitionRule.of(Month.JANUARY, 1, Month.FEBRUARY, 1, null, null, null, null, null);
+        Month month = rule.getMonth();
+        System.out.println("Transition occurs in: " + month);
+    }
+}
+```
+================================================================
+
+Sample: 4 ZoneOffsetTransitionRule_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.DayOfWeek;
+import java.time.zone.ZoneOffsetTransitionRule;
+
+public class Main {
+    public static void main(String[] args) {
+        ZoneOffsetTransitionRule rule = ZoneOffsetTransitionRule.of(DayOfWeek.MONDAY, 1, 2);
+        DayOfWeek dayOfWeek = rule.getDayOfWeek();
+        System.out.println("Day of Week: " + dayOfWeek);
+    }
+}
+```
+================================================================
+
+Sample: 5 ZoneRules_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.Instant;
+import java.time.zone.ZoneOffsetTransition;
+import java.time.zone.ZoneRules;
+
+public class Main {
+    public static void main(String[] args) {
+        ZoneRules rules = ZoneRules.ofUTC();
+        Instant instant = Instant.now();
+        
+        ZoneOffsetTransition transition = rules.nextTransition(instant);
+        System.out.println("Next transition: " + transition);
+    }
+}
+```
+================================================================
+
+Sample: 6 ZoneRules_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.zone.ZoneOffsetTransition;
+import java.time.zone.ZoneRules;
+
+public class Main {
+    public static void main(String[] args) {
+        ZoneRules zoneRules = ZoneRules.of("Europe/London");
+        ZoneOffsetTransition[] transitionsArray = zoneRules.getTransitions().toArray(new ZoneOffsetTransition[0]);
+        for (ZoneOffsetTransition transition : transitionsArray) {
+            System.out.println(transition);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 ZoneRules_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.ZoneId;
+import java.time.zone.ZoneRules;
+
+public class Main {
+    public static void main(String[] args) {
+        ZoneId zoneId = ZoneId.systemDefault();
+        ZoneRules zoneRules = zoneId.getRules();
+        boolean isFixedOffset = zoneRules.isFixedOffset();
+        System.out.println("Is Fixed Offset: " + isFixedOffset);
+    }
+}
+```
+================================================================
+
+Sample: 8 ZoneRules_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.zone.ZoneRules;
+
+public class Main {
+    public static void main(String[] args) {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        ZoneOffset offset = ZoneOffset.UTC;
+        ZoneRules zoneRules = ZoneRules.of(offset);
+        boolean isValid = zoneRules.isValidOffset(localDateTime, offset);
+        System.out.println("Is valid offset: " + isValid);
+    }
+}
+```
+================================================================
+
+Sample: 9 ZoneRulesProvider_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.zone.ZoneRulesProvider;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        Set<String> zoneIds = ZoneRulesProvider.getAvailableZoneIds();
+        
+        System.out.println("Available Zone IDs:");
+        for (String zoneId : zoneIds) {
+            System.out.println(zoneId);
+        }
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,261 @@
+Sample: 0 LogStream_3
+----------------------------------------------------------------
+`void write(int b)`: This method writes the specified byte to this log stream.
+
+Code snippet:
+```java
+import java.rmi.server.LogStream;
+import java.rmi.server.LogStream.DefaultLog;
+
+public class Main {
+    public static void main(String[] args) {
+        LogStream logStream = new DefaultLog();
+        logStream.write(65); // Writing the ASCII value for 'A'
+    }
+}
+```
+================================================================
+
+Sample: 1 LogStream_4
+----------------------------------------------------------------
+`void write(byte[] b, int off, int len)`: This method writes len bytes from the specified byte array starting at offset off to the output stream.
+
+Code snippet:
+```java
+import java.rmi.server.LogStream;
+
+public class Main {
+    public static void main(String[] args) {
+        LogStream logStream = new LogStream();
+        byte[] data = {65, 66, 67, 68, 69}; // Sample byte array
+        int offset = 1;
+        int length = 3;
+        
+        logStream.write(data, offset, length);
+    }
+}
+```
+================================================================
+
+Sample: 2 ObjID_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.ObjID;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjID objId = new ObjID();
+        int hashCode = objId.hashCode();
+        System.out.println("Hash code of ObjID: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 3 ObjID_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.ObjID;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjID objID = new ObjID();
+        System.out.println(objID.toString());
+    }
+}
+```
+================================================================
+
+Sample: 4 ObjID_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.ObjID;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjID obj1 = new ObjID(1);
+        ObjID obj2 = new ObjID(2);
+        
+        boolean isEqual = obj1.equals(obj2);
+        System.out.println("Are obj1 and obj2 equal? " + isEqual);
+    }
+}
+```
+================================================================
+
+Sample: 5 RemoteServer_4
+----------------------------------------------------------------
+`void setLog(OutputStream out)`: This method sets the output stream for the log messages of the remote object.
+
+Code snippet:
+```java
+import java.io.OutputStream;
+import java.rmi.server.RemoteServer;
+
+public class Main {
+    public static void main(String[] args) {
+        RemoteServer remoteServer = new RemoteServer() {
+            @Override
+            public void setLog(OutputStream out) {
+                // Implement custom log setting here
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 6 RMIClassLoader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.RMIClassLoader;
+import java.net.MalformedURLException;
+import java.rmi.server.RMIClassLoaderSpi;
+import java.rmi.server.RMIClassLoaderSpi;
+
+public class Main {
+    public static void main(String[] args){
+        try {
+            Class<?> loadedClass = RMIClassLoader.loadClass("http://example.com", "ExampleClass");
+            System.out.println("Loaded class: " + loadedClass.getName());
+        } catch (MalformedURLException e) {
+            System.out.println("Malformed URL Exception: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class Not Found Exception: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 RMIClassLoader_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.RMIClassLoader;
+
+public class Main {
+    public static void main(String[] args) {
+        String codebase = "http://localhost:8080/classes/";
+        ClassLoader classLoader = RMIClassLoader.getClassLoader(codebase);
+        System.out.println("Class loader for codebase " + codebase + ": " + classLoader);
+    }
+}
+```
+================================================================
+
+Sample: 8 RMIClassLoader_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.RMIClassLoader;
+
+public class Main {
+    public static void main(String[] args) {
+        ClassLoader loader = Main.class.getClassLoader();
+        Object securityContext = RMIClassLoader.getSecurityContext(loader);
+        System.out.println("Security Context: " + securityContext);
+    }
+}
+```
+================================================================
+
+Sample: 9 RMISocketFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.RMISocketFactory;
+import java.net.ServerSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RMISocketFactory.setSocketFactory(new RMISocketFactory() {
+                public ServerSocket createServerSocket(int port) {
+                    return new ServerSocket(port);
+                }
+            });
+
+            // Using the custom ServerSocket created with RMISocketFactory
+            ServerSocket serverSocket = RMISocketFactory.getSocketFactory().createServerSocket(1234);
+            System.out.println("ServerSocket created on port 1234");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 RMISocketFactory_5
+----------------------------------------------------------------
+`void setSocketFactory(RMISocketFactory fac)`: This method sets the RMISocketFactory to be used to create client sockets.
+```java
+import java.rmi.server.RMISocketFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        RMISocketFactory fac = RMISocketFactory.getDefaultSocketFactory();
+        // Set custom RMISocketFactory
+        RMISocketFactory.setSocketFactory(fac);
+    }
+}
+```
+================================================================
+
+Sample: 11 UID_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.UID;
+
+public class Main {
+    public static void main(String[] args) {
+        UID uid = new UID();
+        System.out.println(uid.toString());
+    }
+}
+```
+================================================================
+
+Sample: 12 UID_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.UID;
+
+public class Main {
+    public static void main(String[] args) {
+        UID uid1 = new UID();
+        System.out.println(uid1);
+
+        UID uid2 = new UID();
+        System.out.println(uid2);
+
+        boolean isEqual = uid1.equals(uid2);
+        System.out.println("Are UIDs equal? " + isEqual);
+    }
+}
+```
+================================================================
+
+Sample: 13 UID_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.UID;
+
+public class Main {
+    public static void main(String[] args) {
+        UID uid = new UID();
+        int hashCode = uid.hashCode();
+        System.out.println("HashCode of UID: " + hashCode);
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,255 @@
+Sample: 0 Files_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("example.txt"));
+            for (String line : lines) {
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 Files_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.file.FileAttribute;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermissions;
+
+public class Main {
+    public static void main(String[] args) {
+        Path path = Paths.get("newFile.txt");
+        
+        FileAttribute<?>[] attrs = { PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-r-----")) };
+        
+        try {
+            Files.createFile(path, attrs);
+            System.out.println("File created successfully.");
+        } catch (IOException e) {
+            System.err.println("Failed to create file: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 Files_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class Main {
+    public static void main(String[] args) {
+        Path path = Paths.get("example.txt");
+        boolean isRegular = Files.isRegularFile(path);
+        System.out.println("Is regular file: " + isRegular);
+    }
+}
+```
+================================================================
+
+Sample: 3 FileStore_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.file.FileStore;
+import java.nio.file.FileSystems;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileStore store = FileSystems.getDefault().getFileStores().iterator().next();
+            long totalSpace = store.getTotalSpace();
+            System.out.println("Total space in bytes: " + totalSpace);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 FileStore_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.FileStore;
+import java.nio.file.FileSystems;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileStore fileStore = FileSystems.getDefault().getFileStores().iterator().next();
+            long usableSpace = fileStore.getUsableSpace();
+            System.out.println("Usable space: " + usableSpace + " bytes");
+        } catch (IOException e) {
+            System.out.println("Error accessing file store: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 FileStore_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.file.FileStore;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Path path = Paths.get("C:\\");
+            FileStore fileStore = Files.getFileStore(path);
+            long unallocatedSpace = fileStore.getUnallocatedSpace();
+            System.out.println("Unallocated space on the drive: " + unallocatedSpace + " bytes");
+        } catch (IOException e) {
+            System.err.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 FileStore_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.nio.file.FileStore;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileStore fileStore = FileStore.getDefault();
+            boolean readOnly = fileStore.isReadOnly();
+            System.out.println("Is file store read-only? " + readOnly);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 FileSystem_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.FileSystems;
+import java.nio.file.FileSystem;
+import java.nio.file.spi.FileSystemProvider;
+
+public class Main {
+    public static void main(String[] args) {
+        FileSystem fileSystem = FileSystems.getDefault();
+        FileSystemProvider provider = fileSystem.provider();
+        System.out.println("Provider: " + provider);
+    }
+}
+```
+================================================================
+
+Sample: 8 FileSystem_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.FileSystem;
+import java.util.Iterator;
+
+public class Main {
+    public static void main(String[] args) {
+        FileSystem fs = FileSystems.getDefault();
+        Iterable<Path> rootDirs = fs.getRootDirectories();
+        
+        Iterator<Path> iterator = rootDirs.iterator();
+        while(iterator.hasNext()) {
+            Path rootDir = iterator.next();
+            System.out.println(rootDir);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 FileSystem_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+
+public class Main {
+    public static void main(String[] args) {
+        Path path = FileSystems.getDefault().getPath("C:", "Users", "username", "Documents");
+        System.out.println(path);
+    }
+}
+```
+================================================================
+
+Sample: 10 FileSystem_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.PathMatcher;
+
+public class Main {
+    public static void main(String[] args) {
+        FileSystem fileSystem = FileSystems.getDefault();
+        PathMatcher pathMatcher = fileSystem.getPathMatcher("glob:**.txt");
+        System.out.println(pathMatcher.matches(fileSystem.getPath("test.txt")));
+    }
+}
+```
+================================================================
+
+Sample: 11 FileSystem_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.file.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileSystem fileSystem = FileSystems.getDefault();
+            WatchService watchService = fileSystem.newWatchService();
+            System.out.println("WatchService created successfully.");
+        } catch (Exception e) {
+            System.out.println("Error creating WatchService: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+

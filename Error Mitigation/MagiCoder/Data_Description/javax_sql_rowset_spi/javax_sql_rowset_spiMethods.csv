@@ -1,0 +1,361 @@
+ClassName,Method,Return Type,Description,Full Description
+SyncFactory,getInstance(String providerID),static SyncProvider,Returns the SyncProvider instance identified by providerID.,"
+
+getInstance
+public static SyncProvider getInstance(String providerID)
+                                throws SyncFactoryException
+Returns the SyncProvider instance identified by providerID.
+
+Parameters:
+providerID - the unique identifier of the provider
+Returns:
+a SyncProvider implementation
+Throws:
+SyncFactoryException - If the SyncProvider cannot be found,
+ the providerID is null, or
+ some error was encountered when trying to invoke this provider.
+
+
+"
+SyncFactory,getLogger(),static Logger,Returns the logging object for applications to retrieve synchronization events posted by SyncProvider implementations.,"
+
+getLogger
+public static Logger getLogger()
+                        throws SyncFactoryException
+Returns the logging object for applications to retrieve
+ synchronization events posted by SyncProvider implementations.
+
+Returns:
+The Logger that has been specified for use by
+ SyncProvider implementations
+Throws:
+SyncFactoryException - if no logging object has been set.
+
+
+"
+SyncFactory,getRegisteredProviders(),static Enumeration<SyncProvider>,Returns an Enumeration of currently registered synchronization providers.,"
+
+getRegisteredProviders
+public static Enumeration<SyncProvider> getRegisteredProviders()
+                                                        throws SyncFactoryException
+Returns an Enumeration of currently registered synchronization
+ providers.  A RowSet implementation may use any provider in
+ the enumeration as its SyncProvider object.
+ 
+ At a minimum, the reference synchronization provider allowing
+ RowSet content data to be stored using a JDBC driver should be
+ possible.
+
+Returns:
+Enumeration  A enumeration of available synchronization
+ providers that are registered with this Factory
+Throws:
+SyncFactoryException - If an error occurs obtaining the registered
+ providers
+
+
+"
+SyncFactory,getSyncFactory(),static SyncFactory,Returns the SyncFactory singleton.,"
+
+getSyncFactory
+public static SyncFactory getSyncFactory()
+Returns the SyncFactory singleton.
+
+Returns:
+the SyncFactory instance
+
+
+"
+SyncFactory,registerProvider(String providerID),static void,Adds the the given synchronization provider to the factory register.,"
+
+registerProvider
+public static void registerProvider(String providerID)
+                             throws SyncFactoryException
+Adds the the given synchronization provider to the factory register. Guidelines
+ are provided in the SyncProvider specification for the
+ required naming conventions for SyncProvider
+ implementations.
+ 
+ Synchronization providers bound to a JNDI context can be
+ registered by binding a SyncProvider instance to a JNDI namespace.
+
+ 
+ 
+ SyncProvider p = new MySyncProvider();
+ InitialContext ic = new InitialContext();
+ ic.bind (""jdbc/rowset/MySyncProvider"", p);
+  
+
+ Furthermore, an initial JNDI context should be set with the
+ SyncFactory using the setJNDIContext method.
+ The SyncFactory leverages this context to search for
+ available SyncProvider objects bound to the JNDI
+ context and its child nodes.
+
+Parameters:
+providerID - A String object with the unique ID of the
+             synchronization provider being registered
+Throws:
+SyncFactoryException - if an attempt is made to supply an empty
+         or null provider name
+See Also:
+setJNDIContext(javax.naming.Context)
+
+
+"
+SyncFactory,setJNDIContext(Context ctx),static void,Sets the initial JNDI context from which SyncProvider implementations can be retrieved from a JNDI namespace,"
+
+setJNDIContext
+public static void setJNDIContext(Context ctx)
+                           throws SyncFactoryException
+Sets the initial JNDI context from which SyncProvider implementations
+ can be retrieved from a JNDI namespace
+ 
+  This method checks to see that there is an SQLPermission
+ object  which grants the permission setSyncFactory
+ before allowing the method to succeed.  If a
+ SecurityManager exists and its
+ checkPermission method denies calling setJNDIContext,
+ this method throws a
+ java.lang.SecurityException.
+
+Parameters:
+ctx - a valid JNDI context
+Throws:
+SyncFactoryException - if the supplied JNDI context is null
+SecurityException - if a security manager exists and its
+  checkPermission method denies calling setJNDIContext
+See Also:
+SecurityManager.checkPermission(java.security.Permission)
+
+
+"
+SyncFactory,setLogger(Logger logger),static void,Sets the logging object to be used by the SyncProvider implementation provided by the SyncFactory.,"
+
+setLogger
+public static void setLogger(Logger logger)
+Sets the logging object to be used by the SyncProvider
+ implementation provided by the SyncFactory. All
+ SyncProvider implementations can log their events to
+ this object and the application can retrieve a handle to this
+ object using the getLogger method.
+ 
+ This method checks to see that there is an SQLPermission
+ object  which grants the permission setSyncFactory
+ before allowing the method to succeed.  If a
+ SecurityManager exists and its
+ checkPermission method denies calling setLogger,
+ this method throws a
+ java.lang.SecurityException.
+
+Parameters:
+logger - A Logger object instance
+Throws:
+SecurityException - if a security manager exists and its
+   checkPermission method denies calling setLogger
+NullPointerException - if the logger is null
+See Also:
+SecurityManager.checkPermission(java.security.Permission)
+
+
+"
+SyncFactory,"setLogger(Logger logger, Level level)",static void,Sets the logging object that is used by SyncProvider implementations provided by the SyncFactory SPI.,"
+
+setLogger
+public static void setLogger(Logger logger,
+                             Level level)
+Sets the logging object that is used by SyncProvider
+ implementations provided by the SyncFactory SPI. All
+ SyncProvider implementations can log their events
+ to this object and the application can retrieve a handle to this
+ object using the getLogger method.
+ 
+ This method checks to see that there is an SQLPermission
+ object  which grants the permission setSyncFactory
+ before allowing the method to succeed.  If a
+ SecurityManager exists and its
+ checkPermission method denies calling setLogger,
+ this method throws a
+ java.lang.SecurityException.
+
+Parameters:
+logger - a Logger object instance
+level - a Level object instance indicating the degree of logging
+ required
+Throws:
+SecurityException - if a security manager exists and its
+   checkPermission method denies calling setLogger
+NullPointerException - if the logger is null
+See Also:
+SecurityManager.checkPermission(java.security.Permission), 
+LoggingPermission
+
+
+"
+SyncFactory,unregisterProvider(String providerID),static void,Removes the designated currently registered synchronization provider from the Factory SPI register.,"
+
+unregisterProvider
+public static void unregisterProvider(String providerID)
+                               throws SyncFactoryException
+Removes the designated currently registered synchronization provider from the
+ Factory SPI register.
+
+Parameters:
+providerID - The unique-id of the synchronization provider
+Throws:
+SyncFactoryException - If an attempt is made to
+ unregister a SyncProvider implementation that was not registered.
+
+
+"
+SyncProvider,getDataSourceLock(),abstract int,Returns the current data source lock severity level active in this SyncProvider implementation.,"
+
+getDataSourceLock
+public abstract int getDataSourceLock()
+                               throws SyncProviderException
+Returns the current data source lock severity level active in this
+ SyncProvider implementation.
+
+Returns:
+a constant indicating the current level of data source lock
+        active in this SyncProvider object;
+         one of the following:
+ 
+           SyncProvider.DATASOURCE_NO_LOCK,
+           SyncProvider.DATASOURCE_ROW_LOCK,
+           SyncProvider.DATASOURCE_TABLE_LOCK,
+           SyncProvider.DATASOURCE_DB_LOCK
+ 
+Throws:
+SyncProviderException - if an error occurs determining the data
+        source locking level.
+See Also:
+setDataSourceLock(int)
+
+
+"
+SyncProvider,getProviderGrade(),abstract int,Returns a constant indicating the grade of synchronization a RowSet object can expect from this SyncProvider object.,"
+
+getProviderGrade
+public abstract int getProviderGrade()
+Returns a constant indicating the
+ grade of synchronization a RowSet object can expect from
+ this SyncProvider object.
+
+Returns:
+an int that is one of the following constants:
+           SyncProvider.GRADE_NONE,
+           SyncProvider.GRADE_CHECK_MODIFIED_AT_COMMIT,
+           SyncProvider.GRADE_CHECK_ALL_AT_COMMIT,
+           SyncProvider.GRADE_LOCK_WHEN_MODIFIED,
+           SyncProvider.GRADE_LOCK_WHEN_LOADED
+
+
+"
+SyncProvider,getProviderID(),abstract String,Returns the unique identifier for this SyncProvider object.,"
+
+getProviderID
+public abstract String getProviderID()
+Returns the unique identifier for this SyncProvider object.
+
+Returns:
+a String object with the fully qualified class name of
+         this SyncProvider object
+
+
+"
+SyncProvider,getRowSetReader(),abstract RowSetReader,"Returns a javax.sql.RowSetReader object, which can be used to populate a RowSet object with data.","
+
+getRowSetReader
+public abstract RowSetReader getRowSetReader()
+Returns a javax.sql.RowSetReader object, which can be used to
+ populate a RowSet object with data.
+
+Returns:
+a javax.sql.RowSetReader object
+
+
+"
+SyncProvider,getRowSetWriter(),abstract RowSetWriter,"Returns a javax.sql.RowSetWriter object, which can be used to write a RowSet object's data back to the underlying data source.","
+
+getRowSetWriter
+public abstract RowSetWriter getRowSetWriter()
+Returns a javax.sql.RowSetWriter object, which can be
+ used to write a RowSet object's data back to the
+ underlying data source.
+
+Returns:
+a javax.sql.RowSetWriter object
+
+
+"
+SyncProvider,getVendor(),abstract String,Returns the vendor name of this SyncProvider instance,"
+
+getVendor
+public abstract String getVendor()
+Returns the vendor name of this SyncProvider instance
+
+Returns:
+a String detailing the vendor name of this
+     SyncProvider implementation
+
+
+"
+SyncProvider,getVersion(),abstract String,Returns the release version of this SyncProvider instance.,"
+
+getVersion
+public abstract String getVersion()
+Returns the release version of this SyncProvider instance.
+
+Returns:
+a String detailing the release version of the
+     SyncProvider implementation
+
+
+"
+SyncProvider,setDataSourceLock(int datasource_lock),abstract void,Sets a lock on the underlying data source at the level indicated by datasource_lock.,"
+
+setDataSourceLock
+public abstract void setDataSourceLock(int datasource_lock)
+                                throws SyncProviderException
+Sets a lock on the underlying data source at the level indicated by
+ datasource_lock. This should cause the
+ SyncProvider to adjust its behavior by increasing or
+ decreasing the level of optimism it provides for a successful
+ synchronization.
+
+Parameters:
+datasource_lock - one of the following constants indicating the severity
+           level of data source lock required:
+ 
+           SyncProvider.DATASOURCE_NO_LOCK,
+           SyncProvider.DATASOURCE_ROW_LOCK,
+           SyncProvider.DATASOURCE_TABLE_LOCK,
+           SyncProvider.DATASOURCE_DB_LOCK,
+ 
+Throws:
+SyncProviderException - if an unsupported data source locking level
+           is set.
+See Also:
+getDataSourceLock()
+
+
+"
+SyncProvider,supportsUpdatableView(),abstract int,Returns whether this SyncProvider implementation can perform synchronization between a RowSet object and the SQL VIEW in the data source from which the RowSet object got its data.,"
+
+supportsUpdatableView
+public abstract int supportsUpdatableView()
+Returns whether this SyncProvider implementation
+ can perform synchronization between a RowSet object
+ and the SQL VIEW in the data source from which
+ the RowSet object got its data.
+
+Returns:
+an int saying whether this SyncProvider
+         object supports updating an SQL VIEW; one of the
+         following:
+            SyncProvider.UPDATABLE_VIEW_SYNC,
+            SyncProvider.NONUPDATABLE_VIEW_SYNC
+
+
+"

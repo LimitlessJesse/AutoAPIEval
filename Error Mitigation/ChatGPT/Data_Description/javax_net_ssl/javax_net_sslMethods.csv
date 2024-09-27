@@ -1,0 +1,4914 @@
+ClassName,Method,Return Type,Description,Full Description
+CertPathTrustManagerParameters,getParameters(),CertPathParameters,Return a clone of the CertPathParameters encapsulated by this class.,"
+
+getParameters
+public CertPathParameters getParameters()
+Return a clone of the CertPathParameters encapsulated by this class.
+
+Returns:
+a clone of the CertPathParameters encapsulated by this class.
+
+
+"
+ExtendedSSLSession,getLocalSupportedSignatureAlgorithms(),abstract String[],Obtains an array of supported signature algorithms that the local side is willing to use.,"
+
+getLocalSupportedSignatureAlgorithms
+public abstract String[] getLocalSupportedSignatureAlgorithms()
+Obtains an array of supported signature algorithms that the local side
+ is willing to use.
+ 
+ Note: this method is used to indicate to the peer which signature
+ algorithms may be used for digital signatures in TLS 1.2. It is
+ not meaningful for TLS versions prior to 1.2.
+ 
+ The signature algorithm name must be a standard Java Security
+ name (such as ""SHA1withRSA"", ""SHA256withECDSA"", and so on).
+ See Appendix A in the 
+ Java Cryptography Architecture API Specification & Reference 
+ for information about standard algorithm names.
+ 
+ Note: the local supported signature algorithms should conform to
+ the algorithm constraints specified by
+ getAlgorithmConstraints()
+ method in SSLParameters.
+
+Returns:
+An array of supported signature algorithms, in descending
+     order of preference.  The return value is an empty array if
+     no signature algorithm is supported.
+See Also:
+SSLParameters.getAlgorithmConstraints()
+
+
+"
+ExtendedSSLSession,getPeerSupportedSignatureAlgorithms(),abstract String[],Obtains an array of supported signature algorithms that the peer is able to use.,"
+
+getPeerSupportedSignatureAlgorithms
+public abstract String[] getPeerSupportedSignatureAlgorithms()
+Obtains an array of supported signature algorithms that the peer is
+ able to use.
+ 
+ Note: this method is used to indicate to the local side which signature
+ algorithms may be used for digital signatures in TLS 1.2. It is
+ not meaningful for TLS versions prior to 1.2.
+ 
+ The signature algorithm name must be a standard Java Security
+ name (such as ""SHA1withRSA"", ""SHA256withECDSA"", and so on).
+ See Appendix A in the 
+ Java Cryptography Architecture API Specification & Reference 
+ for information about standard algorithm names.
+
+Returns:
+An array of supported signature algorithms, in descending
+     order of preference.  The return value is an empty array if
+     the peer has not sent the supported signature algorithms.
+See Also:
+X509KeyManager, 
+X509ExtendedKeyManager
+
+
+"
+ExtendedSSLSession,getRequestedServerNames(),List<SNIServerName>,Obtains a List containing all SNIServerNames of the requested Server Name Indication (SNI) extension.,"
+
+getRequestedServerNames
+public List<SNIServerName> getRequestedServerNames()
+Obtains a List containing all SNIServerNames
+ of the requested Server Name Indication (SNI) extension.
+ 
+ In server mode, unless the return List is empty,
+ the server should use the requested server names to guide its
+ selection of an appropriate authentication certificate, and/or
+ other aspects of security policy.
+ 
+ In client mode, unless the return List is empty,
+ the client should use the requested server names to guide its
+ endpoint identification of the peer's identity, and/or
+ other aspects of security policy.
+
+Returns:
+a non-null immutable list of SNIServerNames of the
+         requested server name indications. The returned list may be
+         empty if no server name indications were requested.
+Throws:
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation
+Since:
+1.8
+See Also:
+SNIServerName, 
+X509ExtendedTrustManager, 
+X509ExtendedKeyManager
+
+
+"
+HandshakeCompletedEvent,getCipherSuite(),String,Returns the cipher suite in use by the session which was produced by the handshake.,"
+
+getCipherSuite
+public String getCipherSuite()
+Returns the cipher suite in use by the session which was produced
+ by the handshake.  (This is a convenience method for
+ getting the ciphersuite from the SSLsession.)
+
+Returns:
+the name of the cipher suite negotiated during this session.
+
+
+"
+HandshakeCompletedEvent,getLocalCertificates(),Certificate[],Returns the certificate(s) that were sent to the peer during handshaking.,"
+
+getLocalCertificates
+public Certificate[] getLocalCertificates()
+Returns the certificate(s) that were sent to the peer during
+ handshaking.
+ Note: This method is useful only when using certificate-based
+ cipher suites.
+
+ When multiple certificates are available for use in a
+ handshake, the implementation chooses what it considers the
+ ""best"" certificate chain available, and transmits that to
+ the other side.  This method allows the caller to know
+ which certificate chain was actually used.
+
+Returns:
+an ordered array of certificates, with the local
+          certificate first followed by any
+          certificate authorities.  If no certificates were sent,
+          then null is returned.
+See Also:
+getLocalPrincipal()
+
+
+"
+HandshakeCompletedEvent,getLocalPrincipal(),Principal,Returns the principal that was sent to the peer during handshaking.,"
+
+getLocalPrincipal
+public Principal getLocalPrincipal()
+Returns the principal that was sent to the peer during handshaking.
+
+Returns:
+the principal sent to the peer. Returns an X500Principal
+ of the end-entity certificate for X509-based cipher suites, and
+ KerberosPrincipal for Kerberos cipher suites. If no principal was
+ sent, then null is returned.
+Since:
+1.5
+See Also:
+getLocalCertificates(), 
+getPeerPrincipal()
+
+
+"
+HandshakeCompletedEvent,getPeerCertificateChain(),X509Certificate[],Returns the identity of the peer which was identified as part of defining the session.,"
+
+getPeerCertificateChain
+public X509Certificate[] getPeerCertificateChain()
+                                          throws SSLPeerUnverifiedException
+Returns the identity of the peer which was identified as part
+ of defining the session.
+ Note: This method can be used only when using certificate-based
+ cipher suites; using it with non-certificate-based cipher suites,
+ such as Kerberos, will throw an SSLPeerUnverifiedException.
+
+ Note: this method exists for compatibility with previous
+ releases. New applications should use
+ getPeerCertificates() instead.
+
+Returns:
+an ordered array of peer X.509 certificates,
+          with the peer's own certificate first followed by any
+          certificate authorities.  (The certificates are in
+          the original JSSE
+          X509Certificate format).
+Throws:
+SSLPeerUnverifiedException - if the peer is not verified.
+See Also:
+getPeerPrincipal()
+
+
+"
+HandshakeCompletedEvent,getPeerCertificates(),Certificate[],Returns the identity of the peer which was established as part of defining the session.,"
+
+getPeerCertificates
+public Certificate[] getPeerCertificates()
+                                  throws SSLPeerUnverifiedException
+Returns the identity of the peer which was established as part
+ of defining the session.
+ Note: This method can be used only when using certificate-based
+ cipher suites; using it with non-certificate-based cipher suites,
+ such as Kerberos, will throw an SSLPeerUnverifiedException.
+
+Returns:
+an ordered array of the peer certificates,
+          with the peer's own certificate first followed by
+          any certificate authorities.
+Throws:
+SSLPeerUnverifiedException - if the peer is not verified.
+See Also:
+getPeerPrincipal()
+
+
+"
+HandshakeCompletedEvent,getPeerPrincipal(),Principal,Returns the identity of the peer which was established as part of defining the session.,"
+
+getPeerPrincipal
+public Principal getPeerPrincipal()
+                           throws SSLPeerUnverifiedException
+Returns the identity of the peer which was established as part of
+ defining the session.
+
+Returns:
+the peer's principal. Returns an X500Principal of the
+ end-entity certiticate for X509-based cipher suites, and
+ KerberosPrincipal for Kerberos cipher suites.
+Throws:
+SSLPeerUnverifiedException - if the peer's identity has not
+          been verified
+Since:
+1.5
+See Also:
+getPeerCertificates(), 
+getLocalPrincipal()
+
+
+"
+HandshakeCompletedEvent,getSession(),SSLSession,Returns the session that triggered this event.,"
+
+getSession
+public SSLSession getSession()
+Returns the session that triggered this event.
+
+Returns:
+the SSLSession for this handshake
+
+
+"
+HandshakeCompletedEvent,getSocket(),SSLSocket,Returns the socket which is the source of this event.,"
+
+getSocket
+public SSLSocket getSocket()
+Returns the socket which is the source of this event.
+ (This is a convenience function, to let applications
+ write code without type casts.)
+
+Returns:
+the socket on which the connection was made.
+
+
+"
+HttpsURLConnection,getCipherSuite(),abstract String,Returns the cipher suite in use on this connection.,"
+
+getCipherSuite
+public abstract String getCipherSuite()
+Returns the cipher suite in use on this connection.
+
+Returns:
+the cipher suite
+Throws:
+IllegalStateException - if this method is called before
+          the connection has been established.
+
+
+"
+HttpsURLConnection,getDefaultHostnameVerifier(),static HostnameVerifier,Gets the default HostnameVerifier that is inherited by new instances of this class.,"
+
+getDefaultHostnameVerifier
+public static HostnameVerifier getDefaultHostnameVerifier()
+Gets the default HostnameVerifier that is inherited
+ by new instances of this class.
+
+Returns:
+the default host name verifier
+See Also:
+setDefaultHostnameVerifier(HostnameVerifier)
+
+
+"
+HttpsURLConnection,getDefaultSSLSocketFactory(),static SSLSocketFactory,Gets the default static SSLSocketFactory that is inherited by new instances of this class.,"
+
+getDefaultSSLSocketFactory
+public static SSLSocketFactory getDefaultSSLSocketFactory()
+Gets the default static SSLSocketFactory that is
+ inherited by new instances of this class.
+ 
+ The socket factories are used when creating sockets for secure
+ https URL connections.
+
+Returns:
+the default SSLSocketFactory
+See Also:
+setDefaultSSLSocketFactory(SSLSocketFactory)
+
+
+"
+HttpsURLConnection,getHostnameVerifier(),HostnameVerifier,Gets the HostnameVerifier in place on this instance.,"
+
+getHostnameVerifier
+public HostnameVerifier getHostnameVerifier()
+Gets the HostnameVerifier in place on this instance.
+
+Returns:
+the host name verifier
+See Also:
+setHostnameVerifier(HostnameVerifier), 
+setDefaultHostnameVerifier(HostnameVerifier)
+
+
+"
+HttpsURLConnection,getLocalCertificates(),abstract Certificate[],Returns the certificate(s) that were sent to the server during handshaking.,"
+
+getLocalCertificates
+public abstract Certificate[] getLocalCertificates()
+Returns the certificate(s) that were sent to the server during
+ handshaking.
+ 
+ Note: This method is useful only when using certificate-based
+ cipher suites.
+ 
+ When multiple certificates are available for use in a
+ handshake, the implementation chooses what it considers the
+ ""best"" certificate chain available, and transmits that to
+ the other side.  This method allows the caller to know
+ which certificate chain was actually sent.
+
+Returns:
+an ordered array of certificates,
+          with the client's own certificate first followed by any
+          certificate authorities.  If no certificates were sent,
+          then null is returned.
+Throws:
+IllegalStateException - if this method is called before
+          the connection has been established.
+See Also:
+getLocalPrincipal()
+
+
+"
+HttpsURLConnection,getLocalPrincipal(),Principal,Returns the principal that was sent to the server during handshaking.,"
+
+getLocalPrincipal
+public Principal getLocalPrincipal()
+Returns the principal that was sent to the server during handshaking.
+ 
+ Note: Subclasses should override this method. If not overridden, it
+ will default to returning the X500Principal of the end-entity certificate
+ that was sent to the server for certificate-based ciphersuites or,
+ return null for non-certificate based ciphersuites, such as Kerberos.
+
+Returns:
+the principal sent to the server. Returns an X500Principal
+ of the end-entity certificate for X509-based cipher suites, and
+ KerberosPrincipal for Kerberos cipher suites. If no principal was
+ sent, then null is returned.
+Throws:
+IllegalStateException - if this method is called before
+          the connection has been established.
+Since:
+1.5
+See Also:
+getLocalCertificates(), 
+getPeerPrincipal()
+
+
+"
+HttpsURLConnection,getPeerPrincipal(),Principal,Returns the server's principal which was established as part of defining the session.,"
+
+getPeerPrincipal
+public Principal getPeerPrincipal()
+                           throws SSLPeerUnverifiedException
+Returns the server's principal which was established as part of
+ defining the session.
+ 
+ Note: Subclasses should override this method. If not overridden, it
+ will default to returning the X500Principal of the server's end-entity
+ certificate for certificate-based ciphersuites, or throw an
+ SSLPeerUnverifiedException for non-certificate based ciphersuites,
+ such as Kerberos.
+
+Returns:
+the server's principal. Returns an X500Principal of the
+ end-entity certiticate for X509-based cipher suites, and
+ KerberosPrincipal for Kerberos cipher suites.
+Throws:
+SSLPeerUnverifiedException - if the peer was not verified
+IllegalStateException - if this method is called before
+          the connection has been established.
+Since:
+1.5
+See Also:
+getServerCertificates(), 
+getLocalPrincipal()
+
+
+"
+HttpsURLConnection,getServerCertificates(),abstract Certificate[],Returns the server's certificate chain which was established as part of defining the session.,"
+
+getServerCertificates
+public abstract Certificate[] getServerCertificates()
+                                             throws SSLPeerUnverifiedException
+Returns the server's certificate chain which was established
+ as part of defining the session.
+ 
+ Note: This method can be used only when using certificate-based
+ cipher suites; using it with non-certificate-based cipher suites,
+ such as Kerberos, will throw an SSLPeerUnverifiedException.
+
+Returns:
+an ordered array of server certificates,
+          with the peer's own certificate first followed by
+          any certificate authorities.
+Throws:
+SSLPeerUnverifiedException - if the peer is not verified.
+IllegalStateException - if this method is called before
+          the connection has been established.
+See Also:
+getPeerPrincipal()
+
+
+"
+HttpsURLConnection,getSSLSocketFactory(),SSLSocketFactory,Gets the SSL socket factory to be used when creating sockets for secure https URL connections.,"
+
+getSSLSocketFactory
+public SSLSocketFactory getSSLSocketFactory()
+Gets the SSL socket factory to be used when creating sockets
+ for secure https URL connections.
+
+Returns:
+the SSLSocketFactory
+See Also:
+setSSLSocketFactory(SSLSocketFactory)
+
+
+"
+HttpsURLConnection,setDefaultHostnameVerifier(HostnameVerifier v),static void,Sets the default HostnameVerifier inherited by a new instance of this class.,"
+
+setDefaultHostnameVerifier
+public static void setDefaultHostnameVerifier(HostnameVerifier v)
+Sets the default HostnameVerifier inherited by a
+ new instance of this class.
+ 
+ If this method is not called, the default
+ HostnameVerifier assumes the connection should not
+ be permitted.
+
+Parameters:
+v - the default host name verifier
+Throws:
+IllegalArgumentException - if the HostnameVerifier
+          parameter is null.
+SecurityException - if a security manager exists and its
+         checkPermission method does not allow
+         SSLPermission(""setHostnameVerifier"")
+See Also:
+getDefaultHostnameVerifier()
+
+
+"
+HttpsURLConnection,setDefaultSSLSocketFactory(SSLSocketFactory sf),static void,Sets the default SSLSocketFactory inherited by new instances of this class.,"
+
+setDefaultSSLSocketFactory
+public static void setDefaultSSLSocketFactory(SSLSocketFactory sf)
+Sets the default SSLSocketFactory inherited by new
+ instances of this class.
+ 
+ The socket factories are used when creating sockets for secure
+ https URL connections.
+
+Parameters:
+sf - the default SSL socket factory
+Throws:
+IllegalArgumentException - if the SSLSocketFactory
+          parameter is null.
+SecurityException - if a security manager exists and its
+         checkSetFactory method does not allow
+         a socket factory to be specified.
+See Also:
+getDefaultSSLSocketFactory()
+
+
+"
+HttpsURLConnection,setHostnameVerifier(HostnameVerifier v),void,Sets the HostnameVerifier for this instance.,"
+
+setHostnameVerifier
+public void setHostnameVerifier(HostnameVerifier v)
+Sets the HostnameVerifier for this instance.
+ 
+ New instances of this class inherit the default static hostname
+ verifier set by setDefaultHostnameVerifier.  Calls to this method replace
+ this object's HostnameVerifier.
+
+Parameters:
+v - the host name verifier
+Throws:
+IllegalArgumentException - if the HostnameVerifier
+  parameter is null.
+See Also:
+getHostnameVerifier(), 
+setDefaultHostnameVerifier(HostnameVerifier)
+
+
+"
+HttpsURLConnection,setSSLSocketFactory(SSLSocketFactory sf),void,Sets the SSLSocketFactory to be used when this instance creates sockets for secure https URL connections.,"
+
+setSSLSocketFactory
+public void setSSLSocketFactory(SSLSocketFactory sf)
+Sets the SSLSocketFactory to be used when this instance
+ creates sockets for secure https URL connections.
+ 
+ New instances of this class inherit the default static
+ SSLSocketFactory set by
+ setDefaultSSLSocketFactory.  Calls to this method replace
+ this object's SSLSocketFactory.
+
+Parameters:
+sf - the SSL socket factory
+Throws:
+IllegalArgumentException - if the SSLSocketFactory
+          parameter is null.
+SecurityException - if a security manager exists and its
+         checkSetFactory method does not allow
+         a socket factory to be specified.
+See Also:
+getSSLSocketFactory()
+
+
+"
+KeyManagerFactory,getAlgorithm(),String,Returns the algorithm name of this KeyManagerFactory object.,"
+
+getAlgorithm
+public final String getAlgorithm()
+Returns the algorithm name of this KeyManagerFactory object.
+
+ This is the same name that was specified in one of the
+ getInstance calls that created this
+ KeyManagerFactory object.
+
+Returns:
+the algorithm name of this KeyManagerFactory object.
+
+
+"
+KeyManagerFactory,getDefaultAlgorithm(),static String,Obtains the default KeyManagerFactory algorithm name.,"
+
+getDefaultAlgorithm
+public static final String getDefaultAlgorithm()
+Obtains the default KeyManagerFactory algorithm name.
+
+ The default algorithm can be changed at runtime by setting
+ the value of the ssl.KeyManagerFactory.algorithm
+ security property to the desired algorithm name.
+
+Returns:
+the default algorithm name as specified by the
+          ssl.KeyManagerFactory.algorithm security property, or an
+          implementation-specific default if no such property exists.
+See Also:
+security properties
+
+
+"
+KeyManagerFactory,getInstance(String algorithm),static KeyManagerFactory,Returns a KeyManagerFactory object that acts as a factory for key managers.,"
+
+getInstance
+public static final KeyManagerFactory getInstance(String algorithm)
+                                           throws NoSuchAlgorithmException
+Returns a KeyManagerFactory object that acts as a
+ factory for key managers.
+
+  This method traverses the list of registered security Providers,
+ starting with the most preferred Provider.
+ A new KeyManagerFactory object encapsulating the
+ KeyManagerFactorySpi implementation from the first
+ Provider that supports the specified algorithm is returned.
+
+  Note that the list of registered providers may be retrieved via
+ the Security.getProviders() method.
+
+Parameters:
+algorithm - the standard name of the requested algorithm.
+          See the 
+          Java Secure Socket Extension Reference Guide 
+          for information about standard algorithm names.
+Returns:
+the new KeyManagerFactory object.
+Throws:
+NoSuchAlgorithmException - if no Provider supports a
+          KeyManagerFactorySpi implementation for the
+          specified algorithm.
+NullPointerException - if algorithm is null.
+See Also:
+Provider
+
+
+"
+KeyManagerFactory,"getInstance(String algorithm, Provider provider)",static KeyManagerFactory,Returns a KeyManagerFactory object that acts as a factory for key managers.,"
+
+getInstance
+public static final KeyManagerFactory getInstance(String algorithm,
+                                                  Provider provider)
+                                           throws NoSuchAlgorithmException
+Returns a KeyManagerFactory object that acts as a
+ factory for key managers.
+
+  A new KeyManagerFactory object encapsulating the
+ KeyManagerFactorySpi implementation from the specified Provider
+ object is returned.  Note that the specified Provider object
+ does not have to be registered in the provider list.
+
+Parameters:
+algorithm - the standard name of the requested algorithm.
+          See the 
+          Java Secure Socket Extension Reference Guide 
+          for information about standard algorithm names.
+provider - an instance of the provider.
+Returns:
+the new KeyManagerFactory object.
+Throws:
+NoSuchAlgorithmException - if a KeyManagerFactorySpi
+          implementation for the specified algorithm is not available
+          from the specified Provider object.
+IllegalArgumentException - if provider is null.
+NullPointerException - if algorithm is null.
+See Also:
+Provider
+
+
+"
+KeyManagerFactory,"getInstance(String algorithm, String provider)",static KeyManagerFactory,Returns a KeyManagerFactory object that acts as a factory for key managers.,"
+
+getInstance
+public static final KeyManagerFactory getInstance(String algorithm,
+                                                  String provider)
+                                           throws NoSuchAlgorithmException,
+                                                  NoSuchProviderException
+Returns a KeyManagerFactory object that acts as a
+ factory for key managers.
+
+  A new KeyManagerFactory object encapsulating the
+ KeyManagerFactorySpi implementation from the specified provider
+ is returned.  The specified provider must be registered
+ in the security provider list.
+
+  Note that the list of registered providers may be retrieved via
+ the Security.getProviders() method.
+
+Parameters:
+algorithm - the standard name of the requested algorithm.
+          See the 
+          Java Secure Socket Extension Reference Guide 
+          for information about standard algorithm names.
+provider - the name of the provider.
+Returns:
+the new KeyManagerFactory object.
+Throws:
+NoSuchAlgorithmException - if a KeyManagerFactorySpi
+          implementation for the specified algorithm is not
+          available from the specified provider.
+NoSuchProviderException - if the specified provider is not
+          registered in the security provider list.
+IllegalArgumentException - if the provider name is null or empty.
+NullPointerException - if algorithm is null.
+See Also:
+Provider
+
+
+"
+KeyManagerFactory,getKeyManagers(),KeyManager[],Returns one key manager for each type of key material.,"
+
+getKeyManagers
+public final KeyManager[] getKeyManagers()
+Returns one key manager for each type of key material.
+
+Returns:
+the key managers
+Throws:
+IllegalStateException - if the KeyManagerFactory is not initialized
+
+
+"
+KeyManagerFactory,getProvider(),Provider,Returns the provider of this KeyManagerFactory object.,"
+
+getProvider
+public final Provider getProvider()
+Returns the provider of this KeyManagerFactory object.
+
+Returns:
+the provider of this KeyManagerFactory object
+
+
+"
+KeyManagerFactory,"init(KeyStore ks, char[] password)",void,Initializes this factory with a source of key material.,"
+
+init
+public final void init(KeyStore ks,
+                       char[] password)
+                throws KeyStoreException,
+                       NoSuchAlgorithmException,
+                       UnrecoverableKeyException
+Initializes this factory with a source of key material.
+ 
+ The provider typically uses a KeyStore for obtaining
+ key material for use during secure socket negotiations.
+ The KeyStore is generally password-protected.
+ 
+ For more flexible initialization, please see
+ init(ManagerFactoryParameters).
+ 
+
+Parameters:
+ks - the key store or null
+password - the password for recovering keys in the KeyStore
+Throws:
+KeyStoreException - if this operation fails
+NoSuchAlgorithmException - if the specified algorithm is not
+          available from the specified provider.
+UnrecoverableKeyException - if the key cannot be recovered
+          (e.g. the given password is wrong).
+
+
+"
+KeyManagerFactory,init(ManagerFactoryParameters spec),void,Initializes this factory with a source of provider-specific key material.,"
+
+init
+public final void init(ManagerFactoryParameters spec)
+                throws InvalidAlgorithmParameterException
+Initializes this factory with a source of provider-specific
+ key material.
+ 
+ In some cases, initialization parameters other than a keystore
+ and password may be needed by a provider.  Users of that
+ particular provider are expected to pass an implementation of
+ the appropriate ManagerFactoryParameters as
+ defined by the provider.  The provider can then call the
+ specified methods in the ManagerFactoryParameters
+ implementation to obtain the needed information.
+
+Parameters:
+spec - an implementation of a provider-specific parameter
+          specification
+Throws:
+InvalidAlgorithmParameterException - if an error is encountered
+
+
+"
+KeyManagerFactorySpi,engineGetKeyManagers(),protected abstract KeyManager[],Returns one key manager for each type of key material.,"
+
+engineGetKeyManagers
+protected abstract KeyManager[] engineGetKeyManagers()
+Returns one key manager for each type of key material.
+
+Returns:
+the key managers
+Throws:
+IllegalStateException - if the KeyManagerFactorySpi is not initialized
+
+
+"
+KeyManagerFactorySpi,"engineInit(KeyStore ks, char[] password)",protected abstract void,Initializes this factory with a source of key material.,"
+
+engineInit
+protected abstract void engineInit(KeyStore ks,
+                                   char[] password)
+                            throws KeyStoreException,
+                                   NoSuchAlgorithmException,
+                                   UnrecoverableKeyException
+Initializes this factory with a source of key material.
+
+Parameters:
+ks - the key store or null
+password - the password for recovering keys
+Throws:
+KeyStoreException - if this operation fails
+NoSuchAlgorithmException - if the specified algorithm is not
+          available from the specified provider.
+UnrecoverableKeyException - if the key cannot be recovered
+See Also:
+KeyManagerFactory.init(KeyStore, char[])
+
+
+"
+KeyManagerFactorySpi,engineInit(ManagerFactoryParameters spec),protected abstract void,Initializes this factory with a source of key material.,"
+
+engineInit
+protected abstract void engineInit(ManagerFactoryParameters spec)
+                            throws InvalidAlgorithmParameterException
+Initializes this factory with a source of key material.
+ 
+ In some cases, initialization parameters other than a keystore
+ and password may be needed by a provider.  Users of that
+ particular provider are expected to pass an implementation of
+ the appropriate ManagerFactoryParameters as
+ defined by the provider.  The provider can then call the
+ specified methods in the ManagerFactoryParameters
+ implementation to obtain the needed information.
+
+Parameters:
+spec - an implementation of a provider-specific parameter
+          specification
+Throws:
+InvalidAlgorithmParameterException - if there is problem
+          with the parameters
+See Also:
+KeyManagerFactory.init(ManagerFactoryParameters spec)
+
+
+"
+KeyStoreBuilderParameters,getParameters(),List<KeyStore.Builder>,Return the unmodifiable List of the KeyStore.Builders encapsulated by this object.,"
+
+getParameters
+public List<KeyStore.Builder> getParameters()
+Return the unmodifiable List of the
+ KeyStore.Builders
+ encapsulated by this object.
+
+Returns:
+the unmodifiable List of the
+ KeyStore.Builders
+ encapsulated by this object.
+
+
+"
+SNIHostName,createSNIMatcher(String regex),static SNIMatcher,Creates an SNIMatcher object for SNIHostNames.,"
+
+createSNIMatcher
+public static SNIMatcher createSNIMatcher(String regex)
+Creates an SNIMatcher object for SNIHostNames.
+ 
+ This method can be used by a server to verify the acceptable
+ SNIHostNames.  For example,
+ 
+     SNIMatcher matcher =
+         SNIHostName.createSNIMatcher(""www\\.example\\.com"");
+ 
+ will accept the hostname ""www.example.com"".
+ 
+     SNIMatcher matcher =
+         SNIHostName.createSNIMatcher(""www\\.example\\.(com|org)"");
+ 
+ will accept hostnames ""www.example.com"" and ""www.example.org"".
+
+Parameters:
+regex - the 
+         regular expression pattern
+         representing the hostname(s) to match
+Returns:
+a SNIMatcher object for SNIHostNames
+Throws:
+NullPointerException - if regex is
+         null
+PatternSyntaxException - if the regular expression's
+         syntax is invalid
+
+
+"
+SNIHostName,equals(Object other),boolean,Compares this server name to the specified object.,"
+
+equals
+public boolean equals(Object other)
+Compares this server name to the specified object.
+ 
+ Per RFC 6066, DNS
+ hostnames are case-insensitive.  Two server hostnames are equal if,
+ and only if, they have the same name type, and the hostnames are
+ equal in a case-independent comparison.
+
+Overrides:
+equals in class SNIServerName
+Parameters:
+other - the other server name object to compare with.
+Returns:
+true if, and only if, the other is considered
+         equal to this instance
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+SNIHostName,getAsciiName(),String,Returns the StandardCharsets.US_ASCII-compliant hostname of this SNIHostName object.,"
+
+getAsciiName
+public String getAsciiName()
+Returns the StandardCharsets.US_ASCII-compliant hostname of
+ this SNIHostName object.
+ 
+ Note that, per
+ RFC 6066, the
+ returned hostname may be an internationalized domain name that
+ contains A-labels. See
+ RFC 5890
+ for more information about the detailed A-label specification.
+
+Returns:
+the StandardCharsets.US_ASCII-compliant hostname
+         of this SNIHostName object
+
+
+"
+SNIHostName,hashCode(),int,Returns a hash code value for this SNIHostName.,"
+
+hashCode
+public int hashCode()
+Returns a hash code value for this SNIHostName.
+ 
+ The hash code value is generated using the case-insensitive hostname
+ of this SNIHostName.
+
+Overrides:
+hashCode in class SNIServerName
+Returns:
+a hash code value for this SNIHostName.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+SNIHostName,toString(),String,"Returns a string representation of the object, including the DNS hostname in this SNIHostName object.","
+
+toString
+public String toString()
+Returns a string representation of the object, including the DNS
+ hostname in this SNIHostName object.
+ 
+ The exact details of the representation are unspecified and subject
+ to change, but the following may be regarded as typical:
+ 
+     ""type=host_name (0), value= <hostname>""
+ 
+ The ""<hostname>"" is an ASCII representation of the hostname,
+ which may contains A-labels.  For example, a returned value of an pseudo
+ hostname may look like:
+ 
+     ""type=host_name (0), value=www.example.com""
+ 
+ or
+ 
+     ""type=host_name (0), value=xn--fsqu00a.xn--0zwm56d""
+ 
+
+ Please NOTE that the exact details of the representation are unspecified
+ and subject to change.
+
+Overrides:
+toString in class SNIServerName
+Returns:
+a string representation of the object.
+
+
+"
+SNIMatcher,getType(),int,Returns the server name type of this SNIMatcher object.,"
+
+getType
+public final int getType()
+Returns the server name type of this SNIMatcher object.
+
+Returns:
+the server name type of this SNIMatcher object.
+See Also:
+SNIServerName
+
+
+"
+SNIMatcher,matches(SNIServerName serverName),abstract boolean,Attempts to match the given SNIServerName.,"
+
+matches
+public abstract boolean matches(SNIServerName serverName)
+Attempts to match the given SNIServerName.
+
+Parameters:
+serverName - the SNIServerName instance on which this matcher
+         performs match operations
+Returns:
+true if, and only if, the matcher matches the
+         given serverName
+Throws:
+NullPointerException - if serverName is null
+IllegalArgumentException - if serverName is
+         not of the given server name type of this matcher
+See Also:
+SNIServerName
+
+
+"
+SNIServerName,equals(Object other),boolean,"Indicates whether some other object is ""equal to"" this server name.","
+
+equals
+public boolean equals(Object other)
+Indicates whether some other object is ""equal to"" this server name.
+
+Overrides:
+equals in class Object
+Parameters:
+other - the reference object with which to compare.
+Returns:
+true if, and only if, other is of the same class
+         of this object, and has the same name type and
+         encoded value as this server name.
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+SNIServerName,getEncoded(),byte[],Returns a copy of the encoded server name value of this server name.,"
+
+getEncoded
+public final byte[] getEncoded()
+Returns a copy of the encoded server name value of this server name.
+
+Returns:
+a copy of the encoded server name value of this server name
+
+
+"
+SNIServerName,getType(),int,Returns the name type of this server name.,"
+
+getType
+public final int getType()
+Returns the name type of this server name.
+
+Returns:
+the name type of this server name
+
+
+"
+SNIServerName,hashCode(),int,Returns a hash code value for this server name.,"
+
+hashCode
+public int hashCode()
+Returns a hash code value for this server name.
+ 
+ The hash code value is generated using the name type and encoded
+ value of this server name.
+
+Overrides:
+hashCode in class Object
+Returns:
+a hash code value for this server name.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+SNIServerName,toString(),String,"Returns a string representation of this server name, including the server name type and the encoded server name value in this SNIServerName object.","
+
+toString
+public String toString()
+Returns a string representation of this server name, including the server
+ name type and the encoded server name value in this
+ SNIServerName object.
+ 
+ The exact details of the representation are unspecified and subject
+ to change, but the following may be regarded as typical:
+ 
+     ""type= <name type>, value= <name value>""
+ 
+
+ In this class, the format of ""<name type>"" is
+ ""[LITERAL] (INTEGER)"", where the optional ""LITERAL"" is the literal
+ name, and INTEGER is the integer value of the name type.  The format
+ of ""<name value>"" is ""XX:...:XX"", where ""XX"" is the
+ hexadecimal digit representation of a byte value. For example, a
+ returned value of an pseudo server name may look like:
+ 
+     ""type=(31), value=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E""
+ 
+ or
+ 
+     ""type=host_name (0), value=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E""
+ 
+
+ Please NOTE that the exact details of the representation are unspecified
+ and subject to change, and subclasses may override the method with
+ their own formats.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of this server name
+
+
+"
+SSLContext,createSSLEngine(),SSLEngine,Creates a new SSLEngine using this context.,"
+
+createSSLEngine
+public final SSLEngine createSSLEngine()
+Creates a new SSLEngine using this context.
+ 
+ Applications using this factory method are providing no hints
+ for an internal session reuse strategy. If hints are desired,
+ createSSLEngine(String, int) should be used
+ instead.
+ 
+ Some cipher suites (such as Kerberos) require remote hostname
+ information, in which case this factory method should not be used.
+
+Returns:
+the SSLEngine object
+Throws:
+UnsupportedOperationException - if the underlying provider
+          does not implement the operation.
+IllegalStateException - if the SSLContextImpl requires
+          initialization and the init() has not been called
+Since:
+1.5
+
+
+"
+SSLContext,"createSSLEngine(String peerHost, int peerPort)",SSLEngine,Creates a new SSLEngine using this context using advisory peer information.,"
+
+createSSLEngine
+public final SSLEngine createSSLEngine(String peerHost,
+                                       int peerPort)
+Creates a new SSLEngine using this context using
+ advisory peer information.
+ 
+ Applications using this factory method are providing hints
+ for an internal session reuse strategy.
+ 
+ Some cipher suites (such as Kerberos) require remote hostname
+ information, in which case peerHost needs to be specified.
+
+Parameters:
+peerHost - the non-authoritative name of the host
+peerPort - the non-authoritative port
+Returns:
+the new SSLEngine object
+Throws:
+UnsupportedOperationException - if the underlying provider
+          does not implement the operation.
+IllegalStateException - if the SSLContextImpl requires
+          initialization and the init() has not been called
+Since:
+1.5
+
+
+"
+SSLContext,getClientSessionContext(),SSLSessionContext,"Returns the client session context, which represents the set of SSL sessions available for use during the handshake phase of client-side SSL sockets.","
+
+getClientSessionContext
+public final SSLSessionContext getClientSessionContext()
+Returns the client session context, which represents the set of
+ SSL sessions available for use during the handshake phase of
+ client-side SSL sockets.
+ 
+ This context may be unavailable in some environments, in which
+ case this method returns null. For example, when the underlying
+ SSL provider does not provide an implementation of SSLSessionContext
+ interface, this method returns null. A non-null session context
+ is returned otherwise.
+
+Returns:
+client session context bound to this SSL context
+
+
+"
+SSLContext,getDefault(),static SSLContext,Returns the default SSL context.,"
+
+getDefault
+public static SSLContext getDefault()
+                             throws NoSuchAlgorithmException
+Returns the default SSL context.
+
+ If a default context was set using the SSLContext.setDefault() method, it is returned. Otherwise, the first
+ call of this method triggers the call
+ SSLContext.getInstance(""Default"").
+ If successful, that object is made the default SSL context and returned.
+
+ The default context is immediately
+ usable and does not require initialization.
+
+Returns:
+the default SSL context
+Throws:
+NoSuchAlgorithmException - if the
+   SSLContext.getInstance() call fails
+Since:
+1.6
+
+
+"
+SSLContext,getDefaultSSLParameters(),SSLParameters,Returns a copy of the SSLParameters indicating the default settings for this SSL context.,"
+
+getDefaultSSLParameters
+public final SSLParameters getDefaultSSLParameters()
+Returns a copy of the SSLParameters indicating the default
+ settings for this SSL context.
+
+ The parameters will always have the ciphersuites and protocols
+ arrays set to non-null values.
+
+Returns:
+a copy of the SSLParameters object with the default settings
+Throws:
+UnsupportedOperationException - if the default SSL parameters
+   could not be obtained.
+Since:
+1.6
+
+
+"
+SSLContext,getInstance(String protocol),static SSLContext,Returns a SSLContext object that implements the specified secure socket protocol.,"
+
+getInstance
+public static SSLContext getInstance(String protocol)
+                              throws NoSuchAlgorithmException
+Returns a SSLContext object that implements the
+ specified secure socket protocol.
+
+  This method traverses the list of registered security Providers,
+ starting with the most preferred Provider.
+ A new SSLContext object encapsulating the
+ SSLContextSpi implementation from the first
+ Provider that supports the specified protocol is returned.
+
+  Note that the list of registered providers may be retrieved via
+ the Security.getProviders() method.
+
+Parameters:
+protocol - the standard name of the requested protocol.
+          See the SSLContext section in the 
+          Java Cryptography Architecture Standard Algorithm Name
+          Documentation
+          for information about standard protocol names.
+Returns:
+the new SSLContext object.
+Throws:
+NoSuchAlgorithmException - if no Provider supports a
+          SSLContextSpi implementation for the
+          specified protocol.
+NullPointerException - if protocol is null.
+See Also:
+Provider
+
+
+"
+SSLContext,"getInstance(String protocol, Provider provider)",static SSLContext,Returns a SSLContext object that implements the specified secure socket protocol.,"
+
+getInstance
+public static SSLContext getInstance(String protocol,
+                                     Provider provider)
+                              throws NoSuchAlgorithmException
+Returns a SSLContext object that implements the
+ specified secure socket protocol.
+
+  A new SSLContext object encapsulating the
+ SSLContextSpi implementation from the specified Provider
+ object is returned.  Note that the specified Provider object
+ does not have to be registered in the provider list.
+
+Parameters:
+protocol - the standard name of the requested protocol.
+          See the SSLContext section in the 
+          Java Cryptography Architecture Standard Algorithm Name
+          Documentation
+          for information about standard protocol names.
+provider - an instance of the provider.
+Returns:
+the new SSLContext object.
+Throws:
+NoSuchAlgorithmException - if a SSLContextSpi
+          implementation for the specified protocol is not available
+          from the specified Provider object.
+IllegalArgumentException - if the provider is null.
+NullPointerException - if protocol is null.
+See Also:
+Provider
+
+
+"
+SSLContext,"getInstance(String protocol, String provider)",static SSLContext,Returns a SSLContext object that implements the specified secure socket protocol.,"
+
+getInstance
+public static SSLContext getInstance(String protocol,
+                                     String provider)
+                              throws NoSuchAlgorithmException,
+                                     NoSuchProviderException
+Returns a SSLContext object that implements the
+ specified secure socket protocol.
+
+  A new SSLContext object encapsulating the
+ SSLContextSpi implementation from the specified provider
+ is returned.  The specified provider must be registered
+ in the security provider list.
+
+  Note that the list of registered providers may be retrieved via
+ the Security.getProviders() method.
+
+Parameters:
+protocol - the standard name of the requested protocol.
+          See the SSLContext section in the 
+          Java Cryptography Architecture Standard Algorithm Name
+          Documentation
+          for information about standard protocol names.
+provider - the name of the provider.
+Returns:
+the new SSLContext object.
+Throws:
+NoSuchAlgorithmException - if a SSLContextSpi
+          implementation for the specified protocol is not
+          available from the specified provider.
+NoSuchProviderException - if the specified provider is not
+          registered in the security provider list.
+IllegalArgumentException - if the provider name is null or empty.
+NullPointerException - if protocol is null.
+See Also:
+Provider
+
+
+"
+SSLContext,getProtocol(),String,Returns the protocol name of this SSLContext object.,"
+
+getProtocol
+public final String getProtocol()
+Returns the protocol name of this SSLContext object.
+
+ This is the same name that was specified in one of the
+ getInstance calls that created this
+ SSLContext object.
+
+Returns:
+the protocol name of this SSLContext object.
+
+
+"
+SSLContext,getProvider(),Provider,Returns the provider of this SSLContext object.,"
+
+getProvider
+public final Provider getProvider()
+Returns the provider of this SSLContext object.
+
+Returns:
+the provider of this SSLContext object
+
+
+"
+SSLContext,getServerSessionContext(),SSLSessionContext,"Returns the server session context, which represents the set of SSL sessions available for use during the handshake phase of server-side SSL sockets.","
+
+getServerSessionContext
+public final SSLSessionContext getServerSessionContext()
+Returns the server session context, which represents the set of
+ SSL sessions available for use during the handshake phase of
+ server-side SSL sockets.
+ 
+ This context may be unavailable in some environments, in which
+ case this method returns null. For example, when the underlying
+ SSL provider does not provide an implementation of SSLSessionContext
+ interface, this method returns null. A non-null session context
+ is returned otherwise.
+
+Returns:
+server session context bound to this SSL context
+
+
+"
+SSLContext,getServerSocketFactory(),SSLServerSocketFactory,Returns a ServerSocketFactory object for this context.,"
+
+getServerSocketFactory
+public final SSLServerSocketFactory getServerSocketFactory()
+Returns a ServerSocketFactory object for
+ this context.
+
+Returns:
+the ServerSocketFactory object
+Throws:
+IllegalStateException - if the SSLContextImpl requires
+          initialization and the init() has not been called
+
+
+"
+SSLContext,getSocketFactory(),SSLSocketFactory,Returns a SocketFactory object for this context.,"
+
+getSocketFactory
+public final SSLSocketFactory getSocketFactory()
+Returns a SocketFactory object for this
+ context.
+
+Returns:
+the SocketFactory object
+Throws:
+IllegalStateException - if the SSLContextImpl requires
+          initialization and the init() has not been called
+
+
+"
+SSLContext,getSupportedSSLParameters(),SSLParameters,Returns a copy of the SSLParameters indicating the supported settings for this SSL context.,"
+
+getSupportedSSLParameters
+public final SSLParameters getSupportedSSLParameters()
+Returns a copy of the SSLParameters indicating the supported
+ settings for this SSL context.
+
+ The parameters will always have the ciphersuites and protocols
+ arrays set to non-null values.
+
+Returns:
+a copy of the SSLParameters object with the supported
+   settings
+Throws:
+UnsupportedOperationException - if the supported SSL parameters
+   could not be obtained.
+Since:
+1.6
+
+
+"
+SSLContext,"init(KeyManager[] km, TrustManager[] tm, SecureRandom random)",void,Initializes this context.,"
+
+init
+public final void init(KeyManager[] km,
+                       TrustManager[] tm,
+                       SecureRandom random)
+                throws KeyManagementException
+Initializes this context. Either of the first two parameters
+ may be null in which case the installed security providers will
+ be searched for the highest priority implementation of the
+ appropriate factory. Likewise, the secure random parameter may
+ be null in which case the default implementation will be used.
+ 
+ Only the first instance of a particular key and/or trust manager
+ implementation type in the array is used.  (For example, only
+ the first javax.net.ssl.X509KeyManager in the array will be used.)
+
+Parameters:
+km - the sources of authentication keys or null
+tm - the sources of peer authentication trust decisions or null
+random - the source of randomness for this generator or null
+Throws:
+KeyManagementException - if this operation fails
+
+
+"
+SSLContext,setDefault(SSLContext context),static void,Sets the default SSL context.,"
+
+setDefault
+public static void setDefault(SSLContext context)
+Sets the default SSL context. It will be returned by subsequent calls
+ to getDefault(). The default context must be immediately usable
+ and not require initialization.
+
+Parameters:
+context - the SSLContext
+Throws:
+NullPointerException - if context is null
+SecurityException - if a security manager exists and its
+          checkPermission method does not allow
+          SSLPermission(""setDefaultSSLContext"")
+Since:
+1.6
+
+
+"
+SSLContextSpi,engineCreateSSLEngine(),protected abstract SSLEngine,Creates a new SSLEngine using this context.,"
+
+engineCreateSSLEngine
+protected abstract SSLEngine engineCreateSSLEngine()
+Creates a new SSLEngine using this context.
+ 
+ Applications using this factory method are providing no hints
+ for an internal session reuse strategy. If hints are desired,
+ engineCreateSSLEngine(String, int) should be used
+ instead.
+ 
+ Some cipher suites (such as Kerberos) require remote hostname
+ information, in which case this factory method should not be used.
+
+Returns:
+the SSLEngine Object
+Throws:
+IllegalStateException - if the SSLContextImpl requires
+         initialization and the engineInit()
+         has not been called
+Since:
+1.5
+See Also:
+SSLContext.createSSLEngine()
+
+
+"
+SSLContextSpi,"engineCreateSSLEngine(String host, int port)",protected abstract SSLEngine,Creates a SSLEngine using this context.,"
+
+engineCreateSSLEngine
+protected abstract SSLEngine engineCreateSSLEngine(String host,
+                                                   int port)
+Creates a SSLEngine using this context.
+ 
+ Applications using this factory method are providing hints
+ for an internal session reuse strategy.
+ 
+ Some cipher suites (such as Kerberos) require remote hostname
+ information, in which case peerHost needs to be specified.
+
+Parameters:
+host - the non-authoritative name of the host
+port - the non-authoritative port
+Returns:
+the SSLEngine Object
+Throws:
+IllegalStateException - if the SSLContextImpl requires
+         initialization and the engineInit()
+         has not been called
+Since:
+1.5
+See Also:
+SSLContext.createSSLEngine(String, int)
+
+
+"
+SSLContextSpi,engineGetClientSessionContext(),protected abstract SSLSessionContext,Returns a client SSLSessionContext object for this context.,"
+
+engineGetClientSessionContext
+protected abstract SSLSessionContext engineGetClientSessionContext()
+Returns a client SSLSessionContext object for
+ this context.
+
+Returns:
+the SSLSessionContext object
+See Also:
+SSLContext.getClientSessionContext()
+
+
+"
+SSLContextSpi,engineGetDefaultSSLParameters(),protected SSLParameters,Returns a copy of the SSLParameters indicating the default settings for this SSL context.,"
+
+engineGetDefaultSSLParameters
+protected SSLParameters engineGetDefaultSSLParameters()
+Returns a copy of the SSLParameters indicating the default
+ settings for this SSL context.
+
+ The parameters will always have the ciphersuite and protocols
+ arrays set to non-null values.
+
+ The default implementation obtains the parameters from an
+ SSLSocket created by calling the
+ SocketFactory.createSocket() method of this context's SocketFactory.
+
+Returns:
+a copy of the SSLParameters object with the default settings
+Throws:
+UnsupportedOperationException - if the default SSL parameters
+   could not be obtained.
+Since:
+1.6
+
+
+"
+SSLContextSpi,engineGetServerSessionContext(),protected abstract SSLSessionContext,Returns a server SSLSessionContext object for this context.,"
+
+engineGetServerSessionContext
+protected abstract SSLSessionContext engineGetServerSessionContext()
+Returns a server SSLSessionContext object for
+ this context.
+
+Returns:
+the SSLSessionContext object
+See Also:
+SSLContext.getServerSessionContext()
+
+
+"
+SSLContextSpi,engineGetServerSocketFactory(),protected abstract SSLServerSocketFactory,Returns a ServerSocketFactory object for this context.,"
+
+engineGetServerSocketFactory
+protected abstract SSLServerSocketFactory engineGetServerSocketFactory()
+Returns a ServerSocketFactory object for
+ this context.
+
+Returns:
+the ServerSocketFactory object
+Throws:
+IllegalStateException - if the SSLContextImpl requires
+         initialization and the engineInit()
+         has not been called
+See Also:
+SSLContext.getServerSocketFactory()
+
+
+"
+SSLContextSpi,engineGetSocketFactory(),protected abstract SSLSocketFactory,Returns a SocketFactory object for this context.,"
+
+engineGetSocketFactory
+protected abstract SSLSocketFactory engineGetSocketFactory()
+Returns a SocketFactory object for this
+ context.
+
+Returns:
+the SocketFactory object
+Throws:
+IllegalStateException - if the SSLContextImpl requires
+         initialization and the engineInit()
+         has not been called
+See Also:
+SSLContext.getSocketFactory()
+
+
+"
+SSLContextSpi,engineGetSupportedSSLParameters(),protected SSLParameters,Returns a copy of the SSLParameters indicating the maximum supported settings for this SSL context.,"
+
+engineGetSupportedSSLParameters
+protected SSLParameters engineGetSupportedSSLParameters()
+Returns a copy of the SSLParameters indicating the maximum supported
+ settings for this SSL context.
+
+ The parameters will always have the ciphersuite and protocols
+ arrays set to non-null values.
+
+ The default implementation obtains the parameters from an
+ SSLSocket created by calling the
+ SocketFactory.createSocket() method of this context's SocketFactory.
+
+Returns:
+a copy of the SSLParameters object with the maximum supported
+   settings
+Throws:
+UnsupportedOperationException - if the supported SSL parameters
+   could not be obtained.
+Since:
+1.6
+
+
+"
+SSLContextSpi,"engineInit(KeyManager[] km, TrustManager[] tm, SecureRandom sr)",protected abstract void,Initializes this context.,"
+
+engineInit
+protected abstract void engineInit(KeyManager[] km,
+                                   TrustManager[] tm,
+                                   SecureRandom sr)
+                            throws KeyManagementException
+Initializes this context.
+
+Parameters:
+km - the sources of authentication keys
+tm - the sources of peer authentication trust decisions
+sr - the source of randomness
+Throws:
+KeyManagementException - if this operation fails
+See Also:
+SSLContext.init(KeyManager [], TrustManager [], SecureRandom)
+
+
+"
+SSLEngine,beginHandshake(),abstract void,Initiates handshaking (initial or renegotiation) on this SSLEngine.,"
+
+beginHandshake
+public abstract void beginHandshake()
+                             throws SSLException
+Initiates handshaking (initial or renegotiation) on this SSLEngine.
+ 
+ This method is not needed for the initial handshake, as the
+ wrap() and unwrap() methods will
+ implicitly call this method if handshaking has not already begun.
+ 
+ Note that the peer may also request a session renegotiation with
+ this SSLEngine by sending the appropriate
+ session renegotiate handshake message.
+ 
+ Unlike the SSLSocket#startHandshake() method, this method does not block
+ until handshaking is completed.
+ 
+ To force a complete SSL/TLS session renegotiation, the current
+ session should be invalidated prior to calling this method.
+ 
+ Some protocols may not support multiple handshakes on an existing
+ engine and may throw an SSLException.
+
+Throws:
+SSLException - if a problem was encountered while signaling the
+          SSLEngine to begin a new handshake.
+          See the class description for more information on
+          engine closure.
+IllegalStateException - if the client/server mode
+          has not yet been set.
+See Also:
+SSLSession.invalidate()
+
+
+"
+SSLEngine,closeInbound(),abstract void,Signals that no more inbound network data will be sent to this SSLEngine.,"
+
+closeInbound
+public abstract void closeInbound()
+                           throws SSLException
+Signals that no more inbound network data will be sent
+ to this SSLEngine.
+ 
+ If the application initiated the closing process by calling
+ closeOutbound(), under some circumstances it is not
+ required that the initiator wait for the peer's corresponding
+ close message.  (See section 7.2.1 of the TLS specification (RFC 2246) for more
+ information on waiting for closure alerts.)  In such cases, this
+ method need not be called.
+ 
+ But if the application did not initiate the closure process, or
+ if the circumstances above do not apply, this method should be
+ called whenever the end of the SSL/TLS data stream is reached.
+ This ensures closure of the inbound side, and checks that the
+ peer followed the SSL/TLS close procedure properly, thus
+ detecting possible truncation attacks.
+ 
+ This method is idempotent:  if the inbound side has already
+ been closed, this method does not do anything.
+ 
+wrap() should be
+ called to flush any remaining handshake data.
+
+Throws:
+SSLException - if this engine has not received the proper SSL/TLS close
+          notification message from the peer.
+See Also:
+isInboundDone(), 
+isOutboundDone()
+
+
+"
+SSLEngine,closeOutbound(),abstract void,Signals that no more outbound application data will be sent on this SSLEngine.,"
+
+closeOutbound
+public abstract void closeOutbound()
+Signals that no more outbound application data will be sent
+ on this SSLEngine.
+ 
+ This method is idempotent:  if the outbound side has already
+ been closed, this method does not do anything.
+ 
+wrap(ByteBuffer, ByteBuffer) should be
+ called to flush any remaining handshake data.
+
+See Also:
+isOutboundDone()
+
+
+"
+SSLEngine,getApplicationProtocol(),String,Returns the most recent application protocol value negotiated for this connection.,"
+
+getApplicationProtocol
+public String getApplicationProtocol()
+Returns the most recent application protocol value negotiated for this
+ connection.
+ 
+ If supported by the underlying SSL/TLS/DTLS implementation,
+ application name negotiation mechanisms such as  RFC 7301 , the
+ Application-Layer Protocol Negotiation (ALPN), can negotiate
+ application-level values between peers.
+
+API Note:
+This method is defined in Java SE 8 Maintenance Release 3.
+Implementation Requirements:
+The implementation in this class throws
+ UnsupportedOperationException and performs no other action.
+Returns:
+null if it has not yet been determined if application
+         protocols might be used for this connection, an empty
+         String if application protocols values will not
+         be used, or a non-empty application protocol String
+         if a value was successfully negotiated.
+Throws:
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation.
+Since:
+8
+
+
+"
+SSLEngine,getDelegatedTask(),abstract Runnable,Returns a delegated Runnable task for this SSLEngine.,"
+
+getDelegatedTask
+public abstract Runnable getDelegatedTask()
+Returns a delegated Runnable task for
+ this SSLEngine.
+ 
+SSLEngine operations may require the results of
+ operations that block, or may take an extended period of time to
+ complete.  This method is used to obtain an outstanding Runnable operation (task).  Each task must be assigned
+ a thread (possibly the current) to perform the run operation.  Once the
+ run method returns, the Runnable object
+ is no longer needed and may be discarded.
+ 
+ Delegated tasks run in the AccessControlContext
+ in place when this object was created.
+ 
+ A call to this method will return each outstanding task
+ exactly once.
+ 
+ Multiple delegated tasks can be run in parallel.
+
+Returns:
+a delegated Runnable task, or null
+          if none are available.
+
+
+"
+SSLEngine,getEnabledCipherSuites(),abstract String[],Returns the names of the SSL cipher suites which are currently enabled for use on this engine.,"
+
+getEnabledCipherSuites
+public abstract String[] getEnabledCipherSuites()
+Returns the names of the SSL cipher suites which are currently
+ enabled for use on this engine.  When an SSLEngine is first
+ created, all enabled cipher suites support a minimum quality of
+ service.  Thus, in some environments this value might be empty.
+ 
+ Even if a suite has been enabled, it might never be used.  (For
+ example, the peer does not support it, the requisite
+ certificates/private keys for the suite are not available, or an
+ anonymous suite is enabled but authentication is required.)
+
+Returns:
+an array of cipher suite names
+See Also:
+getSupportedCipherSuites(), 
+setEnabledCipherSuites(String [])
+
+
+"
+SSLEngine,getEnabledProtocols(),abstract String[],Returns the names of the protocol versions which are currently enabled for use with this SSLEngine.,"
+
+getEnabledProtocols
+public abstract String[] getEnabledProtocols()
+Returns the names of the protocol versions which are currently
+ enabled for use with this SSLEngine.
+
+Returns:
+an array of protocols
+See Also:
+setEnabledProtocols(String [])
+
+
+"
+SSLEngine,getEnableSessionCreation(),abstract boolean,Returns true if new SSL sessions may be established by this engine.,"
+
+getEnableSessionCreation
+public abstract boolean getEnableSessionCreation()
+Returns true if new SSL sessions may be established by this engine.
+
+Returns:
+true indicates that sessions may be created; this
+          is the default.  false indicates that an existing session
+          must be resumed
+See Also:
+setEnableSessionCreation(boolean)
+
+
+"
+SSLEngine,getHandshakeApplicationProtocol(),String,Returns the application protocol value negotiated on a SSL/TLS handshake currently in progress.,"
+
+getHandshakeApplicationProtocol
+public String getHandshakeApplicationProtocol()
+Returns the application protocol value negotiated on a SSL/TLS
+ handshake currently in progress.
+ 
+ Like getHandshakeSession(),
+ a connection may be in the middle of a handshake. The
+ application protocol may or may not yet be available.
+
+API Note:
+This method is defined in Java SE 8 Maintenance Release 3.
+Implementation Requirements:
+The implementation in this class throws
+ UnsupportedOperationException and performs no other action.
+Returns:
+null if it has not yet been determined if application
+         protocols might be used for this handshake, an empty
+         String if application protocols values will not
+         be used, or a non-empty application protocol String
+         if a value was successfully negotiated.
+Throws:
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation.
+Since:
+8
+
+
+"
+SSLEngine,getHandshakeApplicationProtocolSelector(),"BiFunction<SSLEngine,List<String>,String>",Retrieves the callback function that selects an application protocol value during a SSL/TLS/DTLS handshake.,"
+
+getHandshakeApplicationProtocolSelector
+public BiFunction<SSLEngine,List<String>,String> getHandshakeApplicationProtocolSelector()
+Retrieves the callback function that selects an application protocol
+ value during a SSL/TLS/DTLS handshake.
+ See setHandshakeApplicationProtocolSelector
+ for the function's type parameters.
+
+API Note:
+This method is defined in Java SE 8 Maintenance Release 3.
+Implementation Requirements:
+The implementation in this class throws
+ UnsupportedOperationException and performs no other action.
+Returns:
+the callback function, or null if none has been set.
+Throws:
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation.
+Since:
+8
+
+
+"
+SSLEngine,getHandshakeSession(),SSLSession,Returns the SSLSession being constructed during a SSL/TLS handshake.,"
+
+getHandshakeSession
+public SSLSession getHandshakeSession()
+Returns the SSLSession being constructed during a SSL/TLS
+ handshake.
+ 
+ TLS protocols may negotiate parameters that are needed when using
+ an instance of this class, but before the SSLSession has
+ been completely initialized and made available via getSession.
+ For example, the list of valid signature algorithms may restrict
+ the type of certificates that can be used during TrustManager
+ decisions, or the maximum TLS fragment packet sizes can be
+ resized to better support the network environment.
+ 
+ This method provides early access to the SSLSession being
+ constructed.  Depending on how far the handshake has progressed,
+ some data may not yet be available for use.  For example, if a
+ remote server will be sending a Certificate chain, but that chain
+ has yet not been processed, the getPeerCertificates
+ method of SSLSession will throw a
+ SSLPeerUnverifiedException.  Once that chain has been processed,
+ getPeerCertificates will return the proper value.
+
+Returns:
+null if this instance is not currently handshaking, or
+         if the current handshake has not progressed far enough to
+         create a basic SSLSession.  Otherwise, this method returns the
+         SSLSession currently being negotiated.
+Throws:
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation.
+Since:
+1.7
+See Also:
+SSLSocket, 
+SSLSession, 
+ExtendedSSLSession, 
+X509ExtendedKeyManager, 
+X509ExtendedTrustManager
+
+
+"
+SSLEngine,getHandshakeStatus(),abstract SSLEngineResult.HandshakeStatus,Returns the current handshake status for this SSLEngine.,"
+
+getHandshakeStatus
+public abstract SSLEngineResult.HandshakeStatus getHandshakeStatus()
+Returns the current handshake status for this SSLEngine.
+
+Returns:
+the current SSLEngineResult.HandshakeStatus.
+
+
+"
+SSLEngine,getNeedClientAuth(),abstract boolean,Returns true if the engine will require client authentication.,"
+
+getNeedClientAuth
+public abstract boolean getNeedClientAuth()
+Returns true if the engine will require client authentication.
+ This option is only useful to engines in the server mode.
+
+Returns:
+true if client authentication is required,
+          or false if no client authentication is desired.
+See Also:
+setNeedClientAuth(boolean), 
+setWantClientAuth(boolean), 
+getWantClientAuth(), 
+setUseClientMode(boolean)
+
+
+"
+SSLEngine,getPeerHost(),String,Returns the host name of the peer.,"
+
+getPeerHost
+public String getPeerHost()
+Returns the host name of the peer.
+ 
+ Note that the value is not authenticated, and should not be
+ relied upon.
+
+Returns:
+the host name of the peer, or null if nothing is
+          available.
+
+
+"
+SSLEngine,getPeerPort(),int,Returns the port number of the peer.,"
+
+getPeerPort
+public int getPeerPort()
+Returns the port number of the peer.
+ 
+ Note that the value is not authenticated, and should not be
+ relied upon.
+
+Returns:
+the port number of the peer, or -1 if nothing is
+          available.
+
+
+"
+SSLEngine,getSession(),abstract SSLSession,Returns the SSLSession in use in this SSLEngine.,"
+
+getSession
+public abstract SSLSession getSession()
+Returns the SSLSession in use in this
+ SSLEngine.
+ 
+ These can be long lived, and frequently correspond to an entire
+ login session for some user.  The session specifies a particular
+ cipher suite which is being actively used by all connections in
+ that session, as well as the identities of the session's client
+ and server.
+ 
+ Unlike SSLSocket.getSession()
+ this method does not block until handshaking is complete.
+ 
+ Until the initial handshake has completed, this method returns
+ a session object which reports an invalid cipher suite of
+ ""SSL_NULL_WITH_NULL_NULL"".
+
+Returns:
+the SSLSession for this SSLEngine
+See Also:
+SSLSession
+
+
+"
+SSLEngine,getSSLParameters(),SSLParameters,Returns the SSLParameters in effect for this SSLEngine.,"
+
+getSSLParameters
+public SSLParameters getSSLParameters()
+Returns the SSLParameters in effect for this SSLEngine.
+ The ciphersuites and protocols of the returned SSLParameters
+ are always non-null.
+
+Returns:
+the SSLParameters in effect for this SSLEngine.
+Since:
+1.6
+
+
+"
+SSLEngine,getSupportedCipherSuites(),abstract String[],Returns the names of the cipher suites which could be enabled for use on this engine.,"
+
+getSupportedCipherSuites
+public abstract String[] getSupportedCipherSuites()
+Returns the names of the cipher suites which could be enabled for use
+ on this engine.  Normally, only a subset of these will actually
+ be enabled by default, since this list may include cipher suites which
+ do not meet quality of service requirements for those defaults.  Such
+ cipher suites might be useful in specialized applications.
+
+Returns:
+an array of cipher suite names
+See Also:
+getEnabledCipherSuites(), 
+setEnabledCipherSuites(String [])
+
+
+"
+SSLEngine,getSupportedProtocols(),abstract String[],Returns the names of the protocols which could be enabled for use with this SSLEngine.,"
+
+getSupportedProtocols
+public abstract String[] getSupportedProtocols()
+Returns the names of the protocols which could be enabled for use
+ with this SSLEngine.
+
+Returns:
+an array of protocols supported
+
+
+"
+SSLEngine,getUseClientMode(),abstract boolean,Returns true if the engine is set to use client mode when handshaking.,"
+
+getUseClientMode
+public abstract boolean getUseClientMode()
+Returns true if the engine is set to use client mode when
+ handshaking.
+
+Returns:
+true if the engine should do handshaking
+          in ""client"" mode
+See Also:
+setUseClientMode(boolean)
+
+
+"
+SSLEngine,getWantClientAuth(),abstract boolean,Returns true if the engine will request client authentication.,"
+
+getWantClientAuth
+public abstract boolean getWantClientAuth()
+Returns true if the engine will request client authentication.
+ This option is only useful for engines in the server mode.
+
+Returns:
+true if client authentication is requested,
+          or false if no client authentication is desired.
+See Also:
+setNeedClientAuth(boolean), 
+getNeedClientAuth(), 
+setWantClientAuth(boolean), 
+setUseClientMode(boolean)
+
+
+"
+SSLEngine,isInboundDone(),abstract boolean,"Returns whether unwrap(ByteBuffer, ByteBuffer) will accept any more inbound data messages.","
+
+isInboundDone
+public abstract boolean isInboundDone()
+Returns whether unwrap(ByteBuffer, ByteBuffer) will
+ accept any more inbound data messages.
+
+Returns:
+true if the SSLEngine will not
+          consume anymore network data (and by implication,
+          will not produce any more application data.)
+See Also:
+closeInbound()
+
+
+"
+SSLEngine,isOutboundDone(),abstract boolean,"Returns whether wrap(ByteBuffer, ByteBuffer) will produce any more outbound data messages.","
+
+isOutboundDone
+public abstract boolean isOutboundDone()
+Returns whether wrap(ByteBuffer, ByteBuffer) will
+ produce any more outbound data messages.
+ 
+ Note that during the closure phase, a SSLEngine may
+ generate handshake closure data that must be sent to the peer.
+ wrap() must be called to generate this data.  When
+ this method returns true, no more outbound data will be created.
+
+Returns:
+true if the SSLEngine will not produce
+          any more network data
+See Also:
+closeOutbound(), 
+closeInbound()
+
+
+"
+SSLEngine,setEnabledCipherSuites(String[] suites),abstract void,Sets the cipher suites enabled for use on this engine.,"
+
+setEnabledCipherSuites
+public abstract void setEnabledCipherSuites(String[] suites)
+Sets the cipher suites enabled for use on this engine.
+ 
+ Each cipher suite in the suites parameter must have
+ been listed by getSupportedCipherSuites(), or the method will
+ fail.  Following a successful call to this method, only suites
+ listed in the suites parameter are enabled for use.
+ 
+ See getEnabledCipherSuites() for more information
+ on why a specific cipher suite may never be used on a engine.
+
+Parameters:
+suites - Names of all the cipher suites to enable
+Throws:
+IllegalArgumentException - when one or more of the ciphers
+          named by the parameter is not supported, or when the
+          parameter is null.
+See Also:
+getSupportedCipherSuites(), 
+getEnabledCipherSuites()
+
+
+"
+SSLEngine,setEnabledProtocols(String[] protocols),abstract void,Set the protocol versions enabled for use on this engine.,"
+
+setEnabledProtocols
+public abstract void setEnabledProtocols(String[] protocols)
+Set the protocol versions enabled for use on this engine.
+ 
+ The protocols must have been listed by getSupportedProtocols()
+ as being supported.  Following a successful call to this method,
+ only protocols listed in the protocols parameter
+ are enabled for use.
+
+Parameters:
+protocols - Names of all the protocols to enable.
+Throws:
+IllegalArgumentException - when one or more of
+          the protocols named by the parameter is not supported or
+          when the protocols parameter is null.
+See Also:
+getEnabledProtocols()
+
+
+"
+SSLEngine,setEnableSessionCreation(boolean flag),abstract void,Controls whether new SSL sessions may be established by this engine.,"
+
+setEnableSessionCreation
+public abstract void setEnableSessionCreation(boolean flag)
+Controls whether new SSL sessions may be established by this engine.
+ If session creations are not allowed, and there are no
+ existing sessions to resume, there will be no successful
+ handshaking.
+
+Parameters:
+flag - true indicates that sessions may be created; this
+          is the default.  false indicates that an existing session
+          must be resumed
+See Also:
+getEnableSessionCreation()
+
+
+"
+SSLEngine,"setHandshakeApplicationProtocolSelector(BiFunction<SSLEngine,List<String>,String> selector)",void,Registers a callback function that selects an application protocol value for a SSL/TLS/DTLS handshake.,"
+
+setHandshakeApplicationProtocolSelector
+public void setHandshakeApplicationProtocolSelector(BiFunction<SSLEngine,List<String>,String> selector)
+Registers a callback function that selects an application protocol
+ value for a SSL/TLS/DTLS handshake.
+ The function overrides any values supplied using
+ SSLParameters.setApplicationProtocols and it supports the following
+ type parameters:
+ 
+
+ SSLEngine
+ The function's first argument allows the current SSLEngine
+      to be inspected, including the handshake session and configuration
+      settings.
+  List<String>
+ The function's second argument lists the application protocol names
+      advertised by the TLS peer.
+  String
+ The function's result is an application protocol name, or null to
+      indicate that none of the advertised names are acceptable.
+      If the return value is an empty String then application
+      protocol indications will not be used.
+      If the return value is null (no value chosen) or is a value that
+      was not advertised by the peer, the underlying protocol will
+      determine what action to take. (For example, ALPN will send a
+      ""no_application_protocol"" alert and terminate the connection.)
+ 
+
+
+ For example, the following call registers a callback function that
+ examines the TLS handshake parameters and selects an application protocol
+ name:
+ 
+     serverEngine.setHandshakeApplicationProtocolSelector(
+         (serverEngine, clientProtocols) -> {
+             SSLSession session = serverEngine.getHandshakeSession();
+             return chooseApplicationProtocol(
+                 serverEngine,
+                 clientProtocols,
+                 session.getProtocol(),
+                 session.getCipherSuite());
+         });
+ 
+
+API Note:
+This method is defined in Java SE 8 Maintenance Release 3.
+ 
+ This method should be called by TLS server applications before the TLS
+ handshake begins. Also, this SSLEngine should be configured with
+ parameters that are compatible with the application protocol selected by
+ the callback function. For example, enabling a poor choice of cipher
+ suites could result in no suitable application protocol.
+ See SSLParameters.
+Implementation Requirements:
+The implementation in this class throws
+ UnsupportedOperationException and performs no other action.
+Parameters:
+selector - the callback function, or null to disable the callback
+         functionality.
+Throws:
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation.
+Since:
+8
+
+
+"
+SSLEngine,setNeedClientAuth(boolean need),abstract void,Configures the engine to require client authentication.,"
+
+setNeedClientAuth
+public abstract void setNeedClientAuth(boolean need)
+Configures the engine to require client authentication.  This
+ option is only useful for engines in the server mode.
+ 
+ An engine's client authentication setting is one of the following:
+ 
+ client authentication required
+  client authentication requested
+  no client authentication desired
+ 
+
+ Unlike setWantClientAuth(boolean), if this option is set and
+ the client chooses not to provide authentication information
+ about itself, the negotiations will stop and the engine will
+ begin its closure procedure.
+ 
+ Calling this method overrides any previous setting made by
+ this method or setWantClientAuth(boolean).
+
+Parameters:
+need - set to true if client authentication is required,
+          or false if no client authentication is desired.
+See Also:
+getNeedClientAuth(), 
+setWantClientAuth(boolean), 
+getWantClientAuth(), 
+setUseClientMode(boolean)
+
+
+"
+SSLEngine,setSSLParameters(SSLParameters params),void,Applies SSLParameters to this engine.,"
+
+setSSLParameters
+public void setSSLParameters(SSLParameters params)
+Applies SSLParameters to this engine.
+
+ This means:
+ 
+If params.getCipherSuites() is non-null,
+   setEnabledCipherSuites() is called with that value.
+If params.getProtocols() is non-null,
+   setEnabledProtocols() is called with that value.
+If params.getNeedClientAuth() or
+   params.getWantClientAuth() return true,
+   setNeedClientAuth(true) and
+   setWantClientAuth(true) are called, respectively;
+   otherwise setWantClientAuth(false) is called.
+If params.getServerNames() is non-null, the engine will
+   configure its server names with that value.
+If params.getSNIMatchers() is non-null, the engine will
+   configure its SNI matchers with that value.
+
+
+Parameters:
+params - the parameters
+Throws:
+IllegalArgumentException - if the setEnabledCipherSuites() or
+    the setEnabledProtocols() call fails
+Since:
+1.6
+
+
+"
+SSLEngine,setUseClientMode(boolean mode),abstract void,Configures the engine to use client (or server) mode when handshaking.,"
+
+setUseClientMode
+public abstract void setUseClientMode(boolean mode)
+Configures the engine to use client (or server) mode when
+ handshaking.
+ 
+ This method must be called before any handshaking occurs.
+ Once handshaking has begun, the mode can not be reset for the
+ life of this engine.
+ 
+ Servers normally authenticate themselves, and clients
+ are not required to do so.
+
+Parameters:
+mode - true if the engine should start its handshaking
+          in ""client"" mode
+Throws:
+IllegalArgumentException - if a mode change is attempted
+          after the initial handshake has begun.
+See Also:
+getUseClientMode()
+
+
+"
+SSLEngine,setWantClientAuth(boolean want),abstract void,Configures the engine to request client authentication.,"
+
+setWantClientAuth
+public abstract void setWantClientAuth(boolean want)
+Configures the engine to request client authentication.
+ This option is only useful for engines in the server mode.
+ 
+ An engine's client authentication setting is one of the following:
+ 
+ client authentication required
+  client authentication requested
+  no client authentication desired
+ 
+
+ Unlike setNeedClientAuth(boolean), if this option is set and
+ the client chooses not to provide authentication information
+ about itself, the negotiations will continue.
+ 
+ Calling this method overrides any previous setting made by
+ this method or setNeedClientAuth(boolean).
+
+Parameters:
+want - set to true if client authentication is requested,
+          or false if no client authentication is desired.
+See Also:
+getWantClientAuth(), 
+setNeedClientAuth(boolean), 
+getNeedClientAuth(), 
+setUseClientMode(boolean)
+
+
+"
+SSLEngine,"unwrap(ByteBuffer src, ByteBuffer dst)",SSLEngineResult,Attempts to decode SSL/TLS network data into a plaintext application data buffer.,"
+
+unwrap
+public SSLEngineResult unwrap(ByteBuffer src,
+                              ByteBuffer dst)
+                       throws SSLException
+Attempts to decode SSL/TLS network data into a plaintext
+ application data buffer.
+ 
+ An invocation of this method behaves in exactly the same manner
+ as the invocation:
+ 
+ engine.unwrap(src, new ByteBuffer [] { dst }, 0, 1);
+ 
+
+Parameters:
+src - a ByteBuffer containing inbound network data.
+dst - a ByteBuffer to hold inbound application data.
+Returns:
+an SSLEngineResult describing the result
+          of this operation.
+Throws:
+SSLException - A problem was encountered while processing the
+          data that caused the SSLEngine to abort.
+          See the class description for more information on
+          engine closure.
+ReadOnlyBufferException - if the dst buffer is read-only.
+IllegalArgumentException - if either src or dst
+          is null.
+IllegalStateException - if the client/server mode
+          has not yet been set.
+See Also:
+unwrap(ByteBuffer, ByteBuffer [], int, int)
+
+
+"
+SSLEngine,"unwrap(ByteBuffer src, ByteBuffer[] dsts)",SSLEngineResult,Attempts to decode SSL/TLS network data into a sequence of plaintext application data buffers.,"
+
+unwrap
+public SSLEngineResult unwrap(ByteBuffer src,
+                              ByteBuffer[] dsts)
+                       throws SSLException
+Attempts to decode SSL/TLS network data into a sequence of plaintext
+ application data buffers.
+ 
+ An invocation of this method behaves in exactly the same manner
+ as the invocation:
+ 
+ engine.unwrap(src, dsts, 0, dsts.length);
+ 
+
+Parameters:
+src - a ByteBuffer containing inbound network data.
+dsts - an array of ByteBuffers to hold inbound
+          application data.
+Returns:
+an SSLEngineResult describing the result
+          of this operation.
+Throws:
+SSLException - A problem was encountered while processing the
+          data that caused the SSLEngine to abort.
+          See the class description for more information on
+          engine closure.
+ReadOnlyBufferException - if any of the dst buffers are read-only.
+IllegalArgumentException - if either src or dsts
+          is null, or if any element in dsts is null.
+IllegalStateException - if the client/server mode
+          has not yet been set.
+See Also:
+unwrap(ByteBuffer, ByteBuffer [], int, int)
+
+
+"
+SSLEngine,"unwrap(ByteBuffer src, ByteBuffer[] dsts, int offset, int length)",abstract SSLEngineResult,Attempts to decode SSL/TLS network data into a subsequence of plaintext application data buffers.,"
+
+unwrap
+public abstract SSLEngineResult unwrap(ByteBuffer src,
+                                       ByteBuffer[] dsts,
+                                       int offset,
+                                       int length)
+                                throws SSLException
+Attempts to decode SSL/TLS network data into a subsequence of
+ plaintext application data buffers.  This ""scattering""
+ operation decodes, in a single invocation, a sequence of bytes
+ into one or more of a given sequence of buffers.  Scattering
+ unwraps are often useful when implementing network protocols or
+ file formats that, for example, group data into segments
+ consisting of one or more fixed-length headers followed by a
+ variable-length body.  See
+ ScatteringByteChannel for more
+ information on scattering, and ScatteringByteChannel.read(ByteBuffer[],
+ int, int) for more information on the subsequence
+ behavior.
+ 
+ Depending on the state of the SSLEngine, this method may consume
+ network data without producing any application data (for example,
+ it may consume handshake data.)
+ 
+ The application is responsible for reliably obtaining the network
+ data from the peer, and for invoking unwrap() on the data in the
+ order it was received.  The application must properly synchronize
+ multiple calls to this method.
+ 
+ If this SSLEngine has not yet started its initial
+ handshake, this method will automatically start the handshake.
+ 
+ This method will attempt to consume one complete SSL/TLS network
+ packet, but will never consume more than the sum of the bytes
+ remaining in the buffers.  Each ByteBuffer's
+ position is updated to reflect the amount of data consumed or
+ produced.  The limits remain the same.
+ 
+ The underlying memory used by the src and
+ dsts ByteBuffers must not be the same.
+ 
+ The inbound network buffer may be modified as a result of this
+ call:  therefore if the network data packet is required for some
+ secondary purpose, the data should be duplicated before calling this
+ method.  Note:  the network data will not be useful to a second
+ SSLEngine, as each SSLEngine contains unique random state which
+ influences the SSL/TLS messages.
+ 
+ See the class description for more information on engine closure.
+
+Parameters:
+src - a ByteBuffer containing inbound network data.
+dsts - an array of ByteBuffers to hold inbound
+          application data.
+offset - The offset within the buffer array of the first buffer from
+          which bytes are to be transferred; it must be non-negative
+          and no larger than dsts.length.
+length - The maximum number of buffers to be accessed; it must be
+          non-negative and no larger than
+          dsts.length - offset.
+Returns:
+an SSLEngineResult describing the result
+          of this operation.
+Throws:
+SSLException - A problem was encountered while processing the
+          data that caused the SSLEngine to abort.
+          See the class description for more information on
+          engine closure.
+IndexOutOfBoundsException - If the preconditions on the offset and
+          length parameters do not hold.
+ReadOnlyBufferException - if any of the dst buffers are read-only.
+IllegalArgumentException - if either src or dsts
+          is null, or if any element in the dsts
+          subsequence specified is null.
+IllegalStateException - if the client/server mode
+          has not yet been set.
+See Also:
+ScatteringByteChannel, 
+ScatteringByteChannel.read(
+              ByteBuffer[], int, int)
+
+
+"
+SSLEngine,"wrap(ByteBuffer[] srcs, ByteBuffer dst)",SSLEngineResult,Attempts to encode plaintext bytes from a sequence of data buffers into SSL/TLS network data.,"
+
+wrap
+public SSLEngineResult wrap(ByteBuffer[] srcs,
+                            ByteBuffer dst)
+                     throws SSLException
+Attempts to encode plaintext bytes from a sequence of data
+ buffers into SSL/TLS network data.
+ 
+ An invocation of this method behaves in exactly the same manner
+ as the invocation:
+ 
+ engine.wrap(srcs, 0, srcs.length, dst);
+ 
+
+Parameters:
+srcs - an array of ByteBuffers containing the
+          outbound application data
+dst - a ByteBuffer to hold outbound network data
+Returns:
+an SSLEngineResult describing the result
+          of this operation.
+Throws:
+SSLException - A problem was encountered while processing the
+          data that caused the SSLEngine to abort.
+          See the class description for more information on
+          engine closure.
+ReadOnlyBufferException - if the dst buffer is read-only.
+IllegalArgumentException - if either srcs or dst
+          is null, or if any element in srcs is null.
+IllegalStateException - if the client/server mode
+          has not yet been set.
+See Also:
+wrap(ByteBuffer [], int, int, ByteBuffer)
+
+
+"
+SSLEngine,"wrap(ByteBuffer[] srcs, int offset, int length, ByteBuffer dst)",abstract SSLEngineResult,Attempts to encode plaintext bytes from a subsequence of data buffers into SSL/TLS network data.,"
+
+wrap
+public abstract SSLEngineResult wrap(ByteBuffer[] srcs,
+                                     int offset,
+                                     int length,
+                                     ByteBuffer dst)
+                              throws SSLException
+Attempts to encode plaintext bytes from a subsequence of data
+ buffers into SSL/TLS network data.  This ""gathering""
+ operation encodes, in a single invocation, a sequence of bytes
+ from one or more of a given sequence of buffers.  Gathering
+ wraps are often useful when implementing network protocols or
+ file formats that, for example, group data into segments
+ consisting of one or more fixed-length headers followed by a
+ variable-length body.  See
+ GatheringByteChannel for more
+ information on gathering, and GatheringByteChannel.write(ByteBuffer[],
+ int, int) for more information on the subsequence
+ behavior.
+ 
+ Depending on the state of the SSLEngine, this method may produce
+ network data without consuming any application data (for example,
+ it may generate handshake data.)
+ 
+ The application is responsible for reliably transporting the
+ network data to the peer, and for ensuring that data created by
+ multiple calls to wrap() is transported in the same order in which
+ it was generated.  The application must properly synchronize
+ multiple calls to this method.
+ 
+ If this SSLEngine has not yet started its initial
+ handshake, this method will automatically start the handshake.
+ 
+ This method will attempt to produce SSL/TLS records, and will
+ consume as much source data as possible, but will never consume
+ more than the sum of the bytes remaining in each buffer.  Each
+ ByteBuffer's position is updated to reflect the
+ amount of data consumed or produced.  The limits remain the
+ same.
+ 
+ The underlying memory used by the srcs and
+ dst ByteBuffers must not be the same.
+ 
+ See the class description for more information on engine closure.
+
+Parameters:
+srcs - an array of ByteBuffers containing the
+          outbound application data
+offset - The offset within the buffer array of the first buffer from
+          which bytes are to be retrieved; it must be non-negative
+          and no larger than srcs.length
+length - The maximum number of buffers to be accessed; it must be
+          non-negative and no larger than
+          srcs.length - offset
+dst - a ByteBuffer to hold outbound network data
+Returns:
+an SSLEngineResult describing the result
+          of this operation.
+Throws:
+SSLException - A problem was encountered while processing the
+          data that caused the SSLEngine to abort.
+          See the class description for more information on
+          engine closure.
+IndexOutOfBoundsException - if the preconditions on the offset and
+          length parameters do not hold.
+ReadOnlyBufferException - if the dst buffer is read-only.
+IllegalArgumentException - if either srcs or dst
+          is null, or if any element in the srcs
+          subsequence specified is null.
+IllegalStateException - if the client/server mode
+          has not yet been set.
+See Also:
+GatheringByteChannel, 
+GatheringByteChannel.write(
+              ByteBuffer[], int, int)
+
+
+"
+SSLEngine,"wrap(ByteBuffer src, ByteBuffer dst)",SSLEngineResult,Attempts to encode a buffer of plaintext application data into SSL/TLS network data.,"
+
+wrap
+public SSLEngineResult wrap(ByteBuffer src,
+                            ByteBuffer dst)
+                     throws SSLException
+Attempts to encode a buffer of plaintext application data into
+ SSL/TLS network data.
+ 
+ An invocation of this method behaves in exactly the same manner
+ as the invocation:
+ 
+ engine.wrap(new ByteBuffer [] { src }, 0, 1, dst);
+ 
+
+Parameters:
+src - a ByteBuffer containing outbound application data
+dst - a ByteBuffer to hold outbound network data
+Returns:
+an SSLEngineResult describing the result
+          of this operation.
+Throws:
+SSLException - A problem was encountered while processing the
+          data that caused the SSLEngine to abort.
+          See the class description for more information on
+          engine closure.
+ReadOnlyBufferException - if the dst buffer is read-only.
+IllegalArgumentException - if either src or dst
+          is null.
+IllegalStateException - if the client/server mode
+          has not yet been set.
+See Also:
+wrap(ByteBuffer [], int, int, ByteBuffer)
+
+
+"
+SSLEngineResult,bytesConsumed(),int,Returns the number of bytes consumed from the input buffer.,"
+
+bytesConsumed
+public final int bytesConsumed()
+Returns the number of bytes consumed from the input buffer.
+
+Returns:
+the number of bytes consumed.
+
+
+"
+SSLEngineResult,bytesProduced(),int,Returns the number of bytes written to the output buffer.,"
+
+bytesProduced
+public final int bytesProduced()
+Returns the number of bytes written to the output buffer.
+
+Returns:
+the number of bytes produced
+
+
+"
+SSLEngineResult,getHandshakeStatus(),SSLEngineResult.HandshakeStatus,Gets the handshake status of this SSLEngine operation.,"
+
+getHandshakeStatus
+public final SSLEngineResult.HandshakeStatus getHandshakeStatus()
+Gets the handshake status of this SSLEngine
+ operation.
+
+Returns:
+the handshake status
+
+
+"
+SSLEngineResult,getStatus(),SSLEngineResult.Status,Gets the return value of this SSLEngine operation.,"
+
+getStatus
+public final SSLEngineResult.Status getStatus()
+Gets the return value of this SSLEngine operation.
+
+Returns:
+the return value
+
+
+"
+SSLEngineResult,toString(),String,Returns a String representation of this object.,"
+
+toString
+public String toString()
+Returns a String representation of this object.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of the object.
+
+
+"
+SSLParameters,getAlgorithmConstraints(),AlgorithmConstraints,Returns the cryptographic algorithm constraints.,"
+
+getAlgorithmConstraints
+public AlgorithmConstraints getAlgorithmConstraints()
+Returns the cryptographic algorithm constraints.
+
+Returns:
+the cryptographic algorithm constraints, or null if the
+     constraints have not been set
+Since:
+1.7
+See Also:
+setAlgorithmConstraints(AlgorithmConstraints)
+
+
+"
+SSLParameters,getApplicationProtocols(),String[],Returns a prioritized array of application-layer protocol names that can be negotiated over the SSL/TLS/DTLS protocols.,"
+
+getApplicationProtocols
+public String[] getApplicationProtocols()
+Returns a prioritized array of application-layer protocol names that
+ can be negotiated over the SSL/TLS/DTLS protocols.
+ 
+ The array could be empty (zero-length), in which case protocol
+ indications will not be used.
+ 
+ This method will return a new array each time it is invoked.
+
+API Note:
+This method is defined in Java SE 8 Maintenance Release 3.
+Returns:
+a non-null, possibly zero-length array of application protocol
+         Strings.  The array is ordered based on protocol
+         preference, with protocols[0] being the most preferred.
+Since:
+8
+See Also:
+setApplicationProtocols(java.lang.String[])
+
+
+"
+SSLParameters,getCipherSuites(),String[],Returns a copy of the array of ciphersuites or null if none have been set.,"
+
+getCipherSuites
+public String[] getCipherSuites()
+Returns a copy of the array of ciphersuites or null if none
+ have been set.
+
+Returns:
+a copy of the array of ciphersuites or null if none
+ have been set.
+
+
+"
+SSLParameters,getEndpointIdentificationAlgorithm(),String,Gets the endpoint identification algorithm.,"
+
+getEndpointIdentificationAlgorithm
+public String getEndpointIdentificationAlgorithm()
+Gets the endpoint identification algorithm.
+
+Returns:
+the endpoint identification algorithm, or null if none
+ has been set.
+Since:
+1.7
+See Also:
+X509ExtendedTrustManager, 
+setEndpointIdentificationAlgorithm(String)
+
+
+"
+SSLParameters,getNeedClientAuth(),boolean,Returns whether client authentication should be required.,"
+
+getNeedClientAuth
+public boolean getNeedClientAuth()
+Returns whether client authentication should be required.
+
+Returns:
+whether client authentication should be required.
+
+
+"
+SSLParameters,getProtocols(),String[],Returns a copy of the array of protocols or null if none have been set.,"
+
+getProtocols
+public String[] getProtocols()
+Returns a copy of the array of protocols or null if none
+ have been set.
+
+Returns:
+a copy of the array of protocols or null if none
+ have been set.
+
+
+"
+SSLParameters,getServerNames(),List<SNIServerName>,"Returns a List containing all SNIServerNames of the Server Name Indication (SNI) parameter, or null if none has been set.","
+
+getServerNames
+public final List<SNIServerName> getServerNames()
+Returns a List containing all SNIServerNames of the
+ Server Name Indication (SNI) parameter, or null if none has been set.
+ 
+ This method is only useful to SSLSockets or SSLEngines
+ operating in client mode.
+ 
+ For SSL/TLS connections, the underlying SSL/TLS provider
+ may specify a default value for a certain server name type.  In
+ client mode, it is recommended that, by default, providers should
+ include the server name indication whenever the server can be located
+ by a supported server name type.
+ 
+ It is recommended that providers initialize default Server Name
+ Indications when creating SSLSocket/SSLEngines.
+ In the following examples, the server name could be represented by an
+ instance of SNIHostName which has been initialized with the
+ hostname ""www.example.com"" and type
+ StandardConstants.SNI_HOST_NAME.
+
+ 
+     Socket socket =
+         sslSocketFactory.createSocket(""www.example.com"", 443);
+ 
+ or
+ 
+     SSLEngine engine =
+         sslContext.createSSLEngine(""www.example.com"", 443);
+ 
+
+
+Returns:
+null or an immutable list of non-null SNIServerNames
+Since:
+1.8
+See Also:
+List, 
+setServerNames(List)
+
+
+"
+SSLParameters,getSNIMatchers(),Collection<SNIMatcher>,"Returns a Collection containing all SNIMatchers of the Server Name Indication (SNI) parameter, or null if none has been set.","
+
+getSNIMatchers
+public final Collection<SNIMatcher> getSNIMatchers()
+Returns a Collection containing all SNIMatchers of the
+ Server Name Indication (SNI) parameter, or null if none has been set.
+ 
+ This method is only useful to SSLSockets or SSLEngines
+ operating in server mode.
+ 
+ For better interoperability, providers generally will not define
+ default matchers so that by default servers will ignore the SNI
+ extension and continue the handshake.
+
+Returns:
+null or an immutable collection of non-null SNIMatchers
+Since:
+1.8
+See Also:
+SNIMatcher, 
+setSNIMatchers(Collection)
+
+
+"
+SSLParameters,getUseCipherSuitesOrder(),boolean,Returns whether the local cipher suites preference should be honored.,"
+
+getUseCipherSuitesOrder
+public final boolean getUseCipherSuitesOrder()
+Returns whether the local cipher suites preference should be honored.
+
+Returns:
+whether local cipher suites order in #getCipherSuites
+         should be honored during SSL/TLS handshaking.
+Since:
+1.8
+See Also:
+setUseCipherSuitesOrder(boolean)
+
+
+"
+SSLParameters,getWantClientAuth(),boolean,Returns whether client authentication should be requested.,"
+
+getWantClientAuth
+public boolean getWantClientAuth()
+Returns whether client authentication should be requested.
+
+Returns:
+whether client authentication should be requested.
+
+
+"
+SSLParameters,setAlgorithmConstraints(AlgorithmConstraints constraints),void,"Sets the cryptographic algorithm constraints, which will be used in addition to any configured by the runtime environment.","
+
+setAlgorithmConstraints
+public void setAlgorithmConstraints(AlgorithmConstraints constraints)
+Sets the cryptographic algorithm constraints, which will be used
+ in addition to any configured by the runtime environment.
+ 
+ If the constraints parameter is non-null, every
+ cryptographic algorithm, key and algorithm parameters used in the
+ SSL/TLS handshake must be permitted by the constraints.
+
+Parameters:
+constraints - the algorithm constraints (or null)
+Since:
+1.7
+
+
+"
+SSLParameters,setApplicationProtocols(String[] protocols),void,Sets the prioritized array of application-layer protocol names that can be negotiated over the SSL/TLS/DTLS protocols.,"
+
+setApplicationProtocols
+public void setApplicationProtocols(String[] protocols)
+Sets the prioritized array of application-layer protocol names that
+ can be negotiated over the SSL/TLS/DTLS protocols.
+ 
+ If application-layer protocols are supported by the underlying
+ SSL/TLS implementation, this method configures which values can
+ be negotiated by protocols such as  RFC 7301 , the
+ Application Layer Protocol Negotiation (ALPN).
+ 
+ If this end of the connection is expected to offer application protocol
+ values, all protocols configured by this method will be sent to the
+ peer.
+ 
+ If this end of the connection is expected to select the application
+ protocol value, the protocols configured by this method are
+ compared with those sent by the peer.  The first matched value becomes
+ the negotiated value.  If none of the protocols were actually
+ requested by the peer, the underlying protocol will determine what
+ action to take.  (For example, ALPN will send a
+ ""no_application_protocol"" alert and terminate the connection.)
+
+API Note:
+This method is defined in Java SE 8 Maintenance Release 3.
+Implementation Requirements:
+This method will make a copy of the protocols array.
+Parameters:
+protocols - an ordered array of application protocols,
+                    with protocols[0] being the most preferred.
+                    If the array is empty (zero-length), protocol
+                    indications will not be used.
+Throws:
+IllegalArgumentException - if protocols is null, or if
+                    any element in a non-empty array is null or an
+                    empty (zero-length) string
+Since:
+8
+See Also:
+getApplicationProtocols()
+
+
+"
+SSLParameters,setCipherSuites(String[] cipherSuites),void,Sets the array of ciphersuites.,"
+
+setCipherSuites
+public void setCipherSuites(String[] cipherSuites)
+Sets the array of ciphersuites.
+
+Parameters:
+cipherSuites - the array of ciphersuites (or null)
+
+
+"
+SSLParameters,setEndpointIdentificationAlgorithm(String algorithm),void,Sets the endpoint identification algorithm.,"
+
+setEndpointIdentificationAlgorithm
+public void setEndpointIdentificationAlgorithm(String algorithm)
+Sets the endpoint identification algorithm.
+ 
+ If the algorithm parameter is non-null or non-empty, the
+ endpoint identification/verification procedures must be handled during
+ SSL/TLS handshaking.  This is to prevent man-in-the-middle attacks.
+
+Parameters:
+algorithm - The standard string name of the endpoint
+     identification algorithm (or null).  See Appendix A in the 
+     Java Cryptography Architecture API Specification & Reference 
+     for information about standard algorithm names.
+Since:
+1.7
+See Also:
+X509ExtendedTrustManager
+
+
+"
+SSLParameters,setNeedClientAuth(boolean needClientAuth),void,Sets whether client authentication should be required.,"
+
+setNeedClientAuth
+public void setNeedClientAuth(boolean needClientAuth)
+Sets whether client authentication should be required. Calling
+ this method clears the wantClientAuth flag.
+
+Parameters:
+needClientAuth - whether client authentication should be required
+
+
+"
+SSLParameters,setProtocols(String[] protocols),void,Sets the array of protocols.,"
+
+setProtocols
+public void setProtocols(String[] protocols)
+Sets the array of protocols.
+
+Parameters:
+protocols - the array of protocols (or null)
+
+
+"
+SSLParameters,setServerNames(List<SNIServerName> serverNames),void,Sets the desired SNIServerNames of the Server Name Indication (SNI) parameter.,"
+
+setServerNames
+public final void setServerNames(List<SNIServerName> serverNames)
+Sets the desired SNIServerNames of the Server Name
+ Indication (SNI) parameter.
+ 
+ This method is only useful to SSLSockets or SSLEngines
+ operating in client mode.
+ 
+ Note that the serverNames list is cloned
+ to protect against subsequent modification.
+
+Parameters:
+serverNames - the list of desired SNIServerNames (or null)
+Throws:
+NullPointerException - if the serverNames
+         contains null element
+IllegalArgumentException - if the serverNames
+         contains more than one name of the same name type
+Since:
+1.8
+See Also:
+SNIServerName, 
+getServerNames()
+
+
+"
+SSLParameters,setSNIMatchers(Collection<SNIMatcher> matchers),void,Sets the SNIMatchers of the Server Name Indication (SNI) parameter.,"
+
+setSNIMatchers
+public final void setSNIMatchers(Collection<SNIMatcher> matchers)
+Sets the SNIMatchers of the Server Name Indication (SNI)
+ parameter.
+ 
+ This method is only useful to SSLSockets or SSLEngines
+ operating in server mode.
+ 
+ Note that the matchers collection is cloned to protect
+ against subsequent modification.
+
+Parameters:
+matchers - the collection of SNIMatchers (or null)
+Throws:
+NullPointerException - if the matchers
+         contains null element
+IllegalArgumentException - if the matchers
+         contains more than one name of the same name type
+Since:
+1.8
+See Also:
+Collection, 
+SNIMatcher, 
+getSNIMatchers()
+
+
+"
+SSLParameters,setUseCipherSuitesOrder(boolean honorOrder),void,Sets whether the local cipher suites preference should be honored.,"
+
+setUseCipherSuitesOrder
+public final void setUseCipherSuitesOrder(boolean honorOrder)
+Sets whether the local cipher suites preference should be honored.
+
+Parameters:
+honorOrder - whether local cipher suites order in
+        #getCipherSuites should be honored during
+        SSL/TLS handshaking.
+Since:
+1.8
+See Also:
+getUseCipherSuitesOrder()
+
+
+"
+SSLParameters,setWantClientAuth(boolean wantClientAuth),void,Sets whether client authentication should be requested.,"
+
+setWantClientAuth
+public void setWantClientAuth(boolean wantClientAuth)
+Sets whether client authentication should be requested. Calling
+ this method clears the needClientAuth flag.
+
+Parameters:
+wantClientAuth - whether client authentication should be requested
+
+
+"
+SSLServerSocket,getEnabledCipherSuites(),abstract String[],Returns the list of cipher suites which are currently enabled for use by newly accepted connections.,"
+
+getEnabledCipherSuites
+public abstract String[] getEnabledCipherSuites()
+Returns the list of cipher suites which are currently enabled
+ for use by newly accepted connections.
+ 
+ If this list has not been explicitly modified, a system-provided
+ default guarantees a minimum quality of service in all enabled
+ cipher suites.
+ 
+ There are several reasons why an enabled cipher suite might
+ not actually be used.  For example:  the server socket might
+ not have appropriate private keys available to it or the cipher
+ suite might be anonymous, precluding the use of client authentication,
+ while the server socket has been told to require that sort of
+ authentication.
+
+Returns:
+an array of cipher suites enabled
+See Also:
+getSupportedCipherSuites(), 
+setEnabledCipherSuites(String [])
+
+
+"
+SSLServerSocket,getEnabledProtocols(),abstract String[],Returns the names of the protocols which are currently enabled for use by the newly accepted connections.,"
+
+getEnabledProtocols
+public abstract String[] getEnabledProtocols()
+Returns the names of the protocols which are currently
+ enabled for use by the newly accepted connections.
+
+Returns:
+an array of protocol names
+See Also:
+getSupportedProtocols(), 
+setEnabledProtocols(String [])
+
+
+"
+SSLServerSocket,getEnableSessionCreation(),abstract boolean,Returns true if new SSL sessions may be established by the sockets which are created from this server socket.,"
+
+getEnableSessionCreation
+public abstract boolean getEnableSessionCreation()
+Returns true if new SSL sessions may be established by the
+ sockets which are created from this server socket.
+
+Returns:
+true indicates that sessions may be created; this
+          is the default.  false indicates that an existing
+          session must be resumed
+See Also:
+setEnableSessionCreation(boolean)
+
+
+"
+SSLServerSocket,getNeedClientAuth(),abstract boolean,Returns true if client authentication will be required on newly accepted server-mode SSLSockets.,"
+
+getNeedClientAuth
+public abstract boolean getNeedClientAuth()
+Returns true if client authentication will be required on
+ newly accepted server-mode SSLSockets.
+ 
+ The initial inherited setting may be overridden by calling
+ SSLSocket.setNeedClientAuth(boolean) or
+ SSLSocket.setWantClientAuth(boolean).
+
+Returns:
+true if client authentication is required,
+          or false if no client authentication is desired.
+See Also:
+setNeedClientAuth(boolean), 
+setWantClientAuth(boolean), 
+getWantClientAuth(), 
+setUseClientMode(boolean)
+
+
+"
+SSLServerSocket,getSSLParameters(),SSLParameters,Returns the SSLParameters in effect for newly accepted connections.,"
+
+getSSLParameters
+public SSLParameters getSSLParameters()
+Returns the SSLParameters in effect for newly accepted connections.
+ The ciphersuites and protocols of the returned SSLParameters
+ are always non-null.
+
+Returns:
+the SSLParameters in effect for newly accepted connections
+Since:
+1.7
+See Also:
+setSSLParameters(SSLParameters)
+
+
+"
+SSLServerSocket,getSupportedCipherSuites(),abstract String[],Returns the names of the cipher suites which could be enabled for use on an SSL connection.,"
+
+getSupportedCipherSuites
+public abstract String[] getSupportedCipherSuites()
+Returns the names of the cipher suites which could be enabled for use
+ on an SSL connection.
+ 
+ Normally, only a subset of these will actually
+ be enabled by default, since this list may include cipher suites which
+ do not meet quality of service requirements for those defaults.  Such
+ cipher suites are useful in specialized applications.
+
+Returns:
+an array of cipher suite names
+See Also:
+getEnabledCipherSuites(), 
+setEnabledCipherSuites(String [])
+
+
+"
+SSLServerSocket,getSupportedProtocols(),abstract String[],Returns the names of the protocols which could be enabled for use.,"
+
+getSupportedProtocols
+public abstract String[] getSupportedProtocols()
+Returns the names of the protocols which could be enabled for use.
+
+Returns:
+an array of protocol names supported
+See Also:
+getEnabledProtocols(), 
+setEnabledProtocols(String [])
+
+
+"
+SSLServerSocket,getUseClientMode(),abstract boolean,Returns true if accepted connections will be in SSL client mode.,"
+
+getUseClientMode
+public abstract boolean getUseClientMode()
+Returns true if accepted connections will be in SSL client mode.
+
+Returns:
+true if the connection should use SSL client mode.
+See Also:
+setUseClientMode(boolean)
+
+
+"
+SSLServerSocket,getWantClientAuth(),abstract boolean,Returns true if client authentication will be requested on newly accepted server-mode connections.,"
+
+getWantClientAuth
+public abstract boolean getWantClientAuth()
+Returns true if client authentication will be requested on
+ newly accepted server-mode connections.
+ 
+ The initial inherited setting may be overridden by calling
+ SSLSocket.setNeedClientAuth(boolean) or
+ SSLSocket.setWantClientAuth(boolean).
+
+Returns:
+true if client authentication is requested,
+          or false if no client authentication is desired.
+See Also:
+setWantClientAuth(boolean), 
+setNeedClientAuth(boolean), 
+getNeedClientAuth(), 
+setUseClientMode(boolean)
+
+
+"
+SSLServerSocket,setEnabledCipherSuites(String[] suites),abstract void,Sets the cipher suites enabled for use by accepted connections.,"
+
+setEnabledCipherSuites
+public abstract void setEnabledCipherSuites(String[] suites)
+Sets the cipher suites enabled for use by accepted connections.
+ 
+ The cipher suites must have been listed by getSupportedCipherSuites()
+ as being supported.  Following a successful call to this method,
+ only suites listed in the suites parameter are enabled
+ for use.
+ 
+ Suites that require authentication information which is not available
+ in this ServerSocket's authentication context will not be used
+ in any case, even if they are enabled.
+ 
+SSLSockets returned from accept()
+ inherit this setting.
+
+Parameters:
+suites - Names of all the cipher suites to enable
+Throws:
+IllegalArgumentException - when one or more of ciphers
+          named by the parameter is not supported, or when
+          the parameter is null.
+See Also:
+getSupportedCipherSuites(), 
+getEnabledCipherSuites()
+
+
+"
+SSLServerSocket,setEnabledProtocols(String[] protocols),abstract void,Controls which particular protocols are enabled for use by accepted connections.,"
+
+setEnabledProtocols
+public abstract void setEnabledProtocols(String[] protocols)
+Controls which particular protocols are enabled for use by
+ accepted connections.
+ 
+ The protocols must have been listed by
+ getSupportedProtocols() as being supported.
+ Following a successful call to this method, only protocols listed
+ in the protocols parameter are enabled for use.
+ 
+SSLSockets returned from accept()
+ inherit this setting.
+
+Parameters:
+protocols - Names of all the protocols to enable.
+Throws:
+IllegalArgumentException - when one or more of
+            the protocols named by the parameter is not supported or
+            when the protocols parameter is null.
+See Also:
+getEnabledProtocols(), 
+getSupportedProtocols()
+
+
+"
+SSLServerSocket,setEnableSessionCreation(boolean flag),abstract void,Controls whether new SSL sessions may be established by the sockets which are created from this server socket.,"
+
+setEnableSessionCreation
+public abstract void setEnableSessionCreation(boolean flag)
+Controls whether new SSL sessions may be established by the
+ sockets which are created from this server socket.
+ 
+SSLSockets returned from accept()
+ inherit this setting.
+
+Parameters:
+flag - true indicates that sessions may be created; this
+          is the default. false indicates that an existing session
+          must be resumed.
+See Also:
+getEnableSessionCreation()
+
+
+"
+SSLServerSocket,setNeedClientAuth(boolean need),abstract void,Controls whether accepted server-mode SSLSockets will be initially configured to require client authentication.,"
+
+setNeedClientAuth
+public abstract void setNeedClientAuth(boolean need)
+Controls whether accepted server-mode
+ SSLSockets will be initially configured to
+ require client authentication.
+ 
+ A socket's client authentication setting is one of the following:
+ 
+ client authentication required
+  client authentication requested
+  no client authentication desired
+ 
+
+ Unlike setWantClientAuth(boolean), if the accepted
+ socket's option is set and the client chooses not to provide
+ authentication information about itself, the negotiations
+ will stop and the connection will be dropped.
+ 
+ Calling this method overrides any previous setting made by
+ this method or setWantClientAuth(boolean).
+ 
+ The initial inherited setting may be overridden by calling
+ SSLSocket.setNeedClientAuth(boolean) or
+ SSLSocket.setWantClientAuth(boolean).
+
+Parameters:
+need - set to true if client authentication is required,
+          or false if no client authentication is desired.
+See Also:
+getNeedClientAuth(), 
+setWantClientAuth(boolean), 
+getWantClientAuth(), 
+setUseClientMode(boolean)
+
+
+"
+SSLServerSocket,setSSLParameters(SSLParameters params),void,Applies SSLParameters to newly accepted connections.,"
+
+setSSLParameters
+public void setSSLParameters(SSLParameters params)
+Applies SSLParameters to newly accepted connections.
+
+ This means:
+ 
+If params.getCipherSuites() is non-null,
+   setEnabledCipherSuites() is called with that value.
+If params.getProtocols() is non-null,
+   setEnabledProtocols() is called with that value.
+If params.getNeedClientAuth() or
+   params.getWantClientAuth() return true,
+   setNeedClientAuth(true) and
+   setWantClientAuth(true) are called, respectively;
+   otherwise setWantClientAuth(false) is called.
+If params.getServerNames() is non-null, the socket will
+   configure its server names with that value.
+If params.getSNIMatchers() is non-null, the socket will
+   configure its SNI matchers with that value.
+
+
+Parameters:
+params - the parameters
+Throws:
+IllegalArgumentException - if the setEnabledCipherSuites() or
+    the setEnabledProtocols() call fails
+Since:
+1.7
+See Also:
+getSSLParameters()
+
+
+"
+SSLServerSocket,setUseClientMode(boolean mode),abstract void,"Controls whether accepted connections are in the (default) SSL server mode, or the SSL client mode.","
+
+setUseClientMode
+public abstract void setUseClientMode(boolean mode)
+Controls whether accepted connections are in the (default) SSL
+ server mode, or the SSL client mode.
+ 
+ Servers normally authenticate themselves, and clients are not
+ required to do so.
+ 
+ In rare cases, TCP servers
+ need to act in the SSL client mode on newly accepted
+ connections. For example, FTP clients acquire server sockets
+ and listen there for reverse connections from the server. An
+ FTP client would use an SSLServerSocket in ""client"" mode to
+ accept the reverse connection while the FTP server uses an
+ SSLSocket with ""client"" mode disabled to initiate the
+ connection. During the resulting handshake, existing SSL
+ sessions may be reused.
+ 
+SSLSockets returned from accept()
+ inherit this setting.
+
+Parameters:
+mode - true if newly accepted connections should use SSL
+          client mode.
+See Also:
+getUseClientMode()
+
+
+"
+SSLServerSocket,setWantClientAuth(boolean want),abstract void,Controls whether accepted server-mode SSLSockets will be initially configured to request client authentication.,"
+
+setWantClientAuth
+public abstract void setWantClientAuth(boolean want)
+Controls whether accepted server-mode
+ SSLSockets will be initially configured to
+ request client authentication.
+ 
+ A socket's client authentication setting is one of the following:
+ 
+ client authentication required
+  client authentication requested
+  no client authentication desired
+ 
+
+ Unlike setNeedClientAuth(boolean), if the accepted
+ socket's option is set and the client chooses not to provide
+ authentication information about itself, the negotiations
+ will continue.
+ 
+ Calling this method overrides any previous setting made by
+ this method or setNeedClientAuth(boolean).
+ 
+ The initial inherited setting may be overridden by calling
+ SSLSocket.setNeedClientAuth(boolean) or
+ SSLSocket.setWantClientAuth(boolean).
+
+Parameters:
+want - set to true if client authentication is requested,
+          or false if no client authentication is desired.
+See Also:
+getWantClientAuth(), 
+setNeedClientAuth(boolean), 
+getNeedClientAuth(), 
+setUseClientMode(boolean)
+
+
+"
+SSLServerSocketFactory,getDefault(),static ServerSocketFactory,Returns the default SSL server socket factory.,"
+
+getDefault
+public static ServerSocketFactory getDefault()
+Returns the default SSL server socket factory.
+
+ The first time this method is called, the security property
+ ""ssl.ServerSocketFactory.provider"" is examined. If it is non-null, a
+ class by that name is loaded and instantiated. If that is successful and
+ the object is an instance of SSLServerSocketFactory, it is made the
+ default SSL server socket factory.
+
+ Otherwise, this method returns
+ SSLContext.getDefault().getServerSocketFactory(). If that
+ call fails, an inoperative factory is returned.
+
+Returns:
+the default ServerSocketFactory
+See Also:
+SSLContext.getDefault()
+
+
+"
+SSLServerSocketFactory,getDefaultCipherSuites(),abstract String[],Returns the list of cipher suites which are enabled by default.,"
+
+getDefaultCipherSuites
+public abstract String[] getDefaultCipherSuites()
+Returns the list of cipher suites which are enabled by default.
+ Unless a different list is enabled, handshaking on an SSL connection
+ will use one of these cipher suites.  The minimum quality of service
+ for these defaults requires confidentiality protection and server
+ authentication (that is, no anonymous cipher suites).
+
+Returns:
+array of the cipher suites enabled by default
+See Also:
+getSupportedCipherSuites()
+
+
+"
+SSLServerSocketFactory,getSupportedCipherSuites(),abstract String[],Returns the names of the cipher suites which could be enabled for use on an SSL connection created by this factory.,"
+
+getSupportedCipherSuites
+public abstract String[] getSupportedCipherSuites()
+Returns the names of the cipher suites which could be enabled for use
+ on an SSL connection created by this factory.
+ Normally, only a subset of these will actually
+ be enabled by default, since this list may include cipher suites which
+ do not meet quality of service requirements for those defaults.  Such
+ cipher suites are useful in specialized applications.
+
+Returns:
+an array of cipher suite names
+See Also:
+getDefaultCipherSuites()
+
+
+"
+SSLSessionBindingEvent,getName(),String,"Returns the name to which the object is being bound, or the name from which the object is being unbound.","
+
+getName
+public String getName()
+Returns the name to which the object is being bound, or the name
+ from which the object is being unbound.
+
+Returns:
+the name to which the object is being bound or unbound
+
+
+"
+SSLSessionBindingEvent,getSession(),SSLSession,Returns the SSLSession into which the listener is being bound or from which the listener is being unbound.,"
+
+getSession
+public SSLSession getSession()
+Returns the SSLSession into which the listener is being bound or
+ from which the listener is being unbound.
+
+Returns:
+the SSLSession
+
+
+"
+SSLSocket,addHandshakeCompletedListener(HandshakeCompletedListener listener),abstract void,Registers an event listener to receive notifications that an SSL handshake has completed on this connection.,"
+
+addHandshakeCompletedListener
+public abstract void addHandshakeCompletedListener(HandshakeCompletedListener listener)
+Registers an event listener to receive notifications that an
+ SSL handshake has completed on this connection.
+
+Parameters:
+listener - the HandShake Completed event listener
+Throws:
+IllegalArgumentException - if the argument is null.
+See Also:
+startHandshake(), 
+removeHandshakeCompletedListener(HandshakeCompletedListener)
+
+
+"
+SSLSocket,getApplicationProtocol(),String,Returns the most recent application protocol value negotiated for this connection.,"
+
+getApplicationProtocol
+public String getApplicationProtocol()
+Returns the most recent application protocol value negotiated for this
+ connection.
+ 
+ If supported by the underlying SSL/TLS/DTLS implementation,
+ application name negotiation mechanisms such as  RFC 7301 , the
+ Application-Layer Protocol Negotiation (ALPN), can negotiate
+ application-level values between peers.
+
+API Note:
+This method is defined in Java SE 8 Maintenance Release 3.
+Implementation Requirements:
+The implementation in this class throws
+ UnsupportedOperationException and performs no other action.
+Returns:
+null if it has not yet been determined if application
+         protocols might be used for this connection, an empty
+         String if application protocols values will not
+         be used, or a non-empty application protocol String
+         if a value was successfully negotiated.
+Throws:
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation.
+Since:
+8
+
+
+"
+SSLSocket,getEnabledCipherSuites(),abstract String[],Returns the names of the SSL cipher suites which are currently enabled for use on this connection.,"
+
+getEnabledCipherSuites
+public abstract String[] getEnabledCipherSuites()
+Returns the names of the SSL cipher suites which are currently
+ enabled for use on this connection.  When an SSLSocket is first
+ created, all enabled cipher suites support a minimum quality of
+ service.  Thus, in some environments this value might be empty.
+ 
+ Even if a suite has been enabled, it might never be used.  (For
+ example, the peer does not support it, the requisite certificates
+ (and private keys) for the suite are not available, or an
+ anonymous suite is enabled but authentication is required.
+
+Returns:
+an array of cipher suite names
+See Also:
+getSupportedCipherSuites(), 
+setEnabledCipherSuites(String [])
+
+
+"
+SSLSocket,getEnabledProtocols(),abstract String[],Returns the names of the protocol versions which are currently enabled for use on this connection.,"
+
+getEnabledProtocols
+public abstract String[] getEnabledProtocols()
+Returns the names of the protocol versions which are currently
+ enabled for use on this connection.
+
+Returns:
+an array of protocols
+See Also:
+setEnabledProtocols(String [])
+
+
+"
+SSLSocket,getEnableSessionCreation(),abstract boolean,Returns true if new SSL sessions may be established by this socket.,"
+
+getEnableSessionCreation
+public abstract boolean getEnableSessionCreation()
+Returns true if new SSL sessions may be established by this socket.
+
+Returns:
+true indicates that sessions may be created; this
+          is the default.  false indicates that an existing session
+          must be resumed
+See Also:
+setEnableSessionCreation(boolean)
+
+
+"
+SSLSocket,getHandshakeApplicationProtocol(),String,Returns the application protocol value negotiated on a SSL/TLS handshake currently in progress.,"
+
+getHandshakeApplicationProtocol
+public String getHandshakeApplicationProtocol()
+Returns the application protocol value negotiated on a SSL/TLS
+ handshake currently in progress.
+ 
+ Like getHandshakeSession(),
+ a connection may be in the middle of a handshake. The
+ application protocol may or may not yet be available.
+
+API Note:
+This method is defined in Java SE 8 Maintenance Release 3.
+Implementation Requirements:
+The implementation in this class throws
+ UnsupportedOperationException and performs no other action.
+Returns:
+null if it has not yet been determined if application
+         protocols might be used for this handshake, an empty
+         String if application protocols values will not
+         be used, or a non-empty application protocol String
+         if a value was successfully negotiated.
+Throws:
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation.
+Since:
+8
+
+
+"
+SSLSocket,getHandshakeApplicationProtocolSelector(),"BiFunction<SSLSocket,List<String>,String>",Retrieves the callback function that selects an application protocol value during a SSL/TLS/DTLS handshake.,"
+
+getHandshakeApplicationProtocolSelector
+public BiFunction<SSLSocket,List<String>,String> getHandshakeApplicationProtocolSelector()
+Retrieves the callback function that selects an application protocol
+ value during a SSL/TLS/DTLS handshake.
+ See setHandshakeApplicationProtocolSelector
+ for the function's type parameters.
+
+API Note:
+This method is defined in Java SE 8 Maintenance Release 3.
+Implementation Requirements:
+The implementation in this class throws
+ UnsupportedOperationException and performs no other action.
+Returns:
+the callback function, or null if none has been set.
+Throws:
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation.
+Since:
+8
+
+
+"
+SSLSocket,getHandshakeSession(),SSLSession,Returns the SSLSession being constructed during a SSL/TLS handshake.,"
+
+getHandshakeSession
+public SSLSession getHandshakeSession()
+Returns the SSLSession being constructed during a SSL/TLS
+ handshake.
+ 
+ TLS protocols may negotiate parameters that are needed when using
+ an instance of this class, but before the SSLSession has
+ been completely initialized and made available via getSession.
+ For example, the list of valid signature algorithms may restrict
+ the type of certificates that can be used during TrustManager
+ decisions, or the maximum TLS fragment packet sizes can be
+ resized to better support the network environment.
+ 
+ This method provides early access to the SSLSession being
+ constructed.  Depending on how far the handshake has progressed,
+ some data may not yet be available for use.  For example, if a
+ remote server will be sending a Certificate chain, but that chain
+ has yet not been processed, the getPeerCertificates
+ method of SSLSession will throw a
+ SSLPeerUnverifiedException.  Once that chain has been processed,
+ getPeerCertificates will return the proper value.
+ 
+ Unlike getSession(), this method does not initiate the
+ initial handshake and does not block until handshaking is
+ complete.
+
+Returns:
+null if this instance is not currently handshaking, or
+         if the current handshake has not progressed far enough to
+         create a basic SSLSession.  Otherwise, this method returns the
+         SSLSession currently being negotiated.
+Throws:
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation.
+Since:
+1.7
+See Also:
+SSLEngine, 
+SSLSession, 
+ExtendedSSLSession, 
+X509ExtendedKeyManager, 
+X509ExtendedTrustManager
+
+
+"
+SSLSocket,getNeedClientAuth(),abstract boolean,Returns true if the socket will require client authentication.,"
+
+getNeedClientAuth
+public abstract boolean getNeedClientAuth()
+Returns true if the socket will require client authentication.
+ This option is only useful to sockets in the server mode.
+
+Returns:
+true if client authentication is required,
+          or false if no client authentication is desired.
+See Also:
+setNeedClientAuth(boolean), 
+setWantClientAuth(boolean), 
+getWantClientAuth(), 
+setUseClientMode(boolean)
+
+
+"
+SSLSocket,getSession(),abstract SSLSession,Returns the SSL Session in use by this connection.,"
+
+getSession
+public abstract SSLSession getSession()
+Returns the SSL Session in use by this connection.  These can
+ be long lived, and frequently correspond to an entire login session
+ for some user.  The session specifies a particular cipher suite
+ which is being actively used by all connections in that session,
+ as well as the identities of the session's client and server.
+ 
+ This method will initiate the initial handshake if
+ necessary and then block until the handshake has been
+ established.
+ 
+ If an error occurs during the initial handshake, this method
+ returns an invalid session object which reports an invalid
+ cipher suite of ""SSL_NULL_WITH_NULL_NULL"".
+
+Returns:
+the SSLSession
+
+
+"
+SSLSocket,getSSLParameters(),SSLParameters,Returns the SSLParameters in effect for this SSLSocket.,"
+
+getSSLParameters
+public SSLParameters getSSLParameters()
+Returns the SSLParameters in effect for this SSLSocket.
+ The ciphersuites and protocols of the returned SSLParameters
+ are always non-null.
+
+Returns:
+the SSLParameters in effect for this SSLSocket.
+Since:
+1.6
+
+
+"
+SSLSocket,getSupportedCipherSuites(),abstract String[],Returns the names of the cipher suites which could be enabled for use on this connection.,"
+
+getSupportedCipherSuites
+public abstract String[] getSupportedCipherSuites()
+Returns the names of the cipher suites which could be enabled for use
+ on this connection.  Normally, only a subset of these will actually
+ be enabled by default, since this list may include cipher suites which
+ do not meet quality of service requirements for those defaults.  Such
+ cipher suites might be useful in specialized applications.
+
+Returns:
+an array of cipher suite names
+See Also:
+getEnabledCipherSuites(), 
+setEnabledCipherSuites(String [])
+
+
+"
+SSLSocket,getSupportedProtocols(),abstract String[],Returns the names of the protocols which could be enabled for use on an SSL connection.,"
+
+getSupportedProtocols
+public abstract String[] getSupportedProtocols()
+Returns the names of the protocols which could be enabled for use
+ on an SSL connection.
+
+Returns:
+an array of protocols supported
+
+
+"
+SSLSocket,getUseClientMode(),abstract boolean,Returns true if the socket is set to use client mode when handshaking.,"
+
+getUseClientMode
+public abstract boolean getUseClientMode()
+Returns true if the socket is set to use client mode when
+ handshaking.
+
+Returns:
+true if the socket should do handshaking
+          in ""client"" mode
+See Also:
+setUseClientMode(boolean)
+
+
+"
+SSLSocket,getWantClientAuth(),abstract boolean,Returns true if the socket will request client authentication.,"
+
+getWantClientAuth
+public abstract boolean getWantClientAuth()
+Returns true if the socket will request client authentication.
+ This option is only useful for sockets in the server mode.
+
+Returns:
+true if client authentication is requested,
+          or false if no client authentication is desired.
+See Also:
+setNeedClientAuth(boolean), 
+getNeedClientAuth(), 
+setWantClientAuth(boolean), 
+setUseClientMode(boolean)
+
+
+"
+SSLSocket,removeHandshakeCompletedListener(HandshakeCompletedListener listener),abstract void,Removes a previously registered handshake completion listener.,"
+
+removeHandshakeCompletedListener
+public abstract void removeHandshakeCompletedListener(HandshakeCompletedListener listener)
+Removes a previously registered handshake completion listener.
+
+Parameters:
+listener - the HandShake Completed event listener
+Throws:
+IllegalArgumentException - if the listener is not registered,
+ or the argument is null.
+See Also:
+addHandshakeCompletedListener(HandshakeCompletedListener)
+
+
+"
+SSLSocket,setEnabledCipherSuites(String[] suites),abstract void,Sets the cipher suites enabled for use on this connection.,"
+
+setEnabledCipherSuites
+public abstract void setEnabledCipherSuites(String[] suites)
+Sets the cipher suites enabled for use on this connection.
+ 
+ Each cipher suite in the suites parameter must have
+ been listed by getSupportedCipherSuites(), or the method will
+ fail.  Following a successful call to this method, only suites
+ listed in the suites parameter are enabled for use.
+ 
+ See getEnabledCipherSuites() for more information
+ on why a specific ciphersuite may never be used on a connection.
+
+Parameters:
+suites - Names of all the cipher suites to enable
+Throws:
+IllegalArgumentException - when one or more of the ciphers
+          named by the parameter is not supported, or when the
+          parameter is null.
+See Also:
+getSupportedCipherSuites(), 
+getEnabledCipherSuites()
+
+
+"
+SSLSocket,setEnabledProtocols(String[] protocols),abstract void,Sets the protocol versions enabled for use on this connection.,"
+
+setEnabledProtocols
+public abstract void setEnabledProtocols(String[] protocols)
+Sets the protocol versions enabled for use on this connection.
+ 
+ The protocols must have been listed by
+ getSupportedProtocols() as being supported.
+ Following a successful call to this method, only protocols listed
+ in the protocols parameter are enabled for use.
+
+Parameters:
+protocols - Names of all the protocols to enable.
+Throws:
+IllegalArgumentException - when one or more of
+            the protocols named by the parameter is not supported or
+            when the protocols parameter is null.
+See Also:
+getEnabledProtocols()
+
+
+"
+SSLSocket,setEnableSessionCreation(boolean flag),abstract void,Controls whether new SSL sessions may be established by this socket.,"
+
+setEnableSessionCreation
+public abstract void setEnableSessionCreation(boolean flag)
+Controls whether new SSL sessions may be established by this socket.
+ If session creations are not allowed, and there are no
+ existing sessions to resume, there will be no successful
+ handshaking.
+
+Parameters:
+flag - true indicates that sessions may be created; this
+          is the default.  false indicates that an existing session
+          must be resumed
+See Also:
+getEnableSessionCreation()
+
+
+"
+SSLSocket,"setHandshakeApplicationProtocolSelector(BiFunction<SSLSocket,List<String>,String> selector)",void,Registers a callback function that selects an application protocol value for a SSL/TLS/DTLS handshake.,"
+
+setHandshakeApplicationProtocolSelector
+public void setHandshakeApplicationProtocolSelector(BiFunction<SSLSocket,List<String>,String> selector)
+Registers a callback function that selects an application protocol
+ value for a SSL/TLS/DTLS handshake.
+ The function overrides any values supplied using
+ SSLParameters.setApplicationProtocols and it supports the following
+ type parameters:
+ 
+
+ SSLSocket
+ The function's first argument allows the current SSLSocket
+      to be inspected, including the handshake session and configuration
+      settings.
+  List<String>
+ The function's second argument lists the application protocol names
+      advertised by the TLS peer.
+  String
+ The function's result is an application protocol name, or null to
+      indicate that none of the advertised names are acceptable.
+      If the return value is an empty String then application
+      protocol indications will not be used.
+      If the return value is null (no value chosen) or is a value that
+      was not advertised by the peer, the underlying protocol will
+      determine what action to take. (For example, ALPN will send a
+      ""no_application_protocol"" alert and terminate the connection.)
+ 
+
+
+ For example, the following call registers a callback function that
+ examines the TLS handshake parameters and selects an application protocol
+ name:
+ 
+     serverSocket.setHandshakeApplicationProtocolSelector(
+         (serverSocket, clientProtocols) -> {
+             SSLSession session = serverSocket.getHandshakeSession();
+             return chooseApplicationProtocol(
+                 serverSocket,
+                 clientProtocols,
+                 session.getProtocol(),
+                 session.getCipherSuite());
+         });
+ 
+
+API Note:
+This method is defined in Java SE 8 Maintenance Release 3.
+ 
+ This method should be called by TLS server applications before the TLS
+ handshake begins. Also, this SSLSocket should be configured with
+ parameters that are compatible with the application protocol selected by
+ the callback function. For example, enabling a poor choice of cipher
+ suites could result in no suitable application protocol.
+ See SSLParameters.
+Implementation Requirements:
+The implementation in this class throws
+ UnsupportedOperationException and performs no other action.
+Parameters:
+selector - the callback function, or null to de-register.
+Throws:
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation.
+Since:
+8
+
+
+"
+SSLSocket,setNeedClientAuth(boolean need),abstract void,Configures the socket to require client authentication.,"
+
+setNeedClientAuth
+public abstract void setNeedClientAuth(boolean need)
+Configures the socket to require client authentication.  This
+ option is only useful for sockets in the server mode.
+ 
+ A socket's client authentication setting is one of the following:
+ 
+ client authentication required
+  client authentication requested
+  no client authentication desired
+ 
+
+ Unlike setWantClientAuth(boolean), if this option is set and
+ the client chooses not to provide authentication information
+ about itself, the negotiations will stop and the connection
+ will be dropped.
+ 
+ Calling this method overrides any previous setting made by
+ this method or setWantClientAuth(boolean).
+
+Parameters:
+need - set to true if client authentication is required,
+          or false if no client authentication is desired.
+See Also:
+getNeedClientAuth(), 
+setWantClientAuth(boolean), 
+getWantClientAuth(), 
+setUseClientMode(boolean)
+
+
+"
+SSLSocket,setSSLParameters(SSLParameters params),void,Applies SSLParameters to this socket.,"
+
+setSSLParameters
+public void setSSLParameters(SSLParameters params)
+Applies SSLParameters to this socket.
+
+ This means:
+ 
+If params.getCipherSuites() is non-null,
+   setEnabledCipherSuites() is called with that value.
+If params.getProtocols() is non-null,
+   setEnabledProtocols() is called with that value.
+If params.getNeedClientAuth() or
+   params.getWantClientAuth() return true,
+   setNeedClientAuth(true) and
+   setWantClientAuth(true) are called, respectively;
+   otherwise setWantClientAuth(false) is called.
+If params.getServerNames() is non-null, the socket will
+   configure its server names with that value.
+If params.getSNIMatchers() is non-null, the socket will
+   configure its SNI matchers with that value.
+
+
+Parameters:
+params - the parameters
+Throws:
+IllegalArgumentException - if the setEnabledCipherSuites() or
+    the setEnabledProtocols() call fails
+Since:
+1.6
+
+
+"
+SSLSocket,setUseClientMode(boolean mode),abstract void,Configures the socket to use client (or server) mode when handshaking.,"
+
+setUseClientMode
+public abstract void setUseClientMode(boolean mode)
+Configures the socket to use client (or server) mode when
+ handshaking.
+ 
+ This method must be called before any handshaking occurs.
+ Once handshaking has begun, the mode can not be reset for the
+ life of this socket.
+ 
+ Servers normally authenticate themselves, and clients
+ are not required to do so.
+
+Parameters:
+mode - true if the socket should start its handshaking
+          in ""client"" mode
+Throws:
+IllegalArgumentException - if a mode change is attempted
+          after the initial handshake has begun.
+See Also:
+getUseClientMode()
+
+
+"
+SSLSocket,setWantClientAuth(boolean want),abstract void,Configures the socket to request client authentication.,"
+
+setWantClientAuth
+public abstract void setWantClientAuth(boolean want)
+Configures the socket to request client authentication.
+ This option is only useful for sockets in the server mode.
+ 
+ A socket's client authentication setting is one of the following:
+ 
+ client authentication required
+  client authentication requested
+  no client authentication desired
+ 
+
+ Unlike setNeedClientAuth(boolean), if this option is set and
+ the client chooses not to provide authentication information
+ about itself, the negotiations will continue.
+ 
+ Calling this method overrides any previous setting made by
+ this method or setNeedClientAuth(boolean).
+
+Parameters:
+want - set to true if client authentication is requested,
+          or false if no client authentication is desired.
+See Also:
+getWantClientAuth(), 
+setNeedClientAuth(boolean), 
+getNeedClientAuth(), 
+setUseClientMode(boolean)
+
+
+"
+SSLSocket,startHandshake(),abstract void,Starts an SSL handshake on this connection.,"
+
+startHandshake
+public abstract void startHandshake()
+                             throws IOException
+Starts an SSL handshake on this connection.  Common reasons include
+ a need to use new encryption keys, to change cipher suites, or to
+ initiate a new session.  To force complete reauthentication, the
+ current session could be invalidated before starting this handshake.
+
+  If data has already been sent on the connection, it continues
+ to flow during this handshake.  When the handshake completes, this
+ will be signaled with an event.
+
+ This method is synchronous for the initial handshake on a connection
+ and returns when the negotiated handshake is complete. Some
+ protocols may not support multiple handshakes on an existing socket
+ and may throw an IOException.
+
+Throws:
+IOException - on a network level error
+See Also:
+addHandshakeCompletedListener(HandshakeCompletedListener)
+
+
+"
+SSLSocketFactory,"createSocket(Socket s, InputStream consumed, boolean autoClose)",Socket,"Creates a server mode Socket layered over an existing connected socket, and is able to read data which has already been consumed/removed from the Socket's underlying InputStream.","
+
+createSocket
+public Socket createSocket(Socket s,
+                           InputStream consumed,
+                           boolean autoClose)
+                    throws IOException
+Creates a server mode Socket layered over an
+ existing connected socket, and is able to read data which has
+ already been consumed/removed from the Socket's
+ underlying InputStream.
+ 
+ This method can be used by a server application that needs to
+ observe the inbound data but still create valid SSL/TLS
+ connections: for example, inspection of Server Name Indication
+ (SNI) extensions (See section 3 of TLS Extensions
+ (RFC6066)).  Data that has been already removed from the
+ underlying InputStream should be loaded into the
+ consumed stream before this method is called, perhaps
+ using a ByteArrayInputStream.  When this
+ Socket begins handshaking, it will read all of the data in
+ consumed until it reaches EOF, then all further
+ data is read from the underlying InputStream as
+ usual.
+ 
+ The returned socket is configured using the socket options
+ established for this factory, and is set to use server mode when
+ handshaking (see SSLSocket.setUseClientMode(boolean)).
+
+Parameters:
+s - the existing socket
+consumed - the consumed inbound network data that has already been
+         removed from the existing Socket
+InputStream.  This parameter may be
+         null if no data has been removed.
+autoClose - close the underlying socket when this socket is closed.
+Returns:
+the Socket compliant with the socket options
+         established for this factory
+Throws:
+IOException - if an I/O error occurs when creating the socket
+UnsupportedOperationException - if the underlying provider
+         does not implement the operation
+NullPointerException - if s is null
+Since:
+1.8
+
+
+"
+SSLSocketFactory,"createSocket(Socket s, String host, int port, boolean autoClose)",abstract Socket,"Returns a socket layered over an existing socket connected to the named host, at the given port.","
+
+createSocket
+public abstract Socket createSocket(Socket s,
+                                    String host,
+                                    int port,
+                                    boolean autoClose)
+                             throws IOException
+Returns a socket layered over an existing socket connected to the named
+ host, at the given port.  This constructor can be used when tunneling SSL
+ through a proxy or when negotiating the use of SSL over an existing
+ socket. The host and port refer to the logical peer destination.
+ This socket is configured using the socket options established for
+ this factory.
+
+Parameters:
+s - the existing socket
+host - the server host
+port - the server port
+autoClose - close the underlying socket when this socket is closed
+Returns:
+a socket connected to the specified host and port
+Throws:
+IOException - if an I/O error occurs when creating the socket
+NullPointerException - if the parameter s is null
+
+
+"
+SSLSocketFactory,getDefault(),static SocketFactory,Returns the default SSL socket factory.,"
+
+getDefault
+public static SocketFactory getDefault()
+Returns the default SSL socket factory.
+
+ The first time this method is called, the security property
+ ""ssl.SocketFactory.provider"" is examined. If it is non-null, a class by
+ that name is loaded and instantiated. If that is successful and the
+ object is an instance of SSLSocketFactory, it is made the default SSL
+ socket factory.
+
+ Otherwise, this method returns
+ SSLContext.getDefault().getSocketFactory(). If that
+ call fails, an inoperative factory is returned.
+
+Returns:
+the default SocketFactory
+See Also:
+SSLContext.getDefault()
+
+
+"
+SSLSocketFactory,getDefaultCipherSuites(),abstract String[],Returns the list of cipher suites which are enabled by default.,"
+
+getDefaultCipherSuites
+public abstract String[] getDefaultCipherSuites()
+Returns the list of cipher suites which are enabled by default.
+ Unless a different list is enabled, handshaking on an SSL connection
+ will use one of these cipher suites.  The minimum quality of service
+ for these defaults requires confidentiality protection and server
+ authentication (that is, no anonymous cipher suites).
+
+Returns:
+array of the cipher suites enabled by default
+See Also:
+getSupportedCipherSuites()
+
+
+"
+SSLSocketFactory,getSupportedCipherSuites(),abstract String[],Returns the names of the cipher suites which could be enabled for use on an SSL connection.,"
+
+getSupportedCipherSuites
+public abstract String[] getSupportedCipherSuites()
+Returns the names of the cipher suites which could be enabled for use
+ on an SSL connection.  Normally, only a subset of these will actually
+ be enabled by default, since this list may include cipher suites which
+ do not meet quality of service requirements for those defaults.  Such
+ cipher suites are useful in specialized applications.
+
+Returns:
+an array of cipher suite names
+See Also:
+getDefaultCipherSuites()
+
+
+"
+TrustManagerFactory,getAlgorithm(),String,Returns the algorithm name of this TrustManagerFactory object.,"
+
+getAlgorithm
+public final String getAlgorithm()
+Returns the algorithm name of this TrustManagerFactory
+ object.
+
+ This is the same name that was specified in one of the
+ getInstance calls that created this
+ TrustManagerFactory object.
+
+Returns:
+the algorithm name of this TrustManagerFactory
+          object
+
+
+"
+TrustManagerFactory,getDefaultAlgorithm(),static String,Obtains the default TrustManagerFactory algorithm name.,"
+
+getDefaultAlgorithm
+public static final String getDefaultAlgorithm()
+Obtains the default TrustManagerFactory algorithm name.
+
+ The default TrustManager can be changed at runtime by setting
+ the value of the ssl.TrustManagerFactory.algorithm
+ security property to the desired algorithm name.
+
+Returns:
+the default algorithm name as specified by the
+ ssl.TrustManagerFactory.algorithm security property, or an
+ implementation-specific default if no such property exists.
+See Also:
+security properties
+
+
+"
+TrustManagerFactory,getInstance(String algorithm),static TrustManagerFactory,Returns a TrustManagerFactory object that acts as a factory for trust managers.,"
+
+getInstance
+public static final TrustManagerFactory getInstance(String algorithm)
+                                             throws NoSuchAlgorithmException
+Returns a TrustManagerFactory object that acts as a
+ factory for trust managers.
+
+  This method traverses the list of registered security Providers,
+ starting with the most preferred Provider.
+ A new TrustManagerFactory object encapsulating the
+ TrustManagerFactorySpi implementation from the first
+ Provider that supports the specified algorithm is returned.
+
+  Note that the list of registered providers may be retrieved via
+ the Security.getProviders() method.
+
+Parameters:
+algorithm - the standard name of the requested trust management
+          algorithm.  See the 
+          Java Secure Socket Extension Reference Guide 
+          for information about standard algorithm names.
+Returns:
+the new TrustManagerFactory object.
+Throws:
+NoSuchAlgorithmException - if no Provider supports a
+          TrustManagerFactorySpi implementation for the
+          specified algorithm.
+NullPointerException - if algorithm is null.
+See Also:
+Provider
+
+
+"
+TrustManagerFactory,"getInstance(String algorithm, Provider provider)",static TrustManagerFactory,Returns a TrustManagerFactory object that acts as a factory for trust managers.,"
+
+getInstance
+public static final TrustManagerFactory getInstance(String algorithm,
+                                                    Provider provider)
+                                             throws NoSuchAlgorithmException
+Returns a TrustManagerFactory object that acts as a
+ factory for trust managers.
+
+  A new TrustManagerFactory object encapsulating the
+ TrustManagerFactorySpi implementation from the specified Provider
+ object is returned.  Note that the specified Provider object
+ does not have to be registered in the provider list.
+
+Parameters:
+algorithm - the standard name of the requested trust management
+          algorithm.  See the 
+          Java Secure Socket Extension Reference Guide 
+          for information about standard algorithm names.
+provider - an instance of the provider.
+Returns:
+the new TrustManagerFactory object.
+Throws:
+NoSuchAlgorithmException - if a TrustManagerFactorySpi
+          implementation for the specified algorithm is not available
+          from the specified Provider object.
+IllegalArgumentException - if the provider is null.
+NullPointerException - if algorithm is null.
+See Also:
+Provider
+
+
+"
+TrustManagerFactory,"getInstance(String algorithm, String provider)",static TrustManagerFactory,Returns a TrustManagerFactory object that acts as a factory for trust managers.,"
+
+getInstance
+public static final TrustManagerFactory getInstance(String algorithm,
+                                                    String provider)
+                                             throws NoSuchAlgorithmException,
+                                                    NoSuchProviderException
+Returns a TrustManagerFactory object that acts as a
+ factory for trust managers.
+
+  A new KeyManagerFactory object encapsulating the
+ KeyManagerFactorySpi implementation from the specified provider
+ is returned.  The specified provider must be registered
+ in the security provider list.
+
+  Note that the list of registered providers may be retrieved via
+ the Security.getProviders() method.
+
+Parameters:
+algorithm - the standard name of the requested trust management
+          algorithm.  See the 
+          Java Secure Socket Extension Reference Guide 
+          for information about standard algorithm names.
+provider - the name of the provider.
+Returns:
+the new TrustManagerFactory object
+Throws:
+NoSuchAlgorithmException - if a TrustManagerFactorySpi
+          implementation for the specified algorithm is not
+          available from the specified provider.
+NoSuchProviderException - if the specified provider is not
+          registered in the security provider list.
+IllegalArgumentException - if the provider name is null or empty.
+NullPointerException - if algorithm is null.
+See Also:
+Provider
+
+
+"
+TrustManagerFactory,getProvider(),Provider,Returns the provider of this TrustManagerFactory object.,"
+
+getProvider
+public final Provider getProvider()
+Returns the provider of this TrustManagerFactory object.
+
+Returns:
+the provider of this TrustManagerFactory object
+
+
+"
+TrustManagerFactory,getTrustManagers(),TrustManager[],Returns one trust manager for each type of trust material.,"
+
+getTrustManagers
+public final TrustManager[] getTrustManagers()
+Returns one trust manager for each type of trust material.
+
+Returns:
+the trust managers
+Throws:
+IllegalStateException - if the factory is not initialized.
+
+
+"
+TrustManagerFactory,init(KeyStore ks),void,Initializes this factory with a source of certificate authorities and related trust material.,"
+
+init
+public final void init(KeyStore ks)
+                throws KeyStoreException
+Initializes this factory with a source of certificate
+ authorities and related trust material.
+ 
+ The provider typically uses a KeyStore as a basis for making
+ trust decisions.
+ 
+ For more flexible initialization, please see
+ init(ManagerFactoryParameters).
+
+Parameters:
+ks - the key store, or null
+Throws:
+KeyStoreException - if this operation fails
+
+
+"
+TrustManagerFactory,init(ManagerFactoryParameters spec),void,Initializes this factory with a source of provider-specific trust material.,"
+
+init
+public final void init(ManagerFactoryParameters spec)
+                throws InvalidAlgorithmParameterException
+Initializes this factory with a source of provider-specific
+ trust material.
+ 
+ In some cases, initialization parameters other than a keystore
+ may be needed by a provider.  Users of that particular provider
+ are expected to pass an implementation of the appropriate
+ ManagerFactoryParameters as defined by the
+ provider.  The provider can then call the specified methods in
+ the ManagerFactoryParameters implementation to obtain the
+ needed information.
+
+Parameters:
+spec - an implementation of a provider-specific parameter
+          specification
+Throws:
+InvalidAlgorithmParameterException - if an error is
+          encountered
+
+
+"
+TrustManagerFactorySpi,engineGetTrustManagers(),protected abstract TrustManager[],Returns one trust manager for each type of trust material.,"
+
+engineGetTrustManagers
+protected abstract TrustManager[] engineGetTrustManagers()
+Returns one trust manager for each type of trust material.
+
+Returns:
+the trust managers
+Throws:
+IllegalStateException - if the factory is not initialized.
+
+
+"
+TrustManagerFactorySpi,engineInit(KeyStore ks),protected abstract void,Initializes this factory with a source of certificate authorities and related trust material.,"
+
+engineInit
+protected abstract void engineInit(KeyStore ks)
+                            throws KeyStoreException
+Initializes this factory with a source of certificate
+ authorities and related trust material.
+
+Parameters:
+ks - the key store or null
+Throws:
+KeyStoreException - if this operation fails
+See Also:
+TrustManagerFactory.init(KeyStore)
+
+
+"
+TrustManagerFactorySpi,engineInit(ManagerFactoryParameters spec),protected abstract void,Initializes this factory with a source of provider-specific key material.,"
+
+engineInit
+protected abstract void engineInit(ManagerFactoryParameters spec)
+                            throws InvalidAlgorithmParameterException
+Initializes this factory with a source of provider-specific
+ key material.
+ 
+ In some cases, initialization parameters other than a keystore
+ may be needed by a provider.  Users of that
+ particular provider are expected to pass an implementation of
+ the appropriate ManagerFactoryParameters as
+ defined by the provider.  The provider can then call the
+ specified methods in the ManagerFactoryParameters
+ implementation to obtain the needed information.
+
+Parameters:
+spec - an implementation of a provider-specific parameter
+          specification
+Throws:
+InvalidAlgorithmParameterException - if there is problem
+          with the parameters
+See Also:
+TrustManagerFactory.init(ManagerFactoryParameters spec)
+
+
+"
+X509ExtendedKeyManager,"chooseEngineClientAlias(String[] keyType, Principal[] issuers, SSLEngine engine)",String,Choose an alias to authenticate the client side of an SSLEngine connection given the public key type and the list of certificate issuer authorities recognized by the peer (if any).,"
+
+chooseEngineClientAlias
+public String chooseEngineClientAlias(String[] keyType,
+                                      Principal[] issuers,
+                                      SSLEngine engine)
+Choose an alias to authenticate the client side of an
+ SSLEngine connection given the public key type
+ and the list of certificate issuer authorities recognized by
+ the peer (if any).
+ 
+ The default implementation returns null.
+
+Parameters:
+keyType - the key algorithm type name(s), ordered
+          with the most-preferred key type first.
+issuers - the list of acceptable CA issuer subject names
+          or null if it does not matter which issuers are used.
+engine - the SSLEngine to be used for this
+          connection.  This parameter can be null, which indicates
+          that implementations of this interface are free to
+          select an alias applicable to any engine.
+Returns:
+the alias name for the desired key, or null if there
+          are no matches.
+
+
+"
+X509ExtendedKeyManager,"chooseEngineServerAlias(String keyType, Principal[] issuers, SSLEngine engine)",String,Choose an alias to authenticate the server side of an SSLEngine connection given the public key type and the list of certificate issuer authorities recognized by the peer (if any).,"
+
+chooseEngineServerAlias
+public String chooseEngineServerAlias(String keyType,
+                                      Principal[] issuers,
+                                      SSLEngine engine)
+Choose an alias to authenticate the server side of an
+ SSLEngine connection given the public key type
+ and the list of certificate issuer authorities recognized by
+ the peer (if any).
+ 
+ The default implementation returns null.
+
+Parameters:
+keyType - the key algorithm type name.
+issuers - the list of acceptable CA issuer subject names
+          or null if it does not matter which issuers are used.
+engine - the SSLEngine to be used for this
+          connection.  This parameter can be null, which indicates
+          that implementations of this interface are free to
+          select an alias applicable to any engine.
+Returns:
+the alias name for the desired key, or null if there
+          are no matches.
+
+
+"
+X509ExtendedTrustManager,"checkClientTrusted(X509Certificate[] chain, String authType, Socket socket)",abstract void,"Given the partial or complete certificate chain provided by the peer, build and validate the certificate path based on the authentication type and ssl parameters.","
+
+checkClientTrusted
+public abstract void checkClientTrusted(X509Certificate[] chain,
+                                        String authType,
+                                        Socket socket)
+                                 throws CertificateException
+Given the partial or complete certificate chain provided by the
+ peer, build and validate the certificate path based on the
+ authentication type and ssl parameters.
+ 
+ The authentication type is determined by the actual certificate
+ used. For instance, if RSAPublicKey is used, the authType
+ should be ""RSA"". Checking is case-sensitive.
+ 
+ If the socket parameter is an instance of
+ SSLSocket, and the endpoint identification
+ algorithm of the SSLParameters is non-empty, to prevent
+ man-in-the-middle attacks, the address that the socket
+ connected to should be checked against the peer's identity presented
+ in the end-entity X509 certificate, as specified in the endpoint
+ identification algorithm.
+ 
+ If the socket parameter is an instance of
+ SSLSocket, and the algorithm constraints of the
+ SSLParameters is non-null, for every certificate in the
+ certification path, fields such as subject public key, the signature
+ algorithm, key usage, extended key usage, etc. need to conform to the
+ algorithm constraints in place on this socket.
+
+Parameters:
+chain - the peer certificate chain
+authType - the key exchange algorithm used
+socket - the socket used for this connection. This parameter
+        can be null, which indicates that implementations need not check
+        the ssl parameters
+Throws:
+IllegalArgumentException - if null or zero-length array is passed
+        in for the chain parameter or if null or zero-length
+        string is passed in for the authType parameter
+CertificateException - if the certificate chain is not trusted
+        by this TrustManager
+See Also:
+SSLParameters.getEndpointIdentificationAlgorithm(), 
+SSLParameters.setEndpointIdentificationAlgorithm(String), 
+SSLParameters.getAlgorithmConstraints(), 
+SSLParameters.setAlgorithmConstraints(AlgorithmConstraints)
+
+
+"
+X509ExtendedTrustManager,"checkClientTrusted(X509Certificate[] chain, String authType, SSLEngine engine)",abstract void,"Given the partial or complete certificate chain provided by the peer, build and validate the certificate path based on the authentication type and ssl parameters.","
+
+checkClientTrusted
+public abstract void checkClientTrusted(X509Certificate[] chain,
+                                        String authType,
+                                        SSLEngine engine)
+                                 throws CertificateException
+Given the partial or complete certificate chain provided by the
+ peer, build and validate the certificate path based on the
+ authentication type and ssl parameters.
+ 
+ The authentication type is determined by the actual certificate
+ used. For instance, if RSAPublicKey is used, the authType
+ should be ""RSA"". Checking is case-sensitive.
+ 
+ If the engine parameter is available, and the endpoint
+ identification algorithm of the SSLParameters is
+ non-empty, to prevent man-in-the-middle attacks, the address that
+ the engine connected to should be checked against
+ the peer's identity presented in the end-entity X509 certificate,
+ as specified in the endpoint identification algorithm.
+ 
+ If the engine parameter is available, and the algorithm
+ constraints of the SSLParameters is non-null, for every
+ certificate in the certification path, fields such as subject public
+ key, the signature algorithm, key usage, extended key usage, etc.
+ need to conform to the algorithm constraints in place on this engine.
+
+Parameters:
+chain - the peer certificate chain
+authType - the key exchange algorithm used
+engine - the engine used for this connection. This parameter
+        can be null, which indicates that implementations need not check
+        the ssl parameters
+Throws:
+IllegalArgumentException - if null or zero-length array is passed
+        in for the chain parameter or if null or zero-length
+        string is passed in for the authType parameter
+CertificateException - if the certificate chain is not trusted
+        by this TrustManager
+See Also:
+SSLParameters.getEndpointIdentificationAlgorithm(), 
+SSLParameters.setEndpointIdentificationAlgorithm(String), 
+SSLParameters.getAlgorithmConstraints(), 
+SSLParameters.setAlgorithmConstraints(AlgorithmConstraints)
+
+
+"
+X509ExtendedTrustManager,"checkServerTrusted(X509Certificate[] chain, String authType, Socket socket)",abstract void,"Given the partial or complete certificate chain provided by the peer, build and validate the certificate path based on the authentication type and ssl parameters.","
+
+checkServerTrusted
+public abstract void checkServerTrusted(X509Certificate[] chain,
+                                        String authType,
+                                        Socket socket)
+                                 throws CertificateException
+Given the partial or complete certificate chain provided by the
+ peer, build and validate the certificate path based on the
+ authentication type and ssl parameters.
+ 
+ The authentication type is the key exchange algorithm portion
+ of the cipher suites represented as a String, such as ""RSA"",
+ ""DHE_DSS"". Note: for some exportable cipher suites, the key
+ exchange algorithm is determined at run time during the
+ handshake. For instance, for TLS_RSA_EXPORT_WITH_RC4_40_MD5,
+ the authType should be RSA_EXPORT when an ephemeral RSA key is
+ used for the key exchange, and RSA when the key from the server
+ certificate is used. Checking is case-sensitive.
+ 
+ If the socket parameter is an instance of
+ SSLSocket, and the endpoint identification
+ algorithm of the SSLParameters is non-empty, to prevent
+ man-in-the-middle attacks, the address that the socket
+ connected to should be checked against the peer's identity presented
+ in the end-entity X509 certificate, as specified in the endpoint
+ identification algorithm.
+ 
+ If the socket parameter is an instance of
+ SSLSocket, and the algorithm constraints of the
+  SSLParameters is non-null, for every certificate in the
+ certification path, fields such as subject public key, the signature
+ algorithm, key usage, extended key usage, etc. need to conform to the
+ algorithm constraints in place on this socket.
+
+Parameters:
+chain - the peer certificate chain
+authType - the key exchange algorithm used
+socket - the socket used for this connection. This parameter
+        can be null, which indicates that implementations need not check
+        the ssl parameters
+Throws:
+IllegalArgumentException - if null or zero-length array is passed
+        in for the chain parameter or if null or zero-length
+        string is passed in for the authType parameter
+CertificateException - if the certificate chain is not trusted
+        by this TrustManager
+See Also:
+SSLParameters.getEndpointIdentificationAlgorithm(), 
+SSLParameters.setEndpointIdentificationAlgorithm(String), 
+SSLParameters.getAlgorithmConstraints(), 
+SSLParameters.setAlgorithmConstraints(AlgorithmConstraints)
+
+
+"
+X509ExtendedTrustManager,"checkServerTrusted(X509Certificate[] chain, String authType, SSLEngine engine)",abstract void,"Given the partial or complete certificate chain provided by the peer, build and validate the certificate path based on the authentication type and ssl parameters.","
+
+checkServerTrusted
+public abstract void checkServerTrusted(X509Certificate[] chain,
+                                        String authType,
+                                        SSLEngine engine)
+                                 throws CertificateException
+Given the partial or complete certificate chain provided by the
+ peer, build and validate the certificate path based on the
+ authentication type and ssl parameters.
+ 
+ The authentication type is the key exchange algorithm portion
+ of the cipher suites represented as a String, such as ""RSA"",
+ ""DHE_DSS"". Note: for some exportable cipher suites, the key
+ exchange algorithm is determined at run time during the
+ handshake. For instance, for TLS_RSA_EXPORT_WITH_RC4_40_MD5,
+ the authType should be RSA_EXPORT when an ephemeral RSA key is
+ used for the key exchange, and RSA when the key from the server
+ certificate is used. Checking is case-sensitive.
+ 
+ If the engine parameter is available, and the endpoint
+ identification algorithm of the SSLParameters is
+ non-empty, to prevent man-in-the-middle attacks, the address that
+ the engine connected to should be checked against
+ the peer's identity presented in the end-entity X509 certificate,
+ as specified in the endpoint identification algorithm.
+ 
+ If the engine parameter is available, and the algorithm
+ constraints of the SSLParameters is non-null, for every
+ certificate in the certification path, fields such as subject public
+ key, the signature algorithm, key usage, extended key usage, etc.
+ need to conform to the algorithm constraints in place on this engine.
+
+Parameters:
+chain - the peer certificate chain
+authType - the key exchange algorithm used
+engine - the engine used for this connection. This parameter
+        can be null, which indicates that implementations need not check
+        the ssl parameters
+Throws:
+IllegalArgumentException - if null or zero-length array is passed
+        in for the chain parameter or if null or zero-length
+        string is passed in for the authType parameter
+CertificateException - if the certificate chain is not trusted
+        by this TrustManager
+See Also:
+SSLParameters.getEndpointIdentificationAlgorithm(), 
+SSLParameters.setEndpointIdentificationAlgorithm(String), 
+SSLParameters.getAlgorithmConstraints(), 
+SSLParameters.setAlgorithmConstraints(AlgorithmConstraints)
+
+
+"

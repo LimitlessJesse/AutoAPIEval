@@ -1,0 +1,360 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,AbstractMarshallerImpl,1,"void marshal(Object jaxbElement, Result result)",False,,NULL
+0,AbstractMarshallerImpl,2,"void setProperty(String name, Object value)",True,,"
+
+setProperty
+public void setProperty(String name,
+                        Object value)
+                 throws PropertyException
+Default implementation of the setProperty method handles
+ the four defined properties in Marshaller. If a provider
+ needs to handle additional properties, it should override
+ this method in a derived class.
+
+Specified by:
+setProperty in interface Marshaller
+Parameters:
+name - the name of the property to be set. This value can either
+              be specified using one of the constant fields or a user
+              supplied string.
+value - the value of the property to be set
+Throws:
+PropertyException - when there is an error processing the given
+                            property or value
+
+
+"
+0,AbstractMarshallerImpl,3,void setAdapter(XmlAdapter adapter),True,,"
+
+setAdapter
+public void setAdapter(XmlAdapter adapter)
+Description copied from interface: Marshaller
+Associates a configured instance of XmlAdapter with this marshaller.
+
+ 
+ This is a convenience method that invokes setAdapter(adapter.getClass(),adapter);.
+
+Specified by:
+setAdapter in interface Marshaller
+See Also:
+Marshaller.setAdapter(Class,XmlAdapter)
+
+
+"
+0,AbstractMarshallerImpl,4,void setAttachmentMarshaller(AttachmentMarshaller am),True,,"
+
+setAttachmentMarshaller
+public void setAttachmentMarshaller(AttachmentMarshaller am)
+Description copied from interface: Marshaller
+Associate a context that enables binary data within an XML document
+ to be transmitted as XML-binary optimized attachment.
+ The attachment is referenced from the XML document content model
+ by content-id URIs(cid) references stored within the xml document.
+
+Specified by:
+setAttachmentMarshaller in interface Marshaller
+
+
+"
+0,AbstractMarshallerImpl,5,void setListener(Marshaller.Listener listener),True,,"
+
+setListener
+public void setListener(Marshaller.Listener listener)
+Description copied from interface: Marshaller
+
+ Register marshal event callback Marshaller.Listener with this Marshaller.
+
+ 
+ There is only one Listener per Marshaller. Setting a Listener replaces the previous set Listener.
+ One can unregister current Listener by setting listener to null.
+
+Specified by:
+setListener in interface Marshaller
+Parameters:
+listener - an instance of a class that implements Marshaller.Listener
+
+
+"
+1,AbstractUnmarshallerImpl,1,Object unmarshal(Node node),False,,NULL
+1,AbstractUnmarshallerImpl,2,Object unmarshal(Source source),True,,"
+
+unmarshal
+public Object unmarshal(Source source)
+                 throws JAXBException
+Description copied from interface: Unmarshaller
+Unmarshal XML data from the specified XML Source and return the
+ resulting content tree.
+
+ 
+ Implements Unmarshal Global Root Element.
+
+ 
+
+SAX 2.0 Parser Pluggability
+
+ A client application can choose not to use the default parser mechanism
+ supplied with their JAXB provider.  Any SAX 2.0 compliant parser can be
+ substituted for the JAXB provider's default mechanism.  To do so, the
+ client application must properly configure a SAXSource containing
+ an XMLReader implemented by the SAX 2.0 parser provider.  If the
+ XMLReader has an org.xml.sax.ErrorHandler registered
+ on it, it will be replaced by the JAXB Provider so that validation errors
+ can be reported via the ValidationEventHandler mechanism of
+ JAXB.  If the SAXSource does not contain an XMLReader,
+ then the JAXB provider's default parser mechanism will be used.
+ 
+ This parser replacement mechanism can also be used to replace the JAXB
+ provider's unmarshal-time validation engine.  The client application
+ must properly configure their SAX 2.0 compliant parser to perform
+ validation (as shown in the example above).  Any SAXParserExceptions
+  encountered by the parser during the unmarshal operation will be
+ processed by the JAXB provider and converted into JAXB
+ ValidationEvent objects which will be reported back to the
+ client via the ValidationEventHandler registered with the
+ Unmarshaller.  Note: specifying a substitute validating
+ SAX 2.0 parser for unmarshalling does not necessarily replace the
+ validation engine used by the JAXB provider for performing on-demand
+ validation.
+ 
+ The only way for a client application to specify an alternate parser
+ mechanism to be used during unmarshal is via the
+ unmarshal(SAXSource) API.  All other forms of the unmarshal
+ method (File, URL, Node, etc) will use the JAXB provider's default
+ parser and validator mechanisms.
+
+Specified by:
+unmarshal in interface Unmarshaller
+Parameters:
+source - the XML Source to unmarshal XML data from (providers are
+        only required to support SAXSource, DOMSource, and StreamSource)
+Returns:
+the newly created root object of the java content tree
+Throws:
+JAXBException - If any unexpected errors occur while unmarshalling
+UnmarshalException - If the ValidationEventHandler
+     returns false from its handleEvent method or the
+     Unmarshaller is unable to perform the XML to Java
+     binding.  See Unmarshalling XML Data
+See Also:
+Unmarshaller.unmarshal(javax.xml.transform.Source, Class)
+
+
+"
+1,AbstractUnmarshallerImpl,3,Object unmarshal(XMLStreamReader reader),True,,"
+
+unmarshal
+public Object unmarshal(XMLStreamReader reader)
+                 throws JAXBException
+Description copied from interface: Unmarshaller
+Unmarshal XML data from the specified pull parser and return the
+ resulting content tree.
+
+ 
+ Implements Unmarshal Global Root Element.
+
+ 
+ This method assumes that the parser is on a START_DOCUMENT or
+ START_ELEMENT event.  Unmarshalling will be done from this
+ start event to the corresponding end event.  If this method
+ returns successfully, the reader will be pointing at
+ the token right after the end event.
+
+Specified by:
+unmarshal in interface Unmarshaller
+Parameters:
+reader - The parser to be read.
+Returns:
+the newly created root object of the java content tree.
+Throws:
+JAXBException - If any unexpected errors occur while unmarshalling
+UnmarshalException - If the ValidationEventHandler
+     returns false from its handleEvent method or the
+     Unmarshaller is unable to perform the XML to Java
+     binding.  See Unmarshalling XML Data
+See Also:
+Unmarshaller.unmarshal(javax.xml.stream.XMLStreamReader, Class)
+
+
+"
+1,AbstractUnmarshallerImpl,4,Object unmarshal(XMLEventReader reader),True,,"
+
+unmarshal
+public Object unmarshal(XMLEventReader reader)
+                 throws JAXBException
+Description copied from interface: Unmarshaller
+Unmarshal XML data from the specified pull parser and return the
+ resulting content tree.
+
+ 
+ This method is an Unmarshal Global Root method.
+
+ 
+ This method assumes that the parser is on a START_DOCUMENT or
+ START_ELEMENT event.  Unmarshalling will be done from this
+ start event to the corresponding end event.  If this method
+ returns successfully, the reader will be pointing at
+ the token right after the end event.
+
+Specified by:
+unmarshal in interface Unmarshaller
+Parameters:
+reader - The parser to be read.
+Returns:
+the newly created root object of the java content tree.
+Throws:
+JAXBException - If any unexpected errors occur while unmarshalling
+UnmarshalException - If the ValidationEventHandler
+     returns false from its handleEvent method or the
+     Unmarshaller is unable to perform the XML to Java
+     binding.  See Unmarshalling XML Data
+See Also:
+Unmarshaller.unmarshal(javax.xml.stream.XMLEventReader, Class)
+
+
+"
+1,AbstractUnmarshallerImpl,5,Object unmarshal(InputSource source),True,,"
+
+unmarshal
+public final Object unmarshal(InputSource source)
+                       throws JAXBException
+Description copied from interface: Unmarshaller
+Unmarshal XML data from the specified SAX InputSource and return the
+ resulting content tree.
+
+ 
+ Implements Unmarshal Global Root Element.
+
+Specified by:
+unmarshal in interface Unmarshaller
+Parameters:
+source - the input source to unmarshal XML data from
+Returns:
+the newly created root object of the java content tree
+Throws:
+JAXBException - If any unexpected errors occur while unmarshalling
+UnmarshalException - If the ValidationEventHandler
+     returns false from its handleEvent method or the
+     Unmarshaller is unable to perform the XML to Java
+     binding.  See Unmarshalling XML Data
+
+
+"
+2,DefaultValidationEventHandler,1,void handleEvent(ValidationEvent event),False,,NULL
+2,DefaultValidationEventHandler,2,boolean handleEvent(ValidationEvent event),True,,"
+
+handleEvent
+public boolean handleEvent(ValidationEvent event)
+Description copied from interface: ValidationEventHandler
+Receive notification of a validation warning or error.
+
+ The ValidationEvent will have a
+ ValidationEventLocator embedded in it that
+ indicates where the error or warning occurred.
+
+ 
+ If an unchecked runtime exception is thrown from this method, the JAXB
+ provider will treat it as if the method returned false and interrupt
+ the current unmarshal, validate, or marshal operation.
+
+Specified by:
+handleEvent in interface ValidationEventHandler
+Parameters:
+event - the encapsulated validation event information.  It is a
+ provider error if this parameter is null.
+Returns:
+true if the JAXB Provider should attempt to continue the current
+         unmarshal, validate, or marshal operation after handling this
+         warning/error, false if the provider should terminate the current
+         operation with the appropriate UnmarshalException,
+         ValidationException, or MarshalException.
+
+
+"
+2,DefaultValidationEventHandler,3,"void handleEvent(ValidationEvent event, boolean canRecover)",False,,NULL
+2,DefaultValidationEventHandler,4,"void handleEvent(ValidationEvent event, boolean canRecover, boolean isWarning)",False,,NULL
+2,DefaultValidationEventHandler,5,"void handleEvent(ValidationEvent event, boolean canRecover, boolean isWarning, boolean isFatal)",False,,NULL
+3,NotIdentifiableEventImpl,1,Object getSource(),False,,NULL
+3,NotIdentifiableEventImpl,2,String toString(),False,,NULL
+3,NotIdentifiableEventImpl,3,void setID(String id),False,,NULL
+3,NotIdentifiableEventImpl,4,String getID(),False,,NULL
+3,NotIdentifiableEventImpl,5,void setLocator(Locator locator),False,,NULL
+4,ParseConversionEventImpl,1,String getAttributeNamespaceURI(),False,,NULL
+4,ParseConversionEventImpl,2,String getAttributeLocalName(),False,,NULL
+4,ParseConversionEventImpl,3,String getAttributeQName(),False,,NULL
+4,ParseConversionEventImpl,4,String getAttributeType(),False,,NULL
+4,ParseConversionEventImpl,5,String getAttributeValue(),False,,NULL
+5,PrintConversionEventImpl,1,String getText(),False,,NULL
+5,PrintConversionEventImpl,2,void setText(String text),False,,NULL
+5,PrintConversionEventImpl,3,String getID(),False,,NULL
+5,PrintConversionEventImpl,4,void setID(String id),False,,NULL
+5,PrintConversionEventImpl,5,String getConversionType(),False,,NULL
+6,ValidationEventImpl,1,int getSeverity(),True,,"
+
+getSeverity
+public int getSeverity()
+Description copied from interface: ValidationEvent
+Retrieve the severity code for this warning/error.
+
+ 
+ Must be one of ValidationError.WARNING,
+ ValidationError.ERROR, or ValidationError.FATAL_ERROR.
+
+Specified by:
+getSeverity in interface ValidationEvent
+Returns:
+the severity code for this warning/error
+
+
+"
+6,ValidationEventImpl,2,String getMessage(),True,,"
+
+getMessage
+public String getMessage()
+Description copied from interface: ValidationEvent
+Retrieve the text message for this warning/error.
+
+Specified by:
+getMessage in interface ValidationEvent
+Returns:
+the text message for this warning/error or null if one wasn't set
+
+
+"
+6,ValidationEventImpl,3,String getLinkedException(),False,,NULL
+6,ValidationEventImpl,4,int getLocator(),False,,NULL
+6,ValidationEventImpl,5,Object getLocatorObject(),False,,NULL
+7,ValidationEventLocatorImpl,1,int getColumnNumber(),True,,"
+
+getColumnNumber
+public int getColumnNumber()
+Description copied from interface: ValidationEventLocator
+Return the column number if available
+
+Specified by:
+getColumnNumber in interface ValidationEventLocator
+Returns:
+the column number or -1 if unavailable
+See Also:
+ValidationEventLocator.getColumnNumber()
+
+
+"
+7,ValidationEventLocatorImpl,2,int getLineNumber(),True,,"
+
+getLineNumber
+public int getLineNumber()
+Description copied from interface: ValidationEventLocator
+Return the line number if available
+
+Specified by:
+getLineNumber in interface ValidationEventLocator
+Returns:
+the line number or -1 if unavailable
+See Also:
+ValidationEventLocator.getLineNumber()
+
+
+"
+7,ValidationEventLocatorImpl,3,String getObject(),False,,NULL
+7,ValidationEventLocatorImpl,4,String getNode(),False,,NULL
+7,ValidationEventLocatorImpl,5,String getURL(),False,,NULL

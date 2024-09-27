@@ -1,0 +1,35 @@
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class DigestInputStream_2 {
+    public static void main(String[] args) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            DigestInputStream dis = new DigestInputStream(System.in, md);
+            byte[] buffer = new byte[1024];
+            while (dis.read(buffer) != -1) {
+                // Process input stream
+            }
+            dis.close();
+            byte[] digest = md.digest();
+            System.out.println("SHA-256 Hash: " + bytesToHex(digest));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Algorithm not found: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+}

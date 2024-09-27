@@ -1,0 +1,222 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Endpoint,1,void publish(Object implementor),True,,"
+
+publish
+public abstract void publish(Object serverContext)
+Publishes this endpoint at the provided server context.
+ A server context encapsulates the server infrastructure
+ and addressing information for a particular transport.
+ For a call to this method to succeed, the server context
+ passed as an argument to it MUST be compatible with the
+ endpoint's binding.
+
+Parameters:
+serverContext - An object representing a server
+           context to be used for publishing the endpoint.
+Throws:
+IllegalArgumentException - If the provided server context is not
+              supported by the implementation or turns
+              out to be unusable in conjunction with the
+              endpoint's binding.
+IllegalStateException - If the endpoint has been published already or it has been stopped.
+SecurityException - If a java.lang.SecurityManger
+          is being used and the application doesn't have the
+          WebServicePermission(""publishEndpoint"") permission.
+
+
+"
+0,Endpoint,2,void stop(),True,,"
+
+stop
+public abstract void stop()
+Stops publishing this endpoint.
+
+ If the endpoint is not in a published state, this method
+ has no effect.
+
+"
+0,Endpoint,3,void setExecutor(Executor executor),True,,"
+
+setExecutor
+public abstract void setExecutor(Executor executor)
+Sets the executor for this Endpoint instance.
+
+ The executor is used to dispatch an incoming request to
+ the implementor object.
+
+ If this Endpoint is published using the
+ publish(Object) method and the specified server
+ context defines its own threading behavior, the executor
+ may be ignored.
+
+Parameters:
+executor - The java.util.concurrent.Executor
+        to be used to dispatch a request.
+Throws:
+SecurityException - If the instance does not support
+         setting an executor for security reasons (e.g. the
+         necessary permissions are missing).
+See Also:
+Executor
+
+
+"
+0,Endpoint,4,Binding getBinding(),True,,"
+
+getBinding
+public abstract Binding getBinding()
+Returns the binding for this endpoint.
+
+Returns:
+The binding for this endpoint
+
+
+"
+0,Endpoint,5,EndpointReference getEndpointReference(Element... referenceParameters),True,,"
+
+getEndpointReference
+public abstract EndpointReference getEndpointReference(Element... referenceParameters)
+Returns the EndpointReference associated with
+ this Endpoint instance.
+ 
+ If the Binding for this bindingProvider is
+ either SOAP1.1/HTTP or SOAP1.2/HTTP, then a
+ W3CEndpointReference MUST be returned.
+
+Parameters:
+referenceParameters - Reference parameters to be associated with the
+ returned EndpointReference instance.
+Returns:
+EndpointReference of this Endpoint instance.
+ If the returned EndpointReference is of type
+ W3CEndpointReference then it MUST contain the
+ the specified referenceParameters.
+Throws:
+WebServiceException - If any error in the creation of
+ the EndpointReference or if the Endpoint is
+ not in the published state.
+UnsupportedOperationException - If this BindingProvider
+ uses the XML/HTTP binding.
+Since:
+JAX-WS 2.1
+See Also:
+W3CEndpointReference
+
+
+"
+1,EndpointContext,1,"void addEndpoint(String name, Object implementor)",False,,NULL
+1,EndpointContext,2,void removeEndpoint(String name),False,,NULL
+1,EndpointContext,3,Object getEndpoint(String name),False,,NULL
+1,EndpointContext,4,Set<String> getEndpointNames(),False,,NULL
+1,EndpointContext,5,boolean containsEndpoint(String name),False,,NULL
+2,EndpointReference,1,String getAddress(),False,,NULL
+2,EndpointReference,2,"Map<QName, String> getElements()",False,,NULL
+2,EndpointReference,3,List<Element> getReferenceParameters(),False,,NULL
+2,EndpointReference,4,String getWSDLDocumentLocation(),False,,NULL
+2,EndpointReference,5,void setAddress(String address),False,,NULL
+3,Holder,1,T value(),False,,NULL
+3,Holder,2,void value(T value),False,,NULL
+3,Holder,3,Holder<T> createAndSet(T value),False,,NULL
+3,Holder,4,void clear(),False,,NULL
+3,Holder,5,boolean isNull(),False,,NULL
+4,RespectBindingFeature,1,boolean isEnabled(),False,,NULL
+4,RespectBindingFeature,2,void setEnabled(boolean enabled),False,,NULL
+4,RespectBindingFeature,3,String getID(),True,,"
+
+getID
+public String getID()
+Get the unique identifier for this WebServiceFeature.
+
+Specified by:
+getID in class WebServiceFeature
+Returns:
+the unique identifier for this feature.
+
+
+"
+4,RespectBindingFeature,4,void setID(String id),False,,NULL
+4,RespectBindingFeature,5,boolean isFeatureEnabled(),False,,NULL
+5,Service,1,QName getServiceName(),True,,"
+
+getServiceName
+public QName getServiceName()
+Gets the name of this service.
+
+Returns:
+Qualified name of this service
+
+
+"
+5,Service,2,URL getWSDLDocumentLocation(),True,,"
+
+getWSDLDocumentLocation
+public URL getWSDLDocumentLocation()
+Gets the location of the WSDL document for this Service.
+
+Returns:
+URL for the location of the WSDL document for
+         this service.
+
+
+"
+5,Service,3,EndpointReference getWSDLDocumentLocation( QName serviceName ),False,,NULL
+5,Service,4,Executor getExecutor(),True,,"
+
+getExecutor
+public Executor getExecutor()
+Returns the executor for this Serviceinstance.
+
+ The executor is used for all asynchronous invocations that
+ require callbacks.
+
+Returns:
+The java.util.concurrent.Executor to be
+         used to invoke a callback.
+See Also:
+Executor
+
+
+"
+5,Service,5,HandlerResolver getHandlerResolver(),True,,"
+
+getHandlerResolver
+public HandlerResolver getHandlerResolver()
+Returns the configured handler resolver.
+
+Returns:
+HandlerResolver The HandlerResolver being
+         used by this Service instance, or null
+         if there isn't one.
+
+
+"
+6,WebServiceFeature,1,WebServiceFeature,False,,NULL
+6,WebServiceFeature,2,String getID(),True,,"
+
+getID
+public abstract String getID()
+Get the unique identifier for this WebServiceFeature.
+
+Returns:
+the unique identifier for this feature.
+
+
+"
+6,WebServiceFeature,3,boolean isEnabled(),True,,"
+
+isEnabled
+public boolean isEnabled()
+Returns true if this feature is enabled.
+
+Returns:
+true if and only if the feature is enabled .
+
+
+"
+6,WebServiceFeature,4,void setEnabled(boolean enabled),False,,NULL
+6,WebServiceFeature,5,void setID(String id),False,,NULL
+7,WebServicePermission,1,String getName(),False,,NULL
+7,WebServicePermission,2,boolean implies(Permission permission),False,,NULL
+7,WebServicePermission,3,void checkGuard(Object object),False,,NULL
+7,WebServicePermission,4,String getActions(),False,,NULL
+7,WebServicePermission,5,PermissionCollection newPermissionCollection(),False,,NULL

@@ -1,0 +1,818 @@
+Sample: 0 SerialArray_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialArray;
+import javax.sql.rowset.serial.SerialException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Assuming serialArray is an instance of SerialArray
+            SerialArray serialArray = new SerialArray();
+            Object arrayCopy = serialArray.getArray();
+            System.out.println("Array copy: " + arrayCopy);
+        } catch (SerialException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 SerialArray_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialArray;
+import javax.sql.rowset.serial.SerialException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SerialArray serialArray = new SerialArray();
+            String baseTypeName = serialArray.getBaseTypeName();
+            System.out.println("Base type name: " + baseTypeName);
+        } catch (SerialException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 SerialArray_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialArray;
+import java.sql.ResultSet;
+import javax.sql.rowset.serial.SerialException;
+
+public class Main {
+    public static void main(String[] args) {
+        SerialArray serialArray = new SerialArray(); // Instantiate SerialArray object
+        try {
+            ResultSet resultSet = serialArray.getResultSet(); // Retrieve ResultSet object
+            // Use the ResultSet object as needed
+        } catch (SerialException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 SerialBlob_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialBlob;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] data = {1, 2, 3, 4, 5};
+            SerialBlob serialBlob = new SerialBlob(data);
+            
+            long pos = 2;
+            int length = 3;
+            byte[] copiedBytes = serialBlob.getBytes(pos, length);
+            
+            System.out.println("Original data: " + Arrays.toString(data));
+            System.out.println("Copied bytes: " + Arrays.toString(copiedBytes));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 SerialBlob_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import javax.sql.rowset.serial.SerialException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] byteArray = {65, 66, 67, 68, 69}; // Sample byte array
+            SerialBlob serialBlob = new SerialBlob(byteArray);
+            InputStream inputStream = serialBlob.getBinaryStream();
+            int data;
+            while ((data = inputStream.read()) != -1) {
+                System.out.print((char) data);
+            }
+            inputStream.close();
+        } catch (SQLException | SerialException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 SerialBlob_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] bytes = {65, 66, 67, 68, 69}; // Sample byte array
+            SerialBlob serialBlob = new SerialBlob(bytes);
+            long blobLength = serialBlob.length();
+            System.out.println("Length of SerialBlob: " + blobLength);
+        } catch (SerialException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 SerialBlob_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.OutputStream;
+import java.sql.SQLException;
+import java.sql.SerialException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SerialBlob serialBlob = new SerialBlob(new byte[]{1, 2, 3, 4, 5});
+            OutputStream outputStream = serialBlob.setBinaryStream(0);
+            // Write data to the output stream
+            outputStream.write(new byte[]{6, 7, 8});
+            System.out.println("Data written to the Blob successfully.");
+        } catch (SQLException | SerialException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 SerialBlob_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
+import java.sql.Blob;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            byte[] data = {1, 2, 3, 4, 5};
+            Blob blob = new SerialBlob(data);
+            System.out.println("Original Blob length: " + blob.length());
+            
+            if (blob instanceof SerialBlob) {
+                SerialBlob serialBlob = (SerialBlob) blob;
+                serialBlob.truncate(3);
+                System.out.println("Truncated Blob length: " + serialBlob.length());
+            }
+        } catch (SerialException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 SerialClob_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialClob;
+import java.io.Reader;
+import java.sql.Clob;
+import java.sql.SQLException;
+import javax.sql.rowset.serial.SerialException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a SerialClob object
+            char[] data = {'H', 'e', 'l', 'l', 'o'};
+            SerialClob serialClob = new SerialClob(data);
+
+            // Get the character stream from the SerialClob object
+            Reader reader = serialClob.getCharacterStream();
+
+            // Read and print the data from the character stream
+            int character;
+            while ((character = reader.read()) != -1) {
+                System.out.print((char) character);
+            }
+
+            // Close the reader
+            reader.close();
+        } catch (SQLException | SerialException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 SerialClob_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialClob;
+import javax.sql.rowset.serial.SerialException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            char[] charArray = {'H', 'e', 'l', 'l', 'o'};
+            SerialClob serialClob = new SerialClob(charArray);
+            long length = serialClob.length();
+            System.out.println("Length of SerialClob: " + length);
+        } catch (SerialException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 SerialClob_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialClob;
+import javax.sql.rowset.serial.SerialException;
+import java.sql.Clob;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a SerialClob object
+            char[] data = {'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd'};
+            SerialClob serialClob = new SerialClob(data);
+
+            // Get a substring from the SerialClob object
+            String substring = serialClob.getSubString(1, 5);
+            System.out.println(substring); // Output: Hello
+        } catch (SerialException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 SerialClob_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialClob;
+import javax.sql.rowset.serial.SerialException;
+import java.sql.Clob;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a SerialClob object
+            char[] data = {'a', 'b', 'c', 'd', 'e'};
+            SerialClob serialClob = new SerialClob(data);
+
+            // Truncate the SerialClob object
+            serialClob.truncate(3);
+
+            // Display the truncated SerialClob object
+            System.out.println("Truncated CLOB value: " + serialClob.getSubString(1, (int) serialClob.length()));
+        } catch (SerialException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 SerialClob_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialClob;
+import java.io.OutputStream;
+import java.sql.SQLException;
+import java.sql.SerialException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SerialClob serialClob = new SerialClob(new char[]{'a', 'b', 'c'});
+            long position = 1;
+            OutputStream outputStream = serialClob.setAsciiStream(position);
+            // Write ASCII characters to the outputStream
+            outputStream.write("Hello, World!".getBytes());
+            System.out.println("Ascii characters written to CLOB successfully.");
+        } catch (SerialException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 SerialDatalink_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialDatalink;
+
+public class Main {
+    public static void main(String[] args) {
+        SerialDatalink datalink1 = new SerialDatalink("https://example.com");
+        SerialDatalink datalink2 = new SerialDatalink("https://example.com");
+
+        boolean isEqual = datalink1.equals(datalink2);
+        System.out.println("Are the SerialDatalinks equal? " + isEqual);
+    }
+}
+```
+================================================================
+
+Sample: 14 SerialDatalink_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialDatalink;
+
+public class Main {
+    public static void main(String[] args) {
+        SerialDatalink serialDatalink = new SerialDatalink("https://example.com");
+        int hashCode = serialDatalink.hashCode();
+        System.out.println("Hash code for SerialDatalink: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 15 SerialJavaObject_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialException;
+import javax.sql.rowset.serial.SerialJavaObject;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SerialJavaObject serialJavaObject = new SerialJavaObject(new Object());
+            Object copy = serialJavaObject.getObject();
+            System.out.println("Copy of SerialJavaObject: " + copy);
+        } catch (SerialException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 SerialJavaObject_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialJavaObject;
+
+public class Main {
+    public static void main(String[] args) {
+        SerialJavaObject obj1 = new SerialJavaObject();
+        SerialJavaObject obj2 = new SerialJavaObject();
+        
+        boolean result1 = obj1.equals(obj2);
+        System.out.println("Result 1: " + result1); // Output: Result 1: true
+        
+        SerialJavaObject obj3 = obj1;
+        boolean result2 = obj1.equals(obj3);
+        System.out.println("Result 2: " + result2); // Output: Result 2: true
+    }
+}
+```
+================================================================
+
+Sample: 17 SerialRef_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialException;
+import javax.sql.rowset.serial.SerialRef;
+
+public class Main {
+    public static void main(String[] args) {
+        SerialRef serialRef = new SerialRef();
+        try {
+            String baseTypeName = serialRef.getBaseTypeName();
+            System.out.println("Base Type Name: " + baseTypeName);
+        } catch (SerialException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 SerialRef_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialException;
+import javax.sql.rowset.serial.SerialRef;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SerialRef serialRef = new SerialRef();
+            Object object = serialRef.getObject();
+            System.out.println("Object representing the SQL structured type: " + object);
+        } catch (SerialException e) {
+            System.out.println("Error encountered in reference resolution: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 19 SerialRef_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialException;
+import javax.sql.rowset.serial.SerialRef;
+
+public class Main {
+    public static void main(String[] args) {
+        SerialRef serialRef = new SerialRef();
+        try {
+            serialRef.setObject(new Object());
+        } catch (SerialException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 SerialRef_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialRef;
+
+public class Main {
+    public static void main(String[] args) {
+        SerialRef ref1 = new SerialRef();
+        SerialRef ref2 = new SerialRef();
+        
+        boolean result1 = ref1.equals(ref2);
+        System.out.println("Result 1: " + result1); // Output: Result 1: true
+        
+        SerialRef ref3 = ref1;
+        boolean result2 = ref1.equals(ref3);
+        System.out.println("Result 2: " + result2); // Output: Result 2: true
+    }
+}
+```
+================================================================
+
+Sample: 21 SerialStruct_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialException;
+import javax.sql.rowset.serial.SerialStruct;
+
+public class Main {
+    public static void main(String[] args) {
+        SerialStruct serialStruct = new SerialStruct();
+        try {
+            Object[] attributes = serialStruct.getAttributes();
+            for (Object attribute : attributes) {
+                System.out.println(attribute);
+            }
+        } catch (SerialException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 22 SerialStruct_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialException;
+import javax.sql.rowset.serial.SerialStruct;
+
+public class Main {
+    public static void main(String[] args) {
+        SerialStruct serialStruct = new SerialStruct();
+        try {
+            String sqlTypeName = serialStruct.getSQLTypeName();
+            System.out.println("SQL Type Name: " + sqlTypeName);
+        } catch (SerialException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 23 SerialStruct_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SerialException;
+import javax.sql.rowset.serial.SerialStruct;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        SerialStruct serialStruct = new SerialStruct(); // Instantiate SerialStruct object
+        
+        // Create a map with UDT name and SQLData implementation class
+        Map<String, Class<?>> map = new HashMap<>();
+        map.put("UDT1", SQLDataImpl.class); // Replace SQLDataImpl with actual implementation class
+        
+        try {
+            Object[] attributes = serialStruct.getAttributes(map); // Call getAttributes method
+            for (Object attribute : attributes) {
+                System.out.println(attribute); // Print each attribute
+            }
+        } catch (SerialException e) {
+            e.printStackTrace(); // Handle SerialException
+        }
+    }
+}
+
+class SQLDataImpl implements SQLData {
+    // Implement SQLData interface methods
+}
+```
+================================================================
+
+Sample: 24 SQLInputImpl_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SQLInputImpl;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        SQLInputImpl sqlInput = new SQLInputImpl();
+        try {
+            String attribute = sqlInput.readString();
+            System.out.println("Attribute: " + attribute);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 25 SQLInputImpl_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SQLInputImpl;
+import java.sql.Array;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        SQLInputImpl sqlInput = new SQLInputImpl(null, null, null);
+        try {
+            Array array = sqlInput.readArray();
+            if (array != null) {
+                System.out.println("Array value: " + array.toString());
+            } else {
+                System.out.println("Array value is SQL NULL");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 26 SQLInputImpl_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SQLInputImpl;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        SQLInputImpl sqlInput = new SQLInputImpl();
+        try {
+            BigDecimal result = sqlInput.readBigDecimal();
+            System.out.println("Result: " + result);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 27 SQLInputImpl_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SQLInputImpl;
+import java.sql.Blob;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        SQLInputImpl sqlInput = new SQLInputImpl();
+        try {
+            Blob blob = sqlInput.readBlob();
+            if (blob != null) {
+                System.out.println("Blob value: " + blob.toString());
+            } else {
+                System.out.println("Blob value is SQL NULL");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 28 SQLInputImpl_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SQLInputImpl;
+import java.sql.Clob;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        SQLInputImpl sqlInput = new SQLInputImpl();
+        
+        try {
+            Clob clob = sqlInput.readClob();
+            if (clob != null) {
+                System.out.println("CLOB value: " + clob.getSubString(1, (int) clob.length()));
+            } else {
+                System.out.println("CLOB value is NULL");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 29 SQLOutputImpl_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SQLOutputImpl;
+import java.sql.Array;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        SQLOutputImpl sqlOutput = new SQLOutputImpl();
+        Array array = null; // Initialize with your Array object
+        
+        try {
+            sqlOutput.writeArray(array);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 30 SQLOutputImpl_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SQLOutputImpl;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            SQLOutputImpl sqlOutput = new SQLOutputImpl();
+            String data = "Hello, World!";
+            InputStream inputStream = new ByteArrayInputStream(data.getBytes());
+            sqlOutput.writeAsciiStream(inputStream);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 31 SQLOutputImpl_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SQLOutputImpl;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        SQLOutputImpl sqlOutput = new SQLOutputImpl();
+        BigDecimal value = new BigDecimal("123.45");
+        
+        try {
+            sqlOutput.writeBigDecimal(value);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 32 SQLOutputImpl_4
+----------------------------------------------------------------
+`void writeBlob(Blob x)`: This method writes a Blob object in the Java programming language to the SQLOutputImpl object.
+
+Code snippet:
+```java
+import javax.sql.rowset.serial.SQLOutputImpl;
+import java.sql.Blob;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        SQLOutputImpl sqlOutput = new SQLOutputImpl();
+        Blob blob = null; // Initialize your Blob object here
+
+        try {
+            sqlOutput.writeBlob(blob);
+            System.out.println("Blob object successfully written to SQLOutputImpl object.");
+        } catch (SQLException e) {
+            System.out.println("Error writing Blob object: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 33 SQLOutputImpl_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.sql.rowset.serial.SQLOutputImpl;
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
+        SQLOutputImpl sqlOutput = new SQLOutputImpl();
+        try {
+            sqlOutput.writeBoolean(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

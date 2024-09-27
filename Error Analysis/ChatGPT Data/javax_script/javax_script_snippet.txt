@@ -1,0 +1,266 @@
+Sample: 0 CompiledScript_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import javax.script.CompiledScript;
+
+public class Main {
+    public static void main(String[] args) throws ScriptException {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("JavaScript");
+        
+        CompiledScript script = ((javax.script.CompiledScript) engine).compile("var x = 10; var y = 20; x + y;");
+        Object result = script.eval();
+        
+        System.out.println("Result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 1 ScriptEngineManager_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+public class Main {
+    public static void main(String[] args) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("JavaScript");
+        
+        try {
+            engine.eval("print('Hello world!')");
+        } catch (ScriptException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 ScriptEngineManager_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptEngineFactory;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        List<ScriptEngineFactory> engineFactories = manager.getEngineFactories();
+        
+        for (ScriptEngineFactory factory : engineFactories) {
+            System.out.println(factory.getEngineName());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 ScriptEngineManager_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+public class Main {
+    public static void main(String[] args) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByExtension("js");
+        if(engine != null) {
+            System.out.println("Successfully retrieved ScriptEngine for 'js' extension");
+        } else {
+            System.out.println("ScriptEngine not found for 'js' extension");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 ScriptEngineManager_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+public class Main {
+    public static void main(String[] args) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByMimeType("text/javascript");
+        
+        if (engine != null) {
+            System.out.println("Found script engine for MIME type 'text/javascript'");
+        } else {
+            System.out.println("Script engine not found for MIME type 'text/javascript'");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 SimpleBindings_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.SimpleBindings;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleBindings bindings = new SimpleBindings();
+        bindings.put("key1", "value1");
+        Object value = bindings.get("key1");
+        System.out.println(value);
+    }
+}
+```
+================================================================
+
+Sample: 6 SimpleBindings_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.SimpleBindings;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleBindings bindings = new SimpleBindings();
+        bindings.put("key1", "value1");
+        System.out.println(bindings.containsKey("key1")); // Output: true
+        System.out.println(bindings.containsKey("key2")); // Output: false
+    }
+}
+```
+================================================================
+
+Sample: 7 SimpleBindings_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.SimpleBindings;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleBindings bindings = new SimpleBindings();
+        bindings.put("name", "John Doe");
+        
+        int size = bindings.size();
+        System.out.println("Size of SimpleBindings: " + size);
+    }
+}
+```
+================================================================
+
+Sample: 8 SimpleScriptContext_1
+----------------------------------------------------------------
+`void setBindings(Bindings bindings, int scope)`: This method sets the specified Bindings to the specified scope within the SimpleScriptContext.
+
+Code snippet:
+```java
+import javax.script.Bindings;
+import javax.script.SimpleBindings;
+import javax.script.SimpleScriptContext;
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating a SimpleScriptContext
+        SimpleScriptContext scriptContext = new SimpleScriptContext();
+
+        // Creating a Bindings object
+        Bindings bindings = new SimpleBindings();
+        bindings.put("key", "value");
+
+        // Setting the Bindings to the ENGINE_SCOPE (global scope)
+        scriptContext.setBindings(bindings, SimpleScriptContext.ENGINE_SCOPE);
+
+        // Retrieving the value from the bindings
+        System.out.println(scriptContext.getAttribute("key"));
+
+        // Setting the Bindings to the NAMESPACE_SCOPE
+        scriptContext.setBindings(bindings, SimpleScriptContext.ENGINE_SCOPE);
+
+        // Retrieving the value from the bindings
+        System.out.println(scriptContext.getAttribute("key"));
+    }
+}
+```
+================================================================
+
+Sample: 9 SimpleScriptContext_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.Bindings;
+import javax.script.SimpleScriptContext;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleScriptContext context = new SimpleScriptContext();
+        Bindings bindings = context.getBindings(SimpleScriptContext.ENGINE_SCOPE);
+        bindings.put("name", "John");
+        
+        System.out.println(bindings.get("name"));
+    }
+}
+```
+================================================================
+
+Sample: 10 SimpleScriptContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.script.SimpleScriptContext;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleScriptContext context = new SimpleScriptContext();
+        context.setAttribute("name", "John", SimpleScriptContext.ENGINE_SCOPE);
+        System.out.println(context.getAttribute("name"));
+    }
+}
+```
+================================================================
+
+Sample: 11 SimpleScriptContext_4
+----------------------------------------------------------------
+`Object getAttribute(String name, int scope)`: This method retrieves an attribute set from a particular scope in the script context.
+
+Code snippet:
+```java
+import javax.script.SimpleScriptContext;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleScriptContext context = new SimpleScriptContext();
+        context.setAttribute("testAttribute", "Hello", SimpleScriptContext.ENGINE_SCOPE);
+        
+        Object attribute = context.getAttribute("testAttribute", SimpleScriptContext.ENGINE_SCOPE);
+        System.out.println(attribute);
+    }
+}
+```
+================================================================
+
+Sample: 12 SimpleScriptContext_5
+----------------------------------------------------------------
+`java
+import javax.script.SimpleScriptContext;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleScriptContext context = new SimpleScriptContext();
+        context.getWriter().write("Hello, World!");
+    }
+}
+`
+================================================================
+

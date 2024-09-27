@@ -1,0 +1,144 @@
+Sample: 0 MarshalledObject_3
+----------------------------------------------------------------
+`boolean equals(Object obj)`: Compares this MarshalledObject to another object.
+
+Code snippet:
+```java
+import java.rmi.MarshalledObject;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create two MarshalledObject instances with the same serialized object
+            MarshalledObject<String> obj1 = new MarshalledObject<>("Hello");
+            MarshalledObject<String> obj2 = new MarshalledObject<>("Hello");
+
+            // Compare the two MarshalledObject instances
+            boolean result = obj1.equals(obj2);
+
+            // Print the result
+            System.out.println("Are the two MarshalledObjects equal? " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 MarshalledObject_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.MarshalledObject;
+
+public class Main {
+    public static void main(String[] args) {
+        MarshalledObject<String> marshalledObject = new MarshalledObject<>("Hello");
+        int hashCode = marshalledObject.hashCode();
+        System.out.println("Hash code: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 2 Naming_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.Naming;
+import java.rmi.Remote;
+import java.rmi.AlreadyBoundException;
+import java.rmi.MalformedURLException;
+import java.rmi.RemoteException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Remote remoteObj = new RemoteObject(); // Assuming RemoteObject is a class that implements Remote interface
+            Naming.bind("rmi://localhost:1099/RemoteObject", remoteObj);
+            System.out.println("Remote object bound successfully.");
+        } catch (AlreadyBoundException | MalformedURLException | RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 Naming_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.net.MalformedURLException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a new remote object
+            RemoteObject remoteObj = new RemoteObject();
+            
+            // Rebind the remote object to a name
+            Naming.rebind("remoteObject", remoteObj);
+            
+            System.out.println("Remote object bound successfully.");
+        } catch (RemoteException | MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// Sample RemoteObject class
+class RemoteObject implements Remote {
+    // Remote object implementation
+}
+```
+================================================================
+
+Sample: 4 Naming_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.NotBoundException;
+import java.net.MalformedURLException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Naming.unbind("rmi://localhost:1099/MyRemoteObject");
+            System.out.println("Binding destroyed successfully.");
+        } catch (RemoteException | NotBoundException | MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 Naming_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.net.MalformedURLException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String[] names = Naming.list("//localhost");
+            for (String name : names) {
+                System.out.println(name);
+            }
+        } catch (RemoteException | MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+

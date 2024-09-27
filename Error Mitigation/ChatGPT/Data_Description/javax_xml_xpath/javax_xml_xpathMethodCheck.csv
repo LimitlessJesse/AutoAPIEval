@@ -1,0 +1,152 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,XPathConstants,1,String STRING(),False,,NULL
+0,XPathConstants,2,String NUMBER(),False,,NULL
+0,XPathConstants,3,String BOOLEAN(),False,,NULL
+0,XPathConstants,4,String NODESET(),False,,NULL
+0,XPathConstants,5,String NODE(),False,,NULL
+1,XPathFactory,1,XPath newXPath(),True,,"
+
+newXPath
+public abstract XPath newXPath()
+Return a new XPath using the underlying object
+ model determined when the XPathFactory was instantiated.
+
+Returns:
+New instance of an XPath.
+
+
+"
+1,XPathFactory,2,XPathExpression newXPathExpression(String expression),False,,NULL
+1,XPathFactory,3,XPathFactory newInstance(),True,,"
+
+newInstance
+public static XPathFactory newInstance()
+Get a new XPathFactory instance using the default object model,
+ DEFAULT_OBJECT_MODEL_URI,
+ the W3C DOM.
+This method is functionally equivalent to:
+
+   newInstance(DEFAULT_OBJECT_MODEL_URI)
+ 
+Since the implementation for the W3C DOM is always available, this method will never fail.
+
+Returns:
+Instance of an XPathFactory.
+Throws:
+RuntimeException - When there is a failure in creating an
+   XPathFactory for the default object model.
+
+
+"
+1,XPathFactory,4,XPathFactory newInstance(String uri),True,,"
+
+newInstance
+public static XPathFactory newInstance(String uri)
+                                throws XPathFactoryConfigurationException
+Get a new XPathFactory instance using the specified object model.
+To find a XPathFactory object,
+ this method looks the following places in the following order where ""the class loader"" refers to the context class loader:
+
+
+     If the system property DEFAULT_PROPERTY_NAME + "":uri"" is present,
+     where uri is the parameter to this method, then its value is read as a class name.
+     The method will try to create a new instance of this class by using the class loader,
+     and returns it if it is successfully created.
+   
+
+     ${java.home}/lib/jaxp.properties is read and the value associated with the key being the system property above is looked for.
+     If present, the value is processed just like above.
+   
+
+     Use the service-provider loading facilities, defined by the
+     ServiceLoader class, to attempt to locate and load an
+     implementation of the service using the default loading mechanism:
+     the service-provider loading facility will use the current thread's context class loader
+     to attempt to load the service. If the context class
+     loader is null, the system class loader will be used.
+     
+     Each potential service provider is required to implement the method
+     isObjectModelSupported(String objectModel).
+     The first service provider found that supports the specified object
+     model is returned.
+     
+     In case of ServiceConfigurationError an
+     XPathFactoryConfigurationException will be thrown.
+   
+
+     Platform default XPathFactory is located in a platform specific way.
+     There must be a platform default XPathFactory for the W3C DOM, i.e. DEFAULT_OBJECT_MODEL_URI.
+   
+
+If everything fails, an XPathFactoryConfigurationException will be thrown.
+Tip for Trouble-shooting:
+See Properties.load(java.io.InputStream) for exactly how a property file is parsed.
+ In particular, colons ':' need to be escaped in a property file, so make sure the URIs are properly escaped in it.
+ For example:
+
+   http\://java.sun.com/jaxp/xpath/dom=org.acme.DomXPathFactory
+ 
+
+Parameters:
+uri - Identifies the underlying object model.
+   The specification only defines the URI DEFAULT_OBJECT_MODEL_URI,
+   http://java.sun.com/jaxp/xpath/dom for the W3C DOM,
+   the org.w3c.dom package, and implementations are free to introduce other URIs for other object models.
+Returns:
+Instance of an XPathFactory.
+Throws:
+XPathFactoryConfigurationException - If the specified object model
+      is unavailable, or if there is a configuration error.
+NullPointerException - If uri is null.
+IllegalArgumentException - If uri is null
+   or uri.length() == 0.
+
+
+"
+1,XPathFactory,5,"XPathFactory newInstance(String uri, String factoryClassName, ClassLoader classLoader)",True,,"
+
+newInstance
+public static XPathFactory newInstance(String uri,
+                                       String factoryClassName,
+                                       ClassLoader classLoader)
+                                throws XPathFactoryConfigurationException
+Obtain a new instance of a XPathFactory from a factory class name. XPathFactory
+ is returned if specified factory class supports the specified object model.
+ This function is useful when there are multiple providers in the classpath.
+ It gives more control to the application as it can specify which provider
+ should be loaded.
+Tip for Trouble-shooting
+Setting the jaxp.debug system property will cause
+ this method to print a lot of debug messages
+ to System.err about what it is doing and where it is looking at.
+ If you have problems try:
+
+ java -Djaxp.debug=1 YourProgram ....
+ 
+
+Parameters:
+uri - Identifies the underlying object model. The specification only defines the URI
+                    DEFAULT_OBJECT_MODEL_URI,http://java.sun.com/jaxp/xpath/dom
+                    for the W3C DOM, the org.w3c.dom package, and implementations are free to introduce
+                    other URIs for other object models.
+factoryClassName - fully qualified factory class name that provides implementation of javax.xml.xpath.XPathFactory.
+classLoader - ClassLoader used to load the factory class. If null
+                     current Thread's context classLoader is used to load the factory class.
+Returns:
+New instance of a XPathFactory
+Throws:
+XPathFactoryConfigurationException - if factoryClassName is null, or
+                   the factory class cannot be loaded, instantiated
+                   or the factory class does not support the object model specified
+                   in the uri parameter.
+NullPointerException - If uri is null.
+IllegalArgumentException - If uri is null
+          or uri.length() == 0.
+Since:
+1.6
+See Also:
+newInstance(), 
+newInstance(String uri)
+
+
+"

@@ -1,0 +1,409 @@
+Sample: 0 AbstractQueuedLongSynchronizer_1
+----------------------------------------------------------------
+`void setState(long newState)`: This method sets the value of synchronization state in AbstractQueuedLongSynchronizer.
+
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractQueuedLongSynchronizer synchronizer = new AbstractQueuedLongSynchronizer();
+        synchronizer.setState(10);
+        System.out.println("State set to: " + synchronizer.getState());
+    }
+}
+```
+================================================================
+
+Sample: 1 AbstractQueuedLongSynchronizer_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        CustomSync customSync = new CustomSync();
+        long state = customSync.getState();
+        System.out.println("Current state value: " + state);
+    }
+
+    static class CustomSync extends AbstractQueuedLongSynchronizer {
+        // Custom implementation
+    }
+}
+```
+================================================================
+
+Sample: 2 AbstractQueuedLongSynchronizer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractQueuedLongSynchronizer synchronizer = new AbstractQueuedLongSynchronizer();
+        long expect = 0;
+        long update = 1;
+        boolean result = synchronizer.compareAndSetState(expect, update);
+        System.out.println("Compare and set state result: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 3 AbstractQueuedLongSynchronizer_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        MySynchronizer synchronizer = new MySynchronizer();
+        synchronizer.acquire(1);
+    }
+
+    static class MySynchronizer extends AbstractQueuedLongSynchronizer {
+        protected boolean tryAcquire(long arg) {
+            // Implement your custom logic for acquiring the lock
+            return true; // Return true if lock is acquired successfully
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 AbstractQueuedLongSynchronizer_5
+----------------------------------------------------------------
+`boolean release(long arg)`: This method releases the lock in exclusive mode by unblocking one or more threads if tryRelease(long) returns true.
+
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        MySync sync = new MySync();
+        boolean result = sync.release(1);
+        System.out.println("Release successful: " + result);
+    }
+
+    static class MySync extends AbstractQueuedLongSynchronizer {
+        @Override
+        protected boolean tryRelease(long arg) {
+            // Custom implementation for releasing the lock
+            return true;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 AbstractQueuedSynchronizer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        MySync sync = new MySync();
+        sync.acquire(1);
+    }
+
+    static class MySync extends AbstractQueuedSynchronizer {
+        public void acquire(int permits) {
+            if (tryAcquire(permits))
+                return;
+            acquireQueued(addWaiter(Node.EXCLUSIVE), permits);
+        }
+
+        protected boolean tryAcquire(int arg) {
+            // Implementation of tryAcquire method
+            return true; // Placeholder return value
+        }
+
+        private Node addWaiter(Node mode) {
+            return new Node(Thread.currentThread(), mode);
+        }
+
+        private void acquireQueued(Node node, int arg) {
+            // Implementation of acquireQueued method
+        }
+    }
+
+    static final class Node {
+        static final Node EXCLUSIVE = new Node();
+        Thread thread;
+        Node nextWaiter;
+
+        Node() {
+        }
+
+        Node(Thread thread, Node mode) {
+            this.thread = thread;
+            this.nextWaiter = mode;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 AbstractQueuedSynchronizer_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        MySync sync = new MySync();
+        boolean acquired = sync.tryAcquireNanos(1, 1000);
+        System.out.println("Acquired: " + acquired);
+    }
+
+    static class MySync extends AbstractQueuedSynchronizer {
+        @Override
+        protected boolean tryAcquire(int arg) {
+            // Custom implementation for tryAcquire
+            return true;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 AbstractQueuedSynchronizer_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        MySync sync = new MySync();
+        System.out.println(sync.getQueueLength());
+    }
+
+    static class MySync extends AbstractQueuedSynchronizer {
+        // Implement any necessary methods for synchronization
+    }
+}
+```
+================================================================
+
+Sample: 8 AbstractQueuedSynchronizer_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractQueuedSynchronizer aqs = new AbstractQueuedSynchronizer() {
+            @Override
+            protected boolean isHeldExclusively() {
+                return false;
+            }
+        };
+        
+        boolean hasQueuedThreads = aqs.hasQueuedThreads();
+        System.out.println("Are there any queued threads? " + hasQueuedThreads);
+    }
+}
+```
+================================================================
+
+Sample: 9 ReentrantLock_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantLock lock = new ReentrantLock();
+        
+        lock.lock();
+        
+        // Critical section of code
+        
+        lock.unlock();
+    }
+}
+```
+================================================================
+
+Sample: 10 ReentrantLock_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantLock lock = new ReentrantLock();
+        
+        // Acquire the lock
+        lock.lock();
+        
+        // Perform some operations
+        
+        // Release the lock
+        lock.unlock();
+    }
+}
+```
+================================================================
+
+Sample: 11 ReentrantLock_3
+----------------------------------------------------------------
+`Condition newCondition()`: This method returns a Condition instance for use with the ReentrantLock instance.
+
+Code snippet:
+```java
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Main {
+    public static void main(String[] args) {
+        Lock lock = new ReentrantLock();
+        Condition condition = lock.newCondition();
+        
+        // Example usage of the Condition object
+        lock.lock();
+        try {
+            condition.await(); // Thread waits until signaled
+            // Perform some actions after being signaled
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 ReentrantLock_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Main {
+    public static void main(String[] args) {
+        Lock lock = new ReentrantLock();
+        
+        // Acquiring the lock using tryLock()
+        boolean locked = lock.tryLock();
+        
+        if(locked) {
+            try {
+                // Critical section
+                System.out.println("Lock acquired successfully");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            System.out.println("Lock not acquired");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 ReentrantLock_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantLock lock = new ReentrantLock();
+        
+        // Check if the lock is held by the current thread
+        boolean isHeld = lock.isHeldByCurrentThread();
+        
+        System.out.println("Is lock held by current thread? " + isHeld);
+    }
+}
+```
+================================================================
+
+Sample: 14 ReentrantReadWriteLock_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+        int readHoldCount = lock.getReadHoldCount();
+        System.out.println("Read hold count: " + readHoldCount);
+    }
+}
+```
+================================================================
+
+Sample: 15 ReentrantReadWriteLock_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+        int writeHoldCount = lock.writeLock().getWriteHoldCount();
+        System.out.println("Number of write holds: " + writeHoldCount);
+    }
+}
+```
+================================================================
+
+Sample: 16 ReentrantReadWriteLock_ReadLock_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+        ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
+        
+        readLock.lock();
+        
+        // Perform operations while holding the read lock
+        
+        readLock.unlock();
+    }
+}
+```
+================================================================
+
+Sample: 17 ReentrantReadWriteLock_ReadLock_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class Main {
+    public static void main(String[] args) {
+        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+        ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
+        
+        readLock.unlock();
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,921 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,FileCacheImageInputStream,1,void close(),True,,"
+
+close
+public void close()
+           throws IOException
+Closes this FileCacheImageInputStream, closing
+ and removing the cache file.  The source InputStream
+ is not closed.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Specified by:
+close in interface ImageInputStream
+Overrides:
+close in class ImageInputStreamImpl
+Throws:
+IOException - if an error occurs.
+
+
+"
+0,FileCacheImageInputStream,2,long length(),False,,NULL
+0,FileCacheImageInputStream,3,int read(),True,,"
+
+read
+public int read()
+         throws IOException
+Description copied from class: ImageInputStreamImpl
+Reads a single byte from the stream and returns it as an
+ int between 0 and 255.  If EOF is reached,
+ -1 is returned.
+
+  Subclasses must provide an implementation for this method.
+ The subclass implementation should update the stream position
+ before exiting.
+
+  The bit offset within the stream must be reset to zero before
+ the read occurs.
+
+Specified by:
+read in interface ImageInputStream
+Specified by:
+read in class ImageInputStreamImpl
+Returns:
+the value of the next byte in the stream, or -1
+ if EOF is reached.
+Throws:
+IOException - if the stream has been closed.
+
+
+"
+0,FileCacheImageInputStream,4,"int read(byte[] b, int off, int len)",True,,"
+
+read
+public int read(byte[] b,
+                int off,
+                int len)
+         throws IOException
+Description copied from class: ImageInputStreamImpl
+Reads up to len bytes from the stream, and stores
+ them into b starting at index off.
+ If no bytes can be read because the end of the stream has been
+ reached, -1 is returned.
+
+  The bit offset within the stream must be reset to zero before
+ the read occurs.
+
+  Subclasses must provide an implementation for this method.
+ The subclass implementation should update the stream position
+ before exiting.
+
+Specified by:
+read in interface ImageInputStream
+Specified by:
+read in class ImageInputStreamImpl
+Parameters:
+b - an array of bytes to be written to.
+off - the starting position within b to write to.
+len - the maximum number of bytes to read.
+Returns:
+the number of bytes actually read, or -1
+ to indicate EOF.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+0,FileCacheImageInputStream,5,boolean isCached(),True,,"
+
+isCached
+public boolean isCached()
+Returns true since this
+ ImageInputStream caches data in order to allow
+ seeking backwards.
+
+Specified by:
+isCached in interface ImageInputStream
+Overrides:
+isCached in class ImageInputStreamImpl
+Returns:
+true.
+See Also:
+isCachedMemory(), 
+isCachedFile()
+
+
+"
+1,FileCacheImageOutputStream,1,void close(),True,,"
+
+close
+public void close()
+           throws IOException
+Closes this FileCacheImageOutputStream.  All
+ pending data is flushed to the output, and the cache file
+ is closed and removed.  The destination OutputStream
+ is not closed.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Specified by:
+close in interface ImageInputStream
+Overrides:
+close in class ImageInputStreamImpl
+Throws:
+IOException - if an error occurs.
+
+
+"
+1,FileCacheImageOutputStream,2,long getStreamPosition(),False,,NULL
+1,FileCacheImageOutputStream,3,void flushBefore(long pos),True,,"
+
+flushBefore
+public void flushBefore(long pos)
+                 throws IOException
+Description copied from interface: ImageInputStream
+Discards the initial portion of the stream prior to the
+ indicated position.  Attempting to seek to an offset within the
+ flushed portion of the stream will result in an
+ IndexOutOfBoundsException.
+
+  Calling flushBefore may allow classes
+ implementing this interface to free up resources such as memory
+ or disk space that are being used to store data from the
+ stream.
+
+Specified by:
+flushBefore in interface ImageInputStream
+Specified by:
+flushBefore in interface ImageOutputStream
+Overrides:
+flushBefore in class ImageInputStreamImpl
+Parameters:
+pos - a long containing the length of the
+ stream prefix that may be flushed.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+1,FileCacheImageOutputStream,4,"void write(byte[] b, int off, int len)",True,,"
+
+write
+public void write(byte[] b,
+                  int off,
+                  int len)
+           throws IOException
+Description copied from interface: ImageOutputStream
+Writes a sequence of bytes to the stream at the current
+ position.  If len is 0, nothing is written.
+ The byte b[off] is written first, then the byte
+ b[off + 1], and so on.
+
+  If the bit offset within the stream is non-zero, the
+ remainder of the current byte is padded with 0s
+ and written out first.  The bit offset will be 0 after the
+ write.  Implementers can use the
+ flushBits
+ method of ImageOutputStreamImpl
+ to guarantee this.
+
+Specified by:
+write in interface DataOutput
+Specified by:
+write in interface ImageOutputStream
+Specified by:
+write in class ImageOutputStreamImpl
+Parameters:
+b - an array of bytes to be written.
+off - the start offset in the data.
+len - the number of bytes to write.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+1,FileCacheImageOutputStream,5,void write(int b),True,,"
+
+write
+public void write(int b)
+           throws IOException
+Description copied from interface: ImageOutputStream
+Writes a single byte to the stream at the current position.
+ The 24 high-order bits of b are ignored.
+
+  If the bit offset within the stream is non-zero, the
+ remainder of the current byte is padded with 0s
+ and written out first.  The bit offset will be 0 after the
+ write.  Implementers can use the
+ flushBits
+ method of ImageOutputStreamImpl
+ to guarantee this.
+
+Specified by:
+write in interface DataOutput
+Specified by:
+write in interface ImageOutputStream
+Specified by:
+write in class ImageOutputStreamImpl
+Parameters:
+b - an int whose lower 8 bits are to be
+ written.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+2,FileImageInputStream,1,int read(),True,,"
+
+read
+public int read()
+         throws IOException
+Description copied from class: ImageInputStreamImpl
+Reads a single byte from the stream and returns it as an
+ int between 0 and 255.  If EOF is reached,
+ -1 is returned.
+
+  Subclasses must provide an implementation for this method.
+ The subclass implementation should update the stream position
+ before exiting.
+
+  The bit offset within the stream must be reset to zero before
+ the read occurs.
+
+Specified by:
+read in interface ImageInputStream
+Specified by:
+read in class ImageInputStreamImpl
+Returns:
+the value of the next byte in the stream, or -1
+ if EOF is reached.
+Throws:
+IOException - if the stream has been closed.
+
+
+"
+2,FileImageInputStream,2,"int read(byte[] b, int off, int len)",True,,"
+
+read
+public int read(byte[] b,
+                int off,
+                int len)
+         throws IOException
+Description copied from class: ImageInputStreamImpl
+Reads up to len bytes from the stream, and stores
+ them into b starting at index off.
+ If no bytes can be read because the end of the stream has been
+ reached, -1 is returned.
+
+  The bit offset within the stream must be reset to zero before
+ the read occurs.
+
+  Subclasses must provide an implementation for this method.
+ The subclass implementation should update the stream position
+ before exiting.
+
+Specified by:
+read in interface ImageInputStream
+Specified by:
+read in class ImageInputStreamImpl
+Parameters:
+b - an array of bytes to be written to.
+off - the starting position within b to write to.
+len - the maximum number of bytes to read.
+Returns:
+the number of bytes actually read, or -1
+ to indicate EOF.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+2,FileImageInputStream,3,long length(),True,,"
+
+length
+public long length()
+Returns the length of the underlying file, or -1
+ if it is unknown.
+
+Specified by:
+length in interface ImageInputStream
+Overrides:
+length in class ImageInputStreamImpl
+Returns:
+the file length as a long, or
+ -1.
+
+
+"
+2,FileImageInputStream,4,void seek(long pos),True,,"
+
+seek
+public void seek(long pos)
+          throws IOException
+Description copied from interface: ImageInputStream
+Sets the current stream position to the desired location.  The
+ next read will occur at this location.  The bit offset is set
+ to 0.
+
+  An IndexOutOfBoundsException will be thrown if
+ pos is smaller than the flushed position (as
+ returned by getflushedPosition).
+
+  It is legal to seek past the end of the file; an
+ java.io.EOFException will be thrown only if a read is
+ performed.
+
+Specified by:
+seek in interface ImageInputStream
+Overrides:
+seek in class ImageInputStreamImpl
+Parameters:
+pos - a long containing the desired file
+ pointer position.
+Throws:
+IOException - if any other I/O error occurs.
+
+
+"
+2,FileImageInputStream,5,void close(),True,,"
+
+close
+public void close()
+           throws IOException
+Description copied from interface: ImageInputStream
+Closes the stream.  Attempts to access a stream that has been
+ closed may result in IOExceptions or incorrect
+ behavior.  Calling this method may allow classes implementing
+ this interface to release resources associated with the stream
+ such as memory, disk space, or file descriptors.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Specified by:
+close in interface ImageInputStream
+Overrides:
+close in class ImageInputStreamImpl
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+3,FileImageOutputStream,1,void write(int b),True,,"
+
+write
+public void write(int b)
+           throws IOException
+Description copied from interface: ImageOutputStream
+Writes a single byte to the stream at the current position.
+ The 24 high-order bits of b are ignored.
+
+  If the bit offset within the stream is non-zero, the
+ remainder of the current byte is padded with 0s
+ and written out first.  The bit offset will be 0 after the
+ write.  Implementers can use the
+ flushBits
+ method of ImageOutputStreamImpl
+ to guarantee this.
+
+Specified by:
+write in interface DataOutput
+Specified by:
+write in interface ImageOutputStream
+Specified by:
+write in class ImageOutputStreamImpl
+Parameters:
+b - an int whose lower 8 bits are to be
+ written.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+3,FileImageOutputStream,2,"void write(byte[] b, int off, int len)",True,,"
+
+write
+public void write(byte[] b,
+                  int off,
+                  int len)
+           throws IOException
+Description copied from interface: ImageOutputStream
+Writes a sequence of bytes to the stream at the current
+ position.  If len is 0, nothing is written.
+ The byte b[off] is written first, then the byte
+ b[off + 1], and so on.
+
+  If the bit offset within the stream is non-zero, the
+ remainder of the current byte is padded with 0s
+ and written out first.  The bit offset will be 0 after the
+ write.  Implementers can use the
+ flushBits
+ method of ImageOutputStreamImpl
+ to guarantee this.
+
+Specified by:
+write in interface DataOutput
+Specified by:
+write in interface ImageOutputStream
+Specified by:
+write in class ImageOutputStreamImpl
+Parameters:
+b - an array of bytes to be written.
+off - the start offset in the data.
+len - the number of bytes to write.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+3,FileImageOutputStream,3,void writeBoolean(boolean v),False,,NULL
+3,FileImageOutputStream,4,void writeShort(int v),False,,NULL
+3,FileImageOutputStream,5,void writeInt(int v),False,,NULL
+4,IIOByteBuffer,1,int length(),False,,NULL
+4,IIOByteBuffer,2,byte get(int index),False,,NULL
+4,IIOByteBuffer,3,"void put(int index, byte b)",False,,NULL
+4,IIOByteBuffer,4,byte[] getData(),True,,"
+
+getData
+public byte[] getData()
+Returns a reference to the byte array.  The returned value should
+ be treated as read-only, and only the portion specified by the
+ values of getOffset and getLength should
+ be used.
+
+Returns:
+a byte array reference.
+See Also:
+getOffset(), 
+getLength(), 
+setData(byte[])
+
+
+"
+4,IIOByteBuffer,5,"void setData(byte[] data, int offset, int length)",False,,NULL
+5,ImageInputStreamImpl,1,int read(),True,,"
+
+read
+public abstract int read()
+                  throws IOException
+Reads a single byte from the stream and returns it as an
+ int between 0 and 255.  If EOF is reached,
+ -1 is returned.
+
+  Subclasses must provide an implementation for this method.
+ The subclass implementation should update the stream position
+ before exiting.
+
+  The bit offset within the stream must be reset to zero before
+ the read occurs.
+
+Specified by:
+read in interface ImageInputStream
+Returns:
+the value of the next byte in the stream, or -1
+ if EOF is reached.
+Throws:
+IOException - if the stream has been closed.
+
+
+"
+5,ImageInputStreamImpl,2,int read(byte[] b),True,,"
+
+read
+public int read(byte[] b)
+         throws IOException
+A convenience method that calls read(b, 0, b.length).
+
+  The bit offset within the stream is reset to zero before
+ the read occurs.
+
+Specified by:
+read in interface ImageInputStream
+Parameters:
+b - an array of bytes to be written to.
+Returns:
+the number of bytes actually read, or -1
+ to indicate EOF.
+Throws:
+NullPointerException - if b is
+ null.
+IOException - if an I/O error occurs.
+
+
+"
+5,ImageInputStreamImpl,3,long readLong(),True,,"
+
+readLong
+public long readLong()
+              throws IOException
+Description copied from interface: ImageInputStream
+Reads 8 bytes from the stream, and (conceptually) concatenates
+ them according to the current byte order and returns the result
+ as a long.
+
+  The bit offset within the stream is reset to zero before
+ the read occurs.
+
+Specified by:
+readLong in interface DataInput
+Specified by:
+readLong in interface ImageInputStream
+Returns:
+a signed long value from the stream.
+Throws:
+EOFException - if the stream reaches the end before
+ reading all the bytes.
+IOException - if an I/O error occurs.
+See Also:
+ImageInputStream.getByteOrder()
+
+
+"
+5,ImageInputStreamImpl,4,float readFloat(),True,,"
+
+readFloat
+public float readFloat()
+                throws IOException
+Description copied from interface: ImageInputStream
+Reads 4 bytes from the stream, and (conceptually) concatenates
+ them according to the current byte order and returns the result
+ as a float.
+
+  The bit offset within the stream is reset to zero before
+ the read occurs.
+
+Specified by:
+readFloat in interface DataInput
+Specified by:
+readFloat in interface ImageInputStream
+Returns:
+a float value from the stream.
+Throws:
+EOFException - if the stream reaches the end before
+ reading all the bytes.
+IOException - if an I/O error occurs.
+See Also:
+ImageInputStream.getByteOrder()
+
+
+"
+5,ImageInputStreamImpl,5,void seek(long pos),True,,"
+
+seek
+public void seek(long pos)
+          throws IOException
+Description copied from interface: ImageInputStream
+Sets the current stream position to the desired location.  The
+ next read will occur at this location.  The bit offset is set
+ to 0.
+
+  An IndexOutOfBoundsException will be thrown if
+ pos is smaller than the flushed position (as
+ returned by getflushedPosition).
+
+  It is legal to seek past the end of the file; an
+ java.io.EOFException will be thrown only if a read is
+ performed.
+
+Specified by:
+seek in interface ImageInputStream
+Parameters:
+pos - a long containing the desired file
+ pointer position.
+Throws:
+IOException - if any other I/O error occurs.
+
+
+"
+6,ImageOutputStreamImpl,1,void write(int b),True,,"
+
+write
+public abstract void write(int b)
+                    throws IOException
+Description copied from interface: ImageOutputStream
+Writes a single byte to the stream at the current position.
+ The 24 high-order bits of b are ignored.
+
+  If the bit offset within the stream is non-zero, the
+ remainder of the current byte is padded with 0s
+ and written out first.  The bit offset will be 0 after the
+ write.  Implementers can use the
+ flushBits
+ method of ImageOutputStreamImpl
+ to guarantee this.
+
+Specified by:
+write in interface DataOutput
+Specified by:
+write in interface ImageOutputStream
+Parameters:
+b - an int whose lower 8 bits are to be
+ written.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+6,ImageOutputStreamImpl,2,"void write(byte[] b, int off, int len)",True,,"
+
+write
+public abstract void write(byte[] b,
+                           int off,
+                           int len)
+                    throws IOException
+Description copied from interface: ImageOutputStream
+Writes a sequence of bytes to the stream at the current
+ position.  If len is 0, nothing is written.
+ The byte b[off] is written first, then the byte
+ b[off + 1], and so on.
+
+  If the bit offset within the stream is non-zero, the
+ remainder of the current byte is padded with 0s
+ and written out first.  The bit offset will be 0 after the
+ write.  Implementers can use the
+ flushBits
+ method of ImageOutputStreamImpl
+ to guarantee this.
+
+Specified by:
+write in interface DataOutput
+Specified by:
+write in interface ImageOutputStream
+Parameters:
+b - an array of bytes to be written.
+off - the start offset in the data.
+len - the number of bytes to write.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+6,ImageOutputStreamImpl,3,void writeBoolean(boolean v),True,,"
+
+writeBoolean
+public void writeBoolean(boolean v)
+                  throws IOException
+Description copied from interface: ImageOutputStream
+Writes a boolean value to the stream.  If
+ v is true, the value (byte)1 is
+ written; if v is false, the value
+ (byte)0 is written.
+
+  If the bit offset within the stream is non-zero, the
+ remainder of the current byte is padded with 0s
+ and written out first.  The bit offset will be 0 after the
+ write.
+
+Specified by:
+writeBoolean in interface DataOutput
+Specified by:
+writeBoolean in interface ImageOutputStream
+Parameters:
+v - the boolean to be written.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+6,ImageOutputStreamImpl,4,void writeShort(int v),True,,"
+
+writeShort
+public void writeShort(int v)
+                throws IOException
+Description copied from interface: ImageOutputStream
+Writes the 16 low-order bits of v to the
+ stream. The 16 high-order bits of v are ignored.
+ If the stream uses network byte order, the bytes written, in
+ order, will be:
+
+ 
+ (byte)((v >> 8) & 0xff)
+ (byte)(v & 0xff)
+ 
+
+ Otherwise, the bytes written will be:
+
+ 
+ (byte)(v & 0xff)
+ (byte)((v >> 8) & 0xff)
+ 
+ If the bit offset within the stream is non-zero, the
+ remainder of the current byte is padded with 0s
+ and written out first.  The bit offset will be 0 after the
+ write.
+
+Specified by:
+writeShort in interface DataOutput
+Specified by:
+writeShort in interface ImageOutputStream
+Parameters:
+v - an int containing the short value to be
+ written.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+6,ImageOutputStreamImpl,5,void writeInt(int v),True,,"
+
+writeInt
+public void writeInt(int v)
+              throws IOException
+Description copied from interface: ImageOutputStream
+Writes the 32 bits of v to the stream.  If the
+ stream uses network byte order, the bytes written, in order,
+ will be:
+
+ 
+ (byte)((v >> 24) & 0xff)
+ (byte)((v >> 16) & 0xff)
+ (byte)((v >> 8) & 0xff)
+ (byte)(v & 0xff)
+ 
+
+ Otheriwse, the bytes written will be:
+
+ 
+ (byte)(v & 0xff)
+ (byte)((v >> 8) & 0xff)
+ (byte)((v >> 16) & 0xff)
+ (byte)((v >> 24) & 0xff)
+ 
+ If the bit offset within the stream is non-zero, the
+ remainder of the current byte is padded with 0s
+ and written out first.  The bit offset will be 0 after the
+ write.
+
+Specified by:
+writeInt in interface DataOutput
+Specified by:
+writeInt in interface ImageOutputStream
+Parameters:
+v - an int containing the value to be
+ written.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+7,MemoryCacheImageInputStream,1,int read(),True,,"
+
+read
+public int read()
+         throws IOException
+Description copied from class: ImageInputStreamImpl
+Reads a single byte from the stream and returns it as an
+ int between 0 and 255.  If EOF is reached,
+ -1 is returned.
+
+  Subclasses must provide an implementation for this method.
+ The subclass implementation should update the stream position
+ before exiting.
+
+  The bit offset within the stream must be reset to zero before
+ the read occurs.
+
+Specified by:
+read in interface ImageInputStream
+Specified by:
+read in class ImageInputStreamImpl
+Returns:
+the value of the next byte in the stream, or -1
+ if EOF is reached.
+Throws:
+IOException - if the stream has been closed.
+
+
+"
+7,MemoryCacheImageInputStream,2,"int read(byte[] b, int off, int len)",True,,"
+
+read
+public int read(byte[] b,
+                int off,
+                int len)
+         throws IOException
+Description copied from class: ImageInputStreamImpl
+Reads up to len bytes from the stream, and stores
+ them into b starting at index off.
+ If no bytes can be read because the end of the stream has been
+ reached, -1 is returned.
+
+  The bit offset within the stream must be reset to zero before
+ the read occurs.
+
+  Subclasses must provide an implementation for this method.
+ The subclass implementation should update the stream position
+ before exiting.
+
+Specified by:
+read in interface ImageInputStream
+Specified by:
+read in class ImageInputStreamImpl
+Parameters:
+b - an array of bytes to be written to.
+off - the starting position within b to write to.
+len - the maximum number of bytes to read.
+Returns:
+the number of bytes actually read, or -1
+ to indicate EOF.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+7,MemoryCacheImageInputStream,3,boolean isCached(),True,,"
+
+isCached
+public boolean isCached()
+Returns true since this
+ ImageInputStream caches data in order to allow
+ seeking backwards.
+
+Specified by:
+isCached in interface ImageInputStream
+Overrides:
+isCached in class ImageInputStreamImpl
+Returns:
+true.
+See Also:
+isCachedMemory(), 
+isCachedFile()
+
+
+"
+7,MemoryCacheImageInputStream,4,long length(),False,,NULL
+7,MemoryCacheImageInputStream,5,void seek(long pos),False,,NULL
+8,MemoryCacheImageOutputStream,1,"void write(byte[] b, int off, int len)",True,,"
+
+write
+public void write(byte[] b,
+                  int off,
+                  int len)
+           throws IOException
+Description copied from interface: ImageOutputStream
+Writes a sequence of bytes to the stream at the current
+ position.  If len is 0, nothing is written.
+ The byte b[off] is written first, then the byte
+ b[off + 1], and so on.
+
+  If the bit offset within the stream is non-zero, the
+ remainder of the current byte is padded with 0s
+ and written out first.  The bit offset will be 0 after the
+ write.  Implementers can use the
+ flushBits
+ method of ImageOutputStreamImpl
+ to guarantee this.
+
+Specified by:
+write in interface DataOutput
+Specified by:
+write in interface ImageOutputStream
+Specified by:
+write in class ImageOutputStreamImpl
+Parameters:
+b - an array of bytes to be written.
+off - the start offset in the data.
+len - the number of bytes to write.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+8,MemoryCacheImageOutputStream,2,void write(int b),True,,"
+
+write
+public void write(int b)
+           throws IOException
+Description copied from interface: ImageOutputStream
+Writes a single byte to the stream at the current position.
+ The 24 high-order bits of b are ignored.
+
+  If the bit offset within the stream is non-zero, the
+ remainder of the current byte is padded with 0s
+ and written out first.  The bit offset will be 0 after the
+ write.  Implementers can use the
+ flushBits
+ method of ImageOutputStreamImpl
+ to guarantee this.
+
+Specified by:
+write in interface DataOutput
+Specified by:
+write in interface ImageOutputStream
+Specified by:
+write in class ImageOutputStreamImpl
+Parameters:
+b - an int whose lower 8 bits are to be
+ written.
+Throws:
+IOException - if an I/O error occurs.
+
+
+"
+8,MemoryCacheImageOutputStream,3,void writeBoolean(boolean v),False,,NULL
+8,MemoryCacheImageOutputStream,4,void writeShort(int v),False,,NULL
+8,MemoryCacheImageOutputStream,5,void writeInt(int v),False,,NULL

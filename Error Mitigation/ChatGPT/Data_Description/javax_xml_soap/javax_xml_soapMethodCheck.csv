@@ -1,0 +1,479 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,AttachmentPart,1,void clear(),False,,NULL
+0,AttachmentPart,2,InputStream getBase64Content(),True,,"
+
+getBase64Content
+public abstract InputStream getBase64Content()
+                                      throws SOAPException
+Returns an InputStream which can be used to obtain the
+ content of AttachmentPart  as Base64 encoded
+ character data, this method would base64 encode the raw bytes
+ of the attachment and return.
+
+Returns:
+an InputStream from which the Base64 encoded
+       AttachmentPart can be read.
+Throws:
+SOAPException - if there is no content set into this
+      AttachmentPart object or if there was a data
+      transformation error.
+Since:
+SAAJ 1.3
+
+
+"
+0,AttachmentPart,3,String getContentId(),True,,"
+
+getContentId
+public String getContentId()
+Gets the value of the MIME header whose name is ""Content-ID"".
+
+Returns:
+a String giving the value of the
+          ""Content-ID"" header or null if there
+          is none
+See Also:
+setContentId(java.lang.String)
+
+
+"
+0,AttachmentPart,4,String getContentType(),True,,"
+
+getContentType
+public String getContentType()
+Gets the value of the MIME header whose name is ""Content-Type"".
+
+Returns:
+a String giving the value of the
+          ""Content-Type"" header or null if there
+          is none
+
+
+"
+0,AttachmentPart,5,void setContentType(String type),True,,"
+
+setContentType
+public void setContentType(String contentType)
+Sets the MIME header whose name is ""Content-Type"" with the given value.
+
+Parameters:
+contentType - a String giving the value of the
+          ""Content-Type"" header
+Throws:
+IllegalArgumentException - if there was a problem with
+            the specified content type
+
+
+"
+1,MessageFactory,1,SOAPMessage createMessage(),True,,"
+
+createMessage
+public abstract SOAPMessage createMessage()
+                                   throws SOAPException
+Creates a new SOAPMessage object with the default
+ SOAPPart, SOAPEnvelope, SOAPBody,
+ and SOAPHeader objects. Profile-specific message factories
+ can choose to prepopulate the SOAPMessage object with
+ profile-specific headers.
+ 
+ Content can be added to this message's SOAPPart object, and
+ the message can be sent ""as is"" when a message containing only a SOAP part
+ is sufficient. Otherwise, the SOAPMessage object needs
+ to create one or more AttachmentPart objects and
+ add them to itself. Any content that is not in XML format must be
+ in an AttachmentPart object.
+
+Returns:
+a new SOAPMessage object
+Throws:
+SOAPException - if a SOAP error occurs
+UnsupportedOperationException - if the protocol of this
+      MessageFactory instance is DYNAMIC_SOAP_PROTOCOL
+
+
+"
+1,MessageFactory,2,"SOAPMessage createMessage(MimeHeaders headers, InputStream in)",True,,"
+
+createMessage
+public abstract SOAPMessage createMessage(MimeHeaders headers,
+                                          InputStream in)
+                                   throws IOException,
+                                          SOAPException
+Internalizes the contents of the given InputStream object into a
+ new SOAPMessage object and returns the SOAPMessage
+ object.
+
+Parameters:
+in - the InputStream object that contains the data
+           for a message
+headers - the transport-specific headers passed to the
+        message in a transport-independent fashion for creation of the
+        message
+Returns:
+a new SOAPMessage object containing the data from
+         the given InputStream object
+Throws:
+IOException - if there is a problem in reading data from
+            the input stream
+SOAPException - may be thrown if the message is invalid
+IllegalArgumentException - if the MessageFactory
+      requires one or more MIME headers to be present in the
+      headers parameter and they are missing.
+      MessageFactory implementations for
+      SOAP_1_1_PROTOCOL or
+      SOAP_1_2_PROTOCOL must not throw
+      IllegalArgumentException for this reason.
+
+
+"
+1,MessageFactory,3,"SOAPMessage createMessage(MimeHeaders headers, byte[] data)",False,,NULL
+1,MessageFactory,4,"SOAPMessage createMessage(MimeHeaders headers, Source msgContent)",False,,NULL
+1,MessageFactory,5,"SOAPMessage createMessage(MimeHeaders headers, String protocol)",False,,NULL
+2,MimeHeader,1,String getName(),True,,"
+
+getName
+public String getName()
+Returns the name of this MimeHeader object.
+
+Returns:
+the name of the header as a String
+
+
+"
+2,MimeHeader,2,String getValue(),True,,"
+
+getValue
+public String getValue()
+Returns the value of this MimeHeader object.
+
+Returns:
+the value of the header as a String
+
+
+"
+2,MimeHeader,3,void setName(String name),False,,NULL
+2,MimeHeader,4,void setValue(String value),False,,NULL
+2,MimeHeader,5,String toString(),False,,NULL
+3,MimeHeaders,1,"void addHeader(String name, String value)",True,,"
+
+addHeader
+public void addHeader(String name,
+                      String value)
+Adds a MimeHeader object with the specified name and value
+ to this MimeHeaders object's list of headers.
+ 
+ Note that RFC822 headers can contain only US-ASCII characters.
+
+Parameters:
+name - a String with the name of the header to
+          be added
+value - a String with the value of the header to
+          be added
+Throws:
+IllegalArgumentException - if there was a problem in the
+ mime header name or value being added
+
+
+"
+3,MimeHeaders,2,String getHeader(String name),False,,NULL
+3,MimeHeaders,3,Iterator getAllHeaders(),True,,"
+
+getAllHeaders
+public Iterator getAllHeaders()
+Returns all the MimeHeaders in this MimeHeaders object.
+
+Returns:
+an Iterator object over this MimeHeaders
+          object's list of MimeHeader objects
+
+
+"
+3,MimeHeaders,4,int size(),False,,NULL
+3,MimeHeaders,5,void removeAllHeaders(),True,,"
+
+removeAllHeaders
+public void removeAllHeaders()
+Removes all the header entries from this MimeHeaders object.
+
+"
+4,SAAJMetaFactory,1,SOAPFactory newInstance(),False,,NULL
+4,SAAJMetaFactory,2,MessageFactory newMessageFactory(String protocol),True,,"
+
+newMessageFactory
+protected abstract MessageFactory newMessageFactory(String protocol)
+                                             throws SOAPException
+Creates a MessageFactory object for
+ the given String protocol.
+
+Parameters:
+protocol - a String indicating the protocol
+Throws:
+SOAPException - if there is an error in creating the
+            MessageFactory
+See Also:
+SOAPConstants.SOAP_1_1_PROTOCOL, 
+SOAPConstants.SOAP_1_2_PROTOCOL, 
+SOAPConstants.DYNAMIC_SOAP_PROTOCOL
+
+
+"
+4,SAAJMetaFactory,3,SOAPElement createElement(Name name),False,,NULL
+4,SAAJMetaFactory,4,SOAPElement createElement(QName qname),False,,NULL
+4,SAAJMetaFactory,5,Detail createDetail(),False,,NULL
+5,SAAJResult,1,SOAPElement getSOAPElement(),False,,NULL
+5,SAAJResult,2,void setDocument(Document document),False,,NULL
+5,SAAJResult,3,Document getDocument(),False,,NULL
+5,SAAJResult,4,void setNode(Node node),False,,NULL
+5,SAAJResult,5,Node getNode(),False,,NULL
+6,SOAPConnection,1,"SOAPMessage call(SOAPMessage request, Object to)",True,,"
+
+call
+public abstract SOAPMessage call(SOAPMessage request,
+                                 Object to)
+                          throws SOAPException
+Sends the given message to the specified endpoint and blocks until
+ it has returned the response.
+
+Parameters:
+request - the SOAPMessage object to be sent
+to - an Object that identifies
+         where the message should be sent. It is required to
+         support Objects of type
+         java.lang.String,
+         java.net.URL, and when JAXM is present
+         javax.xml.messaging.URLEndpoint
+Returns:
+the SOAPMessage object that is the response to the
+         message that was sent
+Throws:
+SOAPException - if there is a SOAP error
+
+
+"
+6,SOAPConnection,2,void close(),True,,"
+
+close
+public abstract void close()
+                    throws SOAPException
+Closes this SOAPConnection object.
+
+Throws:
+SOAPException - if there is a SOAP error
+
+
+"
+6,SOAPConnection,3,SOAPMessage get(Object to),True,,"
+
+get
+public SOAPMessage get(Object to)
+                throws SOAPException
+Gets a message from a specific endpoint and blocks until it receives,
+
+Parameters:
+to - an Object that identifies where
+                  the request should be sent. Objects of type
+                 java.lang.String and
+                 java.net.URL must be supported.
+Returns:
+the SOAPMessage object that is the response to the
+                  get message request
+Throws:
+SOAPException - if there is a SOAP error
+Since:
+SAAJ 1.3
+
+
+"
+6,SOAPConnection,4,void setEndpoint(String url),False,,NULL
+6,SOAPConnection,5,void setRequestTimeout(int timeout),False,,NULL
+7,SOAPConnectionFactory,1,SOAPConnection createConnection(),True,,"
+
+createConnection
+public abstract SOAPConnection createConnection()
+                                         throws SOAPException
+Create a new SOAPConnection.
+
+Returns:
+the new SOAPConnection object.
+Throws:
+SOAPException - if there was an exception creating the
+ SOAPConnection object.
+
+
+"
+7,SOAPConnectionFactory,2,void setRequestTimeout(int timeout),False,,NULL
+7,SOAPConnectionFactory,3,int getRequestTimeout(),False,,NULL
+7,SOAPConnectionFactory,4,void setSoapVersion(),False,,NULL
+7,SOAPConnectionFactory,5,String getSoapVersion(),False,,NULL
+8,SOAPElementFactory,1,SOAPElement createName(String localName),False,,NULL
+8,SOAPElementFactory,2,SOAPElement createElement(Name name),False,,NULL
+8,SOAPElementFactory,3,SOAPElement addTextNode(String text),False,,NULL
+8,SOAPElementFactory,4,SOAPElement addChildElement(String localName),False,,NULL
+8,SOAPElementFactory,5,"SOAPElement addAttribute(Name name, String value)",False,,NULL
+9,SOAPFactory,1,SOAPElement createElement(Name name),True,,"
+
+createElement
+public abstract SOAPElement createElement(Name name)
+                                   throws SOAPException
+Creates a SOAPElement object initialized with the
+ given Name object. The concrete type of the return value
+ will depend on the name given to the new SOAPElement. For
+ instance, a new SOAPElement with the name
+ ""{http://www.w3.org/2003/05/soap-envelope}Envelope"" would cause a
+ SOAPEnvelope that supports SOAP 1.2 behavior to be created.
+
+Parameters:
+name - a Name object with the XML name for
+             the new element
+Returns:
+the new SOAPElement object that was
+         created
+Throws:
+SOAPException - if there is an error in creating the
+            SOAPElement object
+See Also:
+createElement(javax.xml.namespace.QName)
+
+
+"
+9,SOAPFactory,2,SOAPElement createElement(String localName),True,,"
+
+createElement
+public abstract SOAPElement createElement(String localName)
+                                   throws SOAPException
+Creates a SOAPElement object initialized with the
+ given local name.
+
+Parameters:
+localName - a String giving the local name for
+             the new element
+Returns:
+the new SOAPElement object that was
+         created
+Throws:
+SOAPException - if there is an error in creating the
+            SOAPElement object
+
+
+"
+9,SOAPFactory,3,SOAPElement createDetail(),False,,NULL
+9,SOAPFactory,4,SOAPElement createHeader(Name name),False,,NULL
+9,SOAPFactory,5,SOAPElement createFault(),False,,NULL
+10,SOAPMessage,1,SOAPPart getSOAPPart(),True,,"
+
+getSOAPPart
+public abstract SOAPPart getSOAPPart()
+Gets the SOAP part of this SOAPMessage object.
+ 
+SOAPMessage object contains one or more attachments, the
+ SOAP Part must be the first MIME body part in the message.
+
+Returns:
+the SOAPPart object for this SOAPMessage
+         object
+
+
+"
+10,SOAPMessage,2,SOAPEnvelope getSOAPEnvelope(),False,,NULL
+10,SOAPMessage,3,void saveChanges(),True,,"
+
+saveChanges
+public abstract void saveChanges()
+                          throws SOAPException
+Updates this SOAPMessage object with all the changes that
+ have been made to it. This method is called automatically when
+ writeTo(OutputStream) is  called. However, if
+ changes are made to a message that was received or to one that has
+ already been sent, the method saveChanges needs to be
+ called explicitly in order to save the changes. The method saveChanges
+ also generates any changes that can be read back (for example, a
+ MessageId in profiles that support a message id). All MIME headers in a
+ message that is created for sending purposes are guaranteed to have
+ valid values only after saveChanges has been called.
+ 
+ In addition, this method marks the point at which the data from all
+ constituent AttachmentPart objects are pulled into the
+ message.
+ 
+
+Throws:
+SOAPException - if there was a problem saving
+               changes to this message.
+SOAPException
+
+
+"
+10,SOAPMessage,4,"void writeTo(OutputStream out) throws IOException, SOAPException",True,,"
+
+writeTo
+public abstract void writeTo(OutputStream out)
+                      throws SOAPException,
+                             IOException
+Writes this SOAPMessage object to the given output
+ stream. The externalization format is as defined by the SOAP 1.1 with
+ Attachments specification.
+ 
+ If there are no attachments, just an XML stream is written out. For
+ those messages that have attachments, writeTo writes a
+ MIME-encoded byte stream.
+ 
+ Note that this method does not write the transport-specific MIME Headers
+ of the Message
+
+Parameters:
+out - the OutputStream object to which this SOAPMessage
+           object will be written
+Throws:
+IOException - if an I/O error occurs
+SOAPException - if there was a problem in externalizing this SOAP message
+
+
+"
+10,SOAPMessage,5,SOAPHeader getSOAPHeader(),True,,"
+
+getSOAPHeader
+public SOAPHeader getSOAPHeader()
+                         throws SOAPException
+Gets the SOAP Header contained in this SOAPMessage
+ object.
+ 
+
+Returns:
+the SOAPHeader object contained by this SOAPMessage
+         object
+Throws:
+SOAPException - if the SOAP Header does not exist or cannot be retrieved
+Since:
+SAAJ 1.2
+
+
+"
+11,SOAPPart,1,javax.xml.soap.SOAPEnvelope getEnvelope(),False,,NULL
+11,SOAPPart,2,javax.xml.soap.SOAPBody getEnvelope(),False,,NULL
+11,SOAPPart,3,javax.xml.soap.SOAPHeader getHeader(),False,,NULL
+11,SOAPPart,4,void removeAllMimeHeaders(),True,,"
+
+removeAllMimeHeaders
+public abstract void removeAllMimeHeaders()
+Removes all the MimeHeader objects for this
+ SOAPEnvelope object.
+
+"
+11,SOAPPart,5,void setContentId(String contentId),True,,"
+
+setContentId
+public void setContentId(String contentId)
+Sets the value of the MIME header named ""Content-Id""
+ to the given String.
+
+Parameters:
+contentId - a String giving the value of the MIME
+        header ""Content-Id""
+Throws:
+IllegalArgumentException - if there is a problem in
+ setting the content id
+See Also:
+getContentId()
+
+
+"

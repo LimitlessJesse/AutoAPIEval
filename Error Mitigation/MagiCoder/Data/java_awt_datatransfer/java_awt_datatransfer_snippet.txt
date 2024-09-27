@@ -1,0 +1,312 @@
+Sample: 0 Clipboard
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: Provides interfaces and classes for transferring databetween and within applications.
+Here is the description of the class: A class that implements a mechanism to transfer data using cut/copy/paste operations.
+Here is the full description of the method: 
+
+
+setContents
+public void setContents(Transferable contents,
+                        ClipboardOwner owner)
+Sets the current contents of the clipboard to the specified
+ transferable object and registers the specified clipboard owner
+ as the owner of the new contents.
+ 
+ If there is an existing owner different from the argument
+ owner, that owner is notified that it no longer
+ holds ownership of the clipboard contents via an invocation
+ of ClipboardOwner.lostOwnership() on that owner.
+ An implementation of setContents() is free not
+ to invoke lostOwnership() directly from this method.
+ For example, lostOwnership() may be invoked later on
+ a different thread. The same applies to FlavorListeners
+ registered on this clipboard.
+ 
+ The method throws IllegalStateException if the clipboard
+ is currently unavailable. For example, on some platforms, the system
+ clipboard is unavailable while it is accessed by another application.
+
+Parameters:
+contents - the transferable object representing the
+                 clipboard content
+owner - the object which owns the clipboard content
+Throws:
+IllegalStateException - if the clipboard is currently unavailable
+See Also:
+Toolkit.getSystemClipboard()
+
+
+
+
+@@ Instruction
+I want to learn how to use void setContents(Transferable contents, ClipboardOwner owner) from java.awt.datatransfer.Clipboard
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the `setContents` method from `java.awt.datatransfer.Clipboard`:
+
+```java
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+
+public class Main {
+    public static void main(String[] args) {
+        StringSelection stringSelection = new StringSelection("Hello");
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
+    }
+}
+```
+
+In this code snippet, we first create a `StringSelection` object which is a `Transferable` object that can be used to transfer a string. Then we get the system clipboard using `Toolkit.getDefaultToolkit().getSystemClipboard()`. Finally, we call the `setContents` method on the clipboard, passing our `StringSelection` object and `null` as the owner.
+
+Please note that the `setContents` method can throw an `IllegalStateException` if the clipboard is currently unavailable. In a real-world application, you would need to handle this exception.
+================================================================
+
+Sample: 1 Clipboard
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: Provides interfaces and classes for transferring databetween and within applications.
+Here is the description of the class: A class that implements a mechanism to transfer data using cut/copy/paste operations.
+Here is the full description of the method: 
+
+
+getContents
+public Transferable getContents(Object requestor)
+Returns a transferable object representing the current contents
+ of the clipboard.  If the clipboard currently has no contents,
+ it returns null. The parameter Object requestor is
+ not currently used.  The method throws
+ IllegalStateException if the clipboard is currently
+ unavailable.  For example, on some platforms, the system clipboard is
+ unavailable while it is accessed by another application.
+
+Parameters:
+requestor - the object requesting the clip data  (not used)
+Returns:
+the current transferable object on the clipboard
+Throws:
+IllegalStateException - if the clipboard is currently unavailable
+See Also:
+Toolkit.getSystemClipboard()
+
+
+
+
+@@ Instruction
+I want to learn how to use Transferable getContents(Object requestor) from java.awt.datatransfer.Clipboard
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the `getContents(Object requestor)` method from `java.awt.datatransfer.Clipboard`:
+
+```java
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        Transferable contents = clipboard.getContents(null);
+
+        if (contents!= null) {
+            try {
+                String data = (String) contents.getTransferData(DataFlavor.stringFlavor);
+                System.out.println(data);
+            } catch (UnsupportedFlavorException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+This code snippet first gets the system clipboard using `Toolkit.getDefaultToolkit().getSystemClipboard()`. Then it gets the contents of the clipboard using `clipboard.getContents(null)`. If the clipboard has contents, it tries to get the data in the form of a string using `contents.getTransferData(DataFlavor.stringFlavor)`. If the data flavor is not supported or there is an I/O error, it catches the exceptions and prints the stack trace.
+================================================================
+
+Sample: 2 DataFlavor
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: Provides interfaces and classes for transferring databetween and within applications.
+Here is the description of the class: A DataFlavor provides meta information about data.
+Here is the full description of the method: 
+
+
+getHumanPresentableName
+public String getHumanPresentableName()
+Returns the human presentable name for the data format that this
+ DataFlavor represents.  This name would be localized
+ for different countries.
+
+Returns:
+the human presentable name for the data format that this
+    DataFlavor represents
+
+
+
+
+@@ Instruction
+I want to learn how to use String getHumanPresentableName() from java.awt.datatransfer.DataFlavor
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the `getHumanPresentableName()` method from `java.awt.datatransfer.DataFlavor`:
+
+```java
+import java.awt.datatransfer.DataFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DataFlavor flavor = DataFlavor.stringFlavor;
+        String humanPresentableName = flavor.getHumanPresentableName();
+        System.out.println(humanPresentableName);
+    }
+}
+```
+
+In this code snippet, we create a `DataFlavor` object for the `stringFlavor`, which is a standard flavor for string data. Then we call the `getHumanPresentableName()` method on this flavor, which returns the human presentable name for the data format that this DataFlavor represents.
+
+The output of this code snippet will be "String" because the `stringFlavor` represents the standard data format for strings.
+================================================================
+
+Sample: 3 DataFlavor
+----------------------------------------------------------------
+
+@@ Context
+Here is the description of the package: Provides interfaces and classes for transferring databetween and within applications.
+Here is the description of the class: A DataFlavor provides meta information about data.
+Here is the full description of the method: 
+
+
+getMimeType
+public String getMimeType()
+Returns the MIME type string for this DataFlavor.
+
+Returns:
+the MIME type string for this flavor
+
+
+
+
+@@ Instruction
+I want to learn how to use String getMimeType() from java.awt.datatransfer.DataFlavor
+Generate a complete code snippet of this method. The code snippet needs to be executable with import statement and put the method and code snippet in the format below:
+
+Code snippet:
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+For example:
+`boolean add(E e)`: This method appends the specified element to the end of this list.
+
+Code snippet:
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Hello");
+        System.out.println(list);
+    }
+}
+
+@@ Response
+Here is a complete code snippet of the `getMimeType()` method from `java.awt.datatransfer.DataFlavor`:
+
+```java
+import java.awt.datatransfer.DataFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DataFlavor flavor = DataFlavor.stringFlavor;
+        String mimeType = flavor.getMimeType();
+        System.out.println("MIME Type: " + mimeType);
+    }
+}
+```
+
+In this code, we create a `DataFlavor` object for the `stringFlavor`, which is a standard flavor for string data. We then call the `getMimeType()` method on this flavor, which returns the MIME type string for this flavor. The MIME type string is then printed to the console.
+
+Please note that the `stringFlavor` is a standard flavor for string data, so the MIME type string for this flavor is "text/plain".
+================================================================
+

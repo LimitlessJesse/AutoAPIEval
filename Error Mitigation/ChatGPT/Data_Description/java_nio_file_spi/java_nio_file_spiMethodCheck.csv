@@ -1,0 +1,219 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,FileSystemProvider,1,FileSystemProvider provider(),False,,NULL
+0,FileSystemProvider,2,"FileSystem newFileSystem(Path path, Map<String, ?> env)",True,,"
+
+newFileSystem
+public FileSystem newFileSystem(Path path,
+                                Map<String,?> env)
+                         throws IOException
+Constructs a new FileSystem to access the contents of a file as a
+ file system.
+
+  This method is intended for specialized providers of pseudo file
+ systems where the contents of one or more files is treated as a file
+ system. The env parameter is a map of provider specific properties
+ to configure the file system.
+
+  If this provider does not support the creation of such file systems
+ or if the provider does not recognize the file type of the given file then
+ it throws UnsupportedOperationException. The default implementation
+ of this method throws UnsupportedOperationException.
+
+Parameters:
+path - The path to the file
+env - A map of provider specific properties to configure the file system;
+          may be empty
+Returns:
+A new file system
+Throws:
+UnsupportedOperationException - If this provider does not support access to the contents as a
+          file system or it does not recognize the file type of the
+          given file
+IllegalArgumentException - If the env parameter does not contain properties required
+          by the provider, or a property value is invalid
+IOException - If an I/O error occurs
+SecurityException - If a security manager is installed and it denies an unspecified
+          permission.
+
+
+"
+0,FileSystemProvider,3,FileSystem getFileSystem(URI uri),True,,"
+
+getFileSystem
+public abstract FileSystem getFileSystem(URI uri)
+Returns an existing FileSystem created by this provider.
+
+  This method returns a reference to a FileSystem that was
+ created by invoking the newFileSystem(URI,Map)
+ method. File systems created the newFileSystem(Path,Map) method are not returned by this method.
+ The file system is identified by its URI. Its exact form
+ is highly provider dependent. In the case of the default provider the URI's
+ path component is ""/"" and the authority, query and fragment components
+ are undefined (Undefined components are represented by null).
+
+  Once a file system created by this provider is closed it is provider-dependent if this
+ method returns a reference to the closed file system or throws FileSystemNotFoundException. If the provider allows a new file system to
+ be created with the same URI as a file system it previously created then
+ this method throws the exception if invoked after the file system is
+ closed (and before a new instance is created by the newFileSystem method).
+
+  If a security manager is installed then a provider implementation
+ may require to check a permission before returning a reference to an
+ existing file system. In the case of the default file system, no permission check is required.
+
+Parameters:
+uri - URI reference
+Returns:
+The file system
+Throws:
+IllegalArgumentException - If the pre-conditions for the uri parameter aren't met
+FileSystemNotFoundException - If the file system does not exist
+SecurityException - If a security manager is installed and it denies an unspecified
+          permission.
+
+
+"
+0,FileSystemProvider,4,Path getPath(URI uri),True,,"
+
+getPath
+public abstract Path getPath(URI uri)
+Return a Path object by converting the given URI. The
+ resulting Path is associated with a FileSystem that
+ already exists or is constructed automatically.
+
+  The exact form of the URI is file system provider dependent. In the
+ case of the default provider, the URI scheme is ""file"" and the
+ given URI has a non-empty path component, and undefined query, and
+ fragment components. The resulting Path is associated with the
+ default default FileSystem.
+
+  If a security manager is installed then a provider implementation
+ may require to check a permission. In the case of the default file system, no permission check is
+ required.
+
+Parameters:
+uri - The URI to convert
+Returns:
+The resulting Path
+Throws:
+IllegalArgumentException - If the URI scheme does not identify this provider or other
+          preconditions on the uri parameter do not hold
+FileSystemNotFoundException - The file system, identified by the URI, does not exist and
+          cannot be created automatically
+SecurityException - If a security manager is installed and it denies an unspecified
+          permission.
+
+
+"
+0,FileSystemProvider,5,"void checkAccess(Path path, AccessMode... modes)",True,,"
+
+checkAccess
+public abstract void checkAccess(Path path,
+                                 AccessMode... modes)
+                          throws IOException
+Checks the existence, and optionally the accessibility, of a file.
+
+  This method may be used by the isReadable,
+ isWritable and isExecutable methods to check the accessibility of a file.
+
+  This method checks the existence of a file and that this Java virtual
+ machine has appropriate privileges that would allow it access the file
+ according to all of access modes specified in the modes parameter
+ as follows:
+
+ 
+ Value Description 
+
+ READ 
+ Checks that the file exists and that the Java virtual machine has
+     permission to read the file. 
+
+
+ WRITE 
+ Checks that the file exists and that the Java virtual machine has
+     permission to write to the file, 
+
+
+ EXECUTE 
+ Checks that the file exists and that the Java virtual machine has
+     permission to execute the file. The semantics
+     may differ when checking access to a directory. For example, on UNIX
+     systems, checking for EXECUTE access checks that the Java
+     virtual machine has permission to search the directory in order to
+     access file or subdirectories. 
+
+
+ If the modes parameter is of length zero, then the existence
+ of the file is checked.
+
+  This method follows symbolic links if the file referenced by this
+ object is a symbolic link. Depending on the implementation, this method
+ may require to read file permissions, access control lists, or other
+ file attributes in order to check the effective access to the file. To
+ determine the effective access to a file may require access to several
+ attributes and so in some implementations this method may not be atomic
+ with respect to other file system operations.
+
+Parameters:
+path - the path to the file to check
+modes - The access modes to check; may have zero elements
+Throws:
+UnsupportedOperationException - an implementation is required to support checking for
+          READ, WRITE, and EXECUTE access. This
+          exception is specified to allow for the Access enum to
+          be extended in future releases.
+NoSuchFileException - if a file does not exist (optional specific exception)
+AccessDeniedException - the requested access would be denied or the access cannot be
+          determined because the Java virtual machine has insufficient
+          privileges or other reasons. (optional specific exception)
+IOException - if an I/O error occurs
+SecurityException - In the case of the default provider, and a security manager is
+          installed, the checkRead
+          is invoked when checking read access to the file or only the
+          existence of the file, the checkWrite is invoked when checking write access to the file,
+          and checkExec is invoked
+          when checking execute access.
+
+
+"
+1,FileTypeDetector,1,String probeContentType(Path path),True,,"
+
+probeContentType
+public abstract String probeContentType(Path path)
+                                 throws IOException
+Probes the given file to guess its content type.
+
+  The means by which this method determines the file type is highly
+ implementation specific. It may simply examine the file name, it may use
+ a file attribute,
+ or it may examines bytes in the file.
+
+  The probe result is the string form of the value of a
+ Multipurpose Internet Mail Extension (MIME) content type as
+ defined by RFC 2045:
+ Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet
+ Message Bodies. The string must be parsable according to the
+ grammar in the RFC 2045.
+
+Parameters:
+path - the path to the file to probe
+Returns:
+The content type or null if the file type is not
+          recognized
+Throws:
+IOException - An I/O error occurs
+SecurityException - If the implementation requires to access the file, and a
+          security manager is installed, and it denies an unspecified
+          permission required by a file system provider implementation.
+          If the file reference is associated with the default file system
+          provider then the SecurityManager.checkRead(String) method
+          is invoked to check read access to the file.
+See Also:
+Files.probeContentType(java.nio.file.Path)
+
+
+"
+1,FileTypeDetector,2,String toString(),False,,NULL
+1,FileTypeDetector,3,boolean equals(Object obj),False,,NULL
+1,FileTypeDetector,4,int hashCode(),False,,NULL
+1,FileTypeDetector,5,FileTypeDetector of(),False,,NULL

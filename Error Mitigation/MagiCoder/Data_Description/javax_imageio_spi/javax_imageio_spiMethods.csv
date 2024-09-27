@@ -1,0 +1,1536 @@
+ClassName,Method,Return Type,Description,Full Description
+IIORegistry,getDefaultInstance(),static IIORegistry,Returns the default IIORegistry instance used by the Image I/O API.,"
+
+getDefaultInstance
+public static IIORegistry getDefaultInstance()
+Returns the default IIORegistry instance used by
+ the Image I/O API.  This instance should be used for all
+ registry functions.
+
+  Each ThreadGroup will receive its own
+ instance; this allows different Applets in the
+ same browser (for example) to each have their own registry.
+
+Returns:
+the default registry for the current
+ ThreadGroup.
+
+
+"
+IIORegistry,registerApplicationClasspathSpis(),void,"Registers all available service providers found on the application class path, using the default ClassLoader.","
+
+registerApplicationClasspathSpis
+public void registerApplicationClasspathSpis()
+Registers all available service providers found on the
+ application class path, using the default
+ ClassLoader.  This method is typically invoked by
+ the ImageIO.scanForPlugins method.
+
+See Also:
+ImageIO.scanForPlugins(), 
+ClassLoader.getResources(java.lang.String)
+
+
+"
+IIOServiceProvider,getDescription(Locale locale),abstract String,"Returns a brief, human-readable description of this service provider and its associated implementation.","
+
+getDescription
+public abstract String getDescription(Locale locale)
+Returns a brief, human-readable description of this service
+ provider and its associated implementation.  The resulting
+ string should be localized for the supplied
+ Locale, if possible.
+
+Parameters:
+locale - a Locale for which the return value
+ should be localized.
+Returns:
+a String containing a description of this
+ service provider.
+
+
+"
+IIOServiceProvider,getVendorName(),String,Returns the name of the vendor responsible for creating this service provider and its associated implementation.,"
+
+getVendorName
+public String getVendorName()
+Returns the name of the vendor responsible for creating this
+ service provider and its associated implementation.  Because
+ the vendor name may be used to select a service provider,
+ it is not localized.
+
+  The default implementation returns the value of the
+ vendorName instance variable.
+
+Returns:
+a non-null String containing
+ the name of the vendor.
+
+
+"
+IIOServiceProvider,getVersion(),String,Returns a string describing the version number of this service provider and its associated implementation.,"
+
+getVersion
+public String getVersion()
+Returns a string describing the version
+ number of this service provider and its associated
+ implementation.  Because the version may be used by transcoders
+ to identify the service providers they understand, this method
+ is not localized.
+
+  The default implementation returns the value of the
+ version instance variable.
+
+Returns:
+a non-null String containing
+ the version of this service provider.
+
+
+"
+IIOServiceProvider,"onDeregistration(ServiceRegistry registry, Class<?> category)",void,A callback that will be whenever the Spi class has been deregistered from a ServiceRegistry.,"
+
+onDeregistration
+public void onDeregistration(ServiceRegistry registry,
+                             Class<?> category)
+A callback that will be whenever the Spi class has been
+ deregistered from a ServiceRegistry.
+
+  Only the registry should call this method.
+
+  The default implementation does nothing.
+
+Specified by:
+onDeregistration in interface RegisterableService
+Parameters:
+registry - a ServiceRegistry from which this
+ object is being (wholly or partially) deregistered.
+category - a Class object indicating the
+ registry category from which this object is being deregistered.
+See Also:
+ServiceRegistry.deregisterServiceProvider(Object provider)
+
+
+"
+IIOServiceProvider,"onRegistration(ServiceRegistry registry, Class<?> category)",void,A callback that will be called exactly once after the Spi class has been instantiated and registered in a ServiceRegistry.,"
+
+onRegistration
+public void onRegistration(ServiceRegistry registry,
+                           Class<?> category)
+A callback that will be called exactly once after the Spi class
+ has been instantiated and registered in a
+ ServiceRegistry.  This may be used to verify that
+ the environment is suitable for this service, for example that
+ native libraries can be loaded.  If the service cannot function
+ in the environment where it finds itself, it should deregister
+ itself from the registry.
+
+  Only the registry should call this method.
+
+  The default implementation does nothing.
+
+Specified by:
+onRegistration in interface RegisterableService
+Parameters:
+registry - a ServiceRegistry where this
+ object has been registered.
+category - a Class object indicating the
+ registry category under which this object has been registered.
+See Also:
+ServiceRegistry.registerServiceProvider(Object provider)
+
+
+"
+ImageInputStreamSpi,canUseCacheFile(),boolean,Returns true if the ImageInputStream implementation associated with this service provider can optionally make use of a cache file for improved performance and/or memory footrprint.,"
+
+canUseCacheFile
+public boolean canUseCacheFile()
+Returns true if the ImageInputStream
+ implementation associated with this service provider can
+ optionally make use of a cache file for improved performance
+ and/or memory footrprint.  If false, the value of
+ the useCache argument to
+ createInputStreamInstance will be ignored.
+
+  The default implementation returns false.
+
+Returns:
+true if a cache file can be used by the
+ input streams created by this service provider.
+
+
+"
+ImageInputStreamSpi,createInputStreamInstance(Object input),ImageInputStream,Returns an instance of the ImageInputStream implementation associated with this service provider.,"
+
+createInputStreamInstance
+public ImageInputStream createInputStreamInstance(Object input)
+                                           throws IOException
+Returns an instance of the ImageInputStream
+ implementation associated with this service provider.  A cache
+ file will be created in the system-dependent default
+ temporary-file directory, if needed.
+
+Parameters:
+input - an object of the class type returned by
+ getInputClass.
+Returns:
+an ImageInputStream instance.
+Throws:
+IllegalArgumentException - if input is
+ not an instance of the correct class or is null.
+IOException - if a cache file is needed but cannot be
+ created.
+See Also:
+getInputClass()
+
+
+"
+ImageInputStreamSpi,"createInputStreamInstance(Object input, boolean useCache, File cacheDir)",abstract ImageInputStream,Returns an instance of the ImageInputStream implementation associated with this service provider.,"
+
+createInputStreamInstance
+public abstract ImageInputStream createInputStreamInstance(Object input,
+                                                           boolean useCache,
+                                                           File cacheDir)
+                                                    throws IOException
+Returns an instance of the ImageInputStream
+ implementation associated with this service provider.  If the
+ use of a cache file is optional, the useCache
+ parameter will be consulted.  Where a cache is required, or
+ not applicable, the value of useCache will be ignored.
+
+Parameters:
+input - an object of the class type returned by
+ getInputClass.
+useCache - a boolean indicating whether a
+ cache file should be used, in cases where it is optional.
+cacheDir - a File indicating where the
+ cache file should be created, or null to use the
+ system directory.
+Returns:
+an ImageInputStream instance.
+Throws:
+IllegalArgumentException - if input is
+ not an instance of the correct class or is null.
+IllegalArgumentException - if a cache file is needed
+ but cacheDir is non-null and is not a
+ directory.
+IOException - if a cache file is needed but cannot be
+ created.
+See Also:
+getInputClass(), 
+canUseCacheFile(), 
+needsCacheFile()
+
+
+"
+ImageInputStreamSpi,getInputClass(),Class<?>,"Returns a Class object representing the class or interface type that must be implemented by an input source in order to be ""wrapped"" in an ImageInputStream via the createInputStreamInstance method.","
+
+getInputClass
+public Class<?> getInputClass()
+Returns a Class object representing the class or
+ interface type that must be implemented by an input source in
+ order to be ""wrapped"" in an ImageInputStream via
+ the createInputStreamInstance method.
+
+  Typical return values might include
+ InputStream.class or URL.class, but
+ any class may be used.
+
+Returns:
+a Class variable.
+See Also:
+createInputStreamInstance(Object, boolean, File)
+
+
+"
+ImageInputStreamSpi,needsCacheFile(),boolean,Returns true if the ImageInputStream implementation associated with this service provider requires the use of a cache File.,"
+
+needsCacheFile
+public boolean needsCacheFile()
+Returns true if the ImageInputStream
+ implementation associated with this service provider requires
+ the use of a cache File.  If true,
+ the value of the useCache argument to
+ createInputStreamInstance will be ignored.
+
+  The default implementation returns false.
+
+Returns:
+true if a cache file is needed by the
+ input streams created by this service provider.
+
+
+"
+ImageOutputStreamSpi,canUseCacheFile(),boolean,Returns true if the ImageOutputStream implementation associated with this service provider can optionally make use of a cache File for improved performance and/or memory footrprint.,"
+
+canUseCacheFile
+public boolean canUseCacheFile()
+Returns true if the ImageOutputStream
+ implementation associated with this service provider can
+ optionally make use of a cache File for improved
+ performance and/or memory footrprint.  If false,
+ the value of the cacheFile argument to
+ createOutputStreamInstance will be ignored.
+
+  The default implementation returns false.
+
+Returns:
+true if a cache file can be used by the
+ output streams created by this service provider.
+
+
+"
+ImageOutputStreamSpi,createOutputStreamInstance(Object output),ImageOutputStream,Returns an instance of the ImageOutputStream implementation associated with this service provider.,"
+
+createOutputStreamInstance
+public ImageOutputStream createOutputStreamInstance(Object output)
+                                             throws IOException
+Returns an instance of the ImageOutputStream
+ implementation associated with this service provider.  A cache
+ file will be created in the system-dependent default
+ temporary-file directory, if needed.
+
+Parameters:
+output - an object of the class type returned by
+ getOutputClass.
+Returns:
+an ImageOutputStream instance.
+Throws:
+IllegalArgumentException - if output is
+ not an instance of the correct class or is null.
+IOException - if a cache file is needed but cannot be
+ created.
+See Also:
+getOutputClass()
+
+
+"
+ImageOutputStreamSpi,"createOutputStreamInstance(Object output, boolean useCache, File cacheDir)",abstract ImageOutputStream,Returns an instance of the ImageOutputStream implementation associated with this service provider.,"
+
+createOutputStreamInstance
+public abstract ImageOutputStream createOutputStreamInstance(Object output,
+                                                             boolean useCache,
+                                                             File cacheDir)
+                                                      throws IOException
+Returns an instance of the ImageOutputStream
+ implementation associated with this service provider.  If the
+ use of a cache file is optional, the useCache
+ parameter will be consulted.  Where a cache is required, or
+ not applicable, the value of useCache will be ignored.
+
+Parameters:
+output - an object of the class type returned by
+ getOutputClass.
+useCache - a boolean indicating whether a
+ cache file should be used, in cases where it is optional.
+cacheDir - a File indicating where the
+ cache file should be created, or null to use the
+ system directory.
+Returns:
+an ImageOutputStream instance.
+Throws:
+IllegalArgumentException - if output is
+ not an instance of the correct class or is null.
+IllegalArgumentException - if a cache file is needed,
+ but cacheDir is non-null and is not a
+ directory.
+IOException - if a cache file is needed but cannot be
+ created.
+See Also:
+getOutputClass()
+
+
+"
+ImageOutputStreamSpi,getOutputClass(),Class<?>,"Returns a Class object representing the class or interface type that must be implemented by an output destination in order to be ""wrapped"" in an ImageOutputStream via the createOutputStreamInstance method.","
+
+getOutputClass
+public Class<?> getOutputClass()
+Returns a Class object representing the class or
+ interface type that must be implemented by an output
+ destination in order to be ""wrapped"" in an
+ ImageOutputStream via the
+ createOutputStreamInstance method.
+
+  Typical return values might include
+ OutputStream.class or File.class, but
+ any class may be used.
+
+Returns:
+a Class variable.
+See Also:
+createOutputStreamInstance(Object, boolean, File)
+
+
+"
+ImageOutputStreamSpi,needsCacheFile(),boolean,Returns true if the ImageOutputStream implementation associated with this service provider requires the use of a cache File.,"
+
+needsCacheFile
+public boolean needsCacheFile()
+Returns true if the ImageOutputStream
+ implementation associated with this service provider requires
+ the use of a cache File.
+
+  The default implementation returns false.
+
+Returns:
+true if a cache file is needed by the
+ output streams created by this service provider.
+
+
+"
+ImageReaderSpi,canDecodeInput(Object source),abstract boolean,Returns true if the supplied source object appears to be of the format supported by this reader.,"
+
+canDecodeInput
+public abstract boolean canDecodeInput(Object source)
+                                throws IOException
+Returns true if the supplied source object appears
+ to be of the format supported by this reader.  Returning
+ true from this method does not guarantee that
+ reading will succeed, only that there appears to be a
+ reasonable chance of success based on a brief inspection of the
+ stream contents.  If the source is an
+ ImageInputStream, implementations will commonly
+ check the first several bytes of the stream for a ""magic
+ number"" associated with the format.  Once actual reading has
+ commenced, the reader may still indicate failure at any time
+ prior to the completion of decoding.
+
+  It is important that the state of the object not be
+ disturbed in order that other ImageReaderSpis can
+ properly determine whether they are able to decode the object.
+ In particular, if the source is an
+ ImageInputStream, a
+ mark/reset pair should be used to
+ preserve the stream position.
+
+  Formats such as ""raw,"" which can potentially attempt
+ to read nearly any stream, should return false
+ in order to avoid being invoked in preference to a closer
+ match.
+
+  If source is not an instance of one of the
+ classes returned by getInputTypes, the method
+ should simply return false.
+
+Parameters:
+source - the object (typically an
+ ImageInputStream) to be decoded.
+Returns:
+true if it is likely that this stream can
+ be decoded.
+Throws:
+IllegalArgumentException - if source is
+ null.
+IOException - if an I/O error occurs while reading the
+ stream.
+
+
+"
+ImageReaderSpi,createReaderInstance(),ImageReader,Returns an instance of the ImageReader implementation associated with this service provider.,"
+
+createReaderInstance
+public ImageReader createReaderInstance()
+                                 throws IOException
+Returns an instance of the ImageReader
+ implementation associated with this service provider.
+ The returned object will initially be in an initial state
+ as if its reset method had been called.
+
+  The default implementation simply returns
+ createReaderInstance(null).
+
+Returns:
+an ImageReader instance.
+Throws:
+IOException - if an error occurs during loading,
+ or initialization of the reader class, or during instantiation
+ or initialization of the reader object.
+
+
+"
+ImageReaderSpi,createReaderInstance(Object extension),abstract ImageReader,Returns an instance of the ImageReader implementation associated with this service provider.,"
+
+createReaderInstance
+public abstract ImageReader createReaderInstance(Object extension)
+                                          throws IOException
+Returns an instance of the ImageReader
+ implementation associated with this service provider.
+ The returned object will initially be in an initial state
+ as if its reset method had been called.
+
+  An Object may be supplied to the plug-in at
+ construction time.  The nature of the object is entirely
+ plug-in specific.
+
+  Typically, a plug-in will implement this method using code
+ such as return new MyImageReader(this).
+
+Parameters:
+extension - a plug-in specific extension object, which may
+ be null.
+Returns:
+an ImageReader instance.
+Throws:
+IOException - if the attempt to instantiate
+ the reader fails.
+IllegalArgumentException - if the
+ ImageReader's constructor throws an
+ IllegalArgumentException to indicate that the
+ extension object is unsuitable.
+
+
+"
+ImageReaderSpi,getImageWriterSpiNames(),String[],"Returns an array of Strings containing the fully qualified names of all the ImageWriterSpi classes that can understand the internal metadata representation used by the ImageReader associated with this service provider, or null if there are no such ImageWriters specified.","
+
+getImageWriterSpiNames
+public String[] getImageWriterSpiNames()
+Returns an array of Strings containing the fully
+ qualified names of all the ImageWriterSpi classes
+ that can understand the internal metadata representation used
+ by the ImageReader associated with this service
+ provider, or null if there are no such
+ ImageWriters specified.  If a
+ non-null value is returned, it must have non-zero
+ length.
+
+  The first item in the array must be the name of the service
+ provider for the ""preferred"" writer, as it will be used to
+ instantiate the ImageWriter returned by
+ ImageIO.getImageWriter(ImageReader).
+
+  This mechanism may be used to obtain
+ ImageWriters that will understand the internal
+ structure of non-pixel meta-data (see
+ IIOTreeInfo) generated by an
+ ImageReader.  By obtaining this data from the
+ ImageReader and passing it on to one of the
+ ImageWriters obtained with this method, a client
+ program can read an image, modify it in some way, and write it
+ back out while preserving all meta-data, without having to
+ understand anything about the internal structure of the
+ meta-data, or even about the image format.
+
+Returns:
+an array of Strings of length at least 1
+ containing names of ImageWriterSpi, or
+ null.
+See Also:
+ImageIO.getImageWriter(ImageReader)
+
+
+"
+ImageReaderSpi,getInputTypes(),Class[],Returns an array of Class objects indicating what types of objects may be used as arguments to the reader's setInput method.,"
+
+getInputTypes
+public Class[] getInputTypes()
+Returns an array of Class objects indicating what
+ types of objects may be used as arguments to the reader's
+ setInput method.
+
+  For most readers, which only accept input from an
+ ImageInputStream, a single-element array
+ containing ImageInputStream.class should be
+ returned.
+
+Returns:
+a non-null array of
+ Classobjects of length at least 1.
+
+
+"
+ImageReaderSpi,isOwnReader(ImageReader reader),boolean,Returns true if the ImageReader object passed in is an instance of the ImageReader associated with this service provider.,"
+
+isOwnReader
+public boolean isOwnReader(ImageReader reader)
+Returns true if the ImageReader object
+ passed in is an instance of the ImageReader
+ associated with this service provider.
+
+  The default implementation compares the fully-qualified
+ class name of the reader argument with the class
+ name passed into the constructor.  This method may be overridden
+ if more sophisticated checking is required.
+
+Parameters:
+reader - an ImageReader instance.
+Returns:
+true if reader is recognized.
+Throws:
+IllegalArgumentException - if reader is
+ null.
+
+
+"
+ImageReaderWriterSpi,getExtraImageMetadataFormatNames(),String[],"Returns an array of Strings containing the names of additional document formats, other than the native and standard formats, recognized by the getAsTree and setFromTree methods on the image metadata objects produced or consumed by this plug-in.","
+
+getExtraImageMetadataFormatNames
+public String[] getExtraImageMetadataFormatNames()
+Returns an array of Strings containing the names
+ of additional document formats, other than the native and
+ standard formats, recognized by the
+ getAsTree and setFromTree methods on
+ the image metadata objects produced or consumed by this
+ plug-in.
+
+  If the plug-in does not handle image metadata, null should
+ be returned.
+
+  The set of formats may differ according to the particular
+ images being read or written; this method should indicate all
+ the additional formats supported by the plug-in under any circumstances.
+
+  The default implementation returns a clone of the
+ extraImageMetadataFormatNames instance variable,
+ which is typically set by the constructor.
+
+Returns:
+an array of Strings, or null.
+See Also:
+IIOMetadata.getMetadataFormatNames(), 
+getExtraStreamMetadataFormatNames(), 
+getNativeImageMetadataFormatName()
+
+
+"
+ImageReaderWriterSpi,getExtraStreamMetadataFormatNames(),String[],"Returns an array of Strings containing the names of additional document formats, other than the native and standard formats, recognized by the getAsTree and setFromTree methods on the stream metadata objects produced or consumed by this plug-in.","
+
+getExtraStreamMetadataFormatNames
+public String[] getExtraStreamMetadataFormatNames()
+Returns an array of Strings containing the names
+ of additional document formats, other than the native and
+ standard formats, recognized by the
+ getAsTree and setFromTree methods on
+ the stream metadata objects produced or consumed by this
+ plug-in.
+
+  If the plug-in does not handle metadata, null should be
+ returned.
+
+  The set of formats may differ according to the particular
+ images being read or written; this method should indicate all
+ the additional formats supported by the plug-in under any
+ circumstances.
+
+  The default implementation returns a clone of the
+ extraStreamMetadataFormatNames instance variable,
+ which is typically set by the constructor.
+
+Returns:
+an array of Strings, or null.
+See Also:
+IIOMetadata.getMetadataFormatNames(), 
+getExtraImageMetadataFormatNames(), 
+getNativeStreamMetadataFormatName()
+
+
+"
+ImageReaderWriterSpi,getFileSuffixes(),String[],Returns an array of Strings containing a list of file suffixes associated with the formats that are generally usable by the ImageReader or ImageWriter implementation associated with this service provider.,"
+
+getFileSuffixes
+public String[] getFileSuffixes()
+Returns an array of Strings containing a list of
+ file suffixes associated with the formats that are generally
+ usable by the ImageReader or
+ ImageWriter implementation associated with this
+ service provider.  For example, a single
+ ImageReader might be able to process files with
+ '.pbm' and '.pnm' suffixes, or both '.jpg' and '.jpeg'
+ suffixes.  If there are no known file suffixes,
+ null will be returned.
+
+  Returning a particular suffix does not guarantee that files
+ with that suffix can be processed; it merely indicates that it
+ may be worthwhile attempting to decode or encode such files
+ using this service provider.
+
+Returns:
+an array of Strings or length at least 1
+ containing common file suffixes associated with this reader or
+ writer, or null.
+
+
+"
+ImageReaderWriterSpi,getFormatNames(),String[],Returns an array of Strings containing human-readable names for the formats that are generally usable by the ImageReader or ImageWriter implementation associated with this service provider.,"
+
+getFormatNames
+public String[] getFormatNames()
+Returns an array of Strings containing
+ human-readable names for the formats that are generally usable
+ by the ImageReader or ImageWriter
+ implementation associated with this service provider.  For
+ example, a single ImageReader might be able to
+ process both PBM and PNM files.
+
+Returns:
+a non-null array of Strings
+ or length at least 1 containing informal format names
+ associated with this reader or writer.
+
+
+"
+ImageReaderWriterSpi,getImageMetadataFormat(String formatName),IIOMetadataFormat,"Returns an IIOMetadataFormat object describing the given image metadata format, or null if no description is available.","
+
+getImageMetadataFormat
+public IIOMetadataFormat getImageMetadataFormat(String formatName)
+Returns an IIOMetadataFormat object describing the
+ given image metadata format, or null if no
+ description is available.  The supplied name must be the native
+ image metadata format name, the standard metadata format name,
+ or one of those returned by
+ getExtraImageMetadataFormatNames.
+
+Parameters:
+formatName - the desired image metadata format.
+Returns:
+an IIOMetadataFormat object.
+Throws:
+IllegalArgumentException - if formatName
+ is null or is not a supported name.
+
+
+"
+ImageReaderWriterSpi,getMIMETypes(),String[],Returns an array of Strings containing a list of MIME types associated with the formats that are generally usable by the ImageReader or ImageWriter implementation associated with this service provider.,"
+
+getMIMETypes
+public String[] getMIMETypes()
+Returns an array of Strings containing a list of
+ MIME types associated with the formats that are generally
+ usable by the ImageReader or
+ ImageWriter implementation associated with this
+ service provider.
+
+  Ideally, only a single MIME type would be required in order
+ to describe a particular format.  However, for several reasons
+ it is necessary to associate a list of types with each service
+ provider.  First, many common image file formats do not have
+ standard MIME types, so a list of commonly used unofficial
+ names will be required, such as image/x-pbm and
+ image/x-portable-bitmap.  Some file formats have
+ official MIME types but may sometimes be referred to using
+ their previous unofficial designations, such as
+ image/x-png instead of the official
+ image/png.  Finally, a single service provider may
+ be capable of parsing multiple distinct types from the MIME
+ point of view, for example image/x-xbitmap and
+ image/x-xpixmap.
+
+  Returning a particular MIME type does not guarantee that
+ files claiming to be of that type can be processed; it merely
+ indicates that it may be worthwhile attempting to decode or
+ encode such files using this service provider.
+
+Returns:
+an array of Strings or length at least 1
+ containing MIME types associated with this reader or writer, or
+ null.
+
+
+"
+ImageReaderWriterSpi,getNativeImageMetadataFormatName(),String,"Returns the name of the ""native"" image metadata format for this plug-in, which typically allows for lossless encoding and transmission of the image metadata stored in the format handled by this plug-in.","
+
+getNativeImageMetadataFormatName
+public String getNativeImageMetadataFormatName()
+Returns the name of the ""native"" image metadata format for
+ this plug-in, which typically allows for lossless encoding and
+ transmission of the image metadata stored in the format handled by
+ this plug-in.  If no such format is supported,
+ nullwill be returned.
+
+  The default implementation returns the
+ nativeImageMetadataFormatName instance variable,
+ which is typically set by the constructor.
+
+Returns:
+the name of the native image metadata format, or
+ null.
+See Also:
+getExtraImageMetadataFormatNames()
+
+
+"
+ImageReaderWriterSpi,getNativeStreamMetadataFormatName(),String,"Returns the name of the ""native"" stream metadata format for this plug-in, which typically allows for lossless encoding and transmission of the stream metadata stored in the format handled by this plug-in.","
+
+getNativeStreamMetadataFormatName
+public String getNativeStreamMetadataFormatName()
+Returns the name of the ""native"" stream metadata format for
+ this plug-in, which typically allows for lossless encoding and
+ transmission of the stream metadata stored in the format handled by
+ this plug-in.  If no such format is supported,
+ nullwill be returned.
+
+  The default implementation returns the
+ nativeStreamMetadataFormatName instance variable,
+ which is typically set by the constructor.
+
+Returns:
+the name of the native stream metadata format, or
+ null.
+
+
+"
+ImageReaderWriterSpi,getPluginClassName(),String,Returns the fully-qualified class name of the ImageReader or ImageWriter plug-in associated with this service provider.,"
+
+getPluginClassName
+public String getPluginClassName()
+Returns the fully-qualified class name of the
+ ImageReader or ImageWriter plug-in
+ associated with this service provider.
+
+Returns:
+the class name, as a non-null
+String.
+
+
+"
+ImageReaderWriterSpi,getStreamMetadataFormat(String formatName),IIOMetadataFormat,"Returns an IIOMetadataFormat object describing the given stream metadata format, or null if no description is available.","
+
+getStreamMetadataFormat
+public IIOMetadataFormat getStreamMetadataFormat(String formatName)
+Returns an IIOMetadataFormat object describing the
+ given stream metadata format, or null if no
+ description is available.  The supplied name must be the native
+ stream metadata format name, the standard metadata format name,
+ or one of those returned by
+ getExtraStreamMetadataFormatNames.
+
+Parameters:
+formatName - the desired stream metadata format.
+Returns:
+an IIOMetadataFormat object.
+Throws:
+IllegalArgumentException - if formatName
+ is null or is not a supported name.
+
+
+"
+ImageReaderWriterSpi,isStandardImageMetadataFormatSupported(),boolean,Returns true if the standard metadata format is among the document formats recognized by the getAsTree and setFromTree methods on the image metadata objects produced or consumed by this plug-in.,"
+
+isStandardImageMetadataFormatSupported
+public boolean isStandardImageMetadataFormatSupported()
+Returns true if the standard metadata format is
+ among the document formats recognized by the
+ getAsTree and setFromTree methods on
+ the image metadata objects produced or consumed by this
+ plug-in.
+
+Returns:
+true if the standard format is supported
+ for image metadata.
+
+
+"
+ImageReaderWriterSpi,isStandardStreamMetadataFormatSupported(),boolean,Returns true if the standard metadata format is among the document formats recognized by the getAsTree and setFromTree methods on the stream metadata objects produced or consumed by this plug-in.,"
+
+isStandardStreamMetadataFormatSupported
+public boolean isStandardStreamMetadataFormatSupported()
+Returns true if the standard metadata format is
+ among the document formats recognized by the
+ getAsTree and setFromTree methods on
+ the stream metadata objects produced or consumed by this
+ plug-in.
+
+Returns:
+true if the standard format is supported
+ for stream metadata.
+
+
+"
+ImageTranscoderSpi,createTranscoderInstance(),abstract ImageTranscoder,Returns an instance of the ImageTranscoder implementation associated with this service provider.,"
+
+createTranscoderInstance
+public abstract ImageTranscoder createTranscoderInstance()
+Returns an instance of the ImageTranscoder
+ implementation associated with this service provider.
+
+Returns:
+an ImageTranscoder instance.
+
+
+"
+ImageTranscoderSpi,getReaderServiceProviderName(),abstract String,Returns the fully qualified class name of an ImageReaderSpi class that generates IIOMetadata objects that may be used as input to this transcoder.,"
+
+getReaderServiceProviderName
+public abstract String getReaderServiceProviderName()
+Returns the fully qualified class name of an
+ ImageReaderSpi class that generates
+ IIOMetadata objects that may be used as input to
+ this transcoder.
+
+Returns:
+a String containing the fully-qualified
+ class name of the ImageReaderSpi implementation class.
+See Also:
+ImageReaderSpi
+
+
+"
+ImageTranscoderSpi,getWriterServiceProviderName(),abstract String,Returns the fully qualified class name of an ImageWriterSpi class that generates IIOMetadata objects that may be used as input to this transcoder.,"
+
+getWriterServiceProviderName
+public abstract String getWriterServiceProviderName()
+Returns the fully qualified class name of an
+ ImageWriterSpi class that generates
+ IIOMetadata objects that may be used as input to
+ this transcoder.
+
+Returns:
+a String containing the fully-qualified
+ class name of the ImageWriterSpi implementation class.
+See Also:
+ImageWriterSpi
+
+
+"
+ImageWriterSpi,canEncodeImage(ImageTypeSpecifier type),abstract boolean,Returns true if the ImageWriter implementation associated with this service provider is able to encode an image with the given layout.,"
+
+canEncodeImage
+public abstract boolean canEncodeImage(ImageTypeSpecifier type)
+Returns true if the ImageWriter
+ implementation associated with this service provider is able to
+ encode an image with the given layout.  The layout
+ (i.e., the image's SampleModel and
+ ColorModel) is described by an
+ ImageTypeSpecifier object.
+
+  A return value of true is not an absolute
+ guarantee of successful encoding; the encoding process may still
+ produce errors due to factors such as I/O errors, inconsistent
+ or malformed data structures, etc.  The intent is that a
+ reasonable inspection of the basic structure of the image be
+ performed in order to determine if it is within the scope of
+ the encoding format.  For example, a service provider for a
+ format that can only encode greyscale would return
+ false if handed an RGB BufferedImage.
+ Similarly, a service provider for a format that can encode
+ 8-bit RGB imagery might refuse to encode an image with an
+ associated alpha channel.
+
+  Different ImageWriters, and thus service
+ providers, may choose to be more or less strict.  For example,
+ they might accept an image with premultiplied alpha even though
+ it will have to be divided out of each pixel, at some loss of
+ precision, in order to be stored.
+
+Parameters:
+type - an ImageTypeSpecifier specifying the
+ layout of the image to be written.
+Returns:
+true if this writer is likely to be able
+ to encode images with the given layout.
+Throws:
+IllegalArgumentException - if type
+ is null.
+
+
+"
+ImageWriterSpi,canEncodeImage(RenderedImage im),boolean,Returns true if the ImageWriter implementation associated with this service provider is able to encode the given RenderedImage instance.,"
+
+canEncodeImage
+public boolean canEncodeImage(RenderedImage im)
+Returns true if the ImageWriter
+ implementation associated with this service provider is able to
+ encode the given RenderedImage instance.  Note
+ that this includes instances of
+ java.awt.image.BufferedImage.
+
+  See the discussion for
+ canEncodeImage(ImageTypeSpecifier) for information
+ on the semantics of this method.
+
+Parameters:
+im - an instance of RenderedImage to be encoded.
+Returns:
+true if this writer is likely to be able
+ to encode this image.
+Throws:
+IllegalArgumentException - if im
+ is null.
+
+
+"
+ImageWriterSpi,createWriterInstance(),ImageWriter,Returns an instance of the ImageWriter implementation associated with this service provider.,"
+
+createWriterInstance
+public ImageWriter createWriterInstance()
+                                 throws IOException
+Returns an instance of the ImageWriter
+ implementation associated with this service provider.
+ The returned object will initially be in an initial state as if
+ its reset method had been called.
+
+  The default implementation simply returns
+ createWriterInstance(null).
+
+Returns:
+an ImageWriter instance.
+Throws:
+IOException - if an error occurs during loading,
+ or initialization of the writer class, or during instantiation
+ or initialization of the writer object.
+
+
+"
+ImageWriterSpi,createWriterInstance(Object extension),abstract ImageWriter,Returns an instance of the ImageWriter implementation associated with this service provider.,"
+
+createWriterInstance
+public abstract ImageWriter createWriterInstance(Object extension)
+                                          throws IOException
+Returns an instance of the ImageWriter
+ implementation associated with this service provider.
+ The returned object will initially be in an initial state
+ as if its reset method had been called.
+
+  An Object may be supplied to the plug-in at
+ construction time.  The nature of the object is entirely
+ plug-in specific.
+
+  Typically, a plug-in will implement this method using code
+ such as return new MyImageWriter(this).
+
+Parameters:
+extension - a plug-in specific extension object, which may
+ be null.
+Returns:
+an ImageWriter instance.
+Throws:
+IOException - if the attempt to instantiate
+ the writer fails.
+IllegalArgumentException - if the
+ ImageWriter's constructor throws an
+ IllegalArgumentException to indicate that the
+ extension object is unsuitable.
+
+
+"
+ImageWriterSpi,getImageReaderSpiNames(),String[],"Returns an array of Strings containing all the fully qualified names of all the ImageReaderSpi classes that can understand the internal metadata representation used by the ImageWriter associated with this service provider, or null if there are no such ImageReaders specified.","
+
+getImageReaderSpiNames
+public String[] getImageReaderSpiNames()
+Returns an array of Strings containing all the
+ fully qualified names of all the ImageReaderSpi
+ classes that can understand the internal metadata
+ representation used by the ImageWriter associated
+ with this service provider, or null if there are
+ no such ImageReaders specified.  If a
+ non-null value is returned, it must have non-zero
+ length.
+
+  The first item in the array must be the name of the service
+ provider for the ""preferred"" reader, as it will be used to
+ instantiate the ImageReader returned by
+ ImageIO.getImageReader(ImageWriter).
+
+  This mechanism may be used to obtain
+ ImageReaders that will generated non-pixel
+ meta-data (see IIOExtraDataInfo) in a structure
+ understood by an ImageWriter.  By reading the
+ image and obtaining this data from one of the
+ ImageReaders obtained with this method and passing
+ it on to the ImageWriter, a client program can
+ read an image, modify it in some way, and write it back out
+ preserving all meta-data, without having to understand anything
+ about the internal structure of the meta-data, or even about
+ the image format.
+
+Returns:
+an array of Strings of length at least 1
+ containing names of ImageReaderSpis, or
+ null.
+See Also:
+ImageIO.getImageReader(ImageWriter), 
+ImageReaderSpi.getImageWriterSpiNames()
+
+
+"
+ImageWriterSpi,getOutputTypes(),Class[],Returns an array of Class objects indicating what types of objects may be used as arguments to the writer's setOutput method.,"
+
+getOutputTypes
+public Class[] getOutputTypes()
+Returns an array of Class objects indicating what
+ types of objects may be used as arguments to the writer's
+ setOutput method.
+
+  For most writers, which only output to an
+ ImageOutputStream, a single-element array
+ containing ImageOutputStream.class should be
+ returned.
+
+Returns:
+a non-null array of
+ Classobjects of length at least 1.
+
+
+"
+ImageWriterSpi,isFormatLossless(),boolean,Returns true if the format that this writer outputs preserves pixel data bit-accurately.,"
+
+isFormatLossless
+public boolean isFormatLossless()
+Returns true if the format that this writer
+ outputs preserves pixel data bit-accurately.  The default
+ implementation returns true.
+
+Returns:
+true if the format preserves full pixel
+ accuracy.
+
+
+"
+ImageWriterSpi,isOwnWriter(ImageWriter writer),boolean,Returns true if the ImageWriter object passed in is an instance of the ImageWriter associated with this service provider.,"
+
+isOwnWriter
+public boolean isOwnWriter(ImageWriter writer)
+Returns true if the ImageWriter object
+ passed in is an instance of the ImageWriter
+ associated with this service provider.
+
+Parameters:
+writer - an ImageWriter instance.
+Returns:
+true if writer is recognized
+Throws:
+IllegalArgumentException - if writer is
+ null.
+
+
+"
+ServiceRegistry,contains(Object provider),boolean,Returns true if provider is currently registered.,"
+
+contains
+public boolean contains(Object provider)
+Returns true if provider is currently
+ registered.
+
+Parameters:
+provider - the service provider object to be queried.
+Returns:
+true if the given provider has been
+ registered.
+Throws:
+IllegalArgumentException - if provider is
+ null.
+
+
+"
+ServiceRegistry,deregisterAll(),void,Deregisters all currently registered service providers from all categories.,"
+
+deregisterAll
+public void deregisterAll()
+Deregisters all currently registered service providers from all
+ categories.
+
+"
+ServiceRegistry,deregisterAll(Class<?> category),void,Deregisters all service provider object currently registered under the given category.,"
+
+deregisterAll
+public void deregisterAll(Class<?> category)
+Deregisters all service provider object currently registered
+ under the given category.
+
+Parameters:
+category - the category to be emptied.
+Throws:
+IllegalArgumentException - if there is no category
+ corresponding to category.
+
+
+"
+ServiceRegistry,deregisterServiceProvider(Object provider),void,Removes a service provider object from all categories that contain it.,"
+
+deregisterServiceProvider
+public void deregisterServiceProvider(Object provider)
+Removes a service provider object from all categories that
+ contain it.
+
+Parameters:
+provider - the service provider object to be deregistered.
+Throws:
+IllegalArgumentException - if provider is
+ null.
+
+
+"
+ServiceRegistry,"deregisterServiceProvider(T provider, Class<T> category)",<T> boolean,Removes a service provider object from the given category.,"
+
+deregisterServiceProvider
+public <T> boolean deregisterServiceProvider(T provider,
+                                             Class<T> category)
+Removes a service provider object from the given category.  If
+ the provider was not previously registered, nothing happens and
+ false is returned.  Otherwise, true
+ is returned.  If an object of the same class as
+ provider but not equal (using ==) to
+ provider is registered, it will not be
+ deregistered.
+
+  If provider implements the
+ RegisterableService interface, its
+ onDeregistration method will be called.
+
+Type Parameters:
+T - the type of the provider.
+Parameters:
+provider - the service provider object to be deregistered.
+category - the category from which to deregister the
+ provider.
+Returns:
+true if the provider was previously
+ registered in the same category category,
+ false otherwise.
+Throws:
+IllegalArgumentException - if provider is
+ null.
+IllegalArgumentException - if there is no category
+ corresponding to category.
+ClassCastException - if provider does not implement
+ the class defined by category.
+
+
+"
+ServiceRegistry,finalize(),void,Finalizes this object prior to garbage collection.,"
+
+finalize
+public void finalize()
+              throws Throwable
+Finalizes this object prior to garbage collection.  The
+ deregisterAll method is called to deregister all
+ currently registered service providers.  This method should not
+ be called from application code.
+
+Overrides:
+finalize in class Object
+Throws:
+Throwable - if an error occurs during superclass
+ finalization.
+See Also:
+WeakReference, 
+PhantomReference
+
+
+"
+ServiceRegistry,getCategories(),Iterator<Class<?>>,Returns an Iterator of Class objects indicating the current set of categories.,"
+
+getCategories
+public Iterator<Class<?>> getCategories()
+Returns an Iterator of Class objects
+ indicating the current set of categories.  The iterator will be
+ empty if no categories exist.
+
+Returns:
+an Iterator containing
+ Classobjects.
+
+
+"
+ServiceRegistry,getServiceProviderByClass(Class<T> providerClass),<T> T,Returns the currently registered service provider object that is of the given class type.,"
+
+getServiceProviderByClass
+public <T> T getServiceProviderByClass(Class<T> providerClass)
+Returns the currently registered service provider object that
+ is of the given class type.  At most one object of a given
+ class is allowed to be registered at any given time.  If no
+ registered object has the desired class type, null
+ is returned.
+
+Type Parameters:
+T - the type of the provider.
+Parameters:
+providerClass - the Class of the desired
+ service provider object.
+Returns:
+a currently registered service provider object with the
+ desired Classtype, or null is none is
+ present.
+Throws:
+IllegalArgumentException - if providerClass is
+ null.
+
+
+"
+ServiceRegistry,"getServiceProviders(Class<T> category, boolean useOrdering)",<T> Iterator<T>,Returns an Iterator containing all registered service providers in the given category.,"
+
+getServiceProviders
+public <T> Iterator<T> getServiceProviders(Class<T> category,
+                                           boolean useOrdering)
+Returns an Iterator containing all registered
+ service providers in the given category.  If
+ useOrdering is false, the iterator
+ will return all of the server provider objects in an arbitrary
+ order.  Otherwise, the ordering will respect any pairwise
+ orderings that have been set.  If the graph of pairwise
+ orderings contains cycles, any providers that belong to a cycle
+ will not be returned.
+
+Type Parameters:
+T - the type of the category.
+Parameters:
+category - the category to be retrieved from.
+useOrdering - true if pairwise orderings
+ should be taken account in ordering the returned objects.
+Returns:
+an Iterator containing service provider
+ objects from the given category, possibly in order.
+Throws:
+IllegalArgumentException - if there is no category
+ corresponding to category.
+
+
+"
+ServiceRegistry,"getServiceProviders(Class<T> category, ServiceRegistry.Filter filter, boolean useOrdering)",<T> Iterator<T>,Returns an Iterator containing service provider objects within a given category that satisfy a criterion imposed by the supplied ServiceRegistry.Filter object's filter method.,"
+
+getServiceProviders
+public <T> Iterator<T> getServiceProviders(Class<T> category,
+                                           ServiceRegistry.Filter filter,
+                                           boolean useOrdering)
+Returns an Iterator containing service provider
+ objects within a given category that satisfy a criterion
+ imposed by the supplied ServiceRegistry.Filter
+ object's filter method.
+
+  The useOrdering argument controls the
+ ordering of the results using the same rules as
+ getServiceProviders(Class, boolean).
+
+Type Parameters:
+T - the type of the category.
+Parameters:
+category - the category to be retrieved from.
+filter - an instance of ServiceRegistry.Filter
+ whose filter method will be invoked.
+useOrdering - true if pairwise orderings
+ should be taken account in ordering the returned objects.
+Returns:
+an Iterator containing service provider
+ objects from the given category, possibly in order.
+Throws:
+IllegalArgumentException - if there is no category
+ corresponding to category.
+
+
+"
+ServiceRegistry,lookupProviders(Class<T> providerClass),static <T> Iterator<T>,Locates and incrementally instantiates the available providers of a given service using the context class loader.,"
+
+lookupProviders
+public static <T> Iterator<T> lookupProviders(Class<T> providerClass)
+Locates and incrementally instantiates the available providers
+ of a given service using the context class loader.  This
+ convenience method is equivalent to:
+
+ 
+   ClassLoader cl = Thread.currentThread().getContextClassLoader();
+   return Service.providers(service, cl);
+ 
+
+Type Parameters:
+T - the type of the providerClass.
+Parameters:
+providerClass - a Classobject indicating the
+ class or interface of the service providers being detected.
+Returns:
+An Iterator that yields provider objects
+ for the given service, in some arbitrary order.  The iterator
+ will throw an Error if a provider-configuration
+ file violates the specified format or if a provider class
+ cannot be found and instantiated.
+Throws:
+IllegalArgumentException - if
+ providerClass is null.
+
+
+"
+ServiceRegistry,"lookupProviders(Class<T> providerClass, ClassLoader loader)",static <T> Iterator<T>,Searches for implementations of a particular service class using the given class loader.,"
+
+lookupProviders
+public static <T> Iterator<T> lookupProviders(Class<T> providerClass,
+                                              ClassLoader loader)
+Searches for implementations of a particular service class
+ using the given class loader.
+
+  This method transforms the name of the given service class
+ into a provider-configuration filename as described in the
+ class comment and then uses the getResources
+ method of the given class loader to find all available files
+ with that name.  These files are then read and parsed to
+ produce a list of provider-class names.  The iterator that is
+ returned uses the given class loader to look up and then
+ instantiate each element of the list.
+
+  Because it is possible for extensions to be installed into
+ a running Java virtual machine, this method may return
+ different results each time it is invoked.
+
+Type Parameters:
+T - the type of the providerClass.
+Parameters:
+providerClass - a Classobject indicating the
+ class or interface of the service providers being detected.
+loader - the class loader to be used to load
+ provider-configuration files and instantiate provider classes,
+ or null if the system class loader (or, failing that
+ the bootstrap class loader) is to be used.
+Returns:
+An Iterator that yields provider objects
+ for the given service, in some arbitrary order.  The iterator
+ will throw an Error if a provider-configuration
+ file violates the specified format or if a provider class
+ cannot be found and instantiated.
+Throws:
+IllegalArgumentException - if
+ providerClass is null.
+
+
+"
+ServiceRegistry,registerServiceProvider(Object provider),void,Adds a service provider object to the registry.,"
+
+registerServiceProvider
+public void registerServiceProvider(Object provider)
+Adds a service provider object to the registry.  The provider
+ is associated within each category present in the registry
+ whose Class it implements.
+
+  If provider implements the
+ RegisterableService interface, its
+ onRegistration method will be called once for each
+ category it is registered under.  Its
+ onDeregistration method will be called each time
+ it is deregistered from a category or when the registry is
+ finalized.
+
+Parameters:
+provider - the service provider object to be registered.
+Throws:
+IllegalArgumentException - if
+ provider is null.
+
+
+"
+ServiceRegistry,"registerServiceProvider(T provider, Class<T> category)",<T> boolean,Adds a service provider object to the registry.,"
+
+registerServiceProvider
+public <T> boolean registerServiceProvider(T provider,
+                                           Class<T> category)
+Adds a service provider object to the registry.  The provider
+ is associated with the given category.
+
+  If provider implements the
+ RegisterableService interface, its
+ onRegistration method will be called.  Its
+ onDeregistration method will be called each time
+ it is deregistered from a category, for example if a
+ category is removed or the registry is garbage collected.
+
+Type Parameters:
+T - the type of the provider.
+Parameters:
+provider - the service provide object to be registered.
+category - the category under which to register the
+ provider.
+Returns:
+true if no provider of the same class was previously
+ registered in the same category category.
+Throws:
+IllegalArgumentException - if provider is
+ null.
+IllegalArgumentException - if there is no category
+ corresponding to category.
+ClassCastException - if provider does not implement
+ the Class defined by category.
+
+
+"
+ServiceRegistry,registerServiceProviders(Iterator<?> providers),void,"Adds a set of service provider objects, taken from an Iterator to the registry.","
+
+registerServiceProviders
+public void registerServiceProviders(Iterator<?> providers)
+Adds a set of service provider objects, taken from an
+ Iterator to the registry.  Each provider is
+ associated within each category present in the registry whose
+ Class it implements.
+
+  For each entry of providers that implements
+ the RegisterableService interface, its
+ onRegistration method will be called once for each
+ category it is registered under.  Its
+ onDeregistration method will be called each time
+ it is deregistered from a category or when the registry is
+ finalized.
+
+Parameters:
+providers - an Iterator containing service provider
+ objects to be registered.
+Throws:
+IllegalArgumentException - if providers
+ is null or contains a null entry.
+
+
+"
+ServiceRegistry,"setOrdering(Class<T> category, T firstProvider, T secondProvider)",<T> boolean,Sets a pairwise ordering between two service provider objects within a given category.,"
+
+setOrdering
+public <T> boolean setOrdering(Class<T> category,
+                               T firstProvider,
+                               T secondProvider)
+Sets a pairwise ordering between two service provider objects
+ within a given category.  If one or both objects are not
+ currently registered within the given category, or if the
+ desired ordering is already set, nothing happens and
+ false is returned.  If the providers previously
+ were ordered in the reverse direction, that ordering is
+ removed.
+
+  The ordering will be used by the
+ getServiceProviders methods when their
+ useOrdering argument is true.
+
+Type Parameters:
+T - the type of the category.
+Parameters:
+category - a Class object indicating the
+ category under which the preference is to be established.
+firstProvider - the preferred provider.
+secondProvider - the provider to which
+ firstProvider is preferred.
+Returns:
+true if a previously unset ordering
+ was established.
+Throws:
+IllegalArgumentException - if either provider is
+ null or they are the same object.
+IllegalArgumentException - if there is no category
+ corresponding to category.
+
+
+"
+ServiceRegistry,"unsetOrdering(Class<T> category, T firstProvider, T secondProvider)",<T> boolean,Sets a pairwise ordering between two service provider objects within a given category.,"
+
+unsetOrdering
+public <T> boolean unsetOrdering(Class<T> category,
+                                 T firstProvider,
+                                 T secondProvider)
+Sets a pairwise ordering between two service provider objects
+ within a given category.  If one or both objects are not
+ currently registered within the given category, or if no
+ ordering is currently set between them, nothing happens
+ and false is returned.
+
+  The ordering will be used by the
+ getServiceProviders methods when their
+ useOrdering argument is true.
+
+Type Parameters:
+T - the type of the category.
+Parameters:
+category - a Class object indicating the
+ category under which the preference is to be disestablished.
+firstProvider - the formerly preferred provider.
+secondProvider - the provider to which
+ firstProvider was formerly preferred.
+Returns:
+true if a previously set ordering was
+ disestablished.
+Throws:
+IllegalArgumentException - if either provider is
+ null or they are the same object.
+IllegalArgumentException - if there is no category
+ corresponding to category.
+
+
+"

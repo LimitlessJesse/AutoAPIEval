@@ -1,0 +1,536 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,LogStream,1,void close(),False,,NULL
+0,LogStream,2,void flush(),False,,NULL
+0,LogStream,3,void write(String s),False,,NULL
+0,LogStream,4,void write(byte[] b),False,,NULL
+0,LogStream,5,void write(int b),True,,"
+
+write
+@Deprecated
+public void write(int b)
+Deprecated. no replacement
+Write a byte of data to the stream.  If it is not a newline, then
+ the byte is appended to the internal buffer.  If it is a newline,
+ then the currently buffered line is sent to the log's output
+ stream, prefixed with the appropriate logging information.
+
+Overrides:
+write in class PrintStream
+Parameters:
+b - The byte to be written
+Since:
+JDK1.1
+See Also:
+PrintStream.print(char), 
+PrintStream.println(char)
+
+
+"
+1,ObjID,1,int hashCode(),True,,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this object identifier, the
+ object number.
+
+Overrides:
+hashCode in class Object
+Returns:
+the hash code value for this object identifier
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+1,ObjID,2,boolean equals(Object obj),True,,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified object with this ObjID for
+ equality.
+
+ This method returns true if and only if the
+ specified object is an ObjID instance with the same
+ object number and address space identifier as this one.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - the object to compare this ObjID to
+Returns:
+true if the given object is equivalent to
+ this one, and false otherwise
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+1,ObjID,3,ObjID read(ObjectInput in) throws IOException,True,,"
+
+read
+public static ObjID read(ObjectInput in)
+                  throws IOException
+Constructs and returns a new ObjID instance by
+ unmarshalling a binary representation from an
+ ObjectInput instance.
+
+ Specifically, this method first invokes the given stream's
+ DataInput.readLong() method to read an object number,
+ then it invokes UID.read(DataInput) with the
+ stream to read an address space identifier, and then it
+ creates and returns a new ObjID instance that
+ contains the object number and address space identifier that
+ were read from the stream.
+
+Parameters:
+in - the ObjectInput instance to read
+ ObjID from
+Returns:
+unmarshalled ObjID instance
+Throws:
+IOException - if an I/O error occurs while performing
+ this operation
+
+
+"
+1,ObjID,4,void write(ObjectOutput out) throws IOException,True,,"
+
+write
+public void write(ObjectOutput out)
+           throws IOException
+Marshals a binary representation of this ObjID to
+ an ObjectOutput instance.
+
+ Specifically, this method first invokes the given stream's
+ DataOutput.writeLong(long) method with this object
+ identifier's object number, and then it writes its address
+ space identifier by invoking its UID.write(DataOutput)
+ method with the stream.
+
+Parameters:
+out - the ObjectOutput instance to write
+ this ObjID to
+Throws:
+IOException - if an I/O error occurs while performing
+ this operation
+
+
+"
+1,ObjID,5,String toString(),True,,"
+
+toString
+public String toString()
+Returns a string representation of this object identifier.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of this object identifier
+
+
+"
+2,Operation,1,void exportObject(Remote obj),False,,NULL
+2,Operation,2,Remote toStub(Remote obj),False,,NULL
+2,Operation,3,"void unexportObject(Remote obj, boolean force)",False,,NULL
+2,Operation,4,String getLog(),False,,NULL
+2,Operation,5,void setLog(String log),False,,NULL
+3,RemoteObject,1,RemoteRef getRef(),True,,"
+
+getRef
+public RemoteRef getRef()
+Returns the remote reference for the remote object.
+
+ Note: The object returned from this method may be an instance of
+ an implementation-specific class.  The RemoteObject
+ class ensures serialization portability of its instances' remote
+ references through the behavior of its custom
+ writeObject and readObject methods.  An
+ instance of RemoteRef should not be serialized outside
+ of its RemoteObject wrapper instance or the result may
+ be unportable.
+
+Returns:
+remote reference for the remote object
+Since:
+1.2
+
+
+"
+3,RemoteObject,2,String getRefClass(),False,,NULL
+3,RemoteObject,3,void setRef(RemoteRef ref),False,,NULL
+3,RemoteObject,4,void setRefClass(String refClass),False,,NULL
+3,RemoteObject,5,void done(RemoteCall call),False,,NULL
+4,RemoteObjectInvocationHandler,1,"Object invoke(Remote obj, Method method, Object[] args)",False,,NULL
+4,RemoteObjectInvocationHandler,2,"Remote getProxyClass(ClassLoader loader, Class<?>... interfaces)",False,,NULL
+4,RemoteObjectInvocationHandler,3,RemoteObjectInvocationHandler(Remote obj),False,,NULL
+4,RemoteObjectInvocationHandler,4,Object getTarget(),False,,NULL
+4,RemoteObjectInvocationHandler,5,void setTarget(Remote obj),False,,NULL
+5,RemoteServer,1,String getClientHost(),True,,"
+
+getClientHost
+public static String getClientHost()
+                            throws ServerNotActiveException
+Returns a string representation of the client host for the
+ remote method invocation being processed in the current thread.
+
+Returns:
+a string representation of the client host
+Throws:
+ServerNotActiveException - if no remote method invocation
+ is being processed in the current thread
+Since:
+JDK1.1
+
+
+"
+5,RemoteServer,2,int getLog(),False,,NULL
+5,RemoteServer,3,void setLog(int newLog),False,,NULL
+5,RemoteServer,4,"void setRef(ObjID id, Remote obj)",False,,NULL
+5,RemoteServer,5,void setSocketFactory(RMIClientSocketFactory csf),False,,NULL
+6,RemoteStub,1,Object clone(),False,,NULL
+6,RemoteStub,2,String getRefClass(String refClassName),False,,NULL
+6,RemoteStub,3,Remote toStub(Remote obj),False,,NULL
+6,RemoteStub,4,"void setRefClass(String refClassName, String stubClassName)",False,,NULL
+6,RemoteStub,5,void setLog(OutputStream out),False,,NULL
+7,RMIClassLoader,1,"Class<?> loadClass(String codebase, String name)",True,,"
+
+loadClass
+public static Class<?> loadClass(String codebase,
+                                 String name)
+                          throws MalformedURLException,
+                                 ClassNotFoundException
+Loads a class from a codebase URL path.
+
+ This method delegates to the
+ RMIClassLoaderSpi.loadClass(String,String,ClassLoader)
+ method of the provider instance, passing codebase
+ as the first argument, name as the second argument,
+ and null as the third argument.
+
+Parameters:
+codebase - the list of URLs (separated by spaces) to load
+ the class from, or null
+name - the name of the class to load
+Returns:
+the Class object representing the loaded class
+Throws:
+MalformedURLException - if codebase is
+ non-null and contains an invalid URL, or if
+ codebase is null and a provider-specific
+ URL used to load classes is invalid
+ClassNotFoundException - if a definition for the class
+ could not be found at the specified location
+Since:
+1.2
+
+
+"
+7,RMIClassLoader,2,"Class<?> loadClass(URL codebase, String name)",True,,"
+
+loadClass
+public static Class<?> loadClass(URL codebase,
+                                 String name)
+                          throws MalformedURLException,
+                                 ClassNotFoundException
+Loads a class from a codebase URL.
+
+ If codebase is null, then this method
+ will behave the same as loadClass(String,String) with a
+ null codebase and the given class name.
+
+ This method delegates to the
+ RMIClassLoaderSpi.loadClass(String,String,ClassLoader)
+ method of the provider instance, passing the result of invoking
+ URL.toString() on the given URL (or null if
+ codebase is null) as the first argument,
+ name as the second argument,
+ and null as the third argument.
+
+Parameters:
+codebase - the URL to load the class from, or null
+name - the name of the class to load
+Returns:
+the Class object representing the loaded class
+Throws:
+MalformedURLException - if codebase is
+ null and a provider-specific URL used
+ to load classes is invalid
+ClassNotFoundException - if a definition for the class
+ could not be found at the specified URL
+
+
+"
+7,RMIClassLoader,3,Class<?> loadClass(String name),True,,"
+
+loadClass
+@Deprecated
+public static Class<?> loadClass(String name)
+                                      throws MalformedURLException,
+                                             ClassNotFoundException
+Deprecated. replaced by loadClass(String,String) method
+Loads the class with the specified name.
+
+ This method delegates to loadClass(String,String),
+ passing null as the first argument and
+ name as the second argument.
+
+Parameters:
+name - the name of the class to load
+Returns:
+the Class object representing the loaded class
+Throws:
+MalformedURLException - if a provider-specific URL used
+ to load classes is invalid
+ClassNotFoundException - if a definition for the class
+ could not be found at the codebase location
+See Also:
+loadClass(String,String)
+
+
+"
+7,RMIClassLoader,4,"Class<?> loadProxyClass(String codebase, String[] interfaces)",False,,NULL
+7,RMIClassLoader,5,"Class<?> loadProxyClass(URL codebase, String[] interfaces)",False,,NULL
+8,RMIClassLoaderSpi,1,"Class<?> loadClass(String codebase, String name)",False,,NULL
+8,RMIClassLoaderSpi,2,"Class<?> loadProxyClass(String codebase, String[] interfaces)",False,,NULL
+8,RMIClassLoaderSpi,3,ClassLoader getClassLoader(String codebase),True,,"
+
+getClassLoader
+public abstract ClassLoader getClassLoader(String codebase)
+                                    throws MalformedURLException
+Provides the implementation for
+ RMIClassLoader.getClassLoader(String).
+
+ Returns a class loader that loads classes from the given codebase
+ URL path.
+
+ If there is a security manger, its checkPermission
+ method will be invoked with a
+ RuntimePermission(""getClassLoader"") permission;
+ this could result in a SecurityException.
+ The implementation of this method may also perform further security
+ checks to verify that the calling context has permission to connect
+ to all of the URLs in the codebase URL path.
+
+Parameters:
+codebase - the list of URLs (space-separated) from which
+ the returned class loader will load classes from, or null
+Returns:
+a class loader that loads classes from the given codebase URL
+ path
+Throws:
+MalformedURLException - if codebase is
+ non-null and contains an invalid URL, or
+ if codebase is null and a provider-specific
+ URL used to identify the class loader is invalid
+SecurityException - if there is a security manager and the
+ invocation of its checkPermission method fails, or
+ if the caller does not have permission to connect to all of the
+ URLs in the codebase URL path
+
+
+"
+8,RMIClassLoaderSpi,4,String getClassAnnotation(Class<?> cl),True,,"
+
+getClassAnnotation
+public abstract String getClassAnnotation(Class<?> cl)
+Provides the implementation for
+ RMIClassLoader.getClassAnnotation(Class).
+
+ Returns the annotation string (representing a location for
+ the class definition) that RMI will use to annotate the class
+ descriptor when marshalling objects of the given class.
+
+Parameters:
+cl - the class to obtain the annotation for
+Returns:
+a string to be used to annotate the given class when
+ it gets marshalled, or null
+Throws:
+NullPointerException - if cl is null
+
+
+"
+8,RMIClassLoaderSpi,5,String getLoaderAnnotation(ClassLoader loader),False,,NULL
+9,RMISocketFactory,1,ServerSocket createServerSocket(int port),True,,"
+
+createServerSocket
+public abstract ServerSocket createServerSocket(int port)
+                                         throws IOException
+Create a server socket on the specified port (port 0 indicates
+ an anonymous port).
+
+Specified by:
+createServerSocket in interface RMIServerSocketFactory
+Parameters:
+port - the port number
+Returns:
+the server socket on the specified port
+Throws:
+IOException - if an I/O error occurs during server socket
+ creation
+Since:
+JDK1.1
+
+
+"
+9,RMISocketFactory,2,"Socket createSocket(String host, int port)",True,,"
+
+createSocket
+public abstract Socket createSocket(String host,
+                                    int port)
+                             throws IOException
+Creates a client socket connected to the specified host and port.
+
+Specified by:
+createSocket in interface RMIClientSocketFactory
+Parameters:
+host - the host name
+port - the port number
+Returns:
+a socket connected to the specified host and port.
+Throws:
+IOException - if an I/O error occurs during socket creation
+Since:
+JDK1.1
+
+
+"
+9,RMISocketFactory,3,int hashCode(),False,,NULL
+9,RMISocketFactory,4,boolean equals(Object obj),False,,NULL
+9,RMISocketFactory,5,String toString(),False,,NULL
+10,UID,1,int hashCode(),True,,"
+
+hashCode
+public int hashCode()
+Returns the hash code value for this UID.
+
+Overrides:
+hashCode in class Object
+Returns:
+the hash code value for this UID
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+10,UID,2,boolean equals(Object obj),True,,"
+
+equals
+public boolean equals(Object obj)
+Compares the specified object with this UID for
+ equality.
+
+ This method returns true if and only if the
+ specified object is a UID instance with the same
+ unique, time, and count
+ values as this one.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - the object to compare this UID to
+Returns:
+true if the given object is equivalent to
+ this one, and false otherwise
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+10,UID,3,String toString(),True,,"
+
+toString
+public String toString()
+Returns a string representation of this UID.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of this UID
+
+
+"
+10,UID,4,byte[] marshal(),False,,NULL
+10,UID,5,UID read(DataInput in) throws IOException,True,,"
+
+read
+public static UID read(DataInput in)
+                throws IOException
+Constructs and returns a new UID instance by
+ unmarshalling a binary representation from an
+ DataInput instance.
+
+ Specifically, this method first invokes the given stream's
+ DataInput.readInt() method to read a unique value,
+ then it invoke's the stream's
+ DataInput.readLong() method to read a time value,
+ then it invoke's the stream's
+ DataInput.readShort() method to read a count value,
+ and then it creates and returns a new UID instance
+ that contains the unique, time, and
+ count values that were read from the stream.
+
+Parameters:
+in - the DataInput instance to read
+ UID from
+Returns:
+unmarshalled UID instance
+Throws:
+IOException - if an I/O error occurs while performing
+ this operation
+
+
+"
+11,UnicastRemoteObject,1,RemoteRef getRef(),False,,NULL
+11,UnicastRemoteObject,2,String getClientHost(),False,,NULL
+11,UnicastRemoteObject,3,Object clone(),True,,"
+
+clone
+public Object clone()
+             throws CloneNotSupportedException
+Returns a clone of the remote object that is distinct from
+ the original.
+
+Overrides:
+clone in class Object
+Returns:
+the new remote object
+Throws:
+CloneNotSupportedException - if clone failed due to
+ a RemoteException.
+Since:
+JDK1.1
+See Also:
+Cloneable
+
+
+"
+11,UnicastRemoteObject,4,void exportObject(Remote obj),False,,NULL
+11,UnicastRemoteObject,5,"Remote exportObject(Remote obj, int port)",True,,"
+
+exportObject
+public static Remote exportObject(Remote obj,
+                                  int port)
+                           throws RemoteException
+Exports the remote object to make it available to receive incoming
+ calls, using the particular supplied port.
+
+ The object is exported with a server socket
+ created using the RMISocketFactory class.
+
+Parameters:
+obj - the remote object to be exported
+port - the port to export the object on
+Returns:
+remote object stub
+Throws:
+RemoteException - if export fails
+Since:
+1.2
+
+
+"

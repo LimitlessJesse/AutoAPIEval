@@ -1,0 +1,3547 @@
+ClassName,Method,Return Type,Description,Full Description
+BeanDescriptor,getBeanClass(),Class<?>,Gets the bean's Class object.,"
+
+getBeanClass
+public Class<?> getBeanClass()
+Gets the bean's Class object.
+
+Returns:
+The Class object for the bean.
+
+
+"
+BeanDescriptor,getCustomizerClass(),Class<?>,Gets the Class object for the bean's customizer.,"
+
+getCustomizerClass
+public Class<?> getCustomizerClass()
+Gets the Class object for the bean's customizer.
+
+Returns:
+The Class object for the bean's customizer.  This may
+ be null if the bean doesn't have a customizer.
+
+
+"
+Beans,"getInstanceOf(Object bean, Class<?> targetType)",static Object,"From a given bean, obtain an object representing a specified type view of that source object.","
+
+getInstanceOf
+public static Object getInstanceOf(Object bean,
+                                   Class<?> targetType)
+From a given bean, obtain an object representing a specified
+ type view of that source object.
+ 
+ The result may be the same object or a different object.  If
+ the requested target view isn't available then the given
+ bean is returned.
+ 
+ This method is provided in Beans 1.0 as a hook to allow the
+ addition of more flexible bean behaviour in the future.
+
+Parameters:
+bean - Object from which we want to obtain a view.
+targetType - The type of view we'd like to get.
+Returns:
+an object representing a specified type view of the
+ source object
+
+
+"
+Beans,"instantiate(ClassLoader cls, String beanName)",static Object,Instantiate a JavaBean.,"
+
+instantiate
+public static Object instantiate(ClassLoader cls,
+                                 String beanName)
+                          throws IOException,
+                                 ClassNotFoundException
+
+ Instantiate a JavaBean.
+ 
+
+Parameters:
+cls - the class-loader from which we should create
+                        the bean.  If this is null, then the system
+                        class-loader is used.
+beanName - the name of the bean within the class-loader.
+                        For example ""sun.beanbox.foobah""
+Returns:
+a JavaBean
+Throws:
+ClassNotFoundException - if the class of a serialized
+              object could not be found.
+IOException - if an I/O error occurs.
+
+
+"
+Beans,"instantiate(ClassLoader cls, String beanName, BeanContext beanContext)",static Object,Instantiate a JavaBean.,"
+
+instantiate
+public static Object instantiate(ClassLoader cls,
+                                 String beanName,
+                                 BeanContext beanContext)
+                          throws IOException,
+                                 ClassNotFoundException
+
+ Instantiate a JavaBean.
+ 
+
+Parameters:
+cls - the class-loader from which we should create
+                        the bean.  If this is null, then the system
+                        class-loader is used.
+beanName - the name of the bean within the class-loader.
+                        For example ""sun.beanbox.foobah""
+beanContext - The BeanContext in which to nest the new bean
+Returns:
+a JavaBean
+Throws:
+ClassNotFoundException - if the class of a serialized
+              object could not be found.
+IOException - if an I/O error occurs.
+
+
+"
+Beans,"instantiate(ClassLoader cls, String beanName, BeanContext beanContext, AppletInitializer initializer)",static Object,Instantiate a bean.,"
+
+instantiate
+public static Object instantiate(ClassLoader cls,
+                                 String beanName,
+                                 BeanContext beanContext,
+                                 AppletInitializer initializer)
+                          throws IOException,
+                                 ClassNotFoundException
+Instantiate a bean.
+ 
+ The bean is created based on a name relative to a class-loader.
+ This name should be a dot-separated name such as ""a.b.c"".
+ 
+ In Beans 1.0 the given name can indicate either a serialized object
+ or a class.  Other mechanisms may be added in the future.  In
+ beans 1.0 we first try to treat the beanName as a serialized object
+ name then as a class name.
+ 
+ When using the beanName as a serialized object name we convert the
+ given beanName to a resource pathname and add a trailing "".ser"" suffix.
+ We then try to load a serialized object from that resource.
+ 
+ For example, given a beanName of ""x.y"", Beans.instantiate would first
+ try to read a serialized object from the resource ""x/y.ser"" and if
+ that failed it would try to load the class ""x.y"" and create an
+ instance of that class.
+ 
+ If the bean is a subtype of java.applet.Applet, then it is given
+ some special initialization.  First, it is supplied with a default
+ AppletStub and AppletContext.  Second, if it was instantiated from
+ a classname the applet's ""init"" method is called.  (If the bean was
+ deserialized this step is skipped.)
+ 
+ Note that for beans which are applets, it is the caller's responsiblity
+ to call ""start"" on the applet.  For correct behaviour, this should be done
+ after the applet has been added into a visible AWT container.
+ 
+ Note that applets created via beans.instantiate run in a slightly
+ different environment than applets running inside browsers.  In
+ particular, bean applets have no access to ""parameters"", so they may
+ wish to provide property get/set methods to set parameter values.  We
+ advise bean-applet developers to test their bean-applets against both
+ the JDK appletviewer (for a reference browser environment) and the
+ BDK BeanBox (for a reference bean container).
+
+Parameters:
+cls - the class-loader from which we should create
+                        the bean.  If this is null, then the system
+                        class-loader is used.
+beanName - the name of the bean within the class-loader.
+                        For example ""sun.beanbox.foobah""
+beanContext - The BeanContext in which to nest the new bean
+initializer - The AppletInitializer for the new bean
+Returns:
+a JavaBean
+Throws:
+ClassNotFoundException - if the class of a serialized
+              object could not be found.
+IOException - if an I/O error occurs.
+
+
+"
+Beans,isDesignTime(),static boolean,Test if we are in design-mode.,"
+
+isDesignTime
+public static boolean isDesignTime()
+Test if we are in design-mode.
+
+Returns:
+True if we are running in an application construction
+          environment.
+See Also:
+DesignMode
+
+
+"
+Beans,isGuiAvailable(),static boolean,Determines whether beans can assume a GUI is available.,"
+
+isGuiAvailable
+public static boolean isGuiAvailable()
+Determines whether beans can assume a GUI is available.
+
+Returns:
+True if we are running in an environment where beans
+     can assume that an interactive GUI is available, so they
+     can pop up dialog boxes, etc.  This will normally return
+     true in a windowing environment, and will normally return
+     false in a server environment or if an application is
+     running as part of a batch job.
+See Also:
+Visibility
+
+
+"
+Beans,"isInstanceOf(Object bean, Class<?> targetType)",static boolean,Check if a bean can be viewed as a given target type.,"
+
+isInstanceOf
+public static boolean isInstanceOf(Object bean,
+                                   Class<?> targetType)
+Check if a bean can be viewed as a given target type.
+ The result will be true if the Beans.getInstanceof method
+ can be used on the given bean to obtain an object that
+ represents the specified targetType type view.
+
+Parameters:
+bean - Bean from which we want to obtain a view.
+targetType - The type of view we'd like to get.
+Returns:
+""true"" if the given bean supports the given targetType.
+
+
+"
+Beans,setDesignTime(boolean isDesignTime),static void,Used to indicate whether of not we are running in an application builder environment.,"
+
+setDesignTime
+public static void setDesignTime(boolean isDesignTime)
+                          throws SecurityException
+Used to indicate whether of not we are running in an application
+ builder environment.
+
+ Note that this method is security checked
+ and is not available to (for example) untrusted applets.
+ More specifically, if there is a security manager,
+ its checkPropertiesAccess
+ method is called. This could result in a SecurityException.
+
+Parameters:
+isDesignTime - True if we're in an application builder tool.
+Throws:
+SecurityException - if a security manager exists and its
+             checkPropertiesAccess method doesn't allow setting
+              of system properties.
+See Also:
+SecurityManager.checkPropertiesAccess()
+
+
+"
+Beans,setGuiAvailable(boolean isGuiAvailable),static void,Used to indicate whether of not we are running in an environment where GUI interaction is available.,"
+
+setGuiAvailable
+public static void setGuiAvailable(boolean isGuiAvailable)
+                            throws SecurityException
+Used to indicate whether of not we are running in an environment
+ where GUI interaction is available.
+
+ Note that this method is security checked
+ and is not available to (for example) untrusted applets.
+ More specifically, if there is a security manager,
+ its checkPropertiesAccess
+ method is called. This could result in a SecurityException.
+
+Parameters:
+isGuiAvailable - True if GUI interaction is available.
+Throws:
+SecurityException - if a security manager exists and its
+             checkPropertiesAccess method doesn't allow setting
+              of system properties.
+See Also:
+SecurityManager.checkPropertiesAccess()
+
+
+"
+DefaultPersistenceDelegate,"initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out)",protected void,"This default implementation of the initialize method assumes all state held in objects of this type is exposed via the matching pairs of ""setter"" and ""getter"" methods in the order they are returned by the Introspector.","
+
+initialize
+protected void initialize(Class<?> type,
+                          Object oldInstance,
+                          Object newInstance,
+                          Encoder out)
+This default implementation of the initialize method assumes
+ all state held in objects of this type is exposed via the
+ matching pairs of ""setter"" and ""getter"" methods in the order
+ they are returned by the Introspector. If a property descriptor
+ defines a ""transient"" attribute with a value equal to
+ Boolean.TRUE the property is ignored by this
+ default implementation. Note that this use of the word
+ ""transient"" is quite independent of the field modifier
+ that is used by the ObjectOutputStream.
+ 
+ For each non-transient property, an expression is created
+ in which the nullary ""getter"" method is applied
+ to the oldInstance. The value of this
+ expression is the value of the property in the instance that is
+ being serialized. If the value of this expression
+ in the cloned environment mutatesTo the
+ target value, the new value is initialized to make it
+ equivalent to the old value. In this case, because
+ the property value has not changed there is no need to
+ call the corresponding ""setter"" method and no statement
+ is emitted. If not however, the expression for this value
+ is replaced with another expression (normally a constructor)
+ and the corresponding ""setter"" method is called to install
+ the new property value in the object. This scheme removes
+ default information from the output produced by streams
+ using this delegate.
+ 
+ In passing these statements to the output stream, where they
+ will be executed, side effects are made to the newInstance.
+ In most cases this allows the problem of properties
+ whose values depend on each other to actually help the
+ serialization process by making the number of statements
+ that need to be written to the output smaller. In general,
+ the problem of handling interdependent properties is reduced to
+ that of finding an order for the properties in
+ a class such that no property value depends on the value of
+ a subsequent property.
+
+Overrides:
+initialize in class PersistenceDelegate
+Parameters:
+type - the type of the instances
+oldInstance - The instance to be copied.
+newInstance - The instance that is to be modified.
+out - The stream to which any initialization statements should be written.
+Throws:
+NullPointerException - if out is null
+See Also:
+Introspector.getBeanInfo(java.lang.Class<?>), 
+PropertyDescriptor
+
+
+"
+DefaultPersistenceDelegate,"instantiate(Object oldInstance, Encoder out)",protected Expression,"This default implementation of the instantiate method returns an expression containing the predefined method name ""new"" which denotes a call to a constructor with the arguments as specified in the DefaultPersistenceDelegate's constructor.","
+
+instantiate
+protected Expression instantiate(Object oldInstance,
+                                 Encoder out)
+This default implementation of the instantiate method returns
+ an expression containing the predefined method name ""new"" which denotes a
+ call to a constructor with the arguments as specified in
+ the DefaultPersistenceDelegate's constructor.
+
+Specified by:
+instantiate in class PersistenceDelegate
+Parameters:
+oldInstance - The instance to be instantiated.
+out - The code output stream.
+Returns:
+An expression whose value is oldInstance.
+Throws:
+NullPointerException - if out is null
+                              and this value is used in the method
+See Also:
+DefaultPersistenceDelegate(String[])
+
+
+"
+DefaultPersistenceDelegate,"mutatesTo(Object oldInstance, Object newInstance)",protected boolean,"If the number of arguments in the specified constructor is non-zero and the class of oldInstance explicitly declares an ""equals"" method this method returns the value of oldInstance.equals(newInstance).","
+
+mutatesTo
+protected boolean mutatesTo(Object oldInstance,
+                            Object newInstance)
+If the number of arguments in the specified constructor is non-zero and
+ the class of oldInstance explicitly declares an ""equals"" method
+ this method returns the value of oldInstance.equals(newInstance).
+ Otherwise, this method uses the superclass's definition which returns true if the
+ classes of the two instances are equal.
+
+Overrides:
+mutatesTo in class PersistenceDelegate
+Parameters:
+oldInstance - The instance to be copied.
+newInstance - The instance that is to be modified.
+Returns:
+True if an equivalent copy of newInstance may be
+         created by applying a series of mutations to oldInstance.
+See Also:
+DefaultPersistenceDelegate(String[])
+
+
+"
+Encoder,get(Object oldInstance),Object,Returns a tentative value for oldInstance in the environment created by this stream.,"
+
+get
+public Object get(Object oldInstance)
+Returns a tentative value for oldInstance in
+ the environment created by this stream. A persistence
+ delegate can use its mutatesTo method to
+ determine whether this value may be initialized to
+ form the equivalent object at the output or whether
+ a new object must be instantiated afresh. If the
+ stream has not yet seen this value, null is returned.
+
+Parameters:
+oldInstance - The instance to be looked up.
+Returns:
+The object, null if the object has not been seen before.
+
+
+"
+Encoder,getExceptionListener(),ExceptionListener,Gets the exception handler for this stream.,"
+
+getExceptionListener
+public ExceptionListener getExceptionListener()
+Gets the exception handler for this stream.
+
+Returns:
+The exception handler for this stream;
+    Will return the default exception listener if this has not explicitly been set.
+See Also:
+setExceptionListener(java.beans.ExceptionListener)
+
+
+"
+Encoder,getPersistenceDelegate(Class<?> type),PersistenceDelegate,Returns the persistence delegate for the given type.,"
+
+getPersistenceDelegate
+public PersistenceDelegate getPersistenceDelegate(Class<?> type)
+Returns the persistence delegate for the given type.
+ The persistence delegate is calculated by applying
+ the following rules in order:
+ 
+
+ If a persistence delegate is associated with the given type
+ by using the setPersistenceDelegate(java.lang.Class<?>, java.beans.PersistenceDelegate) method
+ it is returned.
+ 
+ A persistence delegate is then looked up by the name
+ composed of the the fully qualified name of the given type
+ and the ""PersistenceDelegate"" postfix.
+ For example, a persistence delegate for the Bean class
+ should be named BeanPersistenceDelegate
+ and located in the same package.
+ 
+ public class Bean { ... }
+ public class BeanPersistenceDelegate { ... }
+ The instance of the BeanPersistenceDelegate class
+ is returned for the Bean class.
+ 
+ If the type is null,
+ a shared internal persistence delegate is returned
+ that encodes null value.
+ 
+ If the type is a enum declaration,
+ a shared internal persistence delegate is returned
+ that encodes constants of this enumeration
+ by their names.
+ 
+ If the type is a primitive type or the corresponding wrapper,
+ a shared internal persistence delegate is returned
+ that encodes values of the given type.
+ 
+ If the type is an array,
+ a shared internal persistence delegate is returned
+ that encodes an array of the appropriate type and length,
+ and each of its elements as if they are properties.
+ 
+ If the type is a proxy,
+ a shared internal persistence delegate is returned
+ that encodes a proxy instance by using
+ the Proxy.newProxyInstance(java.lang.ClassLoader, java.lang.Class<?>[], java.lang.reflect.InvocationHandler) method.
+ 
+ If the BeanInfo for this type has a BeanDescriptor
+ which defined a ""persistenceDelegate"" attribute,
+ the value of this named attribute is returned.
+ 
+ In all other cases the default persistence delegate is returned.
+ The default persistence delegate assumes the type is a JavaBean,
+ implying that it has a default constructor and that its state
+ may be characterized by the matching pairs of ""setter"" and ""getter""
+ methods returned by the Introspector class.
+ The default constructor is the constructor with the greatest number
+ of parameters that has the ConstructorProperties annotation.
+ If none of the constructors has the ConstructorProperties annotation,
+ then the nullary constructor (constructor with no parameters) will be used.
+ For example, in the following code fragment, the nullary constructor
+ for the Foo class will be used,
+ while the two-parameter constructor
+ for the Bar class will be used.
+ 
+ public class Foo {
+     public Foo() { ... }
+     public Foo(int x) { ... }
+ }
+ public class Bar {
+     public Bar() { ... }
+     @ConstructorProperties({""x""})
+     public Bar(int x) { ... }
+     @ConstructorProperties({""x"", ""y""})
+     public Bar(int x, int y) { ... }
+ }
+
+
+Parameters:
+type - the class of the objects
+Returns:
+the persistence delegate for the given type
+See Also:
+setPersistenceDelegate(java.lang.Class<?>, java.beans.PersistenceDelegate), 
+Introspector.getBeanInfo(java.lang.Class<?>), 
+BeanInfo.getBeanDescriptor()
+
+
+"
+Encoder,remove(Object oldInstance),Object,"Removes the entry for this instance, returning the old entry.","
+
+remove
+public Object remove(Object oldInstance)
+Removes the entry for this instance, returning the old entry.
+
+Parameters:
+oldInstance - The entry that should be removed.
+Returns:
+The entry that was removed.
+See Also:
+get(java.lang.Object)
+
+
+"
+Encoder,setExceptionListener(ExceptionListener exceptionListener),void,Sets the exception handler for this stream to exceptionListener.,"
+
+setExceptionListener
+public void setExceptionListener(ExceptionListener exceptionListener)
+Sets the exception handler for this stream to exceptionListener.
+ The exception handler is notified when this stream catches recoverable
+ exceptions.
+
+Parameters:
+exceptionListener - The exception handler for this stream;
+       if null the default exception listener will be used.
+See Also:
+getExceptionListener()
+
+
+"
+Encoder,"setPersistenceDelegate(Class<?> type, PersistenceDelegate delegate)",void,Associates the specified persistence delegate with the given type.,"
+
+setPersistenceDelegate
+public void setPersistenceDelegate(Class<?> type,
+                                   PersistenceDelegate delegate)
+Associates the specified persistence delegate with the given type.
+
+Parameters:
+type - the class of objects that the specified persistence delegate applies to
+delegate - the persistence delegate for instances of the given type
+See Also:
+getPersistenceDelegate(java.lang.Class<?>), 
+Introspector.getBeanInfo(java.lang.Class<?>), 
+BeanInfo.getBeanDescriptor()
+
+
+"
+Encoder,writeExpression(Expression oldExp),void,The implementation first checks to see if an expression with this value has already been written.,"
+
+writeExpression
+public void writeExpression(Expression oldExp)
+The implementation first checks to see if an
+ expression with this value has already been written.
+ If not, the expression is cloned, using
+ the same procedure as writeStatement,
+ and the value of this expression is reconciled
+ with the value of the cloned expression
+ by calling writeObject.
+
+Parameters:
+oldExp - The expression to be written to the stream.
+
+
+"
+Encoder,writeObject(Object o),protected void,Write the specified object to the output stream.,"
+
+writeObject
+protected void writeObject(Object o)
+Write the specified object to the output stream.
+ The serialized form will denote a series of
+ expressions, the combined effect of which will create
+ an equivalent object when the input stream is read.
+ By default, the object is assumed to be a JavaBean
+ with a nullary constructor, whose state is defined by
+ the matching pairs of ""setter"" and ""getter"" methods
+ returned by the Introspector.
+
+Parameters:
+o - The object to be written to the stream.
+See Also:
+XMLDecoder.readObject()
+
+
+"
+Encoder,writeStatement(Statement oldStm),void,Writes statement oldStm to the stream.,"
+
+writeStatement
+public void writeStatement(Statement oldStm)
+Writes statement oldStm to the stream.
+ The oldStm should be written entirely
+ in terms of the callers environment, i.e. the
+ target and all arguments should be part of the
+ object graph being written. These expressions
+ represent a series of ""what happened"" expressions
+ which tell the output stream how to produce an
+ object graph like the original.
+ 
+ The implementation of this method will produce
+ a second expression to represent the same expression in
+ an environment that will exist when the stream is read.
+ This is achieved simply by calling writeObject
+ on the target and all the arguments and building a new
+ expression with the results.
+
+Parameters:
+oldStm - The expression to be written to the stream.
+
+
+"
+EventHandler,"create(Class<T> listenerInterface, Object target, String action)",static <T> T,Creates an implementation of listenerInterface in which all of the methods in the listener interface apply the handler's action to the target.,"
+
+create
+public static <T> T create(Class<T> listenerInterface,
+                           Object target,
+                           String action)
+Creates an implementation of listenerInterface in which
+ all of the methods in the listener interface apply
+ the handler's action to the target. This
+ method is implemented by calling the other, more general,
+ implementation of the create method with both
+ the eventPropertyName and the listenerMethodName
+ taking the value null. Refer to
+ the general version of create for a complete description of
+ the action parameter.
+ 
+ To create an ActionListener that shows a
+ JDialog with dialog.show(),
+ one can write:
+
+
+
+EventHandler.create(ActionListener.class, dialog, ""show"")
+
+
+
+Type Parameters:
+T - the type to create
+Parameters:
+listenerInterface - the listener interface to create a proxy for
+target - the object that will perform the action
+action - the name of a (possibly qualified) property or method on
+        the target
+Returns:
+an object that implements listenerInterface
+Throws:
+NullPointerException - if listenerInterface is null
+NullPointerException - if target is null
+NullPointerException - if action is null
+See Also:
+create(Class, Object, String, String)
+
+
+"
+EventHandler,"create(Class<T> listenerInterface, Object target, String action, String eventPropertyName)",static <T> T,"/** Creates an implementation of listenerInterface in which all of the methods pass the value of the event expression, eventPropertyName, to the final method in the statement, action, which is applied to the target.","
+
+create
+public static <T> T create(Class<T> listenerInterface,
+                           Object target,
+                           String action,
+                           String eventPropertyName)
+/**
+ Creates an implementation of listenerInterface in which
+ all of the methods pass the value of the event
+ expression, eventPropertyName, to the final method in the
+ statement, action, which is applied to the target.
+ This method is implemented by calling the
+ more general, implementation of the create method with
+ the listenerMethodName taking the value null.
+ Refer to
+ the general version of create for a complete description of
+ the action and eventPropertyName parameters.
+ 
+ To create an ActionListener that sets the
+ the text of a JLabel to the text value of
+ the JTextField source of the incoming event,
+ you can use the following code:
+
+
+
+EventHandler.create(ActionListener.class, label, ""text"", ""source.text"");
+
+
+
+ This is equivalent to the following code:
+
+
+//Equivalent code using an inner class instead of EventHandler.
+new ActionListener() {
+    public void actionPerformed(ActionEvent event) {
+        label.setText(((JTextField)(event.getSource())).getText());
+     }
+};
+
+
+
+Type Parameters:
+T - the type to create
+Parameters:
+listenerInterface - the listener interface to create a proxy for
+target - the object that will perform the action
+action - the name of a (possibly qualified) property or method on
+        the target
+eventPropertyName - the (possibly qualified) name of a readable property of the incoming event
+Returns:
+an object that implements listenerInterface
+Throws:
+NullPointerException - if listenerInterface is null
+NullPointerException - if target is null
+NullPointerException - if action is null
+See Also:
+create(Class, Object, String, String, String)
+
+
+"
+EventHandler,"create(Class<T> listenerInterface, Object target, String action, String eventPropertyName, String listenerMethodName)",static <T> T,"Creates an implementation of listenerInterface in which the method named listenerMethodName passes the value of the event expression, eventPropertyName, to the final method in the statement, action, which is applied to the target.","
+
+create
+public static <T> T create(Class<T> listenerInterface,
+                           Object target,
+                           String action,
+                           String eventPropertyName,
+                           String listenerMethodName)
+Creates an implementation of listenerInterface in which
+ the method named listenerMethodName
+ passes the value of the event expression, eventPropertyName,
+ to the final method in the statement, action, which
+ is applied to the target. All of the other listener
+ methods do nothing.
+ 
+ The eventPropertyName string is used to extract a value
+ from the incoming event object that is passed to the target
+ method.  The common case is the target method takes no arguments, in
+ which case a value of null should be used for the
+ eventPropertyName.  Alternatively if you want
+ the incoming event object passed directly to the target method use
+ the empty string.
+ The format of the eventPropertyName string is a sequence of
+ methods or properties where each method or
+ property is applied to the value returned by the preceding method
+ starting from the incoming event object.
+ The syntax is: propertyName{.propertyName}*
+ where propertyName matches a method or
+ property.  For example, to extract the point
+ property from a MouseEvent, you could use either
+ ""point"" or ""getPoint"" as the
+ eventPropertyName.  To extract the ""text"" property from
+ a MouseEvent with a JLabel source use any
+ of the following as eventPropertyName:
+ ""source.text"",
+ ""getSource.text"" ""getSource.getText"" or
+ ""source.getText"".  If a method can not be found, or an
+ exception is generated as part of invoking a method a
+ RuntimeException will be thrown at dispatch time.  For
+ example, if the incoming event object is null, and
+ eventPropertyName is non-null and not empty, a
+ RuntimeException will be thrown.
+ 
+ The action argument is of the same format as the
+ eventPropertyName argument where the last property name
+ identifies either a method name or writable property.
+ 
+ If the listenerMethodName is null
+all methods in the interface trigger the action to be
+ executed on the target.
+ 
+ For example, to create a MouseListener that sets the target
+ object's origin property to the incoming MouseEvent's
+ location (that's the value of mouseEvent.getPoint()) each
+ time a mouse button is pressed, one would write:
+
+
+EventHandler.create(MouseListener.class, target, ""origin"", ""point"", ""mousePressed"");
+
+
+
+ This is comparable to writing a MouseListener in which all
+ of the methods except mousePressed are no-ops:
+
+
+
+//Equivalent code using an inner class instead of EventHandler.
+new MouseAdapter() {
+    public void mousePressed(MouseEvent e) {
+        target.setOrigin(e.getPoint());
+    }
+};
+ 
+
+
+Type Parameters:
+T - the type to create
+Parameters:
+listenerInterface - the listener interface to create a proxy for
+target - the object that will perform the action
+action - the name of a (possibly qualified) property or method on
+        the target
+eventPropertyName - the (possibly qualified) name of a readable property of the incoming event
+listenerMethodName - the name of the method in the listener interface that should trigger the action
+Returns:
+an object that implements listenerInterface
+Throws:
+NullPointerException - if listenerInterface is null
+NullPointerException - if target is null
+NullPointerException - if action is null
+See Also:
+EventHandler
+
+
+"
+EventHandler,getAction(),String,"Returns the name of the target's writable property that this event handler will set, or the name of the method that this event handler will invoke on the target.","
+
+getAction
+public String getAction()
+Returns the name of the target's writable property
+ that this event handler will set,
+ or the name of the method that this event handler
+ will invoke on the target.
+
+Returns:
+the action of this event handler
+See Also:
+EventHandler(Object, String, String, String)
+
+
+"
+EventHandler,getEventPropertyName(),String,Returns the property of the event that should be used in the action applied to the target.,"
+
+getEventPropertyName
+public String getEventPropertyName()
+Returns the property of the event that should be
+ used in the action applied to the target.
+
+Returns:
+the property of the event
+See Also:
+EventHandler(Object, String, String, String)
+
+
+"
+EventHandler,getListenerMethodName(),String,Returns the name of the method that will trigger the action.,"
+
+getListenerMethodName
+public String getListenerMethodName()
+Returns the name of the method that will trigger the action.
+ A return value of null signifies that all methods in the
+ listener interface trigger the action.
+
+Returns:
+the name of the method that will trigger the action
+See Also:
+EventHandler(Object, String, String, String)
+
+
+"
+EventHandler,getTarget(),Object,Returns the object to which this event handler will send a message.,"
+
+getTarget
+public Object getTarget()
+Returns the object to which this event handler will send a message.
+
+Returns:
+the target of this event handler
+See Also:
+EventHandler(Object, String, String, String)
+
+
+"
+EventHandler,"invoke(Object proxy, Method method, Object[] arguments)",Object,Extract the appropriate property value from the event and pass it to the action associated with this EventHandler.,"
+
+invoke
+public Object invoke(Object proxy,
+                     Method method,
+                     Object[] arguments)
+Extract the appropriate property value from the event and
+ pass it to the action associated with
+ this EventHandler.
+
+Specified by:
+invoke in interface InvocationHandler
+Parameters:
+proxy - the proxy object
+method - the method in the listener interface
+arguments - an array of objects containing the values of the
+ arguments passed in the method invocation on the proxy instance,
+ or null if interface method takes no arguments.
+ Arguments of primitive types are wrapped in instances of the
+ appropriate primitive wrapper class, such as
+ java.lang.Integer or java.lang.Boolean.
+Returns:
+the result of applying the action to the target
+See Also:
+EventHandler
+
+
+"
+EventSetDescriptor,getAddListenerMethod(),Method,Gets the method used to add event listeners.,"
+
+getAddListenerMethod
+public Method getAddListenerMethod()
+Gets the method used to add event listeners.
+
+Returns:
+The method used to register a listener at the event source.
+
+
+"
+EventSetDescriptor,getGetListenerMethod(),Method,Gets the method used to access the registered event listeners.,"
+
+getGetListenerMethod
+public Method getGetListenerMethod()
+Gets the method used to access the registered event listeners.
+
+Returns:
+The method used to access the array of listeners at the event
+         source or null if it doesn't exist.
+Since:
+1.4
+
+
+"
+EventSetDescriptor,getListenerMethodDescriptors(),MethodDescriptor[],Gets the MethodDescriptors of the target listener interface.,"
+
+getListenerMethodDescriptors
+public MethodDescriptor[] getListenerMethodDescriptors()
+Gets the MethodDescriptors of the target listener interface.
+
+Returns:
+An array of MethodDescriptor objects for the target methods
+ within the target listener interface that will get called when
+ events are fired.
+
+
+"
+EventSetDescriptor,getListenerMethods(),Method[],Gets the methods of the target listener interface.,"
+
+getListenerMethods
+public Method[] getListenerMethods()
+Gets the methods of the target listener interface.
+
+Returns:
+An array of Method objects for the target methods
+ within the target listener interface that will get called when
+ events are fired.
+
+
+"
+EventSetDescriptor,getListenerType(),Class<?>,Gets the Class object for the target interface.,"
+
+getListenerType
+public Class<?> getListenerType()
+Gets the Class object for the target interface.
+
+Returns:
+The Class object for the target interface that will
+ get invoked when the event is fired.
+
+
+"
+EventSetDescriptor,getRemoveListenerMethod(),Method,Gets the method used to remove event listeners.,"
+
+getRemoveListenerMethod
+public Method getRemoveListenerMethod()
+Gets the method used to remove event listeners.
+
+Returns:
+The method used to remove a listener at the event source.
+
+
+"
+EventSetDescriptor,isInDefaultEventSet(),boolean,"Reports if an event set is in the ""default"" set.","
+
+isInDefaultEventSet
+public boolean isInDefaultEventSet()
+Reports if an event set is in the ""default"" set.
+
+Returns:
+true if the event set is in
+          the ""default"" set.  Defaults to true.
+
+
+"
+EventSetDescriptor,isUnicast(),boolean,Normally event sources are multicast.,"
+
+isUnicast
+public boolean isUnicast()
+Normally event sources are multicast.  However there are some
+ exceptions that are strictly unicast.
+
+Returns:
+true if the event set is unicast.
+          Defaults to false.
+
+
+"
+EventSetDescriptor,setInDefaultEventSet(boolean inDefaultEventSet),void,"Marks an event set as being in the ""default"" set (or not).","
+
+setInDefaultEventSet
+public void setInDefaultEventSet(boolean inDefaultEventSet)
+Marks an event set as being in the ""default"" set (or not).
+ By default this is true.
+
+Parameters:
+inDefaultEventSet - true if the event set is in
+                          the ""default"" set,
+                          false if not
+
+
+"
+EventSetDescriptor,setUnicast(boolean unicast),void,Mark an event set as unicast (or not).,"
+
+setUnicast
+public void setUnicast(boolean unicast)
+Mark an event set as unicast (or not).
+
+Parameters:
+unicast - True if the event set is unicast.
+
+
+"
+Expression,execute(),void,"The execute method finds a method whose name is the same as the methodName property, and invokes the method on the target.","
+
+execute
+public void execute()
+             throws Exception
+The execute method finds a method whose name is the same
+ as the methodName property, and invokes the method on
+ the target.
+
+ When the target's class defines many methods with the given name
+ the implementation should choose the most specific method using
+ the algorithm specified in the Java Language Specification
+ (15.11). The dynamic class of the target and arguments are used
+ in place of the compile-time type information and, like the
+ Method class itself, conversion between
+ primitive values and their associated wrapper classes is handled
+ internally.
+ 
+ The following method types are handled as special cases:
+ 
+
+ Static methods may be called by using a class object as the target.
+ 
+ The reserved method name ""new"" may be used to call a class's constructor
+ as if all classes defined static ""new"" methods. Constructor invocations
+ are typically considered Expressions rather than Statements
+ as they return a value.
+ 
+ The method names ""get"" and ""set"" defined in the List
+ interface may also be applied to array instances, mapping to
+ the static methods of the same name in the Array class.
+ 
+
+ If the invoked method completes normally,
+ the value it returns is copied in the value property.
+ Note that the value property is set to null,
+ if the return type of the underlying method is void.
+
+Overrides:
+execute in class Statement
+Throws:
+NullPointerException - if the value of the target or
+                              methodName property is null
+NoSuchMethodException - if a matching method is not found
+SecurityException - if a security manager exists and
+                           it denies the method invocation
+Exception - that is thrown by the invoked method
+Since:
+1.7
+See Also:
+Method
+
+
+"
+Expression,getValue(),Object,"If the value property of this instance is not already set, this method dynamically finds the method with the specified methodName on this target with these arguments and calls it.","
+
+getValue
+public Object getValue()
+                throws Exception
+If the value property of this instance is not already set,
+ this method dynamically finds the method with the specified
+ methodName on this target with these arguments and calls it.
+ The result of the method invocation is first copied
+ into the value property of this expression and then returned
+ as the result of getValue. If the value property
+ was already set, either by a call to setValue
+ or a previous call to getValue then the value
+ property is returned without either looking up or calling the method.
+ 
+ The value property of an Expression is set to
+ a unique private (non-null) value by default and
+ this value is used as an internal indication that the method
+ has not yet been called. A return value of null
+ replaces this default value in the same way that any other value
+ would, ensuring that expressions are never evaluated more than once.
+ 
+ See the execute method for details on how
+ methods are chosen using the dynamic types of the target
+ and arguments.
+
+Returns:
+The result of applying this method to these arguments.
+Throws:
+Exception - if the method with the specified methodName
+ throws an exception
+See Also:
+Statement.execute(), 
+setValue(java.lang.Object)
+
+
+"
+Expression,setValue(Object value),void,Sets the value of this expression to value.,"
+
+setValue
+public void setValue(Object value)
+Sets the value of this expression to value.
+ This value will be returned by the getValue method
+ without calling the method associated with this
+ expression.
+
+Parameters:
+value - The value of this expression.
+See Also:
+getValue()
+
+
+"
+Expression,toString(),String,Prints the value of this expression using a Java-style syntax.,"
+
+toString
+public String toString()
+Prints the value of this expression using a Java-style syntax.
+
+Overrides:
+toString in class Statement
+Returns:
+a string representation of the object.
+
+
+"
+FeatureDescriptor,attributeNames(),Enumeration<String>,Gets an enumeration of the locale-independent names of this feature.,"
+
+attributeNames
+public Enumeration<String> attributeNames()
+Gets an enumeration of the locale-independent names of this
+ feature.
+
+Returns:
+An enumeration of the locale-independent names of any
+    attributes that have been registered with setValue.
+
+
+"
+FeatureDescriptor,getDisplayName(),String,Gets the localized display name of this feature.,"
+
+getDisplayName
+public String getDisplayName()
+Gets the localized display name of this feature.
+
+Returns:
+The localized display name for the property/method/event.
+  This defaults to the same as its programmatic name from getName.
+
+
+"
+FeatureDescriptor,getName(),String,Gets the programmatic name of this feature.,"
+
+getName
+public String getName()
+Gets the programmatic name of this feature.
+
+Returns:
+The programmatic name of the property/method/event
+
+
+"
+FeatureDescriptor,getShortDescription(),String,Gets the short description of this feature.,"
+
+getShortDescription
+public String getShortDescription()
+Gets the short description of this feature.
+
+Returns:
+A localized short description associated with this
+   property/method/event.  This defaults to be the display name.
+
+
+"
+FeatureDescriptor,getValue(String attributeName),Object,Retrieve a named attribute with this feature.,"
+
+getValue
+public Object getValue(String attributeName)
+Retrieve a named attribute with this feature.
+
+Parameters:
+attributeName - The locale-independent name of the attribute
+Returns:
+The value of the attribute.  May be null if
+     the attribute is unknown.
+
+
+"
+FeatureDescriptor,isExpert(),boolean,"The ""expert"" flag is used to distinguish between those features that are intended for expert users from those that are intended for normal users.","
+
+isExpert
+public boolean isExpert()
+The ""expert"" flag is used to distinguish between those features that are
+ intended for expert users from those that are intended for normal users.
+
+Returns:
+True if this feature is intended for use by experts only.
+
+
+"
+FeatureDescriptor,isHidden(),boolean,"The ""hidden"" flag is used to identify features that are intended only for tool use, and which should not be exposed to humans.","
+
+isHidden
+public boolean isHidden()
+The ""hidden"" flag is used to identify features that are intended only
+ for tool use, and which should not be exposed to humans.
+
+Returns:
+True if this feature should be hidden from human users.
+
+
+"
+FeatureDescriptor,isPreferred(),boolean,"The ""preferred"" flag is used to identify features that are particularly important for presenting to humans.","
+
+isPreferred
+public boolean isPreferred()
+The ""preferred"" flag is used to identify features that are particularly
+ important for presenting to humans.
+
+Returns:
+True if this feature should be preferentially shown to human users.
+
+
+"
+FeatureDescriptor,setDisplayName(String displayName),void,Sets the localized display name of this feature.,"
+
+setDisplayName
+public void setDisplayName(String displayName)
+Sets the localized display name of this feature.
+
+Parameters:
+displayName - The localized display name for the
+          property/method/event.
+
+
+"
+FeatureDescriptor,setExpert(boolean expert),void,"The ""expert"" flag is used to distinguish between features that are intended for expert users from those that are intended for normal users.","
+
+setExpert
+public void setExpert(boolean expert)
+The ""expert"" flag is used to distinguish between features that are
+ intended for expert users from those that are intended for normal users.
+
+Parameters:
+expert - True if this feature is intended for use by experts only.
+
+
+"
+FeatureDescriptor,setHidden(boolean hidden),void,"The ""hidden"" flag is used to identify features that are intended only for tool use, and which should not be exposed to humans.","
+
+setHidden
+public void setHidden(boolean hidden)
+The ""hidden"" flag is used to identify features that are intended only
+ for tool use, and which should not be exposed to humans.
+
+Parameters:
+hidden - True if this feature should be hidden from human users.
+
+
+"
+FeatureDescriptor,setName(String name),void,Sets the programmatic name of this feature.,"
+
+setName
+public void setName(String name)
+Sets the programmatic name of this feature.
+
+Parameters:
+name - The programmatic name of the property/method/event
+
+
+"
+FeatureDescriptor,setPreferred(boolean preferred),void,"The ""preferred"" flag is used to identify features that are particularly important for presenting to humans.","
+
+setPreferred
+public void setPreferred(boolean preferred)
+The ""preferred"" flag is used to identify features that are particularly
+ important for presenting to humans.
+
+Parameters:
+preferred - True if this feature should be preferentially shown
+                   to human users.
+
+
+"
+FeatureDescriptor,setShortDescription(String text),void,You can associate a short descriptive string with a feature.,"
+
+setShortDescription
+public void setShortDescription(String text)
+You can associate a short descriptive string with a feature.  Normally
+ these descriptive strings should be less than about 40 characters.
+
+Parameters:
+text - A (localized) short description to be associated with
+ this property/method/event.
+
+
+"
+FeatureDescriptor,"setValue(String attributeName, Object value)",void,Associate a named attribute with this feature.,"
+
+setValue
+public void setValue(String attributeName,
+                     Object value)
+Associate a named attribute with this feature.
+
+Parameters:
+attributeName - The locale-independent name of the attribute
+value - The value.
+
+
+"
+FeatureDescriptor,toString(),String,Returns a string representation of the object.,"
+
+toString
+public String toString()
+Returns a string representation of the object.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of the object
+Since:
+1.7
+
+
+"
+IndexedPropertyChangeEvent,getIndex(),int,Gets the index of the property that was changed.,"
+
+getIndex
+public int getIndex()
+Gets the index of the property that was changed.
+
+Returns:
+The index specifying the property element that was
+         changed.
+
+
+"
+IndexedPropertyDescriptor,equals(Object obj),boolean,Compares this PropertyDescriptor against the specified object.,"
+
+equals
+public boolean equals(Object obj)
+Compares this PropertyDescriptor against the specified object.
+ Returns true if the objects are the same. Two PropertyDescriptors
+ are the same if the read, write, property types, property editor and
+ flags  are equivalent.
+
+Overrides:
+equals in class PropertyDescriptor
+Parameters:
+obj - the reference object with which to compare.
+Returns:
+true if this object is the same as the obj
+          argument; false otherwise.
+Since:
+1.4
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+IndexedPropertyDescriptor,getIndexedPropertyType(),Class<?>,Returns the Java type info for the indexed property.,"
+
+getIndexedPropertyType
+public Class<?> getIndexedPropertyType()
+Returns the Java type info for the indexed property.
+ Note that the Class object may describe
+ primitive Java types such as int.
+ This type is returned by the indexed read method
+ or is used as the parameter type of the indexed write method.
+
+Returns:
+the Class object that represents the Java type info,
+         or null if the type cannot be determined
+
+
+"
+IndexedPropertyDescriptor,getIndexedReadMethod(),Method,Gets the method that should be used to read an indexed property value.,"
+
+getIndexedReadMethod
+public Method getIndexedReadMethod()
+Gets the method that should be used to read an indexed
+ property value.
+
+Returns:
+The method that should be used to read an indexed
+ property value.
+ May return null if the property isn't indexed or is write-only.
+
+
+"
+IndexedPropertyDescriptor,getIndexedWriteMethod(),Method,Gets the method that should be used to write an indexed property value.,"
+
+getIndexedWriteMethod
+public Method getIndexedWriteMethod()
+Gets the method that should be used to write an indexed property value.
+
+Returns:
+The method that should be used to write an indexed
+ property value.
+ May return null if the property isn't indexed or is read-only.
+
+
+"
+IndexedPropertyDescriptor,hashCode(),int,Returns a hash code value for the object.,"
+
+hashCode
+public int hashCode()
+Returns a hash code value for the object.
+ See Object.hashCode() for a complete description.
+
+Overrides:
+hashCode in class PropertyDescriptor
+Returns:
+a hash code value for this object.
+Since:
+1.5
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+IndexedPropertyDescriptor,setIndexedReadMethod(Method readMethod),void,Sets the method that should be used to read an indexed property value.,"
+
+setIndexedReadMethod
+public void setIndexedReadMethod(Method readMethod)
+                          throws IntrospectionException
+Sets the method that should be used to read an indexed property value.
+
+Parameters:
+readMethod - The new indexed read method.
+Throws:
+IntrospectionException - if an exception occurs during
+ introspection.
+
+
+"
+IndexedPropertyDescriptor,setIndexedWriteMethod(Method writeMethod),void,Sets the method that should be used to write an indexed property value.,"
+
+setIndexedWriteMethod
+public void setIndexedWriteMethod(Method writeMethod)
+                           throws IntrospectionException
+Sets the method that should be used to write an indexed property value.
+
+Parameters:
+writeMethod - The new indexed write method.
+Throws:
+IntrospectionException - if an exception occurs during
+ introspection.
+
+
+"
+Introspector,decapitalize(String name),static String,Utility method to take a string and convert it to normal Java variable name capitalization.,"
+
+decapitalize
+public static String decapitalize(String name)
+Utility method to take a string and convert it to normal Java variable
+ name capitalization.  This normally means converting the first
+ character from upper case to lower case, but in the (unusual) special
+ case when there is more than one character and both the first and
+ second characters are upper case, we leave it alone.
+ 
+ Thus ""FooBah"" becomes ""fooBah"" and ""X"" becomes ""x"", but ""URL"" stays
+ as ""URL"".
+
+Parameters:
+name - The string to be decapitalized.
+Returns:
+The decapitalized version of the string.
+
+
+"
+Introspector,flushCaches(),static void,Flush all of the Introspector's internal caches.,"
+
+flushCaches
+public static void flushCaches()
+Flush all of the Introspector's internal caches.  This method is
+ not normally required.  It is normally only needed by advanced
+ tools that update existing ""Class"" objects in-place and need
+ to make the Introspector re-analyze existing Class objects.
+
+"
+Introspector,flushFromCaches(Class<?> clz),static void,Flush the Introspector's internal cached information for a given class.,"
+
+flushFromCaches
+public static void flushFromCaches(Class<?> clz)
+Flush the Introspector's internal cached information for a given class.
+ This method is not normally required.  It is normally only needed
+ by advanced tools that update existing ""Class"" objects in-place
+ and need to make the Introspector re-analyze an existing Class object.
+
+ Note that only the direct state associated with the target Class
+ object is flushed.  We do not flush state for other Class objects
+ with the same name, nor do we flush state for any related Class
+ objects (such as subclasses), even though their state may include
+ information indirectly obtained from the target Class object.
+
+Parameters:
+clz - Class object to be flushed.
+Throws:
+NullPointerException - If the Class object is null.
+
+
+"
+Introspector,getBeanInfo(Class<?> beanClass),static BeanInfo,"Introspect on a Java Bean and learn about all its properties, exposed methods, and events.","
+
+getBeanInfo
+public static BeanInfo getBeanInfo(Class<?> beanClass)
+                            throws IntrospectionException
+Introspect on a Java Bean and learn about all its properties, exposed
+ methods, and events.
+ 
+ If the BeanInfo class for a Java Bean has been previously Introspected
+ then the BeanInfo class is retrieved from the BeanInfo cache.
+
+Parameters:
+beanClass - The bean class to be analyzed.
+Returns:
+A BeanInfo object describing the target bean.
+Throws:
+IntrospectionException - if an exception occurs during
+              introspection.
+See Also:
+flushCaches(), 
+flushFromCaches(java.lang.Class<?>)
+
+
+"
+Introspector,"getBeanInfo(Class<?> beanClass, Class<?> stopClass)",static BeanInfo,"Introspect on a Java bean and learn all about its properties, exposed methods, below a given ""stop"" point.","
+
+getBeanInfo
+public static BeanInfo getBeanInfo(Class<?> beanClass,
+                                   Class<?> stopClass)
+                            throws IntrospectionException
+Introspect on a Java bean and learn all about its properties, exposed
+ methods, below a given ""stop"" point.
+ 
+ If the BeanInfo class for a Java Bean has been previously Introspected
+ based on the same arguments, then the BeanInfo class is retrieved
+ from the BeanInfo cache.
+
+Parameters:
+beanClass - The bean class to be analyzed.
+stopClass - The baseclass at which to stop the analysis.  Any
+    methods/properties/events in the stopClass or in its baseclasses
+    will be ignored in the analysis.
+Returns:
+the BeanInfo for the bean
+Throws:
+IntrospectionException - if an exception occurs during
+              introspection.
+
+
+"
+Introspector,"getBeanInfo(Class<?> beanClass, Class<?> stopClass, int flags)",static BeanInfo,"Introspect on a Java Bean and learn about all its properties, exposed methods and events, below a given stopClass point subject to some control flags.","
+
+getBeanInfo
+public static BeanInfo getBeanInfo(Class<?> beanClass,
+                                   Class<?> stopClass,
+                                   int flags)
+                            throws IntrospectionException
+Introspect on a Java Bean and learn about all its properties,
+ exposed methods and events, below a given stopClass point
+ subject to some control flags.
+ 
+USE_ALL_BEANINFO
+Any BeanInfo that can be discovered will be used.
+IGNORE_IMMEDIATE_BEANINFO
+Any BeanInfo associated with the specified beanClass will be ignored.
+IGNORE_ALL_BEANINFO
+Any BeanInfo associated with the specified beanClass
+      or any of its parent classes will be ignored.
+
+ Any methods/properties/events in the stopClass
+ or in its parent classes will be ignored in the analysis.
+ 
+ If the BeanInfo class for a Java Bean has been
+ previously introspected based on the same arguments then
+ the BeanInfo class is retrieved from the BeanInfo cache.
+
+Parameters:
+beanClass - the bean class to be analyzed
+stopClass - the parent class at which to stop the analysis
+flags - flags to control the introspection
+Returns:
+a BeanInfo object describing the target bean
+Throws:
+IntrospectionException - if an exception occurs during introspection
+Since:
+1.7
+
+
+"
+Introspector,"getBeanInfo(Class<?> beanClass, int flags)",static BeanInfo,"Introspect on a Java bean and learn about all its properties, exposed methods, and events, subject to some control flags.","
+
+getBeanInfo
+public static BeanInfo getBeanInfo(Class<?> beanClass,
+                                   int flags)
+                            throws IntrospectionException
+Introspect on a Java bean and learn about all its properties, exposed
+ methods, and events, subject to some control flags.
+ 
+ If the BeanInfo class for a Java Bean has been previously Introspected
+ based on the same arguments then the BeanInfo class is retrieved
+ from the BeanInfo cache.
+
+Parameters:
+beanClass - The bean class to be analyzed.
+flags - Flags to control the introspection.
+     If flags == USE_ALL_BEANINFO then we use all of the BeanInfo
+          classes we can discover.
+     If flags == IGNORE_IMMEDIATE_BEANINFO then we ignore any
+           BeanInfo associated with the specified beanClass.
+     If flags == IGNORE_ALL_BEANINFO then we ignore all BeanInfo
+           associated with the specified beanClass or any of its
+           parent classes.
+Returns:
+A BeanInfo object describing the target bean.
+Throws:
+IntrospectionException - if an exception occurs during
+              introspection.
+
+
+"
+Introspector,getBeanInfoSearchPath(),static String[],Gets the list of package names that will be used for finding BeanInfo classes.,"
+
+getBeanInfoSearchPath
+public static String[] getBeanInfoSearchPath()
+Gets the list of package names that will be used for
+          finding BeanInfo classes.
+
+Returns:
+The array of package names that will be searched in
+          order to find BeanInfo classes. The default value
+          for this array is implementation-dependent; e.g.
+          Sun implementation initially sets to {""sun.beans.infos""}.
+
+
+"
+Introspector,setBeanInfoSearchPath(String[] path),static void,Change the list of package names that will be used for finding BeanInfo classes.,"
+
+setBeanInfoSearchPath
+public static void setBeanInfoSearchPath(String[] path)
+Change the list of package names that will be used for
+          finding BeanInfo classes.  The behaviour of
+          this method is undefined if parameter path
+          is null.
+
+ First, if there is a security manager, its checkPropertiesAccess
+ method is called. This could result in a SecurityException.
+
+Parameters:
+path - Array of package names.
+Throws:
+SecurityException - if a security manager exists and its
+             checkPropertiesAccess method doesn't allow setting
+              of system properties.
+See Also:
+SecurityManager.checkPropertiesAccess()
+
+
+"
+MethodDescriptor,getMethod(),Method,Gets the method that this MethodDescriptor encapsulates.,"
+
+getMethod
+public Method getMethod()
+Gets the method that this MethodDescriptor encapsulates.
+
+Returns:
+The low-level description of the method
+
+
+"
+MethodDescriptor,getParameterDescriptors(),ParameterDescriptor[],Gets the ParameterDescriptor for each of this MethodDescriptor's method's parameters.,"
+
+getParameterDescriptors
+public ParameterDescriptor[] getParameterDescriptors()
+Gets the ParameterDescriptor for each of this MethodDescriptor's
+ method's parameters.
+
+Returns:
+The locale-independent names of the parameters.  May return
+          a null array if the parameter names aren't known.
+
+
+"
+PersistenceDelegate,"initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out)",protected void,Produce a series of statements with side effects on newInstance so that the new instance becomes equivalent to oldInstance.,"
+
+initialize
+protected void initialize(Class<?> type,
+                          Object oldInstance,
+                          Object newInstance,
+                          Encoder out)
+Produce a series of statements with side effects on newInstance
+ so that the new instance becomes equivalent to oldInstance.
+ In the specification of this method, we mean by equivalent that, after the method
+ returns, the modified instance is indistinguishable from
+ newInstance in the behavior of all methods in its
+ public API.
+ 
+ The implementation typically achieves this goal by producing a series of
+ ""what happened"" statements involving the oldInstance
+ and its publicly available state. These statements are sent
+ to the output stream using its writeExpression
+ method which returns an expression involving elements in
+ a cloned environment simulating the state of an input stream during
+ reading. Each statement returned will have had all instances
+ the old environment replaced with objects which exist in the new
+ one. In particular, references to the target of these statements,
+ which start out as references to oldInstance are returned
+ as references to the newInstance instead.
+ Executing these statements effects an incremental
+ alignment of the state of the two objects as a series of
+ modifications to the objects in the new environment.
+ By the time the initialize method returns it should be impossible
+ to tell the two instances apart by using their public APIs.
+ Most importantly, the sequence of steps that were used to make
+ these objects appear equivalent will have been recorded
+ by the output stream and will form the actual output when
+ the stream is flushed.
+ 
+ The default implementation, calls the initialize
+ method of the type's superclass.
+
+Parameters:
+type - the type of the instances
+oldInstance - The instance to be copied.
+newInstance - The instance that is to be modified.
+out - The stream to which any initialization statements should be written.
+Throws:
+NullPointerException - if out is null
+
+
+"
+PersistenceDelegate,"instantiate(Object oldInstance, Encoder out)",protected abstract Expression,Returns an expression whose value is oldInstance.,"
+
+instantiate
+protected abstract Expression instantiate(Object oldInstance,
+                                          Encoder out)
+Returns an expression whose value is oldInstance.
+ This method is used to characterize the constructor
+ or factory method that should be used to create the given object.
+ For example, the instantiate method of the persistence
+ delegate for the Field class could be defined as follows:
+ 
+ Field f = (Field)oldInstance;
+ return new Expression(f, f.getDeclaringClass(), ""getField"", new Object[]{f.getName()});
+ 
+ Note that we declare the value of the returned expression so that
+ the value of the expression (as returned by getValue)
+ will be identical to oldInstance.
+
+Parameters:
+oldInstance - The instance that will be created by this expression.
+out - The stream to which this expression will be written.
+Returns:
+An expression whose value is oldInstance.
+Throws:
+NullPointerException - if out is null
+                              and this value is used in the method
+
+
+"
+PersistenceDelegate,"mutatesTo(Object oldInstance, Object newInstance)",protected boolean,Returns true if an equivalent copy of oldInstance may be created by applying a series of statements to newInstance.,"
+
+mutatesTo
+protected boolean mutatesTo(Object oldInstance,
+                            Object newInstance)
+Returns true if an equivalent copy of oldInstance may be
+ created by applying a series of statements to newInstance.
+ In the specification of this method, we mean by equivalent that the modified instance
+ is indistinguishable from oldInstance in the behavior
+ of the relevant methods in its public API. [Note: we use the
+ phrase relevant methods rather than all methods
+ here only because, to be strictly correct, methods like hashCode
+ and toString prevent most classes from producing truly
+ indistinguishable copies of their instances].
+ 
+ The default behavior returns true
+ if the classes of the two instances are the same.
+
+Parameters:
+oldInstance - The instance to be copied.
+newInstance - The instance that is to be modified.
+Returns:
+True if an equivalent copy of newInstance may be
+         created by applying a series of mutations to oldInstance.
+
+
+"
+PersistenceDelegate,"writeObject(Object oldInstance, Encoder out)",void,The writeObject is a single entry point to the persistence and is used by a Encoder in the traditional mode of delegation.,"
+
+writeObject
+public void writeObject(Object oldInstance,
+                        Encoder out)
+The writeObject is a single entry point to the persistence
+ and is used by a Encoder in the traditional
+ mode of delegation. Although this method is not final,
+ it should not need to be subclassed under normal circumstances.
+ 
+ This implementation first checks to see if the stream
+ has already encountered this object. Next the
+ mutatesTo method is called to see if
+ that candidate returned from the stream can
+ be mutated into an accurate copy of oldInstance.
+ If it can, the initialize method is called to
+ perform the initialization. If not, the candidate is removed
+ from the stream, and the instantiate method
+ is called to create a new candidate for this object.
+
+Parameters:
+oldInstance - The instance that will be created by this expression.
+out - The stream to which this expression will be written.
+Throws:
+NullPointerException - if out is null
+
+
+"
+PropertyChangeEvent,getNewValue(),Object,"Gets the new value for the property, expressed as an Object.","
+
+getNewValue
+public Object getNewValue()
+Gets the new value for the property, expressed as an Object.
+
+Returns:
+The new value for the property, expressed as an Object.
+          May be null if multiple properties have changed.
+
+
+"
+PropertyChangeEvent,getOldValue(),Object,"Gets the old value for the property, expressed as an Object.","
+
+getOldValue
+public Object getOldValue()
+Gets the old value for the property, expressed as an Object.
+
+Returns:
+The old value for the property, expressed as an Object.
+          May be null if multiple properties have changed.
+
+
+"
+PropertyChangeEvent,getPropagationId(),Object,"The ""propagationId"" field is reserved for future use.","
+
+getPropagationId
+public Object getPropagationId()
+The ""propagationId"" field is reserved for future use.  In Beans 1.0
+ the sole requirement is that if a listener catches a PropertyChangeEvent
+ and then fires a PropertyChangeEvent of its own, then it should
+ make sure that it propagates the propagationId field from its
+ incoming event to its outgoing event.
+
+Returns:
+the propagationId object associated with a bound/constrained
+          property update.
+
+
+"
+PropertyChangeEvent,getPropertyName(),String,Gets the programmatic name of the property that was changed.,"
+
+getPropertyName
+public String getPropertyName()
+Gets the programmatic name of the property that was changed.
+
+Returns:
+The programmatic name of the property that was changed.
+          May be null if multiple properties have changed.
+
+
+"
+PropertyChangeEvent,setPropagationId(Object propagationId),void,Sets the propagationId object for the event.,"
+
+setPropagationId
+public void setPropagationId(Object propagationId)
+Sets the propagationId object for the event.
+
+Parameters:
+propagationId - The propagationId object for the event.
+
+
+"
+PropertyChangeEvent,toString(),String,Returns a string representation of the object.,"
+
+toString
+public String toString()
+Returns a string representation of the object.
+
+Overrides:
+toString in class EventObject
+Returns:
+a string representation of the object
+Since:
+1.7
+
+
+"
+PropertyChangeListenerProxy,getPropertyName(),String,Returns the name of the named property associated with the listener.,"
+
+getPropertyName
+public String getPropertyName()
+Returns the name of the named property associated with the listener.
+
+Returns:
+the name of the named property associated with the listener
+
+
+"
+PropertyChangeListenerProxy,propertyChange(PropertyChangeEvent event),void,Forwards the property change event to the listener delegate.,"
+
+propertyChange
+public void propertyChange(PropertyChangeEvent event)
+Forwards the property change event to the listener delegate.
+
+Specified by:
+propertyChange in interface PropertyChangeListener
+Parameters:
+event - the property change event
+
+
+"
+PropertyChangeSupport,addPropertyChangeListener(PropertyChangeListener listener),void,Add a PropertyChangeListener to the listener list.,"
+
+addPropertyChangeListener
+public void addPropertyChangeListener(PropertyChangeListener listener)
+Add a PropertyChangeListener to the listener list.
+ The listener is registered for all properties.
+ The same listener object may be added more than once, and will be called
+ as many times as it is added.
+ If listener is null, no exception is thrown and no action
+ is taken.
+
+Parameters:
+listener - The PropertyChangeListener to be added
+
+
+"
+PropertyChangeSupport,"addPropertyChangeListener(String propertyName, PropertyChangeListener listener)",void,Add a PropertyChangeListener for a specific property.,"
+
+addPropertyChangeListener
+public void addPropertyChangeListener(String propertyName,
+                                      PropertyChangeListener listener)
+Add a PropertyChangeListener for a specific property.  The listener
+ will be invoked only when a call on firePropertyChange names that
+ specific property.
+ The same listener object may be added more than once.  For each
+ property,  the listener will be invoked the number of times it was added
+ for that property.
+ If propertyName or listener is null, no
+ exception is thrown and no action is taken.
+
+Parameters:
+propertyName - The name of the property to listen on.
+listener - The PropertyChangeListener to be added
+
+
+"
+PropertyChangeSupport,"fireIndexedPropertyChange(String propertyName, int index, boolean oldValue, boolean newValue)",void,Reports a boolean bound indexed property update to listeners that have been registered to track updates of all properties or a property with the specified name.,"
+
+fireIndexedPropertyChange
+public void fireIndexedPropertyChange(String propertyName,
+                                      int index,
+                                      boolean oldValue,
+                                      boolean newValue)
+Reports a boolean bound indexed property update to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ No event is fired if old and new values are equal.
+ 
+ This is merely a convenience wrapper around the more general
+ fireIndexedPropertyChange(String, int, Object, Object) method.
+
+Parameters:
+propertyName - the programmatic name of the property that was changed
+index - the index of the property element that was changed
+oldValue - the old value of the property
+newValue - the new value of the property
+Since:
+1.5
+
+
+"
+PropertyChangeSupport,"fireIndexedPropertyChange(String propertyName, int index, int oldValue, int newValue)",void,Reports an integer bound indexed property update to listeners that have been registered to track updates of all properties or a property with the specified name.,"
+
+fireIndexedPropertyChange
+public void fireIndexedPropertyChange(String propertyName,
+                                      int index,
+                                      int oldValue,
+                                      int newValue)
+Reports an integer bound indexed property update to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ No event is fired if old and new values are equal.
+ 
+ This is merely a convenience wrapper around the more general
+ fireIndexedPropertyChange(String, int, Object, Object) method.
+
+Parameters:
+propertyName - the programmatic name of the property that was changed
+index - the index of the property element that was changed
+oldValue - the old value of the property
+newValue - the new value of the property
+Since:
+1.5
+
+
+"
+PropertyChangeSupport,"fireIndexedPropertyChange(String propertyName, int index, Object oldValue, Object newValue)",void,Reports a bound indexed property update to listeners that have been registered to track updates of all properties or a property with the specified name.,"
+
+fireIndexedPropertyChange
+public void fireIndexedPropertyChange(String propertyName,
+                                      int index,
+                                      Object oldValue,
+                                      Object newValue)
+Reports a bound indexed property update to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ No event is fired if old and new values are equal and non-null.
+ 
+ This is merely a convenience wrapper around the more general
+ firePropertyChange(PropertyChangeEvent) method.
+
+Parameters:
+propertyName - the programmatic name of the property that was changed
+index - the index of the property element that was changed
+oldValue - the old value of the property
+newValue - the new value of the property
+Since:
+1.5
+
+
+"
+PropertyChangeSupport,firePropertyChange(PropertyChangeEvent event),void,Fires a property change event to listeners that have been registered to track updates of all properties or a property with the specified name.,"
+
+firePropertyChange
+public void firePropertyChange(PropertyChangeEvent event)
+Fires a property change event to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ No event is fired if the given event's old and new values are equal and non-null.
+
+Parameters:
+event - the PropertyChangeEvent to be fired
+
+
+"
+PropertyChangeSupport,"firePropertyChange(String propertyName, boolean oldValue, boolean newValue)",void,Reports a boolean bound property update to listeners that have been registered to track updates of all properties or a property with the specified name.,"
+
+firePropertyChange
+public void firePropertyChange(String propertyName,
+                               boolean oldValue,
+                               boolean newValue)
+Reports a boolean bound property update to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ No event is fired if old and new values are equal.
+ 
+ This is merely a convenience wrapper around the more general
+ firePropertyChange(String, Object, Object)  method.
+
+Parameters:
+propertyName - the programmatic name of the property that was changed
+oldValue - the old value of the property
+newValue - the new value of the property
+
+
+"
+PropertyChangeSupport,"firePropertyChange(String propertyName, int oldValue, int newValue)",void,Reports an integer bound property update to listeners that have been registered to track updates of all properties or a property with the specified name.,"
+
+firePropertyChange
+public void firePropertyChange(String propertyName,
+                               int oldValue,
+                               int newValue)
+Reports an integer bound property update to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ No event is fired if old and new values are equal.
+ 
+ This is merely a convenience wrapper around the more general
+ firePropertyChange(String, Object, Object)  method.
+
+Parameters:
+propertyName - the programmatic name of the property that was changed
+oldValue - the old value of the property
+newValue - the new value of the property
+
+
+"
+PropertyChangeSupport,"firePropertyChange(String propertyName, Object oldValue, Object newValue)",void,Reports a bound property update to listeners that have been registered to track updates of all properties or a property with the specified name.,"
+
+firePropertyChange
+public void firePropertyChange(String propertyName,
+                               Object oldValue,
+                               Object newValue)
+Reports a bound property update to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ No event is fired if old and new values are equal and non-null.
+ 
+ This is merely a convenience wrapper around the more general
+ firePropertyChange(PropertyChangeEvent) method.
+
+Parameters:
+propertyName - the programmatic name of the property that was changed
+oldValue - the old value of the property
+newValue - the new value of the property
+
+
+"
+PropertyChangeSupport,getPropertyChangeListeners(),PropertyChangeListener[],Returns an array of all the listeners that were added to the PropertyChangeSupport object with addPropertyChangeListener().,"
+
+getPropertyChangeListeners
+public PropertyChangeListener[] getPropertyChangeListeners()
+Returns an array of all the listeners that were added to the
+ PropertyChangeSupport object with addPropertyChangeListener().
+ 
+ If some listeners have been added with a named property, then
+ the returned array will be a mixture of PropertyChangeListeners
+ and PropertyChangeListenerProxys. If the calling
+ method is interested in distinguishing the listeners then it must
+ test each element to see if it's a
+ PropertyChangeListenerProxy, perform the cast, and examine
+ the parameter.
+
+ 
+ PropertyChangeListener[] listeners = bean.getPropertyChangeListeners();
+ for (int i = 0; i < listeners.length; i++) {
+   if (listeners[i] instanceof PropertyChangeListenerProxy) {
+     PropertyChangeListenerProxy proxy =
+                    (PropertyChangeListenerProxy)listeners[i];
+     if (proxy.getPropertyName().equals(""foo"")) {
+       // proxy is a PropertyChangeListener which was associated
+       // with the property named ""foo""
+     }
+   }
+ }
+ 
+
+Returns:
+all of the PropertyChangeListeners added or an
+         empty array if no listeners have been added
+Since:
+1.4
+See Also:
+PropertyChangeListenerProxy
+
+
+"
+PropertyChangeSupport,getPropertyChangeListeners(String propertyName),PropertyChangeListener[],Returns an array of all the listeners which have been associated with the named property.,"
+
+getPropertyChangeListeners
+public PropertyChangeListener[] getPropertyChangeListeners(String propertyName)
+Returns an array of all the listeners which have been associated
+ with the named property.
+
+Parameters:
+propertyName - The name of the property being listened to
+Returns:
+all of the PropertyChangeListeners associated with
+         the named property.  If no such listeners have been added,
+         or if propertyName is null, an empty array is
+         returned.
+Since:
+1.4
+
+
+"
+PropertyChangeSupport,hasListeners(String propertyName),boolean,"Check if there are any listeners for a specific property, including those registered on all properties.","
+
+hasListeners
+public boolean hasListeners(String propertyName)
+Check if there are any listeners for a specific property, including
+ those registered on all properties.  If propertyName
+ is null, only check for listeners registered on all properties.
+
+Parameters:
+propertyName - the property name.
+Returns:
+true if there are one or more listeners for the given property
+
+
+"
+PropertyChangeSupport,removePropertyChangeListener(PropertyChangeListener listener),void,Remove a PropertyChangeListener from the listener list.,"
+
+removePropertyChangeListener
+public void removePropertyChangeListener(PropertyChangeListener listener)
+Remove a PropertyChangeListener from the listener list.
+ This removes a PropertyChangeListener that was registered
+ for all properties.
+ If listener was added more than once to the same event
+ source, it will be notified one less time after being removed.
+ If listener is null, or was never added, no exception is
+ thrown and no action is taken.
+
+Parameters:
+listener - The PropertyChangeListener to be removed
+
+
+"
+PropertyChangeSupport,"removePropertyChangeListener(String propertyName, PropertyChangeListener listener)",void,Remove a PropertyChangeListener for a specific property.,"
+
+removePropertyChangeListener
+public void removePropertyChangeListener(String propertyName,
+                                         PropertyChangeListener listener)
+Remove a PropertyChangeListener for a specific property.
+ If listener was added more than once to the same event
+ source for the specified property, it will be notified one less time
+ after being removed.
+ If propertyName is null,  no exception is thrown and no
+ action is taken.
+ If listener is null, or was never added for the specified
+ property, no exception is thrown and no action is taken.
+
+Parameters:
+propertyName - The name of the property that was listened on.
+listener - The PropertyChangeListener to be removed
+
+
+"
+PropertyDescriptor,createPropertyEditor(Object bean),PropertyEditor,Constructs an instance of a property editor using the current property editor class.,"
+
+createPropertyEditor
+public PropertyEditor createPropertyEditor(Object bean)
+Constructs an instance of a property editor using the current
+ property editor class.
+ 
+ If the property editor class has a public constructor that takes an
+ Object argument then it will be invoked using the bean parameter
+ as the argument. Otherwise, the default constructor will be invoked.
+
+Parameters:
+bean - the source object
+Returns:
+a property editor instance or null if a property editor has
+         not been defined or cannot be created
+Since:
+1.5
+
+
+"
+PropertyDescriptor,equals(Object obj),boolean,Compares this PropertyDescriptor against the specified object.,"
+
+equals
+public boolean equals(Object obj)
+Compares this PropertyDescriptor against the specified object.
+ Returns true if the objects are the same. Two PropertyDescriptors
+ are the same if the read, write, property types, property editor and
+ flags  are equivalent.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - the reference object with which to compare.
+Returns:
+true if this object is the same as the obj
+          argument; false otherwise.
+Since:
+1.4
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+PropertyDescriptor,getPropertyEditorClass(),Class<?>,Gets any explicit PropertyEditor Class that has been registered for this property.,"
+
+getPropertyEditorClass
+public Class<?> getPropertyEditorClass()
+Gets any explicit PropertyEditor Class that has been registered
+ for this property.
+
+Returns:
+Any explicit PropertyEditor Class that has been registered
+          for this property.  Normally this will return ""null"",
+          indicating that no special editor has been registered,
+          so the PropertyEditorManager should be used to locate
+          a suitable PropertyEditor.
+
+
+"
+PropertyDescriptor,getPropertyType(),Class<?>,Returns the Java type info for the property.,"
+
+getPropertyType
+public Class<?> getPropertyType()
+Returns the Java type info for the property.
+ Note that the Class object may describe
+ primitive Java types such as int.
+ This type is returned by the read method
+ or is used as the parameter type of the write method.
+ Returns null if the type is an indexed property
+ that does not support non-indexed access.
+
+Returns:
+the Class object that represents the Java type info,
+         or null if the type cannot be determined
+
+
+"
+PropertyDescriptor,getReadMethod(),Method,Gets the method that should be used to read the property value.,"
+
+getReadMethod
+public Method getReadMethod()
+Gets the method that should be used to read the property value.
+
+Returns:
+The method that should be used to read the property value.
+ May return null if the property can't be read.
+
+
+"
+PropertyDescriptor,getWriteMethod(),Method,Gets the method that should be used to write the property value.,"
+
+getWriteMethod
+public Method getWriteMethod()
+Gets the method that should be used to write the property value.
+
+Returns:
+The method that should be used to write the property value.
+ May return null if the property can't be written.
+
+
+"
+PropertyDescriptor,hashCode(),int,Returns a hash code value for the object.,"
+
+hashCode
+public int hashCode()
+Returns a hash code value for the object.
+ See Object.hashCode() for a complete description.
+
+Overrides:
+hashCode in class Object
+Returns:
+a hash code value for this object.
+Since:
+1.5
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+PropertyDescriptor,isBound(),boolean,"Updates to ""bound"" properties will cause a ""PropertyChange"" event to get fired when the property is changed.","
+
+isBound
+public boolean isBound()
+Updates to ""bound"" properties will cause a ""PropertyChange"" event to
+ get fired when the property is changed.
+
+Returns:
+True if this is a bound property.
+
+
+"
+PropertyDescriptor,isConstrained(),boolean,"Attempted updates to ""Constrained"" properties will cause a ""VetoableChange"" event to get fired when the property is changed.","
+
+isConstrained
+public boolean isConstrained()
+Attempted updates to ""Constrained"" properties will cause a ""VetoableChange""
+ event to get fired when the property is changed.
+
+Returns:
+True if this is a constrained property.
+
+
+"
+PropertyDescriptor,setBound(boolean bound),void,"Updates to ""bound"" properties will cause a ""PropertyChange"" event to get fired when the property is changed.","
+
+setBound
+public void setBound(boolean bound)
+Updates to ""bound"" properties will cause a ""PropertyChange"" event to
+ get fired when the property is changed.
+
+Parameters:
+bound - True if this is a bound property.
+
+
+"
+PropertyDescriptor,setConstrained(boolean constrained),void,"Attempted updates to ""Constrained"" properties will cause a ""VetoableChange"" event to get fired when the property is changed.","
+
+setConstrained
+public void setConstrained(boolean constrained)
+Attempted updates to ""Constrained"" properties will cause a ""VetoableChange""
+ event to get fired when the property is changed.
+
+Parameters:
+constrained - True if this is a constrained property.
+
+
+"
+PropertyDescriptor,setPropertyEditorClass(Class<?> propertyEditorClass),void,Normally PropertyEditors will be found using the PropertyEditorManager.,"
+
+setPropertyEditorClass
+public void setPropertyEditorClass(Class<?> propertyEditorClass)
+Normally PropertyEditors will be found using the PropertyEditorManager.
+ However if for some reason you want to associate a particular
+ PropertyEditor with a given property, then you can do it with
+ this method.
+
+Parameters:
+propertyEditorClass - The Class for the desired PropertyEditor.
+
+
+"
+PropertyDescriptor,setReadMethod(Method readMethod),void,Sets the method that should be used to read the property value.,"
+
+setReadMethod
+public void setReadMethod(Method readMethod)
+                   throws IntrospectionException
+Sets the method that should be used to read the property value.
+
+Parameters:
+readMethod - The new read method.
+Throws:
+IntrospectionException - if the read method is invalid
+
+
+"
+PropertyDescriptor,setWriteMethod(Method writeMethod),void,Sets the method that should be used to write the property value.,"
+
+setWriteMethod
+public void setWriteMethod(Method writeMethod)
+                    throws IntrospectionException
+Sets the method that should be used to write the property value.
+
+Parameters:
+writeMethod - The new write method.
+Throws:
+IntrospectionException - if the write method is invalid
+
+
+"
+PropertyEditorManager,findEditor(Class<?> targetType),static PropertyEditor,Locate a value editor for a given target type.,"
+
+findEditor
+public static PropertyEditor findEditor(Class<?> targetType)
+Locate a value editor for a given target type.
+
+Parameters:
+targetType - The Class object for the type to be edited
+Returns:
+An editor object for the given target class.
+ The result is null if no suitable editor can be found.
+
+
+"
+PropertyEditorManager,getEditorSearchPath(),static String[],Gets the package names that will be searched for property editors.,"
+
+getEditorSearchPath
+public static String[] getEditorSearchPath()
+Gets the package names that will be searched for property editors.
+
+Returns:
+The array of package names that will be searched in
+          order to find property editors.
+      The default value for this array is implementation-dependent,
+         e.g. Sun implementation initially sets to  {""sun.beans.editors""}.
+
+
+"
+PropertyEditorManager,"registerEditor(Class<?> targetType, Class<?> editorClass)",static void,Registers an editor class to edit values of the given target class.,"
+
+registerEditor
+public static void registerEditor(Class<?> targetType,
+                                  Class<?> editorClass)
+Registers an editor class to edit values of the given target class.
+ If the editor class is null,
+ then any existing definition will be removed.
+ Thus this method can be used to cancel the registration.
+ The registration is canceled automatically
+ if either the target or editor class is unloaded.
+ 
+ If there is a security manager, its checkPropertiesAccess
+ method is called. This could result in a SecurityException.
+
+Parameters:
+targetType - the class object of the type to be edited
+editorClass - the class object of the editor class
+Throws:
+SecurityException - if a security manager exists and
+                            its checkPropertiesAccess method
+                            doesn't allow setting of system properties
+See Also:
+SecurityManager.checkPropertiesAccess()
+
+
+"
+PropertyEditorManager,setEditorSearchPath(String[] path),static void,Change the list of package names that will be used for finding property editors.,"
+
+setEditorSearchPath
+public static void setEditorSearchPath(String[] path)
+Change the list of package names that will be used for
+          finding property editors.
+
+ First, if there is a security manager, its checkPropertiesAccess
+ method is called. This could result in a SecurityException.
+
+Parameters:
+path - Array of package names.
+Throws:
+SecurityException - if a security manager exists and its
+             checkPropertiesAccess method doesn't allow setting
+              of system properties.
+See Also:
+SecurityManager.checkPropertiesAccess()
+
+
+"
+PropertyEditorSupport,addPropertyChangeListener(PropertyChangeListener listener),void,Adds a listener for the value change.,"
+
+addPropertyChangeListener
+public void addPropertyChangeListener(PropertyChangeListener listener)
+Adds a listener for the value change.
+ When the property editor changes its value
+ it should fire a PropertyChangeEvent
+ on all registered PropertyChangeListeners,
+ specifying the null value for the property name.
+ If the source property is set,
+ it should be used as the source of the event.
+ 
+ The same listener object may be added more than once,
+ and will be called as many times as it is added.
+ If listener is null,
+ no exception is thrown and no action is taken.
+
+Specified by:
+addPropertyChangeListener in interface PropertyEditor
+Parameters:
+listener - the PropertyChangeListener to add
+
+
+"
+PropertyEditorSupport,firePropertyChange(),void,Report that we have been modified to any interested listeners.,"
+
+firePropertyChange
+public void firePropertyChange()
+Report that we have been modified to any interested listeners.
+
+"
+PropertyEditorSupport,getAsText(),String,Gets the property value as a string suitable for presentation to a human to edit.,"
+
+getAsText
+public String getAsText()
+Gets the property value as a string suitable for presentation
+ to a human to edit.
+
+Specified by:
+getAsText in interface PropertyEditor
+Returns:
+The property value as a string suitable for presentation
+       to a human to edit.
+    Returns null if the value can't be expressed as a string.
+    If a non-null value is returned, then the PropertyEditor should
+       be prepared to parse that string back in setAsText().
+
+
+"
+PropertyEditorSupport,getCustomEditor(),Component,A PropertyEditor may chose to make available a full custom Component that edits its property value.,"
+
+getCustomEditor
+public Component getCustomEditor()
+A PropertyEditor may chose to make available a full custom Component
+ that edits its property value.  It is the responsibility of the
+ PropertyEditor to hook itself up to its editor Component itself and
+ to report property value changes by firing a PropertyChange event.
+ 
+ The higher-level code that calls getCustomEditor may either embed
+ the Component in some larger property sheet, or it may put it in
+ its own individual dialog, or ...
+
+Specified by:
+getCustomEditor in interface PropertyEditor
+Returns:
+A java.awt.Component that will allow a human to directly
+      edit the current property value.  May be null if this is
+      not supported.
+
+
+"
+PropertyEditorSupport,getJavaInitializationString(),String,This method is intended for use when generating Java code to set the value of the property.,"
+
+getJavaInitializationString
+public String getJavaInitializationString()
+This method is intended for use when generating Java code to set
+ the value of the property.  It should return a fragment of Java code
+ that can be used to initialize a variable with the current property
+ value.
+ 
+ Example results are ""2"", ""new Color(127,127,34)"", ""Color.orange"", etc.
+
+Specified by:
+getJavaInitializationString in interface PropertyEditor
+Returns:
+A fragment of Java code representing an initializer for the
+          current value.
+
+
+"
+PropertyEditorSupport,getSource(),Object,Returns the bean that is used as the source of events.,"
+
+getSource
+public Object getSource()
+Returns the bean that is used as the
+ source of events. If the source has not
+ been explicitly set then this instance of
+ PropertyEditorSupport is returned.
+
+Returns:
+the source object or this instance
+Since:
+1.5
+
+
+"
+PropertyEditorSupport,getTags(),String[],"If the property value must be one of a set of known tagged values, then this method should return an array of the tag values.","
+
+getTags
+public String[] getTags()
+If the property value must be one of a set of known tagged values,
+ then this method should return an array of the tag values.  This can
+ be used to represent (for example) enum values.  If a PropertyEditor
+ supports tags, then it should support the use of setAsText with
+ a tag value as a way of setting the value.
+
+Specified by:
+getTags in interface PropertyEditor
+Returns:
+The tag values for this property.  May be null if this
+   property cannot be represented as a tagged value.
+
+
+"
+PropertyEditorSupport,getValue(),Object,Gets the value of the property.,"
+
+getValue
+public Object getValue()
+Gets the value of the property.
+
+Specified by:
+getValue in interface PropertyEditor
+Returns:
+The value of the property.
+
+
+"
+PropertyEditorSupport,isPaintable(),boolean,Determines whether the class will honor the paintValue method.,"
+
+isPaintable
+public boolean isPaintable()
+Determines whether the class will honor the paintValue method.
+
+Specified by:
+isPaintable in interface PropertyEditor
+Returns:
+True if the class will honor the paintValue method.
+
+
+"
+PropertyEditorSupport,"paintValue(Graphics gfx, Rectangle box)",void,Paint a representation of the value into a given area of screen real estate.,"
+
+paintValue
+public void paintValue(Graphics gfx,
+                       Rectangle box)
+Paint a representation of the value into a given area of screen
+ real estate.  Note that the propertyEditor is responsible for doing
+ its own clipping so that it fits into the given rectangle.
+ 
+ If the PropertyEditor doesn't honor paint requests (see isPaintable)
+ this method should be a silent noop.
+
+Specified by:
+paintValue in interface PropertyEditor
+Parameters:
+gfx - Graphics object to paint into.
+box - Rectangle within graphics object into which we should paint.
+
+
+"
+PropertyEditorSupport,removePropertyChangeListener(PropertyChangeListener listener),void,Removes a listener for the value change.,"
+
+removePropertyChangeListener
+public void removePropertyChangeListener(PropertyChangeListener listener)
+Removes a listener for the value change.
+ 
+ If the same listener was added more than once,
+ it will be notified one less time after being removed.
+ If listener is null, or was never added,
+ no exception is thrown and no action is taken.
+
+Specified by:
+removePropertyChangeListener in interface PropertyEditor
+Parameters:
+listener - the PropertyChangeListener to remove
+
+
+"
+PropertyEditorSupport,setAsText(String text),void,Sets the property value by parsing a given String.,"
+
+setAsText
+public void setAsText(String text)
+               throws IllegalArgumentException
+Sets the property value by parsing a given String.  May raise
+ java.lang.IllegalArgumentException if either the String is
+ badly formatted or if this kind of property can't be expressed
+ as text.
+
+Specified by:
+setAsText in interface PropertyEditor
+Parameters:
+text - The string to be parsed.
+Throws:
+IllegalArgumentException
+
+
+"
+PropertyEditorSupport,setSource(Object source),void,Sets the source bean.,"
+
+setSource
+public void setSource(Object source)
+Sets the source bean.
+ 
+ The source bean is used as the source of events
+ for the property changes. This source should be used for information
+ purposes only and should not be modified by the PropertyEditor.
+
+Parameters:
+source - source object to be used for events
+Since:
+1.5
+
+
+"
+PropertyEditorSupport,setValue(Object value),void,Set (or change) the object that is to be edited.,"
+
+setValue
+public void setValue(Object value)
+Set (or change) the object that is to be edited.
+
+Specified by:
+setValue in interface PropertyEditor
+Parameters:
+value - The new target object to be edited.  Note that this
+     object should not be modified by the PropertyEditor, rather
+     the PropertyEditor should create a new object to hold any
+     modified value.
+
+
+"
+PropertyEditorSupport,supportsCustomEditor(),boolean,Determines whether the propertyEditor can provide a custom editor.,"
+
+supportsCustomEditor
+public boolean supportsCustomEditor()
+Determines whether the propertyEditor can provide a custom editor.
+
+Specified by:
+supportsCustomEditor in interface PropertyEditor
+Returns:
+True if the propertyEditor can provide a custom editor.
+
+
+"
+SimpleBeanInfo,getAdditionalBeanInfo(),BeanInfo[],Claim there are no other relevant BeanInfo objects.,"
+
+getAdditionalBeanInfo
+public BeanInfo[] getAdditionalBeanInfo()
+Claim there are no other relevant BeanInfo objects.  You
+ may override this if you want to (for example) return a
+ BeanInfo for a base class.
+
+Specified by:
+getAdditionalBeanInfo in interface BeanInfo
+Returns:
+an array of BeanInfo objects,
+          or null if there are no additional BeanInfo objects
+
+
+"
+SimpleBeanInfo,getBeanDescriptor(),BeanDescriptor,Deny knowledge about the class and customizer of the bean.,"
+
+getBeanDescriptor
+public BeanDescriptor getBeanDescriptor()
+Deny knowledge about the class and customizer of the bean.
+ You can override this if you wish to provide explicit info.
+
+Specified by:
+getBeanDescriptor in interface BeanInfo
+Returns:
+a BeanDescriptor object,
+          or null if the information is to
+          be obtained through the automatic analysis
+
+
+"
+SimpleBeanInfo,getDefaultEventIndex(),int,Deny knowledge of a default event.,"
+
+getDefaultEventIndex
+public int getDefaultEventIndex()
+Deny knowledge of a default event. You can override this
+ if you wish to define a default event for the bean.
+
+Specified by:
+getDefaultEventIndex in interface BeanInfo
+Returns:
+index of the default event in the EventSetDescriptor array
+          returned by the getEventSetDescriptors method,
+          or -1 if there is no default event
+
+
+"
+SimpleBeanInfo,getDefaultPropertyIndex(),int,Deny knowledge of a default property.,"
+
+getDefaultPropertyIndex
+public int getDefaultPropertyIndex()
+Deny knowledge of a default property. You can override this
+ if you wish to define a default property for the bean.
+
+Specified by:
+getDefaultPropertyIndex in interface BeanInfo
+Returns:
+index of the default property in the PropertyDescriptor array
+          returned by the getPropertyDescriptors method,
+          or -1 if there is no default property
+
+
+"
+SimpleBeanInfo,getEventSetDescriptors(),EventSetDescriptor[],Deny knowledge of event sets.,"
+
+getEventSetDescriptors
+public EventSetDescriptor[] getEventSetDescriptors()
+Deny knowledge of event sets. You can override this
+ if you wish to provide explicit event set info.
+
+Specified by:
+getEventSetDescriptors in interface BeanInfo
+Returns:
+an array of EventSetDescriptor objects,
+          or null if the information is to
+          be obtained through the automatic analysis
+
+
+"
+SimpleBeanInfo,getIcon(int iconKind),Image,Claim there are no icons available.,"
+
+getIcon
+public Image getIcon(int iconKind)
+Claim there are no icons available.  You can override
+ this if you want to provide icons for your bean.
+
+Specified by:
+getIcon in interface BeanInfo
+Parameters:
+iconKind - the kind of icon requested
+Returns:
+an image object representing the requested icon,
+                   or null if no suitable icon is available
+See Also:
+BeanInfo.ICON_COLOR_16x16, 
+BeanInfo.ICON_COLOR_32x32, 
+BeanInfo.ICON_MONO_16x16, 
+BeanInfo.ICON_MONO_32x32
+
+
+"
+SimpleBeanInfo,getMethodDescriptors(),MethodDescriptor[],Deny knowledge of methods.,"
+
+getMethodDescriptors
+public MethodDescriptor[] getMethodDescriptors()
+Deny knowledge of methods. You can override this
+ if you wish to provide explicit method info.
+
+Specified by:
+getMethodDescriptors in interface BeanInfo
+Returns:
+an array of MethodDescriptor objects,
+          or null if the information is to
+          be obtained through the automatic analysis
+
+
+"
+SimpleBeanInfo,getPropertyDescriptors(),PropertyDescriptor[],Deny knowledge of properties.,"
+
+getPropertyDescriptors
+public PropertyDescriptor[] getPropertyDescriptors()
+Deny knowledge of properties. You can override this
+ if you wish to provide explicit property info.
+
+Specified by:
+getPropertyDescriptors in interface BeanInfo
+Returns:
+an array of PropertyDescriptor objects,
+          or null if the information is to
+          be obtained through the automatic analysis
+
+
+"
+SimpleBeanInfo,loadImage(String resourceName),Image,This is a utility method to help in loading icon images.,"
+
+loadImage
+public Image loadImage(String resourceName)
+This is a utility method to help in loading icon images.
+ It takes the name of a resource file associated with the
+ current object's class file and loads an image object
+ from that file.  Typically images will be GIFs.
+ 
+
+Parameters:
+resourceName - A pathname relative to the directory
+          holding the class file of the current class.  For example,
+          ""wombat.gif"".
+Returns:
+an image object.  May be null if the load failed.
+
+
+"
+Statement,execute(),void,"The execute method finds a method whose name is the same as the methodName property, and invokes the method on the target.","
+
+execute
+public void execute()
+             throws Exception
+The execute method finds a method whose name is the same
+ as the methodName property, and invokes the method on
+ the target.
+
+ When the target's class defines many methods with the given name
+ the implementation should choose the most specific method using
+ the algorithm specified in the Java Language Specification
+ (15.11). The dynamic class of the target and arguments are used
+ in place of the compile-time type information and, like the
+ Method class itself, conversion between
+ primitive values and their associated wrapper classes is handled
+ internally.
+ 
+ The following method types are handled as special cases:
+ 
+
+ Static methods may be called by using a class object as the target.
+ 
+ The reserved method name ""new"" may be used to call a class's constructor
+ as if all classes defined static ""new"" methods. Constructor invocations
+ are typically considered Expressions rather than Statements
+ as they return a value.
+ 
+ The method names ""get"" and ""set"" defined in the List
+ interface may also be applied to array instances, mapping to
+ the static methods of the same name in the Array class.
+ 
+
+Throws:
+NullPointerException - if the value of the target or
+                              methodName property is null
+NoSuchMethodException - if a matching method is not found
+SecurityException - if a security manager exists and
+                           it denies the method invocation
+Exception - that is thrown by the invoked method
+See Also:
+Method
+
+
+"
+Statement,getArguments(),Object[],Returns the arguments for the method to invoke.,"
+
+getArguments
+public Object[] getArguments()
+Returns the arguments for the method to invoke.
+ The number of arguments and their types
+ must match the method being  called.
+ null can be used as a synonym of an empty array.
+
+Returns:
+the array of arguments
+
+
+"
+Statement,getMethodName(),String,Returns the name of the method to invoke.,"
+
+getMethodName
+public String getMethodName()
+Returns the name of the method to invoke.
+ If this method returns null,
+ the execute() method
+ throws a NullPointerException.
+
+Returns:
+the name of the method
+
+
+"
+Statement,getTarget(),Object,Returns the target object of this statement.,"
+
+getTarget
+public Object getTarget()
+Returns the target object of this statement.
+ If this method returns null,
+ the execute() method
+ throws a NullPointerException.
+
+Returns:
+the target object of this statement
+
+
+"
+Statement,toString(),String,Prints the value of this statement using a Java-style syntax.,"
+
+toString
+public String toString()
+Prints the value of this statement using a Java-style syntax.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of the object.
+
+
+"
+VetoableChangeListenerProxy,getPropertyName(),String,Returns the name of the named property associated with the listener.,"
+
+getPropertyName
+public String getPropertyName()
+Returns the name of the named property associated with the listener.
+
+Returns:
+the name of the named property associated with the listener
+
+
+"
+VetoableChangeListenerProxy,vetoableChange(PropertyChangeEvent event),void,Forwards the property change event to the listener delegate.,"
+
+vetoableChange
+public void vetoableChange(PropertyChangeEvent event)
+                    throws PropertyVetoException
+Forwards the property change event to the listener delegate.
+
+Specified by:
+vetoableChange in interface VetoableChangeListener
+Parameters:
+event - the property change event
+Throws:
+PropertyVetoException - if the recipient wishes the property
+                                  change to be rolled back
+
+
+"
+VetoableChangeSupport,"addVetoableChangeListener(String propertyName, VetoableChangeListener listener)",void,Add a VetoableChangeListener for a specific property.,"
+
+addVetoableChangeListener
+public void addVetoableChangeListener(String propertyName,
+                                      VetoableChangeListener listener)
+Add a VetoableChangeListener for a specific property.  The listener
+ will be invoked only when a call on fireVetoableChange names that
+ specific property.
+ The same listener object may be added more than once.  For each
+ property,  the listener will be invoked the number of times it was added
+ for that property.
+ If propertyName or listener is null, no
+ exception is thrown and no action is taken.
+
+Parameters:
+propertyName - The name of the property to listen on.
+listener - The VetoableChangeListener to be added
+
+
+"
+VetoableChangeSupport,addVetoableChangeListener(VetoableChangeListener listener),void,Add a VetoableChangeListener to the listener list.,"
+
+addVetoableChangeListener
+public void addVetoableChangeListener(VetoableChangeListener listener)
+Add a VetoableChangeListener to the listener list.
+ The listener is registered for all properties.
+ The same listener object may be added more than once, and will be called
+ as many times as it is added.
+ If listener is null, no exception is thrown and no action
+ is taken.
+
+Parameters:
+listener - The VetoableChangeListener to be added
+
+
+"
+VetoableChangeSupport,fireVetoableChange(PropertyChangeEvent event),void,Fires a property change event to listeners that have been registered to track updates of all properties or a property with the specified name.,"
+
+fireVetoableChange
+public void fireVetoableChange(PropertyChangeEvent event)
+                        throws PropertyVetoException
+Fires a property change event to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ Any listener can throw a PropertyVetoException to veto the update.
+ If one of the listeners vetoes the update, this method passes
+ a new ""undo"" PropertyChangeEvent that reverts to the old value
+ to all listeners that already confirmed this update
+ and throws the PropertyVetoException again.
+ 
+ No event is fired if the given event's old and new values are equal and non-null.
+
+Parameters:
+event - the PropertyChangeEvent to be fired
+Throws:
+PropertyVetoException - if one of listeners vetoes the property update
+
+
+"
+VetoableChangeSupport,"fireVetoableChange(String propertyName, boolean oldValue, boolean newValue)",void,Reports a boolean constrained property update to listeners that have been registered to track updates of all properties or a property with the specified name.,"
+
+fireVetoableChange
+public void fireVetoableChange(String propertyName,
+                               boolean oldValue,
+                               boolean newValue)
+                        throws PropertyVetoException
+Reports a boolean constrained property update to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ Any listener can throw a PropertyVetoException to veto the update.
+ If one of the listeners vetoes the update, this method passes
+ a new ""undo"" PropertyChangeEvent that reverts to the old value
+ to all listeners that already confirmed this update
+ and throws the PropertyVetoException again.
+ 
+ No event is fired if old and new values are equal.
+ 
+ This is merely a convenience wrapper around the more general
+ fireVetoableChange(String, Object, Object) method.
+
+Parameters:
+propertyName - the programmatic name of the property that is about to change
+oldValue - the old value of the property
+newValue - the new value of the property
+Throws:
+PropertyVetoException - if one of listeners vetoes the property update
+
+
+"
+VetoableChangeSupport,"fireVetoableChange(String propertyName, int oldValue, int newValue)",void,Reports an integer constrained property update to listeners that have been registered to track updates of all properties or a property with the specified name.,"
+
+fireVetoableChange
+public void fireVetoableChange(String propertyName,
+                               int oldValue,
+                               int newValue)
+                        throws PropertyVetoException
+Reports an integer constrained property update to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ Any listener can throw a PropertyVetoException to veto the update.
+ If one of the listeners vetoes the update, this method passes
+ a new ""undo"" PropertyChangeEvent that reverts to the old value
+ to all listeners that already confirmed this update
+ and throws the PropertyVetoException again.
+ 
+ No event is fired if old and new values are equal.
+ 
+ This is merely a convenience wrapper around the more general
+ fireVetoableChange(String, Object, Object) method.
+
+Parameters:
+propertyName - the programmatic name of the property that is about to change
+oldValue - the old value of the property
+newValue - the new value of the property
+Throws:
+PropertyVetoException - if one of listeners vetoes the property update
+
+
+"
+VetoableChangeSupport,"fireVetoableChange(String propertyName, Object oldValue, Object newValue)",void,Reports a constrained property update to listeners that have been registered to track updates of all properties or a property with the specified name.,"
+
+fireVetoableChange
+public void fireVetoableChange(String propertyName,
+                               Object oldValue,
+                               Object newValue)
+                        throws PropertyVetoException
+Reports a constrained property update to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ Any listener can throw a PropertyVetoException to veto the update.
+ If one of the listeners vetoes the update, this method passes
+ a new ""undo"" PropertyChangeEvent that reverts to the old value
+ to all listeners that already confirmed this update
+ and throws the PropertyVetoException again.
+ 
+ No event is fired if old and new values are equal and non-null.
+ 
+ This is merely a convenience wrapper around the more general
+ fireVetoableChange(PropertyChangeEvent) method.
+
+Parameters:
+propertyName - the programmatic name of the property that is about to change
+oldValue - the old value of the property
+newValue - the new value of the property
+Throws:
+PropertyVetoException - if one of listeners vetoes the property update
+
+
+"
+VetoableChangeSupport,getVetoableChangeListeners(),VetoableChangeListener[],Returns an array of all the listeners that were added to the VetoableChangeSupport object with addVetoableChangeListener().,"
+
+getVetoableChangeListeners
+public VetoableChangeListener[] getVetoableChangeListeners()
+Returns an array of all the listeners that were added to the
+ VetoableChangeSupport object with addVetoableChangeListener().
+ 
+ If some listeners have been added with a named property, then
+ the returned array will be a mixture of VetoableChangeListeners
+ and VetoableChangeListenerProxys. If the calling
+ method is interested in distinguishing the listeners then it must
+ test each element to see if it's a
+ VetoableChangeListenerProxy, perform the cast, and examine
+ the parameter.
+
+ 
+ VetoableChangeListener[] listeners = bean.getVetoableChangeListeners();
+ for (int i = 0; i < listeners.length; i++) {
+        if (listeners[i] instanceof VetoableChangeListenerProxy) {
+     VetoableChangeListenerProxy proxy =
+                    (VetoableChangeListenerProxy)listeners[i];
+     if (proxy.getPropertyName().equals(""foo"")) {
+       // proxy is a VetoableChangeListener which was associated
+       // with the property named ""foo""
+     }
+   }
+ }
+ 
+
+Returns:
+all of the VetoableChangeListeners added or an
+         empty array if no listeners have been added
+Since:
+1.4
+See Also:
+VetoableChangeListenerProxy
+
+
+"
+VetoableChangeSupport,getVetoableChangeListeners(String propertyName),VetoableChangeListener[],Returns an array of all the listeners which have been associated with the named property.,"
+
+getVetoableChangeListeners
+public VetoableChangeListener[] getVetoableChangeListeners(String propertyName)
+Returns an array of all the listeners which have been associated
+ with the named property.
+
+Parameters:
+propertyName - The name of the property being listened to
+Returns:
+all the VetoableChangeListeners associated with
+         the named property.  If no such listeners have been added,
+         or if propertyName is null, an empty array is
+         returned.
+Since:
+1.4
+
+
+"
+VetoableChangeSupport,hasListeners(String propertyName),boolean,"Check if there are any listeners for a specific property, including those registered on all properties.","
+
+hasListeners
+public boolean hasListeners(String propertyName)
+Check if there are any listeners for a specific property, including
+ those registered on all properties.  If propertyName
+ is null, only check for listeners registered on all properties.
+
+Parameters:
+propertyName - the property name.
+Returns:
+true if there are one or more listeners for the given property
+
+
+"
+VetoableChangeSupport,"removeVetoableChangeListener(String propertyName, VetoableChangeListener listener)",void,Remove a VetoableChangeListener for a specific property.,"
+
+removeVetoableChangeListener
+public void removeVetoableChangeListener(String propertyName,
+                                         VetoableChangeListener listener)
+Remove a VetoableChangeListener for a specific property.
+ If listener was added more than once to the same event
+ source for the specified property, it will be notified one less time
+ after being removed.
+ If propertyName is null, no exception is thrown and no
+ action is taken.
+ If listener is null, or was never added for the specified
+ property, no exception is thrown and no action is taken.
+
+Parameters:
+propertyName - The name of the property that was listened on.
+listener - The VetoableChangeListener to be removed
+
+
+"
+VetoableChangeSupport,removeVetoableChangeListener(VetoableChangeListener listener),void,Remove a VetoableChangeListener from the listener list.,"
+
+removeVetoableChangeListener
+public void removeVetoableChangeListener(VetoableChangeListener listener)
+Remove a VetoableChangeListener from the listener list.
+ This removes a VetoableChangeListener that was registered
+ for all properties.
+ If listener was added more than once to the same event
+ source, it will be notified one less time after being removed.
+ If listener is null, or was never added, no exception is
+ thrown and no action is taken.
+
+Parameters:
+listener - The VetoableChangeListener to be removed
+
+
+"
+XMLDecoder,close(),void,This method closes the input stream associated with this stream.,"
+
+close
+public void close()
+This method closes the input stream associated
+ with this stream.
+
+Specified by:
+close in interface AutoCloseable
+
+
+"
+XMLDecoder,"createHandler(Object owner, ExceptionListener el, ClassLoader cl)",static DefaultHandler,Creates a new handler for SAX parser that can be used to parse embedded XML archives created by the XMLEncoder class.,"
+
+createHandler
+public static DefaultHandler createHandler(Object owner,
+                                           ExceptionListener el,
+                                           ClassLoader cl)
+Creates a new handler for SAX parser
+ that can be used to parse embedded XML archives
+ created by the XMLEncoder class.
+
+ The owner should be used if parsed XML document contains
+ the method call within context of the <java> element.
+ The null value may cause illegal parsing in such case.
+ The same problem may occur, if the owner class
+ does not contain expected method to call. See details here.
+
+Parameters:
+owner - the owner of the default handler
+               that can be used as a value of <java> element
+el - the exception handler for the parser,
+               or null to use the default exception handler
+cl - the class loader used for instantiating objects,
+               or null to use the default class loader
+Returns:
+an instance of DefaultHandler for SAX parser
+Since:
+1.7
+
+
+"
+XMLDecoder,getExceptionListener(),ExceptionListener,Gets the exception handler for this stream.,"
+
+getExceptionListener
+public ExceptionListener getExceptionListener()
+Gets the exception handler for this stream.
+
+Returns:
+The exception handler for this stream.
+     Will return the default exception listener if this has not explicitly been set.
+See Also:
+setExceptionListener(java.beans.ExceptionListener)
+
+
+"
+XMLDecoder,getOwner(),Object,Gets the owner of this decoder.,"
+
+getOwner
+public Object getOwner()
+Gets the owner of this decoder.
+
+Returns:
+The owner of this decoder.
+See Also:
+setOwner(java.lang.Object)
+
+
+"
+XMLDecoder,readObject(),Object,Reads the next object from the underlying input stream.,"
+
+readObject
+public Object readObject()
+Reads the next object from the underlying input stream.
+
+Returns:
+the next object read
+Throws:
+ArrayIndexOutOfBoundsException - if the stream contains no objects
+         (or no more objects)
+See Also:
+XMLEncoder.writeObject(java.lang.Object)
+
+
+"
+XMLDecoder,setExceptionListener(ExceptionListener exceptionListener),void,Sets the exception handler for this stream to exceptionListener.,"
+
+setExceptionListener
+public void setExceptionListener(ExceptionListener exceptionListener)
+Sets the exception handler for this stream to exceptionListener.
+ The exception handler is notified when this stream catches recoverable
+ exceptions.
+
+Parameters:
+exceptionListener - The exception handler for this stream;
+ if null the default exception listener will be used.
+See Also:
+getExceptionListener()
+
+
+"
+XMLDecoder,setOwner(Object owner),void,Sets the owner of this decoder to owner.,"
+
+setOwner
+public void setOwner(Object owner)
+Sets the owner of this decoder to owner.
+
+Parameters:
+owner - The owner of this decoder.
+See Also:
+getOwner()
+
+
+"
+XMLEncoder,close(),void,"This method calls flush, writes the closing postamble and then closes the output stream associated with this stream.","
+
+close
+public void close()
+This method calls flush, writes the closing
+ postamble and then closes the output stream associated
+ with this stream.
+
+Specified by:
+close in interface AutoCloseable
+
+
+"
+XMLEncoder,flush(),void,This method writes out the preamble associated with the XML encoding if it has not been written already and then writes out all of the values that been written to the stream since the last time flush was called.,"
+
+flush
+public void flush()
+This method writes out the preamble associated with the
+ XML encoding if it has not been written already and
+ then writes out all of the values that been
+ written to the stream since the last time flush
+ was called. After flushing, all internal references to the
+ values that were written to this stream are cleared.
+
+"
+XMLEncoder,getOwner(),Object,Gets the owner of this encoder.,"
+
+getOwner
+public Object getOwner()
+Gets the owner of this encoder.
+
+Returns:
+The owner of this encoder.
+See Also:
+setOwner(java.lang.Object)
+
+
+"
+XMLEncoder,setOwner(Object owner),void,Sets the owner of this encoder to owner.,"
+
+setOwner
+public void setOwner(Object owner)
+Sets the owner of this encoder to owner.
+
+Parameters:
+owner - The owner of this encoder.
+See Also:
+getOwner()
+
+
+"
+XMLEncoder,writeExpression(Expression oldExp),void,Records the Expression so that the Encoder will produce the actual output when the stream is flushed.,"
+
+writeExpression
+public void writeExpression(Expression oldExp)
+Records the Expression so that the Encoder will
+ produce the actual output when the stream is flushed.
+ 
+ This method should only be invoked within the context of
+ initializing a persistence delegate or setting up an encoder to
+ read from a resource bundle.
+ 
+ For more information about using resource bundles with the
+ XMLEncoder, see
+ http://java.sun.com/products/jfc/tsc/articles/persistence4/#i18n
+
+Overrides:
+writeExpression in class Encoder
+Parameters:
+oldExp - The expression that will be written
+               to the stream.
+See Also:
+PersistenceDelegate.initialize(java.lang.Class<?>, java.lang.Object, java.lang.Object, java.beans.Encoder)
+
+
+"
+XMLEncoder,writeObject(Object o),void,Write an XML representation of the specified object to the output.,"
+
+writeObject
+public void writeObject(Object o)
+Write an XML representation of the specified object to the output.
+
+Overrides:
+writeObject in class Encoder
+Parameters:
+o - The object to be written to the stream.
+See Also:
+XMLDecoder.readObject()
+
+
+"
+XMLEncoder,writeStatement(Statement oldStm),void,Records the Statement so that the Encoder will produce the actual output when the stream is flushed.,"
+
+writeStatement
+public void writeStatement(Statement oldStm)
+Records the Statement so that the Encoder will
+ produce the actual output when the stream is flushed.
+ 
+ This method should only be invoked within the context
+ of initializing a persistence delegate.
+
+Overrides:
+writeStatement in class Encoder
+Parameters:
+oldStm - The statement that will be written
+               to the stream.
+See Also:
+PersistenceDelegate.initialize(java.lang.Class<?>, java.lang.Object, java.lang.Object, java.beans.Encoder)
+
+
+"

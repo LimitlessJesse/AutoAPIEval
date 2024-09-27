@@ -1,0 +1,454 @@
+Sample: 0 LogStream_5
+----------------------------------------------------------------
+`void write(int b)`: This method writes a byte of data to the stream.
+
+Code snippet:
+```java
+import java.rmi.server.LogStream;
+
+public class Main {
+    public static void main(String[] args) {
+        LogStream logStream = new LogStream();
+        logStream.write(65); // Writing byte 'A' to the stream
+    }
+}
+```
+================================================================
+
+Sample: 1 ObjID_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.ObjID;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjID objID = new ObjID();
+        int hashCode = objID.hashCode();
+        System.out.println("Hash code value for ObjID: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 2 ObjID_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.ObjID;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjID objID1 = new ObjID(1);
+        ObjID objID2 = new ObjID(1);
+        
+        System.out.println("objID1 equals objID2: " + objID1.equals(objID2)); // Should print true
+    }
+}
+```
+================================================================
+
+Sample: 3 ObjID_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.ObjectInput;
+import java.io.IOException;
+import java.rmi.server.ObjID;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an ObjectInput instance (example)
+        ObjectInput objectInput = null;
+        
+        try {
+            ObjID objID = ObjID.read(objectInput);
+            System.out.println("ObjID read successfully: " + objID);
+        } catch (IOException e) {
+            System.out.println("An I/O error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 ObjID_4
+----------------------------------------------------------------
+`void write(ObjectOutput out) throws IOException`: This method marshals a binary representation of the ObjID to an ObjectOutput instance.
+
+Code snippet:
+```java
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.rmi.server.ObjID;
+import java.rmi.server.UID;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjID objID = new ObjID();
+        
+        try {
+            ObjectOutput out = null; // Initialize ObjectOutput instance
+            objID.write(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 ObjID_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.ObjID;
+
+public class Main {
+    public static void main(String[] args) {
+        ObjID objID = new ObjID();
+        System.out.println(objID.toString());
+    }
+}
+```
+================================================================
+
+Sample: 6 RemoteObject_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.RemoteObject;
+import java.rmi.server.RemoteRef;
+
+public class Main {
+    public static void main(String[] args) {
+        RemoteObject remoteObject = new RemoteObject();
+        RemoteRef remoteRef = remoteObject.getRef();
+        System.out.println(remoteRef);
+    }
+}
+```
+================================================================
+
+Sample: 7 RemoteServer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.RemoteServer;
+import java.rmi.server.ServerNotActiveException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String clientHost = RemoteServer.getClientHost();
+            System.out.println("Client host: " + clientHost);
+        } catch (ServerNotActiveException e) {
+            System.err.println("ServerNotActiveException: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 RMIClassLoader_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.RMIClassLoader;
+import java.net.MalformedURLException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String codebase = "http://example.com/classes/";
+            String className = "com.example.MyClass";
+            Class<?> loadedClass = RMIClassLoader.loadClass(codebase, className);
+            System.out.println("Loaded class: " + loadedClass.getName());
+        } catch (MalformedURLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 RMIClassLoader_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.net.URL;
+import java.rmi.server.RMIClassLoader;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            URL codebase = new URL("http://example.com/classes/");
+            String className = "com.example.MyClass";
+            Class<?> loadedClass = RMIClassLoader.loadClass(codebase, className);
+            System.out.println("Loaded class: " + loadedClass.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 RMIClassLoader_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.RMIClassLoader;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Class<?> loadedClass = RMIClassLoader.loadClass("java.lang.String");
+            System.out.println("Loaded class: " + loadedClass.getName());
+        } catch (Exception e) {
+            System.out.println("Error loading class: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 RMIClassLoaderSpi_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.RMIClassLoader;
+import java.net.MalformedURLException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            RMIClassLoaderSpi loader = new RMIClassLoaderSpi() {
+                @Override
+                public ClassLoader getClassLoader(String codebase) throws MalformedURLException {
+                    // Implementation of getClassLoader method
+                    return null;
+                }
+            };
+            
+            String codebase = "http://example.com/classes/";
+            ClassLoader classLoader = loader.getClassLoader(codebase);
+            System.out.println("Class loader for codebase " + codebase + ": " + classLoader);
+        } catch (MalformedURLException e) {
+            System.err.println("Malformed URL: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 RMIClassLoaderSpi_4
+----------------------------------------------------------------
+`String getClassAnnotation(Class<?> cl)`: This method provides the implementation for RMIClassLoader.getClassAnnotation(Class).
+
+Code snippet:
+```java
+import java.rmi.server.RMIClassLoaderSpi;
+
+public class Main {
+    public static void main(String[] args) {
+        RMIClassLoaderSpi loaderSpi = new RMIClassLoaderSpi() {
+            @Override
+            public String getClassAnnotation(Class<?> cl) {
+                // Add your implementation here
+                return null;
+            }
+        };
+        
+        // Example usage
+        Class<?> myClass = String.class;
+        String annotation = loaderSpi.getClassAnnotation(myClass);
+        System.out.println("Annotation for class " + myClass.getName() + ": " + annotation);
+    }
+}
+```
+================================================================
+
+Sample: 13 RMISocketFactory_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.RMISocketFactory;
+import java.io.IOException;
+import java.net.ServerSocket;
+
+public class Main {
+    public static void main(String[] args) {
+        RMISocketFactory factory = RMISocketFactory.getDefaultSocketFactory();
+        
+        try {
+            ServerSocket serverSocket = factory.createServerSocket(1099);
+            System.out.println("Server socket created on port 1099");
+        } catch (IOException e) {
+            System.out.println("An error occurred while creating the server socket: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 14 RMISocketFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.IOException;
+import java.net.Socket;
+import java.rmi.server.RMIClientSocketFactory;
+
+public class Main {
+    public static void main(String[] args) {
+        RMIClientSocketFactory factory = new RMIClientSocketFactory() {
+            @Override
+            public Socket createSocket(String host, int port) throws IOException {
+                return new Socket(host, port);
+            }
+        };
+
+        try {
+            Socket socket = factory.createSocket("localhost", 8080);
+            System.out.println("Socket created: " + socket);
+        } catch (IOException e) {
+            System.err.println("Error creating socket: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 UID_1
+----------------------------------------------------------------
+`int hashCode()`: This method returns the hash code value for this UID.
+
+Code snippet:
+```java
+import java.rmi.server.UID;
+
+public class Main {
+    public static void main(String[] args) {
+        UID uid = new UID();
+        int hashCode = uid.hashCode();
+        System.out.println("Hash code value for UID: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 16 UID_2
+----------------------------------------------------------------
+`boolean equals(Object obj)`: This method compares the specified object with this UID for equality.
+
+Code snippet:
+```java
+import java.rmi.server.UID;
+
+public class Main {
+    public static void main(String[] args) {
+        UID uid1 = new UID();
+        UID uid2 = new UID();
+
+        System.out.println("UID 1: " + uid1);
+        System.out.println("UID 2: " + uid2);
+
+        boolean isEqual = uid1.equals(uid2);
+        System.out.println("Are the UIDs equal? " + isEqual);
+    }
+}
+```
+================================================================
+
+Sample: 17 UID_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.UID;
+
+public class Main {
+    public static void main(String[] args) {
+        UID uid = new UID();
+        System.out.println(uid.toString());
+    }
+}
+```
+================================================================
+
+Sample: 18 UID_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.rmi.server.UID;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            DataInput dataInput = new DataInputStream(System.in);
+            UID uid = UID.read(dataInput);
+            System.out.println("UID: " + uid);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 19 UnicastRemoteObject_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.server.UnicastRemoteObject;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a remote object
+            MyRemoteObject remoteObject = new MyRemoteObject();
+            
+            // Clone the remote object
+            MyRemoteObject clonedObject = (MyRemoteObject) remoteObject.clone();
+            
+            // Verify that the cloned object is distinct from the original
+            System.out.println("Original object: " + remoteObject);
+            System.out.println("Cloned object: " + clonedObject);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class MyRemoteObject extends UnicastRemoteObject {
+    // Implement your remote object class here
+}
+```
+================================================================
+
+Sample: 20 UnicastRemoteObject_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.Remote;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Remote obj = new YourRemoteObject(); // YourRemoteObject should implement Remote interface
+            int port = 1099; // Example port number
+            Remote stub = UnicastRemoteObject.exportObject(obj, port);
+            System.out.println("Remote object exported successfully");
+        } catch (RemoteException e) {
+            System.err.println("Error exporting remote object: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,2657 @@
+ClassName,Method,Return Type,Description,Full Description
+MBeanServerNotificationFilter,disableAllObjectNames(),void,Disables any MBeanServerNotification (all ObjectNames are deselected).,"
+
+disableAllObjectNames
+public void disableAllObjectNames()
+Disables any MBeanServerNotification (all ObjectNames are
+ deselected).
+
+"
+MBeanServerNotificationFilter,disableObjectName(ObjectName objectName),void,Disables MBeanServerNotifications concerning given ObjectName.,"
+
+disableObjectName
+public void disableObjectName(ObjectName objectName)
+                       throws IllegalArgumentException
+Disables MBeanServerNotifications concerning given ObjectName.
+
+Parameters:
+objectName - ObjectName no longer of interest
+Throws:
+IllegalArgumentException - if the given ObjectName is null
+
+
+"
+MBeanServerNotificationFilter,enableAllObjectNames(),void,Enables all MBeanServerNotifications (all ObjectNames are selected).,"
+
+enableAllObjectNames
+public void enableAllObjectNames()
+Enables all MBeanServerNotifications (all ObjectNames are selected).
+
+"
+MBeanServerNotificationFilter,enableObjectName(ObjectName objectName),void,Enables MBeanServerNotifications concerning given ObjectName.,"
+
+enableObjectName
+public void enableObjectName(ObjectName objectName)
+                      throws IllegalArgumentException
+Enables MBeanServerNotifications concerning given ObjectName.
+
+Parameters:
+objectName - ObjectName of interest
+Throws:
+IllegalArgumentException - if the given ObjectName is null
+
+
+"
+MBeanServerNotificationFilter,getDisabledObjectNames(),Vector<ObjectName>,Gets all the ObjectNames disabled.,"
+
+getDisabledObjectNames
+public Vector<ObjectName> getDisabledObjectNames()
+Gets all the ObjectNames disabled.
+
+Returns:
+Vector of ObjectNames:
+ - null means all ObjectNames are implicitly deselected, except the
+ ObjectNames explicitly selected
+ - empty means all ObjectNames are selected, i.e. no ObjectName
+ deselected.
+
+
+"
+MBeanServerNotificationFilter,getEnabledObjectNames(),Vector<ObjectName>,Gets all the ObjectNames enabled.,"
+
+getEnabledObjectNames
+public Vector<ObjectName> getEnabledObjectNames()
+Gets all the ObjectNames enabled.
+
+Returns:
+Vector of ObjectNames:
+ - null means all ObjectNames are implicitly selected, except the
+ ObjectNames explicitly deselected
+ - empty means all ObjectNames are deselected, i.e. no ObjectName
+ selected.
+
+
+"
+MBeanServerNotificationFilter,isNotificationEnabled(Notification notif),boolean,Invoked before sending the specified notification to the listener.,"
+
+isNotificationEnabled
+public boolean isNotificationEnabled(Notification notif)
+                              throws IllegalArgumentException
+Invoked before sending the specified notification to the listener.
+ If:
+ - the ObjectName of the concerned MBean is selected (explicitly OR
+ (implicitly and not explicitly deselected))
+ AND
+ - the type of the operation (registration or unregistration) is
+ selected
+ then the notification is sent to the listener.
+
+Specified by:
+isNotificationEnabled in interface NotificationFilter
+Overrides:
+isNotificationEnabled in class NotificationFilterSupport
+Parameters:
+notif - The notification to be sent.
+Returns:
+true if the notification has to be sent to the listener, false
+ otherwise.
+Throws:
+IllegalArgumentException - if null parameter
+
+
+"
+RelationNotification,getMBeansToUnregister(),List<ObjectName>,Returns the list of ObjectNames of MBeans expected to be unregistered due to a relation removal (only for relation removal).,"
+
+getMBeansToUnregister
+public List<ObjectName> getMBeansToUnregister()
+Returns the list of ObjectNames of MBeans expected to be unregistered
+ due to a relation removal (only for relation removal).
+
+Returns:
+a List of ObjectName.
+
+
+"
+RelationNotification,getNewRoleValue(),List<ObjectName>,Returns new value of updated role (only for role update).,"
+
+getNewRoleValue
+public List<ObjectName> getNewRoleValue()
+Returns new value of updated role (only for role update).
+
+Returns:
+the new value of the updated role.
+
+
+"
+RelationNotification,getObjectName(),ObjectName,Returns the ObjectName of the created/removed/updated relation.,"
+
+getObjectName
+public ObjectName getObjectName()
+Returns the ObjectName of the
+ created/removed/updated relation.
+
+Returns:
+the ObjectName if the relation is an MBean, otherwise null.
+
+
+"
+RelationNotification,getOldRoleValue(),List<ObjectName>,Returns old value of updated role (only for role update).,"
+
+getOldRoleValue
+public List<ObjectName> getOldRoleValue()
+Returns old value of updated role (only for role update).
+
+Returns:
+the old value of the updated role.
+
+
+"
+RelationNotification,getRelationId(),String,Returns the relation identifier of created/removed/updated relation.,"
+
+getRelationId
+public String getRelationId()
+Returns the relation identifier of created/removed/updated relation.
+
+Returns:
+the relation id.
+
+
+"
+RelationNotification,getRelationTypeName(),String,Returns the relation type name of created/removed/updated relation.,"
+
+getRelationTypeName
+public String getRelationTypeName()
+Returns the relation type name of created/removed/updated relation.
+
+Returns:
+the relation type name.
+
+
+"
+RelationNotification,getRoleName(),String,Returns name of updated role of updated relation (only for role update).,"
+
+getRoleName
+public String getRoleName()
+Returns name of updated role of updated relation (only for role update).
+
+Returns:
+the name of the updated role.
+
+
+"
+RelationService,addRelation(ObjectName relationObjectName),void,Adds an MBean created by the user (and registered by him in the MBean Server) as a relation in the Relation Service.,"
+
+addRelation
+public void addRelation(ObjectName relationObjectName)
+                 throws IllegalArgumentException,
+                        RelationServiceNotRegisteredException,
+                        NoSuchMethodException,
+                        InvalidRelationIdException,
+                        InstanceNotFoundException,
+                        InvalidRelationServiceException,
+                        RelationTypeNotFoundException,
+                        RoleNotFoundException,
+                        InvalidRoleValueException
+Adds an MBean created by the user (and registered by him in the MBean
+ Server) as a relation in the Relation Service.
+ To be added as a relation, the MBean must conform to the
+ following:
+ - implement the Relation interface
+ - have for RelationService ObjectName the ObjectName of current
+ Relation Service
+ - have a relation id unique and unused in current Relation Service
+ - have for relation type a relation type created in the Relation
+ Service
+ - have roles conforming to the role info provided in the relation
+ type.
+
+Specified by:
+addRelation in interface RelationServiceMBean
+Parameters:
+relationObjectName - ObjectName of the relation MBean to be added.
+Throws:
+IllegalArgumentException - if null parameter
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+NoSuchMethodException - If the MBean does not implement the
+ Relation interface
+InvalidRelationIdException - if:
+ - no relation identifier in MBean
+ - the relation identifier is already used in the Relation Service
+InstanceNotFoundException - if the MBean for given ObjectName
+ has not been registered
+InvalidRelationServiceException - if:
+ - no Relation Service name in MBean
+ - the Relation Service name in the MBean is not the one of the
+ current Relation Service
+RelationTypeNotFoundException - if:
+ - no relation type name in MBean
+ - the relation type name in MBean does not correspond to a relation
+ type created in the Relation Service
+InvalidRoleValueException - if:
+ - the number of referenced MBeans in a role is less than
+ expected minimum degree
+ - the number of referenced MBeans in a role exceeds expected
+ maximum degree
+ - one referenced MBean in the value is not an Object of the MBean
+ class expected for that role
+ - an MBean provided for a role does not exist
+RoleNotFoundException - if a value is provided for a role
+ that does not exist in the relation type
+
+
+"
+RelationService,addRelationType(RelationType relationTypeObj),void,Adds given object as a relation type.,"
+
+addRelationType
+public void addRelationType(RelationType relationTypeObj)
+                     throws IllegalArgumentException,
+                            InvalidRelationTypeException
+Adds given object as a relation type. The object is expected to
+ implement the RelationType interface.
+
+Specified by:
+addRelationType in interface RelationServiceMBean
+Parameters:
+relationTypeObj - relation type object (implementing the
+ RelationType interface)
+Throws:
+IllegalArgumentException - if null parameter or if
+ relationTypeObj.getRelationTypeName() returns null.
+InvalidRelationTypeException - if:
+ - the same name has been used for two different roles
+ - no role info provided
+ - one null role info provided
+ - there is already a relation type with that name
+
+
+"
+RelationService,"checkRoleReading(String roleName, String relationTypeName)",Integer,Checks if given Role can be read in a relation of the given type.,"
+
+checkRoleReading
+public Integer checkRoleReading(String roleName,
+                                String relationTypeName)
+                         throws IllegalArgumentException,
+                                RelationTypeNotFoundException
+Checks if given Role can be read in a relation of the given type.
+
+Specified by:
+checkRoleReading in interface RelationServiceMBean
+Parameters:
+roleName - name of role to be checked
+relationTypeName - name of the relation type
+Returns:
+an Integer wrapping an integer corresponding to possible
+ problems represented as constants in RoleUnresolved:
+ - 0 if role can be read
+ - integer corresponding to RoleStatus.NO_ROLE_WITH_NAME
+ - integer corresponding to RoleStatus.ROLE_NOT_READABLE
+Throws:
+IllegalArgumentException - if null parameter
+RelationTypeNotFoundException - if the relation type is not
+ known in the Relation Service
+
+
+"
+RelationService,"checkRoleWriting(Role role, String relationTypeName, Boolean initFlag)",Integer,Checks if given Role can be set in a relation of given type.,"
+
+checkRoleWriting
+public Integer checkRoleWriting(Role role,
+                                String relationTypeName,
+                                Boolean initFlag)
+                         throws IllegalArgumentException,
+                                RelationTypeNotFoundException
+Checks if given Role can be set in a relation of given type.
+
+Specified by:
+checkRoleWriting in interface RelationServiceMBean
+Parameters:
+role - role to be checked
+relationTypeName - name of relation type
+initFlag - flag to specify that the checking is done for the
+ initialization of a role, write access shall not be verified.
+Returns:
+an Integer wrapping an integer corresponding to possible
+ problems represented as constants in RoleUnresolved:
+ - 0 if role can be set
+ - integer corresponding to RoleStatus.NO_ROLE_WITH_NAME
+ - integer for RoleStatus.ROLE_NOT_WRITABLE
+ - integer for RoleStatus.LESS_THAN_MIN_ROLE_DEGREE
+ - integer for RoleStatus.MORE_THAN_MAX_ROLE_DEGREE
+ - integer for RoleStatus.REF_MBEAN_OF_INCORRECT_CLASS
+ - integer for RoleStatus.REF_MBEAN_NOT_REGISTERED
+Throws:
+IllegalArgumentException - if null parameter
+RelationTypeNotFoundException - if unknown relation type
+
+
+"
+RelationService,"createRelation(String relationId, String relationTypeName, RoleList roleList)",void,"Creates a simple relation (represented by a RelationSupport object) of given relation type, and adds it in the Relation Service.","
+
+createRelation
+public void createRelation(String relationId,
+                           String relationTypeName,
+                           RoleList roleList)
+                    throws RelationServiceNotRegisteredException,
+                           IllegalArgumentException,
+                           RoleNotFoundException,
+                           InvalidRelationIdException,
+                           RelationTypeNotFoundException,
+                           InvalidRoleValueException
+Creates a simple relation (represented by a RelationSupport object) of
+ given relation type, and adds it in the Relation Service.
+ Roles are initialized according to the role list provided in
+ parameter. The ones not initialized in this way are set to an empty
+ ArrayList of ObjectNames.
+ A RelationNotification, with type RELATION_BASIC_CREATION, is sent.
+
+Specified by:
+createRelation in interface RelationServiceMBean
+Parameters:
+relationId - relation identifier, to identify uniquely the relation
+ inside the Relation Service
+relationTypeName - name of the relation type (has to be created
+ in the Relation Service)
+roleList - role list to initialize roles of the relation (can
+ be null).
+Throws:
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+IllegalArgumentException - if null parameter, except the role
+ list which can be null if no role initialization
+RoleNotFoundException - if a value is provided for a role
+ that does not exist in the relation type
+InvalidRelationIdException - if relation id already used
+RelationTypeNotFoundException - if relation type not known in
+ Relation Service
+InvalidRoleValueException - if:
+ - the same role name is used for two different roles
+ - the number of referenced MBeans in given value is less than
+ expected minimum degree
+ - the number of referenced MBeans in provided value exceeds expected
+ maximum degree
+ - one referenced MBean in the value is not an Object of the MBean
+ class expected for that role
+ - an MBean provided for that role does not exist
+
+
+"
+RelationService,"createRelationType(String relationTypeName, RoleInfo[] roleInfoArray)",void,"Creates a relation type (a RelationTypeSupport object) with given role infos (provided by the RoleInfo objects), and adds it in the Relation Service.","
+
+createRelationType
+public void createRelationType(String relationTypeName,
+                               RoleInfo[] roleInfoArray)
+                        throws IllegalArgumentException,
+                               InvalidRelationTypeException
+Creates a relation type (a RelationTypeSupport object) with given
+ role infos (provided by the RoleInfo objects), and adds it in the
+ Relation Service.
+
+Specified by:
+createRelationType in interface RelationServiceMBean
+Parameters:
+relationTypeName - name of the relation type
+roleInfoArray - array of role infos
+Throws:
+IllegalArgumentException - if null parameter
+InvalidRelationTypeException - If:
+ - there is already a relation type with that name
+ - the same name has been used for two different role infos
+ - no role info provided
+ - one null role info provided
+
+
+"
+RelationService,"findAssociatedMBeans(ObjectName mbeanName, String relationTypeName, String roleName)","Map<ObjectName,List<String>>",Retrieves the MBeans associated to given one in a relation.,"
+
+findAssociatedMBeans
+public Map<ObjectName,List<String>> findAssociatedMBeans(ObjectName mbeanName,
+                                                         String relationTypeName,
+                                                         String roleName)
+                                                  throws IllegalArgumentException
+Retrieves the MBeans associated to given one in a relation.
+ This corresponds to CIM Associators and AssociatorNames operations.
+
+Specified by:
+findAssociatedMBeans in interface RelationServiceMBean
+Parameters:
+mbeanName - ObjectName of MBean
+relationTypeName - can be null; if specified, only the relations
+ of that type will be considered in the search. Else all
+ relation types are considered.
+roleName - can be null; if specified, only the relations
+ where the MBean is referenced in that role will be considered. Else all
+ roles are considered.
+Returns:
+an HashMap, where the keys are the ObjectNames of the MBeans
+ associated to given MBean, and the value is, for each key, an ArrayList
+ of the relation ids of the relations where the key MBean is
+ associated to given one (as they can be associated in several different
+ relations).
+Throws:
+IllegalArgumentException - if null parameter
+
+
+"
+RelationService,"findReferencingRelations(ObjectName mbeanName, String relationTypeName, String roleName)","Map<String,List<String>>",Retrieves the relations where a given MBean is referenced.,"
+
+findReferencingRelations
+public Map<String,List<String>> findReferencingRelations(ObjectName mbeanName,
+                                                         String relationTypeName,
+                                                         String roleName)
+                                                  throws IllegalArgumentException
+Retrieves the relations where a given MBean is referenced.
+ This corresponds to the CIM ""References"" and ""ReferenceNames""
+ operations.
+
+Specified by:
+findReferencingRelations in interface RelationServiceMBean
+Parameters:
+mbeanName - ObjectName of MBean
+relationTypeName - can be null; if specified, only the relations
+ of that type will be considered in the search. Else all relation types
+ are considered.
+roleName - can be null; if specified, only the relations
+ where the MBean is referenced in that role will be returned. Else all
+ roles are considered.
+Returns:
+an HashMap, where the keys are the relation ids of the relations
+ where the MBean is referenced, and the value is, for each key,
+ an ArrayList of role names (as an MBean can be referenced in several
+ roles in the same relation).
+Throws:
+IllegalArgumentException - if null parameter
+
+
+"
+RelationService,findRelationsOfType(String relationTypeName),List<String>,Returns the relation ids for relations of the given type.,"
+
+findRelationsOfType
+public List<String> findRelationsOfType(String relationTypeName)
+                                 throws IllegalArgumentException,
+                                        RelationTypeNotFoundException
+Returns the relation ids for relations of the given type.
+
+Specified by:
+findRelationsOfType in interface RelationServiceMBean
+Parameters:
+relationTypeName - relation type name
+Returns:
+an ArrayList of relation ids.
+Throws:
+IllegalArgumentException - if null parameter
+RelationTypeNotFoundException - if there is no relation type
+ with that name.
+
+
+"
+RelationService,getAllRelationIds(),List<String>,Returns all the relation ids for all the relations handled by the Relation Service.,"
+
+getAllRelationIds
+public List<String> getAllRelationIds()
+Returns all the relation ids for all the relations handled by the
+ Relation Service.
+
+Specified by:
+getAllRelationIds in interface RelationServiceMBean
+Returns:
+ArrayList of String
+
+
+"
+RelationService,getAllRelationTypeNames(),List<String>,Retrieves names of all known relation types.,"
+
+getAllRelationTypeNames
+public List<String> getAllRelationTypeNames()
+Retrieves names of all known relation types.
+
+Specified by:
+getAllRelationTypeNames in interface RelationServiceMBean
+Returns:
+ArrayList of relation type names (Strings)
+
+
+"
+RelationService,getAllRoles(String relationId),RoleResult,Returns all roles present in the relation.,"
+
+getAllRoles
+public RoleResult getAllRoles(String relationId)
+                       throws IllegalArgumentException,
+                              RelationNotFoundException,
+                              RelationServiceNotRegisteredException
+Returns all roles present in the relation.
+
+Specified by:
+getAllRoles in interface RelationServiceMBean
+Parameters:
+relationId - relation id
+Returns:
+a RoleResult object, including a RoleList (for roles
+ successfully retrieved) and a RoleUnresolvedList (for roles not
+ readable).
+Throws:
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if no relation for given id
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+
+
+"
+RelationService,getNotificationInfo(),MBeanNotificationInfo[],Returns a NotificationInfo object containing the name of the Java class of the notification and the notification types sent.,"
+
+getNotificationInfo
+public MBeanNotificationInfo[] getNotificationInfo()
+Returns a NotificationInfo object containing the name of the Java class
+ of the notification and the notification types sent.
+
+Specified by:
+getNotificationInfo in interface NotificationBroadcaster
+Overrides:
+getNotificationInfo in class NotificationBroadcasterSupport
+Returns:
+the array of possible notifications.
+
+
+"
+RelationService,getPurgeFlag(),boolean,"Returns the flag to indicate if when a notification is received for the unregistration of an MBean referenced in a relation, if an immediate ""purge"" of the relations (look for the relations no longer valid) has to be performed , or if that will be performed only when the purgeRelations method will be explicitly called.","
+
+getPurgeFlag
+public boolean getPurgeFlag()
+Returns the flag to indicate if when a notification is received for the
+ unregistration of an MBean referenced in a relation, if an immediate
+ ""purge"" of the relations (look for the relations no longer valid)
+ has to be performed , or if that will be performed only when the
+ purgeRelations method will be explicitly called.
+ true is immediate purge.
+
+Specified by:
+getPurgeFlag in interface RelationServiceMBean
+Returns:
+true if purges are automatic.
+See Also:
+setPurgeFlag(boolean)
+
+
+"
+RelationService,getReferencedMBeans(String relationId),"Map<ObjectName,List<String>>",Retrieves MBeans referenced in the various roles of the relation.,"
+
+getReferencedMBeans
+public Map<ObjectName,List<String>> getReferencedMBeans(String relationId)
+                                                 throws IllegalArgumentException,
+                                                        RelationNotFoundException
+Retrieves MBeans referenced in the various roles of the relation.
+
+Specified by:
+getReferencedMBeans in interface RelationServiceMBean
+Parameters:
+relationId - relation id
+Returns:
+a HashMap mapping:
+  ObjectName -> ArrayList of String (role names)
+Throws:
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if no relation for given
+ relation id
+
+
+"
+RelationService,getRelationTypeName(String relationId),String,Returns name of associated relation type for given relation.,"
+
+getRelationTypeName
+public String getRelationTypeName(String relationId)
+                           throws IllegalArgumentException,
+                                  RelationNotFoundException
+Returns name of associated relation type for given relation.
+
+Specified by:
+getRelationTypeName in interface RelationServiceMBean
+Parameters:
+relationId - relation id
+Returns:
+the name of the associated relation type.
+Throws:
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if no relation for given
+ relation id
+
+
+"
+RelationService,"getRole(String relationId, String roleName)",List<ObjectName>,Retrieves role value for given role name in given relation.,"
+
+getRole
+public List<ObjectName> getRole(String relationId,
+                                String roleName)
+                         throws RelationServiceNotRegisteredException,
+                                IllegalArgumentException,
+                                RelationNotFoundException,
+                                RoleNotFoundException
+Retrieves role value for given role name in given relation.
+
+Specified by:
+getRole in interface RelationServiceMBean
+Parameters:
+relationId - relation id
+roleName - name of role
+Returns:
+the ArrayList of ObjectName objects being the role value
+Throws:
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if no relation with given id
+RoleNotFoundException - if:
+ - there is no role with given name
+ or
+ - the role is not readable.
+See Also:
+setRole(java.lang.String, javax.management.relation.Role)
+
+
+"
+RelationService,"getRoleCardinality(String relationId, String roleName)",Integer,Retrieves the number of MBeans currently referenced in the given role.,"
+
+getRoleCardinality
+public Integer getRoleCardinality(String relationId,
+                                  String roleName)
+                           throws IllegalArgumentException,
+                                  RelationNotFoundException,
+                                  RoleNotFoundException
+Retrieves the number of MBeans currently referenced in the given role.
+
+Specified by:
+getRoleCardinality in interface RelationServiceMBean
+Parameters:
+relationId - relation id
+roleName - name of role
+Returns:
+the number of currently referenced MBeans in that role
+Throws:
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if no relation with given id
+RoleNotFoundException - if there is no role with given name
+
+
+"
+RelationService,"getRoleInfo(String relationTypeName, String roleInfoName)",RoleInfo,Retrieves role info for given role name of a given relation type.,"
+
+getRoleInfo
+public RoleInfo getRoleInfo(String relationTypeName,
+                            String roleInfoName)
+                     throws IllegalArgumentException,
+                            RelationTypeNotFoundException,
+                            RoleInfoNotFoundException
+Retrieves role info for given role name of a given relation type.
+
+Specified by:
+getRoleInfo in interface RelationServiceMBean
+Parameters:
+relationTypeName - name of relation type
+roleInfoName - name of role
+Returns:
+RoleInfo object.
+Throws:
+IllegalArgumentException - if null parameter
+RelationTypeNotFoundException - if the relation type is not
+ known in the Relation Service
+RoleInfoNotFoundException - if the role is not part of the
+ relation type.
+
+
+"
+RelationService,getRoleInfos(String relationTypeName),List<RoleInfo>,Retrieves list of role infos (RoleInfo objects) of a given relation type.,"
+
+getRoleInfos
+public List<RoleInfo> getRoleInfos(String relationTypeName)
+                            throws IllegalArgumentException,
+                                   RelationTypeNotFoundException
+Retrieves list of role infos (RoleInfo objects) of a given relation
+ type.
+
+Specified by:
+getRoleInfos in interface RelationServiceMBean
+Parameters:
+relationTypeName - name of relation type
+Returns:
+ArrayList of RoleInfo.
+Throws:
+IllegalArgumentException - if null parameter
+RelationTypeNotFoundException - if there is no relation type
+ with that name.
+
+
+"
+RelationService,"getRoles(String relationId, String[] roleNameArray)",RoleResult,Retrieves values of roles with given names in given relation.,"
+
+getRoles
+public RoleResult getRoles(String relationId,
+                           String[] roleNameArray)
+                    throws RelationServiceNotRegisteredException,
+                           IllegalArgumentException,
+                           RelationNotFoundException
+Retrieves values of roles with given names in given relation.
+
+Specified by:
+getRoles in interface RelationServiceMBean
+Parameters:
+relationId - relation id
+roleNameArray - array of names of roles to be retrieved
+Returns:
+a RoleResult object, including a RoleList (for roles
+ successfully retrieved) and a RoleUnresolvedList (for roles not
+ retrieved).
+Throws:
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if no relation with given id
+See Also:
+setRoles(java.lang.String, javax.management.relation.RoleList)
+
+
+"
+RelationService,"handleNotification(Notification notif, Object handback)",void,Invoked when a JMX notification occurs.,"
+
+handleNotification
+public void handleNotification(Notification notif,
+                               Object handback)
+Invoked when a JMX notification occurs.
+ Currently handles notifications for unregistration of MBeans, either
+ referenced in a relation role or being a relation itself.
+
+Specified by:
+handleNotification in interface NotificationListener
+Parameters:
+notif - The notification.
+handback - An opaque object which helps the listener to
+ associate information regarding the MBean emitter (can be null).
+
+
+"
+RelationService,hasRelation(String relationId),Boolean,Checks if there is a relation identified in Relation Service with given relation id.,"
+
+hasRelation
+public Boolean hasRelation(String relationId)
+                    throws IllegalArgumentException
+Checks if there is a relation identified in Relation Service with given
+ relation id.
+
+Specified by:
+hasRelation in interface RelationServiceMBean
+Parameters:
+relationId - relation id identifying the relation
+Returns:
+boolean: true if there is a relation, false else
+Throws:
+IllegalArgumentException - if null parameter
+
+
+"
+RelationService,isActive(),void,Checks if the Relation Service is active.,"
+
+isActive
+public void isActive()
+              throws RelationServiceNotRegisteredException
+Checks if the Relation Service is active.
+ Current condition is that the Relation Service must be registered in the
+ MBean Server
+
+Specified by:
+isActive in interface RelationServiceMBean
+Throws:
+RelationServiceNotRegisteredException - if it is not
+ registered
+
+
+"
+RelationService,isRelation(ObjectName objectName),String,Returns the relation id associated to the given ObjectName if the MBean has been added as a relation in the Relation Service.,"
+
+isRelation
+public String isRelation(ObjectName objectName)
+                  throws IllegalArgumentException
+Returns the relation id associated to the given ObjectName if the
+ MBean has been added as a relation in the Relation Service.
+
+Specified by:
+isRelation in interface RelationServiceMBean
+Parameters:
+objectName - ObjectName of supposed relation
+Returns:
+relation id (String) or null (if the ObjectName is not a
+ relation handled by the Relation Service)
+Throws:
+IllegalArgumentException - if null parameter
+
+
+"
+RelationService,isRelationMBean(String relationId),ObjectName,"If the relation is represented by an MBean (created by the user and added as a relation in the Relation Service), returns the ObjectName of the MBean.","
+
+isRelationMBean
+public ObjectName isRelationMBean(String relationId)
+                           throws IllegalArgumentException,
+                                  RelationNotFoundException
+If the relation is represented by an MBean (created by the user and
+ added as a relation in the Relation Service), returns the ObjectName of
+ the MBean.
+
+Specified by:
+isRelationMBean in interface RelationServiceMBean
+Parameters:
+relationId - relation id identifying the relation
+Returns:
+ObjectName of the corresponding relation MBean, or null if
+ the relation is not an MBean.
+Throws:
+IllegalArgumentException - if null parameter
+RelationNotFoundException - there is no relation associated
+ to that id
+
+
+"
+RelationService,postDeregister(),void,Allows the MBean to perform any operations needed after having been unregistered in the MBean server.,"
+
+postDeregister
+public void postDeregister()
+Description copied from interface: MBeanRegistration
+Allows the MBean to perform any operations needed after having been
+ unregistered in the MBean server.
+ If the implementation of this method throws a RuntimeException
+ or an Error, the MBean Server will rethrow those inside
+ a RuntimeMBeanException or RuntimeErrorException,
+ respectively. However, throwing an exception in postDeregister
+ will not change the state of the MBean:
+ the MBean was already successfully deregistered and will remain so. 
+This might be confusing for the code calling
+ unregisterMBean(), as it might assume that MBean deregistration
+ has failed. Therefore it is recommended that implementations of
+ postDeregister do not throw Runtime Exceptions or Errors if it
+ can be avoided.
+
+Specified by:
+postDeregister in interface MBeanRegistration
+
+
+"
+RelationService,postRegister(Boolean registrationDone),void,Allows the MBean to perform any operations needed after having been registered in the MBean server or after the registration has failed.,"
+
+postRegister
+public void postRegister(Boolean registrationDone)
+Description copied from interface: MBeanRegistration
+Allows the MBean to perform any operations needed after having been
+ registered in the MBean server or after the registration has failed.
+ If the implementation of this method throws a RuntimeException
+ or an Error, the MBean Server will rethrow those inside
+ a RuntimeMBeanException or RuntimeErrorException,
+ respectively. However, throwing an exception in postRegister
+ will not change the state of the MBean:
+ if the MBean was already registered (registrationDone is
+ true), the MBean will remain registered. 
+This might be confusing for the code calling createMBean()
+ or registerMBean(), as such code might assume that MBean
+ registration has failed when such an exception is raised.
+ Therefore it is recommended that implementations of
+ postRegister do not throw Runtime Exceptions or Errors if it
+ can be avoided.
+
+Specified by:
+postRegister in interface MBeanRegistration
+Parameters:
+registrationDone - Indicates whether or not the MBean has
+ been successfully registered in the MBean server. The value
+ false means that the registration phase has failed.
+
+
+"
+RelationService,preDeregister(),void,Allows the MBean to perform any operations it needs before being unregistered by the MBean server.,"
+
+preDeregister
+public void preDeregister()
+                   throws Exception
+Description copied from interface: MBeanRegistration
+Allows the MBean to perform any operations it needs before
+ being unregistered by the MBean server.
+
+Specified by:
+preDeregister in interface MBeanRegistration
+Throws:
+Exception - This exception will be caught by
+ the MBean server and re-thrown as an MBeanRegistrationException.
+
+
+"
+RelationService,"preRegister(MBeanServer server, ObjectName name)",ObjectName,Allows the MBean to perform any operations it needs before being registered in the MBean Server.,"
+
+preRegister
+public ObjectName preRegister(MBeanServer server,
+                              ObjectName name)
+                       throws Exception
+Description copied from interface: MBeanRegistration
+Allows the MBean to perform any operations it needs before
+ being registered in the MBean Server.  If the name of the MBean
+ is not specified, the MBean can provide a name for its
+ registration.  If any exception is raised, the MBean will not be
+ registered in the MBean Server.
+
+Specified by:
+preRegister in interface MBeanRegistration
+Parameters:
+server - The MBean Server in which the MBean will be registered.
+name - The object name of the MBean.  This name is null if
+ the name parameter to one of the createMBean or
+ registerMBean methods in the MBeanServer
+ interface is null.  In that case, this method must return a
+ non-null ObjectName for the new MBean.
+Returns:
+The name under which the MBean is to be registered.
+ This value must not be null.  If the name
+ parameter is not null, it will usually but not necessarily be
+ the returned value.
+Throws:
+Exception - This exception will be caught by
+ the MBean Server and re-thrown as an MBeanRegistrationException.
+
+
+"
+RelationService,purgeRelations(),void,Purges the relations.,"
+
+purgeRelations
+public void purgeRelations()
+                    throws RelationServiceNotRegisteredException
+Purges the relations.
+
+ Depending on the purgeFlag value, this method is either called
+ automatically when a notification is received for the unregistration of
+ an MBean referenced in a relation (if the flag is set to true), or not
+ (if the flag is set to false).
+ In that case it is up to the user to call it to maintain the
+ consistency of the relations. To be kept in mind that if an MBean is
+ unregistered and the purge not done immediately, if the ObjectName is
+ reused and assigned to another MBean referenced in a relation, calling
+ manually this purgeRelations() method will cause trouble, as will
+ consider the ObjectName as corresponding to the unregistered MBean, not
+ seeing the new one.
+
+ The behavior depends on the cardinality of the role where the
+ unregistered MBean is referenced:
+ - if removing one MBean reference in the role makes its number of
+ references less than the minimum degree, the relation has to be removed.
+ - if the remaining number of references after removing the MBean
+ reference is still in the cardinality range, keep the relation and
+ update it calling its handleMBeanUnregistration() callback.
+
+Specified by:
+purgeRelations in interface RelationServiceMBean
+Throws:
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server.
+
+
+"
+RelationService,removeRelation(String relationId),void,Removes given relation from the Relation Service.,"
+
+removeRelation
+public void removeRelation(String relationId)
+                    throws RelationServiceNotRegisteredException,
+                           IllegalArgumentException,
+                           RelationNotFoundException
+Removes given relation from the Relation Service.
+ A RelationNotification notification is sent, its type being:
+ - RelationNotification.RELATION_BASIC_REMOVAL if the relation was
+ only internal to the Relation Service
+ - RelationNotification.RELATION_MBEAN_REMOVAL if the relation is
+ registered as an MBean.
+ For MBeans referenced in such relation, nothing will be done,
+
+Specified by:
+removeRelation in interface RelationServiceMBean
+Parameters:
+relationId - relation id of the relation to be removed
+Throws:
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if no relation corresponding to
+ given relation id
+
+
+"
+RelationService,removeRelationType(String relationTypeName),void,Removes given relation type from Relation Service.,"
+
+removeRelationType
+public void removeRelationType(String relationTypeName)
+                        throws RelationServiceNotRegisteredException,
+                               IllegalArgumentException,
+                               RelationTypeNotFoundException
+Removes given relation type from Relation Service.
+ The relation objects of that type will be removed from the
+ Relation Service.
+
+Specified by:
+removeRelationType in interface RelationServiceMBean
+Parameters:
+relationTypeName - name of the relation type to be removed
+Throws:
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+IllegalArgumentException - if null parameter
+RelationTypeNotFoundException - If there is no relation type
+ with that name
+
+
+"
+RelationService,sendRelationCreationNotification(String relationId),void,Sends a notification (RelationNotification) for a relation creation.,"
+
+sendRelationCreationNotification
+public void sendRelationCreationNotification(String relationId)
+                                      throws IllegalArgumentException,
+                                             RelationNotFoundException
+Sends a notification (RelationNotification) for a relation creation.
+ The notification type is:
+ - RelationNotification.RELATION_BASIC_CREATION if the relation is an
+ object internal to the Relation Service
+ - RelationNotification.RELATION_MBEAN_CREATION if the relation is a
+ MBean added as a relation.
+ The source object is the Relation Service itself.
+ It is called in Relation Service createRelation() and
+ addRelation() methods.
+
+Specified by:
+sendRelationCreationNotification in interface RelationServiceMBean
+Parameters:
+relationId - relation identifier of the updated relation
+Throws:
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if there is no relation for given
+ relation id
+
+
+"
+RelationService,"sendRelationRemovalNotification(String relationId, List<ObjectName> unregMBeanList)",void,Sends a notification (RelationNotification) for a relation removal.,"
+
+sendRelationRemovalNotification
+public void sendRelationRemovalNotification(String relationId,
+                                            List<ObjectName> unregMBeanList)
+                                     throws IllegalArgumentException,
+                                            RelationNotFoundException
+Sends a notification (RelationNotification) for a relation removal.
+ The notification type is:
+ - RelationNotification.RELATION_BASIC_REMOVAL if the relation is an
+ object internal to the Relation Service
+ - RelationNotification.RELATION_MBEAN_REMOVAL if the relation is a
+ MBean added as a relation.
+ The source object is the Relation Service itself.
+ It is called in Relation Service removeRelation() method.
+
+Specified by:
+sendRelationRemovalNotification in interface RelationServiceMBean
+Parameters:
+relationId - relation identifier of the updated relation
+unregMBeanList - List of ObjectNames of MBeans expected
+ to be unregistered due to relation removal (can be null)
+Throws:
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if there is no relation for given
+ relation id
+
+
+"
+RelationService,"sendRoleUpdateNotification(String relationId, Role newRole, List<ObjectName> oldValue)",void,Sends a notification (RelationNotification) for a role update in the given relation.,"
+
+sendRoleUpdateNotification
+public void sendRoleUpdateNotification(String relationId,
+                                       Role newRole,
+                                       List<ObjectName> oldValue)
+                                throws IllegalArgumentException,
+                                       RelationNotFoundException
+Sends a notification (RelationNotification) for a role update in the
+ given relation. The notification type is:
+ - RelationNotification.RELATION_BASIC_UPDATE if the relation is an
+ object internal to the Relation Service
+ - RelationNotification.RELATION_MBEAN_UPDATE if the relation is a
+ MBean added as a relation.
+ The source object is the Relation Service itself.
+ It is called in relation MBean setRole() (for given role) and
+ setRoles() (for each role) methods (implementation provided in
+ RelationSupport class).
+ It is also called in Relation Service setRole() (for given role) and
+ setRoles() (for each role) methods.
+
+Specified by:
+sendRoleUpdateNotification in interface RelationServiceMBean
+Parameters:
+relationId - relation identifier of the updated relation
+newRole - new role (name and new value)
+oldValue - old role value (List of ObjectName objects)
+Throws:
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if there is no relation for given
+ relation id
+
+
+"
+RelationService,setPurgeFlag(boolean purgeFlag),void,"Sets the flag to indicate if when a notification is received for the unregistration of an MBean referenced in a relation, if an immediate ""purge"" of the relations (look for the relations no longer valid) has to be performed , or if that will be performed only when the purgeRelations method will be explicitly called.","
+
+setPurgeFlag
+public void setPurgeFlag(boolean purgeFlag)
+Sets the flag to indicate if when a notification is received for the
+ unregistration of an MBean referenced in a relation, if an immediate
+ ""purge"" of the relations (look for the relations no longer valid)
+ has to be performed , or if that will be performed only when the
+ purgeRelations method will be explicitly called.
+ true is immediate purge.
+
+Specified by:
+setPurgeFlag in interface RelationServiceMBean
+Parameters:
+purgeFlag - flag
+See Also:
+getPurgeFlag()
+
+
+"
+RelationService,"setRole(String relationId, Role role)",void,Sets the given role in given relation.,"
+
+setRole
+public void setRole(String relationId,
+                    Role role)
+             throws RelationServiceNotRegisteredException,
+                    IllegalArgumentException,
+                    RelationNotFoundException,
+                    RoleNotFoundException,
+                    InvalidRoleValueException
+Sets the given role in given relation.
+ Will check the role according to its corresponding role definition
+ provided in relation's relation type
+ The Relation Service will keep track of the change to keep the
+ consistency of relations by handling referenced MBean deregistrations.
+
+Specified by:
+setRole in interface RelationServiceMBean
+Parameters:
+relationId - relation id
+role - role to be set (name and new value)
+Throws:
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if no relation with given id
+RoleNotFoundException - if the role does not exist or is not
+ writable
+InvalidRoleValueException - if value provided for role is not
+ valid:
+ - the number of referenced MBeans in given value is less than
+ expected minimum degree
+ or
+ - the number of referenced MBeans in provided value exceeds expected
+ maximum degree
+ or
+ - one referenced MBean in the value is not an Object of the MBean
+ class expected for that role
+ or
+ - an MBean provided for that role does not exist
+See Also:
+getRole(java.lang.String, java.lang.String)
+
+
+"
+RelationService,"setRoles(String relationId, RoleList roleList)",RoleResult,Sets the given roles in given relation.,"
+
+setRoles
+public RoleResult setRoles(String relationId,
+                           RoleList roleList)
+                    throws RelationServiceNotRegisteredException,
+                           IllegalArgumentException,
+                           RelationNotFoundException
+Sets the given roles in given relation.
+ Will check the role according to its corresponding role definition
+ provided in relation's relation type
+ The Relation Service keeps track of the changes to keep the
+ consistency of relations by handling referenced MBean deregistrations.
+
+Specified by:
+setRoles in interface RelationServiceMBean
+Parameters:
+relationId - relation id
+roleList - list of roles to be set
+Returns:
+a RoleResult object, including a RoleList (for roles
+ successfully set) and a RoleUnresolvedList (for roles not
+ set).
+Throws:
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+IllegalArgumentException - if null parameter
+RelationNotFoundException - if no relation with given id
+See Also:
+getRoles(java.lang.String, java.lang.String[])
+
+
+"
+RelationService,"updateRoleMap(String relationId, Role newRole, List<ObjectName> oldValue)",void,Handles update of the Relation Service role map for the update of given role in given relation.,"
+
+updateRoleMap
+public void updateRoleMap(String relationId,
+                          Role newRole,
+                          List<ObjectName> oldValue)
+                   throws IllegalArgumentException,
+                          RelationServiceNotRegisteredException,
+                          RelationNotFoundException
+Handles update of the Relation Service role map for the update of given
+ role in given relation.
+ It is called in relation MBean setRole() (for given role) and
+ setRoles() (for each role) methods (implementation provided in
+ RelationSupport class).
+ It is also called in Relation Service setRole() (for given role) and
+ setRoles() (for each role) methods.
+ To allow the Relation Service to maintain the consistency (in case
+ of MBean unregistration) and to be able to perform queries, this method
+ must be called when a role is updated.
+
+Specified by:
+updateRoleMap in interface RelationServiceMBean
+Parameters:
+relationId - relation identifier of the updated relation
+newRole - new role (name and new value)
+oldValue - old role value (List of ObjectName objects)
+Throws:
+IllegalArgumentException - if null parameter
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+RelationNotFoundException - if no relation for given id.
+
+
+"
+RelationSupport,getAllRoles(),RoleResult,Returns all roles present in the relation.,"
+
+getAllRoles
+public RoleResult getAllRoles()
+                       throws RelationServiceNotRegisteredException
+Returns all roles present in the relation.
+
+Specified by:
+getAllRoles in interface Relation
+Returns:
+a RoleResult object, including a RoleList (for roles
+ successfully retrieved) and a RoleUnresolvedList (for roles not
+ readable).
+Throws:
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+
+
+"
+RelationSupport,getReferencedMBeans(),"Map<ObjectName,List<String>>",Retrieves MBeans referenced in the various roles of the relation.,"
+
+getReferencedMBeans
+public Map<ObjectName,List<String>> getReferencedMBeans()
+Retrieves MBeans referenced in the various roles of the relation.
+
+Specified by:
+getReferencedMBeans in interface Relation
+Returns:
+a HashMap mapping:
+  ObjectName -> ArrayList of String (role names)
+
+
+"
+RelationSupport,getRelationId(),String,Returns relation identifier (used to uniquely identify the relation inside the Relation Service).,"
+
+getRelationId
+public String getRelationId()
+Returns relation identifier (used to uniquely identify the relation
+ inside the Relation Service).
+
+Specified by:
+getRelationId in interface Relation
+Returns:
+the relation id.
+
+
+"
+RelationSupport,getRelationServiceName(),ObjectName,Returns ObjectName of the Relation Service handling the relation.,"
+
+getRelationServiceName
+public ObjectName getRelationServiceName()
+Returns ObjectName of the Relation Service handling the relation.
+
+Specified by:
+getRelationServiceName in interface Relation
+Returns:
+the ObjectName of the Relation Service.
+
+
+"
+RelationSupport,getRelationTypeName(),String,Returns name of associated relation type.,"
+
+getRelationTypeName
+public String getRelationTypeName()
+Returns name of associated relation type.
+
+Specified by:
+getRelationTypeName in interface Relation
+Returns:
+the name of the relation type.
+
+
+"
+RelationSupport,getRole(String roleName),List<ObjectName>,Retrieves role value for given role name.,"
+
+getRole
+public List<ObjectName> getRole(String roleName)
+                         throws IllegalArgumentException,
+                                RoleNotFoundException,
+                                RelationServiceNotRegisteredException
+Retrieves role value for given role name.
+ Checks if the role exists and is readable according to the relation
+ type.
+
+Specified by:
+getRole in interface Relation
+Parameters:
+roleName - name of role
+Returns:
+the ArrayList of ObjectName objects being the role value
+Throws:
+IllegalArgumentException - if null role name
+RoleNotFoundException - if:
+ - there is no role with given name
+ - the role is not readable.
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+See Also:
+setRole(javax.management.relation.Role)
+
+
+"
+RelationSupport,getRoleCardinality(String roleName),Integer,Returns the number of MBeans currently referenced in the given role.,"
+
+getRoleCardinality
+public Integer getRoleCardinality(String roleName)
+                           throws IllegalArgumentException,
+                                  RoleNotFoundException
+Returns the number of MBeans currently referenced in the given role.
+
+Specified by:
+getRoleCardinality in interface Relation
+Parameters:
+roleName - name of role
+Returns:
+the number of currently referenced MBeans in that role
+Throws:
+IllegalArgumentException - if null role name
+RoleNotFoundException - if there is no role with given name
+
+
+"
+RelationSupport,getRoles(String[] roleNameArray),RoleResult,Retrieves values of roles with given names.,"
+
+getRoles
+public RoleResult getRoles(String[] roleNameArray)
+                    throws IllegalArgumentException,
+                           RelationServiceNotRegisteredException
+Retrieves values of roles with given names.
+ Checks for each role if it exists and is readable according to the
+ relation type.
+
+Specified by:
+getRoles in interface Relation
+Parameters:
+roleNameArray - array of names of roles to be retrieved
+Returns:
+a RoleResult object, including a RoleList (for roles
+ successfully retrieved) and a RoleUnresolvedList (for roles not
+ retrieved).
+Throws:
+IllegalArgumentException - if null role name
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+See Also:
+setRoles(javax.management.relation.RoleList)
+
+
+"
+RelationSupport,"handleMBeanUnregistration(ObjectName objectName, String roleName)",void,Callback used by the Relation Service when a MBean referenced in a role is unregistered.,"
+
+handleMBeanUnregistration
+public void handleMBeanUnregistration(ObjectName objectName,
+                                      String roleName)
+                               throws IllegalArgumentException,
+                                      RoleNotFoundException,
+                                      InvalidRoleValueException,
+                                      RelationServiceNotRegisteredException,
+                                      RelationTypeNotFoundException,
+                                      RelationNotFoundException
+Callback used by the Relation Service when a MBean referenced in a role
+ is unregistered.
+ The Relation Service will call this method to let the relation
+ take action to reflect the impact of such unregistration.
+ BEWARE. the user is not expected to call this method.
+ Current implementation is to set the role with its current value
+ (list of ObjectNames of referenced MBeans) without the unregistered
+ one.
+
+Specified by:
+handleMBeanUnregistration in interface Relation
+Parameters:
+objectName - ObjectName of unregistered MBean
+roleName - name of role where the MBean is referenced
+Throws:
+IllegalArgumentException - if null parameter
+RoleNotFoundException - if role does not exist in the
+ relation or is not writable
+InvalidRoleValueException - if role value does not conform to
+ the associated role info (this will never happen when called from the
+ Relation Service)
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+RelationTypeNotFoundException - if the relation type has not
+ been declared in the Relation Service.
+RelationNotFoundException - if this method is called for a
+ relation MBean not added in the Relation Service.
+
+
+"
+RelationSupport,isInRelationService(),Boolean,Returns an internal flag specifying if the object is still handled by the Relation Service.,"
+
+isInRelationService
+public Boolean isInRelationService()
+Returns an internal flag specifying if the object is still handled by
+ the Relation Service.
+
+Specified by:
+isInRelationService in interface RelationSupportMBean
+Returns:
+a Boolean equal to Boolean.TRUE if the object
+ is still handled by the Relation Service and Boolean.FALSE otherwise.
+
+
+"
+RelationSupport,postDeregister(),void,Allows the MBean to perform any operations needed after having been unregistered in the MBean server.,"
+
+postDeregister
+public void postDeregister()
+Description copied from interface: MBeanRegistration
+Allows the MBean to perform any operations needed after having been
+ unregistered in the MBean server.
+ If the implementation of this method throws a RuntimeException
+ or an Error, the MBean Server will rethrow those inside
+ a RuntimeMBeanException or RuntimeErrorException,
+ respectively. However, throwing an exception in postDeregister
+ will not change the state of the MBean:
+ the MBean was already successfully deregistered and will remain so. 
+This might be confusing for the code calling
+ unregisterMBean(), as it might assume that MBean deregistration
+ has failed. Therefore it is recommended that implementations of
+ postDeregister do not throw Runtime Exceptions or Errors if it
+ can be avoided.
+
+Specified by:
+postDeregister in interface MBeanRegistration
+
+
+"
+RelationSupport,postRegister(Boolean registrationDone),void,Allows the MBean to perform any operations needed after having been registered in the MBean server or after the registration has failed.,"
+
+postRegister
+public void postRegister(Boolean registrationDone)
+Description copied from interface: MBeanRegistration
+Allows the MBean to perform any operations needed after having been
+ registered in the MBean server or after the registration has failed.
+ If the implementation of this method throws a RuntimeException
+ or an Error, the MBean Server will rethrow those inside
+ a RuntimeMBeanException or RuntimeErrorException,
+ respectively. However, throwing an exception in postRegister
+ will not change the state of the MBean:
+ if the MBean was already registered (registrationDone is
+ true), the MBean will remain registered. 
+This might be confusing for the code calling createMBean()
+ or registerMBean(), as such code might assume that MBean
+ registration has failed when such an exception is raised.
+ Therefore it is recommended that implementations of
+ postRegister do not throw Runtime Exceptions or Errors if it
+ can be avoided.
+
+Specified by:
+postRegister in interface MBeanRegistration
+Parameters:
+registrationDone - Indicates whether or not the MBean has
+ been successfully registered in the MBean server. The value
+ false means that the registration phase has failed.
+
+
+"
+RelationSupport,preDeregister(),void,Allows the MBean to perform any operations it needs before being unregistered by the MBean server.,"
+
+preDeregister
+public void preDeregister()
+                   throws Exception
+Description copied from interface: MBeanRegistration
+Allows the MBean to perform any operations it needs before
+ being unregistered by the MBean server.
+
+Specified by:
+preDeregister in interface MBeanRegistration
+Throws:
+Exception - This exception will be caught by
+ the MBean server and re-thrown as an MBeanRegistrationException.
+
+
+"
+RelationSupport,"preRegister(MBeanServer server, ObjectName name)",ObjectName,Allows the MBean to perform any operations it needs before being registered in the MBean Server.,"
+
+preRegister
+public ObjectName preRegister(MBeanServer server,
+                              ObjectName name)
+                       throws Exception
+Description copied from interface: MBeanRegistration
+Allows the MBean to perform any operations it needs before
+ being registered in the MBean Server.  If the name of the MBean
+ is not specified, the MBean can provide a name for its
+ registration.  If any exception is raised, the MBean will not be
+ registered in the MBean Server.
+
+Specified by:
+preRegister in interface MBeanRegistration
+Parameters:
+server - The MBean Server in which the MBean will be registered.
+name - The object name of the MBean.  This name is null if
+ the name parameter to one of the createMBean or
+ registerMBean methods in the MBeanServer
+ interface is null.  In that case, this method must return a
+ non-null ObjectName for the new MBean.
+Returns:
+The name under which the MBean is to be registered.
+ This value must not be null.  If the name
+ parameter is not null, it will usually but not necessarily be
+ the returned value.
+Throws:
+Exception - This exception will be caught by
+ the MBean Server and re-thrown as an MBeanRegistrationException.
+
+
+"
+RelationSupport,retrieveAllRoles(),RoleList,Returns all roles in the relation without checking read mode.,"
+
+retrieveAllRoles
+public RoleList retrieveAllRoles()
+Returns all roles in the relation without checking read mode.
+
+Specified by:
+retrieveAllRoles in interface Relation
+Returns:
+a RoleList
+
+
+"
+RelationSupport,setRelationServiceManagementFlag(Boolean flag),void,Specifies whether this relation is handled by the Relation Service.,"
+
+setRelationServiceManagementFlag
+public void setRelationServiceManagementFlag(Boolean flag)
+                                      throws IllegalArgumentException
+Description copied from interface: RelationSupportMBean
+Specifies whether this relation is handled by the Relation
+ Service.
+BEWARE, this method has to be exposed as the Relation Service will
+ access the relation through its management interface. It is RECOMMENDED
+ NOT to use this method. Using it does not affect the registration of the
+ relation object in the Relation Service, but will provide wrong
+ information about it!
+
+Specified by:
+setRelationServiceManagementFlag in interface RelationSupportMBean
+Parameters:
+flag - whether the relation is handled by the Relation Service.
+Throws:
+IllegalArgumentException - if null parameter
+
+
+"
+RelationSupport,setRole(Role role),void,Sets the given role.,"
+
+setRole
+public void setRole(Role role)
+             throws IllegalArgumentException,
+                    RoleNotFoundException,
+                    RelationTypeNotFoundException,
+                    InvalidRoleValueException,
+                    RelationServiceNotRegisteredException,
+                    RelationNotFoundException
+Sets the given role.
+ Will check the role according to its corresponding role definition
+ provided in relation's relation type
+ Will send a notification (RelationNotification with type
+ RELATION_BASIC_UPDATE or RELATION_MBEAN_UPDATE, depending if the
+ relation is a MBean or not).
+
+Specified by:
+setRole in interface Relation
+Parameters:
+role - role to be set (name and new value)
+Throws:
+IllegalArgumentException - if null role
+RoleNotFoundException - if there is no role with the supplied
+ role's name or if the role is not writable (no test on the write access
+ mode performed when initializing the role)
+InvalidRoleValueException - if value provided for
+ role is not valid, i.e.:
+ - the number of referenced MBeans in given value is less than
+ expected minimum degree
+ - the number of referenced MBeans in provided value exceeds expected
+ maximum degree
+ - one referenced MBean in the value is not an Object of the MBean
+ class expected for that role
+ - a MBean provided for that role does not exist
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+RelationTypeNotFoundException - if the relation type has not
+ been declared in the Relation Service
+RelationNotFoundException - if the relation has not been
+ added in the Relation Service.
+See Also:
+getRole(java.lang.String)
+
+
+"
+RelationSupport,setRoles(RoleList list),RoleResult,Sets the given roles.,"
+
+setRoles
+public RoleResult setRoles(RoleList list)
+                    throws IllegalArgumentException,
+                           RelationServiceNotRegisteredException,
+                           RelationTypeNotFoundException,
+                           RelationNotFoundException
+Sets the given roles.
+ Will check the role according to its corresponding role definition
+ provided in relation's relation type
+ Will send one notification (RelationNotification with type
+ RELATION_BASIC_UPDATE or RELATION_MBEAN_UPDATE, depending if the
+ relation is a MBean or not) per updated role.
+
+Specified by:
+setRoles in interface Relation
+Parameters:
+list - list of roles to be set
+Returns:
+a RoleResult object, including a RoleList (for roles
+ successfully set) and a RoleUnresolvedList (for roles not
+ set).
+Throws:
+IllegalArgumentException - if null role list
+RelationServiceNotRegisteredException - if the Relation
+ Service is not registered in the MBean Server
+RelationTypeNotFoundException - if the relation type has not
+ been declared in the Relation Service.
+RelationNotFoundException - if the relation MBean has not been
+ added in the Relation Service.
+See Also:
+getRoles(java.lang.String[])
+
+
+"
+RelationTypeSupport,addRoleInfo(RoleInfo roleInfo),protected void,Add a role info.,"
+
+addRoleInfo
+protected void addRoleInfo(RoleInfo roleInfo)
+                    throws IllegalArgumentException,
+                           InvalidRelationTypeException
+Add a role info.
+ This method of course should not be used after the creation of the
+ relation type, because updating it would invalidate that the relations
+ created associated to that type still conform to it.
+ Can throw a RuntimeException if trying to update a relation type
+ declared in the Relation Service.
+
+Parameters:
+roleInfo - role info to be added.
+Throws:
+IllegalArgumentException - if null parameter.
+InvalidRelationTypeException - if there is already a role
+  info in current relation type with the same name.
+
+
+"
+RelationTypeSupport,getRelationTypeName(),String,Returns the relation type name.,"
+
+getRelationTypeName
+public String getRelationTypeName()
+Returns the relation type name.
+
+Specified by:
+getRelationTypeName in interface RelationType
+Returns:
+the relation type name.
+
+
+"
+RelationTypeSupport,getRoleInfo(String roleInfoName),RoleInfo,Returns the role info (RoleInfo object) for the given role info name (null if not found).,"
+
+getRoleInfo
+public RoleInfo getRoleInfo(String roleInfoName)
+                     throws IllegalArgumentException,
+                            RoleInfoNotFoundException
+Returns the role info (RoleInfo object) for the given role info name
+ (null if not found).
+
+Specified by:
+getRoleInfo in interface RelationType
+Parameters:
+roleInfoName - role info name
+Returns:
+RoleInfo object providing role definition
+ does not exist
+Throws:
+IllegalArgumentException - if null parameter
+RoleInfoNotFoundException - if no role info with that name in
+ relation type.
+
+
+"
+RelationTypeSupport,getRoleInfos(),List<RoleInfo>,Returns the list of role definitions (ArrayList of RoleInfo objects).,"
+
+getRoleInfos
+public List<RoleInfo> getRoleInfos()
+Returns the list of role definitions (ArrayList of RoleInfo objects).
+
+Specified by:
+getRoleInfos in interface RelationType
+Returns:
+an ArrayList of RoleInfo.
+
+
+"
+Role,clone(),Object,Clone the role object.,"
+
+clone
+public Object clone()
+Clone the role object.
+
+Overrides:
+clone in class Object
+Returns:
+a Role that is an independent copy of the current Role object.
+See Also:
+Cloneable
+
+
+"
+Role,getRoleName(),String,Retrieves role name.,"
+
+getRoleName
+public String getRoleName()
+Retrieves role name.
+
+Returns:
+the role name.
+See Also:
+setRoleName(java.lang.String)
+
+
+"
+Role,getRoleValue(),List<ObjectName>,Retrieves role value.,"
+
+getRoleValue
+public List<ObjectName> getRoleValue()
+Retrieves role value.
+
+Returns:
+ArrayList of ObjectName objects for referenced MBeans.
+See Also:
+setRoleValue(java.util.List<javax.management.ObjectName>)
+
+
+"
+Role,roleValueToString(List<ObjectName> roleValue),static String,Returns a string for the given role value.,"
+
+roleValueToString
+public static String roleValueToString(List<ObjectName> roleValue)
+                                throws IllegalArgumentException
+Returns a string for the given role value.
+
+Parameters:
+roleValue - List of ObjectName objects
+Returns:
+A String consisting of the ObjectNames separated by
+ newlines (\n).
+Throws:
+IllegalArgumentException - if null parameter
+
+
+"
+Role,setRoleName(String roleName),void,Sets role name.,"
+
+setRoleName
+public void setRoleName(String roleName)
+                 throws IllegalArgumentException
+Sets role name.
+
+Parameters:
+roleName - role name
+Throws:
+IllegalArgumentException - if null parameter
+See Also:
+getRoleName()
+
+
+"
+Role,setRoleValue(List<ObjectName> roleValue),void,Sets role value.,"
+
+setRoleValue
+public void setRoleValue(List<ObjectName> roleValue)
+                  throws IllegalArgumentException
+Sets role value.
+
+Parameters:
+roleValue - List of ObjectName objects for referenced
+ MBeans.
+Throws:
+IllegalArgumentException - if null parameter
+See Also:
+getRoleValue()
+
+
+"
+Role,toString(),String,Returns a string describing the role.,"
+
+toString
+public String toString()
+Returns a string describing the role.
+
+Overrides:
+toString in class Object
+Returns:
+the description of the role.
+
+
+"
+RoleInfo,checkMaxDegree(int value),boolean,"Returns true if the value parameter is lower than or equal to the expected maximum degree, false otherwise.","
+
+checkMaxDegree
+public boolean checkMaxDegree(int value)
+Returns true if the value parameter is lower than or equal to
+ the expected maximum degree, false otherwise.
+
+Parameters:
+value - the value to be checked
+Returns:
+true if lower than or equal to maximum degree, false otherwise.
+
+
+"
+RoleInfo,checkMinDegree(int value),boolean,"Returns true if the value parameter is greater than or equal to the expected minimum degree, false otherwise.","
+
+checkMinDegree
+public boolean checkMinDegree(int value)
+Returns true if the value parameter is greater than or equal to
+ the expected minimum degree, false otherwise.
+
+Parameters:
+value - the value to be checked
+Returns:
+true if greater than or equal to minimum degree, false otherwise.
+
+
+"
+RoleInfo,getDescription(),String,Returns description text for the role.,"
+
+getDescription
+public String getDescription()
+Returns description text for the role.
+
+Returns:
+the description of the role.
+
+
+"
+RoleInfo,getMaxDegree(),int,Returns maximum degree for corresponding role reference.,"
+
+getMaxDegree
+public int getMaxDegree()
+Returns maximum degree for corresponding role reference.
+
+Returns:
+the maximum degree.
+
+
+"
+RoleInfo,getMinDegree(),int,Returns minimum degree for corresponding role reference.,"
+
+getMinDegree
+public int getMinDegree()
+Returns minimum degree for corresponding role reference.
+
+Returns:
+the minimum degree.
+
+
+"
+RoleInfo,getName(),String,Returns the name of the role.,"
+
+getName
+public String getName()
+Returns the name of the role.
+
+Returns:
+the name of the role.
+
+
+"
+RoleInfo,getRefMBeanClassName(),String,Returns name of type of MBean expected to be referenced in corresponding role.,"
+
+getRefMBeanClassName
+public String getRefMBeanClassName()
+Returns name of type of MBean expected to be referenced in
+ corresponding role.
+
+Returns:
+the name of the referenced type.
+
+
+"
+RoleInfo,isReadable(),boolean,Returns read access mode for the role (true if it is readable).,"
+
+isReadable
+public boolean isReadable()
+Returns read access mode for the role (true if it is readable).
+
+Returns:
+true if the role is readable.
+
+
+"
+RoleInfo,isWritable(),boolean,Returns write access mode for the role (true if it is writable).,"
+
+isWritable
+public boolean isWritable()
+Returns write access mode for the role (true if it is writable).
+
+Returns:
+true if the role is writable.
+
+
+"
+RoleInfo,toString(),String,Returns a string describing the role info.,"
+
+toString
+public String toString()
+Returns a string describing the role info.
+
+Overrides:
+toString in class Object
+Returns:
+a description of the role info.
+
+
+"
+RoleList,"add(int index, Object element)",void,Inserts the specified element at the specified position in this list.,"
+
+add
+public void add(int index,
+                Object element)
+Description copied from class: ArrayList
+Inserts the specified element at the specified position in this
+ list. Shifts the element currently at that position (if any) and
+ any subsequent elements to the right (adds one to their indices).
+
+Specified by:
+add in interface List<Object>
+Overrides:
+add in class ArrayList<Object>
+Parameters:
+index - index at which the specified element is to be inserted
+element - element to be inserted
+
+
+"
+RoleList,"add(int index, Role role)",void,Inserts the role specified as an element at the position specified.,"
+
+add
+public void add(int index,
+                Role role)
+         throws IllegalArgumentException,
+                IndexOutOfBoundsException
+Inserts the role specified as an element at the position specified.
+ Elements with an index greater than or equal to the current position are
+ shifted up.
+
+Parameters:
+index - The position in the list where the new Role
+ object is to be inserted.
+role - The Role object to be inserted.
+Throws:
+IllegalArgumentException - if the role is null.
+IndexOutOfBoundsException - if accessing with an index
+ outside of the list.
+
+
+"
+RoleList,add(Object o),boolean,Appends the specified element to the end of this list.,"
+
+add
+public boolean add(Object o)
+Description copied from class: ArrayList
+Appends the specified element to the end of this list.
+
+Specified by:
+add in interface Collection<Object>
+Specified by:
+add in interface List<Object>
+Overrides:
+add in class ArrayList<Object>
+Parameters:
+o - element to be appended to this list
+Returns:
+true (as specified by Collection.add(E))
+
+
+"
+RoleList,add(Role role),void,Adds the Role specified as the last element of the list.,"
+
+add
+public void add(Role role)
+         throws IllegalArgumentException
+Adds the Role specified as the last element of the list.
+
+Parameters:
+role - the role to be added.
+Throws:
+IllegalArgumentException - if the role is null.
+
+
+"
+RoleList,addAll(Collection<?> c),boolean,"Appends all of the elements in the specified collection to the end of this list, in the order that they are returned by the specified collection's Iterator.","
+
+addAll
+public boolean addAll(Collection<?> c)
+Description copied from class: ArrayList
+Appends all of the elements in the specified collection to the end of
+ this list, in the order that they are returned by the
+ specified collection's Iterator.  The behavior of this operation is
+ undefined if the specified collection is modified while the operation
+ is in progress.  (This implies that the behavior of this call is
+ undefined if the specified collection is this list, and this
+ list is nonempty.)
+
+Specified by:
+addAll in interface Collection<Object>
+Specified by:
+addAll in interface List<Object>
+Overrides:
+addAll in class ArrayList<Object>
+Parameters:
+c - collection containing elements to be added to this list
+Returns:
+true if this list changed as a result of the call
+See Also:
+AbstractCollection.add(Object)
+
+
+"
+RoleList,"addAll(int index, Collection<?> c)",boolean,"Inserts all of the elements in the specified collection into this list, starting at the specified position.","
+
+addAll
+public boolean addAll(int index,
+                      Collection<?> c)
+Description copied from class: ArrayList
+Inserts all of the elements in the specified collection into this
+ list, starting at the specified position.  Shifts the element
+ currently at that position (if any) and any subsequent elements to
+ the right (increases their indices).  The new elements will appear
+ in the list in the order that they are returned by the
+ specified collection's iterator.
+
+Specified by:
+addAll in interface List<Object>
+Overrides:
+addAll in class ArrayList<Object>
+Parameters:
+index - index at which to insert the first element from the
+              specified collection
+c - collection containing elements to be added to this list
+Returns:
+true if this list changed as a result of the call
+
+
+"
+RoleList,"addAll(int index, RoleList roleList)",boolean,"Inserts all of the elements in the RoleList specified into this list, starting at the specified position, in the order in which they are returned by the Iterator of the RoleList specified.","
+
+addAll
+public boolean addAll(int index,
+                      RoleList roleList)
+               throws IllegalArgumentException,
+                      IndexOutOfBoundsException
+Inserts all of the elements in the RoleList specified into this
+ list, starting at the specified position, in the order in which they are
+ returned by the Iterator of the RoleList specified.
+
+Parameters:
+index - Position at which to insert the first element from the
+ RoleList specified.
+roleList - Elements to be inserted into the list.
+Returns:
+true if this list changed as a result of the call.
+Throws:
+IllegalArgumentException - if the role is null.
+IndexOutOfBoundsException - if accessing with an index
+ outside of the list.
+See Also:
+ArrayList.addAll(int, Collection)
+
+
+"
+RoleList,addAll(RoleList roleList),boolean,"Appends all the elements in the RoleList specified to the end of the list, in the order in which they are returned by the Iterator of the RoleList specified.","
+
+addAll
+public boolean addAll(RoleList roleList)
+               throws IndexOutOfBoundsException
+Appends all the elements in the RoleList specified to the end
+ of the list, in the order in which they are returned by the Iterator of
+ the RoleList specified.
+
+Parameters:
+roleList - Elements to be inserted into the list (can be null)
+Returns:
+true if this list changed as a result of the call.
+Throws:
+IndexOutOfBoundsException - if accessing with an index
+ outside of the list.
+See Also:
+ArrayList.addAll(Collection)
+
+
+"
+RoleList,asList(),List<Role>,Return a view of this list as a List<Role>.,"
+
+asList
+public List<Role> asList()
+Return a view of this list as a List<Role>.
+ Changes to the returned value are reflected by changes
+ to the original RoleList and vice versa.
+
+Returns:
+a List<Role> whose contents
+ reflect the contents of this RoleList.
+
+ If this method has ever been called on a given
+ RoleList instance, a subsequent attempt to add
+ an object to that instance which is not a Role
+ will fail with an IllegalArgumentException. For compatibility
+ reasons, a RoleList on which this method has never
+ been called does allow objects other than Roles to
+ be added.
+Throws:
+IllegalArgumentException - if this RoleList contains
+ an element that is not a Role.
+Since:
+1.6
+
+
+"
+RoleList,"set(int index, Object element)",Object,Replaces the element at the specified position in this list with the specified element.,"
+
+set
+public Object set(int index,
+                  Object element)
+Description copied from class: ArrayList
+Replaces the element at the specified position in this list with
+ the specified element.
+
+Specified by:
+set in interface List<Object>
+Overrides:
+set in class ArrayList<Object>
+Parameters:
+index - index of the element to replace
+element - element to be stored at the specified position
+Returns:
+the element previously at the specified position
+
+
+"
+RoleList,"set(int index, Role role)",void,Sets the element at the position specified to be the role specified.,"
+
+set
+public void set(int index,
+                Role role)
+         throws IllegalArgumentException,
+                IndexOutOfBoundsException
+Sets the element at the position specified to be the role
+ specified.
+ The previous element at that position is discarded.
+
+Parameters:
+index - The position specified.
+role - The value to which the role element should be set.
+Throws:
+IllegalArgumentException - if the role is null.
+IndexOutOfBoundsException - if accessing with an index
+ outside of the list.
+
+
+"
+RoleResult,getRoles(),RoleList,Retrieves list of roles successfully accessed.,"
+
+getRoles
+public RoleList getRoles()
+Retrieves list of roles successfully accessed.
+
+Returns:
+a RoleList
+See Also:
+setRoles(javax.management.relation.RoleList)
+
+
+"
+RoleResult,getRolesUnresolved(),RoleUnresolvedList,Retrieves list of roles unsuccessfully accessed.,"
+
+getRolesUnresolved
+public RoleUnresolvedList getRolesUnresolved()
+Retrieves list of roles unsuccessfully accessed.
+
+Returns:
+a RoleUnresolvedList.
+See Also:
+setRolesUnresolved(javax.management.relation.RoleUnresolvedList)
+
+
+"
+RoleResult,setRoles(RoleList list),void,Sets list of roles successfully accessed.,"
+
+setRoles
+public void setRoles(RoleList list)
+Sets list of roles successfully accessed.
+
+Parameters:
+list - list of roles successfully accessed
+See Also:
+getRoles()
+
+
+"
+RoleResult,setRolesUnresolved(RoleUnresolvedList unresolvedList),void,Sets list of roles unsuccessfully accessed.,"
+
+setRolesUnresolved
+public void setRolesUnresolved(RoleUnresolvedList unresolvedList)
+Sets list of roles unsuccessfully accessed.
+
+Parameters:
+unresolvedList - list of roles unsuccessfully accessed
+See Also:
+getRolesUnresolved()
+
+
+"
+RoleStatus,isRoleStatus(int status),static boolean,"Returns true if given value corresponds to a known role status, false otherwise.","
+
+isRoleStatus
+public static boolean isRoleStatus(int status)
+Returns true if given value corresponds to a known role status, false
+ otherwise.
+
+Parameters:
+status - a status code.
+Returns:
+true if this value is a known role status.
+
+
+"
+RoleUnresolved,clone(),Object,Clone this object.,"
+
+clone
+public Object clone()
+Clone this object.
+
+Overrides:
+clone in class Object
+Returns:
+an independent clone.
+See Also:
+Cloneable
+
+
+"
+RoleUnresolved,getProblemType(),int,Retrieves problem type.,"
+
+getProblemType
+public int getProblemType()
+Retrieves problem type.
+
+Returns:
+an integer corresponding to a problem, those being described as
+ static final members of current class.
+See Also:
+setProblemType(int)
+
+
+"
+RoleUnresolved,getRoleName(),String,Retrieves role name.,"
+
+getRoleName
+public String getRoleName()
+Retrieves role name.
+
+Returns:
+the role name.
+See Also:
+setRoleName(java.lang.String)
+
+
+"
+RoleUnresolved,getRoleValue(),List<ObjectName>,Retrieves role value.,"
+
+getRoleValue
+public List<ObjectName> getRoleValue()
+Retrieves role value.
+
+Returns:
+an ArrayList of ObjectName objects, the one provided to be set
+ in given role. Null if the unresolved role is returned for a read
+ access.
+See Also:
+setRoleValue(java.util.List<javax.management.ObjectName>)
+
+
+"
+RoleUnresolved,setProblemType(int pbType),void,Sets problem type.,"
+
+setProblemType
+public void setProblemType(int pbType)
+                    throws IllegalArgumentException
+Sets problem type.
+
+Parameters:
+pbType - integer corresponding to a problem. Must be one of
+ those described as static final members of current class.
+Throws:
+IllegalArgumentException - if incorrect problem type
+See Also:
+getProblemType()
+
+
+"
+RoleUnresolved,setRoleName(String name),void,Sets role name.,"
+
+setRoleName
+public void setRoleName(String name)
+                 throws IllegalArgumentException
+Sets role name.
+
+Parameters:
+name - the new role name.
+Throws:
+IllegalArgumentException - if null parameter
+See Also:
+getRoleName()
+
+
+"
+RoleUnresolved,setRoleValue(List<ObjectName> value),void,Sets role value.,"
+
+setRoleValue
+public void setRoleValue(List<ObjectName> value)
+Sets role value.
+
+Parameters:
+value - List of ObjectName objects for referenced
+ MBeans not set in role.
+See Also:
+getRoleValue()
+
+
+"
+RoleUnresolved,toString(),String,Return a string describing this object.,"
+
+toString
+public String toString()
+Return a string describing this object.
+
+Overrides:
+toString in class Object
+Returns:
+a description of this RoleUnresolved object.
+
+
+"
+RoleUnresolvedList,"add(int index, Object element)",void,Inserts the specified element at the specified position in this list.,"
+
+add
+public void add(int index,
+                Object element)
+Description copied from class: ArrayList
+Inserts the specified element at the specified position in this
+ list. Shifts the element currently at that position (if any) and
+ any subsequent elements to the right (adds one to their indices).
+
+Specified by:
+add in interface List<Object>
+Overrides:
+add in class ArrayList<Object>
+Parameters:
+index - index at which the specified element is to be inserted
+element - element to be inserted
+
+
+"
+RoleUnresolvedList,"add(int index, RoleUnresolved role)",void,Inserts the unresolved role specified as an element at the position specified.,"
+
+add
+public void add(int index,
+                RoleUnresolved role)
+         throws IllegalArgumentException,
+                IndexOutOfBoundsException
+Inserts the unresolved role specified as an element at the position
+ specified.
+ Elements with an index greater than or equal to the current position are
+ shifted up.
+
+Parameters:
+index - - The position in the list where the new
+ RoleUnresolved object is to be inserted.
+role - - The RoleUnresolved object to be inserted.
+Throws:
+IllegalArgumentException - if the unresolved role is null.
+IndexOutOfBoundsException - if index is out of range
+ (index < 0 || index > size()).
+
+
+"
+RoleUnresolvedList,add(Object o),boolean,Appends the specified element to the end of this list.,"
+
+add
+public boolean add(Object o)
+Description copied from class: ArrayList
+Appends the specified element to the end of this list.
+
+Specified by:
+add in interface Collection<Object>
+Specified by:
+add in interface List<Object>
+Overrides:
+add in class ArrayList<Object>
+Parameters:
+o - element to be appended to this list
+Returns:
+true (as specified by Collection.add(E))
+
+
+"
+RoleUnresolvedList,add(RoleUnresolved role),void,Adds the RoleUnresolved specified as the last element of the list.,"
+
+add
+public void add(RoleUnresolved role)
+         throws IllegalArgumentException
+Adds the RoleUnresolved specified as the last element of the list.
+
+Parameters:
+role - - the unresolved role to be added.
+Throws:
+IllegalArgumentException - if the unresolved role is null.
+
+
+"
+RoleUnresolvedList,addAll(Collection<?> c),boolean,"Appends all of the elements in the specified collection to the end of this list, in the order that they are returned by the specified collection's Iterator.","
+
+addAll
+public boolean addAll(Collection<?> c)
+Description copied from class: ArrayList
+Appends all of the elements in the specified collection to the end of
+ this list, in the order that they are returned by the
+ specified collection's Iterator.  The behavior of this operation is
+ undefined if the specified collection is modified while the operation
+ is in progress.  (This implies that the behavior of this call is
+ undefined if the specified collection is this list, and this
+ list is nonempty.)
+
+Specified by:
+addAll in interface Collection<Object>
+Specified by:
+addAll in interface List<Object>
+Overrides:
+addAll in class ArrayList<Object>
+Parameters:
+c - collection containing elements to be added to this list
+Returns:
+true if this list changed as a result of the call
+See Also:
+AbstractCollection.add(Object)
+
+
+"
+RoleUnresolvedList,"addAll(int index, Collection<?> c)",boolean,"Inserts all of the elements in the specified collection into this list, starting at the specified position.","
+
+addAll
+public boolean addAll(int index,
+                      Collection<?> c)
+Description copied from class: ArrayList
+Inserts all of the elements in the specified collection into this
+ list, starting at the specified position.  Shifts the element
+ currently at that position (if any) and any subsequent elements to
+ the right (increases their indices).  The new elements will appear
+ in the list in the order that they are returned by the
+ specified collection's iterator.
+
+Specified by:
+addAll in interface List<Object>
+Overrides:
+addAll in class ArrayList<Object>
+Parameters:
+index - index at which to insert the first element from the
+              specified collection
+c - collection containing elements to be added to this list
+Returns:
+true if this list changed as a result of the call
+
+
+"
+RoleUnresolvedList,"addAll(int index, RoleUnresolvedList roleList)",boolean,"Inserts all of the elements in the RoleUnresolvedList specified into this list, starting at the specified position, in the order in which they are returned by the Iterator of the RoleUnresolvedList specified.","
+
+addAll
+public boolean addAll(int index,
+                      RoleUnresolvedList roleList)
+               throws IllegalArgumentException,
+                      IndexOutOfBoundsException
+Inserts all of the elements in the RoleUnresolvedList specified into
+ this list, starting at the specified position, in the order in which
+ they are returned by the Iterator of the RoleUnresolvedList specified.
+
+Parameters:
+index - - Position at which to insert the first element from the
+ RoleUnresolvedList specified.
+roleList - - Elements to be inserted into the list.
+Returns:
+true if this list changed as a result of the call.
+Throws:
+IllegalArgumentException - if the role is null.
+IndexOutOfBoundsException - if index is out of range
+ (index < 0 || index > size()).
+
+
+"
+RoleUnresolvedList,addAll(RoleUnresolvedList roleList),boolean,"Appends all the elements in the RoleUnresolvedList specified to the end of the list, in the order in which they are returned by the Iterator of the RoleUnresolvedList specified.","
+
+addAll
+public boolean addAll(RoleUnresolvedList roleList)
+               throws IndexOutOfBoundsException
+Appends all the elements in the RoleUnresolvedList specified to the end
+ of the list, in the order in which they are returned by the Iterator of
+ the RoleUnresolvedList specified.
+
+Parameters:
+roleList - - Elements to be inserted into the list
+ (can be null).
+Returns:
+true if this list changed as a result of the call.
+Throws:
+IndexOutOfBoundsException - if accessing with an index
+ outside of the list.
+
+
+"
+RoleUnresolvedList,asList(),List<RoleUnresolved>,Return a view of this list as a List<RoleUnresolved>.,"
+
+asList
+public List<RoleUnresolved> asList()
+Return a view of this list as a List<RoleUnresolved>.
+ Changes to the returned value are reflected by changes
+ to the original RoleUnresolvedList and vice versa.
+
+Returns:
+a List<RoleUnresolved> whose contents
+ reflect the contents of this RoleUnresolvedList.
+
+ If this method has ever been called on a given
+ RoleUnresolvedList instance, a subsequent attempt to add
+ an object to that instance which is not a RoleUnresolved
+ will fail with an IllegalArgumentException. For compatibility
+ reasons, a RoleUnresolvedList on which this method has never
+ been called does allow objects other than RoleUnresolveds to
+ be added.
+Throws:
+IllegalArgumentException - if this RoleUnresolvedList
+ contains an element that is not a RoleUnresolved.
+Since:
+1.6
+
+
+"
+RoleUnresolvedList,"set(int index, Object element)",Object,Replaces the element at the specified position in this list with the specified element.,"
+
+set
+public Object set(int index,
+                  Object element)
+Description copied from class: ArrayList
+Replaces the element at the specified position in this list with
+ the specified element.
+
+Specified by:
+set in interface List<Object>
+Overrides:
+set in class ArrayList<Object>
+Parameters:
+index - index of the element to replace
+element - element to be stored at the specified position
+Returns:
+the element previously at the specified position
+
+
+"
+RoleUnresolvedList,"set(int index, RoleUnresolved role)",void,Sets the element at the position specified to be the unresolved role specified.,"
+
+set
+public void set(int index,
+                RoleUnresolved role)
+         throws IllegalArgumentException,
+                IndexOutOfBoundsException
+Sets the element at the position specified to be the unresolved role
+ specified.
+ The previous element at that position is discarded.
+
+Parameters:
+index - - The position specified.
+role - - The value to which the unresolved role element
+ should be set.
+Throws:
+IllegalArgumentException - if the unresolved role is null.
+IndexOutOfBoundsException - if index is out of range
+ (index < 0 || index >= size()).
+
+
+"

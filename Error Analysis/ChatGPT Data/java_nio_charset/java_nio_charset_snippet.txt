@@ -1,0 +1,236 @@
+Sample: 0 Charset_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.Charset;
+import java.util.SortedMap;
+
+public class Main {
+    public static void main(String[] args) {
+        SortedMap<String, Charset> charsets = Charset.availableCharsets();
+        System.out.println("Available Charsets:");
+        charsets.forEach((key, value) -> System.out.println(key + " : " + value));
+    }
+}
+```
+================================================================
+
+Sample: 1 Charset_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.Charset;
+
+public class Main {
+    public static void main(String[] args) {
+        Charset charset = Charset.forName("UTF-8");
+        System.out.println("Charset name: " + charset.name());
+        System.out.println("Charset display name: " + charset.displayName());
+        System.out.println("Charset aliases: " + charset.aliases());
+    }
+}
+```
+================================================================
+
+Sample: 2 Charset_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
+
+public class Main {
+    public static void main(String[] args) {
+        Charset charset = Charset.forName("UTF-8");
+        CharsetDecoder decoder = charset.newDecoder()
+                .onMalformedInput(CodingErrorAction.REPORT)
+                .onUnmappableCharacter(CodingErrorAction.REPORT);
+                
+        // Further usage of the decoder can be implemented here
+    }
+}
+```
+================================================================
+
+Sample: 3 Charset_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.StandardCharsets;
+
+public class Main {
+    public static void main(String[] args) {
+        Charset charset = StandardCharsets.UTF_8;
+        CharsetEncoder encoder = charset.newEncoder();
+        
+        // Your code using the CharsetEncoder here
+    }
+}
+```
+================================================================
+
+Sample: 4 CharsetDecoder_1
+----------------------------------------------------------------
+`Charset charset()`: This method returns the charset that created this decoder.
+
+Code snippet:
+```java
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+
+public class Main {
+    public static void main(String[] args) {
+        CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
+        Charset charset = decoder.charset();
+        System.out.println("Charset: " + charset);
+    }
+}
+```
+================================================================
+
+Sample: 5 CharsetDecoder_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
+
+public class Main {
+    public static void main(String[] args) {
+        CharsetDecoder decoder = CharsetDecoder
+                .newDecoder()
+                .onMalformedInput(CodingErrorAction.REPLACE)
+                .onUnmappableCharacter(CodingErrorAction.REPLACE);
+        
+        System.out.println("CharsetDecoder configured with Malformed Input Action: " + decoder.malformedInputAction());
+    }
+}
+```
+================================================================
+
+Sample: 6 CharsetDecoder_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
+
+public class Main {
+    public static void main(String[] args) {
+        CharsetDecoder decoder = CharsetDecoder
+                                    .forName("UTF-8")
+                                    .onMalformedInput(CodingErrorAction.IGNORE);
+        System.out.println("CharsetDecoder configured with IGNORE for malformed input");
+    }
+}
+```
+================================================================
+
+Sample: 7 CharsetDecoder_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
+
+public class Main {
+    public static void main(String[] args) {
+        CharsetDecoder decoder = CharsetDecoder.forName("UTF-8").newDecoder();
+        CodingErrorAction action = CodingErrorAction.REPORT;
+        
+        decoder.onUnmappableCharacter(action);
+    }
+}
+```
+================================================================
+
+Sample: 8 CharsetEncoder_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.Charset;
+
+public class Main {
+    public static void main(String[] args) {
+        Charset charset = Charset.forName("UTF-8");
+        CharsetEncoder encoder = charset.newEncoder();
+        
+        char c = 'A';
+        boolean canEncode = encoder.canEncode(c);
+        
+        System.out.println("Can encode character '" + c + "': " + canEncode);
+    }
+}
+```
+================================================================
+
+Sample: 9 CharsetEncoder_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
+
+public class Main {
+    public static void main(String[] args) {
+        Charset charset = Charset.forName("UTF-8");
+        CharsetEncoder encoder = charset.newEncoder();
+        
+        System.out.println("Charset: " + charset);
+        System.out.println("Charset encoder: " + encoder);
+    }
+}
+```
+================================================================
+
+Sample: 10 CharsetEncoder_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.CharsetEncoder;
+
+public class Main {
+    public static void main(String[] args) {
+        CharsetEncoder encoder = Charset.forName("UTF-8").newEncoder();
+        byte[] replacement = {63}; // Example byte array
+        boolean isLegal = encoder.isLegalReplacement(replacement);
+        System.out.println("Is legal replacement: " + isLegal);
+    }
+}
+```
+================================================================
+
+Sample: 11 CoderResult_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.CoderResult;
+
+public class Main {
+    public static void main(String[] args) {
+        CoderResult result = CoderResult.malformedForLength(5);
+        System.out.println(result.toString());
+    }
+}
+```
+================================================================
+
+Sample: 12 CoderResult_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.*;
+
+public class Main {
+    public static void main(String[] args) {
+        CoderResult result = CoderResult.unmappableForLength(5);
+        System.out.println(result.toString());
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,783 @@
+ClassName,Method,Return Type,Description,Full Description
+AbstractInterruptibleChannel,begin(),protected void,Marks the beginning of an I/O operation that might block indefinitely.,"
+
+begin
+protected final void begin()
+Marks the beginning of an I/O operation that might block indefinitely.
+
+  This method should be invoked in tandem with the end
+ method, using a try ... finally block as
+ shown above, in order to implement asynchronous
+ closing and interruption for this channel.  
+
+"
+AbstractInterruptibleChannel,close(),void,Closes this channel.,"
+
+close
+public final void close()
+                 throws IOException
+Closes this channel.
+
+  If the channel has already been closed then this method returns
+ immediately.  Otherwise it marks the channel as closed and then invokes
+ the implCloseChannel method in order to
+ complete the close operation.  
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Specified by:
+close in interface Channel
+Specified by:
+close in interface InterruptibleChannel
+Throws:
+IOException - If an I/O error occurs
+
+
+"
+AbstractInterruptibleChannel,end(boolean completed),protected void,Marks the end of an I/O operation that might block indefinitely.,"
+
+end
+protected final void end(boolean completed)
+                  throws AsynchronousCloseException
+Marks the end of an I/O operation that might block indefinitely.
+
+  This method should be invoked in tandem with the begin method, using a try ... finally block
+ as shown above, in order to implement asynchronous
+ closing and interruption for this channel.  
+
+Parameters:
+completed - true if, and only if, the I/O operation completed
+         successfully, that is, had some effect that would be visible to
+         the operation's invoker
+Throws:
+AsynchronousCloseException - If the channel was asynchronously closed
+ClosedByInterruptException - If the thread blocked in the I/O operation was interrupted
+
+
+"
+AbstractInterruptibleChannel,implCloseChannel(),protected abstract void,Closes this channel.,"
+
+implCloseChannel
+protected abstract void implCloseChannel()
+                                  throws IOException
+Closes this channel.
+
+  This method is invoked by the close method in order
+ to perform the actual work of closing the channel.  This method is only
+ invoked if the channel has not yet been closed, and it is never invoked
+ more than once.
+
+  An implementation of this method must arrange for any other thread
+ that is blocked in an I/O operation upon this channel to return
+ immediately, either by throwing an exception or by returning normally.
+ 
+
+Throws:
+IOException - If an I/O error occurs while closing the channel
+
+
+"
+AbstractInterruptibleChannel,isOpen(),boolean,Tells whether or not this channel is open.,"
+
+isOpen
+public final boolean isOpen()
+Description copied from interface: Channel
+Tells whether or not this channel is open.
+
+Specified by:
+isOpen in interface Channel
+Returns:
+true if, and only if, this channel is open
+
+
+"
+AbstractSelectableChannel,blockingLock(),Object,Retrieves the object upon which the configureBlocking and register methods synchronize.,"
+
+blockingLock
+public final Object blockingLock()
+Description copied from class: SelectableChannel
+Retrieves the object upon which the configureBlocking and register methods synchronize.
+ This is often useful in the implementation of adaptors that require a
+ specific blocking mode to be maintained for a short period of time.
+
+Specified by:
+blockingLock in class SelectableChannel
+Returns:
+The blocking-mode lock object
+
+
+"
+AbstractSelectableChannel,configureBlocking(boolean block),SelectableChannel,Adjusts this channel's blocking mode.,"
+
+configureBlocking
+public final SelectableChannel configureBlocking(boolean block)
+                                          throws IOException
+Adjusts this channel's blocking mode.
+
+  If the given blocking mode is different from the current blocking
+ mode then this method invokes the implConfigureBlocking method, while holding the appropriate locks, in
+ order to change the mode.  
+
+Specified by:
+configureBlocking in class SelectableChannel
+Parameters:
+block - If true then this channel will be placed in
+                blocking mode; if false then it will be placed
+                non-blocking mode
+Returns:
+This selectable channel
+Throws:
+ClosedChannelException - If this channel is closed
+IOException - If an I/O error occurs
+
+
+"
+AbstractSelectableChannel,implCloseChannel(),protected void,Closes this channel.,"
+
+implCloseChannel
+protected final void implCloseChannel()
+                               throws IOException
+Closes this channel.
+
+  This method, which is specified in the AbstractInterruptibleChannel class and is invoked by the close method, in turn invokes the
+ implCloseSelectableChannel method in
+ order to perform the actual work of closing this channel.  It then
+ cancels all of this channel's keys.  
+
+Specified by:
+implCloseChannel in class AbstractInterruptibleChannel
+Throws:
+IOException - If an I/O error occurs while closing the channel
+
+
+"
+AbstractSelectableChannel,implCloseSelectableChannel(),protected abstract void,Closes this selectable channel.,"
+
+implCloseSelectableChannel
+protected abstract void implCloseSelectableChannel()
+                                            throws IOException
+Closes this selectable channel.
+
+  This method is invoked by the close method in order to perform the actual work of closing the
+ channel.  This method is only invoked if the channel has not yet been
+ closed, and it is never invoked more than once.
+
+  An implementation of this method must arrange for any other thread
+ that is blocked in an I/O operation upon this channel to return
+ immediately, either by throwing an exception or by returning normally.
+ 
+
+Throws:
+IOException - If an I/O error occurs
+
+
+"
+AbstractSelectableChannel,implConfigureBlocking(boolean block),protected abstract void,Adjusts this channel's blocking mode.,"
+
+implConfigureBlocking
+protected abstract void implConfigureBlocking(boolean block)
+                                       throws IOException
+Adjusts this channel's blocking mode.
+
+  This method is invoked by the configureBlocking method in order to perform the actual work of
+ changing the blocking mode.  This method is only invoked if the new mode
+ is different from the current mode.  
+
+Parameters:
+block - If true then this channel will be placed in
+                blocking mode; if false then it will be placed
+                non-blocking mode
+Throws:
+IOException - If an I/O error occurs
+
+
+"
+AbstractSelectableChannel,isBlocking(),boolean,Tells whether or not every I/O operation on this channel will block until it completes.,"
+
+isBlocking
+public final boolean isBlocking()
+Description copied from class: SelectableChannel
+Tells whether or not every I/O operation on this channel will block
+ until it completes.  A newly-created channel is always in blocking mode.
+
+  If this channel is closed then the value returned by this method is
+ not specified. 
+
+Specified by:
+isBlocking in class SelectableChannel
+Returns:
+true if, and only if, this channel is in blocking mode
+
+
+"
+AbstractSelectableChannel,isRegistered(),boolean,Tells whether or not this channel is currently registered with any selectors.,"
+
+isRegistered
+public final boolean isRegistered()
+Description copied from class: SelectableChannel
+Tells whether or not this channel is currently registered with any
+ selectors.  A newly-created channel is not registered.
+
+  Due to the inherent delay between key cancellation and channel
+ deregistration, a channel may remain registered for some time after all
+ of its keys have been cancelled.  A channel may also remain registered
+ for some time after it is closed.  
+
+Specified by:
+isRegistered in class SelectableChannel
+Returns:
+true if, and only if, this channel is registered
+
+
+"
+AbstractSelectableChannel,keyFor(Selector sel),SelectionKey,Retrieves the key representing the channel's registration with the given selector.,"
+
+keyFor
+public final SelectionKey keyFor(Selector sel)
+Description copied from class: SelectableChannel
+Retrieves the key representing the channel's registration with the given
+ selector.
+
+Specified by:
+keyFor in class SelectableChannel
+Parameters:
+sel - The selector
+Returns:
+The key returned when this channel was last registered with the
+          given selector, or null if this channel is not
+          currently registered with that selector
+
+
+"
+AbstractSelectableChannel,provider(),SelectorProvider,Returns the provider that created this channel.,"
+
+provider
+public final SelectorProvider provider()
+Returns the provider that created this channel.
+
+Specified by:
+provider in class SelectableChannel
+Returns:
+The provider that created this channel
+
+
+"
+AbstractSelectableChannel,"register(Selector sel, int ops, Object att)",SelectionKey,"Registers this channel with the given selector, returning a selection key.","
+
+register
+public final SelectionKey register(Selector sel,
+                                   int ops,
+                                   Object att)
+                            throws ClosedChannelException
+Registers this channel with the given selector, returning a selection key.
+
+   This method first verifies that this channel is open and that the
+ given initial interest set is valid.
+
+  If this channel is already registered with the given selector then
+ the selection key representing that registration is returned after
+ setting its interest set to the given value.
+
+  Otherwise this channel has not yet been registered with the given
+ selector, so the register method of
+ the selector is invoked while holding the appropriate locks.  The
+ resulting key is added to this channel's key set before being returned.
+ 
+
+Specified by:
+register in class SelectableChannel
+Parameters:
+sel - The selector with which this channel is to be registered
+ops - The interest set for the resulting key
+att - The attachment for the resulting key; may be null
+Returns:
+A key representing the registration of this channel with
+          the given selector
+Throws:
+ClosedSelectorException - If the selector is closed
+IllegalBlockingModeException - If this channel is in blocking mode
+IllegalSelectorException - If this channel was not created by the same provider
+          as the given selector
+CancelledKeyException - If this channel is currently registered with the given selector
+          but the corresponding key has already been cancelled
+IllegalArgumentException - If a bit in the ops set does not correspond to an
+          operation that is supported by this channel, that is, if
+          set & ~validOps() != 0
+ClosedChannelException - If this channel is closed
+
+
+"
+AbstractSelectionKey,cancel(),void,Cancels this key.,"
+
+cancel
+public final void cancel()
+Cancels this key.
+
+  If this key has not yet been cancelled then it is added to its
+ selector's cancelled-key set while synchronized on that set.  
+
+Specified by:
+cancel in class SelectionKey
+
+
+"
+AbstractSelectionKey,isValid(),boolean,Tells whether or not this key is valid.,"
+
+isValid
+public final boolean isValid()
+Description copied from class: SelectionKey
+Tells whether or not this key is valid.
+
+  A key is valid upon creation and remains so until it is cancelled,
+ its channel is closed, or its selector is closed.  
+
+Specified by:
+isValid in class SelectionKey
+Returns:
+true if, and only if, this key is valid
+
+
+"
+AbstractSelector,begin(),protected void,Marks the beginning of an I/O operation that might block indefinitely.,"
+
+begin
+protected final void begin()
+Marks the beginning of an I/O operation that might block indefinitely.
+
+  This method should be invoked in tandem with the end
+ method, using a try ... finally block as
+ shown above, in order to implement interruption for
+ this selector.
+
+  Invoking this method arranges for the selector's wakeup method to be invoked if a thread's interrupt method is invoked while the thread is
+ blocked in an I/O operation upon the selector.  
+
+"
+AbstractSelector,cancelledKeys(),protected Set<SelectionKey>,Retrieves this selector's cancelled-key set.,"
+
+cancelledKeys
+protected final Set<SelectionKey> cancelledKeys()
+Retrieves this selector's cancelled-key set.
+
+  This set should only be used while synchronized upon it.  
+
+Returns:
+The cancelled-key set
+
+
+"
+AbstractSelector,close(),void,Closes this selector.,"
+
+close
+public final void close()
+                 throws IOException
+Closes this selector.
+
+  If the selector has already been closed then this method returns
+ immediately.  Otherwise it marks the selector as closed and then invokes
+ the implCloseSelector method in order to
+ complete the close operation.  
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Specified by:
+close in class Selector
+Throws:
+IOException - If an I/O error occurs
+
+
+"
+AbstractSelector,deregister(AbstractSelectionKey key),protected void,Removes the given key from its channel's key set.,"
+
+deregister
+protected final void deregister(AbstractSelectionKey key)
+Removes the given key from its channel's key set.
+
+  This method must be invoked by the selector for each channel that it
+ deregisters.  
+
+Parameters:
+key - The selection key to be removed
+
+
+"
+AbstractSelector,end(),protected void,Marks the end of an I/O operation that might block indefinitely.,"
+
+end
+protected final void end()
+Marks the end of an I/O operation that might block indefinitely.
+
+  This method should be invoked in tandem with the begin
+ method, using a try ... finally block as
+ shown above, in order to implement interruption for
+ this selector.  
+
+"
+AbstractSelector,implCloseSelector(),protected abstract void,Closes this selector.,"
+
+implCloseSelector
+protected abstract void implCloseSelector()
+                                   throws IOException
+Closes this selector.
+
+  This method is invoked by the close method in order
+ to perform the actual work of closing the selector.  This method is only
+ invoked if the selector has not yet been closed, and it is never invoked
+ more than once.
+
+  An implementation of this method must arrange for any other thread
+ that is blocked in a selection operation upon this selector to return
+ immediately as if by invoking the wakeup method. 
+
+Throws:
+IOException - If an I/O error occurs while closing the selector
+
+
+"
+AbstractSelector,isOpen(),boolean,Tells whether or not this selector is open.,"
+
+isOpen
+public final boolean isOpen()
+Description copied from class: Selector
+Tells whether or not this selector is open.
+
+Specified by:
+isOpen in class Selector
+Returns:
+true if, and only if, this selector is open
+
+
+"
+AbstractSelector,provider(),SelectorProvider,Returns the provider that created this channel.,"
+
+provider
+public final SelectorProvider provider()
+Returns the provider that created this channel.
+
+Specified by:
+provider in class Selector
+Returns:
+The provider that created this channel
+
+
+"
+AbstractSelector,"register(AbstractSelectableChannel ch, int ops, Object att)",protected abstract SelectionKey,Registers the given channel with this selector.,"
+
+register
+protected abstract SelectionKey register(AbstractSelectableChannel ch,
+                                         int ops,
+                                         Object att)
+Registers the given channel with this selector.
+
+  This method is invoked by a channel's register method in order to perform
+ the actual work of registering the channel with this selector.  
+
+Parameters:
+ch - The channel to be registered
+ops - The initial interest set, which must be valid
+att - The initial attachment for the resulting key
+Returns:
+A new key representing the registration of the given channel
+          with this selector
+
+
+"
+AsynchronousChannelProvider,"openAsynchronousChannelGroup(ExecutorService executor, int initialSize)",abstract AsynchronousChannelGroup,Constructs a new asynchronous channel group with the given thread pool.,"
+
+openAsynchronousChannelGroup
+public abstract AsynchronousChannelGroup openAsynchronousChannelGroup(ExecutorService executor,
+                                                                      int initialSize)
+                                                               throws IOException
+Constructs a new asynchronous channel group with the given thread pool.
+
+Parameters:
+executor - The thread pool
+initialSize - A value >=0 or a negative value for implementation
+          specific default
+Returns:
+A new asynchronous channel group
+Throws:
+IOException - If an I/O error occurs
+See Also:
+AsynchronousChannelGroup.withCachedThreadPool(java.util.concurrent.ExecutorService, int)
+
+
+"
+AsynchronousChannelProvider,"openAsynchronousChannelGroup(int nThreads, ThreadFactory threadFactory)",abstract AsynchronousChannelGroup,Constructs a new asynchronous channel group with a fixed thread pool.,"
+
+openAsynchronousChannelGroup
+public abstract AsynchronousChannelGroup openAsynchronousChannelGroup(int nThreads,
+                                                                      ThreadFactory threadFactory)
+                                                               throws IOException
+Constructs a new asynchronous channel group with a fixed thread pool.
+
+Parameters:
+nThreads - The number of threads in the pool
+threadFactory - The factory to use when creating new threads
+Returns:
+A new asynchronous channel group
+Throws:
+IllegalArgumentException - If nThreads <= 0
+IOException - If an I/O error occurs
+See Also:
+AsynchronousChannelGroup.withFixedThreadPool(int, java.util.concurrent.ThreadFactory)
+
+
+"
+AsynchronousChannelProvider,openAsynchronousServerSocketChannel(AsynchronousChannelGroup group),abstract AsynchronousServerSocketChannel,Opens an asynchronous server-socket channel.,"
+
+openAsynchronousServerSocketChannel
+public abstract AsynchronousServerSocketChannel openAsynchronousServerSocketChannel(AsynchronousChannelGroup group)
+                                                                             throws IOException
+Opens an asynchronous server-socket channel.
+
+Parameters:
+group - The group to which the channel is bound, or null to
+          bind to the default group
+Returns:
+The new channel
+Throws:
+IllegalChannelGroupException - If the provider that created the group differs from this provider
+ShutdownChannelGroupException - The group is shutdown
+IOException - If an I/O error occurs
+
+
+"
+AsynchronousChannelProvider,openAsynchronousSocketChannel(AsynchronousChannelGroup group),abstract AsynchronousSocketChannel,Opens an asynchronous socket channel.,"
+
+openAsynchronousSocketChannel
+public abstract AsynchronousSocketChannel openAsynchronousSocketChannel(AsynchronousChannelGroup group)
+                                                                 throws IOException
+Opens an asynchronous socket channel.
+
+Parameters:
+group - The group to which the channel is bound, or null to
+          bind to the default group
+Returns:
+The new channel
+Throws:
+IllegalChannelGroupException - If the provider that created the group differs from this provider
+ShutdownChannelGroupException - The group is shutdown
+IOException - If an I/O error occurs
+
+
+"
+AsynchronousChannelProvider,provider(),static AsynchronousChannelProvider,Returns the system-wide default asynchronous channel provider for this invocation of the Java virtual machine.,"
+
+provider
+public static AsynchronousChannelProvider provider()
+Returns the system-wide default asynchronous channel provider for this
+ invocation of the Java virtual machine.
+
+  The first invocation of this method locates the default provider
+ object as follows: 
+
+ If the system property
+   java.nio.channels.spi.AsynchronousChannelProvider is defined
+   then it is taken to be the fully-qualified name of a concrete provider class.
+   The class is loaded and instantiated; if this process fails then an
+   unspecified error is thrown.  
+ If a provider class has been installed in a jar file that is
+   visible to the system class loader, and that jar file contains a
+   provider-configuration file named
+   java.nio.channels.spi.AsynchronousChannelProvider in the resource
+   directory META-INF/services, then the first class name
+   specified in that file is taken.  The class is loaded and
+   instantiated; if this process fails then an unspecified error is
+   thrown.  
+ Finally, if no provider has been specified by any of the above
+   means then the system-default provider class is instantiated and the
+   result is returned.  
+
+ Subsequent invocations of this method return the provider that was
+ returned by the first invocation.  
+
+Returns:
+The system-wide default AsynchronousChannel provider
+
+
+"
+SelectorProvider,inheritedChannel(),Channel,Returns the channel inherited from the entity that created this Java virtual machine.,"
+
+inheritedChannel
+public Channel inheritedChannel()
+                         throws IOException
+Returns the channel inherited from the entity that created this
+ Java virtual machine.
+
+  On many operating systems a process, such as a Java virtual
+ machine, can be started in a manner that allows the process to
+ inherit a channel from the entity that created the process. The
+ manner in which this is done is system dependent, as are the
+ possible entities to which the channel may be connected. For example,
+ on UNIX systems, the Internet services daemon (inetd) is used to
+ start programs to service requests when a request arrives on an
+ associated network port. In this example, the process that is started,
+ inherits a channel representing a network socket.
+
+  In cases where the inherited channel represents a network socket
+ then the Channel type returned
+ by this method is determined as follows:
+
+ 
+ If the inherited channel represents a stream-oriented connected
+  socket then a SocketChannel is
+  returned. The socket channel is, at least initially, in blocking
+  mode, bound to a socket address, and connected to a peer.
+  
+ If the inherited channel represents a stream-oriented listening
+  socket then a ServerSocketChannel is returned. The server-socket channel is, at
+  least initially, in blocking mode, and bound to a socket address.
+  
+ If the inherited channel is a datagram-oriented socket
+  then a DatagramChannel is
+  returned. The datagram channel is, at least initially, in blocking
+  mode, and bound to a socket address.
+  
+
+ In addition to the network-oriented channels described, this method
+ may return other kinds of channels in the future.
+
+  The first invocation of this method creates the channel that is
+ returned. Subsequent invocations of this method return the same
+ channel. 
+
+Returns:
+The inherited channel, if any, otherwise null.
+Throws:
+IOException - If an I/O error occurs
+SecurityException - If a security manager has been installed and it denies
+          RuntimePermission(""inheritedChannel"")
+Since:
+1.5
+
+
+"
+SelectorProvider,openDatagramChannel(),abstract DatagramChannel,Opens a datagram channel.,"
+
+openDatagramChannel
+public abstract DatagramChannel openDatagramChannel()
+                                             throws IOException
+Opens a datagram channel.
+
+Returns:
+The new channel
+Throws:
+IOException - If an I/O error occurs
+
+
+"
+SelectorProvider,openDatagramChannel(ProtocolFamily family),abstract DatagramChannel,Opens a datagram channel.,"
+
+openDatagramChannel
+public abstract DatagramChannel openDatagramChannel(ProtocolFamily family)
+                                             throws IOException
+Opens a datagram channel.
+
+Parameters:
+family - The protocol family
+Returns:
+A new datagram channel
+Throws:
+UnsupportedOperationException - If the specified protocol family is not supported
+IOException - If an I/O error occurs
+Since:
+1.7
+
+
+"
+SelectorProvider,openPipe(),abstract Pipe,Opens a pipe.,"
+
+openPipe
+public abstract Pipe openPipe()
+                       throws IOException
+Opens a pipe.
+
+Returns:
+The new pipe
+Throws:
+IOException - If an I/O error occurs
+
+
+"
+SelectorProvider,openSelector(),abstract AbstractSelector,Opens a selector.,"
+
+openSelector
+public abstract AbstractSelector openSelector()
+                                       throws IOException
+Opens a selector.
+
+Returns:
+The new selector
+Throws:
+IOException - If an I/O error occurs
+
+
+"
+SelectorProvider,openServerSocketChannel(),abstract ServerSocketChannel,Opens a server-socket channel.,"
+
+openServerSocketChannel
+public abstract ServerSocketChannel openServerSocketChannel()
+                                                     throws IOException
+Opens a server-socket channel.
+
+Returns:
+The new channel
+Throws:
+IOException - If an I/O error occurs
+
+
+"
+SelectorProvider,openSocketChannel(),abstract SocketChannel,Opens a socket channel.,"
+
+openSocketChannel
+public abstract SocketChannel openSocketChannel()
+                                         throws IOException
+Opens a socket channel.
+
+Returns:
+The new channel
+Throws:
+IOException - If an I/O error occurs
+
+
+"
+SelectorProvider,provider(),static SelectorProvider,Returns the system-wide default selector provider for this invocation of the Java virtual machine.,"
+
+provider
+public static SelectorProvider provider()
+Returns the system-wide default selector provider for this invocation of
+ the Java virtual machine.
+
+  The first invocation of this method locates the default provider
+ object as follows: 
+
+ If the system property
+   java.nio.channels.spi.SelectorProvider is defined then it is
+   taken to be the fully-qualified name of a concrete provider class.
+   The class is loaded and instantiated; if this process fails then an
+   unspecified error is thrown.  
+ If a provider class has been installed in a jar file that is
+   visible to the system class loader, and that jar file contains a
+   provider-configuration file named
+   java.nio.channels.spi.SelectorProvider in the resource
+   directory META-INF/services, then the first class name
+   specified in that file is taken.  The class is loaded and
+   instantiated; if this process fails then an unspecified error is
+   thrown.  
+ Finally, if no provider has been specified by any of the above
+   means then the system-default provider class is instantiated and the
+   result is returned.  
+
+ Subsequent invocations of this method return the provider that was
+ returned by the first invocation.  
+
+Returns:
+The system-wide default selector provider
+
+
+"

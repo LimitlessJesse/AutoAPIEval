@@ -1,0 +1,234 @@
+Sample: 0 ParameterBlock_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.renderable.ParameterBlock;
+
+public class Main {
+    public static void main(String[] args) {
+        ParameterBlock pb = new ParameterBlock();
+        pb.addSource("source1");
+        pb.addSource("source2");
+        
+        Object source = pb.getSource(1);
+        System.out.println("Source at index 1: " + source);
+    }
+}
+```
+================================================================
+
+Sample: 1 RenderableImageOp_1
+----------------------------------------------------------------
+`RenderedImage createRendering(RenderContext renderContext)`: This method creates a RenderedImage which represents the RenderableImageOp rendered according to the given RenderContext.
+
+Code snippet:
+```java
+import java.awt.image.RenderedImage;
+import java.awt.image.renderable.RenderContext;
+import java.awt.image.renderable.RenderableImageOp;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an instance of RenderableImageOp
+        RenderableImageOp renderableImageOp = new RenderableImageOp() {
+            @Override
+            public RenderedImage createRendering(RenderContext renderContext) {
+                // Implement the rendering logic here
+                return null; // Placeholder return, actual implementation needed
+            }
+        };
+        
+        // Create a RenderContext
+        RenderContext renderContext = new RenderContext(0, 0, 100, 100, null, null);
+        
+        // Call createRendering method
+        RenderedImage renderedImage = renderableImageOp.createRendering(renderContext);
+        
+        // Display the rendered image
+        System.out.println("Rendered Image: " + renderedImage);
+    }
+}
+```
+================================================================
+
+Sample: 2 RenderableImageOp_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.renderable.RenderableImage;
+import java.awt.image.RenderedImage;
+import java.awt.RenderingHints;
+
+public class Main {
+    public static void main(String[] args) {
+        RenderableImage renderableImage = new RenderableImage(); // Assuming RenderableImage is instantiated
+        int width = 100;
+        int height = 100;
+        RenderingHints hints = new RenderingHints(null); // Assuming RenderingHints object is instantiated
+        
+        RenderedImage renderedImage = renderableImage.createScaledRendering(width, height, hints);
+        // Use the renderedImage as needed
+    }
+}
+```
+================================================================
+
+Sample: 3 RenderableImageOp_4
+----------------------------------------------------------------
+`RenderedImage createDefaultRendering()`: This method gets a RenderedImage instance of the image with a default width and height in pixels. The RenderContext is automatically built with an appropriate usr2dev transform and an area of interest of the full image. All the rendering hints come from hints passed in. Implementors of this interface must ensure that there is a defined default width and height.
+
+Code snippet:
+```java
+import java.awt.image.renderable.RenderableImage;
+import java.awt.image.RenderedImage;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming you have a RenderableImageOp instance called renderableImageOp
+        RenderedImage renderedImage = renderableImageOp.createDefaultRendering();
+        // Use the renderedImage as needed
+    }
+}
+```
+================================================================
+
+Sample: 4 RenderableImageProducer_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ImageConsumer;
+import java.awt.image.renderable.RenderableImageProducer;
+
+public class Main {
+    public static void main(String[] args) {
+        RenderableImageProducer rip = new RenderableImageProducer() {
+            @Override
+            public void startProduction(ImageConsumer ic) {
+                // Add the ImageConsumer to the list of consumers
+                // and start delivery of image data
+            }
+        };
+        
+        // Example of using startProduction method
+        ImageConsumer imageConsumer = new ImageConsumer() {
+            // Implement ImageConsumer methods
+        };
+        
+        rip.startProduction(imageConsumer);
+    }
+}
+```
+================================================================
+
+Sample: 5 RenderableImageProducer_2
+----------------------------------------------------------------
+```java
+import java.awt.image.ImageConsumer;
+import java.awt.image.renderable.RenderableImageProducer;
+
+public class Main {
+    public static void main(String[] args) {
+        RenderableImageProducer rip = new RenderableImageProducer() {
+            @Override
+            public void requestTopDownLeftRightResend(ImageConsumer ic) {
+                // Implementation of the requestTopDownLeftRightResend method
+                // Requests that a given ImageConsumer have the image data delivered
+                // one more time in top-down, left-right order
+            }
+        };
+        
+        // Example of using the requestTopDownLeftRightResend method
+        ImageConsumer imageConsumer = new ImageConsumer() {
+            // Implement ImageConsumer methods
+        };
+        
+        rip.requestTopDownLeftRightResend(imageConsumer);
+    }
+}
+```
+================================================================
+
+Sample: 6 RenderableImageProducer_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.awt.image.ImageConsumer;
+import java.awt.image.renderable.RenderableImageProducer;
+
+public class Main {
+    public static void main(String[] args) {
+        RenderableImageProducer rip = new RenderableImageProducer() {
+            @Override
+            public void removeConsumer(ImageConsumer ic) {
+                // Implementation of removeConsumer method
+            }
+        };
+        
+        // Example of calling removeConsumer method
+        ImageConsumer consumer = new ImageConsumer() {
+            // Implement ImageConsumer methods
+        };
+        
+        rip.removeConsumer(consumer);
+    }
+}
+```
+================================================================
+
+Sample: 7 RenderContext_1
+----------------------------------------------------------------
+`AffineTransform getTransform()`: This method gets the current user-to-device AffineTransform.
+
+Code snippet:
+```java
+import java.awt.geom.AffineTransform;
+import java.awt.image.renderable.RenderContext;
+
+public class Main {
+    public static void main(String[] args) {
+        RenderContext renderContext = new RenderContext(new AffineTransform());
+        AffineTransform transform = renderContext.getTransform();
+        System.out.println("Current AffineTransform: " + transform);
+    }
+}
+```
+================================================================
+
+Sample: 8 RenderContext_2
+----------------------------------------------------------------
+`RenderingHints getRenderingHints()`: This method gets the rendering hints of this RenderContext.
+
+Code snippet:
+```java
+import java.awt.image.renderable.RenderContext;
+import java.awt.RenderingHints;
+
+public class Main {
+    public static void main(String[] args) {
+        RenderContext renderContext = new RenderContext(null, null);
+        RenderingHints hints = renderContext.getRenderingHints();
+        System.out.println("Rendering Hints: " + hints);
+    }
+}
+```
+================================================================
+
+Sample: 9 RenderContext_5
+----------------------------------------------------------------
+`RenderingHints getRenderingHints()`: This method gets the rendering hints of this RenderContext.
+
+Code snippet:
+```java
+import java.awt.image.renderable.RenderContext;
+import java.awt.RenderingHints;
+
+public class Main {
+    public static void main(String[] args) {
+        RenderContext renderContext = new RenderContext(null, null);
+        RenderingHints renderingHints = renderContext.getRenderingHints();
+        System.out.println(renderingHints);
+    }
+}
+```
+================================================================
+

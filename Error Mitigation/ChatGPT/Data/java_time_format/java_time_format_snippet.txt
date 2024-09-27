@@ -1,0 +1,168 @@
+Sample: 0 DateTimeFormatter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.format.DateTimeFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM uuuu");
+        String formattedDate = formatter.format(LocalDate.parse("2011-12-03"));
+        System.out.println(formattedDate); // Output: 3 Dec 2011
+    }
+}
+```
+================================================================
+
+Sample: 1 DateTimeFormatter_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
+public class Main {
+    public static void main(String[] args) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.now();
+        
+        String formattedDateTime = formatter.format(dateTime);
+        System.out.println("Formatted date-time: " + formattedDateTime);
+    }
+}
+```
+================================================================
+
+Sample: 2 DateTimeFormatter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAccessor;
+
+public class Main {
+    public static void main(String[] args) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String text = "2022-01-01 12:00:00";
+        
+        try {
+            TemporalAccessor temporalAccessor = formatter.parse(text);
+            System.out.println(temporalAccessor);
+        } catch (DateTimeParseException e) {
+            System.out.println("Unable to parse the text: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 DateTimeFormatter_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.format.DateTimeFormatter;
+import java.text.ParsePosition;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAccessor;
+
+public class Main {
+    public static void main(String[] args) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String text = "2022-01-01 12:00:00";
+        ParsePosition position = new ParsePosition(0);
+        
+        try {
+            TemporalAccessor parsedTemporal = formatter.parse(text, position);
+            System.out.println(parsedTemporal);
+            System.out.println("Index of last character parsed: " + position.getIndex());
+        } catch (DateTimeParseException e) {
+            System.out.println("Error parsing date-time: " + e.getMessage());
+            System.out.println("Error index: " + e.getErrorIndex());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Invalid position: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 DateTimeFormatter_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.time.format.DateTimeParseException;
+
+public class Main {
+    public static void main(String[] args) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH.mm[ VV]");
+        String str = "2022-12-31 23.59";
+        
+        TemporalAccessor dt = formatter.parseBest(str, ZonedDateTime::from, LocalDateTime::from);
+        
+        if (dt instanceof ZonedDateTime) {
+            ZonedDateTime zonedDateTime = ZonedDateTime.from(dt);
+            System.out.println("Parsed ZonedDateTime: " + zonedDateTime);
+        } else if (dt instanceof LocalDateTime) {
+            LocalDateTime localDateTime = LocalDateTime.from(dt);
+            System.out.println("Parsed LocalDateTime: " + localDateTime);
+        } else {
+            throw new DateTimeParseException("Unable to parse the requested result", str, 0);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 DecimalStyle_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.format.DecimalStyle;
+
+public class Main {
+    public static void main(String[] args) {
+        DecimalStyle decimalStyle = DecimalStyle.STANDARD;
+        char decimalSeparator = decimalStyle.getDecimalSeparator();
+        System.out.println("Decimal separator: " + decimalSeparator);
+    }
+}
+```
+================================================================
+
+Sample: 6 DecimalStyle_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.format.DecimalStyle;
+
+public class Main {
+    public static void main(String[] args) {
+        DecimalStyle decimalStyle = DecimalStyle.STANDARD;
+        char zeroDigit = decimalStyle.getZeroDigit();
+        System.out.println("Zero digit character: " + zeroDigit);
+    }
+}
+```
+================================================================
+
+Sample: 7 DecimalStyle_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.time.format.DecimalStyle;
+
+public class Main {
+    public static void main(String[] args) {
+        DecimalStyle decimalStyle = DecimalStyle.STANDARD;
+        System.out.println("Original Decimal Separator: " + decimalStyle.getDecimalSeparator());
+        
+        DecimalStyle newDecimalStyle = decimalStyle.withDecimalSeparator(',');
+        System.out.println("New Decimal Separator: " + newDecimalStyle.getDecimalSeparator());
+    }
+}
+```
+================================================================
+

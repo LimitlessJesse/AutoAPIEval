@@ -1,0 +1,425 @@
+Sample: 0 CallSite_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        MethodHandle mh = lookup.findStatic(Main.class, "sayHello", MethodType.methodType(void.class));
+        mh.invokeExact();
+    }
+
+    public static void sayHello() {
+        System.out.println("Hello, MethodHandle dynamicInvoker!");
+    }
+}
+```
+================================================================
+
+Sample: 1 CallSite_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) {
+        MethodType methodType = MethodType.methodType(void.class, String.class);
+        System.out.println("MethodType: " + methodType);
+    }
+}
+```
+================================================================
+
+Sample: 2 CallSite_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.CallSite;
+import java.lang.invoke.MethodHandle;
+
+public class Main {
+    public static void main(String[] args) {
+        CallSite cs = CallSite.makeSite(MethodType.methodType(void.class));
+        MethodHandle target = MethodHandles.empty(MethodType.methodType(void.class));
+        cs.setTarget(target);
+    }
+}
+```
+================================================================
+
+Sample: 3 MethodHandle_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+
+public class Main {
+    public static void main(String[] args) {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        
+        MethodHandle mh = MethodHandles.collectArguments(lookup.findStatic(
+                Main.class, "myMethod", MethodType.methodType(void.class, String.class)), 0, String[].class);
+        
+        boolean isVarargsCollector = mh.isVarargsCollector();
+        System.out.println("isVarargsCollector: " + isVarargsCollector);
+    }
+    
+    public static void myMethod(String... args) {
+        for (String arg : args) {
+            System.out.println(arg);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 MethodHandle_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) {
+        MethodType methodType = MethodType.methodType(void.class, String.class);
+        System.out.println(methodType);
+    }
+}
+```
+================================================================
+
+Sample: 5 MethodHandle_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        MethodHandle mh = lookup.findStatic(Math.class, "max", MethodType.methodType(int.class, int.class, int.class));
+        int result = (int) mh.invokeExact(10, 20);
+        System.out.println("Max value is: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 6 MethodHandle_4
+----------------------------------------------------------------
+`MethodHandle asType(MethodType newType)`: This method converts the current method handle to a method handle with a different type.
+
+Code snippet:
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        MethodType initialType = MethodType.methodType(void.class, String.class);
+        MethodHandle mh = lookup.findVirtual(Main.class, "exampleMethod", initialType);
+
+        MethodType newType = MethodType.methodType(void.class, Object.class);
+        MethodHandle convertedMH = mh.asType(newType);
+
+        Object argument = "Hello";
+        convertedMH.invokeExact(argument);
+    }
+
+    public void exampleMethod(String str) {
+        System.out.println("Received String: " + str);
+    }
+}
+```
+================================================================
+
+Sample: 7 MethodHandle_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        MethodType methodType = MethodType.methodType(String.class, Object[].class);
+        MethodHandle asVarargsCollectorHandle = lookup.findStatic(MethodHandle.class, "asVarargsCollector", methodType);
+        MethodHandle varargsCollector = (MethodHandle) asVarargsCollectorHandle.invokeExact(String[].class);
+        System.out.println(varargsCollector);
+    }
+}
+```
+================================================================
+
+Sample: 8 MethodHandles_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.invoke.MutableCallSite;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MethodHandle target = MethodHandles.constant(String.class, "Hello World");
+            MethodHandle filter = MethodHandles.filterReturnValue(target, MethodHandles.permuteArguments(MethodHandles.identity(String.class), MethodType.methodType(String.class, String.class, String.class), 1, 0));
+            
+            String result = (String) filter.invokeExact();
+            System.out.println(result);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 MethodHandles_Lookup_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.reflect.Constructor;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        Constructor<String> constructor = String.class.getConstructor(String.class);
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        MethodHandle handle = lookup.unreflectConstructor(constructor);
+        
+        String result = (String) handle.invoke("MethodHandle Example");
+        System.out.println(result);
+    }
+}
+```
+================================================================
+
+Sample: 10 MethodHandles_Lookup_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.invoke.CallSite;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            MethodHandles.Lookup lookup = MethodHandles.lookup();
+            MethodType methodType = MethodType.methodType(void.class, String.class);
+            MethodHandle methodHandle = lookup.findStatic(Main.class, "printMessage", methodType);
+
+            methodHandle.invoke("Hello MethodHandle");
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printMessage(String message) {
+        System.out.println(message);
+    }
+}
+```
+================================================================
+
+Sample: 11 MethodHandles_Lookup_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        MethodHandle mh = lookup.findVirtual(String.class, "length", MethodType.methodType(int.class));
+        String str = "Hello MethodHandle";
+        int length = (int) mh.invoke(str);
+        System.out.println("Length of the string: " + length);
+    }
+}
+```
+================================================================
+
+Sample: 12 MethodType_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) {
+        MethodType methodType = MethodType.methodType(int.class, int.class, int.class, int.class);
+        MethodType newMethodType = methodType.dropParameterTypes(1, 3);
+        System.out.println("Original Method Type: " + methodType);
+        System.out.println("New Method Type: " + newMethodType);
+    }
+}
+```
+================================================================
+
+Sample: 13 MethodType_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) {
+        MethodType methodType = MethodType.methodType(int.class);
+        int paramCount = methodType.parameterCount();
+        System.out.println("Parameter count: " + paramCount);
+    }
+}
+```
+================================================================
+
+Sample: 14 MethodType_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) {
+        MethodType mt = MethodType.methodType(void.class);
+        MethodType mtNew = mt.appendParameterTypes(int.class, String.class);
+        System.out.println(mtNew);
+    }
+}
+```
+================================================================
+
+Sample: 15 MethodType_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) {
+        MethodType mt = MethodType.methodType(void.class, int.class, Class.class);
+        System.out.println(mt.changeParameterType(1, String.class));
+    }
+}
+```
+================================================================
+
+Sample: 16 MethodType_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) {
+        MethodType mt = MethodType.genericMethodType(2, true);
+        System.out.println(mt);
+    }
+}
+```
+================================================================
+
+Sample: 17 MutableCallSite_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MutableCallSite;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+
+public class Main {
+    public static void main(String[] args) {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        MutableCallSite callSite = new MutableCallSite(MethodType.methodType(void.class, String.class));
+        MethodHandle target = lookup.findVirtual(System.out.getClass(), "println", MethodType.methodType(void.class, String.class));
+        callSite.setTarget(target);
+        
+        try {
+            callSite.dynamicInvoker().invokeExact("Hello, MutableCallSite!");
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 18 MutableCallSite_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MutableCallSite;
+import java.lang.invoke.MethodHandle;
+
+public class Main {
+    public static void main(String[] args) {
+        MutableCallSite callSite = new MutableCallSite(MethodHandles.constant(String.class, "Hello"));
+        MethodHandle target = callSite.getTarget();
+        System.out.println("Target method handle: " + target);
+    }
+}
+```
+================================================================
+
+Sample: 19 MutableCallSite_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.MutableCallSite;
+
+public class Main {
+    public static void main(String[] args) {
+        MutableCallSite[] sites = new MutableCallSite[5];
+        // Initialize MutableCallSite objects
+        for (int i = 0; i < sites.length; i++) {
+            sites[i] = new MutableCallSite(null);
+        }
+
+        // Call syncAll method to synchronize the target values of all MutableCallSite objects
+        MutableCallSite.syncAll(sites);
+
+        // Display the updated target values of all MutableCallSite objects
+        for (int i = 0; i < sites.length; i++) {
+            System.out.println("MutableCallSite[" + i + "] target value: " + sites[i].dynamicInvoker().getTarget());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 20 SwitchPoint_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.lang.invoke.SwitchPoint;
+
+public class Main {
+    public static void main(String[] args) {
+        SwitchPoint switchPoint = new SwitchPoint();
+        System.out.println("SwitchPoint has been invalidated: " + switchPoint.hasBeenInvalidated());
+    }
+}
+```
+================================================================
+

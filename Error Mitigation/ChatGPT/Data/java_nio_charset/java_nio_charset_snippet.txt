@@ -1,0 +1,270 @@
+Sample: 0 Charset_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.Charset;
+import java.util.SortedMap;
+
+public class Main {
+    public static void main(String[] args) {
+        SortedMap<String, Charset> charsets = Charset.availableCharsets();
+        
+        System.out.println("Available charsets:");
+        for (String charsetName : charsets.keySet()) {
+            System.out.println(charsetName);
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 Charset_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.Charset;
+
+public class Main {
+    public static void main(String[] args) {
+        Charset charset = Charset.defaultCharset();
+        System.out.println("Default Charset: " + charset.displayName());
+    }
+}
+```
+================================================================
+
+Sample: 2 Charset_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.Charset;
+
+public class Main {
+    public static void main(String[] args) {
+        Charset charset = Charset.forName("UTF-8");
+        System.out.println("Charset name: " + charset.name());
+    }
+}
+```
+================================================================
+
+Sample: 3 Charset_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.Charset;
+
+public class Main {
+    public static void main(String[] args) {
+        Charset charset1 = Charset.forName("UTF-8");
+        Charset charset2 = Charset.forName("ISO-8859-1");
+
+        boolean isContained = charset1.contains(charset2);
+        System.out.println("Charset2 is contained in Charset1: " + isContained);
+    }
+}
+```
+================================================================
+
+Sample: 4 Charset_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+
+public class Main {
+    public static void main(String[] args) {
+        Charset charset = Charset.forName("UTF-8");
+        CharsetDecoder decoder = charset.newDecoder();
+        System.out.println("New decoder created: " + decoder);
+    }
+}
+```
+================================================================
+
+Sample: 5 CharsetEncoder_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
+
+public class Main {
+    public static void main(String[] args) {
+        Charset charset = Charset.forName("UTF-8");
+        CharsetEncoder encoder = charset.newEncoder();
+        
+        CharBuffer charBuffer = CharBuffer.wrap("Hello, World!");
+        
+        try {
+            ByteBuffer byteBuffer = encoder.encode(charBuffer);
+            byte[] byteArray = byteBuffer.array();
+            
+            System.out.println("Encoded bytes: ");
+            for (byte b : byteArray) {
+                System.out.print(b + " ");
+            }
+        } catch (CharacterCodingException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 CharsetEncoder_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
+
+public class Main {
+    public static void main(String[] args) {
+        CharsetEncoder encoder = Charset.forName("UTF-8").newEncoder();
+        Charset charset = encoder.charset();
+        System.out.println("Charset: " + charset);
+    }
+}
+```
+================================================================
+
+Sample: 7 CharsetEncoder_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CodingErrorAction;
+
+public class Main {
+    public static void main(String[] args) {
+        CharsetEncoder encoder = CharsetEncoder.forName("UTF-8").newEncoder();
+        CodingErrorAction action = encoder.malformedInputAction();
+        System.out.println("Malformed Input Action: " + action);
+    }
+}
+```
+================================================================
+
+Sample: 8 CharsetEncoder_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CodingErrorAction;
+
+public class Main {
+    public static void main(String[] args) {
+        CharsetEncoder encoder = CharsetEncoder.forName("UTF-8").newEncoder();
+        CodingErrorAction action = encoder.unmappableCharacterAction();
+        System.out.println("Current unmappable character action: " + action);
+    }
+}
+```
+================================================================
+
+Sample: 9 CoderResult_1
+----------------------------------------------------------------
+`boolean isOverflow()`: This method tells whether or not the CoderResult object describes an overflow condition.
+
+Code snippet:
+```java
+import java.nio.charset.CoderResult;
+
+public class Main {
+    public static void main(String[] args) {
+        CoderResult coderResult = CoderResult.OVERFLOW;
+        System.out.println(coderResult.isOverflow()); // Output: true
+    }
+}
+```
+================================================================
+
+Sample: 10 CoderResult_2
+----------------------------------------------------------------
+`boolean isUnderflow()`: This method tells whether or not the CoderResult object describes an underflow condition.
+
+Code snippet:
+```java
+import java.nio.charset.CoderResult;
+
+public class Main {
+    public static void main(String[] args) {
+        CoderResult coderResult = CoderResult.UNDERFLOW;
+        boolean result = coderResult.isUnderflow();
+        System.out.println("Is underflow: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 11 CoderResult_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.CoderResult;
+
+public class Main {
+    public static void main(String[] args) {
+        CoderResult coderResult = CoderResult.malformedForLength(1);
+        System.out.println(coderResult.isError()); // Output: true
+    }
+}
+```
+================================================================
+
+Sample: 12 CoderResult_4
+----------------------------------------------------------------
+`boolean isMalformed()`: This method tells whether or not the CoderResult object describes a malformed-input error.
+
+Code snippet:
+```java
+import java.nio.charset.CoderResult;
+
+public class Main {
+    public static void main(String[] args) {
+        CoderResult coderResult = CoderResult.malformedForLength(5);
+        boolean malformed = coderResult.isMalformed();
+        System.out.println("Is Malformed: " + malformed);
+    }
+}
+```
+================================================================
+
+Sample: 13 CoderResult_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import java.nio.charset.CoderResult;
+
+public class Main {
+    public static void main(String[] args) {
+        CoderResult coderResult = CoderResult.UNDERFLOW;
+        boolean isUnmappable = coderResult.isUnmappable();
+        System.out.println("Is Unmappable: " + isUnmappable);
+    }
+}
+```
+================================================================
+
+Sample: 14 CodingErrorAction_3
+----------------------------------------------------------------
+`String toString()`: This method returns a string describing the coding-error action.
+
+Code snippet:
+```java
+import java.nio.charset.CodingErrorAction;
+
+public class Main {
+    public static void main(String[] args) {
+        CodingErrorAction action = CodingErrorAction.REPLACE;
+        System.out.println(action.toString());
+    }
+}
+```
+================================================================
+

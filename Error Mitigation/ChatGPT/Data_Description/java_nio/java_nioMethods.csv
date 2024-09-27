@@ -1,0 +1,5842 @@
+ClassName,Method,Return Type,Description,Full Description
+Buffer,array(),abstract Object,Returns the array that backs this buffer (optional operation).,"
+
+array
+public abstract Object array()
+Returns the array that backs this
+ buffer  (optional operation).
+
+  This method is intended to allow array-backed buffers to be
+ passed to native code more efficiently. Concrete subclasses
+ provide more strongly-typed return values for this method.
+
+  Modifications to this buffer's content will cause the returned
+ array's content to be modified, and vice versa.
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Returns:
+The array that backs this buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+Since:
+1.6
+
+
+"
+Buffer,arrayOffset(),abstract int,Returns the offset within this buffer's backing array of the first element of the buffer (optional operation).,"
+
+arrayOffset
+public abstract int arrayOffset()
+Returns the offset within this buffer's backing array of the first
+ element of the buffer  (optional operation).
+
+  If this buffer is backed by an array then buffer position p
+ corresponds to array index p + arrayOffset().
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Returns:
+The offset within this buffer's array
+          of the first element of the buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+Since:
+1.6
+
+
+"
+Buffer,capacity(),int,Returns this buffer's capacity.,"
+
+capacity
+public final int capacity()
+Returns this buffer's capacity.
+
+Returns:
+The capacity of this buffer
+
+
+"
+Buffer,clear(),Buffer,Clears this buffer.,"
+
+clear
+public final Buffer clear()
+Clears this buffer.  The position is set to zero, the limit is set to
+ the capacity, and the mark is discarded.
+
+  Invoke this method before using a sequence of channel-read or
+ put operations to fill this buffer.  For example:
+
+ 
+ buf.clear();     // Prepare buffer for reading
+ in.read(buf);    // Read data
+ This method does not actually erase the data in the buffer, but it
+ is named as if it did because it will most often be used in situations
+ in which that might as well be the case. 
+
+Returns:
+This buffer
+
+
+"
+Buffer,flip(),Buffer,Flips this buffer.,"
+
+flip
+public final Buffer flip()
+Flips this buffer.  The limit is set to the current position and then
+ the position is set to zero.  If the mark is defined then it is
+ discarded.
+
+  After a sequence of channel-read or put operations, invoke
+ this method to prepare for a sequence of channel-write or relative
+ get operations.  For example:
+
+ 
+ buf.put(magic);    // Prepend header
+ in.read(buf);      // Read data into rest of buffer
+ buf.flip();        // Flip buffer
+ out.write(buf);    // Write header + data to channel
+ This method is often used in conjunction with the compact method when transferring data from
+ one place to another.  
+
+Returns:
+This buffer
+
+
+"
+Buffer,hasArray(),abstract boolean,Tells whether or not this buffer is backed by an accessible array.,"
+
+hasArray
+public abstract boolean hasArray()
+Tells whether or not this buffer is backed by an accessible
+ array.
+
+  If this method returns true then the array
+ and arrayOffset methods may safely be invoked.
+ 
+
+Returns:
+true if, and only if, this buffer
+          is backed by an array and is not read-only
+Since:
+1.6
+
+
+"
+Buffer,hasRemaining(),boolean,Tells whether there are any elements between the current position and the limit.,"
+
+hasRemaining
+public final boolean hasRemaining()
+Tells whether there are any elements between the current position and
+ the limit.
+
+Returns:
+true if, and only if, there is at least one element
+          remaining in this buffer
+
+
+"
+Buffer,isDirect(),abstract boolean,Tells whether or not this buffer is direct.,"
+
+isDirect
+public abstract boolean isDirect()
+Tells whether or not this buffer is
+ direct.
+
+Returns:
+true if, and only if, this buffer is direct
+Since:
+1.6
+
+
+"
+Buffer,isReadOnly(),abstract boolean,Tells whether or not this buffer is read-only.,"
+
+isReadOnly
+public abstract boolean isReadOnly()
+Tells whether or not this buffer is read-only.
+
+Returns:
+true if, and only if, this buffer is read-only
+
+
+"
+Buffer,limit(),int,Returns this buffer's limit.,"
+
+limit
+public final int limit()
+Returns this buffer's limit.
+
+Returns:
+The limit of this buffer
+
+
+"
+Buffer,limit(int newLimit),Buffer,Sets this buffer's limit.,"
+
+limit
+public final Buffer limit(int newLimit)
+Sets this buffer's limit.  If the position is larger than the new limit
+ then it is set to the new limit.  If the mark is defined and larger than
+ the new limit then it is discarded.
+
+Parameters:
+newLimit - The new limit value; must be non-negative
+         and no larger than this buffer's capacity
+Returns:
+This buffer
+Throws:
+IllegalArgumentException - If the preconditions on newLimit do not hold
+
+
+"
+Buffer,mark(),Buffer,Sets this buffer's mark at its position.,"
+
+mark
+public final Buffer mark()
+Sets this buffer's mark at its position.
+
+Returns:
+This buffer
+
+
+"
+Buffer,position(),int,Returns this buffer's position.,"
+
+position
+public final int position()
+Returns this buffer's position.
+
+Returns:
+The position of this buffer
+
+
+"
+Buffer,position(int newPosition),Buffer,Sets this buffer's position.,"
+
+position
+public final Buffer position(int newPosition)
+Sets this buffer's position.  If the mark is defined and larger than the
+ new position then it is discarded.
+
+Parameters:
+newPosition - The new position value; must be non-negative
+         and no larger than the current limit
+Returns:
+This buffer
+Throws:
+IllegalArgumentException - If the preconditions on newPosition do not hold
+
+
+"
+Buffer,remaining(),int,Returns the number of elements between the current position and the limit.,"
+
+remaining
+public final int remaining()
+Returns the number of elements between the current position and the
+ limit.
+
+Returns:
+The number of elements remaining in this buffer
+
+
+"
+Buffer,reset(),Buffer,Resets this buffer's position to the previously-marked position.,"
+
+reset
+public final Buffer reset()
+Resets this buffer's position to the previously-marked position.
+
+  Invoking this method neither changes nor discards the mark's
+ value. 
+
+Returns:
+This buffer
+Throws:
+InvalidMarkException - If the mark has not been set
+
+
+"
+Buffer,rewind(),Buffer,Rewinds this buffer.,"
+
+rewind
+public final Buffer rewind()
+Rewinds this buffer.  The position is set to zero and the mark is
+ discarded.
+
+  Invoke this method before a sequence of channel-write or get
+ operations, assuming that the limit has already been set
+ appropriately.  For example:
+
+ 
+ out.write(buf);    // Write remaining data
+ buf.rewind();      // Rewind buffer
+ buf.get(array);    // Copy data into array
+
+Returns:
+This buffer
+
+
+"
+ByteBuffer,allocate(int capacity),static ByteBuffer,Allocates a new byte buffer.,"
+
+allocate
+public static ByteBuffer allocate(int capacity)
+Allocates a new byte buffer.
+
+  The new buffer's position will be zero, its limit will be its
+ capacity, its mark will be undefined, and each of its elements will be
+ initialized to zero.  It will have a backing array,
+ and its array offset will be zero.
+
+Parameters:
+capacity - The new buffer's capacity, in bytes
+Returns:
+The new byte buffer
+Throws:
+IllegalArgumentException - If the capacity is a negative integer
+
+
+"
+ByteBuffer,allocateDirect(int capacity),static ByteBuffer,Allocates a new direct byte buffer.,"
+
+allocateDirect
+public static ByteBuffer allocateDirect(int capacity)
+Allocates a new direct byte buffer.
+
+  The new buffer's position will be zero, its limit will be its
+ capacity, its mark will be undefined, and each of its elements will be
+ initialized to zero.  Whether or not it has a
+ backing array is unspecified.
+
+Parameters:
+capacity - The new buffer's capacity, in bytes
+Returns:
+The new byte buffer
+Throws:
+IllegalArgumentException - If the capacity is a negative integer
+
+
+"
+ByteBuffer,array(),byte[],Returns the byte array that backs this buffer (optional operation).,"
+
+array
+public final byte[] array()
+Returns the byte array that backs this
+ buffer  (optional operation).
+
+  Modifications to this buffer's content will cause the returned
+ array's content to be modified, and vice versa.
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+array in class Buffer
+Returns:
+The array that backs this buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+ByteBuffer,arrayOffset(),int,Returns the offset within this buffer's backing array of the first element of the buffer (optional operation).,"
+
+arrayOffset
+public final int arrayOffset()
+Returns the offset within this buffer's backing array of the first
+ element of the buffer  (optional operation).
+
+  If this buffer is backed by an array then buffer position p
+ corresponds to array index p + arrayOffset().
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+arrayOffset in class Buffer
+Returns:
+The offset within this buffer's array
+          of the first element of the buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+ByteBuffer,asCharBuffer(),abstract CharBuffer,Creates a view of this byte buffer as a char buffer.,"
+
+asCharBuffer
+public abstract CharBuffer asCharBuffer()
+Creates a view of this byte buffer as a char buffer.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of bytes remaining in this buffer divided by
+ two, and its mark will be undefined.  The new buffer will be direct
+ if, and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+A new char buffer
+
+
+"
+ByteBuffer,asDoubleBuffer(),abstract DoubleBuffer,Creates a view of this byte buffer as a double buffer.,"
+
+asDoubleBuffer
+public abstract DoubleBuffer asDoubleBuffer()
+Creates a view of this byte buffer as a double buffer.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of bytes remaining in this buffer divided by
+ eight, and its mark will be undefined.  The new buffer will be direct
+ if, and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+A new double buffer
+
+
+"
+ByteBuffer,asFloatBuffer(),abstract FloatBuffer,Creates a view of this byte buffer as a float buffer.,"
+
+asFloatBuffer
+public abstract FloatBuffer asFloatBuffer()
+Creates a view of this byte buffer as a float buffer.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of bytes remaining in this buffer divided by
+ four, and its mark will be undefined.  The new buffer will be direct
+ if, and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+A new float buffer
+
+
+"
+ByteBuffer,asIntBuffer(),abstract IntBuffer,Creates a view of this byte buffer as an int buffer.,"
+
+asIntBuffer
+public abstract IntBuffer asIntBuffer()
+Creates a view of this byte buffer as an int buffer.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of bytes remaining in this buffer divided by
+ four, and its mark will be undefined.  The new buffer will be direct
+ if, and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+A new int buffer
+
+
+"
+ByteBuffer,asLongBuffer(),abstract LongBuffer,Creates a view of this byte buffer as a long buffer.,"
+
+asLongBuffer
+public abstract LongBuffer asLongBuffer()
+Creates a view of this byte buffer as a long buffer.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of bytes remaining in this buffer divided by
+ eight, and its mark will be undefined.  The new buffer will be direct
+ if, and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+A new long buffer
+
+
+"
+ByteBuffer,asReadOnlyBuffer(),abstract ByteBuffer,"Creates a new, read-only byte buffer that shares this buffer's content.","
+
+asReadOnlyBuffer
+public abstract ByteBuffer asReadOnlyBuffer()
+Creates a new, read-only byte buffer that shares this buffer's
+ content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer; the new
+ buffer itself, however, will be read-only and will not allow the shared
+ content to be modified.  The two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.
+
+  If this buffer is itself read-only then this method behaves in
+ exactly the same way as the duplicate method.  
+
+Returns:
+The new, read-only byte buffer
+
+
+"
+ByteBuffer,asShortBuffer(),abstract ShortBuffer,Creates a view of this byte buffer as a short buffer.,"
+
+asShortBuffer
+public abstract ShortBuffer asShortBuffer()
+Creates a view of this byte buffer as a short buffer.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of bytes remaining in this buffer divided by
+ two, and its mark will be undefined.  The new buffer will be direct
+ if, and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+A new short buffer
+
+
+"
+ByteBuffer,compact(),abstract ByteBuffer,Compacts this buffer (optional operation).,"
+
+compact
+public abstract ByteBuffer compact()
+Compacts this buffer  (optional operation).
+
+  The bytes between the buffer's current position and its limit,
+ if any, are copied to the beginning of the buffer.  That is, the
+ byte at index p = position() is copied
+ to index zero, the byte at index p + 1 is copied
+ to index one, and so forth until the byte at index
+ limit() - 1 is copied to index
+ n = limit() - 1 - p.
+ The buffer's position is then set to n+1 and its limit is set to
+ its capacity.  The mark, if defined, is discarded.
+
+  The buffer's position is set to the number of bytes copied,
+ rather than to zero, so that an invocation of this method can be
+ followed immediately by an invocation of another relative put
+ method. 
+ Invoke this method after writing data from a buffer in case the
+ write was incomplete.  The following loop, for example, copies bytes
+ from one channel to another via the buffer buf:
+
+ 
+   buf.clear();          // Prepare buffer for use
+   while (in.read(buf) >= 0 || buf.position != 0) {
+       buf.flip();
+       out.write(buf);
+       buf.compact();    // In case of partial write
+   }
+ 
+
+Returns:
+This buffer
+Throws:
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,compareTo(ByteBuffer that),int,Compares this buffer to another.,"
+
+compareTo
+public int compareTo(ByteBuffer that)
+Compares this buffer to another.
+
+  Two byte buffers are compared by comparing their sequences of
+ remaining elements lexicographically, without regard to the starting
+ position of each sequence within its corresponding buffer.
+
+
+
+
+
+
+
+
+ Pairs of byte elements are compared as if by invoking
+ Byte.compare(byte,byte).
+
+
+  A byte buffer is not comparable to any other type of object.
+
+Specified by:
+compareTo in interface Comparable<ByteBuffer>
+Parameters:
+that - the object to be compared.
+Returns:
+A negative integer, zero, or a positive integer as this buffer
+          is less than, equal to, or greater than the given buffer
+
+
+"
+ByteBuffer,duplicate(),abstract ByteBuffer,Creates a new byte buffer that shares this buffer's content.,"
+
+duplicate
+public abstract ByteBuffer duplicate()
+Creates a new byte buffer that shares this buffer's content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer, and vice
+ versa; the two buffers' position, limit, and mark values will be
+ independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.  The new buffer will be direct if,
+ and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+The new byte buffer
+
+
+"
+ByteBuffer,equals(Object ob),boolean,Tells whether or not this buffer is equal to another object.,"
+
+equals
+public boolean equals(Object ob)
+Tells whether or not this buffer is equal to another object.
+
+  Two byte buffers are equal if, and only if,
+
+ 
+ They have the same element type,  
+ They have the same number of remaining elements, and
+   
+ The two sequences of remaining elements, considered
+   independently of their starting positions, are pointwise equal.
+
+
+
+
+
+
+
+   
+
+ A byte buffer is not equal to any other type of object.  
+
+Overrides:
+equals in class Object
+Parameters:
+ob - The object to which this buffer is to be compared
+Returns:
+true if, and only if, this buffer is equal to the
+           given object
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+ByteBuffer,get(),abstract byte,Relative get method.,"
+
+get
+public abstract byte get()
+Relative get method.  Reads the byte at this buffer's
+ current position, and then increments the position.
+
+Returns:
+The byte at the buffer's current position
+Throws:
+BufferUnderflowException - If the buffer's current position is not smaller than its limit
+
+
+"
+ByteBuffer,get(byte[] dst),ByteBuffer,Relative bulk get method.,"
+
+get
+public ByteBuffer get(byte[] dst)
+Relative bulk get method.
+
+  This method transfers bytes from this buffer into the given
+ destination array.  An invocation of this method of the form
+ src.get(a) behaves in exactly the same way as the invocation
+
+ 
+     src.get(a, 0, a.length) 
+
+Parameters:
+dst - The destination array
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length bytes
+          remaining in this buffer
+
+
+"
+ByteBuffer,"get(byte[] dst, int offset, int length)",ByteBuffer,Relative bulk get method.,"
+
+get
+public ByteBuffer get(byte[] dst,
+                      int offset,
+                      int length)
+Relative bulk get method.
+
+  This method transfers bytes from this buffer into the given
+ destination array.  If there are fewer bytes remaining in the
+ buffer than are required to satisfy the request, that is, if
+ length > remaining(), then no
+ bytes are transferred and a BufferUnderflowException is
+ thrown.
+
+  Otherwise, this method copies length bytes from this
+ buffer into the given array, starting at the current position of this
+ buffer and at the given offset in the array.  The position of this
+ buffer is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ src.get(dst, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst[i] = src.get():
+ 
+
+ except that it first checks that there are sufficient bytes in
+ this buffer and it is potentially much more efficient.
+
+Parameters:
+dst - The array into which bytes are to be written
+offset - The offset within the array of the first byte to be
+         written; must be non-negative and no larger than
+         dst.length
+length - The maximum number of bytes to be written to the given
+         array; must be non-negative and no larger than
+         dst.length - offset
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length bytes
+          remaining in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+ByteBuffer,get(int index),abstract byte,Absolute get method.,"
+
+get
+public abstract byte get(int index)
+Absolute get method.  Reads the byte at the given
+ index.
+
+Parameters:
+index - The index from which the byte will be read
+Returns:
+The byte at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+
+
+"
+ByteBuffer,getChar(),abstract char,Relative get method for reading a char value.,"
+
+getChar
+public abstract char getChar()
+Relative get method for reading a char value.
+
+  Reads the next two bytes at this buffer's current position,
+ composing them into a char value according to the current byte order,
+ and then increments the position by two.  
+
+Returns:
+The char value at the buffer's current position
+Throws:
+BufferUnderflowException - If there are fewer than two bytes
+          remaining in this buffer
+
+
+"
+ByteBuffer,getChar(int index),abstract char,Absolute get method for reading a char value.,"
+
+getChar
+public abstract char getChar(int index)
+Absolute get method for reading a char value.
+
+  Reads two bytes at the given index, composing them into a
+ char value according to the current byte order.  
+
+Parameters:
+index - The index from which the bytes will be read
+Returns:
+The char value at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus one
+
+
+"
+ByteBuffer,getDouble(),abstract double,Relative get method for reading a double value.,"
+
+getDouble
+public abstract double getDouble()
+Relative get method for reading a double value.
+
+  Reads the next eight bytes at this buffer's current position,
+ composing them into a double value according to the current byte order,
+ and then increments the position by eight.  
+
+Returns:
+The double value at the buffer's current position
+Throws:
+BufferUnderflowException - If there are fewer than eight bytes
+          remaining in this buffer
+
+
+"
+ByteBuffer,getDouble(int index),abstract double,Absolute get method for reading a double value.,"
+
+getDouble
+public abstract double getDouble(int index)
+Absolute get method for reading a double value.
+
+  Reads eight bytes at the given index, composing them into a
+ double value according to the current byte order.  
+
+Parameters:
+index - The index from which the bytes will be read
+Returns:
+The double value at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus seven
+
+
+"
+ByteBuffer,getFloat(),abstract float,Relative get method for reading a float value.,"
+
+getFloat
+public abstract float getFloat()
+Relative get method for reading a float value.
+
+  Reads the next four bytes at this buffer's current position,
+ composing them into a float value according to the current byte order,
+ and then increments the position by four.  
+
+Returns:
+The float value at the buffer's current position
+Throws:
+BufferUnderflowException - If there are fewer than four bytes
+          remaining in this buffer
+
+
+"
+ByteBuffer,getFloat(int index),abstract float,Absolute get method for reading a float value.,"
+
+getFloat
+public abstract float getFloat(int index)
+Absolute get method for reading a float value.
+
+  Reads four bytes at the given index, composing them into a
+ float value according to the current byte order.  
+
+Parameters:
+index - The index from which the bytes will be read
+Returns:
+The float value at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus three
+
+
+"
+ByteBuffer,getInt(),abstract int,Relative get method for reading an int value.,"
+
+getInt
+public abstract int getInt()
+Relative get method for reading an int value.
+
+  Reads the next four bytes at this buffer's current position,
+ composing them into an int value according to the current byte order,
+ and then increments the position by four.  
+
+Returns:
+The int value at the buffer's current position
+Throws:
+BufferUnderflowException - If there are fewer than four bytes
+          remaining in this buffer
+
+
+"
+ByteBuffer,getInt(int index),abstract int,Absolute get method for reading an int value.,"
+
+getInt
+public abstract int getInt(int index)
+Absolute get method for reading an int value.
+
+  Reads four bytes at the given index, composing them into a
+ int value according to the current byte order.  
+
+Parameters:
+index - The index from which the bytes will be read
+Returns:
+The int value at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus three
+
+
+"
+ByteBuffer,getLong(),abstract long,Relative get method for reading a long value.,"
+
+getLong
+public abstract long getLong()
+Relative get method for reading a long value.
+
+  Reads the next eight bytes at this buffer's current position,
+ composing them into a long value according to the current byte order,
+ and then increments the position by eight.  
+
+Returns:
+The long value at the buffer's current position
+Throws:
+BufferUnderflowException - If there are fewer than eight bytes
+          remaining in this buffer
+
+
+"
+ByteBuffer,getLong(int index),abstract long,Absolute get method for reading a long value.,"
+
+getLong
+public abstract long getLong(int index)
+Absolute get method for reading a long value.
+
+  Reads eight bytes at the given index, composing them into a
+ long value according to the current byte order.  
+
+Parameters:
+index - The index from which the bytes will be read
+Returns:
+The long value at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus seven
+
+
+"
+ByteBuffer,getShort(),abstract short,Relative get method for reading a short value.,"
+
+getShort
+public abstract short getShort()
+Relative get method for reading a short value.
+
+  Reads the next two bytes at this buffer's current position,
+ composing them into a short value according to the current byte order,
+ and then increments the position by two.  
+
+Returns:
+The short value at the buffer's current position
+Throws:
+BufferUnderflowException - If there are fewer than two bytes
+          remaining in this buffer
+
+
+"
+ByteBuffer,getShort(int index),abstract short,Absolute get method for reading a short value.,"
+
+getShort
+public abstract short getShort(int index)
+Absolute get method for reading a short value.
+
+  Reads two bytes at the given index, composing them into a
+ short value according to the current byte order.  
+
+Parameters:
+index - The index from which the bytes will be read
+Returns:
+The short value at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus one
+
+
+"
+ByteBuffer,hasArray(),boolean,Tells whether or not this buffer is backed by an accessible byte array.,"
+
+hasArray
+public final boolean hasArray()
+Tells whether or not this buffer is backed by an accessible byte
+ array.
+
+  If this method returns true then the array
+ and arrayOffset methods may safely be invoked.
+ 
+
+Specified by:
+hasArray in class Buffer
+Returns:
+true if, and only if, this buffer
+          is backed by an array and is not read-only
+
+
+"
+ByteBuffer,hashCode(),int,Returns the current hash code of this buffer.,"
+
+hashCode
+public int hashCode()
+Returns the current hash code of this buffer.
+
+  The hash code of a byte buffer depends only upon its remaining
+ elements; that is, upon the elements from position() up to, and
+ including, the element at limit() - 1.
+
+  Because buffer hash codes are content-dependent, it is inadvisable
+ to use buffers as keys in hash maps or similar data structures unless it
+ is known that their contents will not change.  
+
+Overrides:
+hashCode in class Object
+Returns:
+The current hash code of this buffer
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+ByteBuffer,isDirect(),abstract boolean,Tells whether or not this byte buffer is direct.,"
+
+isDirect
+public abstract boolean isDirect()
+Tells whether or not this byte buffer is direct.
+
+Specified by:
+isDirect in class Buffer
+Returns:
+true if, and only if, this buffer is direct
+
+
+"
+ByteBuffer,order(),ByteOrder,Retrieves this buffer's byte order.,"
+
+order
+public final ByteOrder order()
+Retrieves this buffer's byte order.
+
+  The byte order is used when reading or writing multibyte values, and
+ when creating buffers that are views of this byte buffer.  The order of
+ a newly-created byte buffer is always BIG_ENDIAN.  
+
+Returns:
+This buffer's byte order
+
+
+"
+ByteBuffer,order(ByteOrder bo),ByteBuffer,Modifies this buffer's byte order.,"
+
+order
+public final ByteBuffer order(ByteOrder bo)
+Modifies this buffer's byte order.
+
+Parameters:
+bo - The new byte order,
+         either BIG_ENDIAN
+         or LITTLE_ENDIAN
+Returns:
+This buffer
+
+
+"
+ByteBuffer,put(byte b),abstract ByteBuffer,Relative put method (optional operation).,"
+
+put
+public abstract ByteBuffer put(byte b)
+Relative put method  (optional operation).
+
+  Writes the given byte into this buffer at the current
+ position, and then increments the position. 
+
+Parameters:
+b - The byte to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If this buffer's current position is not smaller than its limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,put(byte[] src),ByteBuffer,Relative bulk put method (optional operation).,"
+
+put
+public final ByteBuffer put(byte[] src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the entire content of the given source
+ byte array into this buffer.  An invocation of this method of the
+ form dst.put(a) behaves in exactly the same way as the
+ invocation
+
+ 
+     dst.put(a, 0, a.length) 
+
+Parameters:
+src - The source array
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,"put(byte[] src, int offset, int length)",ByteBuffer,Relative bulk put method (optional operation).,"
+
+put
+public ByteBuffer put(byte[] src,
+                      int offset,
+                      int length)
+Relative bulk put method  (optional operation).
+
+  This method transfers bytes into this buffer from the given
+ source array.  If there are more bytes to be copied from the array
+ than remain in this buffer, that is, if
+ length > remaining(), then no
+ bytes are transferred and a BufferOverflowException is
+ thrown.
+
+  Otherwise, this method copies length bytes from the
+ given array into this buffer, starting at the given offset in the array
+ and at the current position of this buffer.  The position of this buffer
+ is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ dst.put(src, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst.put(a[i]);
+ 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The array from which bytes are to be read
+offset - The offset within the array of the first byte to be read;
+         must be non-negative and no larger than array.length
+length - The number of bytes to be read from the given array;
+         must be non-negative and no larger than
+         array.length - offset
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,put(ByteBuffer src),ByteBuffer,Relative bulk put method (optional operation).,"
+
+put
+public ByteBuffer put(ByteBuffer src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the bytes remaining in the given source
+ buffer into this buffer.  If there are more bytes remaining in the
+ source buffer than in this buffer, that is, if
+ src.remaining() > remaining(),
+ then no bytes are transferred and a BufferOverflowException is thrown.
+
+  Otherwise, this method copies
+ n = src.remaining() bytes from the given
+ buffer into this buffer, starting at each buffer's current position.
+ The positions of both buffers are then incremented by n.
+
+  In other words, an invocation of this method of the form
+ dst.put(src) has exactly the same effect as the loop
+
+ 
+     while (src.hasRemaining())
+         dst.put(src.get()); 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The source buffer from which bytes are to be read;
+         must not be this buffer
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+          for the remaining bytes in the source buffer
+IllegalArgumentException - If the source buffer is this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,"put(int index, byte b)",abstract ByteBuffer,Absolute put method (optional operation).,"
+
+put
+public abstract ByteBuffer put(int index,
+                               byte b)
+Absolute put method  (optional operation).
+
+  Writes the given byte into this buffer at the given
+ index. 
+
+Parameters:
+index - The index at which the byte will be written
+b - The byte value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,putChar(char value),abstract ByteBuffer,Relative put method for writing a char value (optional operation).,"
+
+putChar
+public abstract ByteBuffer putChar(char value)
+Relative put method for writing a char
+ value  (optional operation).
+
+  Writes two bytes containing the given char value, in the
+ current byte order, into this buffer at the current position, and then
+ increments the position by two.  
+
+Parameters:
+value - The char value to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there are fewer than two bytes
+          remaining in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,"putChar(int index, char value)",abstract ByteBuffer,Absolute put method for writing a char value (optional operation).,"
+
+putChar
+public abstract ByteBuffer putChar(int index,
+                                   char value)
+Absolute put method for writing a char
+ value  (optional operation).
+
+  Writes two bytes containing the given char value, in the
+ current byte order, into this buffer at the given index.  
+
+Parameters:
+index - The index at which the bytes will be written
+value - The char value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus one
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,putDouble(double value),abstract ByteBuffer,Relative put method for writing a double value (optional operation).,"
+
+putDouble
+public abstract ByteBuffer putDouble(double value)
+Relative put method for writing a double
+ value  (optional operation).
+
+  Writes eight bytes containing the given double value, in the
+ current byte order, into this buffer at the current position, and then
+ increments the position by eight.  
+
+Parameters:
+value - The double value to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there are fewer than eight bytes
+          remaining in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,"putDouble(int index, double value)",abstract ByteBuffer,Absolute put method for writing a double value (optional operation).,"
+
+putDouble
+public abstract ByteBuffer putDouble(int index,
+                                     double value)
+Absolute put method for writing a double
+ value  (optional operation).
+
+  Writes eight bytes containing the given double value, in the
+ current byte order, into this buffer at the given index.  
+
+Parameters:
+index - The index at which the bytes will be written
+value - The double value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus seven
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,putFloat(float value),abstract ByteBuffer,Relative put method for writing a float value (optional operation).,"
+
+putFloat
+public abstract ByteBuffer putFloat(float value)
+Relative put method for writing a float
+ value  (optional operation).
+
+  Writes four bytes containing the given float value, in the
+ current byte order, into this buffer at the current position, and then
+ increments the position by four.  
+
+Parameters:
+value - The float value to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there are fewer than four bytes
+          remaining in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,"putFloat(int index, float value)",abstract ByteBuffer,Absolute put method for writing a float value (optional operation).,"
+
+putFloat
+public abstract ByteBuffer putFloat(int index,
+                                    float value)
+Absolute put method for writing a float
+ value  (optional operation).
+
+  Writes four bytes containing the given float value, in the
+ current byte order, into this buffer at the given index.  
+
+Parameters:
+index - The index at which the bytes will be written
+value - The float value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus three
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,putInt(int value),abstract ByteBuffer,Relative put method for writing an int value (optional operation).,"
+
+putInt
+public abstract ByteBuffer putInt(int value)
+Relative put method for writing an int
+ value  (optional operation).
+
+  Writes four bytes containing the given int value, in the
+ current byte order, into this buffer at the current position, and then
+ increments the position by four.  
+
+Parameters:
+value - The int value to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there are fewer than four bytes
+          remaining in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,"putInt(int index, int value)",abstract ByteBuffer,Absolute put method for writing an int value (optional operation).,"
+
+putInt
+public abstract ByteBuffer putInt(int index,
+                                  int value)
+Absolute put method for writing an int
+ value  (optional operation).
+
+  Writes four bytes containing the given int value, in the
+ current byte order, into this buffer at the given index.  
+
+Parameters:
+index - The index at which the bytes will be written
+value - The int value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus three
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,"putLong(int index, long value)",abstract ByteBuffer,Absolute put method for writing a long value (optional operation).,"
+
+putLong
+public abstract ByteBuffer putLong(int index,
+                                   long value)
+Absolute put method for writing a long
+ value  (optional operation).
+
+  Writes eight bytes containing the given long value, in the
+ current byte order, into this buffer at the given index.  
+
+Parameters:
+index - The index at which the bytes will be written
+value - The long value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus seven
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,putLong(long value),abstract ByteBuffer,Relative put method for writing a long value (optional operation).,"
+
+putLong
+public abstract ByteBuffer putLong(long value)
+Relative put method for writing a long
+ value  (optional operation).
+
+  Writes eight bytes containing the given long value, in the
+ current byte order, into this buffer at the current position, and then
+ increments the position by eight.  
+
+Parameters:
+value - The long value to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there are fewer than eight bytes
+          remaining in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,"putShort(int index, short value)",abstract ByteBuffer,Absolute put method for writing a short value (optional operation).,"
+
+putShort
+public abstract ByteBuffer putShort(int index,
+                                    short value)
+Absolute put method for writing a short
+ value  (optional operation).
+
+  Writes two bytes containing the given short value, in the
+ current byte order, into this buffer at the given index.  
+
+Parameters:
+index - The index at which the bytes will be written
+value - The short value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit,
+          minus one
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,putShort(short value),abstract ByteBuffer,Relative put method for writing a short value (optional operation).,"
+
+putShort
+public abstract ByteBuffer putShort(short value)
+Relative put method for writing a short
+ value  (optional operation).
+
+  Writes two bytes containing the given short value, in the
+ current byte order, into this buffer at the current position, and then
+ increments the position by two.  
+
+Parameters:
+value - The short value to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there are fewer than two bytes
+          remaining in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ByteBuffer,slice(),abstract ByteBuffer,Creates a new byte buffer whose content is a shared subsequence of this buffer's content.,"
+
+slice
+public abstract ByteBuffer slice()
+Creates a new byte buffer whose content is a shared subsequence of
+ this buffer's content.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of bytes remaining in this buffer, and its mark
+ will be undefined.  The new buffer will be direct if, and only if, this
+ buffer is direct, and it will be read-only if, and only if, this buffer
+ is read-only.  
+
+Returns:
+The new byte buffer
+
+
+"
+ByteBuffer,toString(),String,Returns a string summarizing the state of this buffer.,"
+
+toString
+public String toString()
+Returns a string summarizing the state of this buffer.
+
+Overrides:
+toString in class Object
+Returns:
+A summary string
+
+
+"
+ByteBuffer,wrap(byte[] array),static ByteBuffer,Wraps a byte array into a buffer.,"
+
+wrap
+public static ByteBuffer wrap(byte[] array)
+Wraps a byte array into a buffer.
+
+  The new buffer will be backed by the given byte array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity and limit will be
+ array.length, its position will be zero, and its mark will be
+ undefined.  Its backing array will be the
+ given array, and its array offset> will
+ be zero.  
+
+Parameters:
+array - The array that will back this buffer
+Returns:
+The new byte buffer
+
+
+"
+ByteBuffer,"wrap(byte[] array, int offset, int length)",static ByteBuffer,Wraps a byte array into a buffer.,"
+
+wrap
+public static ByteBuffer wrap(byte[] array,
+                              int offset,
+                              int length)
+Wraps a byte array into a buffer.
+
+  The new buffer will be backed by the given byte array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity will be
+ array.length, its position will be offset, its limit
+ will be offset + length, and its mark will be undefined.  Its
+ backing array will be the given array, and
+ its array offset will be zero.  
+
+Parameters:
+array - The array that will back the new buffer
+offset - The offset of the subarray to be used; must be non-negative and
+         no larger than array.length.  The new buffer's position
+         will be set to this value.
+length - The length of the subarray to be used;
+         must be non-negative and no larger than
+         array.length - offset.
+         The new buffer's limit will be set to offset + length.
+Returns:
+The new byte buffer
+Throws:
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+ByteOrder,nativeOrder(),static ByteOrder,Retrieves the native byte order of the underlying platform.,"
+
+nativeOrder
+public static ByteOrder nativeOrder()
+Retrieves the native byte order of the underlying platform.
+
+  This method is defined so that performance-sensitive Java code can
+ allocate direct buffers with the same byte order as the hardware.
+ Native code libraries are often more efficient when such buffers are
+ used.  
+
+Returns:
+The native byte order of the hardware upon which this Java
+          virtual machine is running
+
+
+"
+ByteOrder,toString(),String,Constructs a string describing this object.,"
+
+toString
+public String toString()
+Constructs a string describing this object.
+
+  This method returns the string ""BIG_ENDIAN"" for BIG_ENDIAN and ""LITTLE_ENDIAN"" for LITTLE_ENDIAN.
+ 
+
+Overrides:
+toString in class Object
+Returns:
+The specified string
+
+
+"
+CharBuffer,allocate(int capacity),static CharBuffer,Allocates a new char buffer.,"
+
+allocate
+public static CharBuffer allocate(int capacity)
+Allocates a new char buffer.
+
+  The new buffer's position will be zero, its limit will be its
+ capacity, its mark will be undefined, and each of its elements will be
+ initialized to zero.  It will have a backing array,
+ and its array offset will be zero.
+
+Parameters:
+capacity - The new buffer's capacity, in chars
+Returns:
+The new char buffer
+Throws:
+IllegalArgumentException - If the capacity is a negative integer
+
+
+"
+CharBuffer,append(char c),CharBuffer,Appends the specified char to this buffer (optional operation).,"
+
+append
+public CharBuffer append(char c)
+Appends the specified char  to this
+ buffer  (optional operation).
+
+  An invocation of this method of the form dst.append(c)
+ behaves in exactly the same way as the invocation
+
+ 
+     dst.put(c) 
+
+Specified by:
+append in interface Appendable
+Parameters:
+c - The 16-bit char to append
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+Since:
+1.5
+
+
+"
+CharBuffer,append(CharSequence csq),CharBuffer,Appends the specified character sequence to this buffer (optional operation).,"
+
+append
+public CharBuffer append(CharSequence csq)
+Appends the specified character sequence  to this
+ buffer  (optional operation).
+
+  An invocation of this method of the form dst.append(csq)
+ behaves in exactly the same way as the invocation
+
+ 
+     dst.put(csq.toString()) 
+ Depending on the specification of toString for the
+ character sequence csq, the entire sequence may not be
+ appended.  For instance, invoking the toString method of a character buffer will return a subsequence whose
+ content depends upon the buffer's position and limit.
+
+Specified by:
+append in interface Appendable
+Parameters:
+csq - The character sequence to append.  If csq is
+         null, then the four characters ""null"" are
+         appended to this character buffer.
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+Since:
+1.5
+
+
+"
+CharBuffer,"append(CharSequence csq, int start, int end)",CharBuffer,Appends a subsequence of the specified character sequence to this buffer (optional operation).,"
+
+append
+public CharBuffer append(CharSequence csq,
+                         int start,
+                         int end)
+Appends a subsequence of the  specified character sequence  to this
+ buffer  (optional operation).
+
+  An invocation of this method of the form dst.append(csq, start,
+ end) when csq is not null, behaves in exactly the
+ same way as the invocation
+
+ 
+     dst.put(csq.subSequence(start, end).toString()) 
+
+Specified by:
+append in interface Appendable
+Parameters:
+csq - The character sequence from which a subsequence will be
+         appended.  If csq is null, then characters
+         will be appended as if csq contained the four
+         characters ""null"".
+start - The index of the first character in the subsequence
+end - The index of the character following the last character in the
+         subsequence
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+IndexOutOfBoundsException - If start or end are negative, start
+          is greater than end, or end is greater than
+          csq.length()
+ReadOnlyBufferException - If this buffer is read-only
+Since:
+1.5
+
+
+"
+CharBuffer,array(),char[],Returns the char array that backs this buffer (optional operation).,"
+
+array
+public final char[] array()
+Returns the char array that backs this
+ buffer  (optional operation).
+
+  Modifications to this buffer's content will cause the returned
+ array's content to be modified, and vice versa.
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+array in class Buffer
+Returns:
+The array that backs this buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+CharBuffer,arrayOffset(),int,Returns the offset within this buffer's backing array of the first element of the buffer (optional operation).,"
+
+arrayOffset
+public final int arrayOffset()
+Returns the offset within this buffer's backing array of the first
+ element of the buffer  (optional operation).
+
+  If this buffer is backed by an array then buffer position p
+ corresponds to array index p + arrayOffset().
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+arrayOffset in class Buffer
+Returns:
+The offset within this buffer's array
+          of the first element of the buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+CharBuffer,asReadOnlyBuffer(),abstract CharBuffer,"Creates a new, read-only char buffer that shares this buffer's content.","
+
+asReadOnlyBuffer
+public abstract CharBuffer asReadOnlyBuffer()
+Creates a new, read-only char buffer that shares this buffer's
+ content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer; the new
+ buffer itself, however, will be read-only and will not allow the shared
+ content to be modified.  The two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.
+
+  If this buffer is itself read-only then this method behaves in
+ exactly the same way as the duplicate method.  
+
+Returns:
+The new, read-only char buffer
+
+
+"
+CharBuffer,charAt(int index),char,Reads the character at the given index relative to the current position.,"
+
+charAt
+public final char charAt(int index)
+Reads the character at the given index relative to the current
+ position.
+
+Specified by:
+charAt in interface CharSequence
+Parameters:
+index - The index of the character to be read, relative to the position;
+         must be non-negative and smaller than remaining()
+Returns:
+The character at index
+          position() + index
+Throws:
+IndexOutOfBoundsException - If the preconditions on index do not hold
+
+
+"
+CharBuffer,chars(),IntStream,Returns a stream of int zero-extending the char values from this sequence.,"
+
+chars
+public IntStream chars()
+Description copied from interface: CharSequence
+Returns a stream of int zero-extending the char values
+ from this sequence.  Any char which maps to a surrogate code
+ point is passed through uninterpreted.
+
+ If the sequence is mutated while the stream is being read, the
+ result is undefined.
+
+Specified by:
+chars in interface CharSequence
+Returns:
+an IntStream of char values from this sequence
+
+
+"
+CharBuffer,compact(),abstract CharBuffer,Compacts this buffer (optional operation).,"
+
+compact
+public abstract CharBuffer compact()
+Compacts this buffer  (optional operation).
+
+  The chars between the buffer's current position and its limit,
+ if any, are copied to the beginning of the buffer.  That is, the
+ char at index p = position() is copied
+ to index zero, the char at index p + 1 is copied
+ to index one, and so forth until the char at index
+ limit() - 1 is copied to index
+ n = limit() - 1 - p.
+ The buffer's position is then set to n+1 and its limit is set to
+ its capacity.  The mark, if defined, is discarded.
+
+  The buffer's position is set to the number of chars copied,
+ rather than to zero, so that an invocation of this method can be
+ followed immediately by an invocation of another relative put
+ method. 
+
+Returns:
+This buffer
+Throws:
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+CharBuffer,compareTo(CharBuffer that),int,Compares this buffer to another.,"
+
+compareTo
+public int compareTo(CharBuffer that)
+Compares this buffer to another.
+
+  Two char buffers are compared by comparing their sequences of
+ remaining elements lexicographically, without regard to the starting
+ position of each sequence within its corresponding buffer.
+
+
+
+
+
+
+
+
+ Pairs of char elements are compared as if by invoking
+ Character.compare(char,char).
+
+
+  A char buffer is not comparable to any other type of object.
+
+Specified by:
+compareTo in interface Comparable<CharBuffer>
+Parameters:
+that - the object to be compared.
+Returns:
+A negative integer, zero, or a positive integer as this buffer
+          is less than, equal to, or greater than the given buffer
+
+
+"
+CharBuffer,duplicate(),abstract CharBuffer,Creates a new char buffer that shares this buffer's content.,"
+
+duplicate
+public abstract CharBuffer duplicate()
+Creates a new char buffer that shares this buffer's content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer, and vice
+ versa; the two buffers' position, limit, and mark values will be
+ independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.  The new buffer will be direct if,
+ and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+The new char buffer
+
+
+"
+CharBuffer,equals(Object ob),boolean,Tells whether or not this buffer is equal to another object.,"
+
+equals
+public boolean equals(Object ob)
+Tells whether or not this buffer is equal to another object.
+
+  Two char buffers are equal if, and only if,
+
+ 
+ They have the same element type,  
+ They have the same number of remaining elements, and
+   
+ The two sequences of remaining elements, considered
+   independently of their starting positions, are pointwise equal.
+
+
+
+
+
+
+
+   
+
+ A char buffer is not equal to any other type of object.  
+
+Overrides:
+equals in class Object
+Parameters:
+ob - The object to which this buffer is to be compared
+Returns:
+true if, and only if, this buffer is equal to the
+           given object
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+CharBuffer,get(),abstract char,Relative get method.,"
+
+get
+public abstract char get()
+Relative get method.  Reads the char at this buffer's
+ current position, and then increments the position.
+
+Returns:
+The char at the buffer's current position
+Throws:
+BufferUnderflowException - If the buffer's current position is not smaller than its limit
+
+
+"
+CharBuffer,get(char[] dst),CharBuffer,Relative bulk get method.,"
+
+get
+public CharBuffer get(char[] dst)
+Relative bulk get method.
+
+  This method transfers chars from this buffer into the given
+ destination array.  An invocation of this method of the form
+ src.get(a) behaves in exactly the same way as the invocation
+
+ 
+     src.get(a, 0, a.length) 
+
+Parameters:
+dst - The destination array
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length chars
+          remaining in this buffer
+
+
+"
+CharBuffer,"get(char[] dst, int offset, int length)",CharBuffer,Relative bulk get method.,"
+
+get
+public CharBuffer get(char[] dst,
+                      int offset,
+                      int length)
+Relative bulk get method.
+
+  This method transfers chars from this buffer into the given
+ destination array.  If there are fewer chars remaining in the
+ buffer than are required to satisfy the request, that is, if
+ length > remaining(), then no
+ chars are transferred and a BufferUnderflowException is
+ thrown.
+
+  Otherwise, this method copies length chars from this
+ buffer into the given array, starting at the current position of this
+ buffer and at the given offset in the array.  The position of this
+ buffer is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ src.get(dst, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst[i] = src.get():
+ 
+
+ except that it first checks that there are sufficient chars in
+ this buffer and it is potentially much more efficient.
+
+Parameters:
+dst - The array into which chars are to be written
+offset - The offset within the array of the first char to be
+         written; must be non-negative and no larger than
+         dst.length
+length - The maximum number of chars to be written to the given
+         array; must be non-negative and no larger than
+         dst.length - offset
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length chars
+          remaining in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+CharBuffer,get(int index),abstract char,Absolute get method.,"
+
+get
+public abstract char get(int index)
+Absolute get method.  Reads the char at the given
+ index.
+
+Parameters:
+index - The index from which the char will be read
+Returns:
+The char at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+
+
+"
+CharBuffer,hasArray(),boolean,Tells whether or not this buffer is backed by an accessible char array.,"
+
+hasArray
+public final boolean hasArray()
+Tells whether or not this buffer is backed by an accessible char
+ array.
+
+  If this method returns true then the array
+ and arrayOffset methods may safely be invoked.
+ 
+
+Specified by:
+hasArray in class Buffer
+Returns:
+true if, and only if, this buffer
+          is backed by an array and is not read-only
+
+
+"
+CharBuffer,hashCode(),int,Returns the current hash code of this buffer.,"
+
+hashCode
+public int hashCode()
+Returns the current hash code of this buffer.
+
+  The hash code of a char buffer depends only upon its remaining
+ elements; that is, upon the elements from position() up to, and
+ including, the element at limit() - 1.
+
+  Because buffer hash codes are content-dependent, it is inadvisable
+ to use buffers as keys in hash maps or similar data structures unless it
+ is known that their contents will not change.  
+
+Overrides:
+hashCode in class Object
+Returns:
+The current hash code of this buffer
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+CharBuffer,isDirect(),abstract boolean,Tells whether or not this char buffer is direct.,"
+
+isDirect
+public abstract boolean isDirect()
+Tells whether or not this char buffer is direct.
+
+Specified by:
+isDirect in class Buffer
+Returns:
+true if, and only if, this buffer is direct
+
+
+"
+CharBuffer,length(),int,Returns the length of this character buffer.,"
+
+length
+public final int length()
+Returns the length of this character buffer.
+
+  When viewed as a character sequence, the length of a character
+ buffer is simply the number of characters between the position
+ (inclusive) and the limit (exclusive); that is, it is equivalent to
+ remaining(). 
+
+Specified by:
+length in interface CharSequence
+Returns:
+The length of this character buffer
+
+
+"
+CharBuffer,order(),abstract ByteOrder,Retrieves this buffer's byte order.,"
+
+order
+public abstract ByteOrder order()
+Retrieves this buffer's byte order.
+
+  The byte order of a char buffer created by allocation or by
+ wrapping an existing char array is the native order of the underlying
+ hardware.  The byte order of a char buffer created as a view of a byte buffer is that of the
+ byte buffer at the moment that the view is created.  
+
+Returns:
+This buffer's byte order
+
+
+"
+CharBuffer,put(char c),abstract CharBuffer,Relative put method (optional operation).,"
+
+put
+public abstract CharBuffer put(char c)
+Relative put method  (optional operation).
+
+  Writes the given char into this buffer at the current
+ position, and then increments the position. 
+
+Parameters:
+c - The char to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If this buffer's current position is not smaller than its limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+CharBuffer,put(char[] src),CharBuffer,Relative bulk put method (optional operation).,"
+
+put
+public final CharBuffer put(char[] src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the entire content of the given source
+ char array into this buffer.  An invocation of this method of the
+ form dst.put(a) behaves in exactly the same way as the
+ invocation
+
+ 
+     dst.put(a, 0, a.length) 
+
+Parameters:
+src - The source array
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+CharBuffer,"put(char[] src, int offset, int length)",CharBuffer,Relative bulk put method (optional operation).,"
+
+put
+public CharBuffer put(char[] src,
+                      int offset,
+                      int length)
+Relative bulk put method  (optional operation).
+
+  This method transfers chars into this buffer from the given
+ source array.  If there are more chars to be copied from the array
+ than remain in this buffer, that is, if
+ length > remaining(), then no
+ chars are transferred and a BufferOverflowException is
+ thrown.
+
+  Otherwise, this method copies length chars from the
+ given array into this buffer, starting at the given offset in the array
+ and at the current position of this buffer.  The position of this buffer
+ is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ dst.put(src, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst.put(a[i]);
+ 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The array from which chars are to be read
+offset - The offset within the array of the first char to be read;
+         must be non-negative and no larger than array.length
+length - The number of chars to be read from the given array;
+         must be non-negative and no larger than
+         array.length - offset
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+CharBuffer,put(CharBuffer src),CharBuffer,Relative bulk put method (optional operation).,"
+
+put
+public CharBuffer put(CharBuffer src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the chars remaining in the given source
+ buffer into this buffer.  If there are more chars remaining in the
+ source buffer than in this buffer, that is, if
+ src.remaining() > remaining(),
+ then no chars are transferred and a BufferOverflowException is thrown.
+
+  Otherwise, this method copies
+ n = src.remaining() chars from the given
+ buffer into this buffer, starting at each buffer's current position.
+ The positions of both buffers are then incremented by n.
+
+  In other words, an invocation of this method of the form
+ dst.put(src) has exactly the same effect as the loop
+
+ 
+     while (src.hasRemaining())
+         dst.put(src.get()); 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The source buffer from which chars are to be read;
+         must not be this buffer
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+          for the remaining chars in the source buffer
+IllegalArgumentException - If the source buffer is this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+CharBuffer,"put(int index, char c)",abstract CharBuffer,Absolute put method (optional operation).,"
+
+put
+public abstract CharBuffer put(int index,
+                               char c)
+Absolute put method  (optional operation).
+
+  Writes the given char into this buffer at the given
+ index. 
+
+Parameters:
+index - The index at which the char will be written
+c - The char value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+CharBuffer,put(String src),CharBuffer,Relative bulk put method (optional operation).,"
+
+put
+public final CharBuffer put(String src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the entire content of the given source string
+ into this buffer.  An invocation of this method of the form
+ dst.put(s) behaves in exactly the same way as the invocation
+
+ 
+     dst.put(s, 0, s.length()) 
+
+Parameters:
+src - The source string
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+CharBuffer,"put(String src, int start, int end)",CharBuffer,Relative bulk put method (optional operation).,"
+
+put
+public CharBuffer put(String src,
+                      int start,
+                      int end)
+Relative bulk put method  (optional operation).
+
+  This method transfers chars from the given string into this
+ buffer.  If there are more chars to be copied from the string than
+ remain in this buffer, that is, if
+ end - start > remaining(),
+ then no chars are transferred and a BufferOverflowException is thrown.
+
+  Otherwise, this method copies
+ n = end - start chars
+ from the given string into this buffer, starting at the given
+ start index and at the current position of this buffer.  The
+ position of this buffer is then incremented by n.
+
+  In other words, an invocation of this method of the form
+ dst.put(src, start, end) has exactly the same effect
+ as the loop
+
+ 
+     for (int i = start; i < end; i++)
+         dst.put(src.charAt(i));
+ 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The string from which chars are to be read
+start - The offset within the string of the first char to be read;
+         must be non-negative and no larger than
+         string.length()
+end - The offset within the string of the last char to be read,
+         plus one; must be non-negative and no larger than
+         string.length()
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+IndexOutOfBoundsException - If the preconditions on the start and end
+          parameters do not hold
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+CharBuffer,read(CharBuffer target),int,Attempts to read characters into the specified character buffer.,"
+
+read
+public int read(CharBuffer target)
+         throws IOException
+Attempts to read characters into the specified character buffer.
+ The buffer is used as a repository of characters as-is: the only
+ changes made are the results of a put operation. No flipping or
+ rewinding of the buffer is performed.
+
+Specified by:
+read in interface Readable
+Parameters:
+target - the buffer to read characters into
+Returns:
+The number of characters added to the buffer, or
+         -1 if this source of characters is at its end
+Throws:
+IOException - if an I/O error occurs
+NullPointerException - if target is null
+ReadOnlyBufferException - if target is a read only buffer
+Since:
+1.5
+
+
+"
+CharBuffer,slice(),abstract CharBuffer,Creates a new char buffer whose content is a shared subsequence of this buffer's content.,"
+
+slice
+public abstract CharBuffer slice()
+Creates a new char buffer whose content is a shared subsequence of
+ this buffer's content.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of chars remaining in this buffer, and its mark
+ will be undefined.  The new buffer will be direct if, and only if, this
+ buffer is direct, and it will be read-only if, and only if, this buffer
+ is read-only.  
+
+Returns:
+The new char buffer
+
+
+"
+CharBuffer,"subSequence(int start, int end)",abstract CharBuffer,"Creates a new character buffer that represents the specified subsequence of this buffer, relative to the current position.","
+
+subSequence
+public abstract CharBuffer subSequence(int start,
+                                       int end)
+Creates a new character buffer that represents the specified subsequence
+ of this buffer, relative to the current position.
+
+  The new buffer will share this buffer's content; that is, if the
+ content of this buffer is mutable then modifications to one buffer will
+ cause the other to be modified.  The new buffer's capacity will be that
+ of this buffer, its position will be
+ position() + start, and its limit will be
+ position() + end.  The new buffer will be
+ direct if, and only if, this buffer is direct, and it will be read-only
+ if, and only if, this buffer is read-only.  
+
+Specified by:
+subSequence in interface CharSequence
+Parameters:
+start - The index, relative to the current position, of the first
+         character in the subsequence; must be non-negative and no larger
+         than remaining()
+end - The index, relative to the current position, of the character
+         following the last character in the subsequence; must be no
+         smaller than start and no larger than
+         remaining()
+Returns:
+The new character buffer
+Throws:
+IndexOutOfBoundsException - If the preconditions on start and end
+          do not hold
+
+
+"
+CharBuffer,toString(),String,Returns a string containing the characters in this buffer.,"
+
+toString
+public String toString()
+Returns a string containing the characters in this buffer.
+
+  The first character of the resulting string will be the character at
+ this buffer's position, while the last character will be the character
+ at index limit() - 1.  Invoking this method does not
+ change the buffer's position. 
+
+Specified by:
+toString in interface CharSequence
+Overrides:
+toString in class Object
+Returns:
+The specified string
+
+
+"
+CharBuffer,wrap(char[] array),static CharBuffer,Wraps a char array into a buffer.,"
+
+wrap
+public static CharBuffer wrap(char[] array)
+Wraps a char array into a buffer.
+
+  The new buffer will be backed by the given char array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity and limit will be
+ array.length, its position will be zero, and its mark will be
+ undefined.  Its backing array will be the
+ given array, and its array offset> will
+ be zero.  
+
+Parameters:
+array - The array that will back this buffer
+Returns:
+The new char buffer
+
+
+"
+CharBuffer,"wrap(char[] array, int offset, int length)",static CharBuffer,Wraps a char array into a buffer.,"
+
+wrap
+public static CharBuffer wrap(char[] array,
+                              int offset,
+                              int length)
+Wraps a char array into a buffer.
+
+  The new buffer will be backed by the given char array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity will be
+ array.length, its position will be offset, its limit
+ will be offset + length, and its mark will be undefined.  Its
+ backing array will be the given array, and
+ its array offset will be zero.  
+
+Parameters:
+array - The array that will back the new buffer
+offset - The offset of the subarray to be used; must be non-negative and
+         no larger than array.length.  The new buffer's position
+         will be set to this value.
+length - The length of the subarray to be used;
+         must be non-negative and no larger than
+         array.length - offset.
+         The new buffer's limit will be set to offset + length.
+Returns:
+The new char buffer
+Throws:
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+CharBuffer,wrap(CharSequence csq),static CharBuffer,Wraps a character sequence into a buffer.,"
+
+wrap
+public static CharBuffer wrap(CharSequence csq)
+Wraps a character sequence into a buffer.
+
+  The content of the new, read-only buffer will be the content of the
+ given character sequence.  The new buffer's capacity and limit will be
+ csq.length(), its position will be zero, and its mark will be
+ undefined.  
+
+Parameters:
+csq - The character sequence from which the new character buffer is to
+         be created
+Returns:
+The new character buffer
+
+
+"
+CharBuffer,"wrap(CharSequence csq, int start, int end)",static CharBuffer,Wraps a character sequence into a buffer.,"
+
+wrap
+public static CharBuffer wrap(CharSequence csq,
+                              int start,
+                              int end)
+Wraps a character sequence into a buffer.
+
+  The content of the new, read-only buffer will be the content of the
+ given character sequence.  The buffer's capacity will be
+ csq.length(), its position will be start, its limit
+ will be end, and its mark will be undefined.  
+
+Parameters:
+csq - The character sequence from which the new character buffer is to
+         be created
+start - The index of the first character to be used;
+         must be non-negative and no larger than csq.length().
+         The new buffer's position will be set to this value.
+end - The index of the character following the last character to be
+         used; must be no smaller than start and no larger
+         than csq.length().
+         The new buffer's limit will be set to this value.
+Returns:
+The new character buffer
+Throws:
+IndexOutOfBoundsException - If the preconditions on the start and end
+          parameters do not hold
+
+
+"
+DoubleBuffer,allocate(int capacity),static DoubleBuffer,Allocates a new double buffer.,"
+
+allocate
+public static DoubleBuffer allocate(int capacity)
+Allocates a new double buffer.
+
+  The new buffer's position will be zero, its limit will be its
+ capacity, its mark will be undefined, and each of its elements will be
+ initialized to zero.  It will have a backing array,
+ and its array offset will be zero.
+
+Parameters:
+capacity - The new buffer's capacity, in doubles
+Returns:
+The new double buffer
+Throws:
+IllegalArgumentException - If the capacity is a negative integer
+
+
+"
+DoubleBuffer,array(),double[],Returns the double array that backs this buffer (optional operation).,"
+
+array
+public final double[] array()
+Returns the double array that backs this
+ buffer  (optional operation).
+
+  Modifications to this buffer's content will cause the returned
+ array's content to be modified, and vice versa.
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+array in class Buffer
+Returns:
+The array that backs this buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+DoubleBuffer,arrayOffset(),int,Returns the offset within this buffer's backing array of the first element of the buffer (optional operation).,"
+
+arrayOffset
+public final int arrayOffset()
+Returns the offset within this buffer's backing array of the first
+ element of the buffer  (optional operation).
+
+  If this buffer is backed by an array then buffer position p
+ corresponds to array index p + arrayOffset().
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+arrayOffset in class Buffer
+Returns:
+The offset within this buffer's array
+          of the first element of the buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+DoubleBuffer,asReadOnlyBuffer(),abstract DoubleBuffer,"Creates a new, read-only double buffer that shares this buffer's content.","
+
+asReadOnlyBuffer
+public abstract DoubleBuffer asReadOnlyBuffer()
+Creates a new, read-only double buffer that shares this buffer's
+ content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer; the new
+ buffer itself, however, will be read-only and will not allow the shared
+ content to be modified.  The two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.
+
+  If this buffer is itself read-only then this method behaves in
+ exactly the same way as the duplicate method.  
+
+Returns:
+The new, read-only double buffer
+
+
+"
+DoubleBuffer,compact(),abstract DoubleBuffer,Compacts this buffer (optional operation).,"
+
+compact
+public abstract DoubleBuffer compact()
+Compacts this buffer  (optional operation).
+
+  The doubles between the buffer's current position and its limit,
+ if any, are copied to the beginning of the buffer.  That is, the
+ double at index p = position() is copied
+ to index zero, the double at index p + 1 is copied
+ to index one, and so forth until the double at index
+ limit() - 1 is copied to index
+ n = limit() - 1 - p.
+ The buffer's position is then set to n+1 and its limit is set to
+ its capacity.  The mark, if defined, is discarded.
+
+  The buffer's position is set to the number of doubles copied,
+ rather than to zero, so that an invocation of this method can be
+ followed immediately by an invocation of another relative put
+ method. 
+
+Returns:
+This buffer
+Throws:
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+DoubleBuffer,compareTo(DoubleBuffer that),int,Compares this buffer to another.,"
+
+compareTo
+public int compareTo(DoubleBuffer that)
+Compares this buffer to another.
+
+  Two double buffers are compared by comparing their sequences of
+ remaining elements lexicographically, without regard to the starting
+ position of each sequence within its corresponding buffer.
+
+ Pairs of double elements are compared as if by invoking
+ Double.compare(double,double), except that
+ -0.0 and 0.0 are considered to be equal.
+ Double.NaN is considered by this method to be equal
+ to itself and greater than all other double values
+ (including Double.POSITIVE_INFINITY).
+
+
+
+
+
+  A double buffer is not comparable to any other type of object.
+
+Specified by:
+compareTo in interface Comparable<DoubleBuffer>
+Parameters:
+that - the object to be compared.
+Returns:
+A negative integer, zero, or a positive integer as this buffer
+          is less than, equal to, or greater than the given buffer
+
+
+"
+DoubleBuffer,duplicate(),abstract DoubleBuffer,Creates a new double buffer that shares this buffer's content.,"
+
+duplicate
+public abstract DoubleBuffer duplicate()
+Creates a new double buffer that shares this buffer's content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer, and vice
+ versa; the two buffers' position, limit, and mark values will be
+ independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.  The new buffer will be direct if,
+ and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+The new double buffer
+
+
+"
+DoubleBuffer,equals(Object ob),boolean,Tells whether or not this buffer is equal to another object.,"
+
+equals
+public boolean equals(Object ob)
+Tells whether or not this buffer is equal to another object.
+
+  Two double buffers are equal if, and only if,
+
+ 
+ They have the same element type,  
+ They have the same number of remaining elements, and
+   
+ The two sequences of remaining elements, considered
+   independently of their starting positions, are pointwise equal.
+
+   This method considers two double elements a and b
+   to be equal if
+   (a == b) || (Double.isNaN(a) && Double.isNaN(b)).
+   The values -0.0 and +0.0 are considered to be
+   equal, unlike Double.equals(Object).
+
+   
+
+ A double buffer is not equal to any other type of object.  
+
+Overrides:
+equals in class Object
+Parameters:
+ob - The object to which this buffer is to be compared
+Returns:
+true if, and only if, this buffer is equal to the
+           given object
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+DoubleBuffer,get(),abstract double,Relative get method.,"
+
+get
+public abstract double get()
+Relative get method.  Reads the double at this buffer's
+ current position, and then increments the position.
+
+Returns:
+The double at the buffer's current position
+Throws:
+BufferUnderflowException - If the buffer's current position is not smaller than its limit
+
+
+"
+DoubleBuffer,get(double[] dst),DoubleBuffer,Relative bulk get method.,"
+
+get
+public DoubleBuffer get(double[] dst)
+Relative bulk get method.
+
+  This method transfers doubles from this buffer into the given
+ destination array.  An invocation of this method of the form
+ src.get(a) behaves in exactly the same way as the invocation
+
+ 
+     src.get(a, 0, a.length) 
+
+Parameters:
+dst - The destination array
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length doubles
+          remaining in this buffer
+
+
+"
+DoubleBuffer,"get(double[] dst, int offset, int length)",DoubleBuffer,Relative bulk get method.,"
+
+get
+public DoubleBuffer get(double[] dst,
+                        int offset,
+                        int length)
+Relative bulk get method.
+
+  This method transfers doubles from this buffer into the given
+ destination array.  If there are fewer doubles remaining in the
+ buffer than are required to satisfy the request, that is, if
+ length > remaining(), then no
+ doubles are transferred and a BufferUnderflowException is
+ thrown.
+
+  Otherwise, this method copies length doubles from this
+ buffer into the given array, starting at the current position of this
+ buffer and at the given offset in the array.  The position of this
+ buffer is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ src.get(dst, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst[i] = src.get():
+ 
+
+ except that it first checks that there are sufficient doubles in
+ this buffer and it is potentially much more efficient.
+
+Parameters:
+dst - The array into which doubles are to be written
+offset - The offset within the array of the first double to be
+         written; must be non-negative and no larger than
+         dst.length
+length - The maximum number of doubles to be written to the given
+         array; must be non-negative and no larger than
+         dst.length - offset
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length doubles
+          remaining in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+DoubleBuffer,get(int index),abstract double,Absolute get method.,"
+
+get
+public abstract double get(int index)
+Absolute get method.  Reads the double at the given
+ index.
+
+Parameters:
+index - The index from which the double will be read
+Returns:
+The double at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+
+
+"
+DoubleBuffer,hasArray(),boolean,Tells whether or not this buffer is backed by an accessible double array.,"
+
+hasArray
+public final boolean hasArray()
+Tells whether or not this buffer is backed by an accessible double
+ array.
+
+  If this method returns true then the array
+ and arrayOffset methods may safely be invoked.
+ 
+
+Specified by:
+hasArray in class Buffer
+Returns:
+true if, and only if, this buffer
+          is backed by an array and is not read-only
+
+
+"
+DoubleBuffer,hashCode(),int,Returns the current hash code of this buffer.,"
+
+hashCode
+public int hashCode()
+Returns the current hash code of this buffer.
+
+  The hash code of a double buffer depends only upon its remaining
+ elements; that is, upon the elements from position() up to, and
+ including, the element at limit() - 1.
+
+  Because buffer hash codes are content-dependent, it is inadvisable
+ to use buffers as keys in hash maps or similar data structures unless it
+ is known that their contents will not change.  
+
+Overrides:
+hashCode in class Object
+Returns:
+The current hash code of this buffer
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+DoubleBuffer,isDirect(),abstract boolean,Tells whether or not this double buffer is direct.,"
+
+isDirect
+public abstract boolean isDirect()
+Tells whether or not this double buffer is direct.
+
+Specified by:
+isDirect in class Buffer
+Returns:
+true if, and only if, this buffer is direct
+
+
+"
+DoubleBuffer,order(),abstract ByteOrder,Retrieves this buffer's byte order.,"
+
+order
+public abstract ByteOrder order()
+Retrieves this buffer's byte order.
+
+  The byte order of a double buffer created by allocation or by
+ wrapping an existing double array is the native order of the underlying
+ hardware.  The byte order of a double buffer created as a view of a byte buffer is that of the
+ byte buffer at the moment that the view is created.  
+
+Returns:
+This buffer's byte order
+
+
+"
+DoubleBuffer,put(double d),abstract DoubleBuffer,Relative put method (optional operation).,"
+
+put
+public abstract DoubleBuffer put(double d)
+Relative put method  (optional operation).
+
+  Writes the given double into this buffer at the current
+ position, and then increments the position. 
+
+Parameters:
+d - The double to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If this buffer's current position is not smaller than its limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+DoubleBuffer,put(double[] src),DoubleBuffer,Relative bulk put method (optional operation).,"
+
+put
+public final DoubleBuffer put(double[] src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the entire content of the given source
+ double array into this buffer.  An invocation of this method of the
+ form dst.put(a) behaves in exactly the same way as the
+ invocation
+
+ 
+     dst.put(a, 0, a.length) 
+
+Parameters:
+src - The source array
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+DoubleBuffer,"put(double[] src, int offset, int length)",DoubleBuffer,Relative bulk put method (optional operation).,"
+
+put
+public DoubleBuffer put(double[] src,
+                        int offset,
+                        int length)
+Relative bulk put method  (optional operation).
+
+  This method transfers doubles into this buffer from the given
+ source array.  If there are more doubles to be copied from the array
+ than remain in this buffer, that is, if
+ length > remaining(), then no
+ doubles are transferred and a BufferOverflowException is
+ thrown.
+
+  Otherwise, this method copies length doubles from the
+ given array into this buffer, starting at the given offset in the array
+ and at the current position of this buffer.  The position of this buffer
+ is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ dst.put(src, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst.put(a[i]);
+ 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The array from which doubles are to be read
+offset - The offset within the array of the first double to be read;
+         must be non-negative and no larger than array.length
+length - The number of doubles to be read from the given array;
+         must be non-negative and no larger than
+         array.length - offset
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+DoubleBuffer,put(DoubleBuffer src),DoubleBuffer,Relative bulk put method (optional operation).,"
+
+put
+public DoubleBuffer put(DoubleBuffer src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the doubles remaining in the given source
+ buffer into this buffer.  If there are more doubles remaining in the
+ source buffer than in this buffer, that is, if
+ src.remaining() > remaining(),
+ then no doubles are transferred and a BufferOverflowException is thrown.
+
+  Otherwise, this method copies
+ n = src.remaining() doubles from the given
+ buffer into this buffer, starting at each buffer's current position.
+ The positions of both buffers are then incremented by n.
+
+  In other words, an invocation of this method of the form
+ dst.put(src) has exactly the same effect as the loop
+
+ 
+     while (src.hasRemaining())
+         dst.put(src.get()); 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The source buffer from which doubles are to be read;
+         must not be this buffer
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+          for the remaining doubles in the source buffer
+IllegalArgumentException - If the source buffer is this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+DoubleBuffer,"put(int index, double d)",abstract DoubleBuffer,Absolute put method (optional operation).,"
+
+put
+public abstract DoubleBuffer put(int index,
+                                 double d)
+Absolute put method  (optional operation).
+
+  Writes the given double into this buffer at the given
+ index. 
+
+Parameters:
+index - The index at which the double will be written
+d - The double value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+DoubleBuffer,slice(),abstract DoubleBuffer,Creates a new double buffer whose content is a shared subsequence of this buffer's content.,"
+
+slice
+public abstract DoubleBuffer slice()
+Creates a new double buffer whose content is a shared subsequence of
+ this buffer's content.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of doubles remaining in this buffer, and its mark
+ will be undefined.  The new buffer will be direct if, and only if, this
+ buffer is direct, and it will be read-only if, and only if, this buffer
+ is read-only.  
+
+Returns:
+The new double buffer
+
+
+"
+DoubleBuffer,toString(),String,Returns a string summarizing the state of this buffer.,"
+
+toString
+public String toString()
+Returns a string summarizing the state of this buffer.
+
+Overrides:
+toString in class Object
+Returns:
+A summary string
+
+
+"
+DoubleBuffer,wrap(double[] array),static DoubleBuffer,Wraps a double array into a buffer.,"
+
+wrap
+public static DoubleBuffer wrap(double[] array)
+Wraps a double array into a buffer.
+
+  The new buffer will be backed by the given double array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity and limit will be
+ array.length, its position will be zero, and its mark will be
+ undefined.  Its backing array will be the
+ given array, and its array offset> will
+ be zero.  
+
+Parameters:
+array - The array that will back this buffer
+Returns:
+The new double buffer
+
+
+"
+DoubleBuffer,"wrap(double[] array, int offset, int length)",static DoubleBuffer,Wraps a double array into a buffer.,"
+
+wrap
+public static DoubleBuffer wrap(double[] array,
+                                int offset,
+                                int length)
+Wraps a double array into a buffer.
+
+  The new buffer will be backed by the given double array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity will be
+ array.length, its position will be offset, its limit
+ will be offset + length, and its mark will be undefined.  Its
+ backing array will be the given array, and
+ its array offset will be zero.  
+
+Parameters:
+array - The array that will back the new buffer
+offset - The offset of the subarray to be used; must be non-negative and
+         no larger than array.length.  The new buffer's position
+         will be set to this value.
+length - The length of the subarray to be used;
+         must be non-negative and no larger than
+         array.length - offset.
+         The new buffer's limit will be set to offset + length.
+Returns:
+The new double buffer
+Throws:
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+FloatBuffer,allocate(int capacity),static FloatBuffer,Allocates a new float buffer.,"
+
+allocate
+public static FloatBuffer allocate(int capacity)
+Allocates a new float buffer.
+
+  The new buffer's position will be zero, its limit will be its
+ capacity, its mark will be undefined, and each of its elements will be
+ initialized to zero.  It will have a backing array,
+ and its array offset will be zero.
+
+Parameters:
+capacity - The new buffer's capacity, in floats
+Returns:
+The new float buffer
+Throws:
+IllegalArgumentException - If the capacity is a negative integer
+
+
+"
+FloatBuffer,array(),float[],Returns the float array that backs this buffer (optional operation).,"
+
+array
+public final float[] array()
+Returns the float array that backs this
+ buffer  (optional operation).
+
+  Modifications to this buffer's content will cause the returned
+ array's content to be modified, and vice versa.
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+array in class Buffer
+Returns:
+The array that backs this buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+FloatBuffer,arrayOffset(),int,Returns the offset within this buffer's backing array of the first element of the buffer (optional operation).,"
+
+arrayOffset
+public final int arrayOffset()
+Returns the offset within this buffer's backing array of the first
+ element of the buffer  (optional operation).
+
+  If this buffer is backed by an array then buffer position p
+ corresponds to array index p + arrayOffset().
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+arrayOffset in class Buffer
+Returns:
+The offset within this buffer's array
+          of the first element of the buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+FloatBuffer,asReadOnlyBuffer(),abstract FloatBuffer,"Creates a new, read-only float buffer that shares this buffer's content.","
+
+asReadOnlyBuffer
+public abstract FloatBuffer asReadOnlyBuffer()
+Creates a new, read-only float buffer that shares this buffer's
+ content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer; the new
+ buffer itself, however, will be read-only and will not allow the shared
+ content to be modified.  The two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.
+
+  If this buffer is itself read-only then this method behaves in
+ exactly the same way as the duplicate method.  
+
+Returns:
+The new, read-only float buffer
+
+
+"
+FloatBuffer,compact(),abstract FloatBuffer,Compacts this buffer (optional operation).,"
+
+compact
+public abstract FloatBuffer compact()
+Compacts this buffer  (optional operation).
+
+  The floats between the buffer's current position and its limit,
+ if any, are copied to the beginning of the buffer.  That is, the
+ float at index p = position() is copied
+ to index zero, the float at index p + 1 is copied
+ to index one, and so forth until the float at index
+ limit() - 1 is copied to index
+ n = limit() - 1 - p.
+ The buffer's position is then set to n+1 and its limit is set to
+ its capacity.  The mark, if defined, is discarded.
+
+  The buffer's position is set to the number of floats copied,
+ rather than to zero, so that an invocation of this method can be
+ followed immediately by an invocation of another relative put
+ method. 
+
+Returns:
+This buffer
+Throws:
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+FloatBuffer,compareTo(FloatBuffer that),int,Compares this buffer to another.,"
+
+compareTo
+public int compareTo(FloatBuffer that)
+Compares this buffer to another.
+
+  Two float buffers are compared by comparing their sequences of
+ remaining elements lexicographically, without regard to the starting
+ position of each sequence within its corresponding buffer.
+
+ Pairs of float elements are compared as if by invoking
+ Float.compare(float,float), except that
+ -0.0 and 0.0 are considered to be equal.
+ Float.NaN is considered by this method to be equal
+ to itself and greater than all other float values
+ (including Float.POSITIVE_INFINITY).
+
+
+
+
+
+  A float buffer is not comparable to any other type of object.
+
+Specified by:
+compareTo in interface Comparable<FloatBuffer>
+Parameters:
+that - the object to be compared.
+Returns:
+A negative integer, zero, or a positive integer as this buffer
+          is less than, equal to, or greater than the given buffer
+
+
+"
+FloatBuffer,duplicate(),abstract FloatBuffer,Creates a new float buffer that shares this buffer's content.,"
+
+duplicate
+public abstract FloatBuffer duplicate()
+Creates a new float buffer that shares this buffer's content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer, and vice
+ versa; the two buffers' position, limit, and mark values will be
+ independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.  The new buffer will be direct if,
+ and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+The new float buffer
+
+
+"
+FloatBuffer,equals(Object ob),boolean,Tells whether or not this buffer is equal to another object.,"
+
+equals
+public boolean equals(Object ob)
+Tells whether or not this buffer is equal to another object.
+
+  Two float buffers are equal if, and only if,
+
+ 
+ They have the same element type,  
+ They have the same number of remaining elements, and
+   
+ The two sequences of remaining elements, considered
+   independently of their starting positions, are pointwise equal.
+
+   This method considers two float elements a and b
+   to be equal if
+   (a == b) || (Float.isNaN(a) && Float.isNaN(b)).
+   The values -0.0 and +0.0 are considered to be
+   equal, unlike Float.equals(Object).
+
+   
+
+ A float buffer is not equal to any other type of object.  
+
+Overrides:
+equals in class Object
+Parameters:
+ob - The object to which this buffer is to be compared
+Returns:
+true if, and only if, this buffer is equal to the
+           given object
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+FloatBuffer,get(),abstract float,Relative get method.,"
+
+get
+public abstract float get()
+Relative get method.  Reads the float at this buffer's
+ current position, and then increments the position.
+
+Returns:
+The float at the buffer's current position
+Throws:
+BufferUnderflowException - If the buffer's current position is not smaller than its limit
+
+
+"
+FloatBuffer,get(float[] dst),FloatBuffer,Relative bulk get method.,"
+
+get
+public FloatBuffer get(float[] dst)
+Relative bulk get method.
+
+  This method transfers floats from this buffer into the given
+ destination array.  An invocation of this method of the form
+ src.get(a) behaves in exactly the same way as the invocation
+
+ 
+     src.get(a, 0, a.length) 
+
+Parameters:
+dst - The destination array
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length floats
+          remaining in this buffer
+
+
+"
+FloatBuffer,"get(float[] dst, int offset, int length)",FloatBuffer,Relative bulk get method.,"
+
+get
+public FloatBuffer get(float[] dst,
+                       int offset,
+                       int length)
+Relative bulk get method.
+
+  This method transfers floats from this buffer into the given
+ destination array.  If there are fewer floats remaining in the
+ buffer than are required to satisfy the request, that is, if
+ length > remaining(), then no
+ floats are transferred and a BufferUnderflowException is
+ thrown.
+
+  Otherwise, this method copies length floats from this
+ buffer into the given array, starting at the current position of this
+ buffer and at the given offset in the array.  The position of this
+ buffer is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ src.get(dst, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst[i] = src.get():
+ 
+
+ except that it first checks that there are sufficient floats in
+ this buffer and it is potentially much more efficient.
+
+Parameters:
+dst - The array into which floats are to be written
+offset - The offset within the array of the first float to be
+         written; must be non-negative and no larger than
+         dst.length
+length - The maximum number of floats to be written to the given
+         array; must be non-negative and no larger than
+         dst.length - offset
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length floats
+          remaining in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+FloatBuffer,get(int index),abstract float,Absolute get method.,"
+
+get
+public abstract float get(int index)
+Absolute get method.  Reads the float at the given
+ index.
+
+Parameters:
+index - The index from which the float will be read
+Returns:
+The float at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+
+
+"
+FloatBuffer,hasArray(),boolean,Tells whether or not this buffer is backed by an accessible float array.,"
+
+hasArray
+public final boolean hasArray()
+Tells whether or not this buffer is backed by an accessible float
+ array.
+
+  If this method returns true then the array
+ and arrayOffset methods may safely be invoked.
+ 
+
+Specified by:
+hasArray in class Buffer
+Returns:
+true if, and only if, this buffer
+          is backed by an array and is not read-only
+
+
+"
+FloatBuffer,hashCode(),int,Returns the current hash code of this buffer.,"
+
+hashCode
+public int hashCode()
+Returns the current hash code of this buffer.
+
+  The hash code of a float buffer depends only upon its remaining
+ elements; that is, upon the elements from position() up to, and
+ including, the element at limit() - 1.
+
+  Because buffer hash codes are content-dependent, it is inadvisable
+ to use buffers as keys in hash maps or similar data structures unless it
+ is known that their contents will not change.  
+
+Overrides:
+hashCode in class Object
+Returns:
+The current hash code of this buffer
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+FloatBuffer,isDirect(),abstract boolean,Tells whether or not this float buffer is direct.,"
+
+isDirect
+public abstract boolean isDirect()
+Tells whether or not this float buffer is direct.
+
+Specified by:
+isDirect in class Buffer
+Returns:
+true if, and only if, this buffer is direct
+
+
+"
+FloatBuffer,order(),abstract ByteOrder,Retrieves this buffer's byte order.,"
+
+order
+public abstract ByteOrder order()
+Retrieves this buffer's byte order.
+
+  The byte order of a float buffer created by allocation or by
+ wrapping an existing float array is the native order of the underlying
+ hardware.  The byte order of a float buffer created as a view of a byte buffer is that of the
+ byte buffer at the moment that the view is created.  
+
+Returns:
+This buffer's byte order
+
+
+"
+FloatBuffer,put(float f),abstract FloatBuffer,Relative put method (optional operation).,"
+
+put
+public abstract FloatBuffer put(float f)
+Relative put method  (optional operation).
+
+  Writes the given float into this buffer at the current
+ position, and then increments the position. 
+
+Parameters:
+f - The float to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If this buffer's current position is not smaller than its limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+FloatBuffer,put(float[] src),FloatBuffer,Relative bulk put method (optional operation).,"
+
+put
+public final FloatBuffer put(float[] src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the entire content of the given source
+ float array into this buffer.  An invocation of this method of the
+ form dst.put(a) behaves in exactly the same way as the
+ invocation
+
+ 
+     dst.put(a, 0, a.length) 
+
+Parameters:
+src - The source array
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+FloatBuffer,"put(float[] src, int offset, int length)",FloatBuffer,Relative bulk put method (optional operation).,"
+
+put
+public FloatBuffer put(float[] src,
+                       int offset,
+                       int length)
+Relative bulk put method  (optional operation).
+
+  This method transfers floats into this buffer from the given
+ source array.  If there are more floats to be copied from the array
+ than remain in this buffer, that is, if
+ length > remaining(), then no
+ floats are transferred and a BufferOverflowException is
+ thrown.
+
+  Otherwise, this method copies length floats from the
+ given array into this buffer, starting at the given offset in the array
+ and at the current position of this buffer.  The position of this buffer
+ is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ dst.put(src, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst.put(a[i]);
+ 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The array from which floats are to be read
+offset - The offset within the array of the first float to be read;
+         must be non-negative and no larger than array.length
+length - The number of floats to be read from the given array;
+         must be non-negative and no larger than
+         array.length - offset
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+FloatBuffer,put(FloatBuffer src),FloatBuffer,Relative bulk put method (optional operation).,"
+
+put
+public FloatBuffer put(FloatBuffer src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the floats remaining in the given source
+ buffer into this buffer.  If there are more floats remaining in the
+ source buffer than in this buffer, that is, if
+ src.remaining() > remaining(),
+ then no floats are transferred and a BufferOverflowException is thrown.
+
+  Otherwise, this method copies
+ n = src.remaining() floats from the given
+ buffer into this buffer, starting at each buffer's current position.
+ The positions of both buffers are then incremented by n.
+
+  In other words, an invocation of this method of the form
+ dst.put(src) has exactly the same effect as the loop
+
+ 
+     while (src.hasRemaining())
+         dst.put(src.get()); 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The source buffer from which floats are to be read;
+         must not be this buffer
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+          for the remaining floats in the source buffer
+IllegalArgumentException - If the source buffer is this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+FloatBuffer,"put(int index, float f)",abstract FloatBuffer,Absolute put method (optional operation).,"
+
+put
+public abstract FloatBuffer put(int index,
+                                float f)
+Absolute put method  (optional operation).
+
+  Writes the given float into this buffer at the given
+ index. 
+
+Parameters:
+index - The index at which the float will be written
+f - The float value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+FloatBuffer,slice(),abstract FloatBuffer,Creates a new float buffer whose content is a shared subsequence of this buffer's content.,"
+
+slice
+public abstract FloatBuffer slice()
+Creates a new float buffer whose content is a shared subsequence of
+ this buffer's content.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of floats remaining in this buffer, and its mark
+ will be undefined.  The new buffer will be direct if, and only if, this
+ buffer is direct, and it will be read-only if, and only if, this buffer
+ is read-only.  
+
+Returns:
+The new float buffer
+
+
+"
+FloatBuffer,toString(),String,Returns a string summarizing the state of this buffer.,"
+
+toString
+public String toString()
+Returns a string summarizing the state of this buffer.
+
+Overrides:
+toString in class Object
+Returns:
+A summary string
+
+
+"
+FloatBuffer,wrap(float[] array),static FloatBuffer,Wraps a float array into a buffer.,"
+
+wrap
+public static FloatBuffer wrap(float[] array)
+Wraps a float array into a buffer.
+
+  The new buffer will be backed by the given float array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity and limit will be
+ array.length, its position will be zero, and its mark will be
+ undefined.  Its backing array will be the
+ given array, and its array offset> will
+ be zero.  
+
+Parameters:
+array - The array that will back this buffer
+Returns:
+The new float buffer
+
+
+"
+FloatBuffer,"wrap(float[] array, int offset, int length)",static FloatBuffer,Wraps a float array into a buffer.,"
+
+wrap
+public static FloatBuffer wrap(float[] array,
+                               int offset,
+                               int length)
+Wraps a float array into a buffer.
+
+  The new buffer will be backed by the given float array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity will be
+ array.length, its position will be offset, its limit
+ will be offset + length, and its mark will be undefined.  Its
+ backing array will be the given array, and
+ its array offset will be zero.  
+
+Parameters:
+array - The array that will back the new buffer
+offset - The offset of the subarray to be used; must be non-negative and
+         no larger than array.length.  The new buffer's position
+         will be set to this value.
+length - The length of the subarray to be used;
+         must be non-negative and no larger than
+         array.length - offset.
+         The new buffer's limit will be set to offset + length.
+Returns:
+The new float buffer
+Throws:
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+IntBuffer,allocate(int capacity),static IntBuffer,Allocates a new int buffer.,"
+
+allocate
+public static IntBuffer allocate(int capacity)
+Allocates a new int buffer.
+
+  The new buffer's position will be zero, its limit will be its
+ capacity, its mark will be undefined, and each of its elements will be
+ initialized to zero.  It will have a backing array,
+ and its array offset will be zero.
+
+Parameters:
+capacity - The new buffer's capacity, in ints
+Returns:
+The new int buffer
+Throws:
+IllegalArgumentException - If the capacity is a negative integer
+
+
+"
+IntBuffer,array(),int[],Returns the int array that backs this buffer (optional operation).,"
+
+array
+public final int[] array()
+Returns the int array that backs this
+ buffer  (optional operation).
+
+  Modifications to this buffer's content will cause the returned
+ array's content to be modified, and vice versa.
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+array in class Buffer
+Returns:
+The array that backs this buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+IntBuffer,arrayOffset(),int,Returns the offset within this buffer's backing array of the first element of the buffer (optional operation).,"
+
+arrayOffset
+public final int arrayOffset()
+Returns the offset within this buffer's backing array of the first
+ element of the buffer  (optional operation).
+
+  If this buffer is backed by an array then buffer position p
+ corresponds to array index p + arrayOffset().
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+arrayOffset in class Buffer
+Returns:
+The offset within this buffer's array
+          of the first element of the buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+IntBuffer,asReadOnlyBuffer(),abstract IntBuffer,"Creates a new, read-only int buffer that shares this buffer's content.","
+
+asReadOnlyBuffer
+public abstract IntBuffer asReadOnlyBuffer()
+Creates a new, read-only int buffer that shares this buffer's
+ content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer; the new
+ buffer itself, however, will be read-only and will not allow the shared
+ content to be modified.  The two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.
+
+  If this buffer is itself read-only then this method behaves in
+ exactly the same way as the duplicate method.  
+
+Returns:
+The new, read-only int buffer
+
+
+"
+IntBuffer,compact(),abstract IntBuffer,Compacts this buffer (optional operation).,"
+
+compact
+public abstract IntBuffer compact()
+Compacts this buffer  (optional operation).
+
+  The ints between the buffer's current position and its limit,
+ if any, are copied to the beginning of the buffer.  That is, the
+ int at index p = position() is copied
+ to index zero, the int at index p + 1 is copied
+ to index one, and so forth until the int at index
+ limit() - 1 is copied to index
+ n = limit() - 1 - p.
+ The buffer's position is then set to n+1 and its limit is set to
+ its capacity.  The mark, if defined, is discarded.
+
+  The buffer's position is set to the number of ints copied,
+ rather than to zero, so that an invocation of this method can be
+ followed immediately by an invocation of another relative put
+ method. 
+
+Returns:
+This buffer
+Throws:
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+IntBuffer,compareTo(IntBuffer that),int,Compares this buffer to another.,"
+
+compareTo
+public int compareTo(IntBuffer that)
+Compares this buffer to another.
+
+  Two int buffers are compared by comparing their sequences of
+ remaining elements lexicographically, without regard to the starting
+ position of each sequence within its corresponding buffer.
+
+
+
+
+
+
+
+
+ Pairs of int elements are compared as if by invoking
+ Integer.compare(int,int).
+
+
+  A int buffer is not comparable to any other type of object.
+
+Specified by:
+compareTo in interface Comparable<IntBuffer>
+Parameters:
+that - the object to be compared.
+Returns:
+A negative integer, zero, or a positive integer as this buffer
+          is less than, equal to, or greater than the given buffer
+
+
+"
+IntBuffer,duplicate(),abstract IntBuffer,Creates a new int buffer that shares this buffer's content.,"
+
+duplicate
+public abstract IntBuffer duplicate()
+Creates a new int buffer that shares this buffer's content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer, and vice
+ versa; the two buffers' position, limit, and mark values will be
+ independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.  The new buffer will be direct if,
+ and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+The new int buffer
+
+
+"
+IntBuffer,equals(Object ob),boolean,Tells whether or not this buffer is equal to another object.,"
+
+equals
+public boolean equals(Object ob)
+Tells whether or not this buffer is equal to another object.
+
+  Two int buffers are equal if, and only if,
+
+ 
+ They have the same element type,  
+ They have the same number of remaining elements, and
+   
+ The two sequences of remaining elements, considered
+   independently of their starting positions, are pointwise equal.
+
+
+
+
+
+
+
+   
+
+ A int buffer is not equal to any other type of object.  
+
+Overrides:
+equals in class Object
+Parameters:
+ob - The object to which this buffer is to be compared
+Returns:
+true if, and only if, this buffer is equal to the
+           given object
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+IntBuffer,get(),abstract int,Relative get method.,"
+
+get
+public abstract int get()
+Relative get method.  Reads the int at this buffer's
+ current position, and then increments the position.
+
+Returns:
+The int at the buffer's current position
+Throws:
+BufferUnderflowException - If the buffer's current position is not smaller than its limit
+
+
+"
+IntBuffer,get(int index),abstract int,Absolute get method.,"
+
+get
+public abstract int get(int index)
+Absolute get method.  Reads the int at the given
+ index.
+
+Parameters:
+index - The index from which the int will be read
+Returns:
+The int at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+
+
+"
+IntBuffer,get(int[] dst),IntBuffer,Relative bulk get method.,"
+
+get
+public IntBuffer get(int[] dst)
+Relative bulk get method.
+
+  This method transfers ints from this buffer into the given
+ destination array.  An invocation of this method of the form
+ src.get(a) behaves in exactly the same way as the invocation
+
+ 
+     src.get(a, 0, a.length) 
+
+Parameters:
+dst - The destination array
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length ints
+          remaining in this buffer
+
+
+"
+IntBuffer,"get(int[] dst, int offset, int length)",IntBuffer,Relative bulk get method.,"
+
+get
+public IntBuffer get(int[] dst,
+                     int offset,
+                     int length)
+Relative bulk get method.
+
+  This method transfers ints from this buffer into the given
+ destination array.  If there are fewer ints remaining in the
+ buffer than are required to satisfy the request, that is, if
+ length > remaining(), then no
+ ints are transferred and a BufferUnderflowException is
+ thrown.
+
+  Otherwise, this method copies length ints from this
+ buffer into the given array, starting at the current position of this
+ buffer and at the given offset in the array.  The position of this
+ buffer is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ src.get(dst, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst[i] = src.get():
+ 
+
+ except that it first checks that there are sufficient ints in
+ this buffer and it is potentially much more efficient.
+
+Parameters:
+dst - The array into which ints are to be written
+offset - The offset within the array of the first int to be
+         written; must be non-negative and no larger than
+         dst.length
+length - The maximum number of ints to be written to the given
+         array; must be non-negative and no larger than
+         dst.length - offset
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length ints
+          remaining in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+IntBuffer,hasArray(),boolean,Tells whether or not this buffer is backed by an accessible int array.,"
+
+hasArray
+public final boolean hasArray()
+Tells whether or not this buffer is backed by an accessible int
+ array.
+
+  If this method returns true then the array
+ and arrayOffset methods may safely be invoked.
+ 
+
+Specified by:
+hasArray in class Buffer
+Returns:
+true if, and only if, this buffer
+          is backed by an array and is not read-only
+
+
+"
+IntBuffer,hashCode(),int,Returns the current hash code of this buffer.,"
+
+hashCode
+public int hashCode()
+Returns the current hash code of this buffer.
+
+  The hash code of a int buffer depends only upon its remaining
+ elements; that is, upon the elements from position() up to, and
+ including, the element at limit() - 1.
+
+  Because buffer hash codes are content-dependent, it is inadvisable
+ to use buffers as keys in hash maps or similar data structures unless it
+ is known that their contents will not change.  
+
+Overrides:
+hashCode in class Object
+Returns:
+The current hash code of this buffer
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+IntBuffer,isDirect(),abstract boolean,Tells whether or not this int buffer is direct.,"
+
+isDirect
+public abstract boolean isDirect()
+Tells whether or not this int buffer is direct.
+
+Specified by:
+isDirect in class Buffer
+Returns:
+true if, and only if, this buffer is direct
+
+
+"
+IntBuffer,order(),abstract ByteOrder,Retrieves this buffer's byte order.,"
+
+order
+public abstract ByteOrder order()
+Retrieves this buffer's byte order.
+
+  The byte order of an int buffer created by allocation or by
+ wrapping an existing int array is the native order of the underlying
+ hardware.  The byte order of an int buffer created as a view of a byte buffer is that of the
+ byte buffer at the moment that the view is created.  
+
+Returns:
+This buffer's byte order
+
+
+"
+IntBuffer,put(int i),abstract IntBuffer,Relative put method (optional operation).,"
+
+put
+public abstract IntBuffer put(int i)
+Relative put method  (optional operation).
+
+  Writes the given int into this buffer at the current
+ position, and then increments the position. 
+
+Parameters:
+i - The int to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If this buffer's current position is not smaller than its limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+IntBuffer,put(int[] src),IntBuffer,Relative bulk put method (optional operation).,"
+
+put
+public final IntBuffer put(int[] src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the entire content of the given source
+ int array into this buffer.  An invocation of this method of the
+ form dst.put(a) behaves in exactly the same way as the
+ invocation
+
+ 
+     dst.put(a, 0, a.length) 
+
+Parameters:
+src - The source array
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+IntBuffer,"put(int[] src, int offset, int length)",IntBuffer,Relative bulk put method (optional operation).,"
+
+put
+public IntBuffer put(int[] src,
+                     int offset,
+                     int length)
+Relative bulk put method  (optional operation).
+
+  This method transfers ints into this buffer from the given
+ source array.  If there are more ints to be copied from the array
+ than remain in this buffer, that is, if
+ length > remaining(), then no
+ ints are transferred and a BufferOverflowException is
+ thrown.
+
+  Otherwise, this method copies length ints from the
+ given array into this buffer, starting at the given offset in the array
+ and at the current position of this buffer.  The position of this buffer
+ is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ dst.put(src, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst.put(a[i]);
+ 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The array from which ints are to be read
+offset - The offset within the array of the first int to be read;
+         must be non-negative and no larger than array.length
+length - The number of ints to be read from the given array;
+         must be non-negative and no larger than
+         array.length - offset
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+IntBuffer,put(IntBuffer src),IntBuffer,Relative bulk put method (optional operation).,"
+
+put
+public IntBuffer put(IntBuffer src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the ints remaining in the given source
+ buffer into this buffer.  If there are more ints remaining in the
+ source buffer than in this buffer, that is, if
+ src.remaining() > remaining(),
+ then no ints are transferred and a BufferOverflowException is thrown.
+
+  Otherwise, this method copies
+ n = src.remaining() ints from the given
+ buffer into this buffer, starting at each buffer's current position.
+ The positions of both buffers are then incremented by n.
+
+  In other words, an invocation of this method of the form
+ dst.put(src) has exactly the same effect as the loop
+
+ 
+     while (src.hasRemaining())
+         dst.put(src.get()); 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The source buffer from which ints are to be read;
+         must not be this buffer
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+          for the remaining ints in the source buffer
+IllegalArgumentException - If the source buffer is this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+IntBuffer,"put(int index, int i)",abstract IntBuffer,Absolute put method (optional operation).,"
+
+put
+public abstract IntBuffer put(int index,
+                              int i)
+Absolute put method  (optional operation).
+
+  Writes the given int into this buffer at the given
+ index. 
+
+Parameters:
+index - The index at which the int will be written
+i - The int value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+IntBuffer,slice(),abstract IntBuffer,Creates a new int buffer whose content is a shared subsequence of this buffer's content.,"
+
+slice
+public abstract IntBuffer slice()
+Creates a new int buffer whose content is a shared subsequence of
+ this buffer's content.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of ints remaining in this buffer, and its mark
+ will be undefined.  The new buffer will be direct if, and only if, this
+ buffer is direct, and it will be read-only if, and only if, this buffer
+ is read-only.  
+
+Returns:
+The new int buffer
+
+
+"
+IntBuffer,toString(),String,Returns a string summarizing the state of this buffer.,"
+
+toString
+public String toString()
+Returns a string summarizing the state of this buffer.
+
+Overrides:
+toString in class Object
+Returns:
+A summary string
+
+
+"
+IntBuffer,wrap(int[] array),static IntBuffer,Wraps an int array into a buffer.,"
+
+wrap
+public static IntBuffer wrap(int[] array)
+Wraps an int array into a buffer.
+
+  The new buffer will be backed by the given int array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity and limit will be
+ array.length, its position will be zero, and its mark will be
+ undefined.  Its backing array will be the
+ given array, and its array offset> will
+ be zero.  
+
+Parameters:
+array - The array that will back this buffer
+Returns:
+The new int buffer
+
+
+"
+IntBuffer,"wrap(int[] array, int offset, int length)",static IntBuffer,Wraps an int array into a buffer.,"
+
+wrap
+public static IntBuffer wrap(int[] array,
+                             int offset,
+                             int length)
+Wraps an int array into a buffer.
+
+  The new buffer will be backed by the given int array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity will be
+ array.length, its position will be offset, its limit
+ will be offset + length, and its mark will be undefined.  Its
+ backing array will be the given array, and
+ its array offset will be zero.  
+
+Parameters:
+array - The array that will back the new buffer
+offset - The offset of the subarray to be used; must be non-negative and
+         no larger than array.length.  The new buffer's position
+         will be set to this value.
+length - The length of the subarray to be used;
+         must be non-negative and no larger than
+         array.length - offset.
+         The new buffer's limit will be set to offset + length.
+Returns:
+The new int buffer
+Throws:
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+LongBuffer,allocate(int capacity),static LongBuffer,Allocates a new long buffer.,"
+
+allocate
+public static LongBuffer allocate(int capacity)
+Allocates a new long buffer.
+
+  The new buffer's position will be zero, its limit will be its
+ capacity, its mark will be undefined, and each of its elements will be
+ initialized to zero.  It will have a backing array,
+ and its array offset will be zero.
+
+Parameters:
+capacity - The new buffer's capacity, in longs
+Returns:
+The new long buffer
+Throws:
+IllegalArgumentException - If the capacity is a negative integer
+
+
+"
+LongBuffer,array(),long[],Returns the long array that backs this buffer (optional operation).,"
+
+array
+public final long[] array()
+Returns the long array that backs this
+ buffer  (optional operation).
+
+  Modifications to this buffer's content will cause the returned
+ array's content to be modified, and vice versa.
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+array in class Buffer
+Returns:
+The array that backs this buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+LongBuffer,arrayOffset(),int,Returns the offset within this buffer's backing array of the first element of the buffer (optional operation).,"
+
+arrayOffset
+public final int arrayOffset()
+Returns the offset within this buffer's backing array of the first
+ element of the buffer  (optional operation).
+
+  If this buffer is backed by an array then buffer position p
+ corresponds to array index p + arrayOffset().
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+arrayOffset in class Buffer
+Returns:
+The offset within this buffer's array
+          of the first element of the buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+LongBuffer,asReadOnlyBuffer(),abstract LongBuffer,"Creates a new, read-only long buffer that shares this buffer's content.","
+
+asReadOnlyBuffer
+public abstract LongBuffer asReadOnlyBuffer()
+Creates a new, read-only long buffer that shares this buffer's
+ content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer; the new
+ buffer itself, however, will be read-only and will not allow the shared
+ content to be modified.  The two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.
+
+  If this buffer is itself read-only then this method behaves in
+ exactly the same way as the duplicate method.  
+
+Returns:
+The new, read-only long buffer
+
+
+"
+LongBuffer,compact(),abstract LongBuffer,Compacts this buffer (optional operation).,"
+
+compact
+public abstract LongBuffer compact()
+Compacts this buffer  (optional operation).
+
+  The longs between the buffer's current position and its limit,
+ if any, are copied to the beginning of the buffer.  That is, the
+ long at index p = position() is copied
+ to index zero, the long at index p + 1 is copied
+ to index one, and so forth until the long at index
+ limit() - 1 is copied to index
+ n = limit() - 1 - p.
+ The buffer's position is then set to n+1 and its limit is set to
+ its capacity.  The mark, if defined, is discarded.
+
+  The buffer's position is set to the number of longs copied,
+ rather than to zero, so that an invocation of this method can be
+ followed immediately by an invocation of another relative put
+ method. 
+
+Returns:
+This buffer
+Throws:
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+LongBuffer,compareTo(LongBuffer that),int,Compares this buffer to another.,"
+
+compareTo
+public int compareTo(LongBuffer that)
+Compares this buffer to another.
+
+  Two long buffers are compared by comparing their sequences of
+ remaining elements lexicographically, without regard to the starting
+ position of each sequence within its corresponding buffer.
+
+
+
+
+
+
+
+
+ Pairs of long elements are compared as if by invoking
+ Long.compare(long,long).
+
+
+  A long buffer is not comparable to any other type of object.
+
+Specified by:
+compareTo in interface Comparable<LongBuffer>
+Parameters:
+that - the object to be compared.
+Returns:
+A negative integer, zero, or a positive integer as this buffer
+          is less than, equal to, or greater than the given buffer
+
+
+"
+LongBuffer,duplicate(),abstract LongBuffer,Creates a new long buffer that shares this buffer's content.,"
+
+duplicate
+public abstract LongBuffer duplicate()
+Creates a new long buffer that shares this buffer's content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer, and vice
+ versa; the two buffers' position, limit, and mark values will be
+ independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.  The new buffer will be direct if,
+ and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+The new long buffer
+
+
+"
+LongBuffer,equals(Object ob),boolean,Tells whether or not this buffer is equal to another object.,"
+
+equals
+public boolean equals(Object ob)
+Tells whether or not this buffer is equal to another object.
+
+  Two long buffers are equal if, and only if,
+
+ 
+ They have the same element type,  
+ They have the same number of remaining elements, and
+   
+ The two sequences of remaining elements, considered
+   independently of their starting positions, are pointwise equal.
+
+
+
+
+
+
+
+   
+
+ A long buffer is not equal to any other type of object.  
+
+Overrides:
+equals in class Object
+Parameters:
+ob - The object to which this buffer is to be compared
+Returns:
+true if, and only if, this buffer is equal to the
+           given object
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+LongBuffer,get(),abstract long,Relative get method.,"
+
+get
+public abstract long get()
+Relative get method.  Reads the long at this buffer's
+ current position, and then increments the position.
+
+Returns:
+The long at the buffer's current position
+Throws:
+BufferUnderflowException - If the buffer's current position is not smaller than its limit
+
+
+"
+LongBuffer,get(int index),abstract long,Absolute get method.,"
+
+get
+public abstract long get(int index)
+Absolute get method.  Reads the long at the given
+ index.
+
+Parameters:
+index - The index from which the long will be read
+Returns:
+The long at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+
+
+"
+LongBuffer,get(long[] dst),LongBuffer,Relative bulk get method.,"
+
+get
+public LongBuffer get(long[] dst)
+Relative bulk get method.
+
+  This method transfers longs from this buffer into the given
+ destination array.  An invocation of this method of the form
+ src.get(a) behaves in exactly the same way as the invocation
+
+ 
+     src.get(a, 0, a.length) 
+
+Parameters:
+dst - The destination array
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length longs
+          remaining in this buffer
+
+
+"
+LongBuffer,"get(long[] dst, int offset, int length)",LongBuffer,Relative bulk get method.,"
+
+get
+public LongBuffer get(long[] dst,
+                      int offset,
+                      int length)
+Relative bulk get method.
+
+  This method transfers longs from this buffer into the given
+ destination array.  If there are fewer longs remaining in the
+ buffer than are required to satisfy the request, that is, if
+ length > remaining(), then no
+ longs are transferred and a BufferUnderflowException is
+ thrown.
+
+  Otherwise, this method copies length longs from this
+ buffer into the given array, starting at the current position of this
+ buffer and at the given offset in the array.  The position of this
+ buffer is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ src.get(dst, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst[i] = src.get():
+ 
+
+ except that it first checks that there are sufficient longs in
+ this buffer and it is potentially much more efficient.
+
+Parameters:
+dst - The array into which longs are to be written
+offset - The offset within the array of the first long to be
+         written; must be non-negative and no larger than
+         dst.length
+length - The maximum number of longs to be written to the given
+         array; must be non-negative and no larger than
+         dst.length - offset
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length longs
+          remaining in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+LongBuffer,hasArray(),boolean,Tells whether or not this buffer is backed by an accessible long array.,"
+
+hasArray
+public final boolean hasArray()
+Tells whether or not this buffer is backed by an accessible long
+ array.
+
+  If this method returns true then the array
+ and arrayOffset methods may safely be invoked.
+ 
+
+Specified by:
+hasArray in class Buffer
+Returns:
+true if, and only if, this buffer
+          is backed by an array and is not read-only
+
+
+"
+LongBuffer,hashCode(),int,Returns the current hash code of this buffer.,"
+
+hashCode
+public int hashCode()
+Returns the current hash code of this buffer.
+
+  The hash code of a long buffer depends only upon its remaining
+ elements; that is, upon the elements from position() up to, and
+ including, the element at limit() - 1.
+
+  Because buffer hash codes are content-dependent, it is inadvisable
+ to use buffers as keys in hash maps or similar data structures unless it
+ is known that their contents will not change.  
+
+Overrides:
+hashCode in class Object
+Returns:
+The current hash code of this buffer
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+LongBuffer,isDirect(),abstract boolean,Tells whether or not this long buffer is direct.,"
+
+isDirect
+public abstract boolean isDirect()
+Tells whether or not this long buffer is direct.
+
+Specified by:
+isDirect in class Buffer
+Returns:
+true if, and only if, this buffer is direct
+
+
+"
+LongBuffer,order(),abstract ByteOrder,Retrieves this buffer's byte order.,"
+
+order
+public abstract ByteOrder order()
+Retrieves this buffer's byte order.
+
+  The byte order of a long buffer created by allocation or by
+ wrapping an existing long array is the native order of the underlying
+ hardware.  The byte order of a long buffer created as a view of a byte buffer is that of the
+ byte buffer at the moment that the view is created.  
+
+Returns:
+This buffer's byte order
+
+
+"
+LongBuffer,"put(int index, long l)",abstract LongBuffer,Absolute put method (optional operation).,"
+
+put
+public abstract LongBuffer put(int index,
+                               long l)
+Absolute put method  (optional operation).
+
+  Writes the given long into this buffer at the given
+ index. 
+
+Parameters:
+index - The index at which the long will be written
+l - The long value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+LongBuffer,put(long l),abstract LongBuffer,Relative put method (optional operation).,"
+
+put
+public abstract LongBuffer put(long l)
+Relative put method  (optional operation).
+
+  Writes the given long into this buffer at the current
+ position, and then increments the position. 
+
+Parameters:
+l - The long to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If this buffer's current position is not smaller than its limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+LongBuffer,put(long[] src),LongBuffer,Relative bulk put method (optional operation).,"
+
+put
+public final LongBuffer put(long[] src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the entire content of the given source
+ long array into this buffer.  An invocation of this method of the
+ form dst.put(a) behaves in exactly the same way as the
+ invocation
+
+ 
+     dst.put(a, 0, a.length) 
+
+Parameters:
+src - The source array
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+LongBuffer,"put(long[] src, int offset, int length)",LongBuffer,Relative bulk put method (optional operation).,"
+
+put
+public LongBuffer put(long[] src,
+                      int offset,
+                      int length)
+Relative bulk put method  (optional operation).
+
+  This method transfers longs into this buffer from the given
+ source array.  If there are more longs to be copied from the array
+ than remain in this buffer, that is, if
+ length > remaining(), then no
+ longs are transferred and a BufferOverflowException is
+ thrown.
+
+  Otherwise, this method copies length longs from the
+ given array into this buffer, starting at the given offset in the array
+ and at the current position of this buffer.  The position of this buffer
+ is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ dst.put(src, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst.put(a[i]);
+ 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The array from which longs are to be read
+offset - The offset within the array of the first long to be read;
+         must be non-negative and no larger than array.length
+length - The number of longs to be read from the given array;
+         must be non-negative and no larger than
+         array.length - offset
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+LongBuffer,put(LongBuffer src),LongBuffer,Relative bulk put method (optional operation).,"
+
+put
+public LongBuffer put(LongBuffer src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the longs remaining in the given source
+ buffer into this buffer.  If there are more longs remaining in the
+ source buffer than in this buffer, that is, if
+ src.remaining() > remaining(),
+ then no longs are transferred and a BufferOverflowException is thrown.
+
+  Otherwise, this method copies
+ n = src.remaining() longs from the given
+ buffer into this buffer, starting at each buffer's current position.
+ The positions of both buffers are then incremented by n.
+
+  In other words, an invocation of this method of the form
+ dst.put(src) has exactly the same effect as the loop
+
+ 
+     while (src.hasRemaining())
+         dst.put(src.get()); 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The source buffer from which longs are to be read;
+         must not be this buffer
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+          for the remaining longs in the source buffer
+IllegalArgumentException - If the source buffer is this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+LongBuffer,slice(),abstract LongBuffer,Creates a new long buffer whose content is a shared subsequence of this buffer's content.,"
+
+slice
+public abstract LongBuffer slice()
+Creates a new long buffer whose content is a shared subsequence of
+ this buffer's content.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of longs remaining in this buffer, and its mark
+ will be undefined.  The new buffer will be direct if, and only if, this
+ buffer is direct, and it will be read-only if, and only if, this buffer
+ is read-only.  
+
+Returns:
+The new long buffer
+
+
+"
+LongBuffer,toString(),String,Returns a string summarizing the state of this buffer.,"
+
+toString
+public String toString()
+Returns a string summarizing the state of this buffer.
+
+Overrides:
+toString in class Object
+Returns:
+A summary string
+
+
+"
+LongBuffer,wrap(long[] array),static LongBuffer,Wraps a long array into a buffer.,"
+
+wrap
+public static LongBuffer wrap(long[] array)
+Wraps a long array into a buffer.
+
+  The new buffer will be backed by the given long array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity and limit will be
+ array.length, its position will be zero, and its mark will be
+ undefined.  Its backing array will be the
+ given array, and its array offset> will
+ be zero.  
+
+Parameters:
+array - The array that will back this buffer
+Returns:
+The new long buffer
+
+
+"
+LongBuffer,"wrap(long[] array, int offset, int length)",static LongBuffer,Wraps a long array into a buffer.,"
+
+wrap
+public static LongBuffer wrap(long[] array,
+                              int offset,
+                              int length)
+Wraps a long array into a buffer.
+
+  The new buffer will be backed by the given long array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity will be
+ array.length, its position will be offset, its limit
+ will be offset + length, and its mark will be undefined.  Its
+ backing array will be the given array, and
+ its array offset will be zero.  
+
+Parameters:
+array - The array that will back the new buffer
+offset - The offset of the subarray to be used; must be non-negative and
+         no larger than array.length.  The new buffer's position
+         will be set to this value.
+length - The length of the subarray to be used;
+         must be non-negative and no larger than
+         array.length - offset.
+         The new buffer's limit will be set to offset + length.
+Returns:
+The new long buffer
+Throws:
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+MappedByteBuffer,force(),MappedByteBuffer,Forces any changes made to this buffer's content to be written to the storage device containing the mapped file.,"
+
+force
+public final MappedByteBuffer force()
+Forces any changes made to this buffer's content to be written to the
+ storage device containing the mapped file.
+
+  If the file mapped into this buffer resides on a local storage
+ device then when this method returns it is guaranteed that all changes
+ made to the buffer since it was created, or since this method was last
+ invoked, will have been written to that device.
+
+  If the file does not reside on a local device then no such guarantee
+ is made.
+
+  If this buffer was not mapped in read/write mode (FileChannel.MapMode.READ_WRITE) then invoking this
+ method has no effect. 
+
+Returns:
+This buffer
+
+
+"
+MappedByteBuffer,isLoaded(),boolean,Tells whether or not this buffer's content is resident in physical memory.,"
+
+isLoaded
+public final boolean isLoaded()
+Tells whether or not this buffer's content is resident in physical
+ memory.
+
+  A return value of true implies that it is highly likely
+ that all of the data in this buffer is resident in physical memory and
+ may therefore be accessed without incurring any virtual-memory page
+ faults or I/O operations.  A return value of false does not
+ necessarily imply that the buffer's content is not resident in physical
+ memory.
+
+  The returned value is a hint, rather than a guarantee, because the
+ underlying operating system may have paged out some of the buffer's data
+ by the time that an invocation of this method returns.  
+
+Returns:
+true if it is likely that this buffer's content
+          is resident in physical memory
+
+
+"
+MappedByteBuffer,load(),MappedByteBuffer,Loads this buffer's content into physical memory.,"
+
+load
+public final MappedByteBuffer load()
+Loads this buffer's content into physical memory.
+
+  This method makes a best effort to ensure that, when it returns,
+ this buffer's content is resident in physical memory.  Invoking this
+ method may cause some number of page faults and I/O operations to
+ occur. 
+
+Returns:
+This buffer
+
+
+"
+ShortBuffer,allocate(int capacity),static ShortBuffer,Allocates a new short buffer.,"
+
+allocate
+public static ShortBuffer allocate(int capacity)
+Allocates a new short buffer.
+
+  The new buffer's position will be zero, its limit will be its
+ capacity, its mark will be undefined, and each of its elements will be
+ initialized to zero.  It will have a backing array,
+ and its array offset will be zero.
+
+Parameters:
+capacity - The new buffer's capacity, in shorts
+Returns:
+The new short buffer
+Throws:
+IllegalArgumentException - If the capacity is a negative integer
+
+
+"
+ShortBuffer,array(),short[],Returns the short array that backs this buffer (optional operation).,"
+
+array
+public final short[] array()
+Returns the short array that backs this
+ buffer  (optional operation).
+
+  Modifications to this buffer's content will cause the returned
+ array's content to be modified, and vice versa.
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+array in class Buffer
+Returns:
+The array that backs this buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+ShortBuffer,arrayOffset(),int,Returns the offset within this buffer's backing array of the first element of the buffer (optional operation).,"
+
+arrayOffset
+public final int arrayOffset()
+Returns the offset within this buffer's backing array of the first
+ element of the buffer  (optional operation).
+
+  If this buffer is backed by an array then buffer position p
+ corresponds to array index p + arrayOffset().
+
+  Invoke the hasArray method before invoking this
+ method in order to ensure that this buffer has an accessible backing
+ array.  
+
+Specified by:
+arrayOffset in class Buffer
+Returns:
+The offset within this buffer's array
+          of the first element of the buffer
+Throws:
+ReadOnlyBufferException - If this buffer is backed by an array but is read-only
+UnsupportedOperationException - If this buffer is not backed by an accessible array
+
+
+"
+ShortBuffer,asReadOnlyBuffer(),abstract ShortBuffer,"Creates a new, read-only short buffer that shares this buffer's content.","
+
+asReadOnlyBuffer
+public abstract ShortBuffer asReadOnlyBuffer()
+Creates a new, read-only short buffer that shares this buffer's
+ content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer; the new
+ buffer itself, however, will be read-only and will not allow the shared
+ content to be modified.  The two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.
+
+  If this buffer is itself read-only then this method behaves in
+ exactly the same way as the duplicate method.  
+
+Returns:
+The new, read-only short buffer
+
+
+"
+ShortBuffer,compact(),abstract ShortBuffer,Compacts this buffer (optional operation).,"
+
+compact
+public abstract ShortBuffer compact()
+Compacts this buffer  (optional operation).
+
+  The shorts between the buffer's current position and its limit,
+ if any, are copied to the beginning of the buffer.  That is, the
+ short at index p = position() is copied
+ to index zero, the short at index p + 1 is copied
+ to index one, and so forth until the short at index
+ limit() - 1 is copied to index
+ n = limit() - 1 - p.
+ The buffer's position is then set to n+1 and its limit is set to
+ its capacity.  The mark, if defined, is discarded.
+
+  The buffer's position is set to the number of shorts copied,
+ rather than to zero, so that an invocation of this method can be
+ followed immediately by an invocation of another relative put
+ method. 
+
+Returns:
+This buffer
+Throws:
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ShortBuffer,compareTo(ShortBuffer that),int,Compares this buffer to another.,"
+
+compareTo
+public int compareTo(ShortBuffer that)
+Compares this buffer to another.
+
+  Two short buffers are compared by comparing their sequences of
+ remaining elements lexicographically, without regard to the starting
+ position of each sequence within its corresponding buffer.
+
+
+
+
+
+
+
+
+ Pairs of short elements are compared as if by invoking
+ Short.compare(short,short).
+
+
+  A short buffer is not comparable to any other type of object.
+
+Specified by:
+compareTo in interface Comparable<ShortBuffer>
+Parameters:
+that - the object to be compared.
+Returns:
+A negative integer, zero, or a positive integer as this buffer
+          is less than, equal to, or greater than the given buffer
+
+
+"
+ShortBuffer,duplicate(),abstract ShortBuffer,Creates a new short buffer that shares this buffer's content.,"
+
+duplicate
+public abstract ShortBuffer duplicate()
+Creates a new short buffer that shares this buffer's content.
+
+  The content of the new buffer will be that of this buffer.  Changes
+ to this buffer's content will be visible in the new buffer, and vice
+ versa; the two buffers' position, limit, and mark values will be
+ independent.
+
+  The new buffer's capacity, limit, position, and mark values will be
+ identical to those of this buffer.  The new buffer will be direct if,
+ and only if, this buffer is direct, and it will be read-only if, and
+ only if, this buffer is read-only.  
+
+Returns:
+The new short buffer
+
+
+"
+ShortBuffer,equals(Object ob),boolean,Tells whether or not this buffer is equal to another object.,"
+
+equals
+public boolean equals(Object ob)
+Tells whether or not this buffer is equal to another object.
+
+  Two short buffers are equal if, and only if,
+
+ 
+ They have the same element type,  
+ They have the same number of remaining elements, and
+   
+ The two sequences of remaining elements, considered
+   independently of their starting positions, are pointwise equal.
+
+
+
+
+
+
+
+   
+
+ A short buffer is not equal to any other type of object.  
+
+Overrides:
+equals in class Object
+Parameters:
+ob - The object to which this buffer is to be compared
+Returns:
+true if, and only if, this buffer is equal to the
+           given object
+See Also:
+Object.hashCode(), 
+HashMap
+
+
+"
+ShortBuffer,get(),abstract short,Relative get method.,"
+
+get
+public abstract short get()
+Relative get method.  Reads the short at this buffer's
+ current position, and then increments the position.
+
+Returns:
+The short at the buffer's current position
+Throws:
+BufferUnderflowException - If the buffer's current position is not smaller than its limit
+
+
+"
+ShortBuffer,get(int index),abstract short,Absolute get method.,"
+
+get
+public abstract short get(int index)
+Absolute get method.  Reads the short at the given
+ index.
+
+Parameters:
+index - The index from which the short will be read
+Returns:
+The short at the given index
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+
+
+"
+ShortBuffer,get(short[] dst),ShortBuffer,Relative bulk get method.,"
+
+get
+public ShortBuffer get(short[] dst)
+Relative bulk get method.
+
+  This method transfers shorts from this buffer into the given
+ destination array.  An invocation of this method of the form
+ src.get(a) behaves in exactly the same way as the invocation
+
+ 
+     src.get(a, 0, a.length) 
+
+Parameters:
+dst - The destination array
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length shorts
+          remaining in this buffer
+
+
+"
+ShortBuffer,"get(short[] dst, int offset, int length)",ShortBuffer,Relative bulk get method.,"
+
+get
+public ShortBuffer get(short[] dst,
+                       int offset,
+                       int length)
+Relative bulk get method.
+
+  This method transfers shorts from this buffer into the given
+ destination array.  If there are fewer shorts remaining in the
+ buffer than are required to satisfy the request, that is, if
+ length > remaining(), then no
+ shorts are transferred and a BufferUnderflowException is
+ thrown.
+
+  Otherwise, this method copies length shorts from this
+ buffer into the given array, starting at the current position of this
+ buffer and at the given offset in the array.  The position of this
+ buffer is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ src.get(dst, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst[i] = src.get():
+ 
+
+ except that it first checks that there are sufficient shorts in
+ this buffer and it is potentially much more efficient.
+
+Parameters:
+dst - The array into which shorts are to be written
+offset - The offset within the array of the first short to be
+         written; must be non-negative and no larger than
+         dst.length
+length - The maximum number of shorts to be written to the given
+         array; must be non-negative and no larger than
+         dst.length - offset
+Returns:
+This buffer
+Throws:
+BufferUnderflowException - If there are fewer than length shorts
+          remaining in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"
+ShortBuffer,hasArray(),boolean,Tells whether or not this buffer is backed by an accessible short array.,"
+
+hasArray
+public final boolean hasArray()
+Tells whether or not this buffer is backed by an accessible short
+ array.
+
+  If this method returns true then the array
+ and arrayOffset methods may safely be invoked.
+ 
+
+Specified by:
+hasArray in class Buffer
+Returns:
+true if, and only if, this buffer
+          is backed by an array and is not read-only
+
+
+"
+ShortBuffer,hashCode(),int,Returns the current hash code of this buffer.,"
+
+hashCode
+public int hashCode()
+Returns the current hash code of this buffer.
+
+  The hash code of a short buffer depends only upon its remaining
+ elements; that is, upon the elements from position() up to, and
+ including, the element at limit() - 1.
+
+  Because buffer hash codes are content-dependent, it is inadvisable
+ to use buffers as keys in hash maps or similar data structures unless it
+ is known that their contents will not change.  
+
+Overrides:
+hashCode in class Object
+Returns:
+The current hash code of this buffer
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+ShortBuffer,isDirect(),abstract boolean,Tells whether or not this short buffer is direct.,"
+
+isDirect
+public abstract boolean isDirect()
+Tells whether or not this short buffer is direct.
+
+Specified by:
+isDirect in class Buffer
+Returns:
+true if, and only if, this buffer is direct
+
+
+"
+ShortBuffer,order(),abstract ByteOrder,Retrieves this buffer's byte order.,"
+
+order
+public abstract ByteOrder order()
+Retrieves this buffer's byte order.
+
+  The byte order of a short buffer created by allocation or by
+ wrapping an existing short array is the native order of the underlying
+ hardware.  The byte order of a short buffer created as a view of a byte buffer is that of the
+ byte buffer at the moment that the view is created.  
+
+Returns:
+This buffer's byte order
+
+
+"
+ShortBuffer,"put(int index, short s)",abstract ShortBuffer,Absolute put method (optional operation).,"
+
+put
+public abstract ShortBuffer put(int index,
+                                short s)
+Absolute put method  (optional operation).
+
+  Writes the given short into this buffer at the given
+ index. 
+
+Parameters:
+index - The index at which the short will be written
+s - The short value to be written
+Returns:
+This buffer
+Throws:
+IndexOutOfBoundsException - If index is negative
+          or not smaller than the buffer's limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ShortBuffer,put(short s),abstract ShortBuffer,Relative put method (optional operation).,"
+
+put
+public abstract ShortBuffer put(short s)
+Relative put method  (optional operation).
+
+  Writes the given short into this buffer at the current
+ position, and then increments the position. 
+
+Parameters:
+s - The short to be written
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If this buffer's current position is not smaller than its limit
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ShortBuffer,put(short[] src),ShortBuffer,Relative bulk put method (optional operation).,"
+
+put
+public final ShortBuffer put(short[] src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the entire content of the given source
+ short array into this buffer.  An invocation of this method of the
+ form dst.put(a) behaves in exactly the same way as the
+ invocation
+
+ 
+     dst.put(a, 0, a.length) 
+
+Parameters:
+src - The source array
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ShortBuffer,"put(short[] src, int offset, int length)",ShortBuffer,Relative bulk put method (optional operation).,"
+
+put
+public ShortBuffer put(short[] src,
+                       int offset,
+                       int length)
+Relative bulk put method  (optional operation).
+
+  This method transfers shorts into this buffer from the given
+ source array.  If there are more shorts to be copied from the array
+ than remain in this buffer, that is, if
+ length > remaining(), then no
+ shorts are transferred and a BufferOverflowException is
+ thrown.
+
+  Otherwise, this method copies length shorts from the
+ given array into this buffer, starting at the given offset in the array
+ and at the current position of this buffer.  The position of this buffer
+ is then incremented by length.
+
+  In other words, an invocation of this method of the form
+ dst.put(src, off, len) has exactly the same effect as
+ the loop
+
+ 
+     for (int i = off; i < off + len; i++)
+         dst.put(a[i]);
+ 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The array from which shorts are to be read
+offset - The offset within the array of the first short to be read;
+         must be non-negative and no larger than array.length
+length - The number of shorts to be read from the given array;
+         must be non-negative and no larger than
+         array.length - offset
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ShortBuffer,put(ShortBuffer src),ShortBuffer,Relative bulk put method (optional operation).,"
+
+put
+public ShortBuffer put(ShortBuffer src)
+Relative bulk put method  (optional operation).
+
+  This method transfers the shorts remaining in the given source
+ buffer into this buffer.  If there are more shorts remaining in the
+ source buffer than in this buffer, that is, if
+ src.remaining() > remaining(),
+ then no shorts are transferred and a BufferOverflowException is thrown.
+
+  Otherwise, this method copies
+ n = src.remaining() shorts from the given
+ buffer into this buffer, starting at each buffer's current position.
+ The positions of both buffers are then incremented by n.
+
+  In other words, an invocation of this method of the form
+ dst.put(src) has exactly the same effect as the loop
+
+ 
+     while (src.hasRemaining())
+         dst.put(src.get()); 
+
+ except that it first checks that there is sufficient space in this
+ buffer and it is potentially much more efficient.
+
+Parameters:
+src - The source buffer from which shorts are to be read;
+         must not be this buffer
+Returns:
+This buffer
+Throws:
+BufferOverflowException - If there is insufficient space in this buffer
+          for the remaining shorts in the source buffer
+IllegalArgumentException - If the source buffer is this buffer
+ReadOnlyBufferException - If this buffer is read-only
+
+
+"
+ShortBuffer,slice(),abstract ShortBuffer,Creates a new short buffer whose content is a shared subsequence of this buffer's content.,"
+
+slice
+public abstract ShortBuffer slice()
+Creates a new short buffer whose content is a shared subsequence of
+ this buffer's content.
+
+  The content of the new buffer will start at this buffer's current
+ position.  Changes to this buffer's content will be visible in the new
+ buffer, and vice versa; the two buffers' position, limit, and mark
+ values will be independent.
+
+  The new buffer's position will be zero, its capacity and its limit
+ will be the number of shorts remaining in this buffer, and its mark
+ will be undefined.  The new buffer will be direct if, and only if, this
+ buffer is direct, and it will be read-only if, and only if, this buffer
+ is read-only.  
+
+Returns:
+The new short buffer
+
+
+"
+ShortBuffer,toString(),String,Returns a string summarizing the state of this buffer.,"
+
+toString
+public String toString()
+Returns a string summarizing the state of this buffer.
+
+Overrides:
+toString in class Object
+Returns:
+A summary string
+
+
+"
+ShortBuffer,wrap(short[] array),static ShortBuffer,Wraps a short array into a buffer.,"
+
+wrap
+public static ShortBuffer wrap(short[] array)
+Wraps a short array into a buffer.
+
+  The new buffer will be backed by the given short array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity and limit will be
+ array.length, its position will be zero, and its mark will be
+ undefined.  Its backing array will be the
+ given array, and its array offset> will
+ be zero.  
+
+Parameters:
+array - The array that will back this buffer
+Returns:
+The new short buffer
+
+
+"
+ShortBuffer,"wrap(short[] array, int offset, int length)",static ShortBuffer,Wraps a short array into a buffer.,"
+
+wrap
+public static ShortBuffer wrap(short[] array,
+                               int offset,
+                               int length)
+Wraps a short array into a buffer.
+
+  The new buffer will be backed by the given short array;
+ that is, modifications to the buffer will cause the array to be modified
+ and vice versa.  The new buffer's capacity will be
+ array.length, its position will be offset, its limit
+ will be offset + length, and its mark will be undefined.  Its
+ backing array will be the given array, and
+ its array offset will be zero.  
+
+Parameters:
+array - The array that will back the new buffer
+offset - The offset of the subarray to be used; must be non-negative and
+         no larger than array.length.  The new buffer's position
+         will be set to this value.
+length - The length of the subarray to be used;
+         must be non-negative and no larger than
+         array.length - offset.
+         The new buffer's limit will be set to offset + length.
+Returns:
+The new short buffer
+Throws:
+IndexOutOfBoundsException - If the preconditions on the offset and length
+          parameters do not hold
+
+
+"

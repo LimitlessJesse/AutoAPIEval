@@ -1,0 +1,240 @@
+Sample: 0 ForwardingFileObject_1
+----------------------------------------------------------------
+`CharSequence getCharContent(boolean ignoreEncodingErrors)`: This method gets the character content of the file object, if available. Any byte that cannot be decoded will be replaced by the default translation character. In addition, a diagnostic may be reported unless ignoreEncodingErrors is true.
+
+Code snippet:
+```java
+import javax.tools.ForwardingFileObject;
+
+public class Main {
+    public static void main(String[] args) {
+        ForwardingFileObject fileObject = new ForwardingFileObject() {
+            @Override
+            public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException {
+                // Implement the logic to get the character content of the file object
+                return null; // Placeholder, replace with actual implementation
+            }
+        };
+        
+        try {
+            CharSequence charContent = fileObject.getCharContent(true);
+            System.out.println("Character content: " + charContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 ForwardingFileObject_2
+----------------------------------------------------------------
+`Writer openWriter()`: This method gets a Writer for the file object.
+
+Code snippet:
+```java
+import javax.tools.ForwardingFileObject;
+import javax.tools.FileObject;
+
+public class Main {
+    public static void main(String[] args) {
+        ForwardingFileObject forwardingFileObject = new ForwardingFileObject() {
+            @Override
+            public Writer openWriter() throws IOException {
+                // Implement the logic to open a writer for the file object
+                return super.openWriter();
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 2 ForwardingFileObject_3
+----------------------------------------------------------------
+`OutputStream openOutputStream()`: This method gets an OutputStream for the file object.
+
+Code snippet:
+```java
+import javax.tools.ForwardingFileObject;
+import javax.tools.FileObject;
+
+import java.io.OutputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        ForwardingFileObject forwardingFileObject = new ForwardingFileObject() {
+            @Override
+            public OutputStream openOutputStream() throws IOException {
+                // Implement your logic here
+                return super.openOutputStream();
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 3 ForwardingFileObject_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.tools.ForwardingFileObject;
+import javax.tools.FileObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public class Main {
+    public static void main(String[] args) {
+        ForwardingFileObject forwardingFileObject = new ForwardingFileObject() {
+            @Override
+            public InputStream openInputStream() throws IOException {
+                // Implement the logic to open an InputStream for this file object
+                return null;
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 4 ForwardingFileObject_5
+----------------------------------------------------------------
+`boolean delete()`: This method deletes the file object.
+
+Code snippet:
+```java
+import javax.tools.ForwardingFileObject;
+
+public class Main {
+    public static void main(String[] args) {
+        ForwardingFileObject fileObject = new ForwardingFileObject() {
+            @Override
+            public boolean delete() {
+                // Implement delete functionality here
+                return true; // Return true if deletion is successful
+            }
+        };
+        
+        boolean isDeleted = fileObject.delete();
+        System.out.println("File deleted: " + isDeleted);
+    }
+}
+```
+================================================================
+
+Sample: 5 ForwardingJavaFileManager_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.tools.ForwardingJavaFileManager;
+
+public class Main {
+    public static void main(String[] args) {
+        ForwardingJavaFileManager fileManager = new ForwardingJavaFileManager() {
+            @Override
+            public void close() throws IOException {
+                // Release any resources opened by this file manager
+                // Implement custom logic here
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 6 ForwardingJavaFileManager_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.tools.ForwardingJavaFileManager;
+
+public class Main {
+    public static void main(String[] args) {
+        ForwardingJavaFileManager fileManager = new ForwardingJavaFileManager() {
+            @Override
+            public void flush() throws IOException {
+                // Implementation of the flush method
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 7 SimpleJavaFileObject_1
+----------------------------------------------------------------
+`CharSequence getCharContent(boolean ignoreEncodingErrors)`: This method returns a CharSequence if available; otherwise, it returns null. It throws an IOException if an I/O error occurred.
+
+Code snippet:
+```java
+import javax.tools.SimpleJavaFileObject;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleJavaFileObject fileObject = new SimpleJavaFileObject(null) {
+            @Override
+            public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException {
+                throw new UnsupportedOperationException("Method not implemented");
+            }
+        };
+
+        try {
+            CharSequence content = fileObject.getCharContent(true);
+            System.out.println("Content: " + content);
+        } catch (IOException e) {
+            System.out.println("An I/O error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 SimpleJavaFileObject_4
+----------------------------------------------------------------
+`boolean delete()`: This implementation does nothing. Subclasses can change this behavior as long as the contract of FileObject is obeyed.
+
+Code snippet:
+```java
+import javax.tools.SimpleJavaFileObject;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleJavaFileObject fileObject = new SimpleJavaFileObject(null) {
+            @Override
+            public boolean delete() {
+                // Custom implementation for delete method
+                System.out.println("File deleted successfully");
+                return true;
+            }
+        };
+
+        boolean isDeleted = fileObject.delete();
+        System.out.println("Is file deleted? " + isDeleted);
+    }
+}
+```
+================================================================
+
+Sample: 9 SimpleJavaFileObject_5
+----------------------------------------------------------------
+`URI toUri()`: This method returns a URI identifying the file object.
+
+Code snippet:
+```java
+import javax.tools.SimpleJavaFileObject;
+import java.net.URI;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleJavaFileObject fileObject = new SimpleJavaFileObject(URI.create("file:///path/to/file"), SimpleJavaFileObject.Kind.SOURCE);
+        URI uri = fileObject.toUri();
+        System.out.println("URI: " + uri);
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,149 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,DescriptorSupport,1,"void setField(String fieldName, Object fieldValue)",True,,"
+
+setField
+public void setField(String fieldName,
+                     Object fieldValue)
+              throws RuntimeOperationsException
+Description copied from interface: Descriptor
+Sets the value for a specific field name. This will
+ modify an existing field or add a new field.
+The field value will be validated before it is set.
+ If it is not valid, then an exception will be thrown.
+ The meaning of validity is dependent on the descriptor
+ implementation.
+
+Specified by:
+setField in interface Descriptor
+Parameters:
+fieldName - The field name to be set. Cannot be null or empty.
+fieldValue - The field value to be set for the field
+ name. Can be null if that is a valid value for the field.
+Throws:
+RuntimeOperationsException - if the field name or field value
+ is illegal (wrapped exception is IllegalArgumentException); or
+ if the descriptor is immutable (wrapped exception is
+ UnsupportedOperationException).
+
+
+"
+0,DescriptorSupport,2,Object getField(String fieldName),False,,NULL
+0,DescriptorSupport,3,void setDescriptorType(String type),False,,NULL
+0,DescriptorSupport,4,String getDescriptorType(),False,,NULL
+0,DescriptorSupport,5,void removeField(String fieldName),True,,"
+
+removeField
+public void removeField(String fieldName)
+Description copied from interface: Descriptor
+Removes a field from the descriptor.
+
+Specified by:
+removeField in interface Descriptor
+Parameters:
+fieldName - String name of the field to be removed.
+ If the field name is illegal or the field is not found,
+ no exception is thrown.
+
+
+"
+1,ModelMBeanAttributeInfo,1,String getDescription(),False,,NULL
+1,ModelMBeanAttributeInfo,2,String getName(),False,,NULL
+1,ModelMBeanAttributeInfo,3,boolean isReadable(),False,,NULL
+1,ModelMBeanAttributeInfo,4,boolean isWritable(),False,,NULL
+1,ModelMBeanAttributeInfo,5,String getType(),False,,NULL
+2,ModelMBeanConstructorInfo,1,String getDescription(),False,,NULL
+2,ModelMBeanConstructorInfo,2,MBeanParameterInfo[] getSignature(),False,,NULL
+2,ModelMBeanConstructorInfo,3,"ModelMBeanConstructorInfo(String description, Constructor<?> constructor)",False,,NULL
+2,ModelMBeanConstructorInfo,4,"ModelMBeanConstructorInfo(String description, Constructor<?> constructor, MBeanParameterInfo[] signature)",False,,NULL
+2,ModelMBeanConstructorInfo,5,ModelMBeanConstructorInfo(ModelMBeanConstructorInfo constructorInfo),False,,NULL
+3,ModelMBeanInfoSupport,1,ModelMBeanAttributeInfo[] getAttributes(),False,,NULL
+3,ModelMBeanInfoSupport,2,ModelMBeanConstructorInfo[] getConstructors(),False,,NULL
+3,ModelMBeanInfoSupport,3,ModelMBeanNotificationInfo[] getNotifications(),False,,NULL
+3,ModelMBeanInfoSupport,4,ModelMBeanOperationInfo[] getOperations(),False,,NULL
+3,ModelMBeanInfoSupport,5,String getDescriptorType(),False,,NULL
+4,ModelMBeanNotificationInfo,1,String getDescription(),False,,NULL
+4,ModelMBeanNotificationInfo,2,String getName(),False,,NULL
+4,ModelMBeanNotificationInfo,3,String getNotifTypes(),False,,NULL
+4,ModelMBeanNotificationInfo,4,String getDescriptorType(),False,,NULL
+4,ModelMBeanNotificationInfo,5,"ModelMBeanNotificationInfo(String[] notifTypes, String name, String description)",False,,NULL
+5,ModelMBeanOperationInfo,1,String getDescription(),False,,NULL
+5,ModelMBeanOperationInfo,2,String getImpact(),False,,NULL
+5,ModelMBeanOperationInfo,3,String getName(),False,,NULL
+5,ModelMBeanOperationInfo,4,String getReturnType(),False,,NULL
+5,ModelMBeanOperationInfo,5,String getDescriptorType(),False,,NULL
+6,RequiredModelMBean,1,"void setManagedResource(Object mr, String mr_type)",True,,"
+
+setManagedResource
+public void setManagedResource(Object mr,
+                               String mr_type)
+                        throws MBeanException,
+                               RuntimeOperationsException,
+                               InstanceNotFoundException,
+                               InvalidTargetObjectTypeException
+Sets the instance handle of the object against which to
+ execute all methods in this ModelMBean management interface
+ (MBeanInfo and Descriptors).
+
+Specified by:
+setManagedResource in interface ModelMBean
+Parameters:
+mr - Object that is the managed resource
+mr_type - The type of reference for the managed resource.
+     Can be: ""ObjectReference"", ""Handle"", ""IOR"", ""EJBHandle"",
+         or ""RMIReference"".
+     In this implementation only ""ObjectReference"" is supported.
+Throws:
+MBeanException - The initializer of the object has
+            thrown an exception.
+InstanceNotFoundException - The managed resource
+            object could not be found
+InvalidTargetObjectTypeException - The managed
+            resource type should be ""ObjectReference"".
+RuntimeOperationsException - Wraps a RuntimeException when setting the resource.
+
+
+"
+6,RequiredModelMBean,2,void setModelMBeanInfo(ModelMBeanInfo inInfo),True,,"
+
+setModelMBeanInfo
+public void setModelMBeanInfo(ModelMBeanInfo mbi)
+                       throws MBeanException,
+                              RuntimeOperationsException
+Initializes a ModelMBean object using ModelMBeanInfo passed in.
+ This method makes it possible to set a customized ModelMBeanInfo on
+ the ModelMBean as long as it is not registered with the MBeanServer.
+ 
+ Once the ModelMBean's ModelMBeanInfo (with Descriptors) are
+ customized and set on the ModelMBean, the  ModelMBean be
+ registered with the MBeanServer.
+ 
+ If the ModelMBean is currently registered, this method throws
+ a RuntimeOperationsException wrapping an
+ IllegalStateException
+
+ If the given inModelMBeanInfo does not contain any
+ ModelMBeanNotificationInfo for the GENERIC
+ or ATTRIBUTE_CHANGE notifications, then the
+ RequiredModelMBean will supply its own default
+ ModelMBeanNotificationInfos for
+ those missing notifications.
+
+Specified by:
+setModelMBeanInfo in interface ModelMBean
+Parameters:
+mbi - The ModelMBeanInfo object to be used
+        by the ModelMBean.
+Throws:
+MBeanException - Wraps a distributed communication
+        Exception.
+RuntimeOperationsException - Wraps an IllegalArgumentException if
+         the MBeanInfo passed in parameter is null.
+Wraps an IllegalStateException if the ModelMBean
+         is currently registered in the MBeanServer.
+
+
+
+"
+6,RequiredModelMBean,3,"void setModelMBeanInfo(ModelMBeanInfo inInfo, String inType)",False,,NULL
+6,RequiredModelMBean,4,"void setManagedResource(Object mr, String mr_type, String descr)",False,,NULL
+6,RequiredModelMBean,5,"void setManagedResource(Object mr, String mr_type, Descriptor desc)",False,,NULL

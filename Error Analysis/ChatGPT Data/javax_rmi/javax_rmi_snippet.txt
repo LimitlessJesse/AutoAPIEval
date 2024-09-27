@@ -1,0 +1,104 @@
+Sample: 0 PortableRemoteObject_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.rmi.PortableRemoteObject;
+
+public class Main {
+    public static void main(String[] args) {
+        Object remoteObject = new Object();
+        Class<?> narrowClass = String.class;
+        Object narrowedObject = PortableRemoteObject.narrow(remoteObject, narrowClass);
+        
+        System.out.println("Narrowed Object: " + narrowedObject);
+    }
+}
+```
+================================================================
+
+Sample: 1 PortableRemoteObject_2
+----------------------------------------------------------------
+void exportObject(Remote obj):
+This method exports the remote object to make it available to receive incoming remote calls. Here is an example code snippet demonstrating the usage of this method:
+
+```java
+import javax.rmi.PortableRemoteObject;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public class Main {
+
+    public static void main(String[] args) {
+        // Create a remote object
+        Remote remoteObject = new Remote() {
+            @Override
+            public String toString() {
+                return "Remote object";
+            }
+        };
+
+        try {
+            // Export the remote object
+            PortableRemoteObject.exportObject(remoteObject);
+            System.out.println("Remote object exported successfully.");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 PortableRemoteObject_3
+----------------------------------------------------------------
+`Remote toStub(Remote obj)`: This method converts a server object into a stub, which can be marshaled by the RMI system and passed as an argument to remote method invocations.
+
+Code snippet:
+```java
+import javax.rmi.PortableRemoteObject;
+import java.rmi.Remote;
+
+public class Main {
+    public static void main(String[] args) {
+        // Assuming you have a Remote object named remoteObj
+        Remote stub = PortableRemoteObject.toStub(remoteObj);
+    }
+}
+```
+================================================================
+
+Sample: 3 PortableRemoteObject_4
+----------------------------------------------------------------
+`void unexportObject(Remote obj)`: This method unexports the remote object so that it can no longer be the target of incoming remote calls.
+
+Code snippet:
+```java
+import javax.rmi.PortableRemoteObject;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a remote object
+            Remote remoteObject = new RemoteImpl();
+
+            // Export the remote object
+            PortableRemoteObject.exportObject(remoteObject);
+
+            // Unexport the remote object
+            PortableRemoteObject.unexportObject(remoteObject);
+            
+            System.out.println("Remote object unexported successfully");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static class RemoteImpl implements Remote {
+        // Remote object implementation
+    }
+}
+```
+================================================================
+

@@ -1,0 +1,478 @@
+Sample: 0 BinaryRefAddr_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.BinaryRefAddr;
+
+public class Main {
+    public static void main(String[] args) {
+        BinaryRefAddr binaryRefAddr = new BinaryRefAddr("test", new byte[]{0x01, 0x02, 0x03});
+        
+        byte[] content = (byte[]) binaryRefAddr.getContent();
+        
+        for (byte b : content) {
+            System.out.print(b + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 BinaryRefAddr_4
+----------------------------------------------------------------
+Code snippet:
+
+```java
+import javax.naming.BinaryRefAddr;
+
+public class Main {
+    public static void main(String[] args) {
+        BinaryRefAddr refAddr1 = new BinaryRefAddr("key1", new byte[] {0,1,2});
+        BinaryRefAddr refAddr2 = new BinaryRefAddr("key1", new byte[] {0,1,2});
+
+        boolean result = refAddr1.equals(refAddr2);
+        System.out.println(result); // Output: true
+    }
+}
+```
+================================================================
+
+Sample: 2 BinaryRefAddr_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.BinaryRefAddr;
+
+public class Main {
+    public static void main(String[] args) {
+        BinaryRefAddr binaryRefAddr = new BinaryRefAddr("type", new byte[]{0x01, 0x02, 0x03});
+        int hashCode = binaryRefAddr.hashCode();
+        System.out.println("Hash Code: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 3 Binding_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.Binding;
+
+public class Main {
+    public static void main(String[] args) {
+        Binding binding = new Binding("key", "value", null, true);
+        
+        Object obj = binding.getObject();
+        
+        System.out.println(obj.toString());
+    }
+}
+```
+================================================================
+
+Sample: 4 Binding_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.Binding;
+
+public class Main {
+    public static void main(String[] args) {
+        Binding binding = new Binding("key", "value");
+        System.out.println(binding.toString());
+    }
+}
+```
+================================================================
+
+Sample: 5 CompositeName_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.CompositeName;
+
+public class Main {
+    public static void main(String[] args) {
+        CompositeName compositeName = new CompositeName("example/name");
+        System.out.println(compositeName.endsWith(new CompositeName("name"))); // Output: true
+    }
+}
+```
+================================================================
+
+Sample: 6 CompositeName_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.CompositeName;
+import javax.naming.Name;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        CompositeName compositeName = new CompositeName("java:comp/env/jdbc");
+        Name prefix = compositeName.getPrefix(2);
+        System.out.println("Prefix: " + prefix.toString());
+    }
+}
+```
+================================================================
+
+Sample: 7 CompositeName_5
+----------------------------------------------------------------
+```java
+import javax.naming.CompositeName;
+
+public class Main {
+    public static void main(String[] args) {
+        CompositeName compositeName = new CompositeName("java.example");
+        boolean startsWith = compositeName.startsWith(new CompositeName("java"));
+        System.out.println(startsWith); // Output: true
+    }
+}
+```
+================================================================
+
+Sample: 8 CompoundName_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.CompoundName;
+import javax.naming.InvalidNameException;
+import java.util.Enumeration;
+import java.util.Properties;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Properties properties = new Properties();
+            properties.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
+            CompoundName name = new CompoundName("example.com", properties);
+
+            // Adding a suffix to the name
+            CompoundName suffix = new CompoundName("www", properties);
+            name.addAll(suffix);
+
+            System.out.println("Updated Name: " + name);
+        } catch (InvalidNameException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 CompoundName_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.CompoundName;
+import javax.naming.InvalidNameException;
+import java.util.Enumeration;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            CompoundName original = new CompoundName("test", null);
+            CompoundName clone = (CompoundName) original.clone();
+            
+            // Display elements of the original CompoundName
+            Enumeration<String> originalElements = original.getAll();
+            System.out.print("Original CompoundName elements: ");
+            while (originalElements.hasMoreElements()) {
+                System.out.print(originalElements.nextElement() + ", ");
+            }
+            System.out.println();
+            
+            // Display elements of the cloned CompoundName
+            Enumeration<String> clonedElements = clone.getAll();
+            System.out.print("Cloned CompoundName elements: ");
+            while (clonedElements.hasMoreElements()) {
+                System.out.print(clonedElements.nextElement() + ", ");
+            }
+            System.out.println();
+            
+        } catch (InvalidNameException | CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 CompoundName_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.CompoundName;
+import javax.naming.InvalidNameException;
+import java.util.Enumeration;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a CompoundName
+            CompoundName cn = new CompoundName("joe/doe", CompoundName.DOT);
+            
+            // Check if the name ends with "doe"
+            boolean endsWithDoe = cn.endsWith(new CompoundName("doe", CompoundName.DOT));
+            System.out.println("Name ends with 'doe': " + endsWithDoe);
+        } catch (InvalidNameException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 CompoundName_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.CompoundName;
+import javax.naming.InvalidNameException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            CompoundName compoundName = new CompoundName("test/name/example", null);
+            System.out.println("Prefix at position 1: " + compoundName.getPrefix(1));
+        } catch (InvalidNameException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 InitialContext_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InitialContext ctx = new InitialContext();
+            Object obj = ctx.lookup("java:comp/env/jdbc/mydatasource");
+            System.out.println(obj.toString());
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 13 InitialContext_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InitialContext context = new InitialContext();
+            context.bind("example", new Object());
+            System.out.println("Object bound successfully.");
+        } catch (NamingException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 14 InitialContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InitialContext ctx = new InitialContext();
+            Object obj = new Object(); // Object to be rebound
+            ctx.rebind("exampleBinding", obj);
+            System.out.println("Object rebound successfully.");
+        } catch (NamingException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 15 InitialContext_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.Context;
+import javax.naming.InitialContext;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            String name = "exampleName";
+            Context ctx = new InitialContext();
+            ctx.unbind(name);
+            System.out.println("Successfully unbound: " + name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 InitialContext_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.InitialContext;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            InitialContext ctx = new InitialContext();
+            ctx.rename("oldName", "newName");
+            System.out.println("Renaming successful.");
+        } catch (Exception e) {
+            System.out.println("Error occurred: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 NameClassPair_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.NameClassPair;
+
+public class Main {
+    public static void main(String[] args) {
+        NameClassPair nameClassPair = new NameClassPair("example", "java.lang.String");
+        System.out.println("Name: " + nameClassPair.getName());
+    }
+}
+```
+================================================================
+
+Sample: 18 NameClassPair_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.NameClassPair;
+
+public class Main {
+    public static void main(String[] args) {
+        NameClassPair pair = new NameClassPair("example", "com.example.ExampleClass");
+        boolean result = pair.isRelative();
+        System.out.println("Is relative: " + result);
+    }
+}
+```
+================================================================
+
+Sample: 19 NameClassPair_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.NameClassPair;
+
+public class Main {
+    public static void main(String[] args) {
+        NameClassPair pair = new NameClassPair("example", "com.example.ClassName");
+        String className = pair.getClassName();
+        System.out.println("Class Name: " + className);
+    }
+}
+```
+================================================================
+
+Sample: 20 RefAddr_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.RefAddr;
+
+public class Main {
+    public static void main(String[] args) {
+        RefAddr refAddr = new RefAddr("type", "value");
+        String type = refAddr.getType();
+        System.out.println("Type: " + type);
+    }
+}
+```
+================================================================
+
+Sample: 21 RefAddr_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.RefAddr;
+
+public class Main {
+    public static void main(String[] args) {
+        RefAddr refAddr = new RefAddr("type", "content");
+        Object content = refAddr.getContent();
+        System.out.println(content);
+    }
+}
+```
+================================================================
+
+Sample: 22 RefAddr_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.RefAddr;
+
+public class Main {
+    public static void main(String[] args) {
+        RefAddr refAddr = new RefAddr("type", "content");
+        System.out.println(refAddr.toString());
+    }
+}
+```
+================================================================
+
+Sample: 23 Reference_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.Reference;
+
+public class Main {
+    public static void main(String[] args) {
+        Reference ref = new Reference("Test");
+        System.out.println(ref.getClassName());
+    }
+}
+```
+================================================================
+
+Sample: 24 Reference_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.naming.Reference;
+
+public class Main {
+    public static void main(String[] args) {
+        Reference reference = new Reference("TestClassName", "TestFactoryClassName", null);
+        String factoryClassName = reference.getFactoryClassName();
+        System.out.println("Factory Class Name: " + factoryClassName);
+    }
+}
+```
+================================================================
+

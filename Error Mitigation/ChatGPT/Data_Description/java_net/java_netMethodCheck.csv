@@ -1,0 +1,2749 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,Authenticator,1,"void setPasswordAuthentication(String host, int port, String protocol, String prompt, String scheme, String authType, URL url, PasswordAuthentication auth)",False,,NULL
+0,Authenticator,2,"PasswordAuthentication requestPasswordAuthentication(InetAddress addr, int port, String protocol, String prompt, String scheme)",True,,"
+
+requestPasswordAuthentication
+public static PasswordAuthentication requestPasswordAuthentication(InetAddress addr,
+                                                                   int port,
+                                                                   String protocol,
+                                                                   String prompt,
+                                                                   String scheme)
+Ask the authenticator that has been registered with the system
+ for a password.
+ 
+ First, if there is a security manager, its checkPermission
+ method is called with a
+ NetPermission(""requestPasswordAuthentication"") permission.
+ This may result in a java.lang.SecurityException.
+
+Parameters:
+addr - The InetAddress of the site requesting authorization,
+             or null if not known.
+port - the port for the requested connection
+protocol - The protocol that's requesting the connection
+          (getRequestingProtocol())
+prompt - A prompt string for the user
+scheme - The authentication scheme
+Returns:
+The username/password, or null if one can't be gotten.
+Throws:
+SecurityException - if a security manager exists and its
+        checkPermission method doesn't allow
+        the password authentication request.
+See Also:
+SecurityManager.checkPermission(java.security.Permission), 
+NetPermission
+
+
+"
+0,Authenticator,3,void setDefault(Authenticator a),True,,"
+
+setDefault
+public static void setDefault(Authenticator a)
+Sets the authenticator that will be used by the networking code
+ when a proxy or an HTTP server asks for authentication.
+ 
+ First, if there is a security manager, its checkPermission
+ method is called with a
+ NetPermission(""setDefaultAuthenticator"") permission.
+ This may result in a java.lang.SecurityException.
+
+Parameters:
+a - The authenticator to be set. If a is null then
+                  any previously set authenticator is removed.
+Throws:
+SecurityException - if a security manager exists and its
+        checkPermission method doesn't allow
+        setting the default authenticator.
+See Also:
+SecurityManager.checkPermission(java.security.Permission), 
+NetPermission
+
+
+"
+0,Authenticator,4,Authenticator getDefault(),False,,NULL
+0,Authenticator,5,void setRequestingHost(String host),False,,NULL
+1,CacheRequest,1,void abort(),True,,"
+
+abort
+public abstract void abort()
+Aborts the attempt to cache the response. If an IOException is
+ encountered while reading the response or writing to the cache,
+ the current cache store operation will be abandoned.
+
+"
+1,CacheRequest,2,OutputStream getBody(),True,,"
+
+getBody
+public abstract OutputStream getBody()
+                              throws IOException
+Returns an OutputStream to which the response body can be
+ written.
+
+Returns:
+an OutputStream to which the response body can
+         be written
+Throws:
+IOException - if an I/O error occurs while
+         writing the response body
+
+
+"
+1,CacheRequest,3,void close(),False,,NULL
+1,CacheRequest,4,void delete(),False,,NULL
+1,CacheRequest,5,"void setResponseHeaders(Map<String, List<String>> headers)",False,,NULL
+2,CacheResponse,1,"Map<String, List<String>> getHeaders()",False,,NULL
+2,CacheResponse,2,InputStream getBody(),True,,"
+
+getBody
+public abstract InputStream getBody()
+                             throws IOException
+Returns the response body as an InputStream.
+
+Returns:
+an InputStream from which the response body can
+         be accessed
+Throws:
+IOException - if an I/O error occurs while
+         getting the response body
+
+
+"
+2,CacheResponse,3,URI getURI(),False,,NULL
+2,CacheResponse,4,String getCipherSuite(),False,,NULL
+2,CacheResponse,5,List<Certificate> getServerCertificates(),False,,NULL
+3,ContentHandler,1,Object getContent(URLConnection urlc),True,,"
+
+getContent
+public abstract Object getContent(URLConnection urlc)
+                           throws IOException
+Given a URL connect stream positioned at the beginning of the
+ representation of an object, this method reads that stream and
+ creates an object from it.
+
+Parameters:
+urlc - a URL connection.
+Returns:
+the object read by the ContentHandler.
+Throws:
+IOException - if an I/O error occurs while reading the object.
+
+
+"
+3,ContentHandler,2,String getContentType(URLConnection urlc),False,,NULL
+3,ContentHandler,3,"Object getContent(URLConnection urlc, Class[] classes)",True,,"
+
+getContent
+public Object getContent(URLConnection urlc,
+                         Class[] classes)
+                  throws IOException
+Given a URL connect stream positioned at the beginning of the
+ representation of an object, this method reads that stream and
+ creates an object that matches one of the types specified.
+
+ The default implementation of this method should call getContent()
+ and screen the return type for a match of the suggested types.
+
+Parameters:
+urlc - a URL connection.
+classes - an array of types requested
+Returns:
+the object read by the ContentHandler that is
+                 the first match of the suggested types.
+                 null if none of the requested  are supported.
+Throws:
+IOException - if an I/O error occurs while reading the object.
+Since:
+1.3
+
+
+"
+3,ContentHandler,4,ContentHandler createContentHandler(String mimetype),False,,NULL
+3,ContentHandler,5,"void setURL(URLConnection urlc, URL url)",False,,NULL
+4,CookieHandler,1,CookieHandler getDefault(),True,,"
+
+getDefault
+public static CookieHandler getDefault()
+Gets the system-wide cookie handler.
+
+Returns:
+the system-wide cookie handler; A null return means
+        there is no system-wide cookie handler currently set.
+Throws:
+SecurityException - If a security manager has been installed and it denies
+ NetPermission(""getCookieHandler"")
+See Also:
+setDefault(CookieHandler)
+
+
+"
+4,CookieHandler,2,void setDefault(CookieHandler cHandler),True,,"
+
+setDefault
+public static void setDefault(CookieHandler cHandler)
+Sets (or unsets) the system-wide cookie handler.
+
+ Note: non-standard http protocol handlers may ignore this setting.
+
+Parameters:
+cHandler - The HTTP cookie handler, or
+       null to unset.
+Throws:
+SecurityException - If a security manager has been installed and it denies
+ NetPermission(""setCookieHandler"")
+See Also:
+getDefault()
+
+
+"
+4,CookieHandler,3,"Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders)",False,,NULL
+4,CookieHandler,4,"void put(URI uri, Map<String, List<String>> responseHeaders)",True,,"
+
+put
+public abstract void put(URI uri,
+                         Map<String,List<String>> responseHeaders)
+                  throws IOException
+Sets all the applicable cookies, examples are response header
+ fields that are named Set-Cookie2, present in the response
+ headers into a cookie cache.
+
+Parameters:
+uri - a URI where the cookies come from
+responseHeaders - an immutable map from field names to
+            lists of field values representing the response
+            header fields returned
+Throws:
+IOException - if an I/O error occurs
+IllegalArgumentException - if either argument is null
+See Also:
+get(URI, Map)
+
+
+"
+4,CookieHandler,5,void setCookiePolicy(CookiePolicy policy),False,,NULL
+5,CookieManager,1,void setCookiePolicy(CookiePolicy cookiePolicy),True,,"
+
+setCookiePolicy
+public void setCookiePolicy(CookiePolicy cookiePolicy)
+To set the cookie policy of this cookie manager.
+
+  A instance of CookieManager will have
+ cookie policy ACCEPT_ORIGINAL_SERVER by default. Users always
+ can call this method to set another cookie policy.
+
+Parameters:
+cookiePolicy - the cookie policy. Can be null, which
+                          has no effects on current cookie policy.
+
+
+"
+5,CookieManager,2,"Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders)",False,,NULL
+5,CookieManager,3,"void put(URI uri, Map<String, List<String>> responseHeaders)",True,,"
+
+put
+public void put(URI uri,
+                Map<String,List<String>> responseHeaders)
+         throws IOException
+Description copied from class: CookieHandler
+Sets all the applicable cookies, examples are response header
+ fields that are named Set-Cookie2, present in the response
+ headers into a cookie cache.
+
+Specified by:
+put in class CookieHandler
+Parameters:
+uri - a URI where the cookies come from
+responseHeaders - an immutable map from field names to
+            lists of field values representing the response
+            header fields returned
+Throws:
+IOException - if an I/O error occurs
+See Also:
+CookieHandler.get(URI, Map)
+
+
+"
+5,CookieManager,4,"void put(URI uri, HttpCookie cookie)",False,,NULL
+5,CookieManager,5,"Map<URI, List<HttpCookie>> getCookieStore()",False,,NULL
+6,DatagramPacket,1,void setData(byte[] buf),True,,"
+
+setData
+public void setData(byte[] buf)
+Set the data buffer for this packet. With the offset of
+ this DatagramPacket set to 0, and the length set to
+ the length of buf.
+
+Parameters:
+buf - the buffer to set for this packet.
+Throws:
+NullPointerException - if the argument is null.
+Since:
+JDK1.1
+See Also:
+getLength(), 
+getData()
+
+
+"
+6,DatagramPacket,2,byte[] getData(),True,,"
+
+getData
+public byte[] getData()
+Returns the data buffer. The data received or the data to be sent
+ starts from the offset in the buffer,
+ and runs for length long.
+
+Returns:
+the buffer used to receive or  send data
+See Also:
+setData(byte[], int, int)
+
+
+"
+6,DatagramPacket,3,void setLength(int length),True,,"
+
+setLength
+public void setLength(int length)
+Set the length for this packet. The length of the packet is
+ the number of bytes from the packet's data buffer that will be
+ sent, or the number of bytes of the packet's data buffer that
+ will be used for receiving data. The length must be lesser or
+ equal to the offset plus the length of the packet's buffer.
+
+Parameters:
+length - the length to set for this packet.
+Throws:
+IllegalArgumentException - if the length is negative
+ of if the length is greater than the packet's data buffer
+ length.
+Since:
+JDK1.1
+See Also:
+getLength(), 
+setData(byte[], int, int)
+
+
+"
+6,DatagramPacket,4,int getLength(),True,,"
+
+getLength
+public int getLength()
+Returns the length of the data to be sent or the length of the
+ data received.
+
+Returns:
+the length of the data to be sent or the length of the
+          data received.
+See Also:
+setLength(int)
+
+
+"
+6,DatagramPacket,5,SocketAddress getSocketAddress(),True,,"
+
+getSocketAddress
+public SocketAddress getSocketAddress()
+Gets the SocketAddress (usually IP address + port number) of the remote
+ host that this packet is being sent to or is coming from.
+
+Returns:
+the SocketAddress
+Since:
+1.4
+See Also:
+setSocketAddress(java.net.SocketAddress)
+
+
+"
+7,DatagramSocket,1,void bind(SocketAddress bindpoint),True,,"
+
+bind
+public void bind(SocketAddress addr)
+          throws SocketException
+Binds this DatagramSocket to a specific address and port.
+ 
+ If the address is null, then the system will pick up
+ an ephemeral port and a valid local address to bind the socket.
+
+
+Parameters:
+addr - The address and port to bind to.
+Throws:
+SocketException - if any error happens during the bind, or if the
+          socket is already bound.
+SecurityException - if a security manager exists and its
+             checkListen method doesn't allow the operation.
+IllegalArgumentException - if addr is a SocketAddress subclass
+         not supported by this socket.
+Since:
+1.4
+
+
+"
+7,DatagramSocket,2,void close(),True,,"
+
+close
+public void close()
+Closes this datagram socket.
+ 
+ Any thread currently blocked in receive(java.net.DatagramPacket) upon this socket
+ will throw a SocketException.
+
+  If this socket has an associated channel then the channel is closed
+ as well.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+
+
+"
+7,DatagramSocket,3,void connect(SocketAddress address),True,,"
+
+connect
+public void connect(SocketAddress addr)
+             throws SocketException
+Connects this socket to a remote socket address (IP address + port number).
+
+  If given an InetSocketAddress, this method
+ behaves as if invoking connect(InetAddress,int)
+ with the the given socket addresses IP address and port number.
+
+Parameters:
+addr - The remote address.
+Throws:
+SocketException - if the connect fails
+IllegalArgumentException - if addr is null, or addr is a SocketAddress
+         subclass not supported by this socket
+SecurityException - if a security manager has been installed and it does
+         not permit access to the given remote address
+Since:
+1.4
+
+
+"
+7,DatagramSocket,4,void disconnect(),True,,"
+
+disconnect
+public void disconnect()
+Disconnects the socket. If the socket is closed or not connected,
+ then this method has no effect.
+
+See Also:
+connect(java.net.InetAddress, int)
+
+
+"
+7,DatagramSocket,5,void send(DatagramPacket p),True,,"
+
+send
+public void send(DatagramPacket p)
+          throws IOException
+Sends a datagram packet from this socket. The
+ DatagramPacket includes information indicating the
+ data to be sent, its length, the IP address of the remote host,
+ and the port number on the remote host.
+
+ If there is a security manager, and the socket is not currently
+ connected to a remote address, this method first performs some
+ security checks. First, if p.getAddress().isMulticastAddress()
+ is true, this method calls the
+ security manager's checkMulticast method
+ with p.getAddress() as its argument.
+ If the evaluation of that expression is false,
+ this method instead calls the security manager's
+ checkConnect method with arguments
+ p.getAddress().getHostAddress() and
+ p.getPort(). Each call to a security manager method
+ could result in a SecurityException if the operation is not allowed.
+
+Parameters:
+p - the DatagramPacket to be sent.
+Throws:
+IOException - if an I/O error occurs.
+SecurityException - if a security manager exists and its
+             checkMulticast or checkConnect
+             method doesn't allow the send.
+PortUnreachableException - may be thrown if the socket is connected
+             to a currently unreachable destination. Note, there is no
+             guarantee that the exception will be thrown.
+IllegalBlockingModeException - if this socket has an associated channel,
+             and the channel is in non-blocking mode.
+IllegalArgumentException - if the socket is connected,
+             and connected address and packet address differ.
+See Also:
+DatagramPacket, 
+SecurityManager.checkMulticast(InetAddress), 
+SecurityManager.checkConnect(java.lang.String, int)
+
+
+"
+8,DatagramSocketImpl,1,void create(),True,,"
+
+create
+protected abstract void create()
+                        throws SocketException
+Creates a datagram socket.
+
+Throws:
+SocketException - if there is an error in the
+ underlying protocol, such as a TCP error.
+
+
+"
+8,DatagramSocketImpl,2,"void bind(int port, InetAddress laddr)",True,,"
+
+bind
+protected abstract void bind(int lport,
+                             InetAddress laddr)
+                      throws SocketException
+Binds a datagram socket to a local port and address.
+
+Parameters:
+lport - the local port
+laddr - the local address
+Throws:
+SocketException - if there is an error in the
+ underlying protocol, such as a TCP error.
+
+
+"
+8,DatagramSocketImpl,3,void send(DatagramPacket p),True,,"
+
+send
+protected abstract void send(DatagramPacket p)
+                      throws IOException
+Sends a datagram packet. The packet contains the data and the
+ destination address to send the packet to.
+
+Parameters:
+p - the packet to be sent.
+Throws:
+IOException - if an I/O exception occurs while sending the
+ datagram packet.
+PortUnreachableException - may be thrown if the socket is connected
+ to a currently unreachable destination. Note, there is no guarantee that
+ the exception will be thrown.
+
+
+"
+8,DatagramSocketImpl,4,void receive(DatagramPacket p),True,,"
+
+receive
+protected abstract void receive(DatagramPacket p)
+                         throws IOException
+Receive the datagram packet.
+
+Parameters:
+p - the Packet Received.
+Throws:
+IOException - if an I/O exception occurs
+ while receiving the datagram packet.
+PortUnreachableException - may be thrown if the socket is connected
+       to a currently unreachable destination. Note, there is no guarantee that the
+       exception will be thrown.
+
+
+"
+8,DatagramSocketImpl,5,void close(),True,,"
+
+close
+protected abstract void close()
+Close the socket.
+
+"
+9,HttpCookie,1,String getName(),True,,"
+
+getName
+public String getName()
+Returns the name of the cookie. The name cannot be changed after
+ creation.
+
+Returns:
+a String specifying the cookie's name
+
+
+"
+9,HttpCookie,2,String getValue(),True,,"
+
+getValue
+public String getValue()
+Returns the value of the cookie.
+
+Returns:
+a String containing the cookie's present value
+See Also:
+setValue(java.lang.String)
+
+
+"
+9,HttpCookie,3,void setPath(String path),True,,"
+
+setPath
+public void setPath(String uri)
+Specifies a path for the cookie to which the client should return
+ the cookie.
+
+  The cookie is visible to all the pages in the directory
+ you specify, and all the pages in that directory's subdirectories.
+ A cookie's path must include the servlet that set the cookie,
+ for example, /catalog, which makes the cookie
+ visible to all directories on the server under /catalog.
+
+  Consult RFC 2965 (available on the Internet) for more
+ information on setting path names for cookies.
+
+Parameters:
+uri - a String specifying a path
+See Also:
+getPath()
+
+
+"
+9,HttpCookie,4,void setMaxAge(long expiry),True,,"
+
+setMaxAge
+public void setMaxAge(long expiry)
+Sets the maximum age of the cookie in seconds.
+
+  A positive value indicates that the cookie will expire
+ after that many seconds have passed. Note that the value is
+ the maximum age when the cookie will expire, not the cookie's
+ current age.
+
+  A negative value means that the cookie is not stored persistently
+ and will be deleted when the Web browser exits. A zero value causes the
+ cookie to be deleted.
+
+Parameters:
+expiry - an integer specifying the maximum age of the cookie in seconds;
+         if zero, the cookie should be discarded immediately; otherwise,
+         the cookie's max age is unspecified.
+See Also:
+getMaxAge()
+
+
+"
+9,HttpCookie,5,void setSecure(boolean secure),True,,"
+
+setSecure
+public void setSecure(boolean flag)
+Indicates whether the cookie should only be sent using a secure protocol,
+ such as HTTPS or SSL.
+
+  The default value is false.
+
+Parameters:
+flag - If true, the cookie can only be sent over a secure
+         protocol like HTTPS. If false, it can be sent over
+         any protocol.
+See Also:
+getSecure()
+
+
+"
+10,HttpURLConnection,1,void setRequestMethod(String method),True,,"
+
+setRequestMethod
+public void setRequestMethod(String method)
+                      throws ProtocolException
+Set the method for the URL request, one of:
+ 
+GET
+  POST
+  HEAD
+  OPTIONS
+  PUT
+  DELETE
+  TRACE
+  are legal, subject to protocol restrictions.  The default
+ method is GET.
+
+Parameters:
+method - the HTTP method
+Throws:
+ProtocolException - if the method cannot be reset or if
+              the requested method isn't valid for HTTP.
+SecurityException - if a security manager is set and the
+              method is ""TRACE"", but the ""allowHttpTrace""
+              NetPermission is not granted.
+See Also:
+getRequestMethod()
+
+
+"
+10,HttpURLConnection,2,int getResponseCode(),True,,"
+
+getResponseCode
+public int getResponseCode()
+                    throws IOException
+Gets the status code from an HTTP response message.
+ For example, in the case of the following status lines:
+ 
+ HTTP/1.0 200 OK
+ HTTP/1.0 401 Unauthorized
+ 
+ It will return 200 and 401 respectively.
+ Returns -1 if no code can be discerned
+ from the response (i.e., the response is not valid HTTP).
+
+Returns:
+the HTTP Status-Code, or -1
+Throws:
+IOException - if an error occurred connecting to the server.
+
+
+"
+10,HttpURLConnection,3,"void setRequestProperty(String key, String value)",False,,NULL
+10,HttpURLConnection,4,InputStream getInputStream(),False,,NULL
+10,HttpURLConnection,5,void connect(),False,,NULL
+11,IDN,1,String toASCII(String input),True,,"
+
+toASCII
+public static String toASCII(String input)
+Translates a string from Unicode to ASCII Compatible Encoding (ACE),
+ as defined by the ToASCII operation of RFC 3490.
+
+  This convenience method works as if by invoking the
+ two-argument counterpart as follows:
+ 
+toASCII(input, 0);
+ 
+
+Parameters:
+input - the string to be processed
+Returns:
+the translated String
+Throws:
+IllegalArgumentException - if the input string doesn't conform to RFC 3490 specification
+
+
+"
+11,IDN,2,String toUnicode(String input),True,,"
+
+toUnicode
+public static String toUnicode(String input)
+Translates a string from ASCII Compatible Encoding (ACE) to Unicode,
+ as defined by the ToUnicode operation of RFC 3490.
+
+  This convenience method works as if by invoking the
+ two-argument counterpart as follows:
+ 
+toUnicode(input, 0);
+ 
+
+Parameters:
+input - the string to be processed
+Returns:
+the translated String
+
+
+"
+11,IDN,3,boolean isLDHLabel(String label),False,,NULL
+11,IDN,4,boolean isValid(String input),False,,NULL
+11,IDN,5,String nameprep(String input),False,,NULL
+12,Inet4Address,1,Inet4Address getByAddress(byte[] addr),False,,NULL
+12,Inet4Address,2,"Inet4Address getByAddress(String host, byte[] addr)",False,,NULL
+12,Inet4Address,3,Inet4Address getByName(String host),False,,NULL
+12,Inet4Address,4,Inet4Address getLocalHost(),False,,NULL
+12,Inet4Address,5,Inet4Address getLoopbackAddress(),False,,NULL
+13,Inet6Address,1,Inet6Address getByAddress(byte[] addr),False,,NULL
+13,Inet6Address,2,int getScopeId(),True,,"
+
+getScopeId
+public int getScopeId()
+Returns the numeric scopeId, if this instance is associated with
+ an interface. If no scoped_id is set, the returned value is zero.
+
+Returns:
+the scopeId, or zero if not set.
+Since:
+1.5
+
+
+"
+13,Inet6Address,3,boolean isAnyLocalAddress(),True,,"
+
+isAnyLocalAddress
+public boolean isAnyLocalAddress()
+Utility routine to check if the InetAddress in a wildcard address.
+
+Overrides:
+isAnyLocalAddress in class InetAddress
+Returns:
+a boolean indicating if the Inetaddress is
+         a wildcard address.
+Since:
+1.4
+
+
+"
+13,Inet6Address,4,boolean isLinkLocalAddress(),True,,"
+
+isLinkLocalAddress
+public boolean isLinkLocalAddress()
+Utility routine to check if the InetAddress is an link local address.
+
+Overrides:
+isLinkLocalAddress in class InetAddress
+Returns:
+a boolean indicating if the InetAddress is a link local
+         address; or false if address is not a link local unicast address.
+Since:
+1.4
+
+
+"
+13,Inet6Address,5,boolean isSiteLocalAddress(),True,,"
+
+isSiteLocalAddress
+public boolean isSiteLocalAddress()
+Utility routine to check if the InetAddress is a site local address.
+
+Overrides:
+isSiteLocalAddress in class InetAddress
+Returns:
+a boolean indicating if the InetAddress is a site local
+         address; or false if address is not a site local unicast address.
+Since:
+1.4
+
+
+"
+14,InetAddress,1,InetAddress getByName(String host),True,,"
+
+getByName
+public static InetAddress getByName(String host)
+                             throws UnknownHostException
+Determines the IP address of a host, given the host's name.
+
+  The host name can either be a machine name, such as
+ ""java.sun.com"", or a textual representation of its
+ IP address. If a literal IP address is supplied, only the
+ validity of the address format is checked.
+
+  For host specified in literal IPv6 address,
+ either the form defined in RFC 2732 or the literal IPv6 address
+ format defined in RFC 2373 is accepted. IPv6 scoped addresses are also
+ supported. See here for a description of IPv6
+ scoped addresses.
+
+  If the host is null then an InetAddress
+ representing an address of the loopback interface is returned.
+ See RFC 3330
+ section 2 and RFC 2373
+ section 2.5.3. 
+
+Parameters:
+host - the specified host, or null.
+Returns:
+an IP address for the given host name.
+Throws:
+UnknownHostException - if no IP address for the
+               host could be found, or if a scope_id was specified
+               for a global IPv6 address.
+SecurityException - if a security manager exists
+             and its checkConnect method doesn't allow the operation
+
+
+"
+14,InetAddress,2,byte[] getAddress(),True,,"
+
+getAddress
+public byte[] getAddress()
+Returns the raw IP address of this InetAddress
+ object. The result is in network byte order: the highest order
+ byte of the address is in getAddress()[0].
+
+Returns:
+the raw IP address of this object.
+
+
+"
+14,InetAddress,3,String getHostAddress(),True,,"
+
+getHostAddress
+public String getHostAddress()
+Returns the IP address string in textual presentation.
+
+Returns:
+the raw IP address in a string format.
+Since:
+JDK1.0.2
+
+
+"
+14,InetAddress,4,String getHostName(),True,,"
+
+getHostName
+public String getHostName()
+Gets the host name for this IP address.
+
+ If this InetAddress was created with a host name,
+ this host name will be remembered and returned;
+ otherwise, a reverse name lookup will be performed
+ and the result will be returned based on the system
+ configured name lookup service. If a lookup of the name service
+ is required, call
+ getCanonicalHostName.
+
+ If there is a security manager, its
+ checkConnect method is first called
+ with the hostname and -1
+ as its arguments to see if the operation is allowed.
+ If the operation is not allowed, it will return
+ the textual representation of the IP address.
+
+Returns:
+the host name for this IP address, or if the operation
+    is not allowed by the security check, the textual
+    representation of the IP address.
+See Also:
+getCanonicalHostName(), 
+SecurityManager.checkConnect(java.lang.String, int)
+
+
+"
+14,InetAddress,5,boolean isReachable(int timeout),True,,"
+
+isReachable
+public boolean isReachable(int timeout)
+                    throws IOException
+Test whether that address is reachable. Best effort is made by the
+ implementation to try to reach the host, but firewalls and server
+ configuration may block requests resulting in a unreachable status
+ while some specific ports may be accessible.
+ A typical implementation will use ICMP ECHO REQUESTs if the
+ privilege can be obtained, otherwise it will try to establish
+ a TCP connection on port 7 (Echo) of the destination host.
+ 
+ The timeout value, in milliseconds, indicates the maximum amount of time
+ the try should take. If the operation times out before getting an
+ answer, the host is deemed unreachable. A negative value will result
+ in an IllegalArgumentException being thrown.
+
+Parameters:
+timeout - the time, in milliseconds, before the call aborts
+Returns:
+a boolean indicating if the address is reachable.
+Throws:
+IOException - if a network error occurs
+IllegalArgumentException - if timeout is negative.
+Since:
+1.5
+
+
+"
+15,InetSocketAddress,1,int getPort(),True,,"
+
+getPort
+public final int getPort()
+Gets the port number.
+
+Returns:
+the port number.
+
+
+"
+15,InetSocketAddress,2,String getHostName(),True,,"
+
+getHostName
+public final String getHostName()
+Gets the hostname.
+ Note: This method may trigger a name service reverse lookup if the
+ address was created with a literal IP address.
+
+Returns:
+the hostname part of the address.
+
+
+"
+15,InetSocketAddress,3,InetAddress getAddress(),True,,"
+
+getAddress
+public final InetAddress getAddress()
+Gets the InetAddress.
+
+Returns:
+the InetAdress or null if it is unresolved.
+
+
+"
+15,InetSocketAddress,4,boolean isUnresolved(),True,,"
+
+isUnresolved
+public final boolean isUnresolved()
+Checks whether the address has been resolved or not.
+
+Returns:
+true if the hostname couldn't be resolved into
+          an InetAddress.
+
+
+"
+15,InetSocketAddress,5,String toString(),True,,"
+
+toString
+public String toString()
+Constructs a string representation of this InetSocketAddress.
+ This String is constructed by calling toString() on the InetAddress
+ and concatenating the port number (with a colon). If the address
+ is unresolved then the part before the colon will only contain the hostname.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of this object.
+
+
+"
+16,InterfaceAddress,1,InetAddress getAddress(),True,,"
+
+getAddress
+public InetAddress getAddress()
+Returns an InetAddress for this address.
+
+Returns:
+the InetAddress for this address.
+
+
+"
+16,InterfaceAddress,2,short getNetworkPrefixLength(),True,,"
+
+getNetworkPrefixLength
+public short getNetworkPrefixLength()
+Returns the network prefix length for this address. This is also known
+ as the subnet mask in the context of IPv4 addresses.
+ Typical IPv4 values would be 8 (255.0.0.0), 16 (255.255.0.0)
+ or 24 (255.255.255.0). 
+ Typical IPv6 values would be 128 (::1/128) or 10 (fe80::203:baff:fe27:1243/10)
+
+Returns:
+a short representing the prefix length for the
+         subnet of that address.
+
+
+"
+16,InterfaceAddress,3,boolean equals(Object obj),True,,"
+
+equals
+public boolean equals(Object obj)
+Compares this object against the specified object.
+ The result is true if and only if the argument is
+ not null and it represents the same interface address as
+ this object.
+ 
+ Two instances of InterfaceAddress represent the same
+ address if the InetAddress, the prefix length and the broadcast are
+ the same for both.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - the object to compare against.
+Returns:
+true if the objects are the same;
+          false otherwise.
+See Also:
+hashCode()
+
+
+"
+16,InterfaceAddress,4,int hashCode(),True,,"
+
+hashCode
+public int hashCode()
+Returns a hashcode for this Interface address.
+
+Overrides:
+hashCode in class Object
+Returns:
+a hash code value for this Interface address.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+16,InterfaceAddress,5,String toString(),True,,"
+
+toString
+public String toString()
+Converts this Interface address to a String. The
+ string returned is of the form: InetAddress / prefix length [ broadcast address ].
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of this Interface address.
+
+
+"
+17,JarURLConnection,1,JarFile getJarFile(),True,,"
+
+getJarFile
+public abstract JarFile getJarFile()
+                            throws IOException
+Return the JAR file for this connection.
+
+Returns:
+the JAR file for this connection. If the connection is
+ a connection to an entry of a JAR file, the JAR file object is
+ returned
+Throws:
+IOException - if an IOException occurs while trying to
+ connect to the JAR file for this connection.
+See Also:
+URLConnection.connect()
+
+
+"
+17,JarURLConnection,2,JarEntry getJarEntry(),True,,"
+
+getJarEntry
+public JarEntry getJarEntry()
+                     throws IOException
+Return the JAR entry object for this connection, if any. This
+ method returns null if the JAR file URL corresponding to this
+ connection points to a JAR file and not a JAR file entry.
+
+Returns:
+the JAR entry object for this connection, or null if
+ the JAR URL for this connection points to a JAR file.
+Throws:
+IOException - if getting the JAR file for this
+ connection causes an IOException to be thrown.
+See Also:
+getJarFile(), 
+getJarEntry()
+
+
+"
+17,JarURLConnection,3,Attributes getAttributes(),True,,"
+
+getAttributes
+public Attributes getAttributes()
+                         throws IOException
+Return the Attributes object for this connection if the URL
+ for it points to a JAR file entry, null otherwise.
+
+Returns:
+the Attributes object for this connection if the URL
+ for it points to a JAR file entry, null otherwise.
+Throws:
+IOException - if getting the JAR entry causes an
+ IOException to be thrown.
+See Also:
+getJarEntry()
+
+
+"
+17,JarURLConnection,4,Manifest getManifest(),True,,"
+
+getManifest
+public Manifest getManifest()
+                     throws IOException
+Returns the Manifest for this connection, or null if none.
+
+Returns:
+the manifest object corresponding to the JAR file object
+ for this connection.
+Throws:
+IOException - if getting the JAR file for this
+ connection causes an IOException to be thrown.
+See Also:
+getJarFile()
+
+
+"
+17,JarURLConnection,5,void setUseCaches(boolean useCaches),False,,NULL
+18,MulticastSocket,1,"void joinGroup(SocketAddress mcastaddr, NetworkInterface netIf)",True,,"
+
+joinGroup
+public void joinGroup(SocketAddress mcastaddr,
+                      NetworkInterface netIf)
+               throws IOException
+Joins the specified multicast group at the specified interface.
+
+ If there is a security manager, this method first
+ calls its checkMulticast method
+ with the mcastaddr argument
+ as its argument.
+
+Parameters:
+mcastaddr - is the multicast address to join
+netIf - specifies the local interface to receive multicast
+        datagram packets, or null to defer to the interface set by
+       setInterface(InetAddress) or
+       setNetworkInterface(NetworkInterface)
+Throws:
+IOException - if there is an error joining
+ or when the address is not a multicast address.
+SecurityException - if a security manager exists and its
+ checkMulticast method doesn't allow the join.
+IllegalArgumentException - if mcastaddr is null or is a
+          SocketAddress subclass not supported by this socket
+Since:
+1.4
+See Also:
+SecurityManager.checkMulticast(InetAddress)
+
+
+"
+18,MulticastSocket,2,"void leaveGroup(SocketAddress mcastaddr, NetworkInterface netIf)",True,,"
+
+leaveGroup
+public void leaveGroup(SocketAddress mcastaddr,
+                       NetworkInterface netIf)
+                throws IOException
+Leave a multicast group on a specified local interface.
+
+ If there is a security manager, this method first
+ calls its checkMulticast method
+ with the mcastaddr argument
+ as its argument.
+
+Parameters:
+mcastaddr - is the multicast address to leave
+netIf - specifies the local interface or null to defer
+             to the interface set by
+             setInterface(InetAddress) or
+             setNetworkInterface(NetworkInterface)
+Throws:
+IOException - if there is an error leaving
+ or when the address is not a multicast address.
+SecurityException - if a security manager exists and its
+ checkMulticast method doesn't allow the operation.
+IllegalArgumentException - if mcastaddr is null or is a
+          SocketAddress subclass not supported by this socket
+Since:
+1.4
+See Also:
+SecurityManager.checkMulticast(InetAddress)
+
+
+"
+18,MulticastSocket,3,void setInterface(InetAddress inf),True,,"
+
+setInterface
+public void setInterface(InetAddress inf)
+                  throws SocketException
+Set the multicast network interface used by methods
+ whose behavior would be affected by the value of the
+ network interface. Useful for multihomed hosts.
+
+Parameters:
+inf - the InetAddress
+Throws:
+SocketException - if there is an error in
+ the underlying protocol, such as a TCP error.
+See Also:
+getInterface()
+
+
+"
+18,MulticastSocket,4,void setTimeToLive(int ttl),True,,"
+
+setTimeToLive
+public void setTimeToLive(int ttl)
+                   throws IOException
+Set the default time-to-live for multicast packets sent out
+ on this MulticastSocket in order to control the
+ scope of the multicasts.
+
+  The ttl must be in the range 0 <= ttl <=
+ 255 or an IllegalArgumentException will be thrown.
+ Multicast packets sent with a TTL of 0 are not transmitted
+ on the network but may be delivered locally.
+
+Parameters:
+ttl - the time-to-live
+Throws:
+IOException - if an I/O exception occurs while setting the
+          default time-to-live value
+See Also:
+getTimeToLive()
+
+
+"
+18,MulticastSocket,5,void setLoopbackMode(boolean disable),True,,"
+
+setLoopbackMode
+public void setLoopbackMode(boolean disable)
+                     throws SocketException
+Disable/Enable local loopback of multicast datagrams
+ The option is used by the platform's networking code as a hint
+ for setting whether multicast data will be looped back to
+ the local socket.
+
+ Because this option is a hint, applications that want to
+ verify what loopback mode is set to should call
+ getLoopbackMode()
+
+Parameters:
+disable - true to disable the LoopbackMode
+Throws:
+SocketException - if an error occurs while setting the value
+Since:
+1.4
+See Also:
+getLoopbackMode()
+
+
+"
+19,NetPermission,1,"void checkConnect(String host, int port)",False,,NULL
+19,NetPermission,2,void checkListen(int port),False,,NULL
+19,NetPermission,3,"void checkAccept(String host, int port)",False,,NULL
+19,NetPermission,4,void checkMulticast(InetAddress maddr),False,,NULL
+19,NetPermission,5,void checkPropertiesAccess(),False,,NULL
+20,NetworkInterface,1,String getName(),True,,"
+
+getName
+public String getName()
+Get the name of this network interface.
+
+Returns:
+the name of this network interface
+
+
+"
+20,NetworkInterface,2,Enumeration<InetAddress> getInetAddresses(),True,,"
+
+getInetAddresses
+public Enumeration<InetAddress> getInetAddresses()
+Convenience method to return an Enumeration with all or a
+ subset of the InetAddresses bound to this network interface.
+ 
+ If there is a security manager, its checkConnect
+ method is called for each InetAddress. Only InetAddresses where
+ the checkConnect doesn't throw a SecurityException
+ will be returned in the Enumeration. However, if the caller has the
+ NetPermission(""getNetworkInformation"") permission, then all
+ InetAddresses are returned.
+
+Returns:
+an Enumeration object with all or a subset of the InetAddresses
+ bound to this network interface
+
+
+"
+20,NetworkInterface,3,boolean isUp(),True,,"
+
+isUp
+public boolean isUp()
+             throws SocketException
+Returns whether a network interface is up and running.
+
+Returns:
+true if the interface is up and running.
+Throws:
+SocketException - if an I/O error occurs.
+Since:
+1.6
+
+
+"
+20,NetworkInterface,4,boolean isLoopback(),True,,"
+
+isLoopback
+public boolean isLoopback()
+                   throws SocketException
+Returns whether a network interface is a loopback interface.
+
+Returns:
+true if the interface is a loopback interface.
+Throws:
+SocketException - if an I/O error occurs.
+Since:
+1.6
+
+
+"
+20,NetworkInterface,5,boolean isVirtual(),True,,"
+
+isVirtual
+public boolean isVirtual()
+Returns whether this interface is a virtual interface (also called
+ subinterface).
+ Virtual interfaces are, on some systems, interfaces created as a child
+ of a physical interface and given different settings (like address or
+ MTU). Usually the name of the interface will the name of the parent
+ followed by a colon (:) and a number identifying the child since there
+ can be several virtual interfaces attached to a single physical
+ interface.
+
+Returns:
+true if this interface is a virtual interface.
+Since:
+1.6
+
+
+"
+21,PasswordAuthentication,1,String getUserName(),True,,"
+
+getUserName
+public String getUserName()
+Returns the user name.
+
+Returns:
+the user name
+
+
+"
+21,PasswordAuthentication,2,char[] getPassword(),True,,"
+
+getPassword
+public char[] getPassword()
+Returns the user password.
+
+  Note that this method returns a reference to the password. It is
+ the caller's responsibility to zero out the password information after
+ it is no longer needed.
+
+Returns:
+the password
+
+
+"
+21,PasswordAuthentication,3,void setUserName(String username),False,,NULL
+21,PasswordAuthentication,4,void setPassword(char[] password),False,,NULL
+21,PasswordAuthentication,5,boolean equals(Object obj),False,,NULL
+22,Proxy,1,Proxy.Type type(),True,,"
+
+type
+public Proxy.Type type()
+Returns the proxy type.
+
+Returns:
+a Type representing the proxy type
+
+
+"
+22,Proxy,2,SocketAddress address(),True,,"
+
+address
+public SocketAddress address()
+Returns the socket address of the proxy, or
+ null if its a direct connection.
+
+Returns:
+a SocketAddress representing the socket end
+         point of the proxy
+
+
+"
+22,Proxy,3,String toString(),True,,"
+
+toString
+public String toString()
+Constructs a string representation of this Proxy.
+ This String is constructed by calling toString() on its type
+ and concatenating "" @ "" and the toString() result from its address
+ if its type is not DIRECT.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of this object.
+
+
+"
+22,Proxy,4,boolean equals(Object obj),True,,"
+
+equals
+public final boolean equals(Object obj)
+Compares this object against the specified object.
+ The result is true if and only if the argument is
+ not null and it represents the same proxy as
+ this object.
+ 
+ Two instances of Proxy represent the same
+ address if both the SocketAddresses and type are equal.
+
+Overrides:
+equals in class Object
+Parameters:
+obj - the object to compare against.
+Returns:
+true if the objects are the same;
+          false otherwise.
+See Also:
+InetSocketAddress.equals(java.lang.Object)
+
+
+"
+22,Proxy,5,int hashCode(),True,,"
+
+hashCode
+public final int hashCode()
+Returns a hashcode for this Proxy.
+
+Overrides:
+hashCode in class Object
+Returns:
+a hash code value for this Proxy.
+See Also:
+Object.equals(java.lang.Object), 
+System.identityHashCode(java.lang.Object)
+
+
+"
+23,ProxySelector,1,List<Proxy> select(URI uri),True,,"
+
+select
+public abstract List<Proxy> select(URI uri)
+Selects all the applicable proxies based on the protocol to
+ access the resource with and a destination address to access
+ the resource at.
+ The format of the URI is defined as follow:
+ 
+http URI for http connections
+https URI for https connections
+ socket://host:port
+     for tcp client sockets connections
+
+
+Parameters:
+uri - The URI that a connection is required to
+Returns:
+a List of Proxies. Each element in the
+          the List is of type
+          Proxy;
+          when no proxy is available, the list will
+          contain one element of type
+          Proxy
+          that represents a direct connection.
+Throws:
+IllegalArgumentException - if the argument is null
+
+
+"
+23,ProxySelector,2,"void connectFailed(URI uri, SocketAddress sa, IOException ioe)",True,,"
+
+connectFailed
+public abstract void connectFailed(URI uri,
+                                   SocketAddress sa,
+                                   IOException ioe)
+Called to indicate that a connection could not be established
+ to a proxy/socks server. An implementation of this method can
+ temporarily remove the proxies or reorder the sequence of
+ proxies returned by select(URI), using the address
+ and the IOException caught when trying to connect.
+
+Parameters:
+uri - The URI that the proxy at sa failed to serve.
+sa - The socket address of the proxy/SOCKS server
+ioe - The I/O exception thrown when the connect failed.
+Throws:
+IllegalArgumentException - if either argument is null
+
+
+"
+23,ProxySelector,3,List<Proxy> select(URI uri),True,,"
+
+select
+public abstract List<Proxy> select(URI uri)
+Selects all the applicable proxies based on the protocol to
+ access the resource with and a destination address to access
+ the resource at.
+ The format of the URI is defined as follow:
+ 
+http URI for http connections
+https URI for https connections
+ socket://host:port
+     for tcp client sockets connections
+
+
+Parameters:
+uri - The URI that a connection is required to
+Returns:
+a List of Proxies. Each element in the
+          the List is of type
+          Proxy;
+          when no proxy is available, the list will
+          contain one element of type
+          Proxy
+          that represents a direct connection.
+Throws:
+IllegalArgumentException - if the argument is null
+
+
+"
+23,ProxySelector,4,"void connectFailed(URI uri, SocketAddress sa, IOException ioe)",True,,"
+
+connectFailed
+public abstract void connectFailed(URI uri,
+                                   SocketAddress sa,
+                                   IOException ioe)
+Called to indicate that a connection could not be established
+ to a proxy/socks server. An implementation of this method can
+ temporarily remove the proxies or reorder the sequence of
+ proxies returned by select(URI), using the address
+ and the IOException caught when trying to connect.
+
+Parameters:
+uri - The URI that the proxy at sa failed to serve.
+sa - The socket address of the proxy/SOCKS server
+ioe - The I/O exception thrown when the connect failed.
+Throws:
+IllegalArgumentException - if either argument is null
+
+
+"
+23,ProxySelector,5,ProxySelector getDefault(),True,,"
+
+getDefault
+public static ProxySelector getDefault()
+Gets the system-wide proxy selector.
+
+Returns:
+the system-wide ProxySelector
+Throws:
+SecurityException - If a security manager has been installed and it denies
+ NetPermission(""getProxySelector"")
+Since:
+1.5
+See Also:
+setDefault(ProxySelector)
+
+
+"
+24,ResponseCache,1,ResponseCache getDefault(),True,,"
+
+getDefault
+public static ResponseCache getDefault()
+Gets the system-wide response cache.
+
+Returns:
+the system-wide ResponseCache
+Throws:
+SecurityException - If a security manager has been installed and it denies
+ NetPermission(""getResponseCache"")
+Since:
+1.5
+See Also:
+setDefault(ResponseCache)
+
+
+"
+24,ResponseCache,2,void setDefault(ResponseCache responseCache),True,,"
+
+setDefault
+public static void setDefault(ResponseCache responseCache)
+Sets (or unsets) the system-wide cache.
+
+ Note: non-standard procotol handlers may ignore this setting.
+
+Parameters:
+responseCache - The response cache, or
+          null to unset the cache.
+Throws:
+SecurityException - If a security manager has been installed and it denies
+ NetPermission(""setResponseCache"")
+Since:
+1.5
+See Also:
+getDefault()
+
+
+"
+24,ResponseCache,3,"CacheResponse get(URI uri, String requestMethod, Map<String, List<String>> requestHeaders)",True,,"
+
+get
+public abstract CacheResponse get(URI uri,
+                                  String rqstMethod,
+                                  Map<String,List<String>> rqstHeaders)
+                           throws IOException
+Retrieve the cached response based on the requesting uri,
+ request method and request headers. Typically this method is
+ called by the protocol handler before it sends out the request
+ to get the network resource. If a cached response is returned,
+ that resource is used instead.
+
+Parameters:
+uri - a URI used to reference the requested
+            network resource
+rqstMethod - a String representing the request
+            method
+rqstHeaders - - a Map from request header
+            field names to lists of field values representing
+            the current request headers
+Returns:
+a CacheResponse instance if available
+          from cache, or null otherwise
+Throws:
+IOException - if an I/O error occurs
+IllegalArgumentException - if any one of the arguments is null
+See Also:
+URLConnection.setUseCaches(boolean), 
+URLConnection.getUseCaches(), 
+URLConnection.setDefaultUseCaches(boolean), 
+URLConnection.getDefaultUseCaches()
+
+
+"
+24,ResponseCache,4,"CacheRequest put(URI uri, URLConnection connection)",True,,"
+
+put
+public abstract CacheRequest put(URI uri,
+                                 URLConnection conn)
+                          throws IOException
+The protocol handler calls this method after a resource has
+ been retrieved, and the ResponseCache must decide whether or
+ not to store the resource in its cache. If the resource is to
+ be cached, then put() must return a CacheRequest object which
+ contains an OutputStream that the protocol handler will
+ use to write the resource into the cache. If the resource is
+ not to be cached, then put must return null.
+
+Parameters:
+uri - a URI used to reference the requested
+            network resource
+conn - - a URLConnection instance that is used to fetch
+            the response to be cached
+Returns:
+a CacheRequest for recording the
+            response to be cached. Null return indicates that
+            the caller does not intend to cache the response.
+Throws:
+IOException - if an I/O error occurs
+IllegalArgumentException - if any one of the arguments is
+            null
+
+
+"
+24,ResponseCache,5,"void delete(URI uri, String requestMethod, Map<String, List<String>> requestHeaders)",False,,NULL
+25,SecureCacheResponse,1,"Map<String, List<String>> getHeaders()",False,,NULL
+25,SecureCacheResponse,2,InputStream getBody(),False,,NULL
+25,SecureCacheResponse,3,String getCipherSuite(),True,,"
+
+getCipherSuite
+public abstract String getCipherSuite()
+Returns the cipher suite in use on the original connection that
+ retrieved the network resource.
+
+Returns:
+a string representing the cipher suite
+
+
+"
+25,SecureCacheResponse,4,List<Certificate> getLocalCertificateChain(),True,,"
+
+getLocalCertificateChain
+public abstract List<Certificate> getLocalCertificateChain()
+Returns the certificate chain that were sent to the server during
+ handshaking of the original connection that retrieved the
+ network resource.  Note: This method is useful only
+ when using certificate-based cipher suites.
+
+Returns:
+an immutable List of Certificate representing the
+           certificate chain that was sent to the server. If no
+           certificate chain was sent, null will be returned.
+See Also:
+getLocalPrincipal()
+
+
+"
+25,SecureCacheResponse,5,List<Certificate> getServerCertificateChain(),True,,"
+
+getServerCertificateChain
+public abstract List<Certificate> getServerCertificateChain()
+                                                     throws SSLPeerUnverifiedException
+Returns the server's certificate chain, which was established as
+ part of defining the session in the original connection that
+ retrieved the network resource, from cache.  Note: This method
+ can be used only when using certificate-based cipher suites;
+ using it with non-certificate-based cipher suites, such as
+ Kerberos, will throw an SSLPeerUnverifiedException.
+
+Returns:
+an immutable List of Certificate representing the server's
+         certificate chain.
+Throws:
+SSLPeerUnverifiedException - if the peer is not verified.
+See Also:
+getPeerPrincipal()
+
+
+"
+26,ServerSocket,1,void bind(SocketAddress endpoint),True,,"
+
+bind
+public void bind(SocketAddress endpoint)
+          throws IOException
+Binds the ServerSocket to a specific address
+ (IP address and port number).
+ 
+ If the address is null, then the system will pick up
+ an ephemeral port and a valid local address to bind the socket.
+ 
+
+Parameters:
+endpoint - The IP address and port number to bind to.
+Throws:
+IOException - if the bind operation fails, or if the socket
+                     is already bound.
+SecurityException - if a SecurityManager is present and
+ its checkListen method doesn't allow the operation.
+IllegalArgumentException - if endpoint is a
+          SocketAddress subclass not supported by this socket
+Since:
+1.4
+
+
+"
+26,ServerSocket,2,Socket accept(),True,,"
+
+accept
+public Socket accept()
+              throws IOException
+Listens for a connection to be made to this socket and accepts
+ it. The method blocks until a connection is made.
+
+ A new Socket s is created and, if there
+ is a security manager,
+ the security manager's checkAccept method is called
+ with s.getInetAddress().getHostAddress() and
+ s.getPort()
+ as its arguments to ensure the operation is allowed.
+ This could result in a SecurityException.
+
+Returns:
+the new Socket
+Throws:
+IOException - if an I/O error occurs when waiting for a
+               connection.
+SecurityException - if a security manager exists and its
+             checkAccept method doesn't allow the operation.
+SocketTimeoutException - if a timeout was previously set with setSoTimeout and
+             the timeout has been reached.
+IllegalBlockingModeException - if this socket has an associated channel, the channel is in
+             non-blocking mode, and there is no connection ready to be
+             accepted
+See Also:
+SecurityManager.checkAccept(java.lang.String, int)
+
+
+"
+26,ServerSocket,3,void close(),True,,"
+
+close
+public void close()
+           throws IOException
+Closes this socket.
+
+ Any thread currently blocked in accept() will throw
+ a SocketException.
+
+  If this socket has an associated channel then the channel is closed
+ as well.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Throws:
+IOException - if an I/O error occurs when closing the socket.
+
+
+"
+26,ServerSocket,4,InetAddress getInetAddress(),True,,"
+
+getInetAddress
+public InetAddress getInetAddress()
+Returns the local address of this server socket.
+ 
+ If the socket was bound prior to being closed,
+ then this method will continue to return the local address
+ after the socket is closed.
+ 
+ If there is a security manager set, its checkConnect method is
+ called with the local address and -1 as its arguments to see
+ if the operation is allowed. If the operation is not allowed,
+ the loopback address is returned.
+
+Returns:
+the address to which this socket is bound,
+          or the loopback address if denied by the security manager,
+          or null if the socket is unbound.
+See Also:
+SecurityManager.checkConnect(java.lang.String, int)
+
+
+"
+26,ServerSocket,5,int getLocalPort(),True,,"
+
+getLocalPort
+public int getLocalPort()
+Returns the port number on which this socket is listening.
+ 
+ If the socket was bound prior to being closed,
+ then this method will continue to return the port number
+ after the socket is closed.
+
+Returns:
+the port number to which this socket is listening or
+          -1 if the socket is not bound yet.
+
+
+"
+27,Socket,1,void connect(SocketAddress endpoint),True,,"
+
+connect
+public void connect(SocketAddress endpoint)
+             throws IOException
+Connects this socket to the server.
+
+Parameters:
+endpoint - the SocketAddress
+Throws:
+IOException - if an error occurs during the connection
+IllegalBlockingModeException - if this socket has an associated channel,
+          and the channel is in non-blocking mode
+IllegalArgumentException - if endpoint is null or is a
+          SocketAddress subclass not supported by this socket
+Since:
+1.4
+
+
+"
+27,Socket,2,InputStream getInputStream(),True,,"
+
+getInputStream
+public InputStream getInputStream()
+                           throws IOException
+Returns an input stream for this socket.
+
+  If this socket has an associated channel then the resulting input
+ stream delegates all of its operations to the channel.  If the channel
+ is in non-blocking mode then the input stream's read operations
+ will throw an IllegalBlockingModeException.
+
+ Under abnormal conditions the underlying connection may be
+ broken by the remote host or the network software (for example
+ a connection reset in the case of TCP connections). When a
+ broken connection is detected by the network software the
+ following applies to the returned input stream :-
+
+ 
+The network software may discard bytes that are buffered
+   by the socket. Bytes that aren't discarded by the network
+   software can be read using read.
+
+   If there are no bytes buffered on the socket, or all
+   buffered bytes have been consumed by
+   read, then all subsequent
+   calls to read will throw an
+   IOException.
+
+   If there are no bytes buffered on the socket, and the
+   socket has not been closed using close, then
+   available will
+   return 0.
+
+ 
+ Closing the returned InputStream
+ will close the associated socket.
+
+Returns:
+an input stream for reading bytes from this socket.
+Throws:
+IOException - if an I/O error occurs when creating the
+             input stream, the socket is closed, the socket is
+             not connected, or the socket input has been shutdown
+             using shutdownInput()
+
+
+"
+27,Socket,3,OutputStream getOutputStream(),True,,"
+
+getOutputStream
+public OutputStream getOutputStream()
+                             throws IOException
+Returns an output stream for this socket.
+
+  If this socket has an associated channel then the resulting output
+ stream delegates all of its operations to the channel.  If the channel
+ is in non-blocking mode then the output stream's write
+ operations will throw an IllegalBlockingModeException.
+
+  Closing the returned OutputStream
+ will close the associated socket.
+
+Returns:
+an output stream for writing bytes to this socket.
+Throws:
+IOException - if an I/O error occurs when creating the
+               output stream or if the socket is not connected.
+
+
+"
+27,Socket,4,void setSoTimeout(int timeout),True,,"
+
+setSoTimeout
+public void setSoTimeout(int timeout)
+                  throws SocketException
+Enable/disable SO_TIMEOUT
+  with the specified timeout, in milliseconds. With this option set
+  to a non-zero timeout, a read() call on the InputStream associated with
+  this Socket will block for only this amount of time.  If the timeout
+  expires, a java.net.SocketTimeoutException is raised, though the
+  Socket is still valid. The option must be enabled
+  prior to entering the blocking operation to have effect. The
+  timeout must be > 0.
+  A timeout of zero is interpreted as an infinite timeout.
+
+Parameters:
+timeout - the specified timeout, in milliseconds.
+Throws:
+SocketException - if there is an error
+ in the underlying protocol, such as a TCP error.
+Since:
+JDK 1.1
+See Also:
+getSoTimeout()
+
+
+"
+27,Socket,5,void close(),True,,"
+
+close
+public void close()
+           throws IOException
+Closes this socket.
+ 
+ Any thread currently blocked in an I/O operation upon this socket
+ will throw a SocketException.
+ 
+ Once a socket has been closed, it is not available for further networking
+ use (i.e. can't be reconnected or rebound). A new socket needs to be
+ created.
+
+  Closing this socket will also close the socket's
+ InputStream and
+ OutputStream.
+
+  If this socket has an associated channel then the channel is closed
+ as well.
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Throws:
+IOException - if an I/O error occurs when closing this socket.
+See Also:
+isClosed()
+
+
+"
+28,SocketAddress,1,SocketAddress getAddress(),False,,NULL
+28,SocketAddress,2,boolean equals(Object obj),False,,NULL
+28,SocketAddress,3,int hashCode(),False,,NULL
+28,SocketAddress,4,String toString(),False,,NULL
+28,SocketAddress,5,"SocketAddress createSocketAddress(String hostname, int port)",False,,NULL
+29,SocketImpl,1,"void setOption(int optID, Object value)",False,,NULL
+29,SocketImpl,2,Object getOption(int optID),False,,NULL
+29,SocketImpl,3,void create(boolean stream),True,,"
+
+create
+protected abstract void create(boolean stream)
+                        throws IOException
+Creates either a stream or a datagram socket.
+
+Parameters:
+stream - if true, create a stream socket;
+                      otherwise, create a datagram socket.
+Throws:
+IOException - if an I/O error occurs while creating the
+               socket.
+
+
+"
+29,SocketImpl,4,"void connect(String host, int port)",True,,"
+
+connect
+protected abstract void connect(String host,
+                                int port)
+                         throws IOException
+Connects this socket to the specified port on the named host.
+
+Parameters:
+host - the name of the remote host.
+port - the port number.
+Throws:
+IOException - if an I/O error occurs when connecting to the
+               remote host.
+
+
+"
+29,SocketImpl,5,"void bind(InetAddress host, int port)",True,,"
+
+bind
+protected abstract void bind(InetAddress host,
+                             int port)
+                      throws IOException
+Binds this socket to the specified local IP address and port number.
+
+Parameters:
+host - an IP address that belongs to a local interface.
+port - the port number.
+Throws:
+IOException - if an I/O error occurs when binding this socket.
+
+
+"
+30,SocketPermission,1,"void checkConnect(String host, int port)",False,,NULL
+30,SocketPermission,2,void checkListen(int port),False,,NULL
+30,SocketPermission,3,"void checkAccept(String host, int port)",False,,NULL
+30,SocketPermission,4,void checkMulticast(InetAddress maddr),False,,NULL
+30,SocketPermission,5,void checkResolve(String host),False,,NULL
+31,StandardSocketOptions,1,StandardSocketOptions<Boolean> SO_KEEPALIVE(),False,,NULL
+31,StandardSocketOptions,2,StandardSocketOptions<Integer> SO_RCVBUF(),False,,NULL
+31,StandardSocketOptions,3,StandardSocketOptions<Integer> SO_SNDBUF(),False,,NULL
+31,StandardSocketOptions,4,StandardSocketOptions<Integer> TCP_NODELAY(),False,,NULL
+31,StandardSocketOptions,5,StandardSocketOptions<Boolean> SO_REUSEADDR(),False,,NULL
+32,URI,1,String getScheme(),True,,"
+
+getScheme
+public String getScheme()
+Returns the scheme component of this URI.
+
+  The scheme component of a URI, if defined, only contains characters
+ in the alphanum category and in the string ""-.+"".  A
+ scheme always starts with an alpha character. 
+
+ The scheme component of a URI cannot contain escaped octets, hence this
+ method does not perform any decoding.
+
+Returns:
+The scheme component of this URI,
+          or null if the scheme is undefined
+
+
+"
+32,URI,2,String getHost(),True,,"
+
+getHost
+public String getHost()
+Returns the host component of this URI.
+
+  The host component of a URI, if defined, will have one of the
+ following forms: 
+
+ A domain name consisting of one or more labels
+   separated by period characters ('.'), optionally followed by
+   a period character.  Each label consists of alphanum characters
+   as well as hyphen characters ('-'), though hyphens never
+   occur as the first or last characters in a label. The rightmost
+   label of a domain name consisting of two or more labels, begins
+   with an alpha character. 
+ A dotted-quad IPv4 address of the form
+   digit+.digit+.digit+.digit+,
+   where no digit sequence is longer than three characters and no
+   sequence has a value larger than 255. 
+ An IPv6 address enclosed in square brackets ('[' and
+   ']') and consisting of hexadecimal digits, colon characters
+   (':'), and possibly an embedded IPv4 address.  The full
+   syntax of IPv6 addresses is specified in RFC 2373: IPv6
+   Addressing Architecture.  
+
+
+ The host component of a URI cannot contain escaped octets, hence this
+ method does not perform any decoding.
+
+Returns:
+The host component of this URI,
+          or null if the host is undefined
+
+
+"
+32,URI,3,int getPort(),True,,"
+
+getPort
+public int getPort()
+Returns the port number of this URI.
+
+  The port component of a URI, if defined, is a non-negative
+ integer. 
+
+Returns:
+The port component of this URI,
+          or -1 if the port is undefined
+
+
+"
+32,URI,4,String getPath(),True,,"
+
+getPath
+public String getPath()
+Returns the decoded path component of this URI.
+
+  The string returned by this method is equal to that returned by the
+ getRawPath method except that all sequences of
+ escaped octets are decoded.  
+
+Returns:
+The decoded path component of this URI,
+          or null if the path is undefined
+
+
+"
+32,URI,5,String getQuery(),True,,"
+
+getQuery
+public String getQuery()
+Returns the decoded query component of this URI.
+
+  The string returned by this method is equal to that returned by the
+ getRawQuery method except that all sequences of
+ escaped octets are decoded.  
+
+Returns:
+The decoded query component of this URI,
+          or null if the query is undefined
+
+
+"
+33,URL,1,String getFile(),True,,"
+
+getFile
+public String getFile()
+Gets the file name of this URL.
+ The returned file portion will be
+ the same as getPath(), plus the concatenation of
+ the value of getQuery(), if any. If there is
+ no query portion, this method and getPath() will
+ return identical results.
+
+Returns:
+the file name of this URL,
+ or an empty string if one does not exist
+
+
+"
+33,URL,2,String getHost(),True,,"
+
+getHost
+public String getHost()
+Gets the host name of this URL, if applicable.
+ The format of the host conforms to RFC 2732, i.e. for a
+ literal IPv6 address, this method will return the IPv6 address
+ enclosed in square brackets ('[' and ']').
+
+Returns:
+the host name of this URL.
+
+
+"
+33,URL,3,int getPort(),True,,"
+
+getPort
+public int getPort()
+Gets the port number of this URL.
+
+Returns:
+the port number, or -1 if the port is not set
+
+
+"
+33,URL,4,String getProtocol(),True,,"
+
+getProtocol
+public String getProtocol()
+Gets the protocol name of this URL.
+
+Returns:
+the protocol of this URL.
+
+
+"
+33,URL,5,String toString(),True,,"
+
+toString
+public String toString()
+Constructs a string representation of this URL. The
+ string is created by calling the toExternalForm
+ method of the stream protocol handler for this object.
+
+Overrides:
+toString in class Object
+Returns:
+a string representation of this object.
+See Also:
+URL(java.lang.String, java.lang.String, int,
+                  java.lang.String), 
+URLStreamHandler.toExternalForm(java.net.URL)
+
+
+"
+34,URLClassLoader,1,Class<?> findClass(String name),True,,"
+
+findClass
+protected Class<?> findClass(String name)
+                      throws ClassNotFoundException
+Finds and loads the class with the specified name from the URL search
+ path. Any URLs referring to JAR files are loaded and opened as needed
+ until the class is found.
+
+Overrides:
+findClass in class ClassLoader
+Parameters:
+name - the name of the class
+Returns:
+the resulting class
+Throws:
+ClassNotFoundException - if the class could not be found,
+            or if the loader is closed.
+NullPointerException - if name is null.
+
+
+"
+34,URLClassLoader,2,URL findResource(String name),True,,"
+
+findResource
+public URL findResource(String name)
+Finds the resource with the specified name on the URL search path.
+
+Overrides:
+findResource in class ClassLoader
+Parameters:
+name - the name of the resource
+Returns:
+a URL for the resource, or null
+ if the resource could not be found, or if the loader is closed.
+
+
+"
+34,URLClassLoader,3,Enumeration<URL> findResources(String name),True,,"
+
+findResources
+public Enumeration<URL> findResources(String name)
+                               throws IOException
+Returns an Enumeration of URLs representing all of the resources
+ on the URL search path having the specified name.
+
+Overrides:
+findResources in class ClassLoader
+Parameters:
+name - the resource name
+Returns:
+an Enumeration of URLs
+         If the loader is closed, the Enumeration will be empty.
+Throws:
+IOException - if an I/O exception occurs
+
+
+"
+34,URLClassLoader,4,void close(),True,,"
+
+close
+public void close()
+           throws IOException
+Closes this URLClassLoader, so that it can no longer be used to load
+ new classes or resources that are defined by this loader.
+ Classes and resources defined by any of this loader's parents in the
+ delegation hierarchy are still accessible. Also, any classes or resources
+ that are already loaded, are still accessible.
+ 
+ In the case of jar: and file: URLs, it also closes any files
+ that were opened by it. If another thread is loading a
+ class when the close method is invoked, then the result of
+ that load is undefined.
+ 
+ The method makes a best effort attempt to close all opened files,
+ by catching IOExceptions internally. Unchecked exceptions
+ and errors are not caught. Calling close on an already closed
+ loader has no effect.
+ 
+
+Specified by:
+close in interface Closeable
+Specified by:
+close in interface AutoCloseable
+Throws:
+IOException - if closing any file opened by this class loader
+ resulted in an IOException. Any such exceptions are caught internally.
+ If only one is caught, then it is re-thrown. If more than one exception
+ is caught, then the second and following exceptions are added
+ as suppressed exceptions of the first one caught, which is then re-thrown.
+SecurityException - if a security manager is set, and it denies
+   RuntimePermission(""closeClassLoader"")
+Since:
+1.7
+
+
+"
+34,URLClassLoader,5,void addURL(URL url),True,,"
+
+addURL
+protected void addURL(URL url)
+Appends the specified URL to the list of URLs to search for
+ classes and resources.
+ 
+ If the URL specified is null or is already in the
+ list of URLs, or if this loader is closed, then invoking this
+ method has no effect.
+
+Parameters:
+url - the URL to be added to the search path of URLs
+
+
+"
+35,URLConnection,1,void connect(),True,,"
+
+connect
+public abstract void connect()
+                      throws IOException
+Opens a communications link to the resource referenced by this
+ URL, if such a connection has not already been established.
+ 
+ If the connect method is called when the connection
+ has already been opened (indicated by the connected
+ field having the value true), the call is ignored.
+ 
+ URLConnection objects go through two phases: first they are
+ created, then they are connected.  After being created, and
+ before being connected, various options can be specified
+ (e.g., doInput and UseCaches).  After connecting, it is an
+ error to try to set them.  Operations that depend on being
+ connected, like getContentLength, will implicitly perform the
+ connection, if necessary.
+
+Throws:
+SocketTimeoutException - if the timeout expires before
+               the connection can be established
+IOException - if an I/O error occurs while opening the
+               connection.
+See Also:
+connected, 
+getConnectTimeout(), 
+setConnectTimeout(int)
+
+
+"
+35,URLConnection,2,InputStream getInputStream(),True,,"
+
+getInputStream
+public InputStream getInputStream()
+                           throws IOException
+Returns an input stream that reads from this open connection.
+
+ A SocketTimeoutException can be thrown when reading from the
+ returned input stream if the read timeout expires before data
+ is available for read.
+
+Returns:
+an input stream that reads from this open connection.
+Throws:
+IOException - if an I/O error occurs while
+               creating the input stream.
+UnknownServiceException - if the protocol does not support
+               input.
+See Also:
+setReadTimeout(int), 
+getReadTimeout()
+
+
+"
+35,URLConnection,3,OutputStream getOutputStream(),True,,"
+
+getOutputStream
+public OutputStream getOutputStream()
+                             throws IOException
+Returns an output stream that writes to this connection.
+
+Returns:
+an output stream that writes to this connection.
+Throws:
+IOException - if an I/O error occurs while
+               creating the output stream.
+UnknownServiceException - if the protocol does not support
+               output.
+
+
+"
+35,URLConnection,4,int getContentLength(),True,,"
+
+getContentLength
+public int getContentLength()
+Returns the value of the content-length header field.
+ 
+Note: getContentLengthLong()
+ should be preferred over this method, since it returns a long
+ instead and is therefore more portable.
+
+Returns:
+the content length of the resource that this connection's URL
+          references, -1 if the content length is not known,
+          or if the content length is greater than Integer.MAX_VALUE.
+
+
+"
+35,URLConnection,5,String getContentType(),True,,"
+
+getContentType
+public String getContentType()
+Returns the value of the content-type header field.
+
+Returns:
+the content type of the resource that the URL references,
+          or null if not known.
+See Also:
+getHeaderField(java.lang.String)
+
+
+"
+36,URLDecoder,1,String decode(String s),True,,"
+
+decode
+@Deprecated
+public static String decode(String s)
+Deprecated. The resulting string may vary depending on the platform's
+          default encoding. Instead, use the decode(String,String) method
+          to specify the encoding.
+Decodes a x-www-form-urlencoded string.
+ The platform's default encoding is used to determine what characters
+ are represented by any consecutive sequences of the form
+ ""%xy"".
+
+Parameters:
+s - the String to decode
+Returns:
+the newly decoded String
+
+
+"
+36,URLDecoder,2,"String decode(String s, String enc)",True,,"
+
+decode
+public static String decode(String s,
+                            String enc)
+                     throws UnsupportedEncodingException
+Decodes a application/x-www-form-urlencoded string using a specific
+ encoding scheme.
+ The supplied encoding is used to determine
+ what characters are represented by any consecutive sequences of the
+ form ""%xy"".
+ 
+Note: The 
+ World Wide Web Consortium Recommendation states that
+ UTF-8 should be used. Not doing so may introduce
+ incompatibilities.
+
+Parameters:
+s - the String to decode
+enc - The name of a supported
+    character
+    encoding.
+Returns:
+the newly decoded String
+Throws:
+UnsupportedEncodingException - If character encoding needs to be consulted, but
+             named character encoding is not supported
+Since:
+1.4
+See Also:
+URLEncoder.encode(java.lang.String, java.lang.String)
+
+
+"
+36,URLDecoder,3,"String decode(String s, Charset charset)",False,,NULL
+36,URLDecoder,4,"String decode(String s, String enc, boolean plusAsBlank)",False,,NULL
+36,URLDecoder,5,"String decode(String s, Charset charset, boolean plusAsBlank)",False,,NULL
+37,URLEncoder,1,String encode(String s),True,,"
+
+encode
+@Deprecated
+public static String encode(String s)
+Deprecated. The resulting string may vary depending on the platform's
+             default encoding. Instead, use the encode(String,String)
+             method to specify the encoding.
+Translates a string into x-www-form-urlencoded
+ format. This method uses the platform's default encoding
+ as the encoding scheme to obtain the bytes for unsafe characters.
+
+Parameters:
+s - String to be translated.
+Returns:
+the translated String.
+
+
+"
+37,URLEncoder,2,"String encode(String s, String enc)",True,,"
+
+encode
+public static String encode(String s,
+                            String enc)
+                     throws UnsupportedEncodingException
+Translates a string into application/x-www-form-urlencoded
+ format using a specific encoding scheme. This method uses the
+ supplied encoding scheme to obtain the bytes for unsafe
+ characters.
+ 
+Note: The 
+ World Wide Web Consortium Recommendation states that
+ UTF-8 should be used. Not doing so may introduce
+ incompatibilities.
+
+Parameters:
+s - String to be translated.
+enc - The name of a supported
+    character
+    encoding.
+Returns:
+the translated String.
+Throws:
+UnsupportedEncodingException - If the named encoding is not supported
+Since:
+1.4
+See Also:
+URLDecoder.decode(java.lang.String, java.lang.String)
+
+
+"
+37,URLEncoder,3,"String encode(String s, Charset charset)",False,,NULL
+37,URLEncoder,4,"String encode(String s, CharsetEncoder enc)",False,,NULL
+37,URLEncoder,5,"String encode(String s, CharsetEncoder enc, CharBuffer cb)",False,,NULL
+38,URLPermission,1,String getActions(),True,,"
+
+getActions
+public String getActions()
+Returns the normalized method list and request
+ header list, in the form:
+ 
+      ""method-names : header-names""
+ 
+
+ where method-names is the list of methods separated by commas
+ and header-names is the list of permitted headers separated by commas.
+ There is no white space in the returned String. If header-names is empty
+ then the colon separator will not be present.
+
+Specified by:
+getActions in class Permission
+Returns:
+the actions of this Permission.
+
+
+"
+38,URLPermission,2,String getHost(),False,,NULL
+38,URLPermission,3,int getPort(),False,,NULL
+38,URLPermission,4,String getProtocol(),False,,NULL
+38,URLPermission,5,String getURL(),False,,NULL
+39,URLStreamHandler,1,URLConnection openConnection(URL u),True,,"
+
+openConnection
+protected abstract URLConnection openConnection(URL u)
+                                         throws IOException
+Opens a connection to the object referenced by the
+ URL argument.
+ This method should be overridden by a subclass.
+
+ If for the handler's protocol (such as HTTP or JAR), there
+ exists a public, specialized URLConnection subclass belonging
+ to one of the following packages or one of their subpackages:
+ java.lang, java.io, java.util, java.net, the connection
+ returned will be of that subclass. For example, for HTTP an
+ HttpURLConnection will be returned, and for JAR a
+ JarURLConnection will be returned.
+
+Parameters:
+u - the URL that this connects to.
+Returns:
+a URLConnection object for the URL.
+Throws:
+IOException - if an I/O error occurs while opening the
+               connection.
+
+
+"
+39,URLStreamHandler,2,"void parseURL(URL u, String spec, int start, int limit)",True,,"
+
+parseURL
+protected void parseURL(URL u,
+                        String spec,
+                        int start,
+                        int limit)
+Parses the string representation of a URL into a
+ URL object.
+ 
+ If there is any inherited context, then it has already been
+ copied into the URL argument.
+ 
+ The parseURL method of URLStreamHandler
+ parses the string representation as if it were an
+ http specification. Most URL protocol families have a
+ similar parsing. A stream protocol handler for a protocol that has
+ a different syntax must override this routine.
+
+Parameters:
+u - the URL to receive the result of parsing
+                  the spec.
+spec - the String representing the URL that
+                  must be parsed.
+start - the character index at which to begin parsing. This is
+                  just past the ':' (if there is one) that
+                  specifies the determination of the protocol name.
+limit - the character position to stop parsing at. This is the
+                  end of the string or the position of the
+                  ""#"" character, if present. All information
+                  after the sharp sign indicates an anchor.
+
+
+"
+39,URLStreamHandler,3,int getDefaultPort(),True,,"
+
+getDefaultPort
+protected int getDefaultPort()
+Returns the default port for a URL parsed by this handler. This method
+ is meant to be overidden by handlers with default port numbers.
+
+Returns:
+the default port for a URL parsed by this handler.
+Since:
+1.3
+
+
+"
+39,URLStreamHandler,4,"boolean equals(URL u1, URL u2)",True,,"
+
+equals
+protected boolean equals(URL u1,
+                         URL u2)
+Provides the default equals calculation. May be overidden by handlers
+ for other protocols that have different requirements for equals().
+ This method requires that none of its arguments is null. This is
+ guaranteed by the fact that it is only called by java.net.URL class.
+
+Parameters:
+u1 - a URL object
+u2 - a URL object
+Returns:
+true if the two urls are
+ considered equal, ie. they refer to the same
+ fragment in the same file.
+Since:
+1.3
+
+
+"
+39,URLStreamHandler,5,int hashCode(URL u),True,,"
+
+hashCode
+protected int hashCode(URL u)
+Provides the default hash calculation. May be overidden by handlers for
+ other protocols that have different requirements for hashCode
+ calculation.
+
+Parameters:
+u - a URL object
+Returns:
+an int suitable for hash table indexing
+Since:
+1.3
+
+
+"

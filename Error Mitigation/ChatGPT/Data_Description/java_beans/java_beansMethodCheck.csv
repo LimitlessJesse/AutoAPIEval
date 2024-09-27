@@ -1,0 +1,1047 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,BeanDescriptor,1,String getDisplayName(),False,,NULL
+0,BeanDescriptor,2,PropertyDescriptor[] getPropertyDescriptors(),False,,NULL
+0,BeanDescriptor,3,MethodDescriptor[] getMethodDescriptors(),False,,NULL
+0,BeanDescriptor,4,BeanInfo[] getAdditionalBeanInfo(),False,,NULL
+0,BeanDescriptor,5,Image getIcon(int iconKind),False,,NULL
+1,Beans,1,Object instantiate(Class<?> beanClass),False,,NULL
+1,Beans,2,"void setProperty(Object bean, String name, Object value)",False,,NULL
+1,Beans,3,"Object getProperty(Object bean, String name)",False,,NULL
+1,Beans,4,void addPropertyChangeListener(PropertyChangeListener listener),False,,NULL
+1,Beans,5,void removePropertyChangeListener(PropertyChangeListener listener),False,,NULL
+2,DefaultPersistenceDelegate,1,"void writeObject(Object oldInstance, Encoder out)",False,,NULL
+2,DefaultPersistenceDelegate,2,"void writeExpression(Expression oldExp, Encoder out)",False,,NULL
+2,DefaultPersistenceDelegate,3,"void writeStatement(Statement oldStm, Encoder out)",False,,NULL
+2,DefaultPersistenceDelegate,4,"void writeProperty(PropertyDescriptor oldProp, Encoder out)",False,,NULL
+2,DefaultPersistenceDelegate,5,"void writeMethod(Method oldMethod, Encoder out)",False,,NULL
+3,Encoder,1,"void setPersistenceDelegate(Class<?> type, PersistenceDelegate delegate)",True,,"
+
+setPersistenceDelegate
+public void setPersistenceDelegate(Class<?> type,
+                                   PersistenceDelegate delegate)
+Associates the specified persistence delegate with the given type.
+
+Parameters:
+type - the class of objects that the specified persistence delegate applies to
+delegate - the persistence delegate for instances of the given type
+See Also:
+getPersistenceDelegate(java.lang.Class<?>), 
+Introspector.getBeanInfo(java.lang.Class<?>), 
+BeanInfo.getBeanDescriptor()
+
+
+"
+3,Encoder,2,void writeStatement(Statement oldStm),True,,"
+
+writeStatement
+public void writeStatement(Statement oldStm)
+Writes statement oldStm to the stream.
+ The oldStm should be written entirely
+ in terms of the callers environment, i.e. the
+ target and all arguments should be part of the
+ object graph being written. These expressions
+ represent a series of ""what happened"" expressions
+ which tell the output stream how to produce an
+ object graph like the original.
+ 
+ The implementation of this method will produce
+ a second expression to represent the same expression in
+ an environment that will exist when the stream is read.
+ This is achieved simply by calling writeObject
+ on the target and all the arguments and building a new
+ expression with the results.
+
+Parameters:
+oldStm - The expression to be written to the stream.
+
+
+"
+3,Encoder,3,void writeObject(Object oldInstance),True,,"
+
+writeObject
+protected void writeObject(Object o)
+Write the specified object to the output stream.
+ The serialized form will denote a series of
+ expressions, the combined effect of which will create
+ an equivalent object when the input stream is read.
+ By default, the object is assumed to be a JavaBean
+ with a nullary constructor, whose state is defined by
+ the matching pairs of ""setter"" and ""getter"" methods
+ returned by the Introspector.
+
+Parameters:
+o - The object to be written to the stream.
+See Also:
+XMLDecoder.readObject()
+
+
+"
+3,Encoder,4,void writeExpression(Expression oldExp),True,,"
+
+writeExpression
+public void writeExpression(Expression oldExp)
+The implementation first checks to see if an
+ expression with this value has already been written.
+ If not, the expression is cloned, using
+ the same procedure as writeStatement,
+ and the value of this expression is reconciled
+ with the value of the cloned expression
+ by calling writeObject.
+
+Parameters:
+oldExp - The expression to be written to the stream.
+
+
+"
+3,Encoder,5,"void writeStatement(Statement oldStm, boolean ignoreErrors)",False,,NULL
+4,EventHandler,1,"void create(Class<?> target, String action, String listener, String eventSet)",False,,NULL
+4,EventHandler,2,void handleEvent(Object event),False,,NULL
+4,EventHandler,3,Object getTarget(),True,,"
+
+getTarget
+public Object getTarget()
+Returns the object to which this event handler will send a message.
+
+Returns:
+the target of this event handler
+See Also:
+EventHandler(Object, String, String, String)
+
+
+"
+4,EventHandler,4,String getAction(),True,,"
+
+getAction
+public String getAction()
+Returns the name of the target's writable property
+ that this event handler will set,
+ or the name of the method that this event handler
+ will invoke on the target.
+
+Returns:
+the action of this event handler
+See Also:
+EventHandler(Object, String, String, String)
+
+
+"
+4,EventHandler,5,String getListener(),False,,NULL
+5,EventSetDescriptor,1,MethodDescriptor[] getListenerMethods(),False,,NULL
+5,EventSetDescriptor,2,MethodDescriptor getAddListenerMethod(),False,,NULL
+5,EventSetDescriptor,3,MethodDescriptor getRemoveListenerMethod(),False,,NULL
+5,EventSetDescriptor,4,"EventSetDescriptor(String eventSetName, Class<?> listenerType, MethodDescriptor[] listenerMethods, MethodDescriptor addListenerMethod, MethodDescriptor removeListenerMethod)",False,,NULL
+5,EventSetDescriptor,5,void setUnicast(boolean unicast),True,,"
+
+setUnicast
+public void setUnicast(boolean unicast)
+Mark an event set as unicast (or not).
+
+Parameters:
+unicast - True if the event set is unicast.
+
+
+"
+6,Expression,1,Object getValue(),True,,"
+
+getValue
+public Object getValue()
+                throws Exception
+If the value property of this instance is not already set,
+ this method dynamically finds the method with the specified
+ methodName on this target with these arguments and calls it.
+ The result of the method invocation is first copied
+ into the value property of this expression and then returned
+ as the result of getValue. If the value property
+ was already set, either by a call to setValue
+ or a previous call to getValue then the value
+ property is returned without either looking up or calling the method.
+ 
+ The value property of an Expression is set to
+ a unique private (non-null) value by default and
+ this value is used as an internal indication that the method
+ has not yet been called. A return value of null
+ replaces this default value in the same way that any other value
+ would, ensuring that expressions are never evaluated more than once.
+ 
+ See the execute method for details on how
+ methods are chosen using the dynamic types of the target
+ and arguments.
+
+Returns:
+The result of applying this method to these arguments.
+Throws:
+Exception - if the method with the specified methodName
+ throws an exception
+See Also:
+Statement.execute(), 
+setValue(java.lang.Object)
+
+
+"
+6,Expression,2,void setValue(Object value),True,,"
+
+setValue
+public void setValue(Object value)
+Sets the value of this expression to value.
+ This value will be returned by the getValue method
+ without calling the method associated with this
+ expression.
+
+Parameters:
+value - The value of this expression.
+See Also:
+getValue()
+
+
+"
+6,Expression,3,String getMethodName(),False,,NULL
+6,Expression,4,Object getTarget(),False,,NULL
+6,Expression,5,Object[] getArguments(),False,,NULL
+7,FeatureDescriptor,1,String getDisplayName(),True,,"
+
+getDisplayName
+public String getDisplayName()
+Gets the localized display name of this feature.
+
+Returns:
+The localized display name for the property/method/event.
+  This defaults to the same as its programmatic name from getName.
+
+
+"
+7,FeatureDescriptor,2,void setDisplayName(String displayName),True,,"
+
+setDisplayName
+public void setDisplayName(String displayName)
+Sets the localized display name of this feature.
+
+Parameters:
+displayName - The localized display name for the
+          property/method/event.
+
+
+"
+7,FeatureDescriptor,3,String getName(),True,,"
+
+getName
+public String getName()
+Gets the programmatic name of this feature.
+
+Returns:
+The programmatic name of the property/method/event
+
+
+"
+7,FeatureDescriptor,4,void setName(String name),True,,"
+
+setName
+public void setName(String name)
+Sets the programmatic name of this feature.
+
+Parameters:
+name - The programmatic name of the property/method/event
+
+
+"
+7,FeatureDescriptor,5,String getShortDescription(),True,,"
+
+getShortDescription
+public String getShortDescription()
+Gets the short description of this feature.
+
+Returns:
+A localized short description associated with this
+   property/method/event.  This defaults to be the display name.
+
+
+"
+8,IndexedPropertyChangeEvent,1,int getIndex(),True,,"
+
+getIndex
+public int getIndex()
+Gets the index of the property that was changed.
+
+Returns:
+The index specifying the property element that was
+         changed.
+
+
+"
+8,IndexedPropertyChangeEvent,2,Object getNewValue(),False,,NULL
+8,IndexedPropertyChangeEvent,3,Object getOldValue(),False,,NULL
+8,IndexedPropertyChangeEvent,4,String getPropertyName(),False,,NULL
+8,IndexedPropertyChangeEvent,5,"IndexedPropertyChangeEvent(Object source, String propertyName, Object oldValue, Object newValue, int index)",False,,NULL
+9,IndexedPropertyDescriptor,1,MethodDescriptor[] getMethodDescriptors(),False,,NULL
+9,IndexedPropertyDescriptor,2,PropertyDescriptor[] getPropertyDescriptors(),False,,NULL
+9,IndexedPropertyDescriptor,3,MethodDescriptor[] getIndexedReadMethodDescriptors(),False,,NULL
+9,IndexedPropertyDescriptor,4,MethodDescriptor[] getIndexedWriteMethodDescriptors(),False,,NULL
+9,IndexedPropertyDescriptor,5,MethodDescriptor[] getIndexedPropertyDescriptors(),False,,NULL
+10,Introspector,1,PropertyDescriptor[] getPropertyDescriptors(Class<?> beanClass),False,,NULL
+10,Introspector,2,MethodDescriptor[] getMethodDescriptors(Class<?> beanClass),False,,NULL
+10,Introspector,3,BeanInfo getBeanInfo(Class<?> beanClass),True,,"
+
+getBeanInfo
+public static BeanInfo getBeanInfo(Class<?> beanClass)
+                            throws IntrospectionException
+Introspect on a Java Bean and learn about all its properties, exposed
+ methods, and events.
+ 
+ If the BeanInfo class for a Java Bean has been previously Introspected
+ then the BeanInfo class is retrieved from the BeanInfo cache.
+
+Parameters:
+beanClass - The bean class to be analyzed.
+Returns:
+A BeanInfo object describing the target bean.
+Throws:
+IntrospectionException - if an exception occurs during
+              introspection.
+See Also:
+flushCaches(), 
+flushFromCaches(java.lang.Class<?>)
+
+
+"
+10,Introspector,4,"BeanInfo[] getTargetBeanInfo(Class<?> beanClass, Class<?> stopClass)",False,,NULL
+10,Introspector,5,void flushCaches(),True,,"
+
+flushCaches
+public static void flushCaches()
+Flush all of the Introspector's internal caches.  This method is
+ not normally required.  It is normally only needed by advanced
+ tools that update existing ""Class"" objects in-place and need
+ to make the Introspector re-analyze existing Class objects.
+
+"
+11,MethodDescriptor,1,java.lang.reflect.Method getMethod(),False,,NULL
+11,MethodDescriptor,2,java.beans.ParameterDescriptor[] getParameterDescriptors(),False,,NULL
+11,MethodDescriptor,3,java.beans.MethodDescriptor[] getMethodDescriptors(),False,,NULL
+11,MethodDescriptor,4,java.lang.String getName(),False,,NULL
+11,MethodDescriptor,5,java.lang.String getDisplayName(),False,,NULL
+12,ParameterDescriptor,1,String getDisplayName(),False,,NULL
+12,ParameterDescriptor,2,String getName(),False,,NULL
+12,ParameterDescriptor,3,String getShortDescription(),False,,NULL
+12,ParameterDescriptor,4,void setDisplayName(String displayName),False,,NULL
+12,ParameterDescriptor,5,void setShortDescription(String shortDescription),False,,NULL
+13,PersistenceDelegate,1,"void writeObject(Object oldInstance, Encoder out)",True,,"
+
+writeObject
+public void writeObject(Object oldInstance,
+                        Encoder out)
+The writeObject is a single entry point to the persistence
+ and is used by a Encoder in the traditional
+ mode of delegation. Although this method is not final,
+ it should not need to be subclassed under normal circumstances.
+ 
+ This implementation first checks to see if the stream
+ has already encountered this object. Next the
+ mutatesTo method is called to see if
+ that candidate returned from the stream can
+ be mutated into an accurate copy of oldInstance.
+ If it can, the initialize method is called to
+ perform the initialization. If not, the candidate is removed
+ from the stream, and the instantiate method
+ is called to create a new candidate for this object.
+
+Parameters:
+oldInstance - The instance that will be created by this expression.
+out - The stream to which this expression will be written.
+Throws:
+NullPointerException - if out is null
+
+
+"
+13,PersistenceDelegate,2,"Object instantiate(Object oldInstance, Encoder out)",False,,NULL
+13,PersistenceDelegate,3,"void writeExpression(Expression oldExp, Encoder out)",False,,NULL
+13,PersistenceDelegate,4,"Expression instantiate(Expression oldExp, Decoder in)",False,,NULL
+13,PersistenceDelegate,5,"void writeStatement(Statement oldStm, Encoder out)",False,,NULL
+14,PropertyChangeEvent,1,Object getNewValue(),True,,"
+
+getNewValue
+public Object getNewValue()
+Gets the new value for the property, expressed as an Object.
+
+Returns:
+The new value for the property, expressed as an Object.
+          May be null if multiple properties have changed.
+
+
+"
+14,PropertyChangeEvent,2,Object getOldValue(),True,,"
+
+getOldValue
+public Object getOldValue()
+Gets the old value for the property, expressed as an Object.
+
+Returns:
+The old value for the property, expressed as an Object.
+          May be null if multiple properties have changed.
+
+
+"
+14,PropertyChangeEvent,3,String getPropertyName(),True,,"
+
+getPropertyName
+public String getPropertyName()
+Gets the programmatic name of the property that was changed.
+
+Returns:
+The programmatic name of the property that was changed.
+          May be null if multiple properties have changed.
+
+
+"
+14,PropertyChangeEvent,4,void setNewValue(Object newValue),False,,NULL
+14,PropertyChangeEvent,5,void setOldValue(Object oldValue),False,,NULL
+15,PropertyChangeListenerProxy,1,String getPropertyName(),True,,"
+
+getPropertyName
+public String getPropertyName()
+Returns the name of the named property associated with the listener.
+
+Returns:
+the name of the named property associated with the listener
+
+
+"
+15,PropertyChangeListenerProxy,2,Object getListener(),False,,NULL
+15,PropertyChangeListenerProxy,3,"void firePropertyChange(String propertyName, Object oldValue, Object newValue)",False,,NULL
+15,PropertyChangeListenerProxy,4,void removePropertyChangeListener(PropertyChangeListener listener),False,,NULL
+15,PropertyChangeListenerProxy,5,"void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)",False,,NULL
+16,PropertyChangeSupport,1,void addPropertyChangeListener(PropertyChangeListener listener),True,,"
+
+addPropertyChangeListener
+public void addPropertyChangeListener(PropertyChangeListener listener)
+Add a PropertyChangeListener to the listener list.
+ The listener is registered for all properties.
+ The same listener object may be added more than once, and will be called
+ as many times as it is added.
+ If listener is null, no exception is thrown and no action
+ is taken.
+
+Parameters:
+listener - The PropertyChangeListener to be added
+
+
+"
+16,PropertyChangeSupport,2,void removePropertyChangeListener(PropertyChangeListener listener),True,,"
+
+removePropertyChangeListener
+public void removePropertyChangeListener(PropertyChangeListener listener)
+Remove a PropertyChangeListener from the listener list.
+ This removes a PropertyChangeListener that was registered
+ for all properties.
+ If listener was added more than once to the same event
+ source, it will be notified one less time after being removed.
+ If listener is null, or was never added, no exception is
+ thrown and no action is taken.
+
+Parameters:
+listener - The PropertyChangeListener to be removed
+
+
+"
+16,PropertyChangeSupport,3,"void firePropertyChange(String propertyName, Object oldValue, Object newValue)",True,,"
+
+firePropertyChange
+public void firePropertyChange(String propertyName,
+                               Object oldValue,
+                               Object newValue)
+Reports a bound property update to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ No event is fired if old and new values are equal and non-null.
+ 
+ This is merely a convenience wrapper around the more general
+ firePropertyChange(PropertyChangeEvent) method.
+
+Parameters:
+propertyName - the programmatic name of the property that was changed
+oldValue - the old value of the property
+newValue - the new value of the property
+
+
+"
+16,PropertyChangeSupport,4,PropertyChangeListener[] getPropertyChangeListeners(),True,,"
+
+getPropertyChangeListeners
+public PropertyChangeListener[] getPropertyChangeListeners()
+Returns an array of all the listeners that were added to the
+ PropertyChangeSupport object with addPropertyChangeListener().
+ 
+ If some listeners have been added with a named property, then
+ the returned array will be a mixture of PropertyChangeListeners
+ and PropertyChangeListenerProxys. If the calling
+ method is interested in distinguishing the listeners then it must
+ test each element to see if it's a
+ PropertyChangeListenerProxy, perform the cast, and examine
+ the parameter.
+
+ 
+ PropertyChangeListener[] listeners = bean.getPropertyChangeListeners();
+ for (int i = 0; i < listeners.length; i++) {
+   if (listeners[i] instanceof PropertyChangeListenerProxy) {
+     PropertyChangeListenerProxy proxy =
+                    (PropertyChangeListenerProxy)listeners[i];
+     if (proxy.getPropertyName().equals(""foo"")) {
+       // proxy is a PropertyChangeListener which was associated
+       // with the property named ""foo""
+     }
+   }
+ }
+ 
+
+Returns:
+all of the PropertyChangeListeners added or an
+         empty array if no listeners have been added
+Since:
+1.4
+See Also:
+PropertyChangeListenerProxy
+
+
+"
+16,PropertyChangeSupport,5,"void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)",True,,"
+
+addPropertyChangeListener
+public void addPropertyChangeListener(String propertyName,
+                                      PropertyChangeListener listener)
+Add a PropertyChangeListener for a specific property.  The listener
+ will be invoked only when a call on firePropertyChange names that
+ specific property.
+ The same listener object may be added more than once.  For each
+ property,  the listener will be invoked the number of times it was added
+ for that property.
+ If propertyName or listener is null, no
+ exception is thrown and no action is taken.
+
+Parameters:
+propertyName - The name of the property to listen on.
+listener - The PropertyChangeListener to be added
+
+
+"
+18,PropertyEditorManager,1,"void registerEditor(Class<?> targetType, Class<?> editorClass)",True,,"
+
+registerEditor
+public static void registerEditor(Class<?> targetType,
+                                  Class<?> editorClass)
+Registers an editor class to edit values of the given target class.
+ If the editor class is null,
+ then any existing definition will be removed.
+ Thus this method can be used to cancel the registration.
+ The registration is canceled automatically
+ if either the target or editor class is unloaded.
+ 
+ If there is a security manager, its checkPropertiesAccess
+ method is called. This could result in a SecurityException.
+
+Parameters:
+targetType - the class object of the type to be edited
+editorClass - the class object of the editor class
+Throws:
+SecurityException - if a security manager exists and
+                            its checkPropertiesAccess method
+                            doesn't allow setting of system properties
+See Also:
+SecurityManager.checkPropertiesAccess()
+
+
+"
+18,PropertyEditorManager,2,PropertyEditor findEditor(Class<?> targetType),True,,"
+
+findEditor
+public static PropertyEditor findEditor(Class<?> targetType)
+Locate a value editor for a given target type.
+
+Parameters:
+targetType - The Class object for the type to be edited
+Returns:
+An editor object for the given target class.
+ The result is null if no suitable editor can be found.
+
+
+"
+18,PropertyEditorManager,3,void setEditorSearchPath(String[] path),True,,"
+
+setEditorSearchPath
+public static void setEditorSearchPath(String[] path)
+Change the list of package names that will be used for
+          finding property editors.
+
+ First, if there is a security manager, its checkPropertiesAccess
+ method is called. This could result in a SecurityException.
+
+Parameters:
+path - Array of package names.
+Throws:
+SecurityException - if a security manager exists and its
+             checkPropertiesAccess method doesn't allow setting
+              of system properties.
+See Also:
+SecurityManager.checkPropertiesAccess()
+
+
+"
+18,PropertyEditorManager,4,String[] getEditorSearchPath(),True,,"
+
+getEditorSearchPath
+public static String[] getEditorSearchPath()
+Gets the package names that will be searched for property editors.
+
+Returns:
+The array of package names that will be searched in
+          order to find property editors.
+      The default value for this array is implementation-dependent,
+         e.g. Sun implementation initially sets to  {""sun.beans.editors""}.
+
+
+"
+18,PropertyEditorManager,5,void setEditorSearchPath(String path),False,,NULL
+19,PropertyEditorSupport,1,void setValue(Object value),True,,"
+
+setValue
+public void setValue(Object value)
+Set (or change) the object that is to be edited.
+
+Specified by:
+setValue in interface PropertyEditor
+Parameters:
+value - The new target object to be edited.  Note that this
+     object should not be modified by the PropertyEditor, rather
+     the PropertyEditor should create a new object to hold any
+     modified value.
+
+
+"
+19,PropertyEditorSupport,2,Object getValue(),True,,"
+
+getValue
+public Object getValue()
+Gets the value of the property.
+
+Specified by:
+getValue in interface PropertyEditor
+Returns:
+The value of the property.
+
+
+"
+19,PropertyEditorSupport,3,String getAsText(),True,,"
+
+getAsText
+public String getAsText()
+Gets the property value as a string suitable for presentation
+ to a human to edit.
+
+Specified by:
+getAsText in interface PropertyEditor
+Returns:
+The property value as a string suitable for presentation
+       to a human to edit.
+    Returns null if the value can't be expressed as a string.
+    If a non-null value is returned, then the PropertyEditor should
+       be prepared to parse that string back in setAsText().
+
+
+"
+19,PropertyEditorSupport,4,void setAsText(String text),True,,"
+
+setAsText
+public void setAsText(String text)
+               throws IllegalArgumentException
+Sets the property value by parsing a given String.  May raise
+ java.lang.IllegalArgumentException if either the String is
+ badly formatted or if this kind of property can't be expressed
+ as text.
+
+Specified by:
+setAsText in interface PropertyEditor
+Parameters:
+text - The string to be parsed.
+Throws:
+IllegalArgumentException
+
+
+"
+19,PropertyEditorSupport,5,String[] getTags(),True,,"
+
+getTags
+public String[] getTags()
+If the property value must be one of a set of known tagged values,
+ then this method should return an array of the tag values.  This can
+ be used to represent (for example) enum values.  If a PropertyEditor
+ supports tags, then it should support the use of setAsText with
+ a tag value as a way of setting the value.
+
+Specified by:
+getTags in interface PropertyEditor
+Returns:
+The tag values for this property.  May be null if this
+   property cannot be represented as a tagged value.
+
+
+"
+20,SimpleBeanInfo,1,PropertyDescriptor[] getPropertyDescriptors(),True,,"
+
+getPropertyDescriptors
+public PropertyDescriptor[] getPropertyDescriptors()
+Deny knowledge of properties. You can override this
+ if you wish to provide explicit property info.
+
+Specified by:
+getPropertyDescriptors in interface BeanInfo
+Returns:
+an array of PropertyDescriptor objects,
+          or null if the information is to
+          be obtained through the automatic analysis
+
+
+"
+20,SimpleBeanInfo,2,MethodDescriptor[] getMethodDescriptors(),True,,"
+
+getMethodDescriptors
+public MethodDescriptor[] getMethodDescriptors()
+Deny knowledge of methods. You can override this
+ if you wish to provide explicit method info.
+
+Specified by:
+getMethodDescriptors in interface BeanInfo
+Returns:
+an array of MethodDescriptor objects,
+          or null if the information is to
+          be obtained through the automatic analysis
+
+
+"
+20,SimpleBeanInfo,3,BeanDescriptor getBeanDescriptor(),True,,"
+
+getBeanDescriptor
+public BeanDescriptor getBeanDescriptor()
+Deny knowledge about the class and customizer of the bean.
+ You can override this if you wish to provide explicit info.
+
+Specified by:
+getBeanDescriptor in interface BeanInfo
+Returns:
+a BeanDescriptor object,
+          or null if the information is to
+          be obtained through the automatic analysis
+
+
+"
+20,SimpleBeanInfo,4,EventSetDescriptor[] getEventSetDescriptors(),True,,"
+
+getEventSetDescriptors
+public EventSetDescriptor[] getEventSetDescriptors()
+Deny knowledge of event sets. You can override this
+ if you wish to provide explicit event set info.
+
+Specified by:
+getEventSetDescriptors in interface BeanInfo
+Returns:
+an array of EventSetDescriptor objects,
+          or null if the information is to
+          be obtained through the automatic analysis
+
+
+"
+20,SimpleBeanInfo,5,BeanInfo[] getAdditionalBeanInfo(),True,,"
+
+getAdditionalBeanInfo
+public BeanInfo[] getAdditionalBeanInfo()
+Claim there are no other relevant BeanInfo objects.  You
+ may override this if you want to (for example) return a
+ BeanInfo for a base class.
+
+Specified by:
+getAdditionalBeanInfo in interface BeanInfo
+Returns:
+an array of BeanInfo objects,
+          or null if there are no additional BeanInfo objects
+
+
+"
+21,Statement,1,Object invoke(Object target),False,,NULL
+21,Statement,2,"Object invoke(Object target, Object[] args)",False,,NULL
+21,Statement,3,String getMethodName(),True,,"
+
+getMethodName
+public String getMethodName()
+Returns the name of the method to invoke.
+ If this method returns null,
+ the execute() method
+ throws a NullPointerException.
+
+Returns:
+the name of the method
+
+
+"
+21,Statement,4,Object getTarget(),True,,"
+
+getTarget
+public Object getTarget()
+Returns the target object of this statement.
+ If this method returns null,
+ the execute() method
+ throws a NullPointerException.
+
+Returns:
+the target object of this statement
+
+
+"
+21,Statement,5,Object[] getArguments(),True,,"
+
+getArguments
+public Object[] getArguments()
+Returns the arguments for the method to invoke.
+ The number of arguments and their types
+ must match the method being  called.
+ null can be used as a synonym of an empty array.
+
+Returns:
+the array of arguments
+
+
+"
+22,VetoableChangeListenerProxy,1,void vetoableChange(PropertyChangeEvent evt),True,,"
+
+vetoableChange
+public void vetoableChange(PropertyChangeEvent event)
+                    throws PropertyVetoException
+Forwards the property change event to the listener delegate.
+
+Specified by:
+vetoableChange in interface VetoableChangeListener
+Parameters:
+event - the property change event
+Throws:
+PropertyVetoException - if the recipient wishes the property
+                                  change to be rolled back
+
+
+"
+22,VetoableChangeListenerProxy,2,void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException,True,,"
+
+vetoableChange
+public void vetoableChange(PropertyChangeEvent event)
+                    throws PropertyVetoException
+Forwards the property change event to the listener delegate.
+
+Specified by:
+vetoableChange in interface VetoableChangeListener
+Parameters:
+event - the property change event
+Throws:
+PropertyVetoException - if the recipient wishes the property
+                                  change to be rolled back
+
+
+"
+22,VetoableChangeListenerProxy,3,void addVetoableChangeListener(VetoableChangeListener listener),False,,NULL
+22,VetoableChangeListenerProxy,4,void removeVetoableChangeListener(VetoableChangeListener listener),False,,NULL
+22,VetoableChangeListenerProxy,5,VetoableChangeListener[] getVetoableChangeListeners(),False,,NULL
+23,VetoableChangeSupport,1,void addVetoableChangeListener(VetoableChangeListener listener),True,,"
+
+addVetoableChangeListener
+public void addVetoableChangeListener(VetoableChangeListener listener)
+Add a VetoableChangeListener to the listener list.
+ The listener is registered for all properties.
+ The same listener object may be added more than once, and will be called
+ as many times as it is added.
+ If listener is null, no exception is thrown and no action
+ is taken.
+
+Parameters:
+listener - The VetoableChangeListener to be added
+
+
+"
+23,VetoableChangeSupport,2,void removeVetoableChangeListener(VetoableChangeListener listener),True,,"
+
+removeVetoableChangeListener
+public void removeVetoableChangeListener(VetoableChangeListener listener)
+Remove a VetoableChangeListener from the listener list.
+ This removes a VetoableChangeListener that was registered
+ for all properties.
+ If listener was added more than once to the same event
+ source, it will be notified one less time after being removed.
+ If listener is null, or was never added, no exception is
+ thrown and no action is taken.
+
+Parameters:
+listener - The VetoableChangeListener to be removed
+
+
+"
+23,VetoableChangeSupport,3,VetoableChangeListener[] getVetoableChangeListeners(),True,,"
+
+getVetoableChangeListeners
+public VetoableChangeListener[] getVetoableChangeListeners()
+Returns an array of all the listeners that were added to the
+ VetoableChangeSupport object with addVetoableChangeListener().
+ 
+ If some listeners have been added with a named property, then
+ the returned array will be a mixture of VetoableChangeListeners
+ and VetoableChangeListenerProxys. If the calling
+ method is interested in distinguishing the listeners then it must
+ test each element to see if it's a
+ VetoableChangeListenerProxy, perform the cast, and examine
+ the parameter.
+
+ 
+ VetoableChangeListener[] listeners = bean.getVetoableChangeListeners();
+ for (int i = 0; i < listeners.length; i++) {
+        if (listeners[i] instanceof VetoableChangeListenerProxy) {
+     VetoableChangeListenerProxy proxy =
+                    (VetoableChangeListenerProxy)listeners[i];
+     if (proxy.getPropertyName().equals(""foo"")) {
+       // proxy is a VetoableChangeListener which was associated
+       // with the property named ""foo""
+     }
+   }
+ }
+ 
+
+Returns:
+all of the VetoableChangeListeners added or an
+         empty array if no listeners have been added
+Since:
+1.4
+See Also:
+VetoableChangeListenerProxy
+
+
+"
+23,VetoableChangeSupport,4,"void fireVetoableChange(String propertyName, Object oldValue, Object newValue) throws PropertyVetoException",True,,"
+
+fireVetoableChange
+public void fireVetoableChange(String propertyName,
+                               Object oldValue,
+                               Object newValue)
+                        throws PropertyVetoException
+Reports a constrained property update to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ Any listener can throw a PropertyVetoException to veto the update.
+ If one of the listeners vetoes the update, this method passes
+ a new ""undo"" PropertyChangeEvent that reverts to the old value
+ to all listeners that already confirmed this update
+ and throws the PropertyVetoException again.
+ 
+ No event is fired if old and new values are equal and non-null.
+ 
+ This is merely a convenience wrapper around the more general
+ fireVetoableChange(PropertyChangeEvent) method.
+
+Parameters:
+propertyName - the programmatic name of the property that is about to change
+oldValue - the old value of the property
+newValue - the new value of the property
+Throws:
+PropertyVetoException - if one of listeners vetoes the property update
+
+
+"
+23,VetoableChangeSupport,5,void fireVetoableChange(PropertyChangeEvent evt) throws PropertyVetoException,True,,"
+
+fireVetoableChange
+public void fireVetoableChange(PropertyChangeEvent event)
+                        throws PropertyVetoException
+Fires a property change event to listeners
+ that have been registered to track updates of
+ all properties or a property with the specified name.
+ 
+ Any listener can throw a PropertyVetoException to veto the update.
+ If one of the listeners vetoes the update, this method passes
+ a new ""undo"" PropertyChangeEvent that reverts to the old value
+ to all listeners that already confirmed this update
+ and throws the PropertyVetoException again.
+ 
+ No event is fired if the given event's old and new values are equal and non-null.
+
+Parameters:
+event - the PropertyChangeEvent to be fired
+Throws:
+PropertyVetoException - if one of listeners vetoes the property update
+
+
+"
+25,XMLEncoder,1,void setExceptionListener(ExceptionListener listener),False,,NULL
+25,XMLEncoder,2,void setOwner(Object owner),True,,"
+
+setOwner
+public void setOwner(Object owner)
+Sets the owner of this encoder to owner.
+
+Parameters:
+owner - The owner of this encoder.
+See Also:
+getOwner()
+
+
+"
+25,XMLEncoder,3,void writeExpression(Expression exp),True,,"
+
+writeExpression
+public void writeExpression(Expression oldExp)
+Records the Expression so that the Encoder will
+ produce the actual output when the stream is flushed.
+ 
+ This method should only be invoked within the context of
+ initializing a persistence delegate or setting up an encoder to
+ read from a resource bundle.
+ 
+ For more information about using resource bundles with the
+ XMLEncoder, see
+ http://java.sun.com/products/jfc/tsc/articles/persistence4/#i18n
+
+Overrides:
+writeExpression in class Encoder
+Parameters:
+oldExp - The expression that will be written
+               to the stream.
+See Also:
+PersistenceDelegate.initialize(java.lang.Class<?>, java.lang.Object, java.lang.Object, java.beans.Encoder)
+
+
+"
+25,XMLEncoder,4,void writeObject(Object o),True,,"
+
+writeObject
+public void writeObject(Object o)
+Write an XML representation of the specified object to the output.
+
+Overrides:
+writeObject in class Encoder
+Parameters:
+o - The object to be written to the stream.
+See Also:
+XMLDecoder.readObject()
+
+
+"
+25,XMLEncoder,5,void writeStatement(Statement oldStm),True,,"
+
+writeStatement
+public void writeStatement(Statement oldStm)
+Records the Statement so that the Encoder will
+ produce the actual output when the stream is flushed.
+ 
+ This method should only be invoked within the context
+ of initializing a persistence delegate.
+
+Overrides:
+writeStatement in class Encoder
+Parameters:
+oldStm - The statement that will be written
+               to the stream.
+See Also:
+PersistenceDelegate.initialize(java.lang.Class<?>, java.lang.Object, java.lang.Object, java.beans.Encoder)
+
+
+"

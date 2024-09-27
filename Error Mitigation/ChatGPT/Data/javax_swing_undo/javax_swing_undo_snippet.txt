@@ -1,0 +1,465 @@
+Sample: 0 AbstractUndoableEdit_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.AbstractUndoableEdit;
+
+public class Main {
+    public static void main(String[] args) {
+        MyUndoableEdit edit = new MyUndoableEdit();
+        edit.die();
+    }
+
+    static class MyUndoableEdit extends AbstractUndoableEdit {
+        public void die() {
+            alive = false;
+        }
+    }
+}
+```
+================================================================
+
+Sample: 1 AbstractUndoableEdit_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.AbstractUndoableEdit;
+
+public class Main {
+    public static void main(String[] args) {
+        AbstractUndoableEdit edit = new AbstractUndoableEdit() {
+            @Override
+            public boolean canRedo() {
+                return !hasBeenDone();
+            }
+        };
+        
+        System.out.println("Can Redo: " + edit.canRedo());
+    }
+}
+```
+================================================================
+
+Sample: 2 AbstractUndoableEdit_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.AbstractUndoableEdit;
+
+public class Main {
+    public static void main(String[] args) {
+        MyUndoableEdit edit = new MyUndoableEdit();
+        System.out.println(edit.canUndo());
+    }
+
+    static class MyUndoableEdit extends AbstractUndoableEdit {
+        @Override
+        public boolean canUndo() {
+            return isSignificant() && super.canUndo();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 AbstractUndoableEdit_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a custom UndoableEdit object
+        AbstractUndoableEdit edit = new AbstractUndoableEdit() {
+            @Override
+            public void redo() throws CannotRedoException {
+                if (!canRedo()) {
+                    throw new CannotRedoException();
+                }
+                // Perform redo operation here
+                System.out.println("Redo operation performed");
+                hasBeenDone = true;
+            }
+        };
+        
+        // Call the redo method
+        try {
+            edit.redo();
+        } catch (CannotRedoException e) {
+            System.out.println("Cannot redo the operation");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 AbstractUndoableEdit_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotUndoException;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a custom UndoableEdit object
+        AbstractUndoableEdit edit = new AbstractUndoableEdit() {
+            @Override
+            public void undo() throws CannotUndoException {
+                if (!canUndo()) {
+                    throw new CannotUndoException();
+                }
+                // Undo operation logic here
+                System.out.println("Undo operation performed");
+                setHasBeenDone(false);
+            }
+        };
+        
+        // Perform undo operation
+        try {
+            edit.undo();
+        } catch (CannotUndoException e) {
+            System.out.println("Cannot perform undo operation");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 CompoundEdit_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.CompoundEdit;
+
+public class Main {
+    public static void main(String[] args) {
+        CompoundEdit compoundEdit = new CompoundEdit();
+        compoundEdit.end();
+    }
+}
+```
+================================================================
+
+Sample: 6 CompoundEdit_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.CompoundEdit;
+
+public class Main {
+    public static void main(String[] args) {
+        CompoundEdit compoundEdit = new CompoundEdit();
+        // Perform some edits
+        compoundEdit.die();
+    }
+}
+```
+================================================================
+
+Sample: 7 CompoundEdit_3
+----------------------------------------------------------------
+`boolean isInProgress()`: This method returns true if the edit is in progress, meaning edits are still being added to it.
+
+Code snippet:
+```java
+import javax.swing.undo.CompoundEdit;
+
+public class Main {
+    public static void main(String[] args) {
+        CompoundEdit compoundEdit = new CompoundEdit();
+        boolean inProgress = compoundEdit.isInProgress();
+        System.out.println("Is in progress: " + inProgress);
+    }
+}
+```
+================================================================
+
+Sample: 8 CompoundEdit_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.CompoundEdit;
+
+public class Main {
+    public static void main(String[] args) {
+        CompoundEdit compoundEdit = new CompoundEdit();
+        
+        // Perform some edits
+        
+        try {
+            compoundEdit.undo();
+        } catch (CannotUndoException e) {
+            System.out.println("Cannot undo the edits");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 CompoundEdit_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CompoundEdit;
+
+public class Main {
+    public static void main(String[] args) {
+        CompoundEdit compoundEdit = new CompoundEdit();
+        
+        // Perform some UndoableEdits
+        
+        try {
+            compoundEdit.redo();
+        } catch (CannotRedoException e) {
+            System.out.println("Cannot redo");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 StateEdit_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.StateEdit;
+
+public class Main {
+    public static void main(String[] args) {
+        StateEdit stateEdit = new StateEdit(new Object());
+        stateEdit.end();
+    }
+}
+```
+================================================================
+
+Sample: 11 StateEdit_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.StateEdit;
+
+public class Main {
+    public static void main(String[] args) {
+        StateEdit stateEdit = new StateEdit(null);
+        stateEdit.undo();
+    }
+}
+```
+================================================================
+
+Sample: 12 UndoableEditSupport_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoableEditSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        UndoableEditSupport support = new UndoableEditSupport();
+        support.addUndoableEditListener(new UndoableEditListener() {
+            @Override
+            public void undoableEditHappened(UndoableEditEvent e) {
+                // Handle the undoable edit event
+            }
+        });
+    }
+}
+```
+================================================================
+
+Sample: 13 UndoableEditSupport_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoableEditSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        UndoableEditSupport editSupport = new UndoableEditSupport();
+        UndoableEditListener listener = new UndoableEditListener() {
+            @Override
+            public void undoableEditHappened(UndoableEditEvent e) {
+                // Handle undoable edit event
+            }
+        };
+        
+        editSupport.removeUndoableEditListener(listener);
+    }
+}
+```
+================================================================
+
+Sample: 14 UndoableEditSupport_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.UndoableEdit;
+import javax.swing.undo.UndoableEditSupport;
+
+public class Main {
+    public static void main(String[] args) {
+        UndoableEditSupport support = new UndoableEditSupport();
+        UndoableEdit edit = new UndoableEdit() {
+            @Override
+            public void undo() {
+                // Implement undo functionality
+            }
+
+            @Override
+            public boolean canUndo() {
+                return false;
+            }
+
+            @Override
+            public void redo() {
+                // Implement redo functionality
+            }
+
+            @Override
+            public boolean canRedo() {
+                return false;
+            }
+
+            @Override
+            public void die() {
+                // Implement die functionality
+            }
+
+            @Override
+            public boolean addEdit(UndoableEdit anEdit) {
+                return false;
+            }
+
+            @Override
+            public boolean replaceEdit(UndoableEdit anEdit) {
+                return false;
+            }
+
+            @Override
+            public boolean isSignificant() {
+                return false;
+            }
+
+            @Override
+            public String getPresentationName() {
+                return null;
+            }
+
+            @Override
+            public String getUndoPresentationName() {
+                return null;
+            }
+
+            @Override
+            public String getRedoPresentationName() {
+                return null;
+            }
+        };
+
+        support.postEdit(edit);
+    }
+}
+```
+================================================================
+
+Sample: 15 UndoManager_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.UndoManager;
+import javax.swing.undo.CannotUndoException;
+
+public class Main {
+    public static void main(String[] args) {
+        UndoManager undoManager = new UndoManager();
+        
+        // Perform some edits
+        
+        try {
+            undoManager.undo();
+        } catch (CannotUndoException e) {
+            System.out.println("Cannot undo the edits: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 16 UndoManager_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.UndoManager;
+import javax.swing.undo.CannotRedoException;
+
+public class Main {
+    public static void main(String[] args) {
+        UndoManager undoManager = new UndoManager();
+        
+        // Perform some edits
+        
+        try {
+            undoManager.redo();
+        } catch (CannotRedoException e) {
+            System.out.println("Cannot redo the edits");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 17 UndoManager_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.UndoManager;
+
+public class Main {
+    public static void main(String[] args) {
+        UndoManager undoManager = new UndoManager();
+        boolean canUndo = undoManager.canUndo();
+        System.out.println("Can undo: " + canUndo);
+    }
+}
+```
+================================================================
+
+Sample: 18 UndoManager_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.UndoManager;
+
+public class Main {
+    public static void main(String[] args) {
+        UndoManager undoManager = new UndoManager();
+        boolean canRedo = undoManager.canRedo();
+        System.out.println("Can Redo: " + canRedo);
+    }
+}
+```
+================================================================
+
+Sample: 19 UndoManager_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.swing.undo.UndoManager;
+
+public class Main {
+    public static void main(String[] args) {
+        UndoManager undoManager = new UndoManager();
+        undoManager.discardAllEdits();
+    }
+}
+```
+================================================================
+

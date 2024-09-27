@@ -1,0 +1,276 @@
+Sample: 0 JMXConnectionNotification_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXConnectionNotification;
+
+public class Main {
+    public static void main(String[] args) {
+        JMXConnectionNotification notification = new JMXConnectionNotification("connectionOpened", this, 1, "Connection opened", "testConnectionId");
+        String connectionId = notification.getConnectionId();
+        System.out.println("Connection ID: " + connectionId);
+    }
+}
+```
+================================================================
+
+Sample: 1 JMXConnectorFactory_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JMXServiceURL serviceURL = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:9999/jmxrmi");
+            JMXConnector jmxConnector = JMXConnectorFactory.connect(serviceURL);
+            System.out.println("JMXConnector connected successfully");
+            // Use the JMXConnector object for further operations
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 JMXConnectorFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JMXServiceURL serviceURL = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:9999/jmxrmi");
+            Map<String, Object> environment = new HashMap<>();
+            
+            JMXConnector connector = JMXConnectorFactory.connect(serviceURL, environment);
+            
+            // Use the JMXConnector object for further operations
+            
+            connector.close(); // Close the connection when done
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 3 JMXConnectorFactory_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JMXServiceURL serviceURL = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:9999/jmxrmi");
+            Map<String, Object> environment = new HashMap<>();
+            
+            JMXConnector jmxConnector = JMXConnectorFactory.newJMXConnector(serviceURL, environment);
+            
+            // The resultant client is not connected until its connect method is called
+            // jmxConnector.connect();
+            
+            System.out.println("JMXConnector created successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 4 JMXConnectorServerFactory_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXConnectorServerFactory;
+import javax.management.remote.JMXServiceURL;
+import javax.management.MBeanServer;
+import java.io.IOException;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        JMXServiceURL serviceURL = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:9999/server");
+        Map<String, Object> environment = null;
+        MBeanServer mbeanServer = null;
+
+        try {
+            JMXConnectorServerFactory.newJMXConnectorServer(serviceURL, environment, mbeanServer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 JMXPrincipal_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXPrincipal;
+
+public class Main {
+    public static void main(String[] args) {
+        JMXPrincipal principal = new JMXPrincipal("admin");
+        String name = principal.getName();
+        System.out.println("Principal name: " + name);
+    }
+}
+```
+================================================================
+
+Sample: 6 JMXPrincipal_2
+----------------------------------------------------------------
+`boolean equals(Object o)`: Compares the specified Object with this JMXPrincipal for equality. Returns true if the given object is also a JMXPrincipal and the two JMXPrincipals have the same name.
+
+Code snippet:
+```java
+import javax.management.remote.JMXPrincipal;
+
+public class Main {
+    public static void main(String[] args) {
+        JMXPrincipal principal1 = new JMXPrincipal("user1");
+        JMXPrincipal principal2 = new JMXPrincipal("user1");
+        
+        System.out.println(principal1.equals(principal2)); // Output: true
+    }
+}
+```
+================================================================
+
+Sample: 7 JMXPrincipal_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXPrincipal;
+
+public class Main {
+    public static void main(String[] args) {
+        JMXPrincipal principal = new JMXPrincipal("admin");
+        int hashCode = principal.hashCode();
+        System.out.println("Hash code for JMXPrincipal: " + hashCode);
+    }
+}
+```
+================================================================
+
+Sample: 8 JMXPrincipal_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXPrincipal;
+
+public class Main {
+    public static void main(String[] args) {
+        JMXPrincipal principal = new JMXPrincipal("admin");
+        System.out.println(principal.toString());
+    }
+}
+```
+================================================================
+
+Sample: 9 JMXServiceURL_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXServiceURL;
+
+public class Main {
+    public static void main(String[] args) {
+        JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:9999/jmxrmi");
+        String protocol = url.getProtocol();
+        System.out.println("Protocol: " + protocol);
+    }
+}
+```
+================================================================
+
+Sample: 10 JMXServiceURL_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXServiceURL;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class Main {
+    public static void main(String[] args) {
+        JMXServiceURL serviceURL = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:9999/jmxrmi");
+        String host = serviceURL.getHost();
+        System.out.println("Host: " + host);
+    }
+}
+```
+================================================================
+
+Sample: 11 JMXServiceURL_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXServiceURL;
+
+public class Main {
+    public static void main(String[] args) {
+        JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:9999/jmxrmi");
+        int port = url.getPort();
+        System.out.println("Port: " + port);
+    }
+}
+```
+================================================================
+
+Sample: 12 JMXServiceURL_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.remote.JMXServiceURL;
+
+public class Main {
+    public static void main(String[] args) {
+        JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:9999/server");
+        String urlPath = url.getURLPath();
+        System.out.println("URL Path: " + urlPath);
+    }
+}
+```
+================================================================
+
+Sample: 13 TargetedNotification_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.management.Notification;
+import javax.management.remote.TargetedNotification;
+
+public class Main {
+    public static void main(String[] args) {
+        TargetedNotification targetedNotification = new TargetedNotification(new Notification("type", "source", 1), "listenerID");
+        Notification notification = targetedNotification.getNotification();
+        System.out.println(notification);
+    }
+}
+```
+================================================================
+

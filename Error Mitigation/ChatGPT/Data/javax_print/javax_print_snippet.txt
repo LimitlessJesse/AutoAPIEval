@@ -1,0 +1,263 @@
+Sample: 0 DocFlavor_1
+----------------------------------------------------------------
+`String getMimeType()`: This method returns the MIME type string of the DocFlavor object.
+
+Code snippet:
+```java
+import javax.print.DocFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DocFlavor docFlavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
+        String mimeType = docFlavor.getMimeType();
+        System.out.println("MIME Type: " + mimeType);
+    }
+}
+```
+================================================================
+
+Sample: 1 DocFlavor_3
+----------------------------------------------------------------
+`String getMediaType()`: This method returns this doc flavor object's media type (from the MIME type).
+
+Code snippet:
+```java
+import javax.print.DocFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DocFlavor docFlavor = DocFlavor.BYTE_ARRAY.TEXT_PLAIN_UTF_8;
+        String mediaType = docFlavor.getMediaType();
+        System.out.println("Media Type: " + mediaType);
+    }
+}
+```
+================================================================
+
+Sample: 2 DocFlavor_4
+----------------------------------------------------------------
+`String getMediaSubtype()`: This method returns this doc flavor object's media subtype (from the MIME type).
+
+Code snippet:
+```java
+import javax.print.DocFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DocFlavor docFlavor = DocFlavor.BYTE_ARRAY.TEXT_PLAIN_UTF_8;
+        String mediaSubtype = docFlavor.getMediaSubtype();
+        System.out.println("Media Subtype: " + mediaSubtype);
+    }
+}
+```
+================================================================
+
+Sample: 3 DocFlavor_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.DocFlavor;
+
+public class Main {
+    public static void main(String[] args) {
+        DocFlavor docFlavor = DocFlavor.BYTE_ARRAY.TEXT_PLAIN_UTF_8;
+        String paramName = "charset";
+        String parameter = docFlavor.getParameter(paramName);
+        System.out.println("Parameter value for " + paramName + ": " + parameter);
+    }
+}
+```
+================================================================
+
+Sample: 4 PrintServiceLookup_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+
+public class Main {
+    public static void main(String[] args) {
+        PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
+        System.out.println("Default Print Service: " + defaultPrintService);
+    }
+}
+```
+================================================================
+
+Sample: 5 PrintServiceLookup_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.DocFlavor;
+import javax.print.attribute.AttributeSet;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+
+public class Main {
+    public static void main(String[] args) {
+        DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE; // Example DocFlavor
+        AttributeSet attributes = null; // Example attributes
+        
+        PrintService[] printServices = PrintServiceLookup.lookupPrintServices(flavor, attributes);
+        
+        for (PrintService service : printServices) {
+            System.out.println(service.getName());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 6 PrintServiceLookup_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.MultiDocPrintService;
+import javax.print.DocFlavor;
+import javax.print.attribute.AttributeSet;
+import javax.print.PrintServiceLookup;
+
+public class Main {
+    public static void main(String[] args) {
+        DocFlavor[] flavors = new DocFlavor[1]; // Specify the doc flavors
+        AttributeSet attributes = null; // Specify the attributes
+        
+        MultiDocPrintService[] services = PrintServiceLookup.lookupMultiDocPrintServices(flavors, attributes);
+        
+        if (services.length > 0) {
+            System.out.println("Matching MultiDocPrintService objects found:");
+            for (MultiDocPrintService service : services) {
+                System.out.println(service.toString());
+            }
+        } else {
+            System.out.println("No matching MultiDocPrintService objects found.");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 7 SimpleDoc_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.DocFlavor;
+import javax.print.SimpleDoc;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleDoc doc = new SimpleDoc("Print Data", DocFlavor.STRING.TEXT_PLAIN, null);
+        DocFlavor flavor = doc.getDocFlavor();
+        System.out.println("Doc Flavor: " + flavor);
+    }
+}
+```
+================================================================
+
+Sample: 8 SimpleDoc_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.print.SimpleDoc;
+import java.io.InputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleDoc doc = new SimpleDoc(new byte[]{0x48, 0x65, 0x6C, 0x6C, 0x6F}, null, null);
+        
+        try {
+            InputStream inputStream = doc.getStreamForBytes();
+            if (inputStream != null) {
+                int data;
+                while ((data = inputStream.read()) != -1) {
+                    System.out.print((char) data);
+                }
+                inputStream.close();
+            } else {
+                System.out.println("Input stream cannot be provided for this doc.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 SimpleDoc_4
+----------------------------------------------------------------
+`Reader getReaderForText()`: This method obtains a reader for extracting character print data from the SimpleDoc.
+
+Code snippet:
+```java
+import javax.print.SimpleDoc;
+import java.io.IOException;
+import java.io.Reader;
+
+public class Main {
+    public static void main(String[] args) {
+        SimpleDoc doc = new SimpleDoc("Sample text", DocFlavor.STRING.TEXT_PLAIN, null);
+        
+        try {
+            Reader reader = doc.getReaderForText();
+            if (reader != null) {
+                int data;
+                while ((data = reader.read()) != -1) {
+                    System.out.print((char) data);
+                }
+                reader.close();
+            } else {
+                System.out.println("Reader cannot be provided for this doc.");
+            }
+        } catch (IOException e) {
+            System.out.println("An I/O error occurred while creating the reader.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 StreamPrintService_1
+----------------------------------------------------------------
+`OutputStream getOutputStream()`: This method gets the output stream.
+
+Code snippet:
+```java
+import javax.print.StreamPrintService;
+
+public class Main {
+    public static void main(String[] args) {
+        StreamPrintService service = new StreamPrintService();
+        OutputStream outputStream = service.getOutputStream();
+        // Use the outputStream to send formatted print data
+    }
+}
+```
+================================================================
+
+Sample: 11 StreamPrintService_2
+----------------------------------------------------------------
+`String getOutputFormat()`: This method returns the document format emitted by the print service in mimetype format.
+
+Code snippet:
+```java
+import javax.print.StreamPrintService;
+
+public class Main {
+    public static void main(String[] args) {
+        StreamPrintService printService = new StreamPrintService() {
+            @Override
+            public String getOutputFormat() {
+                return "application/pdf"; // Example output format
+            }
+        };
+
+        System.out.println("Output format: " + printService.getOutputFormat());
+    }
+}
+```
+================================================================
+

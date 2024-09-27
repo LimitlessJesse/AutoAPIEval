@@ -1,0 +1,189 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,CallSite,1,CallSite call(Object... args),False,,NULL
+0,CallSite,2,MethodType type(),True,Returns the type of this call site's target.,"
+
+type
+public MethodType type()
+Returns the type of this call site's target.
+ Although targets may change, any call site's type is permanent, and can never change to an unequal type.
+ The setTarget method enforces this invariant by refusing any new target that does
+ not have the previous target's type.
+
+Returns:
+the type of the current target, which is also the type of any future target
+
+
+"
+0,CallSite,3,MethodHandle methodHandle(),False,,NULL
+0,CallSite,4,MethodType dynamicType(),False,,NULL
+0,CallSite,5,MethodHandle dynamicInvoker(),True,Produces a method handle equivalent to an invokedynamic instruction which has been linked to this call site.,"
+
+dynamicInvoker
+public abstract MethodHandle dynamicInvoker()
+Produces a method handle equivalent to an invokedynamic instruction
+ which has been linked to this call site.
+ 
+ This method is equivalent to the following code:
+ 
+ MethodHandle getTarget, invoker, result;
+ getTarget = MethodHandles.publicLookup().bind(this, ""getTarget"", MethodType.methodType(MethodHandle.class));
+ invoker = MethodHandles.exactInvoker(this.type());
+ result = MethodHandles.foldArguments(invoker, getTarget)
+ 
+
+Returns:
+a method handle which always invokes this call site's current target
+
+
+"
+1,ConstantCallSite,1,"ConstantCallSite(MethodType type, MethodHandle target)",False,,NULL
+1,ConstantCallSite,2,MethodType getMethodType(),False,,NULL
+1,ConstantCallSite,3,MethodHandle getTarget(),True,"Returns the target method of the call site, which behaves like a final field of the ConstantCallSite.","
+
+getTarget
+public final MethodHandle getTarget()
+Returns the target method of the call site, which behaves
+ like a final field of the ConstantCallSite.
+ That is, the target is always the original value passed
+ to the constructor call which created this instance.
+
+Specified by:
+getTarget in class CallSite
+Returns:
+the immutable linkage state of this call site, a constant method handle
+Throws:
+IllegalStateException - if the ConstantCallSite constructor has not completed
+See Also:
+ConstantCallSite, 
+VolatileCallSite, 
+CallSite.setTarget(java.lang.invoke.MethodHandle), 
+getTarget(), 
+MutableCallSite.getTarget(), 
+VolatileCallSite.getTarget()
+
+
+"
+1,ConstantCallSite,4,"CallSite lambdaMetafactory(MethodHandles.Lookup caller, String implMethodName, MethodType implMethodType, MethodType invokerMethodType, MethodHandle invoker)",False,,NULL
+1,ConstantCallSite,5,"CallSite spoofaxMetafactory(MethodHandles.Lookup caller, String implMethodName, MethodType implMethodType, MethodType invokerMethodType, MethodHandle invoker)",False,,NULL
+2,LambdaMetafactory,1,MethodType getMethodType(),False,,NULL
+2,LambdaMetafactory,2,MethodHandle resolve(),False,,NULL
+2,LambdaMetafactory,3,MethodHandle unreflect(Method method),False,,NULL
+2,LambdaMetafactory,4,"MethodHandle unreflectSpecial(MethodType type, MethodHandle var0, MethodHandle var1, MethodHandle var2)",False,,NULL
+2,LambdaMetafactory,5,"MethodHandle lambdaMetafactory(MethodType type, MethodHandle callSite, MethodType callerType)",False,,NULL
+3,MethodHandle,1,MethodHandle lookup(),False,,NULL
+3,MethodHandle,2,MethodHandle lookup(MethodType type),False,,NULL
+3,MethodHandle,3,"MethodHandle lookup(MethodType type, MethodHandles.Lookup lookup)",False,,NULL
+3,MethodHandle,4,"MethodHandle lookup(MethodType type, MethodHandles.Lookup lookup, MethodHandle filter)",False,,NULL
+3,MethodHandle,5,"MethodHandle lookup(MethodType type, MethodHandles.Lookup lookup, MethodHandle filter, int flags)",False,,NULL
+4,MethodHandleProxies,1,MethodHandle lookup(),False,,NULL
+4,MethodHandleProxies,2,"MethodHandle lookupGetter(Class<?> type, String name)",False,,NULL
+4,MethodHandleProxies,3,"MethodHandle lookupSetter(Class<?> type, String name)",False,,NULL
+4,MethodHandleProxies,4,"MethodHandle lookupConstructor(Class<?> type, Class<?>... parameterTypes)",False,,NULL
+4,MethodHandleProxies,5,"MethodHandle lookupStatic(Class<?> type, String name)",False,,NULL
+4,MethodHandleProxies,6,"MethodHandle lookupVirtual(Class<?> type, String name, MethodType methodType)",False,,NULL
+4,MethodHandleProxies,7,"MethodHandle lookupSpecial(Class<?> type, String name, MethodType methodType)",False,,NULL
+4,MethodHandleProxies,8,"MethodHandle lookupStatic(Class<?> type, String name, MethodType methodType)",False,,NULL
+4,MethodHandleProxies,9,"MethodHandle lookupVirtual(Class<?> type, String name, MethodType methodType)",False,,NULL
+4,MethodHandleProxies,10,"MethodHandle lookupSpecial(Class<?> type, String name, MethodType methodType)",False,,NULL
+5,MethodHandles,1,MethodType lookup(),False,,NULL
+5,MethodHandles,2,MethodHandle unreflect(Method method),False,,NULL
+5,MethodHandles,3,MethodHandle unreflectGetter(Field field),False,,NULL
+5,MethodHandles,4,MethodHandle unreflectSetter(Field field),False,,NULL
+5,MethodHandles,5,"MethodHandle privateLookupIn(Class<?> clazz, MethodHandles.Lookup lookup)",False,,NULL
+6,MethodHandles.Lookup,1,MethodHandles.Lookup publicLookup(),False,,NULL
+6,MethodHandles.Lookup,2,"MethodHandles.Lookup privateLookupIn(Class<?> clazz, MethodHandles.Lookup lookup)",False,,NULL
+6,MethodHandles.Lookup,3,MethodHandles.Lookup lookup(),False,,NULL
+6,MethodHandles.Lookup,4,MethodHandles.Lookup lookupIn(Class<?> clazz),False,,NULL
+6,MethodHandles.Lookup,5,"MethodHandles.Lookup lookupIn(Class<?> clazz, MethodHandles.Lookup lookup)",False,,NULL
+7,MethodType,1,"MethodType.methodType(returnType, parameterTypes...)",False,,NULL
+7,MethodType,2,"MethodType.methodType(returnType, varargType)",False,,NULL
+7,MethodType,3,MethodType.methodType(returnType),False,,NULL
+7,MethodType,4,MethodType.methodType(void),False,,NULL
+7,MethodType,5,"MethodType.methodType(void, parameterTypes...)",False,,NULL
+8,MutableCallSite,1,MutableCallSite(),False,,NULL
+8,MutableCallSite,2,void setTarget(MethodType targetType),False,,NULL
+8,MutableCallSite,3,void setTarget(MethodHandle target),True,"Updates the target method of this call site, as a normal variable.","
+
+setTarget
+public void setTarget(MethodHandle newTarget)
+Updates the target method of this call site, as a normal variable.
+ The type of the new target must agree with the type of the old target.
+ 
+ The interactions with memory are the same
+ as of a write to an ordinary variable, such as an array element or a
+ non-volatile, non-final field.
+ 
+ In particular, unrelated threads may fail to see the updated target
+ until they perform a read from memory.
+ Stronger guarantees can be created by putting appropriate operations
+ into the bootstrap method and/or the target methods used
+ at any given call site.
+
+Specified by:
+setTarget in class CallSite
+Parameters:
+newTarget - the new target
+Throws:
+NullPointerException - if the proposed new target is null
+WrongMethodTypeException - if the proposed new target
+         has a method type that differs from the previous target
+See Also:
+getTarget()
+
+
+"
+8,MutableCallSite,4,"void setTarget(MethodHandle target, MethodType targetType)",False,,NULL
+8,MutableCallSite,5,MethodHandle getTarget(),True,"Returns the target method of the call site, which behaves like a normal field of the MutableCallSite.","
+
+getTarget
+public final MethodHandle getTarget()
+Returns the target method of the call site, which behaves
+ like a normal field of the MutableCallSite.
+ 
+ The interactions of getTarget with memory are the same
+ as of a read from an ordinary variable, such as an array element or a
+ non-volatile, non-final field.
+ 
+ In particular, the current thread may choose to reuse the result
+ of a previous read of the target from memory, and may fail to see
+ a recent update to the target by another thread.
+
+Specified by:
+getTarget in class CallSite
+Returns:
+the linkage state of this call site, a method handle which can change over time
+See Also:
+setTarget(java.lang.invoke.MethodHandle)
+
+
+"
+9,SerializedLambda,1,getThis(),False,,NULL
+9,SerializedLambda,2,getSuper(),False,,NULL
+9,SerializedLambda,3,getFunctionalInterface(),False,,NULL
+9,SerializedLambda,4,getNumOfParameters(),False,,NULL
+9,SerializedLambda,5,getNumOfCapturedLocals(),False,,NULL
+9,SerializedLambda,6,getCapturedLocals(),False,,NULL
+9,SerializedLambda,7,getFunctionalInterfaceMethod(),False,,NULL
+9,SerializedLambda,8,getInstructionSlots(),False,,NULL
+9,SerializedLambda,9,getInstruction(),False,,NULL
+9,SerializedLambda,10,getCapturedArgsSize(),False,,NULL
+9,SerializedLambda,11,getCapturedArgs(),False,,NULL
+9,SerializedLambda,12,getCapturedArgsTable(),False,,NULL
+9,SerializedLambda,13,getCapturedArgsTableSize(),False,,NULL
+9,SerializedLambda,14,getCapturedArgsTableEntry(),False,,NULL
+9,SerializedLambda,15,getCapturedArgsTableEntrySize(),False,,NULL
+9,SerializedLambda,16,getCapturedArgsTableEntryValue(),False,,NULL
+9,SerializedLambda,17,getCapturedArgsTableEntryValueSize(),False,,NULL
+9,SerializedLambda,18,getCapturedArgsTableEntryValueData(),False,,NULL
+9,SerializedLambda,19,getCapturedArgsTableEntryValueDataSize(),False,,NULL
+9,SerializedLambda,20,getCapturedArgsTableEntryValueDataOffset(),False,,NULL
+10,SwitchPoint,1,SwitchPoint newSwitchPoint(),False,,NULL
+10,SwitchPoint,2,void signal(),False,,NULL
+10,SwitchPoint,3,void reset(),False,,NULL
+10,SwitchPoint,4,boolean isOpen(),False,,NULL
+10,SwitchPoint,5,boolean isClosed(),False,,NULL
+11,VolatileCallSite,1,"VolatileCallSite(MethodHandles.Lookup lookup, MethodType type, MethodHandle target)",False,,NULL
+11,VolatileCallSite,2,"VolatileCallSite(MethodHandles.Lookup lookup, MethodType type, MethodHandle target, MethodHandle filter)",False,,NULL
+11,VolatileCallSite,3,MethodType type(),False,,NULL
+11,VolatileCallSite,4,MethodHandle target(),False,,NULL
+11,VolatileCallSite,5,MethodHandle filter(),False,,NULL

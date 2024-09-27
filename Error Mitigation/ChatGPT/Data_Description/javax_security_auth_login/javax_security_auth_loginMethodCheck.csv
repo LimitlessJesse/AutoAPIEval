@@ -1,0 +1,208 @@
+Sample Number,ClassName,Snippet Number,Method,Exist,Description,Full Description
+0,AppConfigurationEntry,1,AppConfigurationEntry[] getAppConfigurationEntry(String appName),False,,NULL
+0,AppConfigurationEntry,2,"void setOptions(Map<String, ?> options)",False,,NULL
+0,AppConfigurationEntry,3,String getLoginModuleName(),True,,"
+
+getLoginModuleName
+public String getLoginModuleName()
+Get the class name of the configured LoginModule.
+
+Returns:
+the class name of the configured LoginModule as
+          a String.
+
+
+"
+0,AppConfigurationEntry,4,boolean equals(Object obj),False,,NULL
+0,AppConfigurationEntry,5,String toString(),False,,NULL
+1,AppConfigurationEntry.LoginModuleControlFlag,1,String toString(),True,,"
+
+toString
+public String toString()
+Return a String representation of this controlFlag.
+
+  The String has the format, ""LoginModuleControlFlag: flag"",
+ where flag is either required, requisite,
+ sufficient, or optional.
+
+Overrides:
+toString in class Object
+Returns:
+a String representation of this controlFlag.
+
+
+"
+1,AppConfigurationEntry.LoginModuleControlFlag,2,boolean equals(Object obj),False,,NULL
+1,AppConfigurationEntry.LoginModuleControlFlag,3,int hashCode(),False,,NULL
+1,AppConfigurationEntry.LoginModuleControlFlag,4,LoginModuleControlFlag valueOf(String name),False,,NULL
+1,AppConfigurationEntry.LoginModuleControlFlag,5,LoginModuleControlFlag[] values(),False,,NULL
+2,Configuration,1,AppConfigurationEntry[] getAppConfigurationEntry(String name),True,,"
+
+getAppConfigurationEntry
+public abstract AppConfigurationEntry[] getAppConfigurationEntry(String name)
+Retrieve the AppConfigurationEntries for the specified name
+ from this Configuration.
+
+ 
+
+Parameters:
+name - the name used to index the Configuration.
+Returns:
+an array of AppConfigurationEntries for the specified name
+          from this Configuration, or null if there are no entries
+          for the specified name
+
+
+"
+2,Configuration,2,void refresh(),True,,"
+
+refresh
+public void refresh()
+Refresh and reload the Configuration.
+
+  This method causes this Configuration object to refresh/reload its
+ contents in an implementation-dependent manner.
+ For example, if this Configuration object stores its entries in a file,
+ calling refresh may cause the file to be re-read.
+
+  The default implementation of this method does nothing.
+ This method should be overridden if a refresh operation is supported
+ by the implementation.
+
+Throws:
+SecurityException - if the caller does not have permission
+                          to refresh its Configuration.
+
+
+"
+2,Configuration,3,void setConfiguration(Configuration configuration),True,,"
+
+setConfiguration
+public static void setConfiguration(Configuration configuration)
+Set the login Configuration.
+
+ 
+
+Parameters:
+configuration - the new Configuration
+Throws:
+SecurityException - if the current thread does not have
+                  Permission to set the Configuration.
+See Also:
+getConfiguration()
+
+
+"
+2,Configuration,4,void setConfiguration(Configuration.Parameters params),False,,NULL
+2,Configuration,5,"void setConfigurationEntry(String applicationName, AppConfigurationEntry[] configurationEntries)",False,,NULL
+3,ConfigurationSpi,1,ConfigurationSpi clone(),False,,NULL
+3,ConfigurationSpi,2,void refresh(),False,,NULL
+3,ConfigurationSpi,3,AppConfigurationEntry[] getAppConfigurationEntry(String name),False,,NULL
+3,ConfigurationSpi,4,"void setAppConfigurationEntry(String name, AppConfigurationEntry[] entry)",False,,NULL
+3,ConfigurationSpi,5,void refreshAll(),False,,NULL
+4,LoginContext,1,void login(),True,,"
+
+login
+public void login()
+           throws LoginException
+Perform the authentication.
+
+  This method invokes the login method for each
+ LoginModule configured for the name specified to the
+ LoginContext constructor, as determined by the login
+ Configuration.  Each LoginModule
+ then performs its respective type of authentication
+ (username/password, smart card pin verification, etc.).
+
+  This method completes a 2-phase authentication process by
+ calling each configured LoginModule's commit method
+ if the overall authentication succeeded (the relevant REQUIRED,
+ REQUISITE, SUFFICIENT, and OPTIONAL LoginModules succeeded),
+ or by calling each configured LoginModule's abort method
+ if the overall authentication failed.  If authentication succeeded,
+ each successful LoginModule's commit method associates
+ the relevant Principals and Credentials with the Subject.
+ If authentication failed, each LoginModule's abort method
+ removes/destroys any previously stored state.
+
+  If the commit phase of the authentication process
+ fails, then the overall authentication fails and this method
+ invokes the abort method for each configured
+ LoginModule.
+
+  If the abort phase
+ fails for any reason, then this method propagates the
+ original exception thrown either during the login phase
+ or the commit phase.  In either case, the overall
+ authentication fails.
+
+  In the case where multiple LoginModules fail,
+ this method propagates the exception raised by the first
+ LoginModule which failed.
+
+  Note that if this method enters the abort phase
+ (either the login or commit phase failed),
+ this method invokes all LoginModules configured for the
+ application regardless of their respective Configuration
+ flag parameters.  Essentially this means that Requisite
+ and Sufficient semantics are ignored during the
+ abort phase.  This guarantees that proper cleanup
+ and state restoration can take place.
+
+ 
+
+Throws:
+LoginException - if the authentication fails.
+
+
+"
+4,LoginContext,2,void logout(),True,,"
+
+logout
+public void logout()
+            throws LoginException
+Logout the Subject.
+
+  This method invokes the logout method for each
+ LoginModule configured for this LoginContext.
+ Each LoginModule performs its respective logout procedure
+ which may include removing/destroying
+ Principal and Credential information
+ from the Subject and state cleanup.
+
+  Note that this method invokes all LoginModules configured for the
+ application regardless of their respective
+ Configuration flag parameters.  Essentially this means
+ that Requisite and Sufficient semantics are
+ ignored for this method.  This guarantees that proper cleanup
+ and state restoration can take place.
+
+ 
+
+Throws:
+LoginException - if the logout fails.
+
+
+"
+4,LoginContext,3,Subject getSubject(),True,,"
+
+getSubject
+public Subject getSubject()
+Return the authenticated Subject.
+
+ 
+
+Returns:
+the authenticated Subject.  If the caller specified a
+          Subject to this LoginContext's constructor,
+          this method returns the caller-specified Subject.
+          If a Subject was not specified and authentication succeeds,
+          this method returns the Subject instantiated and used for
+          authentication by this LoginContext.
+          If a Subject was not specified, and authentication fails or
+          has not been attempted, this method returns null.
+
+
+"
+4,LoginContext,4,void refresh(),False,,NULL
+4,LoginContext,5,boolean isSubjectAuthenticated(),False,,NULL

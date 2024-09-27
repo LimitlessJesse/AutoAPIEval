@@ -1,0 +1,415 @@
+Sample: 0 Binder_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.Binder;
+import javax.xml.validation.Schema;
+
+public class Main {
+    public static void main(String[] args) {
+        Binder binder = null; // Initialize your Binder object here
+        Schema schema = null; // Initialize your Schema object here
+        
+        binder.setSchema(schema);
+    }
+}
+```
+================================================================
+
+Sample: 1 Binder_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.Binder;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationEventHandler;
+
+public class Main {
+    public static void main(String[] args) {
+        Binder binder = null; // Initialize your Binder object here
+        
+        ValidationEventHandler handler = new ValidationEventHandler() {
+            @Override
+            public boolean handleEvent(ValidationEvent event) {
+                // Custom handling of validation events
+                return true; // Return true if you want to continue processing, false to stop
+            }
+        };
+        
+        try {
+            binder.setEventHandler(handler);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 2 DatatypeConverter_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.DatatypeConverter;
+
+public class Main {
+    public static void main(String[] args) {
+        String lexicalXSDString = "Hello";
+        String parsedString = DatatypeConverter.parseString(lexicalXSDString);
+        System.out.println(parsedString);
+    }
+}
+```
+================================================================
+
+Sample: 3 DatatypeConverter_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.DatatypeConverter;
+import java.util.Calendar;
+
+public class Main {
+    public static void main(String[] args) {
+        Calendar calendar = Calendar.getInstance();
+        String dateTimeString = DatatypeConverter.printDateTime(calendar);
+        System.out.println(dateTimeString);
+    }
+}
+```
+================================================================
+
+Sample: 4 DatatypeConverter_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.DatatypeConverter;
+
+public class Main {
+    public static void main(String[] args) {
+        String base64String = "SGVsbG8gV29ybGQh"; // Base64 encoded "Hello World!"
+        byte[] byteArray = DatatypeConverter.parseBase64Binary(base64String);
+        
+        System.out.println("Decoded byte array: ");
+        for (byte b : byteArray) {
+            System.out.print(b + " ");
+        }
+    }
+}
+```
+================================================================
+
+Sample: 5 DatatypeConverter_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.DatatypeConverter;
+
+public class Main {
+    public static void main(String[] args) {
+        byte[] bytes = {0x4A, 0x41, 0x56, 0x41};
+        String base64String = DatatypeConverter.printBase64Binary(bytes);
+        System.out.println(base64String); // Output: SUpWQQ==
+    }
+}
+```
+================================================================
+
+Sample: 6 DatatypeConverter_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.DatatypeConverter;
+
+public class Main {
+    public static void main(String[] args) {
+        String lexicalXSDInt = "10";
+        int intValue = DatatypeConverter.parseInt(lexicalXSDInt);
+        System.out.println("Parsed int value: " + intValue);
+    }
+}
+```
+================================================================
+
+Sample: 7 JAXB_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.File;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Create a JAXBContext for the specified class
+            JAXBContext jaxbContext = JAXBContext.newInstance(YourClassName.class);
+
+            // Create a Marshaller
+            Marshaller marshaller = jaxbContext.createMarshaller();
+
+            // Create an instance of your class to be marshalled
+            YourClassName obj = new YourClassName();
+
+            // Specify the file where the XML will be written
+            File xmlFile = new File("output.xml");
+
+            // Call the marshal method to write the object to XML
+            marshaller.marshal(obj, xmlFile);
+
+            System.out.println("Object marshalled successfully to XML file.");
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 8 JAXBContext_2
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance("your.package.name");
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            // Use the unmarshaller object to convert XML data into a java content tree
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 9 JAXBContext_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(Object.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            // Use the marshaller object to convert a java content tree into XML data
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 10 JAXBContext_4
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Validator;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance("your.package.name");
+            Validator validator = jaxbContext.createValidator();
+            System.out.println("Validator object created successfully");
+        } catch (JAXBException e) {
+            System.out.println("Error creating Validator object: " + e.getMessage());
+        }
+    }
+}
+```
+================================================================
+
+Sample: 11 JAXBContext_5
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.SchemaOutputResolver;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance("your.package.name");
+            jaxbContext.generateSchema(new SchemaOutputResolver() {
+                @Override
+                public Result createOutput(String namespaceUri, String suggestedFileName) throws IOException {
+                    // Implement the schema output logic here
+                    return null;
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+================================================================
+
+Sample: 12 JAXBIntrospector_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBIntrospector;
+import javax.xml.bind.JAXBElement;
+
+public class Main {
+    public static void main(String[] args) {
+        JAXBElement<String> jaxbElement = new JAXBElement<>(null, String.class, "Hello");
+        Object value = JAXBIntrospector.getValue(jaxbElement);
+        System.out.println(value);
+    }
+}
+```
+================================================================
+
+Sample: 13 JAXBIntrospector_3
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.JAXBIntrospector;
+import javax.xml.bind.JAXBElement;
+
+public class Main {
+    public static void main(String[] args) {
+        JAXBIntrospector introspector = JAXBIntrospector.getInstance();
+        
+        // Create a JAXB element
+        JAXBElement<String> element = new JAXBElement<>(null, String.class, "Hello");
+        
+        // Check if the object is a JAXB element
+        boolean isElement = introspector.isElement(element);
+        
+        System.out.println("Is element: " + isElement);
+    }
+}
+```
+================================================================
+
+Sample: 14 Marshaller_Listener_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.Marshaller;
+
+public class Main {
+    public static void main(String[] args) {
+        Marshaller.Listener listener = new Marshaller.Listener() {
+            @Override
+            public void beforeMarshal(Object source) {
+                // Callback method implementation
+                System.out.println("Before marshalling: " + source.toString());
+            }
+        };
+        
+        // Example usage
+        Object data = "Sample data";
+        listener.beforeMarshal(data);
+    }
+}
+```
+================================================================
+
+Sample: 15 Marshaller_Listener_2
+----------------------------------------------------------------
+`void afterMarshal(Object source)`: Callback method invoked after marshalling source to XML.
+
+Code snippet:
+```java
+import javax.xml.bind.Marshaller;
+
+public class Main {
+    public static void main(String[] args) {
+        Marshaller.Listener marshallerListener = new Marshaller.Listener() {
+            @Override
+            public void afterMarshal(Object source) {
+                System.out.println("After marshalling: " + source);
+            }
+        };
+
+        // Example of invoking the afterMarshal method
+        marshallerListener.afterMarshal("Example Object");
+    }
+}
+```
+================================================================
+
+Sample: 16 SchemaOutputResolver_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.transform.Result;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        SchemaOutputResolver resolver = new SchemaOutputResolver() {
+            @Override
+            public Result createOutput(String namespaceUri, String suggestedFileName) throws IOException {
+                // Decide where to write the schema file based on the namespaceUri and suggestedFileName
+                // Return a Result object that encapsulates the destination of the schema
+                return null; // Placeholder, implement your logic here
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 17 Unmarshaller_Listener_1
+----------------------------------------------------------------
+Code snippet:
+```java
+import javax.xml.bind.Unmarshaller;
+
+public class Main {
+    public static void main(String[] args) {
+        Unmarshaller.Listener listener = new Unmarshaller.Listener() {
+            @Override
+            public void beforeUnmarshal(Object target, Object parent) {
+                // Callback method implementation
+                System.out.println("Before unmarshalling: " + target.toString());
+            }
+        };
+    }
+}
+```
+================================================================
+
+Sample: 18 Unmarshaller_Listener_2
+----------------------------------------------------------------
+`void afterUnmarshal(Object target, Object parent)`: Callback method invoked after unmarshalling XML data into target.
+
+Code snippet:
+```java
+import javax.xml.bind.Unmarshaller;
+
+public class Main {
+    public static void main(String[] args) {
+        Unmarshaller.Listener listener = new Unmarshaller.Listener() {
+            @Override
+            public void afterUnmarshal(Object target, Object parent) {
+                // Callback logic after unmarshalling
+                System.out.println("After unmarshalling: " + target.toString());
+            }
+        };
+    }
+}
+```
+================================================================
+
